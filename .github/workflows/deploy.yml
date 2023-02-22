@@ -17,4 +17,4 @@ jobs:
       - run: echo "messages=`git log --pretty=format:"%s" HEAD~1..HEAD`" >> $GITHUB_ENV
       - run: theme deploy --allow-live -a ${{ env.files }}
       - run: echo ${{ env.files }}
-      - run: curl -X POST -H "Content-Type:application/json" -d '{"msg_type":"text","content":{"text":"${{ env.files }}"}}' https://open.feishu.cn/open-apis/bot/v2/hook/09bc26ab-4dbf-4c3c-b5d7-caa506a11916
+      - run: curl -X POST -H "Content-Type:application/json" -d '{"msg_type":"text","content":{"text":"🚩eufy | 代码发布提醒\n***${{ env.messages }}"}}' https://open.feishu.cn/open-apis/bot/v2/hook/09bc26ab-4dbf-4c3c-b5d7-caa506a11916
