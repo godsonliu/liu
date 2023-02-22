@@ -13,6 +13,7 @@ jobs:
           fetch-depth: 2
       - run: curl -s https://shopify.dev/themekit.py | sudo python3
       - run: echo "${{ secrets.config }}" > config.yml
+      - run: git diff --name-only HEAD HEAD~1 | awk '{printf $1 " "}' | awk '{print substr($0,1,length($0)-1)}'
       - run: export FILES=`git diff --name-only HEAD HEAD~1 | awk '{printf $1 " "}' | awk '{print substr($0,1,length($0)-1)}'`
       - run: export MESSAGES=`git log --pretty=format:"%s" HEAD~1..HEAD`
       - run: echo $FILES
