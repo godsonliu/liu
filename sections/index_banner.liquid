@@ -1,0 +1,711 @@
+{% if shop.metafields.global.storefront_key.value %}
+  {% assign storefront_key = shop.metafields.global.storefront_key.value %}
+{% else %}
+  {% assign storefront_key = shop.metafields.global.storefront_key %}
+{% endif %}
+
+{% comment %}<link rel="stylesheet" href="{{ 'swiper.min.css' | asset_url }}">{% endcomment %}
+<link rel="stylesheet" href="{{ 'index_V2.0.scss.css' | asset_url }}">
+{% comment %}<script src="{{ 'swiper.min.js' | asset_url }}"></script>{% endcomment %}
+{% style %}
+  #shopify-section-header-classic .header-sticky-wrapper.is-sticky .header .navbar-link{
+    color: #000 !important;
+  }
+  #shopify-section-header-classic .header-sticky-wrapper .header .navbar-link:hover{
+    color: #000 !important;
+  }
+  {% for block in section.blocks %}
+    .masterBanner{{forloop.index }} .box-wrapper .title{
+      color: {{ block.settings.title_color }};
+    }
+    .masterBanner{{forloop.index }} .box-wrapper .desc_1{
+      color: {{ block.settings.desc_1_color }};
+    }
+    .masterBanner{{forloop.index }} .box-wrapper .desc_2{
+      color: {{ block.settings.desc_2_color }};
+    }
+    .masterBanner{{forloop.index }} .box-wrapper .btns .learn_more{
+      background-color: {{ block.settings.learn_more_btn_color }};
+      border-color: {{ block.settings.learn_more_btn_border_color}};
+      color: {{ block.settings.learn_more_color }};
+    }
+    .masterBanner{{forloop.index }} .box-wrapper .btns .learn_more:hover,
+    .masterBanner{{forloop.index }} .box-wrapper .btns .learn_more:active{
+      background-color: {{ block.settings.learn_more_btn_hover_color }};
+      border-color: {{ block.settings.learn_more_btn_hover_color }};
+    }
+    .masterBanner{{forloop.index }} .box-wrapper .btns .buy_now{
+      background-color: {{ block.settings.buy_now_btn_color }};
+      border-color: {{ block.settings.buy_now_btn_border_color}};
+      color: {{ block.settings.buy_now_color }};
+    }
+  {% endfor %}
+  {% if section.settings.custom_css != blank %}
+    {{ section.settings.custom_css }}
+  {% endif %}
+{% endstyle %}
+<h1 class="seo-h1">{{ section.settings.seo_title }}</h1>
+<section id="index_banner-{{ section.id }}" class="index_banner">
+  <!-- Swiper -->
+  <div class="swiper banner-swiper">
+    <div class="swiper-wrapper">
+      {% for block in section.blocks %}
+        <div
+          id="masterBanner{{ forloop.index }}"
+          class="masterBanner{{ forloop.index }} swiper-slide"
+          data-color="{{ block.settings.nav_color_select }}"
+          fill_color="{{ block.settings.fill_color }}"
+          swiper_bullet_color="{{ block.settings.swiper_bullet_color }}"
+          swiper_btn_color="{{ block.settings.swiper_btn_color }}"
+        >
+          <div
+            class="swiper-content"
+            {% if block.settings.learn_more_btn_txt == blank %}
+              onclick="goLearnMore(`{{ block.settings.learn_more_btn_link }}`,`{{ block.settings.datename }}`,`{{ block.settings.position  }}`,`masterBanner{{forloop.index}}`)"
+            {% endif %}
+          >
+            <div class="ps-ret bg">
+              {% assign img_pc = block.settings.img_pc %}
+              {% assign img_mob = block.settings.img_mob %}
+              {% assign video_pc = block.settings.video_pc %}
+              {% assign video_mob = block.settings.video_mob %}
+              {% if video_pc != blank %}
+              <video
+                class="desktop-video"
+                muted
+                loop
+                autoplay
+                playsinline
+                data-src="{{ video_pc }}"
+                type="video/mp4"
+              ></video>
+              {% endif %}
+              {% if video_mob != blank %}
+              <video
+                class="mobile-video"
+                muted
+                loop
+                autoplay
+                playsinline
+                data-src="{{ video_mob }}"
+                type="video/mp4"
+              ></video>
+              {% endif %}
+              <picture>
+                <source
+                  media="(min-width: 769px)"
+                  alt="{{ img_pc.alt }}"
+                  {% if forloop.first %}
+                    srcset="{{ img_pc | img_url: '' }}"
+                  {% else %}
+                    class="lazyload"
+                    data-srcset="{{ img_pc | img_url: '' }}"
+                    srcset="{{ img_pc | img_url: '50x' }}"
+                  {% endif %}
+                  width="{{ img_pc.width }}"
+                  {% if img_pc.aspect_ratio != blank %}
+                    height="{{ img_pc.width | divided_by: img_pc.aspect_ratio }}"
+                  {% endif %}
+                >
+                <img
+                  loading="lazy"
+                  {% if forloop.first %}
+                    src="{{ img_mob | img_url: '' }}"
+                  {% else %}
+                    class="lazyload"
+                    data-src="{{ img_mob | img_url: '' }}"
+                    src="{{ img_mob | img_url: '50px' }}"
+                  {% endif %}
+                  alt="{{ img_mob.alt }}"
+                  width="{{ img_mob.width }}"
+                  {% if img_mob.aspect_ratio != blank %}
+                    height="{{ img_mob.width | divided_by: img_mob.aspect_ratio }}"
+                  {% endif %}
+                >
+              </picture>
+            </div>
+            <div class="box-wrapper {{ block.settings.txt_model | default: 'left' }} mob-{{ block.settings.mob_txt_model | default: 'bottom' }}">
+              {% if block.settings.title and block.settings.title != blank %}
+                <p class="title">{{ block.settings.title }}</p>
+              {% endif %}
+              {% if block.settings.desc_1 and block.settings.desc_1 != blank %}
+                <h2 class="desc_1">{{ block.settings.desc_1 }}</h2>
+              {% endif %}
+              {% if block.settings.desc_2 and block.settings.desc_2 != blank %}
+                <p class="desc_2">{{ block.settings.desc_2 }}</p>
+              {% endif %}
+              <div class="btns swiper-no-swiping">
+                {% if block.settings.learn_more_btn_txt and block.settings.learn_more_btn_txt != blank %}
+                  <button
+                    class="index-button index-button--primary learn_more"
+                    onclick="goLearnMore(`{{block.settings.learn_more_btn_link}}`,`{{ block.settings.datename }}`,`{{ block.settings.position  }}`,`masterBanner{{forloop.index}}`)"
+                  >
+                    {{ block.settings.learn_more_btn_txt }}
+                  </button>
+                {% endif %}
+                {% if block.settings.buy_now_btn_txt and block.settings.buy_now_btn_txt != blank %}
+                  {% assign product = all_products[block.settings.handle] %}
+                  {% assign productInfo = null %}
+                  {% for variant in product.variants %}
+                    {% if variant.sku == block.settings.sku %}
+                      {% assign productInfo = variant %}
+                    {% endif %}
+                  {% endfor %}
+                  {% if block.settings.buy_now_btn_link and block.settings.buy_now_btn_link != blank %}
+                    <button
+                      class="index-button index-button--default buy_now"
+                      onclick="goLearnMore(`{{block.settings.buy_now_btn_link}}`,`{{ block.settings.datename }}`,`{{ block.settings.position  }}`,`masterBanner{{forloop.index}}`)"
+                    >
+                      {{ block.settings.buy_now_btn_txt }}
+                    </button>
+                  {% else %}
+                    <button
+                      class="index-button index-button--default buy_now"
+                      onclick="goBuyNow(`{{ productInfo.id }}`,`{{ productInfo.title }}`,`{{ product.type }}`,`{{ productInfo.options[0] }}`,`{{ productInfo.price }}`,`{{ block.settings.sku }}`,`Banner_{{forloop.index }}`)"
+                    >
+                      {{ block.settings.buy_now_btn_txt }}
+                    </button>
+                  {% endif %}
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    <div class="swiper-button-next">
+      <svg viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8.29289 0.292893C8.68342 -0.0976311 9.31658 -0.0976311 9.70711 0.292893L15.7071 6.29289C15.8946 6.48043 16 6.73478 16 7C16 7.26522 15.8946 7.51957 15.7071 7.70711L9.70711 13.7071C9.31658 14.0976 8.68342 14.0976 8.29289 13.7071C7.90237 13.3166 7.90237 12.6834 8.29289 12.2929L12.5858 8L1 8C0.447715 8 0 7.55229 0 7C0 6.44772 0.447715 6 1 6L12.5858 6L8.29289 1.70711C7.90237 1.31658 7.90237 0.683417 8.29289 0.292893Z"/>
+      </svg>
+    </div>
+    <div class="swiper-button-prev">
+      <svg viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M7.70711 0.292893C7.31658 -0.0976311 6.68342 -0.0976311 6.29289 0.292893L0.292893 6.29289C0.105357 6.48043 0 6.73478 0 7C0 7.26522 0.105357 7.51957 0.292893 7.70711L6.29289 13.7071C6.68342 14.0976 7.31658 14.0976 7.70711 13.7071C8.09763 13.3166 8.09763 12.6834 7.70711 12.2929L3.41421 8L15 8C15.5523 8 16 7.55229 16 7C16 6.44772 15.5523 6 15 6L3.41421 6L7.70711 1.70711C8.09763 1.31658 8.09763 0.683417 7.70711 0.292893Z"/>
+      </svg>
+    </div>
+    <div class="swiper-pagination"></div>
+  </div>
+</section>
+
+<script>
+  (function() {
+    window.dataLayer = window.dataLayer || [];
+    var dataObj1 = {};
+    {% for block in section.blocks %}
+      dataObj1['masterBanner' + '{{ forloop.index }}'] = {
+        id: 'masterBanner' + '{{ forloop.index }}',
+        name: "{{ block.settings.datename }}",
+        creative: "",
+        position: "{{ block.settings.position }}"
+      }
+    {% endfor %}
+    window.dataLayer.push(dataObj1);
+  })()
+
+  $(function () {
+    const lazyloadVideoWrapper = $('#index_banner-{{ section.id }}');
+    const bannerSlides = lazyloadVideoWrapper.find('.swiper-slide');
+    const isMobile = $(window).width() <= 768;
+    const mediaClass = isMobile ? '.mobile-video' : '.desktop-video';
+    const firstVideo = bannerSlides.eq(0).find(mediaClass);
+    if (firstVideo.length) {
+      videoLazyLoad(firstVideo, function() {
+        swip(lazyloadVideoWrapper, bannerSlides, mediaClass);
+      })
+    } else {
+      swip(lazyloadVideoWrapper, bannerSlides, mediaClass);
+    }
+  });
+
+  function swip(lazyloadVideoWrapper, bannerSlides, mediaClass) {
+    const stickyHeaderIcon = $('#shopify-section-header-classic .header-sticky-wrapper .header .header_icon');
+    const stickyNavIcon = $('#shopify-section-header-classic .header-sticky-wrapper .header .navbar-link');
+    const openMenuIcon = $(
+      '#mobile-header-sticky-wrapper.header-sticky-wrapper .mobile-header__open-menu .header_icon'
+    );
+    const mobileIcon = $('#mobile-header-sticky-wrapper.header-sticky-wrapper .mobile-icons .header_icon');
+    const swiper = new Swiper('.banner-swiper', {
+      speed: 500,
+      slidesPerView: 1,
+      loop: true,
+      noSwiping : true,
+      autoplay: {
+        delay: + "{{ section.settings.delay | default: 5000 }}",
+        disableOnInteraction: false,
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      on: {
+        init: function () {
+          setTimeout(function () {
+            let index = 1;
+            var color = $(`.masterBanner${index}`).attr('data-color');
+            var swiper_bullet_color = $(`.masterBanner${index}`).attr('swiper_bullet_color');
+            lazyloadVideoWrapper.find(`.swiper-pagination-bullet`).css('background', swiper_bullet_color);
+            lazyloadVideoWrapper.find(`.swiper-pagination-bullet-active`).css('background', swiper_bullet_color);
+            if (color == '1') {
+              stickyNavIcon.removeClass('new_icon');
+              stickyHeaderIcon.removeClass('new_icon');
+              openMenuIcon.removeClass('new_icon');
+              mobileIcon.removeClass('new_icon');
+            } else {
+              stickyNavIcon.addClass('new_icon').siblings().removeClass('new_icon');
+              stickyHeaderIcon.addClass('new_icon').siblings().removeClass('new_icon');
+              openMenuIcon.addClass('new_icon').siblings().removeClass('new_icon');
+              mobileIcon.addClass('new_icon').siblings().removeClass('new_icon');
+            }
+          }, 500);
+        },
+        slideChangeTransitionStart: function () {
+          let index = this.realIndex + 1;
+          var color = $(`.masterBanner${index}`).attr('data-color');
+          var fill_color = $(`.masterBanner${index}`).attr('fill_color');
+          var swiper_btn_color = $(`.masterBanner${index}`).attr('swiper_btn_color');
+          var swiper_bullet_color = $(`.masterBanner${index}`).attr('swiper_bullet_color');
+          lazyloadVideoWrapper.find(`.swiper-button-next svg`).css('fill', fill_color);
+          lazyloadVideoWrapper.find(`.swiper-button-prev svg`).css('fill', fill_color);
+          lazyloadVideoWrapper.find(`.swiper-pagination-bullet`).css('background', swiper_bullet_color);
+          lazyloadVideoWrapper.find(`.swiper-pagination-bullet-active`).css('background', swiper_bullet_color);
+          if (color == '1') {
+            stickyNavIcon.removeClass('new_icon');
+            stickyHeaderIcon.removeClass('new_icon');
+            openMenuIcon.removeClass('new_icon');
+            mobileIcon.removeClass('new_icon');
+            lazyloadVideoWrapper.find(`.swiper-button-next, .swiper-button-prev`).css('background', 'rgba(255,255,255,0.6)');
+            lazyloadVideoWrapper.find(`.masterBanner${index} .buy_now`).hover(
+              function () {
+                lazyloadVideoWrapper.find(`.masterBanner${index} .buy_now`).css('background-color', 'rgb(0, 0, 0,0.08)');
+              },
+              function () {
+                lazyloadVideoWrapper.find(`.masterBanner${index} .buy_now`).css('background-color', 'rgba(0, 0, 0, 0)');
+              }
+            );
+          } else {
+            stickyNavIcon.addClass('new_icon').siblings().removeClass('new_icon');
+            stickyHeaderIcon.addClass('new_icon').siblings().removeClass('new_icon');
+            openMenuIcon.addClass('new_icon').siblings().removeClass('new_icon');
+            mobileIcon.addClass('new_icon').siblings().removeClass('new_icon');
+            lazyloadVideoWrapper.find(`.swiper-button-next, .swiper-button-prev`).css('background', 'rgba(255,255,255,0.3)');
+            lazyloadVideoWrapper.find(`.masterBanner${index} .buy_now`).hover(
+              function () {
+                lazyloadVideoWrapper.find(`.masterBanner${index} .buy_now`).css('background-color', 'rgba(255, 255, 255, 0.12)');
+              },
+              function () {
+                lazyloadVideoWrapper.find(`.masterBanner${index} .buy_now`).css('background-color', 'rgba(0, 0, 0, 0)');
+              }
+            );
+          }
+
+          const video = bannerSlides.eq(this.realIndex).find(mediaClass);
+          videoLazyLoad(video);
+          if (this.realIndex === 0 || this.realIndex === bannerSlides.length - 1) {
+            const copySlideVideo = lazyloadVideoWrapper.find('.swiper-slide-duplicate-active').find(mediaClass);
+            videoLazyLoad(copySlideVideo);
+          }
+        },
+      },
+    })
+    lazyloadVideoWrapper.find(`.swiper-button-prev, .swiper-button-next, .box-wrapper`).hover(
+      function () {
+        swiper.autoplay.stop();
+      },
+      function () {
+        swiper.autoplay.start();
+      }
+    );
+  };
+
+  function videoLazyLoad(video, cb) {
+    if (!video.length) return;
+    if (video.attr('src')) return;
+    video.attr('src', video.data('src'));
+    video[0].load();
+    video[0].addEventListener('loadedmetadata', () => {
+      video.show();
+      cb && cb();
+    });
+  }
+
+  function goLearnMore(link, name, position, className) {
+    if (link) {
+      window.dataLayer.push({
+        event: 'eeEvent',
+        eventCategory: 'promotion',
+        eventAction: 'click',
+        eventLabel: className,
+        nonInteraction: false,
+        ecommerce: {
+          promoClick: {
+            promotions: [
+              {
+                id: className,
+                name: name,
+                creative: '',
+                position: position,
+              },
+            ],
+          },
+        },
+      });
+      if (link.indexOf('?') != -1) {
+        window.location.href = link + '&ref=' + className;
+      } else {
+        window.location.href = link + '?ref=' + className;
+      }
+    }
+  }
+
+  function goLink(link, className) {
+    if (link.indexOf('?') != -1) {
+      window.location.href = link + '&ref=' + className;
+    } else {
+      window.location.href = link + '?ref=' + className;
+    }
+  }
+
+  function goBuyNow(id, title, type, option, price, sku, className) {
+    let line_items = [{ variant_id: id, quantity: 1 }];
+    window.dataLayer.push({
+      event: 'begin_checkout',
+      page_group: 'Home Page',
+      position: `Home Page_Master ${className}`, {% comment %} // 第4行的id表示banner的位置 {% endcomment %}
+      ecommerce: {
+        {% comment %} // 这里的ecommerce变量需要copy这个产品页对应的代码 {% endcomment %}
+        currency: '{{ shop.currency }}',
+        value: sku,
+        items: [
+          {
+            item_id: sku,
+            item_name: title,
+            item_brand: '{{ shop.name }}',
+            item_category: type,
+            item_variant: option,
+            price: price / 100,
+            quantity: 1,
+          },
+        ],
+      },
+    });
+    window.dataLayer.push({
+      event: 'eeEvent',
+      eventCategory: 'EnhancedEcommerce',
+      eventAction: 'BuyNow', {% comment %} // 如果是右上角加购功能, 换成Added Product {% endcomment %}
+      eventLabel: sku,
+      ecommerce: {
+        currencyCode: '{{ shop.currency }}', {% comment %}// 填写对应货币 USD EUR... {% endcomment %}
+        add: {
+          products: [
+            {
+              name: title, {% comment %}// 对应下方截图的product name {% endcomment %}
+              id: id, {% comment %}// 对应下方截图的product id (注意大小写) {% endcomment %}
+              category: '', {% comment %}// 留空 {% endcomment %}
+              categoryName: type, {% comment %}// 对应下方截图的product cat... {% endcomment %}
+              brand: '{{ shop.name }}', {% comment %}// 对应下方截图的product brand {% endcomment %}
+              variant: option, {% comment %}// 对应下方截图的product variant {% endcomment %}
+              price: price / 100, {% comment %}// 对应下方截图的product price {% endcomment %}
+              quantity: 1, {% comment %}// 对应下方截图的product quantity {% endcomment %}
+            },
+          ],
+        },
+      },
+    });
+    Shopify.theme.bundleBuynow({
+      authorization: '{{ storefront_key }}',
+      checkout: {
+        line_items: line_items,
+        presentment_currency: '{{ shop.currency }}',
+        is_upstream_button: true,
+        page_type: 'product',
+        secret: true,
+        wallet_name: 'Checkout',
+      },
+      onSuccess: () => {},
+      onError: (err) => $.dialog({ title: err.message, content: err.description, type: 'red' }),
+    });
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Index Banner",
+  "presets": [
+    {
+      "category": "Index Banner",
+      "name": "Index Banner"
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "seo_title",
+      "label": "seo title",
+      "default": "eufy us"
+    },
+    {
+      "type": "number",
+      "id": "delay",
+      "label": "banner停留时长",
+      "default": 5000
+    },
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "自定义样式内容"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "block",
+      "name": "block",
+      "settings": [
+        {
+          "type": "color",
+          "id": "nav_color_1",
+          "label": "导航文本颜色",
+          "default": "#000000"
+        },
+        {
+          "type": "select",
+          "id": "nav_color_select",
+          "label": "导航文本颜色",
+          "default": "1",
+          "options": [
+            {
+              "value": "1",
+              "label": "black"
+            },
+            {
+              "value": "2",
+              "label": "white"
+            }
+          ]
+        },
+        {
+          "type": "image_picker",
+          "id": "img_pc",
+          "label": "桌面端图片",
+          "info": "图片格式推介使用jpg"
+        },
+        {
+          "type": "image_picker",
+          "id": "img_mob",
+          "label": "移动端图片",
+          "info": "图片格式推介使用jpg"
+        },
+        {
+          "type": "text",
+          "id": "video_pc",
+          "label": "桌面端视频",
+          "info": "非必填，当填入必须上传桌面端图片做完视频封面图。默认只支持MP4格式"
+        },
+        {
+          "type": "text",
+          "id": "video_mob",
+          "label": "移动端视频",
+          "info": "非必填，当填入必须上传移动端图片做完视频封面图。默认只支持MP4格式"
+        },
+        {
+          "type": "select",
+          "id": "txt_model",
+          "label": "文本显示位置",
+          "default": "left",
+          "options": [
+            {
+              "value": "left",
+              "label": "left"
+            },
+            {
+              "value": "top",
+              "label": "top"
+            },
+            {
+              "value": "bottom",
+              "label": "bottom"
+            }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "mob_txt_model",
+          "label": "移动端文本显示位置",
+          "default": "bottom",
+          "options": [
+            {
+              "value": "top",
+              "label": "top"
+            },
+            {
+              "value": "bottom",
+              "label": "bottom"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "标题"
+        },
+        {
+          "type": "color",
+          "id": "title_color",
+          "label": "标题颜色",
+          "default": "#000000"
+        },
+        {
+          "type": "textarea",
+          "id": "desc_1",
+          "label": "描述内容1"
+        },
+        {
+          "type": "color",
+          "id": "desc_1_color",
+          "label": "描述内容1颜色",
+          "default": "#000000"
+        },
+        {
+          "type": "textarea",
+          "id": "desc_2",
+          "label": "描述内容2"
+        },
+        {
+          "type": "color",
+          "id": "desc_2_color",
+          "label": "描述内容2颜色",
+          "default": "#666666"
+        },
+        {
+          "type": "text",
+          "id": "learn_more_btn_txt",
+          "label": "learn more 按钮显示文本"
+        },
+        {
+          "type": "text",
+          "id": "learn_more_btn_link",
+          "label": "learn more 按钮跳转链接"
+        },
+        {
+          "type": "color",
+          "id": "learn_more_btn_color",
+          "label": "learn more按钮颜色",
+          "default": "#000000"
+        },
+        {
+          "type": "color",
+          "id": "learn_more_color",
+          "label": "learn more按钮文本颜色",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "learn_more_btn_hover_color",
+          "label": "learn more按钮hover颜色",
+          "default": "#333333"
+        },
+        {
+          "type": "color",
+          "id": "learn_more_btn_border_color",
+          "label": "learn more按钮边框颜色",
+          "default": "#000000"
+        },
+        {
+          "type": "color",
+          "id": "fill_color",
+          "label": "轮播箭头颜色",
+          "default": "#999999"
+        },
+        {
+          "type": "color",
+          "id": "swiper_btn_color",
+          "label": "轮播按钮背景颜色",
+          "default": "#000000"
+        },
+        {
+          "type": "text",
+          "id": "swiper_btn_color_opacity",
+          "label": "轮播按钮背景颜色透明度(0~1)",
+          "default": "0.6"
+        },
+        {
+          "type": "color",
+          "id": "swiper_bullet_color",
+          "label": "轮播分页颜色颜色",
+          "default": "#000000"
+        },
+        {
+          "type": "text",
+          "id": "handle",
+          "label": "展示产品handle"
+        },
+        {
+          "type": "text",
+          "id": "sku",
+          "label": "展示产品Sku"
+        },
+        {
+          "type": "text",
+          "id": "dataLayer_learn_more",
+          "label": "learn more埋点标识"
+        },
+        {
+          "type": "text",
+          "id": "buy_now_btn_txt",
+          "label": "buy now 按钮显示文本"
+        },
+        {
+          "type": "text",
+          "id": "buy_now_btn_link",
+          "label": "buy now 按钮跳转链接（注意：跳转链接不为空，跳转链接，为空时，进行购买操作）"
+        },
+        {
+          "type": "color",
+          "id": "buy_now_btn_color",
+          "label": "buy now按钮颜色",
+          "default": "transparent"
+        },
+        {
+          "type": "color",
+          "id": "buy_now_color",
+          "label": "buy now按钮文本颜色",
+          "default": "#000000"
+        },
+        {
+          "type": "color",
+          "id": "buy_now_btn_hover_color",
+          "label": "buy now按钮hover颜色",
+          "default": "#666666"
+        },
+        {
+          "type": "color",
+          "id": "buy_now_btn_border_color",
+          "label": "buy now按钮边框颜色",
+          "default": "#000000"
+        },
+        {
+          "type": "text",
+          "id": "dataLayer_buy_now",
+          "label": "buy_now埋点标识"
+        },
+        {
+          "type": "text",
+          "id": "datename",
+          "label": "修改信息",
+          "info": "埋点：这里给运营留字段补充格式为200531banner内容，表示修改banner的日期和banner的内容（不超过3个单词）"
+        },
+        {
+          "type": "text",
+          "id": "position",
+          "label": "物料类型",
+          "default": "static",
+          "info": "埋点：这里给运营留字段填写static(静态图片)或者dynamic(视频或者gif)"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

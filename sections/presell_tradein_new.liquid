@@ -1,0 +1,401 @@
+{% assign lang = page.metafields.global %}
+
+{% if lang.corporate.value %}
+  {% assign corporate = lang.corporate.value %}
+{% else %}
+  {% assign corporate = lang.corporate %}
+{% endif %}
+
+{% if page.metafields.global.corporate.value %}
+  {% assign corporate = page.metafields.global.corporate.value %}
+{% else %}
+  {% assign corporate = page.metafields.global.corporate %}
+{% endif %}
+
+<link rel="stylesheet" href="{{ 'page-presell_new.scss.css' | asset_url }}">
+{% assign list = corporate.list %}
+{% assign custom_css = section.settings.custom_css %}
+
+{% style %}
+{%- if custom_css != blank -%}
+{{ custom_css }}
+{% endif %}
+{% endstyle %}
+
+<div class="TradeIn">
+  <div class="tradein_bg pc_show">
+    <img class="lazyload" data-src="{{ corporate.tradein_bg }}">
+  </div>
+  <div class="tradein_bg mob_show">
+    <img class="lazyload" data-src="{{ corporate.tradein_bg_mob }}">
+  </div>
+  <div class="tradein_content">
+    <p class="trandein_p1">{{ corporate.trandein_p1 }}</p>
+    <p class="trandein_p2">
+      {{ corporate.trandein_p2 }}
+    </p>
+    <div class="trandein_a">
+      <a class="trandein_a1" id="trandein_a1">
+        {{ corporate.trandein_a1_txt }}
+      </a>
+    </div>
+  </div>
+  <div class="tk_bg" id="tk_bg">
+    <div class="tk_btm"></div>
+    <button id="modal_close_sell" type="button" tabindex="0" class="modalClose"><i class="iconfont"></i></button>
+    <div class="tk_content">
+      <div class="modalContent">
+
+        <div class="modal_content" id="modal_content">
+          <div class="modal_content_p1">
+            {{ corporate.modal_content_p1 }}
+          </div>
+          <div class="modal_form_content">
+            <form id="modal_content_form">
+              <div class="form_email">
+                <input id="modal_email" type="text" name="Modal Email" value=""
+                  placeholder="{{ corporate.placeholder_1 }}" maxlength="200">
+              </div>
+              <!-- <span class="input-normal captcha">
+                      <input autocomplete="nope" id="captcha_value" placeholder="{{ corporate.placeholder_2 }}" name="captcha" value="" maxlength="200">
+                      <a class="captcha_link" role="button" tabindex="0" onClick="getCaptchaCode()">
+                        <img class="captcha_img" />
+                      </a>
+                    </span> -->
+              <div class="form_files">
+                <span class="report-upload-field">
+                  <div class="ant-upload-select-picture">
+
+                    <span class="ant-upload" role="button">
+                      <input id="name-reportContentForm_reportAttachmentIds" type="file" name="fileBtn"
+                        onChange="uploadAttach()" accept="image/*,application/pdf">
+                      <div class="ant-btn">
+                        {{ corporate.ant-btn_p }}
+                      </div>
+                    </span>
+
+                  </div>
+                </span>
+              </div>
+              <div class="form_content_error" id="form_content_error">
+              </div>
+              <div class="policyBox">
+                <span>
+                  <input type="checkbox" name="policy_1" value="yes" onclick="checkButton()">
+                </span>
+                <span>
+                  {{ corporate.policyBox }}
+                </span>
+              </div>
+              <button disabled type="submit" class="content_btn checkbox-wrapper-disabled" id="sell_content_btn">
+                {{ corporate.submit }}
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tk_content_2" style="display: none;">
+      <div class="tk_ready">{{ corporate.tk_ready_1 }}</div>
+      <div class="tk_code_content">
+        <span class="tk_code tk_code_x8"></span>
+        <a class="tk_url" href="{{ shop.url }}{{ corporate.tk_url_1_url }}" target="_blank" rel="noopener noreferrer">{{
+          corporate.tk_url_1 }}</a>
+        <a class="tk_url" href="{{ corporate.tk_url_2_url }}" target="_blank" rel="noopener noreferrer">{{ corporate.tk_url_2 }}</a>
+      </div>
+      {% if corporate.tk_url_h30.size > 0 %}
+      <div class="tk_code_content">
+        <span class="tk_code tk_code_h30"></span>
+        <a class="tk_url" href="{{ corporate.tk_url_h30_url }}" target="_blank" rel="noopener noreferrer">{{ corporate.tk_url_h30 }}</a>
+      </div>
+      {% endif %}
+      <div class="tk_ready">{{ corporate.tk_ready_2 }}</div>
+    </div>
+  </div>
+  <div class="mymodal" id="myModal_sell">
+    <div class="dialogModal">
+      <div class="modalContent">
+        <button id="modal_close_rules" type="button" class="modalClose" onclick="closeModal()"> <i
+            class="iconfont"></i></button>
+        <div id="modal_con">
+          <p class="title">{{ corporate.modal_title }}</p>
+          {% for o in list %}
+          <p>
+            <span>{{ o.modal_mum }}</span>
+            <span>{{ o.modal_content }}</span>
+          </p>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let presell_pic_url = null;
+  function checkButton() {
+    const email = $('#modal_email').val().trim();
+    var reg = document.getElementsByName("policy_1");
+    if (reg[0].checked && presell_pic_url && email) {
+      document.getElementById("sell_content_btn").disabled = false;
+      $(".content_btn").removeClass("checkbox-wrapper-disabled");
+    } else {
+      document.getElementById("sell_content_btn").disabled = true;
+      $(".content_btn").addClass("checkbox-wrapper-disabled");
+    }
+  }
+
+  // function getCaptchaCode() {
+  //   if (window.captchaLoading) return;
+  //   window.captchaLoading = true;
+  //   $.ajax({
+  //     headers: Shopify.contentCreator.pastApi.getHeaders(),
+  //     url: '/apps/pp/udc/captcha/obtain_captcha',
+  //     type: 'GET',
+  //     success: function(body) {
+  //       const { captcha_url, captcha_code } = body;
+  //       window.presell_captcha_code = captcha_code;
+  //       $('.captcha_img').attr({ src: `/apps/pp/udc${captcha_url}` });
+  //     },
+  //     complete: function() {
+  //       window.captchaLoading = false;
+  //     }
+  //   })
+  // }
+  $("#trandein_a1").click(function () {
+    $("#tk_bg").css("display", "block");
+
+    //getCaptchaCode();
+  });
+
+  $("#openRules_sell").click(function () {
+    $("#myModal_sell").css("display", "block");
+  });
+  $("#modal_close_rules").click(function () {
+    $("#myModal_sell").css("display", "none");
+  });
+  $("#modal_close_sell").click(function () {
+    $("#tk_bg").css("display", "none");
+    $(".tk_code").empty();
+    $(".tk_content").css("display", "block");
+    $(".tk_content_2").css("display", "none");
+
+    window.corporateSubmited = false;
+  });
+  $("#modal_email").change(function (e) {
+    checkButton();
+    window.corporateSubmited = false;
+  });
+
+  function uploadAttach() {
+    const e = window.event;
+    const { files = [] } = e.target;
+    const file = files[0];
+    window.corporateSubmited = false;
+
+    if (!file) return;
+    if (file.size > 1024 * 1024 * 6) {
+      $("#form_content_error").css("display", "block");
+      $("#form_content_error").append(`{{ corporate.big_size }}<br/>`);
+      //openModal(`<p>文件太大</p>`);
+      return;
+    }
+    function createMask() {
+      var html = '<div id="backdrop" style="display:none;"><p>uploading...</p></div>';
+
+      $(".ant-upload-select-picture").append(html);
+    }
+
+    function showMask() {
+      var backdrop = document.getElementById('backdrop');
+      backdrop.style.display = 'block';
+    }
+
+    function closeMask() {
+      var backdrop = document.getElementById('backdrop');
+      backdrop.style.display = 'none';
+    }
+
+    createMask();
+    showMask();
+
+    document.onreadystatechange = function () {
+      if (document.readyState == "complete") {
+        closeMask();
+      }
+    }
+    const data = new FormData();
+    data.append('file', file);
+    data.append('category', 'eufy_t8423_tradein');
+    $.ajax({
+      headers: Shopify.contentCreator.pastApi.getHeaders(),
+      url: '/apps/pp/rainbow/upload_files',
+      timeout: 180000,
+      type: 'POST',
+      cache: false,
+      data: data,
+      processData: false,
+      contentType: false,
+
+      beforeSend: function () {
+        showMask();
+      },
+
+      success: function (body) {
+        presell_pic_url = body.url;
+        $(".ant-btn").html(`${file.name}`);
+        $("#form_content_error").css("display", "none");
+        $("#form_content_error").html("");
+        checkButton();
+      },
+      error: function (data) {
+        if (data.statusText == "error") {
+          $("name-reportContentForm_reportAttachmentIds").val('');
+          $("#form_content_error").html("");
+          $("#form_content_error").css("display", "block");
+          $("#form_content_error").append("overtime");
+          return false;
+
+        }
+
+      },
+      complete: function () {
+        closeMask();
+      }
+    });
+
+  }
+
+  $("#modal_content_form").submit(function (e) {
+    e.preventDefault();
+    if (window.corporateSubmited) return;
+    window.corporateSubmited = true;
+    const errorHandle = (data) => {
+      $("#form_content_error").empty();
+      window.corporateSubmited = false;
+      var responseJSON = data.responseJSON;
+      var message = data.responseJSON && data.responseJSON.message || [];
+      if (!Array.isArray(message)) { message = [message]; }
+      if (responseJSON?.error_code == 113) {
+        $("#form_content_error").css("display", "block");
+        $("#form_content_error").append(`{{ corporate.modal_captcha }}<br/>`);
+      }
+      message.map(item => {
+        if (item.indexOf("contact_email") === 0) {
+          $("#form_content_error").css("display", "block");
+          $("#form_content_error").append(`{{ corporate.modal_email }}<br/>`);
+        } else {
+          $("#form_content_error").css("display", "block");
+          $("#form_content_error").append(`${item}<br/>`);
+        }
+      });
+    }
+    grecaptcha.ready(() => {
+      grecaptcha.execute(ShopMetafields.recaptcha, { action: "ActivityCreate" }).then((recaptcha) => {
+        const email = $('#modal_email').val().trim();
+        const email_1 = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        //const captcha_value = $('#captcha_value').val().trim();
+        const files_value = $('.ant-btn').text();
+        //const captcha_code = window.presell_captcha_code;
+        const images = [presell_pic_url];
+        const shopify_domain = '{{ shop.permanent_domain }}';
+
+        const formData = {
+          register_source: window.location.href,
+          deals_type: 'eufy_t8423_tradein',
+          email,
+          images,
+          single_brand_subscribe: true,
+          genre: "presell",
+          shopify_domain
+        };
+        const errors = [];
+        if (email == '') errors.push(`{{ corporate.contact_email }}<br/>`);
+        //if(captcha_value == '') errors.push(`{{ corporate.contact_captcha }}<br/>`);
+        if (presell_pic_url == undefined) errors.push(`{{ corporate.contact_files }}<br/>`);
+        if (!email.match(email_1)) errors.push(`{{ corporate.contact_email }}<br/>`);
+
+        if (errors.length) {
+          $("#form_content_error").css("display", "block");
+          errors.map((item) => $("#form_content_error").append(`${item}`));
+          return;
+        }
+        $.ajax({
+          headers: {
+            ...Shopify.contentCreator.pastApi.getHeaders(),
+            'recaptcha': recaptcha
+          },
+          url: '/apps/pp/rainbowbridge/activities',
+          type: 'POST',
+          contentType: "application/json",
+          dataType: "json",
+          data: JSON.stringify(formData),
+          success: function (data) {
+            let corporate = {{ corporate | json}}
+            if (corporate?.tk_url_h30?.length > 0) {
+              grecaptcha.execute(ShopMetafields.recaptcha, { action: "ActivityCreate" }).then((recaptchaKey) => {
+                formData.genre = 'tradeinh30';
+                $.ajax({
+                  headers: {
+                    ...Shopify.contentCreator.pastApi.getHeaders(),
+                    'recaptcha': recaptchaKey
+                  },
+                  url: '/apps/pp/rainbowbridge/activities',
+                  type: 'POST',
+                  contentType: "application/json",
+                  dataType: "json",
+                  data: JSON.stringify(formData),
+                  success: function (h30Data) {
+                    $("#form_content_error").empty();
+                    $(".tk_code_x8").append(data?.coupon?.code);
+                    $(".tk_code_h30").append(h30Data?.coupon?.code);
+                    $("#form_content_error").css("display", "none");
+                    $(".tk_content").css("display", "none");
+                    $(".tk_content_2").css("display", "block");
+                    window.corporateSubmited = false;
+                  },
+                  error: function (data) {
+                    errorHandle(data);
+                  }
+                });
+              })
+            } else {
+
+              $("#form_content_error").empty();
+              $(".tk_code_x8").append(data?.coupon?.code);
+              $("#form_content_error").css("display", "none");
+              $(".tk_content").css("display", "none");
+              $(".tk_content_2").css("display", "block");
+              window.corporateSubmited = false;
+            }
+        },
+        error: function (errData) {
+          errorHandle(errData);
+        }
+        });
+      })
+    })
+  })
+</script>
+
+{% schema %}
+
+{
+"name": "presell tradein component",
+"presets": [
+{
+"category": "Custom Dynamic Sections",
+"name": "presell tradein component"
+}
+],
+"settings": [
+{
+"type": "textarea",
+"id": "custom_css",
+"label": "Custom CSS",
+"info": "自定义样式（注意：请按照标准的css语法添加样式）"
+}
+]
+}
+
+{% endschema %}

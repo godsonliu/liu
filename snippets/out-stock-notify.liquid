@@ -1,0 +1,207 @@
+{% if shop.metafields['global']['out_stock_notify'].value %}
+  {% assign out_stock_notify = shop.metafields['global']['out_stock_notify'].value %}
+{% else %}
+  {% assign out_stock_notify = shop.metafields['global']['out_stock_notify'] %}
+{% endif %}
+
+
+{%- assign asign = order.name | hmac_sha256: "anker-2021" -%} 
+{% if out_stock_notify and out_stock_notify.show %}
+{% assign variant = product.selected_or_first_available_variant %}
+
+<section class="out-stock-notify swap--visible">
+  {% unless renderBtn %}
+  <div class="btnBox">
+    <button class="button button--primary notify-btn" style="line-height: 1">
+      <span>{{ out_stock_notify.btnTxt }}</span>
+      {% if listingV2 %}<span class="tips">{{ out_stock_notify.btnTips }}</span>{% endif %}
+    </button>
+  </div>
+  {% endunless %}
+</section>
+
+<section class="out-stock-pop pop-ups swap--visible">
+  <div class="mask"></div>
+  <div class="pop-content">
+    <div class="info_content swap--visible"></div>
+    <div class="tip_content">
+      <div>{{ out_stock_notify.title }}</div>
+      <p class="subtitle">{{ out_stock_notify.sub_title }}</p>
+      <p class="product_name">{{ product.title }}</p>
+      <div class="out_stock_form">
+        <div class="input-normal undefined">
+          <input
+            autocomplete="off"
+            maxlength="200"
+            name="email"
+            placeholder="{{ out_stock_notify.input_txt }}"
+            value="{{customer.email}}"
+          />
+          <a role="button" tabindex="0" class="buttonFlag flagRight">
+            <i class="iconfont"></i>
+            <p class="flagRight_txt right swap--visible">{{ out_stock_notify.out_stock_info }}</p>
+          </a>
+        </div>
+        <div>
+          <button type="submit" class="button-normal submit comfire">
+            {{ out_stock_notify.btn_txt }}
+          </button>
+        </div>
+      </div>
+      <p class="policy_box">
+        <input type="checkbox" name="policy" value="yes">
+        <span>{{ out_stock_notify.select_txt }}</span>
+      </p>
+      <p class="info_err"></p>
+    </div>
+    <button type="button" class="modalClose">
+      <i class="iconfont">&#xe723;</i>
+    </button>
+  </div>
+</section>
+
+<script>
+  $(function() {
+    window.setTimeout(() => {
+      var $product = $('.product-{{product.id}}');
+      var $productForm = $('.product_form, .shopify-product-form', $product);
+      var JSONData = $productForm.data('product');
+      var available = true, sku;
+      if (JSONData) {
+        var sku_color = $('.swatch_options input:checked + .swatch-element').data('sku');
+        var sku_default = JSONData.variants[0].sku;
+        sku = sku_color || sku_default;
+        available = JSONData.variants.some(v => {
+          if (v.sku === sku) return v.available && v.price != 999999999;
+          return false;
+        })
+      } else {
+        sku = '{{ product.variants[0].sku }}';
+        available = '{{ product.variants[0].available }}' === 'true' && '{{ product.variants[0].price }}' !== '999999999';
+      }
+      
+      {% if variant.available and variant.price != 999999999 %}
+        $('.out-stock-notify').css('display', 'none');
+        $('.out-stock-pop').css('display', 'none');
+        $('.notify-btn').css('display', 'none');
+        $('.purchase-details').addClass('borderB');
+      {% else %}
+        $('.out-stock-notify').removeClass('swap--visible');
+        $('.purchase-details').removeClass('borderB');
+      {% endif %}
+
+      var canceling = false;
+      var successInfo = `{{out_stock_notify.successInfo}}`;
+      var errorInfo = `{{out_stock_notify.errorInfo}}`;
+      var errorEmail = `{{out_stock_notify.errorEmail}}`;
+      var errfillEmail = `{{out_stock_notify.errfillEmail}}`;
+
+      {% if renderBtn %}
+        $('{{renderBtn}}').append('<div style="overflow: hidden;" class="out-stock-notify"><button class="step__footer__continue-btn btn button notify-btn">{{out_stock_notify.btnTxt}}</button></div>');
+      {% endif %}
+
+      $('.out-stock-pop .flagRight i').on('click', function() {
+        window.setTimeout(() => {
+          $('.out-stock-pop .flagRight_txt').removeClass('swap--visible');
+        });
+      })
+
+      $('body').on('click', function() {
+        if (!$('.out-stock-pop .flagRight_txt').hasClass('swap--visible')){
+          $('.out-stock-pop .flagRight_txt').addClass('swap--visible');
+        }
+      })
+
+      $('.out-stock-notify .button').on('click', function() {
+        if (canceling) return false;
+        $('.out-stock-pop').removeClass('swap--visible');
+        $('.out-stock-pop .tip_content').removeClass('swap--visible');
+        $('.out-stock-pop .info_content').addClass('swap--visible');
+      })
+
+      $('.out-stock-pop').on('click', '.modalClose,.cancel', function() {
+        if (canceling) return false;
+        $('.out-stock-pop').addClass('swap--visible');
+        $('.out-stock-pop .tip_content').removeClass('swap--visible');
+        $('.out-stock-pop .info_content').addClass('swap--visible');
+      })
+
+      $('.out_stock_form input[name="email"]').on('change', function() {
+        if ($('.out-stock-pop .info_err').html()) $('.out-stock-pop .info_err').html('');
+      })
+
+      $('.out-stock-pop .comfire').on('click', function() {
+        const email_val = $('.out_stock_form input[name="email"]').val();
+        const email = email_val && email_val.trim();
+        const rmaRegExp = {
+          email: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        }
+        if(!email) {
+          $('.out-stock-pop .info_err').html(errfillEmail);
+          return false;
+        }
+        if(!rmaRegExp.email.test(email)) {
+          $('.out-stock-pop .info_err').html(errorEmail);
+          return false;
+        }
+        
+        $('.out-stock-pop button').css('cursor', 'progress');
+        if (canceling) return false;
+        canceling = true;
+
+        sku_color = $('.swatch_options input:checked + .swatch-element').data('sku');
+        sku = sku_color || sku_default;
+        $.ajax({
+          headers: Shopify.contentCreator.pastApi.getHeaders(),
+          url: `/apps/pp/shopifyservices/product_arrival_notices`,
+          type: 'POST',
+          data: {
+            email,
+            sku
+          },
+          success: function(body) {
+            $('.out-stock-pop').removeClass('swap--visible');
+            $('.out-stock-pop .info_content').removeClass('swap--visible').html(successInfo);
+            $('.out-stock-pop .tip_content').addClass('swap--visible');
+            $('.out-stock-pop button').css('cursor', 'pointer');
+
+            $('.out_stock_form input[name="email"]').val('');
+            canceling = false;
+
+            // 订阅
+            if ($('.out-stock-pop input[name="policy"]').prop('checked')) {
+              Shopify.contentCreator.pastApi.subscribe_emails({
+                params: {
+                  email,
+                  brand: 'eufy',
+                },
+                fn: (body) => {
+                  fbq('track', 'CompleteRegistration');
+                  $('.out-stock-pop input[name="policy"]').prop('checked', false);
+                }
+              });
+            }
+            
+            // 埋点
+            dataLayer.push({
+              "event": "uaEvent",
+              "eventCategory": 'notify_me',
+              "eventAction": sku,
+              "eventLabel": $('.out-stock-pop input[name="policy"]').prop('checked') ? 'consent' : 'not_consent',
+              "eventValue": "undefined"
+            })
+          },
+          error: function (err) {
+            $('.out-stock-pop .info_content').removeClass('swap--visible').html(errorInfo);
+            $('.out-stock-pop .tip_content').addClass('swap--visible');
+
+            $('.out-stock-pop button').css('cursor', 'pointer');
+            canceling = false;
+          }
+        });
+      })
+    });
+  })
+</script>
+
+{% endif %}

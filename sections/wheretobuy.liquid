@@ -1,0 +1,265 @@
+{% if page.metafields['global']['wheretobuy'].value %}
+  {% assign result = page.metafields['global']['wheretobuy'].value %}
+{% else %}
+  {% assign result = page.metafields['global']['wheretobuy'] %}
+{% endif %}
+
+{% if page.metafields['global']['wheretobuy'].value %}
+  {% assign wheretobuy = page.metafields['global']['wheretobuy'].value %}
+{% else %}
+  {% assign wheretobuy = page.metafields['global']['wheretobuy'] %}
+{% endif %}
+
+{% if page.metafields['global']['wheretobuy_metafields_two'].value %}
+  {% assign wheretobuy_metafields_two = page.metafields['global']['wheretobuy_metafields_two'].value %}
+{% else %}
+  {% assign wheretobuy_metafields_two = page.metafields['global']['wheretobuy_metafields_two'] %}
+{% endif %}
+
+{% if page.metafields['global']['region_countries'].value %}
+  {% assign region_countries = page.metafields['global']['region_countries'].value %}
+{% else %}
+  {% assign region_countries = page.metafields['global']['region_countries'] %}
+{% endif %}
+
+
+
+<script type="application/json" id="wheretobuy">
+  {
+    "result": {{ wheretobuy | json }}
+  }
+</script>
+
+<script type="application/json" id="wheretobuy_metafields_two">
+  {
+    "data": {{ wheretobuy_metafields_two | json }}
+  }
+</script>
+
+<script type="application/json" id="regionCountries">
+  {
+    "result": {{ region_countries | json }}
+  }
+</script>
+
+{% style  %}
+
+.Wheretobuy .banner,
+.Wheretobuy .action .more:hover:after, 
+.Wheretobuy .action .more:hover:before,
+.Wheretobuy .types .item:after {
+  background: {{ result.theme_color }};
+}
+
+.Wheretobuy .action .more:hover:after,
+.Wheretobuy .action .more:hover,
+.Wheretobuy .action .more:hover:before{
+  border-color: {{ result.theme_color }};
+}
+
+.Wheretobuy .types .item:hover,
+.Wheretobuy .types .item.active  {
+  color: {{ result.theme_color }};
+}
+
+{% endstyle %}
+
+<main id="template-{{ template | replace: '.', '-' | handle }}" class="shopify-section article-page"
+data-check-for-order="true">
+
+<section class="Wheretobuy">
+  <div class="banner">
+    <div class="module-container">
+      <h1 class="title">{{ result.banner_title }}</h1>
+      <p class="desc">{{ result.banner_desc }}</p>
+      <div class="filter">
+        <div class="item">
+          <p class="label">{{ result.field_region }}</p>
+          <div class="select-wrap">
+            <select class="regions">
+              <option selected="" value="">{{ result.option_all }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="item">
+          <p class="label">{{ result.field_country }}</p>
+          <div class="select-wrap">
+            <select class="regions-childe"></select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="types">
+    <div class="module-container tab-wrap">
+      {% for item in result.types %}
+        <div class="item tab-item" data-type="{{ item }}">{{ item }}</div>
+      {% endfor %}
+    </div>
+  </div>
+  <section class="section__wrapper section">
+    <div class="Wheretobuy">
+      <div class="distribution">
+        <div class="items">
+          <div class="module-container content-list"></div>
+        </div>
+        <p class="action"><i class="more"></i></p>
+      </div>
+    </div>
+  </section>
+</section>
+</main>
+<script>
+let type, regionName, country, optionAll2;
+let limitLine = 5
+let perPage = 5 // 每页显示行数
+let perLine = 5 // 每行显示logo数
+const ApplicationName = 'beta-anker-us-shopify'
+
+function childe (item) {
+  return item.data.map(childe => 
+    `<div class="shop">
+      <p class="image">
+        ${ childe.logo 
+          ? childe.contact ? `<a href="${ childe.contact }" target="_blank" rel="noopener noreferrer">
+            <img class="lazyload" data-src="${ childe.logo }">
+          </a>` : `<img class="lazyload" data-src="${ childe.logo }">`
+          : childe.name
+        }
+      </p>
+    </div>`
+  ).join('')
+}
+
+function handleList(list) {
+  $('.content-list').empty()
+  const arr = []
+  let html = ''
+  const filtered = list.filter(item => item.type_name === type
+  && (!regionName || item.region_name === regionName)
+  && (!country || item.country_name === country))
+  const total = filtered.length
+  const cached = {} 
+  let showed = 0
+  let lines = 0
+  if (!total) {
+    $('.action').hide()
+  }
+  filtered.some((item, index) => {
+    const { country_name } = item;
+    const next = filtered[index + 1]
+    let count = 0;
+    if (cached[country_name] > -1) {
+      count = arr[cached[country_name]].data.push(item);
+    } else {
+      const length = arr.push({ name: country_name, data: [item] })
+      cached[country_name] = length - 1
+      count = 1
+    }
+    if (next && (next.country_name !== country_name || count % perLine === 0)) {
+      lines += 1
+    }
+    showed = index + 1
+    if (showed < total) {
+      $('.action').show()
+    } else {
+      $('.action').hide()
+    }
+    return (lines >= limitLine)
+  })
+
+  arr.map(item => {
+    html += `<div class="line">
+      <div class="country">
+        <p>${ item.name }:</p>
+      </div>
+      <div class="shops">
+        ${ childe(item) }
+      </div>
+    </div>`
+  })
+  $('.content-list').append(html)
+}
+
+function handleRegions(data) {
+  const params = [...data]
+  let htmlRegionsChilde = ''
+  params.sort((a, b) => a.localeCompare(b))
+  if (!params.includes(optionAll2)) {
+    params.unshift(optionAll2)
+  }
+  params.map((item, index) => {
+    htmlRegionsChilde += `<option value="${ item == optionAll2 ? '' : item }">${ item }</option>`
+  })
+  $('.regions-childe').append(htmlRegionsChilde)
+}
+
+$(document).ready(function() {
+  let result = JSON.parse($('#wheretobuy').text()) 
+  let wheretobuyTwo = JSON.parse($('#wheretobuy_metafields_two').text()) 
+  let regionCountries = JSON.parse($('#regionCountries').text())
+  const { region_countries } = regionCountries.result
+  let { display_tabs, list, option_all2 } = result.result
+  let countries = (regionName && region_countries[regionName]) || [].concat(...Object.values(region_countries)) || []
+  type = display_tabs
+  optionAll2 = option_all2
+
+  if (wheretobuyTwo.data) {
+    const { data } = wheretobuyTwo.data
+    list = list.concat(data)
+  }
+
+  if (list.length) {
+    handleList(list)
+  }
+
+  if (countries.length) {
+    handleRegions(countries)   
+  }
+
+  $('.tab-item').each(function() {
+    if($(this).data('type') == type) {
+      $(this).addClass('active').siblings().removeClass('active')
+    } 
+  })
+
+  if (region_countries) {
+    let htmlRegions = ''
+    let handleRegion = Object.keys(region_countries).sort((a, b) => a.localeCompare(b))
+    handleRegion.map((item, index) => {
+      htmlRegions += `<option value="${ item }">${ item }</option>`
+    })
+    $('.regions').append(htmlRegions)
+  }
+
+  $('.tab-item').on('click', function() {
+    if (type == $(this).data('type')) return
+    $(this).addClass('active').siblings().removeClass('active')
+    type = $(this).data('type')
+    limitLine = 5
+    handleList(list)
+  })
+
+  $('.regions').change(function(){
+    countries = []
+    country = ''
+    limitLine = 5
+    regionName = $(this).val()
+    $('.regions-childe').empty()
+    countries = (regionName && region_countries[regionName]) || [].concat(...Object.values(region_countries)) || []
+    handleRegions(countries)
+    handleList(list)          
+  })
+
+  $('.regions-childe').change(function(){
+    limitLine = 5
+    country = $(this).val()
+    handleList(list)          
+  })
+
+  $('.action').on('click', function() {
+    limitLine += perPage 
+    handleList(list)   
+  })
+})
+</script>

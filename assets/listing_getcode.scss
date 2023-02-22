@@ -1,0 +1,185 @@
+.getcode_loop {
+  img {
+    width: 100%; height: 100%; object-fit: cover;
+    @media screen and (max-width: 768px) { object-position: center center; }
+  }
+  .loop_box { position: relative; width: 100%; height: 100%; }
+  .getcode {
+    position: absolute;
+    top: 50%; left: 50%; transform: translate(-50%, -50%);
+    text-align: center;
+    button {
+      cursor: pointer;
+      background: #21D2C5; color: #fff; border: none;
+      height: 50px; line-height: 50px; border-radius: 25px;
+      padding: 0 4rem; margin-top: 3vw; font-size: 24px;
+      @media screen and (max-width: 768px) {
+        font-size: 16px;
+        height: 36px; line-height: 36px; border-radius: 18px;
+      }
+      &.end { background: #767676; cursor: not-allowed; }
+    }
+    p {
+      color: #fff; font-size: 24px; margin-top: 1rem;
+      @media screen and (max-width: 1230px) { font-size: calc(24 / 1230 * 100vw); }
+      @media screen and (max-width: 768px) { font-size: 16px; }
+    }
+  }
+  .txt {
+    position: absolute;
+    top: 50%; left: 50%; transform: translate(-50%, -50%);
+    h3 { color: #fff; line-height: 1.2; font-weight: 700; font-size: 40px; }
+    width: 100%; max-width: 1200px; text-align: center;
+    @media screen and (max-width: 1200px) { padding: 0 1rem; }
+    @media screen and (max-width: 768px) {
+      top: 30%; width: 100%; text-align: center;
+    }
+  }
+  .loop_background {
+    pointer-events: none;
+    width: 100%; height: 100%;
+  }
+}
+.intl-tel-input { width: 100%;
+  .country-name{ color:#C4C4C4; }
+}
+.getcode_dialog {
+  position: fixed;
+  top: 0; bottom: 0; left: 0; right: 0;
+  background: rgba($color: #000000, $alpha: 0.9);
+  z-index: 50;
+  .code_box {
+    width: 90%;
+    max-width: 1000px;
+    position: absolute;
+    left: 50%; top: 50%; transform: translate(-50%, -50%);
+    background: rgba(48, 48, 48, 0.9);
+    .close {
+      position: absolute; right: 4rem; top: 4rem;
+      @media screen and (max-width: 768px) { right: 1rem; top: 1rem; }
+    }
+    p { color: #fff; }
+    .code_txt {
+      position: relative;
+      padding: 6rem 5vw; text-align: center; color: #fff;
+      max-height: 85vh; overflow: auto;
+      @media screen and (max-width: 768px) { padding: 2rem; }
+    }
+    .button {
+      margin-top: 3rem; padding: 0 7rem;
+      background: #21D2C5;
+      height: 50px; line-height: 50px; border-radius: 25px;
+      color: #fff; font-weight: 700; font-size: 16px;
+      border: none; cursor: pointer;
+      @media screen and (max-width: 768px) {
+        padding: 0 3rem;
+        height: 36px; line-height: 36px; border-radius: 18px;
+        margin-top: 2rem; padding: 0 3rem;
+      }
+    }
+    .getcode_box, .endcode_box {
+      .getcode_dialog_form {
+        max-width: 700px; margin: 4rem auto 0;
+        @media screen and (max-width: 768px) { margin: 2rem auto 0; }
+      }
+      .title {
+        color: #fff;
+        font-size: 60px; font-weight: 700; line-height: 1;
+        @media screen and (max-width: 1230px) { font-size: calc(60 / 1230 * 100vw); }
+        @media screen and (max-width: 768px) { font-size: 26px; margin-bottom: 1rem; }
+      }
+      .sub_tit {
+        font-size: 24px; font-weight: 700; line-height: 1;
+        @media screen and (max-width: 1230px) { font-size: calc(24 / 1230 * 100vw); }
+        @media screen and (max-width: 768px) { font-size: 16px; }
+      }
+      .desc {
+        margin: 2rem 0;
+        font-size: 16px; line-height: 1;
+        @media screen and (max-width: 1230px) { font-size: calc(16 / 1230 * 100vw); }
+        @media screen and (max-width: 768px) { font-size: 14px; margin: 1rem 0; }
+      }
+      input {
+        display: block; width: 100%;
+        margin-bottom: 1rem; background: #C4C4C4;
+        padding: 2% 2rem; border: none;
+        height: 46px; line-height: 46px; border-radius: 23px;
+        max-height: 500px;
+        @media screen and (max-width: 768px) { height: 36px; line-height: 36px; border-radius: 18px; }
+        @media screen and (max-width: 768px) { font-size: 14px; }
+      }
+      .tips {
+        text-align: left; margin-bottom: 2rem;margin-top: 1rem; padding-left: 2rem; opacity: 0.5;
+        @media screen and (max-width: 768px) { font-size: 12px; padding-left: 0; }
+      }
+      .policyBox {
+        text-align: left; padding-left: 2rem;
+        input { width: 20px; height: 20px; margin: 5px 0 0; }
+        label { display: flex; }
+        .policy_text { margin-left: 1rem; opacity: 0.5; }
+        @media screen and (max-width: 768px) {
+          padding: 0; opacity: 0.5;
+          input { width: 16px; height: 16px; margin: 2px 0 0; }
+          .policy_text { font-size: 12px;  margin-left: 5px; }
+        }
+        a { color: #fff; text-decoration: underline; }
+        a:hover { color: #21D2C5; }
+      }
+    }
+    .endcode_box {
+      .desc {
+        margin: 7rem 0; font-size: 26px; line-height: 1;
+        @media screen and (max-width: 1230px) { font-size: calc(26 / 1230 * 100vw); }
+        @media screen and (max-width: 768px) { font-size: 16px; margin: 5rem 0; line-height: 1.2; }
+      }
+      .button {
+        background: transparent;
+        border: 1px solid #ccc;
+        max-width: 25px;
+        margin: 3rem auto 0;
+        display: flex; justify-content: center; align-items: center;
+        i { font-size: 12px; margin-right: 1rem; }
+        span { font-weight: 400; line-height: 0.7; }
+      }
+    }
+    .showcode_box {
+      .title {
+        margin-bottom: 2rem; font-weight: 700;
+        font-size: 60px;
+        @media screen and (max-width: 1230px) { font-size: calc(60 / 1230 * 100vw); }
+        @media screen and (max-width: 768px) { font-size: 26px; margin-bottom: 1rem; }
+      }
+      .code {
+        font-size: 60px; color: #21D2C5; border-bottom: 3px solid;
+        @media screen and (max-width: 1230px) { font-size: calc(60 / 1230 * 100vw); }
+        @media screen and (max-width: 768px) { font-size: 26px; }
+      }
+      .copy {
+        color: #21D2C5; font-size: 24px; cursor: pointer; margin-top: 1rem;
+        @media screen and (max-width: 1230px) { font-size: calc(24 / 1230 * 100vw); }
+        @media screen and (max-width: 768px) { font-size: 16px; }
+      }
+      .date_txt {
+        font-size: 24px; margin-top: 1rem;
+        @media screen and (max-width: 1230px) { font-size: calc(24 / 1230 * 100vw); }
+        @media screen and (max-width: 768px) { font-size: 16px; }
+      }
+      .buttonBox {
+        margin-top: 4rem;
+        @media screen and (max-width: 768px) { margin-top: 2rem; }
+        .button {
+          display: table;
+          margin: 1rem auto 0;
+          padding: 0;
+          min-width: 350px;
+          i { font-size: 14px; margin-right: 1rem; }
+          @media screen and (max-width: 768px) { min-width: 0; width: 100%; margin: 1rem auto 0; }
+        }
+      }
+    }
+  }
+  .form_feedback_box {
+    margin-top: 2rem; color: red;
+    @media screen and (max-width: 768px) { margin-top: 1rem; }
+  }
+}

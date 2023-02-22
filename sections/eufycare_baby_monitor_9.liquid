@@ -1,0 +1,23 @@
+{% assign lang = product.metafields.global %}
+
+{% if lang.monitor.value %}
+  {% assign monitor = lang.monitor.value %}
+{% else %}
+  {% assign monitor = lang.monitor %}
+{% endif %}
+
+
+
+<div class="eufycare_monitor_9">
+  <div class="banner_9">
+    <img class="pc1_show lazyload" data-src="{{ monitor.bg9_img }}" alt="">
+    <img class="mob1_show lazyload" data-src="{{ monitor.bg9_img_mob }}" alt="">
+    <div class="banner_bg9_content">
+      <p class="bg9_p1">{{ monitor.bg9_p1 }}</p>
+      <p class="pc1_show bg9_p2">{{ monitor.bg9_p2 }}</p>
+      <p class="mob1_show bg9_p2">{{ monitor.bg9_p2_mob }}</p>
+    </div>
+  </div>
+</div>
+
+

@@ -1,0 +1,474 @@
+{% assign lang = page.metafields.global %}
+
+{% if lang.fixbar.value %}
+  {% assign fixbar = lang.fixbar.value %}
+{% else %}
+  {% assign fixbar = lang.fixbar %}
+{% endif %}
+
+{% if lang.section1.value %}
+  {% assign section1 = lang.section1.value %}
+{% else %}
+  {% assign section1 = lang.section1 %}
+{% endif %}
+
+{% if lang.section2.value %}
+  {% assign section2 = lang.section2.value %}
+{% else %}
+  {% assign section2 = lang.section2 %}
+{% endif %}
+
+{% if lang.section3.value %}
+  {% assign section3 = lang.section3.value %}
+{% else %}
+  {% assign section3 = lang.section3 %}
+{% endif %}
+
+{% if lang.section4.value %}
+  {% assign section4 = lang.section4.value %}
+{% else %}
+  {% assign section4 = lang.section4 %}
+{% endif %}
+
+{% if lang.section5.value %}
+  {% assign section5 = lang.section5.value %}
+{% else %}
+  {% assign section5 = lang.section5 %}
+{% endif %}
+
+{% if lang.section6.value %}
+  {% assign section6 = lang.section6.value %}
+{% else %}
+  {% assign section6 = lang.section6 %}
+{% endif %}
+
+{% if shop.metafields.global.country.value %}
+  {% assign country = shop.metafields.global.country.value %}
+{% else %}
+  {% assign country = shop.metafields.global.country %}
+{% endif %}
+
+
+<div class="cam3-content cam3-{{ country.code }}">
+  <ul class="fixbar subNav">
+    {% for item in fixbar %}
+      <li class="{% if forloop.first %}active{% endif %}"><a href="{{item.anchor}}">{{ item.text }}</a></li>
+    {% endfor %}
+  </ul>
+  <div class="section3" id="section3">
+    <h2>{{ section3.title }}</h2>
+    {% if section3.list.size > 1 %}
+      <ul class="tab" style="display:none">
+        {% for item in section3.list %}
+          <li>{{ item.date }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    <div class="item-wrap">
+      {% for item in section3.list %}
+        <div class="item-box">
+          <div class="item">
+            <div class="subscribe">
+              <h3>{{ item.subscribe.title }}</h3>
+              <p class="t1">{{ item.subscribe.subtitle }}</p>
+              <p class="t2"><a href="javascript:;" class="rulesBtn">{{ section3.subscribe.rules_btn }}</a></p>
+              <p class="t3" {% unless section3.subscribe.signedup %}style="display: none"{% endunless %}><span class="num"></span>{{ section3.subscribe.signedup }}</p>
+              {% render 'subscribe-form-cam3', 
+                snippets_id: item.deals_type,
+                deals_type: item.deals_type,
+                dataLayer: section3.subscribe.dataLayer,
+                policy_text: section3.subscribe.agreeText,
+                info_fill_email: section3.subscribe.info_fill_email,
+                info_err_email: section3.subscribe.info_err_email,
+                info_seccess: section3.subscribe.info_seccess,
+                info_select_policy: section3.subscribe.info_select_policy,
+                info_fill_captcha: section3.subscribe.info_fill_captcha,
+                submit_btn_txt: section3.subscribe.submit,
+                use_placeholders: section3.subscribe.placeholder,
+                info_err_title: section3.subscribe.info_err_title,
+                info_err_btn: section3.subscribe.info_err_btn,
+                info_success_title: section3.subscribe.info_success_title,
+                info_success_btn: section3.subscribe.info_success_btn
+              %}
+              <p class="comming">{{section3.subscribe.comming}}</p>
+              <p class="expired">{{section3.subscribe.expired}}</p>
+            </div>
+            <div class="prize">
+              <h3>{{ item.prize.title }}</h3>
+              <ul class="list">
+                {% for prize in item.prize.list %}
+                  <li>
+                      <div class="img-wrap">
+                        {% render 'lazyload_image',  
+                          src: prize.image,
+                          additional_classes: "prize-image" %}
+                        {% render 'lazyload_image',  
+                          src: prize.image_off,
+                          additional_classes: "prize-image-off" %}
+                      </div>
+                      <div class="text">
+                        <h4>{{ prize.title }}</h4>
+                        <p>{{ prize.subtitle }}</p>
+                      </div>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="section1" id="section1">
+    <h2>{{ section1.title }}</h2>
+    <div class="box">
+      {% render 'lazyload_image',  
+        src: section1.image,
+        additional_classes: "is-hidden-mobile-only" %}
+      <img data-src="https://cdn.shopify.com/s/files/1/0521/9411/5753/files/eco-_-final2.jpg?v=1663208383" class="is-hidden-mobile-only s_bg lazyload">
+      <img data-src="https://cdn.shopify.com/s/files/1/0521/9411/5753/files/20220915-104541.png?v=1663209961" class="is-hidden-mobile-only s_s1 lazyload">
+      <img data-src="https://cdn.shopify.com/s/files/1/0521/9411/5753/files/6_04dab33c-e2d8-4a48-8aa6-099141dd3f32.png?v=1663204766" class="is-hidden-mobile-only s_s2 lazyload">
+      <img data-src="https://cdn.shopify.com/s/files/1/0521/9411/5753/files/2_6ffca5b0-a827-4a05-a189-aa5829c0aed6.png?v=1662372019" class="is-hidden-mobile-only s_s3 lazyload">
+      <img data-src="https://cdn.shopify.com/s/files/1/0521/9411/5753/files/1_bdf96a99-9363-43d5-a50f-695398084b34.png?v=1662372020" class="is-hidden-mobile-only s_s4 lazyload">
+      <img data-src="https://cdn.shopify.com/s/files/1/0521/9411/5753/files/5_5d262cc4-5777-4be0-9bd7-b4c36504cd41.png?v=1663150882" class="is-hidden-mobile-only s_s5 lazyload">
+      <img data-src="https://cdn.shopify.com/s/files/1/0521/9411/5753/files/7_645b2531-04d6-4c99-804c-a1cc48f09755.png?v=1663204766" class="is-hidden-mobile-only s_s6 lazyload">
+      <img data-src="https://cdn.shopify.com/s/files/1/0521/9411/5753/files/s_3.png?v=1662466026" class="is-hidden-mobile-only s_s7 lazyload">
+      {% render 'lazyload_image',
+        src: section1.image_mob,
+        additional_classes: "is-hidden-desktop-only" %}
+      <p>{{ section1.subtitle }}</p>
+    </div>
+  </div>
+  <div class="section2" id="section2">
+    <h2>{{ section2.title }}</h2>
+    <ul class="box">
+      {% for item in section2.list %}
+        <li>
+          <div class="img-box img-box{{forloop.index}}">
+            {% for img in item.imgs %}
+              {% assign addClass = "p" | append: forloop.index %}
+              {% render 'lazyload_image',  
+                src: img,
+                additional_classes: addClass %}
+            {% endfor %}
+          </div>
+          <p>{{ item.text }}</p>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="section4" id="section4">
+    <h2>{{ section4.title }}</h2>
+    <div class="box">
+      {% render 'lazyload_image',  
+        src: section4.image,
+        additional_classes: "is-hidden-mobile-only" %}
+      {% render 'lazyload_image',
+        src: section4.image_mob,
+        additional_classes: "is-hidden-desktop-only" %}
+      <div class="text">
+        <h3>{{ section4.subtitle }}</h3>
+        <p>{{ section4.detail }}</p>
+        <div class="refer-wrap">
+          <a href="javascript:;" class="refer">{{ section4.btn }}</a>
+        </div>
+      </div>
+    </div> 
+  </div>
+  <div class="section5" id="section5">
+    <h2>{{ section5.title }}</h2>
+    <ul class="box">
+      {% for item in section5.list %}
+         <li>
+          {% render 'lazyload_image',  
+            src: item.bg,
+            additional_classes: "is-hidden-mobile-only" %}
+          <div class="text">
+            {% render 'lazyload_image',  
+              src: item.icon %}
+            <p>{{ item.text }}</p>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="section6" id="section6">
+    <h2>{{ section6.title }}</h2>
+    <ul class="box">
+      {% for item in section6.list %}
+        <li>
+          {% render 'lazyload_image',  
+            src: item.bg,
+            additional_classes: "is-hidden-mobile-only" %}
+          <div class="text">
+            {% render 'lazyload_image',  
+              src: item.icon %}
+            <p>{{ item.text }}</p>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="modal-wrap rule-modal">
+    <div class="modal">
+      <a href="javascript:;" class="close"></a>
+      <h3 class="modal-title">{{ section3.subscribe.rules_title }}</h3>
+      <div class="modal-content">
+        {{ section3.subscribe.rules }}
+      </div>
+    </div>
+  </div>
+  <div class="modal-wrap subscribe-wrap" style="display: none">
+    <div class="modal">
+      <a href="javascript:;" class="close"></a>
+      <h3 class="modal-title"></h3>
+      <div class="modal-content"></div>
+      <a href="javascript:;" class="confirm"></a>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.0/ScrollTrigger.min.js"></script>
+<script>
+  var timer = null;
+  function fixbar() {
+    $(".fixbar li").on("click", function() {
+      var lastIndex = $(".fixbar .active").index();
+      var index = $(this).index();
+      $(this).addClass("active").siblings("li").removeClass("active");
+      var anchor = $(this).find("a").attr("href");
+      var offset = $(anchor).offset().top - $(".fixbar").height();
+      if (index < lastIndex) {
+        offset -= $("#header").height() + 20;
+      }
+      {% comment %} if ($(window).width() > 798) {
+        offset -= $("#header").height() - 20;
+      } {% endcomment %}
+      window.removeEventListener('scroll', scrollMenu);
+      $('html, body').stop().animate({
+        scrollTop: offset
+      }, function() {
+        clearTimeout(timer);
+        timer = setTimeout(function() {
+          window.addEventListener('scroll', scrollMenu);
+        }, 100);
+      });
+      return false;
+    });
+  }
+
+  function progress() {
+    var arr = [];
+    {% for item in section3.list %}
+      arr.push("{{item.start}}");
+    {% endfor %}
+    var now = new Date();
+    var timestamp = now.getTime();
+    var index = 0;
+    arr.forEach((item, i) => {
+      var month = item.split(".")[0];
+      var date = item.split(".")[1];
+      now.setMonth(month - 1);
+      now.setDate(date);
+      if (timestamp >= now.getTime()) {
+        index = i;
+      }
+    });
+    $(".section3 li").eq(index).addClass("active").siblings("li").removeClass("active");
+    $(".section3 .item").eq(index).addClass("active").addClass("current");
+    $(".section3 .item").find(".policyBox input").prop("disabled", true);
+    $(".section3 .item").eq(index).find(".policyBox input").prop("disabled", false);
+    if (arr.length > 1) {
+      $(".section3 .item").each(function(i, item) {
+        if (i < index) {
+          $(this).find(".newsletter-form__wrapper, .comming").hide();
+        } else if (i === index) {
+          $(this).find(".comming, .expired").hide();
+        } else {
+          $(this).find(".newsletter-form__wrapper, .expired").hide();
+        }
+      });
+    } else {
+      $(".comming, .expired").hide();
+    }
+  }
+
+  function getStatus() {
+    grecaptcha.ready(() => {
+      grecaptcha.execute(ShopMetafields.recaptcha, { action: "ActivityCreate" }).then((recaptcha) => {
+        $.ajax({
+          headers: {
+            recaptcha: recaptcha,
+            "X-Shopify-Domain": "{{ shop.permanent_domain }}"
+          },
+          url: '/apps/pp/rainbowbridge/activities/{{section3.subscribe.genre}}/status',
+          type: 'GET',
+          contentType: "application/json",
+          dataType:"json",
+          success: (body) => {
+            $(".t3 .num").text(body.sign_up_counter);
+          },
+          error: (err) => {
+            console.log(err);
+          }
+        });
+      });
+    });
+  }
+
+  var offsets = [];
+  {% for item in fixbar %}
+    offsets.push($("{{item.anchor}}").offset().top);
+  {% endfor %}
+  $(window).on("load", function() {
+    offsets = [];
+    {% for item in fixbar %}
+      offsets.push($("{{item.anchor}}").offset().top);
+    {% endfor %}
+  });
+  function scrollMenu() {
+    var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+    var index = 0;
+    offsets.forEach(function(offset, i) {
+      if (scrollTop >= offset - 120) {
+        index = i;
+      }
+    });
+    $(".fixbar li").eq(index).addClass("active").siblings("li").removeClass("active");
+  }
+
+  $(function() {
+    getStatus();
+    fixbar();
+    progress();
+
+    window.addEventListener('scroll', scrollMenu);
+
+    $(".section3 .tab li").on("click", function() {
+      var index = $(this).index();
+      $(this).addClass("active").siblings("li").removeClass("active");
+      $(".section3 .item-box").eq(index).fadeIn().siblings().hide();
+      $(".section3 .item").eq(index).addClass("active").siblings(".item").removeClass("active");
+    });
+
+    $(".refer").on("click", function() {
+      $('.Friendbuy-ribbon-transition') && $('.Friendbuy-ribbon-transition').click();
+      dataLayer.push({
+        "event": "uaEvent", 
+        "eventCategory": "Activity Page_{{handle}}",
+        "eventAction": "referral_card",
+        "eventLabel": $(this).text(), //取按钮文案
+      });
+      window.dataLayer.push({ "event_parameters": null });
+      window.dataLayer.push({
+        "event": "ga4Event",
+        "event_name": "lp_button",
+        "event_parameters": {
+          "page_group": "Activity Page_{{handle}}",
+          "button_name": $(this).text(), //取按钮文案
+          "position": "referral_card" 
+        }
+      })
+    });
+
+    $(".rulesBtn").on("click", function() {
+      $(".rule-modal").fadeIn();
+    });
+
+    $(".modal-wrap .close").on("click", function() {
+      $(this).parents(".modal-wrap").fadeOut();
+    });
+
+    $(".subscribe-wrap .close, .subscribe-wrap .confirm").on("click", function() {
+      $(this).parents(".subscribe-wrap").fadeOut();
+    });
+
+    gsap.registerPlugin(ScrollTrigger);
+    gsap.timeline({
+      scrollTrigger: {
+        trigger: ".section1",
+        start: "top+=100 bottom",
+        end: "+=300",
+        scrub: true
+      }
+    })
+    .from(".section1 h2", {scale: 0.95, opacity: 0.2})
+    .from(".section1 .box", {scale: 0.95, opacity: 0.2});
+
+    gsap.timeline({
+      scrollTrigger: {
+        trigger: ".section2",
+        start: "top+=100 bottom",
+        end: "+=300",
+        scrub: true
+      }
+    })
+    .from(".section2 h2", {scale: 0.95, opacity: 0.2})
+    .from(".section2 .box", {scale: 0.95, opacity: 0.2});
+
+    if ($(window).width() <= 768) {
+      for (var i=2; i<=4; i++) {
+        gsap.timeline({
+          scrollTrigger: {
+            trigger: ".section2 .img-box" + i,
+            start: "top+=100 bottom",
+            end: "+=300",
+            scrub: true
+          }
+        })
+        .from(".section2 .img-box" + i, {scale: 0.95, opacity: 0.2});
+      }
+    }
+
+    gsap.timeline({
+      scrollTrigger: {
+        trigger: ".section3",
+        start: "top+=100 bottom",
+        end: "+=300",
+        scrub: true
+      }
+    })
+    .from(".section3 h2", {scale: 0.95, opacity: 0.2})
+    .from(".section3 .tab", {scale: 0.95, opacity: 0.2})
+    .from(".section3 .item-wrap", {scale: 0.95, opacity: 0.2});
+
+    gsap.timeline({
+      scrollTrigger: {
+        trigger: ".section4",
+        start: "top+=100 bottom",
+        end: "+=300",
+        scrub: true
+      }
+    })
+    .from(".section4 h2", {scale: 0.95, opacity: 0.2})
+    .from(".section4 .box", {scale: 0.95, opacity: 0.2});
+
+    gsap.timeline({
+      scrollTrigger: {
+        trigger: ".section5",
+        start: "top+=100 bottom",
+        end: "+=300",
+        scrub: true
+      }
+    })
+    .from(".section5 h2", {scale: 0.95, opacity: 0.2})
+    .from(".section5 .box", {scale: 0.95, opacity: 0.2});
+
+    gsap.timeline({
+      scrollTrigger: {
+        trigger: ".section6",
+        start: "top+=100 bottom",
+        end: "+=300",
+        scrub: true
+      }
+    })
+    .from(".section6 h2", {scale: 0.95, opacity: 0.2})
+    .from(".section6 .box", {scale: 0.95, opacity: 0.2});
+
+    $(window).on("resize", function() {
+      ScrollTrigger.refresh()
+    });
+
+  });
+</script>

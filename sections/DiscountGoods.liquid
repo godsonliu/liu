@@ -1,0 +1,727 @@
+{% if shop.metafields['global']['storefront_key'].value %}
+  {% assign authorization = shop.metafields['global']['storefront_key'].value %}
+{% else %}
+  {% assign authorization = shop.metafields['global']['storefront_key'] %}
+{% endif %}
+
+
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js" ></script>
+
+{{ 'DiscountGoods.scss.css' | asset_url | stylesheet_tag }}
+{% assign id = section.id %}
+{% assign custom_css = section.settings.custom_css %}
+
+{% style %}
+  {% if section.settings.box_title_family != blank -%}
+    {{ section.settings.box_title_family | font_face }}
+  {% endif %}
+
+  #box_product_goods_{{ id }}.discount_goods {
+    {%- if section.settings.box_background != blank -%}
+    background-color: {{ section.settings.box_background }};
+    {% endif %}
+
+    {%- if section.settings.box_background_img != blank -%}
+    background-image: url({{ section.settings.box_background_img | img_url: '1024x'}});
+    {% endif %}
+
+    {% if section.settings.box_margin > 0 %}
+    padding: {{ section.settings.box_margin }}px 0;
+    {% endif %}
+  }
+
+  @media screen and (max-width: 769px) {
+    #box_product_goods_{{ id }}.discount_goods {
+      {%- if section.settings.box_background_mobile_img != blank -%}
+      background-image: url({{ section.settings.box_background_mobile_img | img_url: '1024x'}});
+      {% endif %}
+    }
+  }
+
+  #box_product_goods_{{ id }}.discount_goods .box_title{
+    {%- if section.settings.box_title_font_size > 0 %}
+    font-size: {{ section.settings.box_title_font_size }}px;
+    {% endif %}
+
+    {% if section.settings.box_title_color != blank -%}
+    color: {{ section.settings.box_title_color }};
+    {% endif %}
+
+    {% if section.settings.box_title_family != blank -%}
+    font-family: {{ section.settings.box_title_family.family }};
+    {% endif %}
+  }
+  
+  {%- if section.settings.display_flex_center == true -%}
+  #box_product_goods_{{ id }}.discount_goods .model__container{
+      justify-content: center;
+    }
+  {% endif %}
+
+  {% if section.settings.goodsbox_border_radius > 0 %}
+  #box_product_goods_{{ id }}.discount_goods .discount_good {
+      border-radius: {{ section.settings.goodsbox_border_radius }}px;
+    }
+    #box_product_goods_{{ id }}.discount_goods .major_box {
+      border-radius: {{ section.settings.goodsbox_border_radius }}px;
+    }
+  {% endif %}
+
+  {% if section.settings.goodsbox_border_width > 0 %}
+    #box_product_goods_{{ id }}.discount_goods .discount_good {
+      border-width: {{ section.settings.goodsbox_border_width }}px;
+      border-style: solid;
+    }
+    #box_product_goods_{{ id }}.discount_goods .major_box {
+      border-width: {{ section.settings.goodsbox_border_width }}px;
+      border-style: solid;
+    }
+  {% endif %}
+
+  {% if section.settings.goodsbox_border_width > 0 and section.settings.goodsbox_border_color != blank %}
+    #box_product_goods_{{ id }}.discount_goods .discount_good {
+      border-color: {{ section.settings.goodsbox_border_color }};
+    }
+    #box_product_goods_{{ id }}.discount_goods .major_box {
+      border-color: {{ section.settings.goodsbox_border_color }};
+    }
+  {% endif %}
+
+  #box_product_goods_{{ id }} .addcart {
+    color: {{ section.settings.cart_color }};
+    background: linear-gradient(to right, {{ section.settings.cart_left_color }}, {{ section.settings.cart_right_color }});
+  }
+
+  #box_product_goods_{{ id }} .discount_p,
+  #box_product_goods_{{ id }} .copyBox .copybtn button {
+    color: {{ section.settings.price_color }};
+  }
+
+  #box_product_goods_{{ id }} .normal_p {
+    color: {{ section.settings.normal_color }};
+  }
+
+  #box_product_goods_{{ id }} .action .learnmore{
+    color: {{ section.settings.learn_more_color }};
+    border-color: {{ section.settings.learn_more_border_color }}; 
+    background-color: {{ section.settings.learn_more_bg_color }};
+  }
+
+  #box_product_goods_{{ id }} .action .buynow{
+    color: {{ section.settings.buynow_color }};
+    border-color: {{ section.settings.buynow_border_color }}; 
+    background-color: {{ section.settings.buynow_bg_color }};
+  }
+
+  {% if section.settings.discount_image %} 
+    #box_product_goods_{{ id }} .dicount_txt {
+      height: 60px;
+      top: 5px;
+      background-image: url({{ section.settings.discount_image | img_url: '' }})
+    }
+
+    #box_product_goods_{{ id }} .dicount_txt p {
+      padding: 13px 7px;
+      color: {{ section.settings.discount_color }}
+    }
+  {% endif %}
+
+  {% if section.settings.is_layout == 'left_right' %}
+    @media screen and (max-width: 769px) {
+      #box_product_goods_{{ id }} .discount_good {
+        display: flex;
+        padding: 0;
+      }
+
+      #box_product_goods_{{ id }} .copyBox {
+        margin-bottom: 5px;
+      }
+
+      #box_product_goods_{{ id }} .copyBox .copyAct {
+        padding: 5px 0;
+        font-size: 12px;
+      }
+
+      #box_product_goods_{{ id }} .discount_good .content {
+        max-width: 45%;
+        margin-bottom: 0;
+      }
+
+      #box_product_goods_{{ id }} .action {
+        width: 55%;
+        margin-top: 0;
+        padding: 1rem 10px;
+      }
+
+      #box_product_goods_{{ id }} .discount_good .content .product_a {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      #box_product_goods_{{ id }} .discount_good .content .product_a .imgbox {
+        height: 100%;
+        display: flex;
+        align-items: center;
+      }
+
+      #box_product_goods_{{ id }} .img {
+        width: 100%;
+      }
+
+    }
+  {% endif %}
+
+  {%- if custom_css != blank -%}
+    {{ custom_css }}
+  {% endif %}
+{% endstyle %}
+
+<div id="box_product_goods_{{ id }}" class="discount_goods discount_goods__{{ section.settings.branch_style }}">
+  <h1 class="box_title">
+    {{ section.settings.box_title }}
+  </h1>
+  <div class="model__container">
+  </div>
+</div>
+
+<script type="text/template" id="discount_goods_template">
+  <% for (var i=0; i<products.length; i++){ %>
+    <% var item = products[i]; %>
+    <% var v_id = item.variant_shopify_id; %>
+    <% var metadata = item.variant_metafields.find(e => e.key === 'related_variant'); %>
+    <% var metaSkus = metadata && metadata.value && JSON.parse(metadata.value); %>
+    <% if (metaSkus && metaSkus.length > 0){ %>
+      <% for (var m=0; m<metaSkus.length; m++){ %>
+        <% v_id = v_id + ',' + metaSkus[m].id; %>
+      <% } %>
+    <% } %>
+
+    <div class="discount_goods_box">
+      <div class="discount_good">
+        <div class="content">
+          <a class="product_a" href="/products/<%- item.handle %>{{ section.settings.track }}{% if section.settings.track != blank %}&{% else %}?{% endif %}variant=<%- v_id %>" target="_blank" rel="noopener noreferrer">
+            <div class="imgbox">
+              {% unless section.settings.hide_discount %}
+              <div class="dicount_txt">
+                <p>
+                  <span><%- item.discount_text %></span>
+                  <span>{{ section.settings.off_text }}</span>
+                </p>
+              </div>
+              {% endunless %}
+              <img class="img lazyload" data-src="<%- item.variant_image %>" alt="">
+            </div>
+          </a>
+        </div>
+        <div class="action">
+          <p class="title"><%- item.product_title %></p>
+          <p class="price">
+            <span class="discount_p">
+              {% if section.settings.hide_discount %}
+              ???.??
+              {% else %}
+              <%- item.discount_price %>
+              {% endif %}
+            </span>
+            <span class="normal_p"><%- item.price %></span>
+          </p>  
+          {% if section.settings.hide_discount %}
+            <p class="hidep">
+              {{ section.settings.hide_discount_txt }}
+            </p>
+          {% else %}
+            {% if section.settings.display_copyCode %}
+              <div class="copyBox">
+                <span class="copyAct">
+                  <span class="codeformat">{{ section.settings.codeTxt }}</span>
+                  <span class="codeTxt"><%- item.title %></span>
+                  <span class="copybtn">
+                    <button type="button" class="clipboard_btn" data-clipboard-text="<%- item.title %>">{{ section.settings.copyTxt }}</button>
+                  </span>
+                </span>
+              </div>
+            {% endif %}
+          {% endif %}
+
+          {% if section.settings.display_addcart %}
+            <button class="button button-normal addcart" data-v_id="<%- v_id %>">
+              {{ section.settings.addcart_text }}
+            </button>
+          {% endif %}
+
+          {% if section.settings.display_learnmore %}
+            <a class="button button-normal learnmore" href="/products/<%- item.handle %>{{ section.settings.track }}{% if section.settings.track != blank %}&{% else %}?{% endif %}variant=<%- v_id %>" target="_blank" rel="noopener noreferrer">
+              {{ section.settings.learnmore_text }}
+            </a>
+          {% endif %}
+
+          {% unless section.settings.hide_discount %}
+            {% if section.settings.display_buynow %}
+              <button class="button button-normal buynow" data-v_id="<%- v_id %>">
+                {{ section.settings.buynow_text }}
+              </button>
+            {% endif %}
+          {% endunless %}
+
+        </div>
+      </div>  
+    </div>
+  <% } %>
+</script>
+
+
+<script>
+  $(document).on('shopify:section:load', function(e){
+    var design_mode_discount_goods = localStorage.getItem('design_mode_discount_goods');
+    if (design_mode_discount_goods) {
+      renderDiscountProduct(JSON.parse(design_mode_discount_goods))
+    }
+  })
+  $(document).ready(function() {
+    var params = "";
+    {% for block in section.blocks %}
+      params += "&product_types[]={{ block.settings.filter_type }}";
+    {% endfor %}
+    {% if section.settings.sort_key != blank %}
+      params += "&sort_key={{ section.settings.sort_key }}";
+    {% endif %}
+
+    $.ajax({
+      headers: Shopify.contentCreator.pastApi.getHeaders(),
+      url: `/apps/pp/shopifyservices/coupons/by_shop?shopify_domain=${Shopify.shop}${params}`, 
+      type: 'GET',
+      success: function(body) {
+        if (body && body.length > 0) {
+          renderDiscountProduct(body)
+          if (Shopify.designMode) {
+            localStorage.setItem('design_mode_discount_goods', JSON.stringify(body))
+          }
+        } else {
+          $('#box_product_goods_{{ id }}').css('display', 'none');
+        }
+      }
+    });
+
+    function HTMLDecode(text) { 
+      var temp = document.createElement("div"); 
+      temp.innerHTML = text; 
+      var output = temp.innerText || temp.textContent; 
+      temp = null; 
+      return output; 
+    }
+
+    $('#box_product_goods_{{ id }} .model__container').on('click', '.buynow', function() {
+      var v_id = $(this).attr('data-v_id');
+      var idArr = v_id.split(',');
+      var line_items = [];
+      idArr.map(item => {
+        line_items.push({ variant_id: item, quantity: 1 })
+      })
+      Shopify.theme.bundleBuynow({
+        authorization: "{{ authorization }}",
+        checkout: {
+          line_items: line_items,
+          presentment_currency: "{{ shop.currency }}",
+          is_upstream_button: true,
+          page_type: "product",
+          secret: true,
+          wallet_name: "Checkout"
+        },
+        onSuccess: () => {},
+        onError: err => {
+          this.isBuynow(false);
+          $.dialog({ title: err.message, content: err.description, type: 'red' });
+        }
+      });
+    })
+
+    $('#box_product_goods_{{ id }} .model__container').on('click', '.addcart', function() {
+      var v_id = $(this).attr('data-v_id');
+      var idArr = v_id.split(',');
+      var variants = [];
+      idArr.map(item => {
+        variants.push({ id: item, quantity: 1 })
+      })
+      Shopify.theme.addItemsToCart(variants, {
+        onError: err => $.dialog({ title: err.message, content: err.description, type: 'red' })
+      })
+    })
+  
+  })
+
+  function renderDiscountProduct(datas) {
+    var $discount_goods = $('#box_product_goods_{{ id }}');
+    var $model_tmpl = $('script#discount_goods_template');
+    var products = datas.map(val => {
+      var discount = val.value && (parseInt(val.value.replace('-', '')) * 100);
+      var value_style = val.value_style && val.value_style;
+      var discount_text = val.value_type === 'fixed_amount' ? value_style : `${discount / 100}%`
+      return {
+        ...val,
+        discount_text,
+        price: Shopify.formatMoney(parseFloat(val.variant_price) * 100, $('body').data('money-format')),
+        discount_price: Shopify.formatMoney(parseFloat(val.variant_price4wscode) * 100, $('body').data('money-format')),
+      }
+    });
+    // var series_products = series_all_products.filter(v => v.tags.split(', ').some(tag => tag === query_tag));
+    $discount_goods.find('.model__container').html($.tmpl($model_tmpl, { products: products }));
+
+    var clipboard = new ClipboardJS('#box_product_goods_{{ id }} .clipboard_btn');
+    clipboard.on('success', e => {
+      const text = e.trigger.innerText;
+      e.trigger.innerText = '{{ section.settings.copiedTxt }}';
+      setTimeout(() => e.trigger.innerText = text, 3000);
+      e.clearSelection();
+    });
+  }
+
+</script>
+
+{% schema %}
+{
+  "name": "Auto Discount Product",
+  "presets": [
+    {
+      "category": "Custom Dynamic Sections",
+      "name": "Auto Discount Product"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "filter",
+      "name": "Filter",
+      "settings": [
+        {
+          "type": "text",
+          "id": "filter_type",
+          "label": "Filter Type",
+          "info": "填写筛选产品的type"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type":"select",
+      "id":"is_layout",
+      "label": "布局方式",
+      "options":[
+        {
+          "value":"top_bottom",
+          "label":"上下布局"
+        },
+        {
+          "value":"left_right",
+          "label":"左右布局"
+        }
+      ]
+    },
+    {
+      "type": "image_picker",
+      "id": "discount_image",
+      "label": "角标图片"
+    },
+    {
+      "type": "color",
+      "id": "discount_color",
+      "label": "角标文字颜色",
+      "default": "#fff"
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_discount",
+      "label": "隐藏折扣价",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "hide_discount_txt",
+      "label": "隐藏折扣价 tip 文案",
+      "default": "Lowest price of the year"
+    },
+    {
+      "type": "radio",
+      "id": "sort_key",
+      "label": "排序规则",
+      "options": [
+        {
+          "value": "percentage",
+          "label": "按百分比排序"
+        },
+        {
+          "value": "fixed_amount",
+          "label": "按折扣金额排序"
+        }
+      ],
+      "default": "percentage"
+    },
+    {
+      "type": "html",
+      "id": "box_title",
+      "label": "模块标题"
+    },
+    {
+      "type": "color",
+      "id": "box_title_color",
+      "label": "模块标题颜色"
+    },
+    {
+      "type": "font_picker",
+      "id": "box_title_family",
+      "label": "模块标题使用的字体",
+      "default": "helvetica_n4"
+    },
+    {
+      "type": "range",
+      "id": "box_title_font_size",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "label": "模块标题字体大小",
+      "default": 28
+    },
+    {
+      "type": "header",
+      "content": "样式 配置"
+    },
+    {
+      "type": "radio",
+      "id": "branch_style",
+      "label": "基准样式",
+      "options": [
+        {
+          "value": "Anker",
+          "label": "Anker"
+        },
+        {
+          "value": "Eufy",
+          "label": "Eufy"
+        },
+        {
+          "value": "EufySecurity",
+          "label": "EufySecurity"
+        },
+        {
+          "value": "Soundcore",
+          "label": "Soundcore"
+        },
+        {
+          "value": "Nebula",
+          "label": "Nebula"
+        },
+        {
+          "value": "EufyFD",
+          "label": "Eufy Black Friday"
+        },
+        {
+          "value": "EufyCM",
+          "label": "Eufy Black christmas"
+        }
+      ],
+      "default": "Anker"
+    },
+    {
+      "type": "checkbox",
+      "id": "display_flex_center",
+      "label": "产品居中排序(默认左对齐)"
+    },
+    {
+      "type": "color",
+      "id": "box_background",
+      "label": "模块整体的 Background"
+    },
+    {
+      "type": "image_picker",
+      "id": "box_background_img",
+      "label": "模块整体的 Background Img"
+    },
+    {
+      "type": "image_picker",
+      "id": "box_background_mobile_img",
+      "label": "模块整体手机端的 Background Img"
+    },
+    {
+      "type": "range",
+      "id": "box_margin",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "label": "模块的上下边距 margin",
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "goodsbox_border_color",
+      "label": "产品盒子的 border-color"
+    },
+    {
+      "type": "range",
+      "id": "goodsbox_border_width",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "label": "产品盒子的 border-width",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "goodsbox_border_radius",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "label": "产品盒子的 border-radius",
+      "default": 0
+    },
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Custom CSS",
+      "info": "自定义样式（注意：请按照标准的css语法添加样式）"
+    },
+    {
+      "type": "header",
+      "content": "按钮和文案 配置"
+    },
+    {
+      "type": "text",
+      "id": "off_text",
+      "label": "Discount OFF Text",
+      "default": "OFF"
+    },
+    {
+      "type": "checkbox",
+      "id": "display_copyCode",
+      "label": "Show CopyCode",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "codeTxt",
+      "label": "Code Text",
+      "default": "CODE: "
+    },
+    {
+      "type": "text",
+      "id": "copyTxt",
+      "label": "Copy Text",
+      "default": "Copy"
+    },
+    {
+      "type": "color",
+      "id": "price_color",
+      "label": "价格和copy文字颜色",
+      "default": "#e3bc6d"
+    },
+    {
+      "type": "color",
+      "id": "normal_color",
+      "label": "normal价格文字颜色",
+      "default": "#000"
+    },
+    {
+      "type": "text",
+      "id": "copiedTxt",
+      "label": "Copied Text",
+      "default": "Copied"
+    },
+    {
+      "type": "checkbox",
+      "id": "display_buynow",
+      "label": "Show BuyNow",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "buynow_color",
+      "label": "Buy Now 按钮文字颜色",
+      "default": "#e3bc6d"
+    },
+    {
+      "type": "color",
+      "id": "buynow_bg_color",
+      "label": "Buy Now 按钮背景颜色",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "buynow_border_color",
+      "label": "Buy Now 按钮边框颜色",
+      "default": "#e3bc6d"
+    },
+    {
+      "type": "text",
+      "id": "buynow_text",
+      "label": "BuyNow Text",
+      "default": "BUY NOW"
+    },
+    {
+      "type": "checkbox",
+      "id": "display_addcart",
+      "label": "Show AddCart",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "cart_color",
+      "label": "Add Cart 按钮文字颜色",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "cart_left_color",
+      "label": "Add Cart 按钮背景颜色",
+      "default": "#bb964b"
+    },
+    {
+      "type": "color",
+      "id": "cart_right_color",
+      "label": "Add Cart 按钮背景颜色",
+      "default": "#e1bd6e"
+    },
+    {
+      "type": "text",
+      "id": "addcart_text",
+      "label": "AddCart Text",
+      "default": "Add To Cart"
+    },
+    {
+      "type": "checkbox",
+      "id": "display_learnmore",
+      "label": "Show LearnMore",
+      "default": true
+    },
+    
+    {
+      "type": "text",
+      "id": "learnmore_text",
+      "label": "LearnMore Text",
+      "default": "Learn More"
+    },
+    {
+      "type": "color",
+      "id": "learn_more_color",
+      "label": "LearnMore 文字颜色",
+      "default": "#e3bc6d"
+    },
+    {
+      "type": "color",
+      "id": "learn_more_bg_color",
+      "label": "LearnMore 背景颜色",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "learn_more_border_color",
+      "label": "LearnMore 边框线颜色",
+      "default": "#e3bc6d"
+    },
+    {
+      "type": "text",
+      "id": "track",
+      "label": "Learn More 埋点追踪"
+    }
+  ]
+}
+{% endschema %}

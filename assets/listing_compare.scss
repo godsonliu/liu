@@ -1,0 +1,121 @@
+.listing_compare {
+  padding: 53px 0;
+
+  @media (max-width: 768px) {
+    padding: 24px 16px;
+  }
+
+  margin: auto;
+  max-width: 1200px;
+  font-family: Open Sans;
+  color: #000;
+
+  .listing_compare_title {
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 14px;
+    font-size: 24px;
+
+    @media (max-width: 768px) {
+      font-size: 16px;
+      font-weight: 700;
+      text-align: left;
+    }
+  }
+
+  .flexBox {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: stretch;
+
+    @media (max-width: 768px) {
+      justify-content: start;
+    }
+
+    .item {
+      //max-width: 33.3%;
+      width: 300px;
+      margin-right: 30px;
+      padding-left: 42px;
+
+      //padding: 0 32px 0 32px;
+      @media (max-width: 768px) {
+        max-width: 48%;
+        padding-left: 0;
+        margin-right: 2%;
+
+        &:nth-child(2n) {
+          margin-right: 0;
+        }
+      }
+
+      img {
+        width: 218px;
+        height: 218px;
+
+        @media (max-width: 768px) {
+          width: 158px;
+          height: 158px;
+        }
+      }
+
+      .name {
+        // height: 22px;
+        // line-height: 22px;
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 8px;
+        min-height: 48px;
+
+        @media (max-width: 768px) {
+          font-size: 14px;
+          min-height: 42px;
+        }
+      }
+
+      .price {
+        height: 22px;
+        line-height: 22px;
+        font-size: 16px;
+        font-weight: 400;
+        margin-bottom: 16px;
+
+        @media (max-width: 768px) {
+          font-size: 14px;
+          margin-bottom: 10px;
+        }
+      }
+
+      a {
+        color: #21d2c5;
+        font-size: 14px;
+        font-weight: 400;
+        height: 19px;
+        line-height: 19px;
+      }
+
+      .info {
+        margin-top: 16px;
+
+        p {
+          // height: 19px;
+          // line-height: 19px;
+          line-height: 1.3;
+          font-size: 14px;
+          font-weight: 400;
+          color: #7d7d7d;
+          margin-bottom: 10px;
+
+          @media (max-width: 768px) {
+            font-size: 12px;
+          }
+
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
+  }
+}

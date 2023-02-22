@@ -1,0 +1,61 @@
+<section class="mach-compare-page3" id="mach_compare_specs">
+  <div class="mach-compare-page3-title">{{ section.settings.title }}</div>
+  <div class="mach-compare-line"></div>
+  <div class="mach-compare-page3-content">
+    {% for block in section.blocks %}
+    <div class="page3-content-item">
+      <div class="item-img">
+        <img class="lazyload" data-src="{{ block.settings.item_bg | image_url }}" />
+      </div>
+      <div class="item-title">{{ block.settings.item_title }}</div>
+      <div class="item-desc">
+        {% assign variable = block.settings.item_desc | split: '+' %}
+        {% for desc_item in variable %}
+        <div class="item-desc-text">{{ desc_item }}</div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "Mach Compare Page 3",
+    "presets": [{
+        "category": "Mach Compare Page 3",
+        "name": "Mach Compare Page 3"
+    }],
+    "settings": [
+      {
+        "type": "html",
+        "id": "title",
+        "label": "标题"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "page3_item",
+        "name": "page3_item",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "item_bg",
+            "label": "产品图片"
+          },
+          {
+            "type": "html",
+            "id": "item_title",
+            "label": "产品标题"
+          },
+          {
+            "type": "html",
+            "id": "item_desc",
+            "label": "产品特点",
+            "info": "特点之间用+符合 分割"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

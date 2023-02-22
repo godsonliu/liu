@@ -1,0 +1,647 @@
+{% assign section_id = 'shopify-section-' | append: section.id %}
+{% if section.settings.custom_style != blank %}
+{% assign custom_style = section.settings.custom_style %}
+{% else %}
+{% assign custom_style = '2' %}
+{% endif %}
+
+{% if section.settings.item_text_align != blank %}
+{% assign item_text_align = section.settings.item_text_align %}
+{% else %}
+{% assign item_text_align = 'center' %}
+{% endif %}
+<style>
+{% comment %} #{{section_id}} .component_nav_v2_dn {
+  display: none !important;
+} {% endcomment %}
+#{{section_id}} .custom-page-nav-contianer {
+  position: relative;
+  z-index: 10;
+}
+#{{section_id}} .component_nav_{{section.id}} {
+  width: 100%;
+  text-align: {{ item_text_align }};
+  margin: 0 auto;
+  overflow-x: auto;
+  white-space: nowrap;
+  background: {% if section.settings.box_bg != blank %} {{ section.settings.box_bg }} {% else %} #fff {% endif %};
+  max-width: {{section.settings.box_width}};
+}
+#{{section_id}} .component_nav_{{section.id}}::-webkit-scrollbar {
+  display: none;
+}
+#{{section_id}} .component_nav_{{section.id}}.fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 99;
+  transition: transform .3s, opacity .25s;
+  will-change: transform;
+  visibility: visible;
+  opacity: 1;
+}
+#{{section_id}} .component_nav_{{section.id}} .component-nav-item {
+  display: inline-block;
+  font-weight: 500;
+  font-size: 16px;
+  margin-right: 60px;
+  outline: none;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+	-webkit-tap-highlight-color: transparent;
+  color: {% if section.settings.text_color != blank %}{{section.settings.text_color}}{% else %}#fff{% endif %};
+  background: {{section.settings.item_bg}};
+}
+#{{section_id}} .component_nav_{{section.id}} .component-nav-item:last-child {
+  margin-right: 0;
+}
+
+
+{% if custom_style == '1' %}
+#{{section_id}} .component_nav_{{section.id}} {
+  padding: 15px 20px;
+}
+#{{section_id}} .component_nav_{{section.id}} .component-nav-item {
+  border: 1px solid {{ section.settings.item_border_color }};
+  padding: 10px 24px;
+  border-radius: {% if section.settings.item_radius != blank %} {{section.settings.item_radius}} {% else %} var(--button_border_radius) {% endif %};
+}
+#{{section_id}} .component_nav_{{section.id}} .component-nav-item-light {
+  font-weight: 700;
+  color: {% if section.settings.light_text_color != blank %}{{section.settings.light_text_color}} {% else %} #fff {% endif %};
+  border-color: {% if section.settings.light_item_border_color != blank %} {{section.settings.light_item_border_color}} {% else %} var(--light_color) {% endif %};
+  background: {% if section.settings.light_item_bg != blank  %} {{section.settings.light_item_bg}} {% else %} var(--light_color) {% endif %};
+}
+@media(max-width: 769px) {
+  #{{section_id}} .component_nav_{{section.id}} {
+    padding: 7px 10px;
+  }
+  #{{section_id}} .component_nav_{{section.id}} .component-nav-item {
+    margin-right: 20px;
+    padding: 8px 16px;
+  }
+}
+{% endif %}
+
+
+
+{% if custom_style == '2' %}
+#{{section_id}} .component_nav_{{section.id}} {
+  padding: 0 10px;
+}
+#{{section_id}} .component_nav_{{section.id}} .component-nav-item {
+  border-bottom: 2px solid transparent;
+  padding: 26px 0;
+}
+#{{section_id}} .component_nav_{{section.id}} .component-nav-item-light {
+  color: {% if section.settings.light_text_color != blank %}{{section.settings.light_text_color}} {% else %} #fff {% endif %};
+  border-color: {% if section.settings.light_item_border_color != blank %} {{section.settings.light_item_border_color}} {% else %} var(--light_color) {% endif %};;
+}
+@media(max-width: 769px) {
+  #{{section_id}} .component_nav_{{section.id}} {
+    padding: 0 10px;
+  }
+  #{{section_id}} .component_nav_{{section.id}} .component-nav-item {
+    margin-right: 20px;
+    padding: 15px 0;
+  }
+}
+{% endif %}
+
+#{{section_id}} .component_nav_v2 .sign_up  {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+  padding: 5px 30px;
+  background: #EF3340;
+  border-radius: 50px;
+  color: #fff;
+  cursor: pointer;
+  border: none;
+}
+#{{section_id}} .component_nav_v2 .sign_up_mobile {
+  display: none;
+}
+div[id~="ribbon_container"] {
+  display: none;
+}
+
+@media(max-width: 769px) {
+  #{{section_id}} .component_nav_v2 .sign_up {
+    z-index: 29;
+    position: fixed;
+    right: 0;
+    top: 50%;
+    transform: translateX(37%) rotateZ(90deg);
+  }
+}
+@media(max-width: 769px) {
+  .showPc {
+    display: none;
+  } 
+}
+@media(min-width: 769px) {
+  .showMobile {
+    display: none;
+  } 
+}
+
+</style>
+
+
+<section class="component_nav_v2 component_nav_v2_dn {{section.settings.custom_class}}">
+  
+  <div class="custom-page-nav-contianer">
+    <div class="component-nav component_nav_{{section.id}} custom-page-nav-box">
+      {% for block in section.blocks %}
+      {% if block.type == 'nav_item' %}
+      <a  class="component-nav-item custom-page-nav-item">{{ block.settings.item_txt }}</a>
+      {% endif %}
+      {% endfor %}
+      <button class="sign_up showPc">{{ section.settings.sign_up }}</button>
+    </div>
+    <button class="sign_up sign_up_mobile showMobile">{{ section.settings.sign_up }}</button>
+  </div>
+</section>
+
+{% 
+  render 'mach_popup',  
+  email_placeholder: section.settings.email_placeholder,
+  email_error: section.settings.email_error,
+  plocy_err: section.settings.plocy_err,
+  agree_txt: section.settings.agree_txt
+  type: 3
+%}
+
+
+<script>
+
+  {% capture navlist %}
+  {% if section.blocks %}
+    {% for block in section.blocks %}
+      {% if block.type == 'nav_item' %}
+      {"label":"{{ block.settings.item_txt }}","id":"{{  block.settings.item_id }}"}
+      {% if forloop.last == false %},{% endif %}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+  {% endcapture %}
+
+$(function () {
+    let navlist = JSON.parse(`[{{navlist | strip | strip_newlines }}]`)
+    let w = $(window).width()
+    let pageNavH = $('#{{section_id}} .custom-page-nav-box').height()
+    let scrollPoint = []
+    let siteNavH = 0
+    let isNavClick = true
+    let offset = 100
+    let index
+    let scrollAction = {
+      x: 'undefined', 
+      y: 'undefined'
+    }
+
+    init()
+
+    function init() {
+      dataInit()
+      event()
+      scroll()
+    }
+
+    function dataInit() {
+      navlist.map(item => {
+        scrollPoint.push(item.id)
+      })
+    }
+
+
+    function getScrollOffset() {
+      let arr = []
+      
+      scrollPoint.map(item => {
+        arr.push($(`#${item}`)[0] && $(`#${item}`)[0].offsetTop - offset)
+      })
+      return arr
+    }
+
+    function updateOverflowx() {
+      let w = document.body.clientWidth
+      if(w < 769) {
+        let scrollLeftEle = document.querySelector('.component-nav-item-light')
+        scrollLeftEle?.scrollIntoView({ inline: "center" })
+      }
+    }
+
+    function event() {
+      $('#{{section_id}} .custom-page-nav-item').on('click', function() {
+        const idx = $(this).index()
+        const arr = getScrollOffset()
+        isNavClick = false
+        index = idx
+        $(this).addClass('component-nav-item-light').siblings().removeClass('component-nav-item-light')
+        $('html,body').animate({
+          scrollTop: arr[idx]
+        }, 500, 'swing', function () {
+        })
+        updateOverflowx()
+      })
+    }
+
+    function navAct(idx) {
+      $('#{{section_id}} .custom-page-nav-item').eq(idx).addClass('component-nav-item-light').siblings().removeClass('component-nav-item-light')
+      console.log('????')
+      updateOverflowx()
+    }
+
+    function scroll() {
+      let timer
+      let flag = false
+
+      w = $(window).width()
+      siteNavH = w > 768 ? $('#header').height() : $('#mobile-header').height() 
+
+      $('#{{section_id}} .custom-page-nav-contianer').height(pageNavH)
+
+      document.addEventListener('scroll', function() {
+        handle_fixed()
+        const offsetTop = $('#{{section_id}} .custom-page-nav-contianer')[0].offsetTop
+        const scrollTop = $(window).scrollTop()
+        const stArr = getScrollOffset()
+        siteNavH = w > 768 ? $('#header').height() : $('#mobile-header').height() 
+        siteNavH = siteNavH + ($('#shopify-section-header__icon-bar').length && $('#shopify-section-header__icon-bar').height())
+        timer && clearTimeout(timer) 
+        const $navBox = $('#{{section_id}} .custom-page-nav-box')
+        if(scrollTop > offsetTop) {
+          if( w > 768) {
+            $navBox.addClass('fixed').css('transform', 'none').parents('.custom-page-nav-contianer').css('z-index', '50')
+          } else {
+            $navBox.addClass('fixed')
+            if(getScrollDir() === 'up') {
+              $navBox.css('transform', 'translateY('+ siteNavH +'px)')
+              if(!flag) timer = setTimeout(() => {
+                $('#{{section_id}} .custom-page-nav-contianer').css('z-index', '10')
+                flag = true
+              }, 300)
+            }else {
+              $navBox.css('transform', 'none').parents('.custom-page-nav-contianer').css('z-index', '50')
+              flag = false
+            }
+          }
+        } else {
+          $navBox.removeClass('fixed').css('transform', 'none').parents('.custom-page-nav-contianer').css('z-index', '10')
+        }
+
+        if (scrollTop>=stArr[index]) {
+          isNavClick = true
+        }
+
+        if(isNavClick) {
+          stArr.forEach(function(item,i_dex) {
+            if( scrollTop >= item && (stArr[i_dex+1] ? scrollTop < stArr[i_dex+1] : true) ) {
+              navAct(i_dex)
+            }
+          })
+        }
+      })
+    }
+
+    function getScrollDir() {
+      let dir = ''
+      if (typeof scrollAction.x == 'undefined') {
+        scrollAction.y = window.pageYOffset
+      }
+      const diffY = scrollAction.y - window.pageYOffset
+      if (diffY < 0) {
+        dir = 'down'
+      } else if (diffY > 0) {
+        dir = 'up'
+      }
+      scrollAction.y = window.pageYOffset
+      return dir
+    }
+
+    $('#{{section_id}} .sign_up').click(function() {
+      const title = "{{ section.settings.popup_title }}";
+      const desc = "{{ section.settings.popup_desc }}";
+      const button_txt = '{{ section.settings.button_txt }}';
+      $('#{{ section_id }} .live-chat-popup-div').trigger('show-event', {
+        title,
+        desc,
+        button_txt
+      })
+      dataLayer.push({
+        "event": "uaEvent", 
+        "eventCategory": 'sign_up',
+        "eventAction":  'sticky',
+        "eventLabel": "{{ page.handle }}", 
+      })
+      window.dataLayer.push({ "event_parameters": null });
+      window.dataLayer.push({
+        "event": "ga4Event",
+        "event_name": "sign_up",
+        "event_parameters": {
+          "page_group": '{{ page.handle }}',
+          "position": "sticky"
+        }
+      })
+    })
+
+    function subscribe_activities_emails ({ email, callback }) {
+      const data = {
+        email: email,
+        brand: 'eufy',
+        phone_number: null,
+        genre: '{{ section.settings.deals_type  }}',
+        single_brand_subscribe: false,
+        shopify_domain: "{{ shop.permanent_domain }}",
+        country_code: "{{ localization.country.iso_code }}",
+        trigger_subscribe: true,
+        register_source: window.location.href
+      }
+
+      window?.mach_utils?.machRequest({
+        url: '/warm/subscribe',
+        method: 'POST',
+        params: data,
+        fn: (body) => {
+          $('#{{section_id}} .live-chat-popup-div').hide()
+          if(body.code == 200) {
+            typeof callback === 'function' && callback()
+          }else if( body.code == 201) {
+            $('#{{ section_id }} .live-chat-popup-div').trigger('show-event', {
+              email,
+              title: '{{ section.settings.resub_popup_title }}',
+              desc: '{{ section.settings.resub_popup_desc }}',
+              button_txt: '{{ section.settings.Okay }}'
+            })
+          }
+        },
+        error: (err) => {
+          const { responseJSON } = err || {};
+        }
+      });
+    }
+
+    $(document).on('mach_popup_submit', function(event, { type, email }) {
+      if(type == 3) {
+        subscribe_activities_emails({
+          email,
+          callback: function() {
+            $.cookie('mach_user_email', email, { path: '/', expires: 14   } );
+            $('#{{ section_id }} .live-chat-popup-div').trigger('show-event', {
+              email,
+              title: '{{ section.settings.popup_title_3 }}',
+              desc: '{{ section.settings.popup_desc_3 }}',
+              button_txt: '{{ section.settings.Okay }}'
+            })
+          }
+        })
+      }
+    })
+
+    function handle_fixed() {
+      const offsetTop = $('#mach_accessories')[0].offsetTop
+      const scrollTop = $(window).scrollTop()
+      if(scrollTop > offsetTop) {
+        $('#{{section_id}} .component_nav_v2').removeClass('component_nav_v2_dn')
+        $('.sign_up_mobile').show()
+      }else {
+        $('#{{section_id}} .component_nav_v2').addClass('component_nav_v2_dn')
+        $('.sign_up_mobile').hide()
+      }
+    }
+
+  })
+</script>
+
+
+{% schema %}
+  {
+    "name": "Mach Nav",
+    "presets": [
+			{
+				"name": "Mach Nav"
+			}
+		],
+    "settings": [
+      {
+        "type": "header",
+        "content": "导航栏展示模式"
+      },
+      {
+        "type": "select",
+        "id": "custom_style",
+        "label": "Nav样式",
+        "options": [
+          {
+            "label": "样式1",
+            "value": "1"
+          },
+          {
+            "label": "样式2",
+            "value": "2"
+          }
+        ],
+        "default": "1"
+      },
+      {
+        "type": "select",
+        "id": "item_text_align",
+        "label": "导航栏水平方向的方式",
+        "options": [
+          {
+            "label": "居左",
+            "value": "left"
+          },
+          {
+            "label": "居中",
+            "value": "center"
+          },
+          {
+            "label": "居右",
+            "value": "right"
+          }
+        ],
+        "default": "center"
+      },
+      {
+        "type": "header",
+        "content": "结构方面"
+      },
+      {
+        "type": "html",
+        "id": "sign_up",
+        "label": "Sign Up",
+        "default": "Sign Up"
+      },
+      {
+        "type": "text",
+        "id": "box_width",
+        "label": "section区域最大宽度"
+      },
+      {
+        "type": "color",
+        "id": "box_bg",
+        "label": "section背景色"
+      },
+      {
+        "type": "color",
+        "id": "text_color",
+        "label": "文案颜色",
+        "default": "#333333"
+      },
+      {
+        "type": "color",
+        "id": "item_bg",
+        "label": "切换项的背景色",
+        "default": "#fff"
+      },
+      {
+        "type": "color",
+        "id": "item_border_color",
+        "label": "切换项边框颜色",
+        "default": "#000000"
+      },
+      {
+        "type": "text",
+        "id": "item_radius",
+        "label": "切换项的圆角",
+        "info": "样式1时才生效"
+      },
+      {
+        "type": "header",
+        "content": "高亮时的样式"
+      },
+      {
+        "type": "color",
+        "id": "light_text_color",
+        "label": "高亮时的文案颜色",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "light_item_bg",
+        "label": "高亮时的背景色"
+      },
+      {
+        "type": "color",
+        "id": "light_item_border_color",
+        "label": "高亮时的边框颜色"
+      },
+      {
+        "type": "header",
+        "content": "弹窗内容"
+      },
+      {
+        "type": "html",
+        "id": "popup_title",
+        "label": "订阅弹窗标题",
+        "default": "Title",
+        "info": "弹窗标题"
+      },
+      {
+        "type": "html",
+        "id": "popup_desc",
+        "label": "订阅弹窗描述",
+        "default": "desc",
+        "info": "弹窗描述"
+      },
+      {
+        "type": "html",
+        "id": "button_txt",
+        "label": "Sign Up",
+        "default": "Sign Up"
+      },
+      {
+        "type": "html",
+        "id": "popup_title_3",
+        "label": "订阅成功后的标题提示",
+        "default": "Subscribed Successfully!"
+      },
+      {
+        "type": "html",
+        "id": "popup_desc_3",
+        "label": "订阅成功后的描述提示",
+        "default": "We will send you an email shortly, with details on your free gift and how to claim the prize."
+      },
+      {
+        "type": "html",
+        "id": "resub_popup_title",
+        "label": "重复订阅的标题提示",
+        "info": "留空"
+      },
+      {
+        "type": "html",
+        "id": "resub_popup_desc",
+        "label": "重复订阅的标题描述",
+        "default": "Repeat Subscribed"
+      },
+      {
+        "type": "html",
+        "id": "Okay",
+        "label": "Okay",
+        "default": "Okay"
+      },
+      {
+        "type": "html",
+        "id": "email_placeholder",
+        "label": "邮箱输入提示",
+        "default": "Enter Your Email"
+      },
+      {
+        "type": "html",
+        "id": "email_error",
+        "label": "邮箱错误提示",
+        "default": "Please enter a valid email address"
+      },
+      {
+        "type": "html",
+        "id": "plocy_err",
+        "label": "勾选协议提示",
+        "default": "Please agree to the rules"
+      },
+      {
+        "type": "text",
+        "id": "deals_type",
+        "label": "注册类型",
+        "default": "eufy_mach_signup"
+      },
+      {
+        "type": "html",
+        "id": "agree_txt",
+        "label": "协议文案",
+        "default": "I agree to the <a href='/policies/terms-of-service' target='_blank' rel='noopener noreferrer'>Terms of Use</a> and <a href='/policies/privacy-policy' target='_blank' rel='noopener noreferrer'>Privacy Policy</a>."
+      },
+      {
+        "type": "header",
+        "content": "开发相关"
+      },
+      {
+        "type": "text",
+        "id": "custom_class",
+        "label": "自定义类名"
+      }
+    ],
+    "blocks": [
+      {
+        "name": "nav_item",
+        "type": "nav_item",
+        "settings": [
+          {
+            "type": "text",
+            "id": "item_txt",
+            "label": "导航栏文案"
+          },
+          {
+            "type": "text",
+            "id": "item_id",
+            "label": "锚点id",
+            "info": "对应跳转的锚点id，这个可以通过审查元素找到对应的section的id"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

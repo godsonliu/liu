@@ -1,0 +1,116 @@
+{% if template contains 'page' %}
+  {% if page.metafields.global.aplus-four-images.value %}
+    {% assign aplus_four_images = page.metafields.global.aplus-four-images.value %}
+  {% else %}
+    {% assign aplus_four_images = page.metafields.global.aplus-four-images %}
+  {% endif %}
+{% else %}
+  {% if product.metafields.global.aplus-four-images.value %}
+    {% assign aplus_four_images = product.metafields.global.aplus-four-images.value %}
+  {% else %}
+    {% assign aplus_four_images = product.metafields.global.aplus-four-images %}
+  {% endif %}
+{% endif %}
+
+{% if section.settings %}
+  {% assign config = section.settings %}
+  {% assign isSchemaData = true %}
+{% endif %}
+
+{% if template contains 'page' and aplus_four_images %}
+  {% assign isSchemaData = false %}
+  {% if page.metafields.global.aplus-four-images.value %}
+    {% assign config = page.metafields.global.aplus-four-images.value %}
+  {% else %}
+    {% assign config = page.metafields.global.aplus-four-images %}
+  {% endif %}
+{% elsif aplus_four_images %}
+  {% assign isSchemaData = false %}
+  {% if product.metafields.global.aplus-four-images.value %}
+    {% assign config = product.metafields.global.aplus-four-images.value %}
+  {% else %}
+    {% assign config = product.metafields.global.aplus-four-images %}
+  {% endif %}
+{% endif %}
+
+{% if isSchemaData %}
+  {% assign cards = section.blocks | map: 'settings' %}
+{% else %}
+  {% assign cards = config.blocks %}
+{% endif %}
+  
+<section class="aplus aplus-four-images">
+  <div class="aplus-four-images__title">
+    {{ config.headline }}
+  </div>
+  <div class="aplus-four-images__card-list">
+    {% for card in cards %}
+      <div class="aplus-four-images__card">
+        <div class="aplus-four-images__card-image">
+          {% render 'lazyload_image'
+            isSchemaData: isSchemaData,
+            src: card.imageUrl
+          %}
+        </div>
+        <div class="aplus-four-images__card-title">{{ card.headline }}</div>
+        <div class="aplus-four-images__card-description">{{ card.body }}</div>    
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Aplus Four Images",
+  "presets": [
+    {
+      "name": "Aplus Four Images",
+      "blocks": [
+        {
+          "type": "card"
+        },
+        {
+          "type": "card"
+        },
+        {
+          "type": "card"
+        },
+        {
+          "type": "card"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "headline"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "headline",
+          "label": "headline"
+        },
+        {
+          "type": "richtext",
+          "id": "body",
+          "label": "body"
+        },
+        {
+          "type": "image_picker",
+          "id": "imageUrl",
+          "label": "image",
+          "info": "300 x 225 recommended"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

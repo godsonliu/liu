@@ -1,0 +1,42 @@
+{% if product.metafields.global.inbox.value %}
+  {% assign inbox = product.metafields.global.inbox.value %}
+{% else %}
+  {% assign inbox = product.metafields.global.inbox %}
+{% endif %}
+
+
+{% if inbox %}
+<link rel="stylesheet" href="{{ 'listing_inbox.scss.css' | asset_url }}">
+
+<section class="listing_v2_section v2_inbox_section">
+    <div class="listing_v2_box">
+        <h3 class="v2_section_title">{{ inbox.title }}</h3>
+        <div class="listing_inbox">
+            <ul class="listing_inbox_list">
+                {% for item in inbox.data %}
+                    <li class="listing_inbox_item">
+                        <div class="inbox_img_area">
+                            <img src="{{ item.img }}"/>
+                        </div>
+                        <div class="inbox_info_area">
+                            <p class="inbox_p">{{ item.name }}</p>
+                            {% if item.count %}<p class="inbox_p">x{{ item.count }}</p>{% endif %}
+                        </div>
+                    </li>
+                {% endfor %} 
+            </ul>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% schema %}
+{
+  "name": "listing2.0_inbox",
+  "presets": [
+    {
+      "name": "listing2.0_inbox"
+    }
+  ]
+}
+{% endschema %}

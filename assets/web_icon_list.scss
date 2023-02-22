@@ -1,0 +1,62 @@
+$maxPhoneWidth: 767px;
+.web_icon_list {
+  width: 100%;
+  margin: 0 auto;
+  .flexBox {
+    display: flex;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 4% 0;
+    @media (max-width: $maxPhoneWidth) {
+      flex-wrap: wrap;
+      max-width: 100%;
+      padding: 3rem 0 1rem 0;
+    }
+    .item {
+      position: relative;
+      padding: 2% 4%;
+      text-align: center;
+      color: #fff;
+      @media (max-width: $maxPhoneWidth) {
+        padding: 2rem;
+        margin-bottom: 2rem;
+        max-width: 50%;
+      }
+      a {
+        text-decoration: underline;
+        color: rgb(235, 206, 149);
+      }
+      .txt {
+        color: #fff;
+        font-size: 14px;
+        margin-top: 20px;
+        @media (max-width: $maxPhoneWidth) {
+          margin-top: 1rem;
+          font-size: 12px;
+        }
+      }
+      .split_line {
+        display: inline-block;
+        width: 2px;
+        height: 30px;
+        position: absolute;
+        top: 48%;
+        right: 0;
+        background: rgb(89, 89, 89);
+      }
+      &:last-child {
+        .split_line {
+          display: none;
+        }
+      }
+      @media (max-width: $maxPhoneWidth) {
+        &:nth-child(2n) {
+          .split_line {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}

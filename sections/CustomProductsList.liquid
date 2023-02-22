@@ -1,0 +1,906 @@
+{% if variant.metafields.global.related_variant.value %}
+  {% assign related_variant = variant.metafields.global.related_variant.value %}
+{% else %}
+  {% assign related_variant = variant.metafields.global.related_variant %}
+{% endif %}
+
+{% if variant.metafields.global.related_variant.value %}
+  {% assign related_variant = variant.metafields.global.related_variant.value %}
+{% else %}
+  {% assign related_variant = variant.metafields.global.related_variant %}
+{% endif %}
+
+{% if shop.metafields['global']['storefront_key'].value %}
+  {% assign authorization = shop.metafields['global']['storefront_key'].value %}
+{% else %}
+  {% assign authorization = shop.metafields['global']['storefront_key'] %}
+{% endif %}
+
+
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js" ></script>
+
+{{ 'DiscountGoods.scss.css' | asset_url | stylesheet_tag }}
+
+{% if section.settings.id != blank -%}
+  {% assign id = section.settings.id %}
+{% else %}
+  {% assign id = section.id %}
+{% endif %}
+
+{% assign custom_css = section.settings.custom_css %}
+
+{% style %}
+
+  {% if section.settings.box_title_family != blank -%}
+    {{ section.settings.box_title_family | font_face }}
+  {% endif %}
+
+  #box_custom_products_{{ id }}.custom_products_list {
+    {%- if section.settings.box_background != blank -%}
+    background-color: {{ section.settings.box_background }};
+    {% endif %}
+
+    {%- if section.settings.box_background_img != blank -%}
+    background-image: url({{ section.settings.box_background_img | img_url: '1024x'}});
+    {% endif %}
+
+    {% if section.settings.box_margin > 0 %}
+    padding: {{ section.settings.box_margin }}px 0;
+    {% endif %}
+  }
+
+  @media screen and (max-width: 769px) {
+    #box_custom_products_{{ id }}.custom_products_list {
+      {%- if section.settings.box_background_mobile_img != blank -%}
+      background-image: url({{ section.settings.box_background_mobile_img | img_url: '1024x'}});
+      {% endif %}
+    }
+  }
+
+  #box_custom_products_{{ id }}.custom_products_list .box_title{
+    {%- if section.settings.box_title_font_size > 0 %}
+    font-size: {{ section.settings.box_title_font_size }}px;
+    {% endif %}
+
+    {% if section.settings.box_title_color != blank -%}
+    color: {{ section.settings.box_title_color }};
+    {% endif %}
+
+    {% if section.settings.box_title_family != blank -%}
+    font-family: {{ section.settings.box_title_family.family }};
+    {% endif %}
+  }
+  
+  {%- if section.settings.display_flex_center == true -%}
+    #box_custom_products_{{ id }}.custom_products_list .custom_products__container{
+      justify-content: center;
+    }
+  {% endif %}
+
+  {% if section.settings.goodsbox_border_radius > 0 %}
+    #box_custom_products_{{ id }}.custom_products_list .discount_good {
+      border-radius: {{ section.settings.goodsbox_border_radius }}px;
+    }
+    #box_custom_products_{{ id }}.custom_products_list .major_box {
+      border-radius: {{ section.settings.goodsbox_border_radius }}px;
+    }
+  {% endif %}
+
+  {% if section.settings.goodsbox_border_width > 0 %}
+    #box_custom_products_{{ id }}.custom_products_list .discount_good {
+      border-width: {{ section.settings.goodsbox_border_width }}px;
+      border-style: solid;
+    }
+    #box_custom_products_{{ id }}.custom_products_list .major_box {
+      border-width: {{ section.settings.goodsbox_border_width }}px;
+      border-style: solid;
+    }
+  {% endif %}
+
+  {% if section.settings.goodsbox_border_width > 0 and section.settings.goodsbox_border_color != blank %}
+    #box_custom_products_{{ id }}.custom_products_list .discount_good {
+      border-color: {{ section.settings.goodsbox_border_color }};
+    }
+    #box_custom_products_{{ id }}.custom_products_list .major_box {
+      border-color: {{ section.settings.goodsbox_border_color }};
+    }
+  {% endif %}
+
+  #box_custom_products_{{ id }} .addcart {
+    color: {{ section.settings.cart_color }};
+    background: linear-gradient(to right, {{ section.settings.cart_left_color }}, {{ section.settings.cart_right_color }});
+  }
+
+  #box_custom_products_{{ id }} .discount_p,
+  #box_custom_products_{{ id }} .copyBox .copybtn button {
+    color: {{ section.settings.price_color }};
+  }
+
+  #box_custom_products_{{ id }} .normal_p {
+    color: {{ section.settings.normal_color }};
+  }
+
+  #box_custom_products_{{ id }} .action .learnmore{
+    color: {{ section.settings.learn_more_color }};
+    border-color: {{ section.settings.learn_more_border_color }}; 
+    background-color: {{ section.settings.learn_more_bg_color }};
+  }
+
+  #box_custom_products_{{ id }} .action .buynow{
+    color: {{ section.settings.buynow_color }};
+    border-color: {{ section.settings.buynow_border_color }}; 
+    background-color: {{ section.settings.buynow_bg_color }};
+  }
+
+  #box_custom_products_{{ id }} .hot-discount {
+    font-size: 18px;
+    font-weight: 900;
+  }
+
+  {% if section.settings.discount_image %} 
+    #box_custom_products_{{ id }} .dicount_txt {
+      {% if section.settings.is_hot_discount %}
+        height: 65px;
+        width: 55px;
+      {% else %}
+        height: 60px;
+        top: 5px;
+      {% endif %}
+      background-image: url({{ section.settings.discount_image | img_url: '' }})
+    }
+
+    #box_custom_products_{{ id }} .dicount_txt p {
+      {% if section.settings.is_hot_discount %}
+        padding: 10px 5px;  
+        min-width: 55px;
+      {% else %}
+        padding: 13px 7px;
+      {% endif %}
+      color: {{ section.settings.discount_color }}
+    }
+  {% endif %}
+
+
+  {% if section.settings.is_layout == 'left_right' %}
+    @media screen and (max-width: 769px) {
+      #box_custom_products_{{ id }} .discount_good {
+        display: flex;
+        padding: 0;
+      }
+
+      {% if section.settings.is_hot_discount %}
+        #box_custom_products_{{ id }} .dicount_txt {
+          height: 55px;
+          left: 2rem;
+          top: 0;
+          width: 43px;
+        }
+
+        #box_custom_products_{{ id }} .dicount_txt p {
+          padding: 0;
+          min-width: 43px;
+          margin-top: 5px;
+        }
+      {% endif %}
+
+      #box_custom_products_{{ id }} .copyBox {
+        margin-bottom: 5px;
+      }
+
+      #box_custom_products_{{ id }} .copyBox .copyAct {
+        padding: 5px 0;
+        font-size: 12px;
+      }
+
+      #box_custom_products_{{ id }}.custom_products_list .starBox {
+        margin-top: 0;
+      }
+
+      #box_custom_products_{{ id }} .discount_good .content {
+        max-width: 45%;
+        margin-bottom: 0;
+      }
+
+      #box_custom_products_{{ id }} .discount_good .starBox {
+        min-height: unset;
+        margin-bottom: 1rem;
+      }
+
+      #box_custom_products_{{ id }} .action {
+        width: 55%;
+        margin-top: 0;
+        padding: 1rem 10px;
+      }
+
+      #box_custom_products_{{ id }} .hide-star {
+        display: none
+      }
+
+      #box_custom_products_{{ id }} .discount_good .content .product_a {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      #box_custom_products_{{ id }} .discount_good .content .product_a .imgbox {
+        height: 100%;
+        display: flex;
+        align-items: center;
+      }
+
+      #box_custom_products_{{ id }} .img {
+        width: 100%;
+      }
+
+    }
+  {% endif %}
+
+
+  {%- if custom_css != blank -%}
+    {{ custom_css }}
+  {% endif %}
+{% endstyle %}
+
+<div id="box_custom_products_{{ id }}" class="custom_products_list discount_goods__{{ section.settings.branch_style }}">
+  <h1 class="box_title" id="{{ id }}">
+    {{ section.settings.box_title }}
+  </h1>
+  <div class="custom_products__container">
+    {% for block in section.blocks %}
+      {% comment %} 数据准备 {% endcomment %}
+      {% assign sold_out = false %}
+      {% if block.settings.sku != blank %}
+
+        {% assign sku = block.settings.sku %}
+        {% for variant in block.settings.c_product.variants %}
+          {%- if variant.sku == block.settings.sku -%}
+            {% assign variant = variant %}
+            {% assign v_id = variant.id %}
+
+            {% assign sold_out = false %}
+            {% if variant.available == false or variant.price == 999999999 %}
+              {% assign sold_out = true %}
+            {% endif %}
+  
+            {% if related_variant %}
+              {% for i in related_variant %}
+                {% assign thisProduct = all_products[i.handle] %}
+                {% for v in thisProduct.variants %}
+                  {% if v.sku == i.sku %}
+                    {% assign thisVariant = v %}
+                    {% assign v_id = v_id | append: ',' %}
+                    {% assign v_id = v_id | append: thisVariant.id %}
+                  {% endif %}
+                {% endfor %}
+                {% if thisVariant.available == false or thisVariant.price == 999999999 %}
+                  {% assign sold_out = true %}
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+
+          {%- endif -%}
+        {% endfor %}
+      {% else %}
+        {% assign sku = block.settings.c_product.first_available_variant.sku %}
+        {% assign variant = block.settings.c_product.first_available_variant %}
+        {% assign v_id = variant.id %}
+
+        {% assign sold_out = false %}
+        {% if variant.available == false or variant.price == 999999999 %}
+          {% assign sold_out = true %}
+        {% endif %}
+
+        {% if related_variant %}
+          {% for i in related_variant %}
+            {% assign thisProduct = all_products[i.handle] %}
+            {% for v in thisProduct.variants %}
+              {% if v.sku == i.sku %}
+                {% assign thisVariant = v %}
+                {% assign v_id = v_id | append: ',' %}
+                {% assign v_id = v_id | append: thisVariant.id %}
+              {% endif %}
+            {% endfor %}
+            {% if thisVariant.available == false or thisVariant.price == 999999999 %}
+              {% assign sold_out = true %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      {% endif %}
+
+      <div class="discount_goods_box discount_goods_box__{{sku}}" data-handle="{{block.settings.c_product.handle}}">
+        <div class="discount_good">
+          <div class="content">
+            <a class="product_a" href="/products/{{ block.settings.c_product.handle }}{{ section.settings.track }}{% if section.settings.track != blank %}&{% else %}?{% endif %}variant={{ v_id }}" target="_blank" rel="noopener noreferrer">
+              <div class="imgbox">
+                {% unless section.settings.hide_discount %}
+                  {% if sold_out != true %}
+                    <div class="dicount_txt">
+                      <p>
+                        <span class="off_val {% if section.settings.is_hot_discount %} hot-discount {% endif %}">{{ section.settings.hot_text }}</span>
+                        <span class="{% if section.settings.is_hot_discount %} hot-discount {% endif %}">
+                          {% if section.settings.is_hot_discount %}
+                            {{ forloop.index }}
+                          {% else %}
+                            {{ section.settings.off_text }}
+                          {% endif %}
+                        </span>
+                      </p>
+                    </div>
+                  {% endif %}
+                {% endunless %}
+
+                {% if block.settings.sku != blank %}
+                  {% for variant in block.settings.c_product.variants %}
+                    {%- if variant.sku == block.settings.sku -%}
+                      <img class="img lazyload" data-src="{{ variant.image | img_url: '1024x' }}" alt="">
+                    {%- endif -%}
+                  {% endfor %}
+                {% else %}
+                  <img class="img lazyload" data-src="{{ block.settings.c_product | img_url: '1024x' }}" alt="">
+                {% endif %}
+              </div>
+              {% if block.settings.sku != blank %}
+                {% for variant in block.settings.c_product.variants %}
+                {%- if variant.sku == block.settings.sku -%}
+                 <div class="starBox {% if variant.metafields['global'].review_rating == blank %} hide-star {% endif %}">
+                    {%- if variant.metafields['global'].review_rating != blank -%}
+                      <p class="box">
+                        <span class="star"></span>
+                        <span>{{ variant.metafields['global'].review_rating }}</span>
+                      </p>
+                    {%- endif -%}
+                  </div>
+                  {%- endif -%}
+                {% endfor %}
+              {% else %}
+                  <div class="starBox">
+                    {%- if block.settings.c_product.first_available_variant.metafields['global'].review_rating != blank -%}
+                      <p class="box">
+                        <span class="star"></span>
+                        <span>{{ block.settings.c_product.first_available_variant.metafields['global'].review_rating }}</span>
+                      </p>
+                    {%- endif -%}
+                  </div>
+              {% endif %}
+            </a>
+          </div>
+          <div class="action">
+            <p class="title">{{ block.settings.c_product.title }}</p>
+            <p class="price">
+              {% if sold_out != true %}
+                <span class="discount_p">???.??</span>
+                <span class="normal_p">{{ variant.price | money }}</span>
+                <span class="init_p">{{ variant.price | money }}</span>
+              {% else %}
+                <span class="sold_out">{{ 'products.product.sold_out' | t }}</span>
+              {% endif %}
+            </p>  
+
+            {% if sold_out != true %}
+              {% if section.settings.hide_discount %}
+                <p class="hidep">
+                  {{ section.settings.hide_discount_txt }}
+                </p>
+              {% else %}
+                {% if section.settings.display_copyCode %}
+                  <div class="copyBox">
+                    <span class="copyAct">
+                      <span class="codeformat">{{ section.settings.codeTxt }}</span>
+                      <span class="codeTxt"></span>
+                      <span class="copybtn">
+                        <button type="button" class="clipboard_btn" data-clipboard-text="">{{ section.settings.copyTxt }}</button>
+                      </span>
+                    </span>
+                  </div>
+                {% endif %}
+              {% endif %}
+
+              {% if section.settings.display_addcart %}
+                <button class="button button-normal addcart" data-v_id="{{ v_id }}">
+                  {{ section.settings.addcart_text }}
+                </button>
+              {% endif %}
+
+              {% if section.settings.display_learnmore %}
+                <a class="button button-normal learnmore" href="/products/{{ block.settings.c_product.handle }}{{ section.settings.track }}{% if section.settings.track != blank %}&{% else %}?{% endif %}variant={{ v_id }}" target="_blank" rel="noopener noreferrer">
+                  {{ section.settings.learnmore_text }}
+                </a>
+              {% endif %}
+
+              {% unless section.settings.hide_discount %}
+                {% if section.settings.display_buynow %}
+                  <button class="button button-normal buynow" data-v_id="{{ v_id }}">
+                    {{ section.settings.buynow_text }}
+                  </button>
+                {% endif %}
+              {% endunless %}
+              
+            {% endif %}
+          </div>
+        </div>  
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+
+
+<script>
+  
+  $(document).ready(function() {
+    var skus = [], couponsData = {};
+    {% for block in section.blocks %}
+      {% if block.settings.sku != blank %}
+        skus.push("{{ block.settings.sku }}");
+      {% else %}
+        skus.push("{{ block.settings.c_product.first_available_variant.sku }}");
+      {% endif %}
+    {% endfor %}
+
+    $.ajax({
+      type: 'GET',
+      url: '/apps/pp/shopifyservices/coupons/by_skus',
+      data: { "skus": skus, "shopify_domain": "{{ shop.permanent_domain }}" },
+      success: function success(body) {
+        couponsData = body;
+        skus.forEach(function (key) {
+          initDiscount(key);
+        })
+        if (Shopify.designMode) {
+          localStorage.setItem('design_mode_customData', JSON.stringify(body))
+        }
+      }
+    })
+
+    $(document).on('shopify:section:load', function(e){
+      var design_mode_customData = localStorage.getItem('design_mode_customData');
+      if (design_mode_customData) {
+        couponsData = JSON.parse(design_mode_customData)
+        skus.forEach(function (key) {
+          initDiscount(key);
+        })
+      }
+    })
+
+    $('#box_custom_products_{{ id }} .custom_products__container').on('click', '.buynow', function() {
+      var v_id = $(this).attr('data-v_id');
+      var idArr = v_id.split(',');
+      var line_items = [];
+      idArr.map(item => line_items.push({ variant_id: item, quantity: 1 }));
+      Shopify.theme.bundleBuynow({
+        authorization: "{{ authorization }}",
+        checkout: {
+          line_items: line_items,
+          presentment_currency: "{{ shop.currency }}",
+          is_upstream_button: true,
+          page_type: "product",
+          secret: true,
+          wallet_name: "Checkout"
+        },
+        onSuccess: () => {},
+        onError: err => {
+          this.isBuynow(false);
+          $.dialog({ title: err.message, content: err.description, type: 'red' });
+        }
+      });
+    })
+
+    $('#box_custom_products_{{ id }} .custom_products__container').on('click', '.addcart', function() {
+      var v_id = $(this).attr('data-v_id');
+      var idArr = v_id.split(',');
+      var variants = [];
+      idArr.map(item => variants.push({ id: item, quantity: 1 }));
+      Shopify.theme.addItemsToCart(variants, {
+        onError: err => $.dialog({ title: err.message, content: err.description, type: 'red' })
+      })
+    })
+
+    var clipboard = new ClipboardJS('#box_custom_products_{{ id }} .clipboard_btn');
+    clipboard.on('success', e => {
+      const text = e.trigger.innerText;
+      e.trigger.innerText = '{{ section.settings.copiedTxt }}';
+      setTimeout(() => e.trigger.innerText = text, 3000);
+      e.clearSelection();
+    });
+
+    function initDiscount(sku) {
+      var ajaxDate = couponsData[sku] && couponsData[sku][0];
+      
+      if (ajaxDate) {  
+        var discount = ajaxDate.value && (parseInt(ajaxDate.value.replace('-', '')) * 100);
+        var value_style = ajaxDate.value_style && ajaxDate.value_style;
+        var discount_text = ajaxDate.value_type === 'fixed_amount' ? value_style : `${discount / 100}%`;
+        $(`#box_custom_products_{{ id }} .discount_goods_box__${sku} .copyBox`).css('display', 'block');
+        $(`#box_custom_products_{{ id }} .discount_goods_box__${sku} .dicount_txt`).css('visibility', 'visible');
+
+        {% if section.settings.is_hot_discount == false %}
+          $(`#box_custom_products_{{ id }} .discount_goods_box__${sku} .dicount_txt .off_val`).text(discount_text);
+        {% endif %}
+
+        $(`#box_custom_products_{{ id }} .discount_goods_box__${sku} .codeTxt`).text(ajaxDate.title);
+        $(`#box_custom_products_{{ id }} .discount_goods_box__${sku} .clipboard_btn`).attr('data-clipboard-text', ajaxDate.title);
+        
+        {% if section.settings.hide_discount %}
+          // var txtp = Shopify.formatMoney(parseFloat(ajaxDate.variant_price) * 100, $('body').data('money-format'));
+          // var txthide = txtp.replace(/\d/g, '?');
+          $(`#box_custom_products_{{ id }} .discount_goods_box__${sku} .discount_p`).text('???.??');
+        {% else %}
+          $(`#box_custom_products_{{ id }} .discount_goods_box__${sku} .discount_p`).text(Shopify.formatMoney(parseFloat(ajaxDate.variant_price4wscode) * 100, $('body').data('money-format')) );
+        {% endif %}
+
+        $(`#box_custom_products_{{ id }} .discount_goods_box__${sku} .normal_p`).text(Shopify.formatMoney(parseFloat(ajaxDate.variant_price) * 100, $('body').data('money-format')) );
+        $(`#box_custom_products_{{ id }} .discount_goods_box__${sku} .init_p`).text('');
+        $(`#box_custom_products_{{ id }} .discount_goods_box__${sku} .buynow`).data('v_id', ajaxDate.variant_shopify_id);
+        $(`#box_custom_products_{{ id }} .discount_goods_box__${sku} .addcart`).data('v_id', ajaxDate.variant_shopify_id);
+      } else {
+        $(`#box_custom_products_{{ id }} .discount_goods_box__${sku} .copyBox`).css('visibility', 'hidden');
+
+        {% if section.settings.is_hot_discount == false %}
+          $(`#box_custom_products_{{ id }} .discount_goods_box__${sku} .dicount_txt`).css('visibility', 'hidden');
+        {% endif %}
+
+        {% if section.settings.hide_discount %}
+          $(`#box_custom_products_{{ id }} .discount_goods_box__${sku} .init_p`).text('');
+        {% else %}
+          $(`#box_custom_products_{{ id }} .discount_goods_box__${sku} .discount_p`).text('');
+          $(`#box_custom_products_{{ id }} .discount_goods_box__${sku} .normal_p`).text('');
+        {% endif %}
+      }
+    }
+  })
+
+</script>
+
+{% schema %}
+{
+  "name": "Custom Products List",
+  "presets": [
+    {
+      "category": "Custom Dynamic Sections",
+      "name": "Custom Products List"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "products",
+      "name": "Products List",
+      "settings": [
+        {
+          "type": "product",
+          "id": "c_product",
+          "label": "Select Product"
+        },
+        {
+          "type": "text",
+          "id": "sku",
+          "label": "Sku",
+          "info": "填写选择的产品下要展示variant的sku(默认是第一个sku)"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type":"text",
+      "id": "id",
+      "label": "id",
+      "info": "模块ID"
+    },
+    {
+      "type":"select",
+      "id":"is_layout",
+      "label": "布局方式",
+      "options":[
+        {
+          "value":"top_bottom",
+          "label":"上下布局"
+        },
+        {
+          "value":"left_right",
+          "label":"左右布局"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_discount",
+      "label": "隐藏折扣价",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "is_hot_discount",
+      "label": "是否为排名",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "hot_text",
+      "label": "排名文案",
+      "default": "Top"
+    },
+    {
+      "type": "image_picker",
+      "id": "discount_image",
+      "label": "角标图片"
+    },
+    {
+      "type": "color",
+      "id": "discount_color",
+      "label": "角标文字颜色",
+      "default": "#fff"
+    },
+    {
+      "type": "text",
+      "id": "hide_discount_txt",
+      "label": "隐藏折扣价 tip 文案",
+      "default": "Lowest price of the year"
+    },
+    {
+      "type": "html",
+      "id": "box_title",
+      "label": "模块标题"
+    },
+    {
+      "type": "color",
+      "id": "box_title_color",
+      "label": "模块标题颜色"
+    },
+    {
+      "type": "font_picker",
+      "id": "box_title_family",
+      "label": "模块标题使用的字体",
+      "default": "helvetica_n4"
+    },
+    {
+      "type": "range",
+      "id": "box_title_font_size",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "label": "模块标题字体大小",
+      "default": 28
+    },
+    {
+      "type": "header",
+      "content": "样式 配置"
+    },
+    {
+      "type": "radio",
+      "id": "branch_style",
+      "label": "基准样式",
+      "options": [
+        {
+          "value": "Anker",
+          "label": "Anker"
+        },
+        {
+          "value": "Eufy",
+          "label": "Eufy"
+        },
+        {
+          "value": "EufySecurity",
+          "label": "EufySecurity"
+        },
+        {
+          "value": "Soundcore",
+          "label": "Soundcore"
+        },
+        {
+          "value": "Nebula",
+          "label": "Nebula"
+        },
+        {
+          "value": "EufyFD",
+          "label": "Eufy Black Friday"
+        },
+        {
+          "value": "EufyCM",
+          "label": "Eufy Black christmas"
+        }
+      ],
+      "default": "Anker"
+    },
+    {
+      "type": "checkbox",
+      "id": "display_flex_center",
+      "label": "产品居中排序(默认左对齐)"
+    },
+    {
+      "type": "color",
+      "id": "box_background",
+      "label": "模块整体的 Background"
+    },
+    {
+      "type": "image_picker",
+      "id": "box_background_img",
+      "label": "模块整体的 Background Img"
+    },
+    {
+      "type": "image_picker",
+      "id": "box_background_mobile_img",
+      "label": "模块整体手机端的 Background Img"
+    },
+    {
+      "type": "range",
+      "id": "box_margin",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "label": "模块的上下边距 margin",
+      "default": 0
+    },
+    {
+      "type": "color",
+      "id": "goodsbox_border_color",
+      "label": "产品盒子的 border-color"
+    },
+    {
+      "type": "range",
+      "id": "goodsbox_border_width",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "label": "产品盒子的 border-width",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "goodsbox_border_radius",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "label": "产品盒子的 border-radius",
+      "default": 0
+    },
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Custom CSS",
+      "info": "自定义样式（注意：请按照标准的css语法添加样式）"
+    },
+    {
+      "type": "header",
+      "content": "按钮和文案 配置"
+    },
+    {
+      "type": "text",
+      "id": "off_text",
+      "label": "Discount OFF Text",
+      "default": "OFF"
+    },
+    {
+      "type": "checkbox",
+      "id": "display_copyCode",
+      "label": "Show CopyCode",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "codeTxt",
+      "label": "Code Text",
+      "default": "CODE: "
+    },
+    {
+      "type": "text",
+      "id": "copyTxt",
+      "label": "Copy Text",
+      "default": "Copy"
+    },
+    {
+      "type": "color",
+      "id": "price_color",
+      "label": "价格和copy文字颜色",
+      "default": "#e3bc6d"
+    },
+    {
+      "type": "color",
+      "id": "normal_color",
+      "label": "normal价格文字颜色",
+      "default": "#000"
+    },
+    {
+      "type": "text",
+      "id": "copiedTxt",
+      "label": "Copied Text",
+      "default": "Copied"
+    },
+    {
+      "type": "checkbox",
+      "id": "display_buynow",
+      "label": "Show BuyNow",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "buynow_color",
+      "label": "Buy Now 按钮文字颜色",
+      "default": "#e3bc6d"
+    },
+    {
+      "type": "color",
+      "id": "buynow_bg_color",
+      "label": "Buy Now 按钮背景颜色",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "buynow_border_color",
+      "label": "Buy Now 按钮边框颜色",
+      "default": "#e3bc6d"
+    },
+    {
+      "type": "text",
+      "id": "buynow_text",
+      "label": "BuyNow Text",
+      "default": "BUY NOW"
+    },
+    {
+      "type": "checkbox",
+      "id": "display_addcart",
+      "label": "Show AddCart",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "cart_color",
+      "label": "Add Cart 按钮文字颜色",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "cart_left_color",
+      "label": "Add Cart 按钮背景颜色",
+      "default": "#bb964b"
+    },
+    {
+      "type": "color",
+      "id": "cart_right_color",
+      "label": "Add Cart 按钮背景颜色",
+      "default": "#e1bd6e"
+    },
+    {
+      "type": "text",
+      "id": "addcart_text",
+      "label": "AddCart Text",
+      "default": "Add To Cart"
+    },
+    {
+      "type": "checkbox",
+      "id": "display_learnmore",
+      "label": "Show LearnMore",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "learnmore_text",
+      "label": "LearnMore Text",
+      "default": "Learn More"
+    },
+    {
+      "type": "color",
+      "id": "learn_more_color",
+      "label": "LearnMore 文字颜色",
+      "default": "#e3bc6d"
+    },
+    {
+      "type": "color",
+      "id": "learn_more_bg_color",
+      "label": "LearnMore 背景颜色",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "learn_more_border_color",
+      "label": "LearnMore 边框线颜色",
+      "default": "#e3bc6d"
+    },
+    {
+      "type": "text",
+      "id": "track",
+      "label": "Learn More 埋点追踪"
+    }
+  ]
+}
+{% endschema %}

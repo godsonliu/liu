@@ -1,0 +1,24 @@
+{% assign lang = product.metafields.global %}
+
+{% if lang.t8423_v.value %}
+  {% assign t8423_v = lang.t8423_v.value %}
+{% else %}
+  {% assign t8423_v = lang.t8423_v %}
+{% endif %}
+
+<link rel="stylesheet" href="{{ 't8423listing.scss.css' | asset_url }}">
+<script src="{{ 't8423listing.js' | asset_url }}" defer="defer"></script>
+
+<div class="t8423listing_4">
+  
+  <div class="banner_bg4 pc_show">
+    <div class="contain">
+      <img class="pc_show lazyload" data-src="{{ t8423_v.bg4_img }}" alt="">
+      <div class="bg4_sticky">
+        <div class="bg4_dh">
+          <img class="pc_show lazyload" data-src="{{ t8423_v.bg4_dh_img }}" alt="">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

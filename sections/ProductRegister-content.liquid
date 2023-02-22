@@ -1,0 +1,98 @@
+<section>
+
+  <div id="myModal" class="mymodal">
+    <div class="dialogModal">
+      <div class="modalContent">
+        <button
+          id="modal_close" type="button" class="modalClose"
+          onclick="closeModal()"
+        >
+          <i class="iconfont">&#xe723;</i>
+        </button>
+        <div id="modal_con"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="banner">
+    <div class="img"><img src="https://dz02g1kgtiysz.cloudfront.net/deals/files/180801_165108_reg.jpg"></div>
+  </div>
+
+  <div class="intro">
+    <div class="wrap">
+      <h4>Why You Should Register Your Product</h4>
+      <span class="Line"></span>
+      <div>Register your product to get our professional warranty support!<br> Be the first to hear the latest eufy news.<br> Get exclusive deals every month.<br> Receive opportunities to become a Power User to try our newest products. </div>
+    </div>
+  </div>
+
+
+  <div class="entry">
+    <div class="wrap">
+      <form class="form" onSubmit="registerProduct()">
+        <div class="clearfix">
+          <div class="item">
+            <p class="label">Select Product</p>
+            <div class={styles.select}>
+              <select name="sku" onChange="valueChange()" value="">
+                <option value="">
+                <option key="T21031A1" value="T21031A1">RoboVac 11c</option>
+                <option key="T2111ZJ1" value="T2111ZJ1">RoboVac 11c Pet Edition</option>
+                <option key="T2102111" value="T2102111">RoboVac 11</option>
+                <option key="T2104111" value="T2104111">RoboVac 11S</option>
+                <option key="T2108011" value="T2108011">RoboVac 11s max</option>
+                <option key="T2119111" value="T2119111">RoboVac 11S Plus</option>
+                <option key="T2109111" value="T2109111">RoboVac 12</option>
+                <option key="T2120111" value="T2120111">RoboVac 15C</option>
+                <option key="T2128111" value="T2128111">RoboVac 15c max</option>
+                <option key="T2115J81" value="T2115J81">RoboVac 15T</option>
+                <option key="T2101111" value="T2101111">RoboVac 20</option>
+                <option key="T2123111" value="T2123111">RoboVac 25c</option>
+                <option key="T21161J1" value="T21161J1">RoboVac 30</option>
+                <option key="T2118111" value="T2118111">RoboVac 30C (Black)</option>
+                <option key="T2118121" value="T2118121">RoboVac 30C (White)</option>
+                <option key="T2130111" value="T2130111">RoboVac 30C Max</option>
+                <option key="T2117Z11" value="T2117Z11">RoboVac 35C</option>
+                <option key="T2190121" value="T2190121">RoboVac L70 Hybrid</option>
+                <option key="T2150111" value="T2150111">RoboVac G10 Hybrid</option>
+                <option key="T2250111" value="T2250111">RoboVac G30</option>
+                <option key="T2251111" value="T2251111">RoboVac G30 Edge</option>
+              </select>
+            </div>
+          </div>
+          <div class="item">
+            <p class="label">
+              Serial Number
+              <a
+                class="toggle"
+                onClick="openModal('<div><p>Flip RoboVac over and the serial number is located at the bottom of the label.</p> <img src=\'https://dz02g1kgtiysz.cloudfront.net/deals/files/180801_173333_eufylifesnv1.jpg \'></div>')"
+              >Where do i find the serial number?</a>
+            </p>
+            <input type="text" name="sn" maxLength="200"
+              autoComplete="off" onChange="valueChange()" value=""
+            />
+          </div>
+          <div class="item">
+            <p class="label">Purchase Date</p>
+            <input type="text" class="form-control" value="" placeholder="Enter purchase date on receipt" readonly="">
+          </div>
+        </div>
+        <div class="action">
+          <button class="button-normal btn" type="submit">
+            SUBMIT
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="info">
+    <div class="wrap">
+      <h4>Registration and Warranty Information</h4>
+      <div>1. Please enter the data listed on the purchase receipt to successfully register you product. <br> 2. Product registration is currently available for RoboVac only, but will be available to more products in the future. <br> 3. You'll receive a confirmation email after you have successfully registered your product. <br> 4. Note: Registering your product for our professional warranty support is not the same as making a warranty claim. If you make a warranty claim, you will need to produce valid purchasing information. For more warranty information, please go to <b>
+        <a style="color:inherit;" href="https://www.eufylife.com/warranty">https://www.eufylife.com/warranty</a>
+        </b>.
+      </div>
+    </div>
+  </div>
+</section>

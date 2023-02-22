@@ -1,0 +1,47 @@
+.product-compare-section{
+  padding: 0 0 100px;
+
+  @media (min-width: 769px) {
+    padding: 0 0 200px;
+  }
+}
+
+.product-compare-box{
+  width: 100%;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+}
+
+.product-compare-table{
+  margin: 0 auto;
+
+  .img-tr{
+    td {
+      vertical-align: middle;
+    }
+  }
+
+  td{
+    padding: 15px 24px;
+    @media (min-width: 769px){
+      padding: 20px 45px;
+    }
+  }
+
+  .product-td-title{
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .compare-tr{
+    td{
+      padding: 14px 24px;
+      font-size: 10px;
+
+      @media (min-width: 769px){
+        padding: 14px 45px;
+        font-size: 16px;
+      }
+    }
+  }
+}

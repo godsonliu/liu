@@ -1,0 +1,57 @@
+{% if template contains 'page' %}
+  {% if page.metafields['global']['feature'].value %}
+    {% assign lang = page.metafields['global']['feature'].value %}
+  {% else %}
+    {% assign lang = page.metafields['global']['feature'] %}
+  {% endif %}
+{% else %}
+  {% if product.metafields['global']['feature'].value %}
+    {% assign lang = product.metafields['global']['feature'].value %}
+  {% else %}
+    {% assign lang = product.metafields['global']['feature'] %}
+  {% endif %}
+{% endif %}
+
+{% assign feature5 = lang.t8213-feature_clarity %}
+
+<section id="t8213-feature_5" class="t8213-feature_5">
+  <div class="t8213-feature-container">
+    <h2 class="header-title">{{ feature5.title }}</h2>
+    <div class="feature_5_block feature_5_block_top">
+      <div class="block-desc">
+        <h2 class="title">{{ feature5.topBlock-title }}</h2>
+        <p class="desc">{{ feature5.topBlock-desc }}</p>
+      </div>
+      <div class="block-img topBlock-img">
+        {% render 'lazyload_image',  
+          src: feature5.topBlock-img_pc,
+          additional_classes: "is-hidden-mobile-only topBlock-img_pc"
+          style: "opacity: 0;"
+          alt: "" %}
+        {% render 'lazyload_image',
+          src: feature5.topBlock-img_mob,
+          additional_classes: "is-hidden-desktop-only topBlock-img_mob",
+          style: "opacity: 0;"
+          alt: "" %}
+      </div>
+    </div>
+    <div class="feature_5_block feature_5_block_bottom">
+      <div class="block-desc">
+        <h2 class="title">{{ feature5.bottomBlock-title }}</h2>
+        <p class="desc">{{ feature5.bottomBlock-desc }}</p>
+      </div>
+      <div class="block-img bottomBlock-img">
+        {% render 'lazyload_image',  
+          src: feature5.bottomBlock-img_pc,
+          additional_classes: "is-hidden-mobile-only bottomBlock-img_pc"
+          style: "opacity: 0;"
+          alt: "" %}
+        {% render 'lazyload_image',
+          src: feature5.bottomBlock-img_mob,
+          additional_classes: "is-hidden-desktop-only bottomBlock-img_mob",
+          style: "opacity: 0;"
+          alt: "" %}
+      </div>
+    </div>
+  </div>
+</section>

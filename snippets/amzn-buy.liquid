@@ -1,0 +1,16 @@
+<script defer src='https://bootstrap.prod.scoville.dubai.aws.dev/bwp.js'></script>
+{% if product.sku %}
+    <div
+        id="amzn-buy-now"
+        data-site-id="4znx45ar0i"
+        data-widget-id="w-4ewQHxMqF22DLadNp67Fd0"
+        data-sku="{{product.sku}}"
+    ></div>
+{% else %}
+    <div
+        id="amzn-buy-now"
+        data-site-id="4znx45ar0i"
+        data-widget-id="w-4ewQHxMqF22DLadNp67Fd0"
+        data-sku="{{product.selected_or_first_available_variant.sku}}"
+    ></div>
+{% endif %}

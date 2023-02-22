@@ -1,0 +1,36 @@
+{% if template contains 'page' %}
+  {% if page.metafields['global']['feature'].value %}
+    {% assign lang = page.metafields['global']['feature'].value %}
+  {% else %}
+    {% assign lang = page.metafields['global']['feature'] %}
+  {% endif %}
+{% else %}
+  {% if product.metafields['global']['feature'].value %}
+    {% assign lang = product.metafields['global']['feature'].value %}
+  {% else %}
+    {% assign lang = product.metafields['global']['feature'] %}
+  {% endif %}
+{% endif %}
+{% assign feature6 = lang.t8213-feature_6 %}
+
+<section id="t8213-feature_6" class="t8213-feature_6">
+  <div class="t8213-feature-container">
+    <div class="feature-header">
+      <h2 class="header-title">{{ feature6.title }}</h2>
+      <p class="header-desc is-hidden-mobile-only">{{ feature6.desc_pc }}</p>
+      <p class="header-desc is-hidden-desktop-only">{{ feature6.desc_mob }}</p>
+    </div>
+    <div class="feature_6_block">
+      {% render 'lazyload_image',  
+        src: feature6.img_pc,
+        additional_classes: "is-hidden-mobile-only feature_6-img_pc"
+        style: "opacity: 0;"
+        alt: "" %}
+      {% render 'lazyload_image',
+        src: feature6.img_mob,
+        additional_classes: "is-hidden-desktop-only feature_6-img_mob",
+        style: "opacity: 0;"
+        alt: "" %}
+    </div>
+  </div>
+</section>

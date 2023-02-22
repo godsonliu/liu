@@ -1,0 +1,59 @@
+{% assign lang = product.metafields.global %}
+
+{% if lang.t8423_v.value %}
+  {% assign t8423_v = lang.t8423_v.value %}
+{% else %}
+  {% assign t8423_v = lang.t8423_v %}
+{% endif %}
+
+<link rel="stylesheet" href="{{ 't8423listing.scss.css' | asset_url }}">
+<script src="{{ 't8423listing.js' | asset_url }}" defer="defer"></script>
+
+<div class="t8423listing_5">
+  
+  <div class="banner_bg5 pc_show">
+    <div class="contain">
+      <div class="bg5_a">
+        <div class="bg5_a_content">
+          <p class="bg5_a_p1">{{ t8423_v.bg5_a_p1 }}</p>
+          <p class="bg5_a_p2">{{ t8423_v.bg5_a_p2 }}</p>
+          <div class="bg5_a_lignt">
+            <div class="light_border">
+              <div class="light_content"></div>
+            </div>
+            <div class="light_pao">
+              <img class="lazyload" data-src="{{ t8423_v.light_pao_img }}" alt="">
+            </div>
+            
+          </div>
+        </div>
+        <div class="bg5_a1">
+          <img class="pc_show lazyload" data-src="{{ t8423_v.bg5_img1 }}" alt="">
+        </div>
+        <div class="bg5_a2">
+          <img class="pc_show lazyload" data-src="{{ t8423_v.bg5_img2 }}" alt="">
+        </div>
+      </div>
+      <div class="bg5_b">
+        <div class="bg5_b_content">
+          <p class="bg5_b_p1">{{ t8423_v.bg5_b_p1 }}</p>
+          <p class="bg5_b_p2">{{ t8423_v.bg5_b_p2 }}</p>
+          <div class="bg5_b_qh">
+            <div class="qh_yellow">
+              <div class="qh_yellow_a"></div>
+            </div>
+            <div class="qh_blue">
+              <div class="qh_blue_a"></div>
+            </div>
+          </div>
+        </div>
+        <div class="bg5_a3">
+          <img class="pc_show lazyload" data-src="{{ t8423_v.bg5_img3 }}" alt="">
+        </div>
+        <div class="bg5_a4">
+          <img class="pc_show lazyload" data-src="{{ t8423_v.bg5_img4 }}" alt="">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,101 @@
+// Centered layout
+
+.footer__content {
+    border-bottom: $footer_border;
+    border-top: $footer_border;
+  }
+
+  .footer__menu {
+    list-style: none;
+    padding-left: 0;
+    text-align: center;
+
+    .footer__heading {
+      display: none;
+    }
+  }
+
+  .footer__menu-link {
+    display: inline-block;
+    padding: 0 5px;
+
+    @include respond-to('small-down') {
+      display: block;
+      padding: 5px 0;
+    }
+  }
+
+  .footer__logo-wrapper {
+    margin: 0px auto;
+
+    &.is-small {
+      max-width: 200px;
+
+      @include respond-to('medium-down') {
+        max-width: 100px;
+      }
+    }
+
+    &.is-medium {
+      max-width: 250px;
+
+      @include respond-to('medium-down') {
+        max-width: 200px;
+      }
+    }
+
+    &.is-large {
+      max-width: 350px;
+
+      @include respond-to('medium-down') {
+        max-width: 300px;
+      }
+    }
+  }
+
+  .footer .social-icons {
+    @include justify-content(center);
+
+    li {
+      padding: 0 5px;
+    }
+  }
+
+  .footer__block {
+
+    &.block__logo {
+      overflow: hidden;
+      width: 100%;
+    }
+
+    &.block__text {
+      max-width: 800px;
+      margin: 0 auto;
+      padding-left: $gutter;
+      padding-right: $gutter;
+    }
+  }
+
+  .footer-centered__disclosure {
+    @include justify-content(center);
+  }
+
+  .footer__credits + .footer__payment-methods {
+    margin-top: 20px;
+  }
+
+  .footer__credits {
+
+    @include respond-to('small-down') {
+      text-align: center;
+    }
+  }
+
+  .footer__payment-methods {
+
+    @include respond-to('small-down') {
+      text-align: center;
+      @include justify-content(center);
+    }
+  }
+ 

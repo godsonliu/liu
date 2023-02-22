@@ -1,0 +1,124 @@
+
+{% assign DataId = section.settings.data_id %}
+{% if page.metafields['global'][DataId].value %}
+  {% assign web_subscribe_countdown = page.metafields['global'][DataId].value %}
+{% else %}
+  {% assign web_subscribe_countdown = page.metafields['global'][DataId] %}
+{% endif %}
+
+
+<section class="web_subscribe_countdown" id="{{ DataId }}">
+  <div class="subscribeCountdownBox">
+    <div class="countdown">
+      <h3 class="title">{{ web_subscribe_countdown.heading_text }}</h3>
+      <p class="desc">{{ web_subscribe_countdown.subheading_text }}</p>
+      <div id="timeOutTxt">
+        <span id="newDtes"></span>
+      </div>
+    </div>
+    <div class="subscribe">
+      {% render 'subscribe-deals-form',
+        snippets_id: web_subscribe_countdown.subscribe_deals_type,
+        deals_type: web_subscribe_countdown.subscribe_deals_type,
+        submit_position: 'right',
+        text_position: 'left',
+        submit_btn_txt: web_subscribe_countdown.button_text,
+        heading_text: web_subscribe_countdown.subscribe_heading_text,
+        subheading_text: web_subscribe_countdown.subscribe_subheading_text,
+        info_seccess: web_subscribe_countdown.success_text
+        show_email_icon: true
+      %}
+    </div>
+  </div>
+</section>
+
+<style>
+  .web_subscribe_countdown {
+    padding: 5rem 0; background: {{ web_subscribe_countdown.section_background_color }};
+    background-image: url({{ web_subscribe_countdown.section_background_image }});
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    background-position: center top;
+  }
+  .web_subscribe_countdown .subscribeCountdownBox { width: 100%; max-width: 1200px; margin: 0 auto; background: {{ web_subscribe_countdown.row_background_color }}; }
+  .web_subscribe_countdown .subscribeCountdownBox { display: flex; align-items: center; justify-content: space-between; padding: 2rem 6rem; }
+  .web_subscribe_countdown .countdown .title { font-size: 30px; font-weight: 700; margin-bottom: 10px; color: {{ web_subscribe_countdown.section_color }}; }
+  .web_subscribe_countdown .countdown .desc { font-size: 20px; margin-bottom: 10px; color: {{ web_subscribe_countdown.number_color }}; }
+  .web_subscribe_countdown .countdown #timeOutTxt { margin-top: 1rem; min-height: 80px; }
+  .web_subscribe_countdown .countdown #timeOutTxt span { font-size: 30px; color: {{ web_subscribe_countdown.section_color }}; }
+  .web_subscribe_countdown .countdown #newDtes { display: flex; }
+  .web_subscribe_countdown .countdown #newDtes p { margin: 0 1rem; text-align: center; }
+  .web_subscribe_countdown .countdown #newDtes p:first-child { margin-left: 0; }
+  .web_subscribe_countdown .countdown #newDtes p:last-child { margin-right: 0; }
+  .web_subscribe_countdown .countdown #newDtes span { display: block; font-size: 18px; color: {{ web_subscribe_countdown.number_color }}; }
+  .web_subscribe_countdown .subscribe .title { font-size: 20px; color: {{ web_subscribe_countdown.section_color }}; }
+  .web_subscribe_countdown .subscribeCountdownBox .policyBox span, .web_subscribe_countdown .subscribeCountdownBox .policyBox a { color: #e3e3e3; }
+  .web_subscribe_countdown .subscribeCountdownBox .policyBox a:hover { color: #e3e3e3; }
+  .web_subscribe_countdown .subscribe-deals-form .subscribe_deals_form_box .form_input input {
+    color: #e3e3e3;
+    background: transparent;
+    border: 1px solid {{ web_subscribe_countdown.section_color }};
+  }
+  .subscribe-deals-form .subscribe_deals_form_box .form_button { color: #333; font-weight: 600; background: {{ web_subscribe_countdown.button_color }};  }
+  .web_subscribe_countdown .subscribe-deals-form .subscribe_deals_form_box .form_input input::-webkit-input-placeholder { color: #e3e3e3; }
+  .web_subscribe_countdown .form_feedback_box p { color: {{ web_subscribe_countdown.section_color }} !improtant; }
+  @media (max-width: 1200px){
+    .web_subscribe_countdown { padding: 3rem 1rem; }
+  }
+  @media (max-width: 767px){
+    .web_subscribe_countdown .subscribeCountdownBox { display: block; padding: 2rem; }
+    .web_subscribe_countdown .subscribe { margin-top: 2rem; }
+    .web_subscribe_countdown .subscribe-deals-form { text-align: center; }
+    .web_subscribe_countdown .subscribe .title { margin-bottom: 10px; }
+    .web_subscribe_countdown .countdown #newDtes { justify-content: center; }
+    .web_subscribe_countdown .countdown { text-align: center; }
+  }
+</style>
+
+<script>
+  $(document).ready(function(){
+    {% if web_subscribe_countdown.countdown_end_at %}
+      const endsTime = new Date("{{ web_subscribe_countdown.countdown_end_at }}").valueOf();
+      timeLine = setInterval(function() {
+        let nowTime = new Date().getTime();
+        let distance = endsTime - nowTime;
+        if (distance >= 0) {
+          // 展示倒计时
+          let days = Math.floor(distance / (1000 * 60 * 60 * 24));
+          let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+          let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+          if (days === 0) {
+            $('#{{ DataId }} #timeOutTxt #newDtes').html(`<p>${hours}<span>{{ web_subscribe_countdown.hours }}</span></p> : <p>${minutes}<span>{{ web_subscribe_countdown.minute_label_text }}</span></p> : <p>${seconds}<span>{{ web_subscribe_countdown.second_label_text }}</span></p>`);
+          } else if (days === 1) {
+            $('#{{ DataId }} #timeOutTxt #newDtes').html(`<p>${days}<span>{{ web_subscribe_countdown.day_label_text }}</span></p> : <p>${hours}<span>{{ web_subscribe_countdown.hour_label_text }}</span></p> : <p>${minutes}<span>{{ web_subscribe_countdown.minute_label_text }}</span></p> : <p>${seconds}<span>{{ web_subscribe_countdown.second_label_text }}</span></p>`);
+          } else {
+            $('#{{ DataId }} #timeOutTxt #newDtes').html(`<p>${days}<span>{{ web_subscribe_countdown.days_label_text }}</span></p> : <p>${hours}<span>{{ web_subscribe_countdown.hour_label_text }}</span></p> : <p>${minutes}<span>{{ web_subscribe_countdown.minute_label_text }}</span></p> : <p>${seconds}<span>{{ web_subscribe_countdown.second_label_text }}</span></p>`);
+          }
+        } else {
+          $('#{{ DataId }} #timeOutTxt').hide();
+        }
+      }, 1000);
+    {% endif %}
+  })
+</script>
+
+{% schema %}
+{
+  "name": "web_subscribe_countdown",
+  "presets": [
+    {
+      "category": "Custom Dynamic Sections",
+      "name": "web subscribe countdown"
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "data_id",
+      "label": "metafields data id",
+      "default": "web_subscribe_countdown"
+    }
+  ]
+}
+{% endschema %}

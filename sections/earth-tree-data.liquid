@@ -1,0 +1,97 @@
+<div class="earth-our-tree" style="background-image: url({{ section.settings.bg | img_url: '' }}) ">
+    <a href="{{ section.settings.link }}" target="_blank" rel="noopener noreferrer">
+        <h3 class="our-tree-title">{{ section.settings.title }}</h3>
+        <ul class="our-tree-data-list">
+            <li class="treed-list-item">
+                <i class="treed-icon treed-icon-co2" style="background-image: url({{ section.settings.icon1 | img_url: '' }})"></i>
+                <div class="treed-info">
+                    <p class="treed-num">
+                        <span id="carbonOffset">0</span>
+                        <span>{{ section.settings.unit1 }}</span>
+                    </p>
+                    <p class="treed-sub-info">{{ section.settings.sub1 }}</p>
+                </div>
+            </li>
+            <li class="treed-list-item">
+                <i class="treed-icon treed-icon-tree" style="background-image: url({{ section.settings.icon2 | img_url: '' }})"></i>
+                <div class="treed-info">
+                    <p class="treed-num">
+                        <span id="trees">0</span>
+                        <span>{{ section.settings.unit2 }}</span>
+                    </p>
+                    <p class="treed-sub-info">{{ section.settings.sub2 }}</p>
+                </div>
+            </li>
+        </ul>
+    </a>
+</div>
+
+<script>
+ $.ajax({
+    url: 'https://public.ecologi.com/users/eufySecurity/impact',
+    type: 'GET',
+    contentType: "application/json",
+    success: (res) => {
+        const {trees, carbonOffset} = res
+        const carbonT = trees * 18 / 1000
+        if(trees) {
+            $('#trees').text(('' + trees).replace(/(?=(\B)(\d{3})+$)/g, ','))
+            $('#carbonOffset').text(carbonT)
+        }
+        if(carbonOffset && carbonOffset > carbonT) {
+            $('#carbonOffset').text(carbonOffset)
+        }
+    },
+    error: (err) => {
+        err && console.warn(err)
+    }
+})
+</script>
+
+{% schema %}
+{
+    "name": "Earth Our Tree",
+    "settings":[{
+        "type": "image_picker",
+        "id": "bg",
+        "label": "背景图"
+    }, {
+        "type": "text",
+        "id": "link",
+        "label": "跳转链接"
+    }, {
+        "type": "textarea",
+        "id": "title",
+        "label": "标题",
+        "default": "title"
+    }, {
+        "type": "image_picker",
+        "id": "icon1",
+        "label": "co2 图标"
+    }, {
+        "type": "text",
+        "id": "unit1",
+        "label": "co2数据单位",
+        "default": "unit" 
+    } ,{
+        "type": "text",
+        "id": "sub1",
+        "label": "co2数据描述",
+        "default": "data sub text" 
+    }, {
+        "type": "image_picker",
+        "id": "icon2",
+        "label": "树图标"
+    }, {
+        "type": "text",
+        "id": "unit2",
+        "label": "co2数据单位",
+        "default": "unit" 
+    }, {
+        "type": "text",
+        "id": "sub2",
+        "label": "树数据描述",
+        "default": "data sub text"
+    }]
+}
+{% endschema %}

@@ -1,0 +1,85 @@
+{% if product.metafields.global.layout.value %}
+  {% assign layout = product.metafields.global.layout.value %}
+{% else %}
+  {% assign layout = product.metafields.global.layout %}
+{% endif %}
+
+{% if shop.metafields['reviews']['yotpo'].value %}
+  {% assign yotpo = shop.metafields['reviews']['yotpo'].value %}
+{% else %}
+  {% assign yotpo = shop.metafields['reviews']['yotpo'] %}
+{% endif %}
+
+{% comment %}
+  Scrolling images product template
+{% endcomment %}
+{{ 'product-anker.scss.css' | asset_url | stylesheet_tag }}
+<link rel="stylesheet" href="{{ 't8520.scss.css' | asset_url }}">
+<script src="{{ 'framePlayer.js' | asset_url }}" defer="defer"></script>
+
+<div id="template-{{ template | replace: '.', '-' | handle }}" class="shopify-section product-page section__wrapper">
+    {% comment %} Breadcrumbs and navigation {% endcomment %}
+    <section class="section
+                    is-width-standard
+                    has-padding-top
+                    has-padding-bottom
+                    ">
+      <div class="container">
+        <div class="one-whole column is-flex is-justify-space-between is-flex-column-reverse-mobile is-align-center">
+
+          <div class="breadcrumb__container">
+            {% render 'breadcrumb', context: 'product' %}
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    {% comment %} Product wrapper {% endcomment %}
+    <section class="section
+                    section--has-sidebar-option">
+      <div class="container">
+        {% section 'product__sidebar' %}
+        {% section 'product__main' %}
+        {% section 't8520-content' %}
+        {% comment %} {% section 'product__recommendations' %} {% endcomment %}
+      </div>
+    </section>
+</div>
+
+{% comment %} product.metafields.global.subtitle # snippets/product-info.liquid {% endcomment %}
+{% assign sorting = "highlights|reviews|compare|faqs|specs|downloads" | split: '|' %}
+{% if layout.sort != blank %}
+  {% assign sorting = layout.sort | split: '|' %}
+{% endif %}
+{% for key in sorting %}
+  {% case key %}
+    {% when 'highlights' %}
+      {% comment %} product.metafields.global.highlights {% endcomment %}
+      {% section 'product-meta-highlights' %}
+    {% when 'reviews' %}
+      {% section 'product-meta-reviews' %}
+    {% when 'compare' %}
+      {% comment %} product.metafields.global.compare {% endcomment %}
+      {% section 'product-meta-compare' %}
+    {% when 'faqs' %}
+      {% comment %} product.metafields.global.faqs {% endcomment %}
+      {% section 'product-meta-faqs' %}
+    {% when 'specs' %}
+      {% comment %} product.metafields.global.specs {% endcomment %}
+      {% section 'product-meta-specs' %}
+    {% when 'downloads' %}
+      {% comment %} product.metafields.global.downloads {% endcomment %}
+      {% section 'product-meta-downloads' %}
+  {% endcase %}
+{% endfor %}
+
+<div class="container">
+  {% section 'product__recommendations' %}
+</div>
+
+{%- if yotpo and yotpo.show_yotpo_reviews == 'true' -%}
+  <div class="yotpoReviews wrap"> 
+    <div class="yotpo yotpo-main-widget" data-product-id="{{ product.id }}" data-name="{{ product.title | escape }}" data-url="{{ shop.url }}{{ product.url }}" data-image-url="{{ product.featured_image | product_img_url: "large" |replace: '?', '%3F' | replace: '&','%26'}}" data-description="{{ product.description | escape }}"></div>
+  </div>
+{% endif %}

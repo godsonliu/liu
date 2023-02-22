@@ -1,0 +1,466 @@
+{% if shop.metafields['global']['cancel_order'].value %}
+  {% assign obj_cancel_order = shop.metafields['global']['cancel_order'].value %}
+{% else %}
+  {% assign obj_cancel_order = shop.metafields['global']['cancel_order'] %}
+{% endif %}
+
+{% if shop.metafields.global.country.value %}
+  {% assign country = shop.metafields.global.country.value %}
+{% else %}
+  {% assign country = shop.metafields.global.country %}
+{% endif %}
+
+{% assign hide_cancel_order_btn = false %}
+{% if country.disable_nonphysical %}
+  {% for item in order.line_items %}
+    {% if item.variant.requires_shipping == false %}
+      {% assign hide_cancel_order_btn = true %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+{%- assign asign = order.name | hmac_sha256: "anker-2021" -%}
+{% style %}
+  {% if obj_cancel_order %}
+  .pop-ups .mask{    
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(6px);
+  }
+  .pop-ups .pop-content{
+    max-height:90%;
+    transition: 400ms;
+    display: block;
+    padding: 3rem 0 0rem 2rem;
+  }
+  
+  .pop-ups .tip-overflow, .pop-ups .info_content{
+    padding-right: 2.5rem;
+    padding-bottom: 3rem;
+  }
+  .pop-ups .tip-overflow{
+    padding-bottom: 5rem;
+  }
+  .pop-ups .tip-overflow,.pop-ups .info_content{
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+  .pop-ups .comfire-pop-title{
+    font-weight: 600;
+    font-size: 18px;
+    line-height:26px;
+    padding:20px 0px;
+    color:#333;
+  }
+  .pop-ups .txt-list{
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 26px;
+    color: #333;
+    list-style-type: disc;
+    padding-bottom:30px;
+  }
+  .cancel-order-btn .txt-list{
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 26px;
+    color: #737373;
+    list-style-type: disc;
+    margin-left:14px;
+  }
+  .pop-ups .reason-box{
+    font-size: 14px;
+    line-height: 26px;
+  }
+  .pop-ups .reason-title{
+    padding-bottom: 10px;
+    color:#737373;
+  }
+  .pop-ups .reason-title b{
+    font-weight: bold;
+    color:#333;
+  }
+  .pop-ups .reason-list{
+    color: #737373;
+  }
+  .pop-ups .reason-list li,.cancel-order-btn li{
+    cursor: pointer;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 26px;
+    padding-bottom:10px;
+  }
+  .pop-ups input[type='radio']{
+    appearance: radio;
+    -webkit-appearance:radio;
+  }
+  .pop-ups .reason{
+    padding-left:10px;
+    display: flex;
+    width: 100%;
+  }
+  .pop-ups .reason-txt[data-is-other="true"]{
+    flex: none;
+  }
+  .pop-ups .other-input{
+    border: none;
+    border-bottom: 1px solid #E5E5E5;
+    width: 100%;
+    margin-left:10px;
+    color:#333;
+    font-size:14px;
+  }
+  .pop-ups .control{    
+    justify-content: flex-start;
+    align-items: center;
+    position: absolute;
+    bottom: 0;
+    padding: 20px 0;
+    background-color: #fff;
+    width: 100%;
+    margin-left: -2rem;
+    padding-left: 1rem;
+    box-sizing: border-box;
+  }
+  .pop-ups .control button{
+    border-radius: 5px;
+    background-color:#21ccbf;
+    border: none;
+    min-height: 36px;
+    line-height: 26px;
+    padding: 0 1rem;
+    color:#fff;
+    cursor:pointer;
+  }
+  
+  .pop-ups .tip-box{
+    min-height:20px;
+    padding:10px 0;
+  }
+  .pop-ups .reason-list label{
+    display: flex;
+    align-items: center;
+    align-content: flex-start;
+    cursor: pointer;
+  }
+  .pop-ups .reason-tip{
+    color: red;
+    min-height:40px;
+    padding-bottom: 10px;
+  }
+  .pop-ups .need-more{
+    bottom: 35px;
+    padding-top:80px;
+    width:100%;
+    font-size:14px;
+    color: #737373;
+  }
+  .pop-ups .pop-content .topic-title{
+    font-weight: 600;
+    font-size: 18px;
+    color: #333;
+    padding:20px 0;
+  }
+  .pop-ups .topic-txt{
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #737373;
+    margin-bottom:20px;
+  }
+  .pop-ups .cancel-btn{
+    background-color:#fff;
+    padding:0;
+    color:#333;
+    text-decoration-line: underline;
+    text-align: left;
+  }
+  .pop-ups .need-more span{
+    padding-left:0;
+  }
+  .pop-ups .topics-box{
+    padding:0 22px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .cancel-order-btn h2{
+    font-size: 16px;
+    font-weight: 600;
+    padding-bottom: 10px;
+  }
+  .cancel-order-btn .topic{
+    font-size: 14px;
+    color: #737373;
+    line-height: 26px;
+  }
+  .cancel-order-btn li {
+    padding-bottom: 0;
+  }
+  .cancel-order-btn .see-all {
+    padding-top:10px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height:20px;
+  }
+  .pop-ups .modalClose{
+    right:0.5rem;
+    top:0.5rem;
+  }
+  .pop-ups .other-reason{
+    display:flex;
+  }
+  .pop-ups .pop-content h1{
+    color:#333;
+    font-weight: 600;
+    font-size: 18px;
+    color: #333;
+    padding:20px 0;
+    margin-bottom: 0;
+  }
+  .pop-ups .pop-content p{
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #737373;
+  }
+  @media (max-width: 767px){
+    .pop-ups .pop-content{
+      width: 100%;
+      height: 100%;
+      max-height: 100%;
+      max-width: 100%;
+      top: 50%;
+    }
+    .pop-ups .tip-overflow,.pop-ups .info_content{
+      max-height: 85vh;
+    }
+    .pop-ups .control{
+      bottom:30px;
+    }
+    .pop-ups .modalClose{
+      right: 15px;
+      top: 25px;
+    }
+    .pop-ups .reason{
+      flex-direction: column;
+    }
+    .pop-ups .reason-list label{
+      align-items:baseline;
+    }
+  }
+  {% endif %}
+
+{% endstyle %}
+{% if obj_cancel_order and obj_cancel_order.show and hide_cancel_order_btn == false %}
+  {% if order.fulfillment_status == 'unshipped' or order.fulfillment_status == 'unfulfilled' or order.fulfillment_status == 'null' %}
+    {% if order.financial_status == 'authorized' or order.financial_status == 'paid' or order.financial_status == 'pending' or order.financial_status == 'partially_paid' %}
+      {% unless order.cancelled %}
+
+        <section class="cancel-order-btn">
+          {% unless renderBtn %}
+            <div class="btnBox">
+              <button class="button button--primary order-info-cancel-button" style="line-height: 1;">
+                {{obj_cancel_order.btnTxt}}
+              </button>
+            </div>
+          {% endunless %}
+        </section>
+
+        <section class="cancel-order-pop pop-ups swap--visible">
+          <div class="mask"></div>
+          <div class="pop-content">
+            <div class="info_content swap--visible"></div>
+            <button type="button" class="modalClose">
+              <i class="iconfont">&#xe723;</i>
+            </button>
+            <div class="tip_content swap--visible">
+              <div class="tip-overflow">
+                <div class="comfire-pop-title">
+                  {{obj_cancel_order.comfirePopTxt}}
+                </div>
+                <ul class="txt-list" role="listbox">
+                  {% for item in obj_cancel_order.comfirePopTxtList %}
+                    <li role="option" class="txt-item" aria-label="{item}">{{item}}</li>
+                  {%endfor%}
+                </ul>
+                <div class="reason-box">
+                  <div class="reason-title">{{obj_cancel_order.reasonInfo.title}}</div>
+                  <ul class="reason-list" role="listbox">
+                    {% for item in obj_cancel_order.reasonInfo.list %}
+                      <li role="option" class="txt-item" aria-label="{{item.key}}" value="{{item.key}}">
+                        <label>
+                          <input type="radio" data-reason="{{item.reason}}" data-is-other="{{item.isOther ? 'other':''}}" name="option" id="{{item.key}}" value="{{item.key}}" />
+                          <span class="reason">
+                            <span class="reason-txt" data-value="{{item.key}}" data-is-other="{{item.isOther ? 'other':''}}">{{item.reason}}</span>
+                            {% if item.isOther %}
+                              <input type="text" class="other-input swap--visible"/>
+                            {%endif%}
+                          </span>
+                        </label>
+                      </li>
+                    {%endfor%}
+                  </ul>
+                </div>
+                <div class="reason-tip"></div>
+              </div>
+              <div class="control">
+                <button class="button comfire">
+                  {{obj_cancel_order.comfireBtn}}
+                </button>
+                <button class="button hollow cancel">
+                  {{obj_cancel_order.cancelBtn}}
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.32/moment-timezone.min.js"></script>
+          
+        <script>
+        $(function() {
+          var template = `{{ template }}`;
+          var canceling = false;
+          var created = `{{order.created_at}}`;
+          var deadline = moment(created, 'YYYY-MM-DD').add(59, 'd');
+          const errTipHandle=(error)=>{
+            $('.cancel-order-pop .reason-tip').html(error);
+              const timer = setTimeout(()=>{
+                $('.cancel-order-pop .reason-tip').html('');
+                clearTimeout(timer);
+            }, 5000);
+          }
+          if(moment().isAfter(deadline)) {
+            $('.cancel-order-btn').html(' ');
+          } else {
+            const successInfo = `{{obj_cancel_order.successInfo}}`;
+            const errorInfo = `{{obj_cancel_order.errorInfo}}`;
+            const reasonErrorTip = `{{obj_cancel_order.reasonErrorTip}}`;
+            const inputErrorTip = `{{obj_cancel_order.inputErrorTip}}`;
+            const txt = `{{obj_cancel_order.topics[0].title}}`;
+            const $cancelOrderPop = $('.cancel-order-pop');
+            const $tipContent = $cancelOrderPop.find('.tip_content');
+            const $infoContent = $cancelOrderPop.find('.info_content');
+            {% if renderBtn %}
+              $('{{renderBtn}}').first().before(`<div style="overflow: hidden;" class="cancel-order-btn"><div class="cancel-order-btn-box"><h2>{{obj_cancel_order.title}}</h2><ul class="txt-list j-topics">{% for topic in obj_cancel_order.topics %}<li class="topic" data-title="{{topic.title}}" data-txt="{{topic.txt}}" data-showcancelorder="{{topic.showCancelOrder}}">{{topic.title}}</li>{%endfor%}</ul>{% if obj_cancel_order.seeAll.txt %}<div class="see-all"><a target="_blank" href="{{obj_cancel_order.seAll.link}}" rel="noopener noreferrer">{{obj_cancel_order.seeAll.txt}}</a></div>{% endif %}</div></div>`);
+            {% endif %}
+
+            $('.cancel-order-btn .j-topics').on('click', function(e) {
+              $(document.body).css({'overflow-y':'hidden'});
+              if (canceling === 'done') return window.location.reload();
+              if (canceling) return false;
+              
+              const title = $(e.target).data('title');
+              const txt = $(e.target).data('txt');
+              const showCancelOrder = $(e.target).data('showcancelorder');
+              const cancelOrder = showCancelOrder?`<button class="step__footer__continue-btn btn button cancel-btn">{{obj_cancel_order.btnTxt}}</button>`:'';
+              $cancelOrderPop.removeClass('swap--visible');
+              $tipContent.addClass('swap--visible');
+              $infoContent.removeClass('swap--visible').html(`<div class="topics-box"><p class="topic-title">`+title+`</p><div class="topic-txt">`+txt+`</div>`+cancelOrder+`<div class="need-more"><span>{{obj_cancel_order.needMore}}<span></div></div>`);
+              $('.cancel-order-pop .cancel-btn').on('click', function() {
+                $tipContent.removeClass('swap--visible');
+                $infoContent.addClass('swap--visible');
+              })
+              dataLayer.push({
+                  "event": "uaEvent", 
+                  "eventCategory": 'cancel_order',
+                  "eventAction": "help_topic",
+                  "eventLabel": title, //放问题标题变量
+              })
+            })
+            $('.cancel-order-btn .order-info-cancel-button').on('click', function() {
+              $(document.body).css({'overflow-y':'hidden'});
+              if (canceling === 'done') return window.location.reload();
+              if (canceling) return false;
+                $cancelOrderPop.removeClass('swap--visible');
+                $tipContent.removeClass('swap--visible');
+                $infoContent.addClass('swap--visible');
+                window.dataLayer.push({
+                  "event": "cancel_order",
+                  "page_group": template === 'order' ? 'Order Detail' : "Successful Page",
+                });
+            })
+            $cancelOrderPop.on('click', '.modalClose,.cancel', function() {
+              if (canceling === 'done') return window.location.reload();
+              if (canceling) return false;
+              $cancelOrderPop.addClass('swap--visible');
+              $tipContent.removeClass('swap--visible');
+              $infoContent.addClass('swap--visible');
+              $(document.body).css({'overflow-y':'auto'});
+            })
+            $cancelOrderPop.on('click','.reason-list',(e)=>{
+              if(e.target.tagName==='LI') return false;
+              const target = $(e.target);
+              const val = target.val() || target.data('value');
+              if(!val) return false;
+              const isOther = target.data('is-other');
+              
+              if(isOther) {
+                $cancelOrderPop.find('.other-input').removeClass('swap--visible')
+              }else{
+                $cancelOrderPop.find('.other-input').val('').addClass('swap--visible')
+              }
+            })
+            $('.cancel-order-pop .comfire').on('click', function() {
+              
+              //先判断是否选择了原因
+              const reasonCheckedDom = $('.reason-list input:radio:checked');
+              const reasonKey = reasonCheckedDom.val();
+              if(!reasonKey) {
+                errTipHandle(reasonErrorTip);
+                return false;
+              }
+              const isOther = reasonCheckedDom.data('is-other');
+              const reason = reasonCheckedDom.data('reason');
+              const inputVal = $('.reason-list .other-input').val();
+              if(isOther && !inputVal) {
+                errTipHandle(inputErrorTip);
+                return false;
+              }
+              if (canceling) return false;
+              $('.cancel-order-pop button').css('cursor', 'progress');
+              canceling = true;
+              $.ajax({
+                headers: Shopify.contentCreator.pastApi.getHeaders(),
+                url: `/apps/pp/shopifyservices/orders/cancel_order`, 
+                type: 'POST',
+                data: {
+                  order_name: '{{order.name}}',
+                  asign: '{{asign}}',
+                  cancel_reason_key:reasonKey || null,
+                  cancel_reason_txt:inputVal || reason || null
+                },
+                success: function(body) {
+                  $cancelOrderPop.removeClass('swap--visible');
+                  $infoContent.removeClass('swap--visible').html(successInfo);
+                  $tipContent.addClass('swap--visible');
+                  $('.cancel-order-btn').html(' ');
+                  $('.cancel-order-pop button').css('cursor', 'pointer');
+                  canceling = 'done';
+                  window.dataLayer.push({
+                    "event": "confirm_cancel_order",
+                    "page_group": template === 'order' ? 'Order Detail' : "Successful Page",
+                    "transaction_id": '{{order.name}}'
+                  });
+                  $(document.body).css({'overflow-y':'auto'});
+                },
+                error: function (err) {
+                  $infoContent.removeClass('swap--visible').html(errorInfo);
+                  $tipContent.addClass('swap--visible');
+                  $('.cancel-order-pop button').css('cursor', 'pointer');
+                  canceling = 'done';
+                  $(document.body).css({'overflow-y':'auto'});
+                }
+              });
+            })
+          }
+        })
+        </script>
+
+      {% endunless %}
+    {% endif %}
+  {% endif %}
+{% endif %}
+

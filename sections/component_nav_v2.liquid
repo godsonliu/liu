@@ -1,0 +1,143 @@
+
+<section class="component_nav_v2 {{section.settings.custom_class}}">
+  {% render 'component_nav_v2' %}
+</section>
+
+{% schema %}
+  {
+    "name": "component_nav_v2",
+    "presets": [
+			{
+				"name": "component_nav_v2"
+			}
+		],
+    "settings": [
+      {
+        "type": "header",
+        "content": "导航栏展示模式"
+      },
+      {
+        "type": "select",
+        "id": "custom_style",
+        "label": "Nav样式",
+        "options": [
+          {
+            "label": "样式1",
+            "value": "1"
+          },
+          {
+            "label": "样式2",
+            "value": "2"
+          }
+        ],
+        "default": "1"
+      },
+      {
+        "type": "select",
+        "id": "item_text_align",
+        "label": "导航栏水平方向的方式",
+        "options": [
+          {
+            "label": "居左",
+            "value": "left"
+          },
+          {
+            "label": "居中",
+            "value": "center"
+          },
+          {
+            "label": "居右",
+            "value": "right"
+          }
+        ],
+        "default": "center"
+      },
+      {
+        "type": "header",
+        "content": "结构方面"
+      },
+      {
+        "type": "text",
+        "id": "box_width",
+        "label": "section区域最大宽度"
+      },
+      {
+        "type": "color",
+        "id": "box_bg",
+        "label": "section背景色"
+      },
+      {
+        "type": "color",
+        "id": "text_color",
+        "label": "文案颜色",
+        "default": "#333333"
+      },
+      {
+        "type": "color",
+        "id": "item_bg",
+        "label": "切换项的背景色",
+        "default": "#fff"
+      },
+      {
+        "type": "color",
+        "id": "item_border_color",
+        "label": "切换项边框颜色",
+        "default": "#000000"
+      },
+      {
+        "type": "text",
+        "id": "item_radius",
+        "label": "切换项的圆角",
+        "info": "样式1时才生效"
+      },
+      {
+        "type": "header",
+        "content": "高亮时的样式"
+      },
+      {
+        "type": "color",
+        "id": "light_text_color",
+        "label": "高亮时的文案颜色",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "light_item_bg",
+        "label": "高亮时的背景色"
+      },
+      {
+        "type": "color",
+        "id": "light_item_border_color",
+        "label": "高亮时的边框颜色"
+      },
+      {
+        "type": "header",
+        "content": "开发相关"
+      },
+      {
+        "type": "text",
+        "id": "custom_class",
+        "label": "自定义类名"
+      }
+    ],
+    "blocks": [
+      {
+        "name": "nav_item",
+        "type": "nav_item",
+        "settings": [
+          {
+            "type": "text",
+            "id": "item_txt",
+            "label": "导航栏文案"
+          },
+          {
+            "type": "text",
+            "id": "item_id",
+            "label": "锚点id",
+            "info": "对应跳转的锚点id，这个可以通过审查元素找到对应的section的id"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

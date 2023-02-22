@@ -1,0 +1,242 @@
+@media (min-width: 769px) {
+  .showPc {
+    display: inline;
+  }
+  .showMobile {
+    display: none;
+  }
+}
+@media (max-width: 769px) {
+  .showPc {
+    display: none;
+  }
+  .showMobile {
+    display: inline;
+  }
+}
+#shopify-section-announcement-bar {
+  display: none !important;
+}
+#shopify-section-header-classic .header-sticky-wrapper .new_icon {
+  color: #000 !important;
+}
+#shopify-section-header-classic .new_icon svg {
+  stroke: #000 !important;
+}
+#build_sys {
+  width: 100%;
+  margin-top: -64px;
+}
+#build_sys .main-box {
+  padding-bottom: 100px;
+}
+#build_sys .main-box .navbar {
+  background: #fff;
+}
+#build_sys .main-box .navbar .bar {
+  background: #fff;
+  color: #323232;
+  border-bottom: 2px solid #ededed;
+  padding: 24px 10px;
+}
+#build_sys .main-box .navbar .bar.active {
+  border-color: #03cdc4;
+  color: #03cdc4;
+  background: #fff !important;
+}
+#build_sys .title-box {
+  padding-top: 100px;
+}
+#build_sys .title-box .title h1 {
+  color: #000000;
+  font-size: 32px;
+  font-weight: 600;
+}
+#build_sys .title-box .title .line {
+  display: none;
+}
+@media (min-width: 769px) {
+  #build_sys .swipe_banner li .top_middle {
+    top: 7vw;
+  }
+}
+#build_sys .swipe_banner .swipe_banner_content .swiper_title_text {
+  line-height: 1.2;
+  font-weight: 600;
+}
+#build_sys .swipe_banner .swipe_banner_content .swiper_banner_text {
+  position: relative;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  font-weight: 600;
+}
+#build_sys .swipe_banner .swipe_banner_content .watch_btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 28px;
+  font-size: 18px;
+  margin-top: 20px;
+}
+
+#build_sys .main-box .navbar .bar {
+  font-weight: 600;
+}
+#build_sys .component_nano_pro .nano_pro_item .item-div .product_button {
+  padding: 11px 28px;
+  font-weight: 600;
+}
+
+.title-tag {
+  width: 100px;
+  display: inline-block;
+  vertical-align: middle;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translate(110%, -50%);
+}
+.tag-txt {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+}
+.tag-unit {
+  font-size: 18px;
+  margin-top: 20px;
+  margin-right: 2px;
+}
+.save-txt {
+  font-size: 20px;
+}
+.save-num {
+  font-size: 32px;
+}
+
+@media (min-width: 1281px) {
+  #build_sys .swipe_banner .swipe_banner_content .swiper_title_text {
+    font-size: 2.5vw;
+  }
+  #build_sys .swipe_banner .swipe_banner_content .swiper_banner_text {
+    font-size: calc(30 / 1920 * 100vw);
+  }
+  #build_sys .swipe_banner .swipe_banner_content .watch_btn {
+    min-width: calc(200 / 1920 * 100vw);
+    height: calc(62 / 1920 * 100vw);
+    font-size: calc(20 / 1920 * 100vw);
+  }
+}
+@media (max-width: 1280px) and (min-width: 769px) {
+  #build_sys .swipe_banner .swipe_banner_content .swiper_title_text {
+    font-size: 36px;
+  }
+  #build_sys .swipe_banner .swipe_banner_content .swiper_banner_text {
+    font-size: 20px;
+  }
+  #build_sys .swipe_banner .swipe_banner_content .watch_btn {
+    min-width: 135px;
+    height: 44px;
+    border-radius: 22px;
+    font-size: 14px;
+  }
+  .title-tag {
+    width: 80px;
+  }
+  .tag-unit {
+    font-size: 18px;
+    margin-top: 14px;
+  }
+  .save-txt {
+    font-size: 14px;
+  }
+  .save-num {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 768px) and (min-width: 415px) {
+  #build_sys .swipe_banner .swipe_banner_content .swiper_title_text {
+    font-size: calc(40 / 750 * 100vw);
+  }
+  #build_sys .swipe_banner .swipe_banner_content .swiper_banner_text {
+    font-size: calc(20 / 750 * 100vw);
+  }
+  #build_sys .swipe_banner .swipe_banner_content .watch_btn {
+    min-width: calc(200 / 750 * 100vw);
+    height: calc(66 / 750 * 100vw);
+    border-radius: calc(33 / 750 * 100vw);
+    font-size: calc(20 / 750 * 100vw);
+  }
+}
+
+@media (max-width: 414px) {
+  #build_sys .swipe_banner .swipe_banner_content .swiper_title_text {
+    font-size: 24px;
+  }
+  #build_sys .swipe_banner .swipe_banner_content .swiper_banner_text {
+    font-size: 14px;
+  }
+  #build_sys .swipe_banner .swipe_banner_content .watch_btn {
+    min-width: 120px;
+    height: 44px;
+    border-radius: 22px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 769px) {
+  #build_sys {
+    margin-top: -52px;
+  }
+  #build_sys .swipe_banner .mobile_top_middle {
+    top: 80px;
+  }
+  #build_sys .component_nano_pro .nano_pro_item .item-div .product_button {
+    padding: 8px 28px;
+  }
+  #build_sys .component_nano_pro {
+    grid-row-gap: 100px;
+    grid-column-gap: 100px;
+  }
+  #build_sys .component_nano_pro .nano_pro_item .item-div-txt {
+    position: absolute;
+    bottom: -90px;
+  }
+  #build_sys .title-box {
+    padding-top: 90px;
+  }
+  #build_sys .title-box .title h1 {
+    font-size: 20px;
+  }
+  #build_sys .main-box .navbar {
+    padding: 0 16px;
+  }
+  #build_sys .main-box .navbar .bar {
+    font-size: 16px !important;
+  }
+  #build_sys .questionBox {
+    margin-left: 16px;
+    margin-right: 16px;
+  }
+  .title-tag {
+    width: 56px;
+  }
+  .tag-unit {
+    font-size: 12px;
+    margin-top: 10px;
+  }
+  .save-txt {
+    font-size: 12px;
+  }
+  .save-num {
+    font-size: 16px;
+  }
+}

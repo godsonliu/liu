@@ -1,0 +1,534 @@
+<style>
+@media(max-width: 769px) {
+  .showPc {
+    display: none;
+  } 
+}
+@media(min-width: 769px) {
+  .showMobile {
+    display: none;
+  } 
+}
+.mach_user_review {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 40px 30px;
+  position: relative;
+}
+.user-review-title {
+  font-size: 4.6875vw;
+  line-height: 5.36vw;
+  color: #000;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+.user-review-subtitle {
+  color: #6E6E73;
+  font-size: 1.25vw;
+  line-height: 1.46vw;
+  font-weight: 400;
+}
+.user-review-list-wrap {
+  position: relative;
+}
+.user-review-list {
+  margin: 50px 0;
+  padding: 0 15px;
+}
+.user-review-item {
+  height: 400px;
+  background: #F5F5F7;
+  border-radius: 10px;
+  padding: 30px 20px;
+  margin: 0 15px;
+  position: relative;
+}
+.user-head {
+  display: flex;
+  align-items: center;
+}
+.user-head-picture {
+  min-width: 100px;
+  height: 100px;
+  border-radius: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 40px;
+  color: #FFFFFF;
+  font-weight: 600;
+}
+.user-head-picture-1 {
+  background: #59978F;
+}
+.user-head-picture-2 {
+  background: #597997;
+}
+.user-head-picture-3 {
+  background: #8E5997;
+}
+.user-head-picture-4 {
+  background: #749759;
+}
+.user-head-picture-5 {
+  background: #975959;
+}
+.user-head-picture-6 {
+  background: #59978F;
+}
+.user-head-picture-7 {
+  background: #597997;
+}
+.user-head-picture-8 {
+  background: #8E5997;
+}
+.user-head-picture-9 {
+  background: #749759;
+}
+.user-head-picture-10 {
+  background: #975959;
+}
+.user-head-picture-11 {
+  background: #59978F;
+}
+.user-head-picture-12 {
+  background: #597997;
+}
+.user-head-picture-13 {
+  background: #8E5997;
+}
+.user-head-picture-14 {
+  background: #749759;
+}
+.user-head-picture-15 {
+  background: #975959;
+}
+.user-info {
+  text-align: left;
+  margin-left: 40px;
+}
+.user-name {
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 24px;
+  color: #1D1D1F;
+  margin-bottom: 10px;
+} 
+.user-address {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+  color: #86868B;
+}
+.user-content {
+  height: 185px;
+  display: flex;
+  align-items: center;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 24px;
+  color: #000000;
+  margin: 25px 0;
+  text-align: center;
+}
+.user-view-complect {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 20px;
+  color: #6E6E73;
+  cursor: pointer;
+  text-decoration: underline;
+  position: absolute;
+  width: 100%;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%);
+}
+.slick-arrow {
+  width: 50px;
+  height: 50px;
+  top: 50%;
+}
+.slick-arrow:before {
+  display: none;
+}
+.slick-arrow svg {
+  width: 100%;
+  height: 100%;
+}
+.slick-prev {
+  left: -3vw;
+}
+.slick-next {
+  right: -3vw;
+}
+.mach_user_review_popup_div {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 99;
+  background: rgba(0,0,0,.3);
+  display: none;
+}
+.mach_user_review_popup {
+  width: 100%;
+  max-width: 850px;
+  margin: auto 30px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: #F5F5F7;
+  border-radius: 20px;
+  padding: 40px 34px;
+  text-align: center;
+}
+.review_popup_head {
+  display: flex;
+  align-items: center;
+}
+.popup_picture {
+  min-width: 100px;
+  height: 100px;
+  border-radius: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 40px;
+  color: #FFFFFF;
+  font-weight: 600;
+}
+.popup-info {
+  text-align: left;
+  margin-left: 40px;
+}
+.popup-name {
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 24px;
+  margin-bottom: 10px;
+  color: #1D1D1F;
+}
+.popup-address {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+  color: #86868B;
+}
+.review_popup_content {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 24px;
+  color: #000000;
+  margin: 40px 0;
+  max-height: 400px;
+  overflow-y: auto;
+  column-count: 2;
+  column-width: auto;
+  column-gap: 2em;
+  text-align: left;
+}
+.review_popup_back {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 24px;
+  color: #6E6E73;
+  cursor: pointer;
+  text-align: center;
+  text-decoration-line: underline;
+}
+.view-more {
+  display: none;
+}
+
+@media(max-width: 769px) {
+  .mach_user_review  {
+    width: 100%;
+    padding: 30px 24px;
+  }
+  .user-review-title {
+    font-size: 10.25vw;
+    line-height: 46px;
+    color: #1D1D1F;
+    word-break: break-all;
+  }
+  .user-review-subtitle {
+    font-size: 18px;
+    line-height: 24px;
+    color: #6E6E73;
+    text-align: center;
+  }
+  .user-review-list {
+    padding: 0;
+    margin: 25px 0 20px 0;
+  }
+  .user-review-item {
+    width: 100%;
+    min-height: 350px;
+    padding: 30px 10px;
+    margin: 15px 0px;
+  }
+  .user-content {
+    height: auto;
+    min-height: 140px;
+  }
+  .view-more {
+    display: block;
+    font-size: 12px;
+    line-height: 20px;
+    color: #6E6E73;
+    text-align: center;
+    position: relative;
+    z-index: 3;
+  }
+  .slick-prev {
+    display: none;
+  }
+  .slick-next {
+    display: none;
+  }
+  .user-review-item-dn {
+    display: none;
+  }
+  .mach_user_review_popup {
+    width: 95%;
+    margin: 0;
+  }
+  .review_popup_content {
+    max-height: 300px;
+    column-count: auto;
+  }
+  .user-head-picture, .popup_picture {
+    min-width: 100px;
+    height: 100px;
+    font-size: 40px;
+  }
+  .user-name, .popup-name {
+    font-size: 24px;
+  } 
+  .user-address, .popup-address {
+    font-size: 12px;
+  }
+  .review_popup_back {
+    font-size: 12px;
+  }
+}
+</style>
+
+<div class="mach_user_review" id="mach_user_review">
+  <div class="user-review-title">{{ section.settings.title }}</div>
+  <div class="user-review-subtitle">{{ section.settings.subtitle }}</div>
+  <div class="user-review-list-wrap">
+    <button type="button" data-role="none" class="slick-arrow slick-prev" data-reactid="561">
+      <svg width="70" height="70" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="35" cy="35" r="35" transform="rotate(-180 35 35)" fill="#6E6E73"/>
+        <path d="M31.7695 45.3376L21.0003 34.5684L31.7695 23.7991" stroke="#F5F5F7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M22.4 34.998L49 34.998" stroke="#F5F5F7" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <button type="button" data-role="none" class="slick-arrow slick-next" data-reactid="561">
+      <svg width="70" height="70" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="35" cy="35" r="35" fill="#6E6E73"/>
+        <path d="M38.2305 24.6624L48.9997 35.4316L38.2305 46.2009" stroke="#F5F5F7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M47.6 35.002L21 35.002" stroke="#F5F5F7" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <div class="user-review-list">
+      {% for block in section.blocks %}
+      <div class="user-review-item {% if forloop.index > 3 %} user-review-item-dn {% endif %}">
+        <div class="user-head">
+          <div class="user-head-picture user-head-picture-{{forloop.index}}">{{ block.settings.name | slice: 0, 2 }}</div>
+          <div class="user-info">
+            <div class="user-name">{{ block.settings.name }}</div>
+            <div class="user-address">{{ block.settings.address }}</div>
+          </div>
+        </div>
+        <div class="user-content">
+          {{ block.settings.desc }}
+        </div>
+        {% if block.settings.showMore %}
+          <div 
+            class="user-view-complect" 
+            data-index="{{forloop.index}}"
+            data-avt="{{ block.settings.name | slice: 0, 2}}" 
+            data-name="{{ block.settings.name }}" 
+            data-address="{{ block.settings.address }}"
+            data-content='{{ block.settings.popup_desc }}'
+          >
+            {{ section.settings.view_complect_review }}
+          </div>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="view-more">
+    <span class="view-more-text">{{ section.settings.view_more }}</span>
+    <svg class="view-more-svg" width="11" height="7" viewBox="0 0 11 7" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10 1.5L5.50001 5.99999L1.00002 1.5" stroke="#6E6E73" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+</div>
+
+
+<div class="mach_user_review_popup_div">
+  <div class="mach_user_review_popup">
+    <div class="review_popup_head">
+      <div class="popup_picture"></div>
+      <div class="popup-info">
+        <div class="popup-name"></div>
+        <div class="popup-address"></div>
+      </div>
+    </div>
+    <div class="review_popup_content">
+
+    </div>
+    <div class="review_popup_back">{{ section.settings.back_text }}</div>
+  </div>
+</div>
+
+<script>
+$(function() {
+  let clientWidth = document.body.clientWidth;
+  if(clientWidth > 769) {
+    $('.user-review-list').slick({
+      infinite: true,
+      slidesToShow: 3,
+      slidesToScroll: 3,
+      autoplaySpeed: 6000,
+      autoplay: true,
+      arrows: true,
+      prevArrow: $('.slick-prev'),
+      nextArrow: $('.slick-next')
+    });
+  }else {
+    let view_more_number = 3;
+    let limited_items = $('.user-review-item')
+    $('.view-more').on('click', function() {
+      let self = $(this)
+      limited_items.each(function(index) {
+        if(index >= view_more_number) {
+          $(this).toggleClass('user-review-item-dn')
+          if($(this).hasClass('user-review-item-dn')) {
+            self.find('.view-more-svg').css({
+              transform: 'rotate(0deg)'
+            })
+            self.find('.view-more-text').text('{{ section.settings.view_more }}')
+            document.getElementById('mach_user_review')?.scrollIntoView(false)
+          }else {
+            self.find('.view-more-svg').css({
+              transform: 'rotate(180deg)'
+            })
+            self.find('.view-more-text').text('{{ section.settings.view_less }}')
+          }
+        }
+      })
+    })
+  }
+
+  $('.user-view-complect').click(function() {
+    const avt = $(this).data('avt')
+    const index = $(this).data('index')
+    const name = $(this).data('name')
+    const address = $(this).data('address')
+    const content = $(this).data('content')
+    $('.mach_user_review_popup_div').find('.popup_picture').text(avt)
+    $('.mach_user_review_popup_div').find('.popup_picture').addClass(`user-head-picture-${index}`);
+    $('.mach_user_review_popup_div').find('.popup-name').text(name)
+    $('.mach_user_review_popup_div').find('.popup-address').text(address)
+    $('.mach_user_review_popup_div').find('.review_popup_content').text(content)
+    $('.mach_user_review_popup_div').show()
+  })
+  $('.review_popup_back').click(function() {
+    $('.mach_user_review_popup_div').hide()
+  })
+})
+
+</script>
+
+{% schema %}
+  {
+    "name": "Mach User Review",
+    "presets": [
+      {
+        "name": "Mach User Review"
+      }
+    ],
+    "settings": [
+      {
+        "type": "html",
+        "id": "title",
+        "label": "标题",
+        "default": "Earlier User Review"
+      },
+      {
+        "type": "html",
+        "id": "subtitle",
+        "label": "副标题",
+        "default": "Lorem ipsum dolor sit amet consectetur. Id purus urna at ullamcorper. Semper suspendisse et lobortis nunc."
+      },
+      {
+        "type": "html",
+        "id": "view_complect_review",
+        "label": "View Complect Review",
+        "default": "View Complect Review >"
+      },
+      {
+        "type": "html",
+        "id": "back_text",
+        "label": "< Back",
+        "default": "< Back"
+      },
+      {
+        "type": "html",
+        "id": "view_less",
+        "label": "View Less User Review",
+        "default": "View Less User Review"
+      },
+      {
+        "type": "html",
+        "id": "view_more",
+        "label": "View More",
+        "default": "View More User Review"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "user_review_item",
+        "name": "user_review_item",
+        "settings": [
+          {
+            "type": "html",
+            "id": "name",
+            "label": "昵称"
+          },
+          {
+            "type": "html",
+            "id": "address",
+            "label": "地点"
+          },
+          {
+            "type": "html",
+            "id": "desc",
+            "label": "描述"
+          },
+          {
+            "type": "checkbox",
+            "id": "showMore",
+            "label": "是否展示更多",
+            "default": true
+          },
+          {
+            "type": "html",
+            "id": "popup_desc",
+            "label": "弹窗里的补充说明"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

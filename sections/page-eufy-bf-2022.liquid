@@ -1,0 +1,928 @@
+{% if shop.metafields['global']['storefront_key'].value %}
+  {% assign authorization = shop.metafields['global']['storefront_key'].value %}
+{% else %}
+  {% assign authorization = shop.metafields['global']['storefront_key'] %}
+{% endif %}
+{% assign section_id = 'shopify-section-' | append: section.id %}
+
+{% if section_blocks != blank %}
+{% assign blocks = section_blocks %}
+{% else %}
+{% assign blocks = section.blocks %}
+{% endif %}
+
+<style>
+@media(min-width: 769px) {
+	.showMobile {
+		display: none
+	}
+}
+@media(max-width: 769px) {
+	.showPc {
+		display: none
+	}
+}
+#{{ section_id }} .component_limited_deals {
+	padding: {{ section.settings.box_padding }};
+	background: {{ section.settings.box_bg }};
+}
+
+#{{ section_id }} .component_limited_deals-box {
+	width: 100%;
+	max-width: 1000px;
+	margin: 0 auto;
+	position: relative;
+}
+
+#{{ section_id }} .component_limited_deals_slick {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 0;
+}
+
+#{{ section_id }} .limited_items {
+	width: 100%;
+	height: 100%;
+	padding: 130px 12px 30px 30px;	
+	border-radius: 12px;	
+	background-color: {{ section.settings.card_bg }};
+	display: flex;
+	align-items: center;
+	position: relative;
+}
+#{{section_id}} .limited_items_content_bigtitle {
+	width: 100%;
+	position: absolute;
+	left: 0;
+	top: 25px;
+	text-align: center;
+	color: {% if section.settings.product_bigtitle_color != blank  %} {{section.settings.product_bigtitle_color}} {% else %} #000000 {% endif %};
+	font-size: 32px;
+	font-weight: 700;
+}
+
+#{{ section_id }} .limited_items_img {
+	width: 45%;
+	font-size: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#{{ section_id }} .limited_items_img_a {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
+}
+#{{ section_id }} .limited_items_img .limited_items_img_a .items_img {
+	width: 100%;
+	border: none;
+	outline:none; 
+	-webkit-tap-highlight-color: transparent; 
+	-webkit-appearance: none;
+}
+
+#{{section_id}} .limited_items_icon {
+	width: 100%;
+	top: 0;
+	left: 0;
+	position: absolute;
+}
+#{{section_id}} .limited_items_icon_div {
+	width: fit-content;
+	left: 0;
+	top: 0;
+	position: relative;
+}
+#{{section_id}} .limited_items_icon img {
+	width: 100%;
+}
+#{{section_id}} .limited_items_icon .icon_txt {
+	position: absolute;
+	z-index: 2;
+	width: 100%;
+	height: 100%;
+	left: 0;
+	top: 0;
+	line-height: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	font-weight: 500;
+	font-size: 16px;
+	color: {% if section.settings.icon_txt_color != blank %} {{ section.settings.icon_txt_color }} {% else %} #fff {% endif %}; 
+}
+
+#{{ section_id }} .limited_items_content {
+	width: 55%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding: 0 40px 0 60px;
+}
+#{{section_id}} .title-desc-div {
+	width: 100%;
+	text-align: left;
+}
+
+#{{section_id}} .component_count_timer_box {
+	display: flex;
+	align-items: center;
+}
+#{{section_id}} .component_count_timer_box .time {
+	border: 1px solid #681414;
+	border-radius: 4px;
+}
+#{{section_id}}  .component_count_timer_box .timer_prefix {
+	color: {{ section.settings.timer_prefix_color }};
+	font-size: 14px;
+	margin-right: 30px;
+}
+
+
+#{{section_id}} .price-button-div {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: flex-start;
+}
+#{{section_id}} .limited_items_content_title {
+	display: block;
+	color: {% if section.settings.product_title_color != blank  %} {{section.settings.product_title_color}} {% else %} #000000 {% endif %};
+	font-size: 20px;
+	width: 100%;
+}
+#{{section_id}} .limited_items_content_price {
+	margin: 25px 0 20px 0;
+	display: flex;
+	align-items: center;
+}
+#{{section_id}} .price-div {
+	color: {% if section.settings.price_color != blank  %} {{section.settings.price_color}} {% else %} #000000 {% endif %};
+	font-size: 36px;
+	font-weight: 600;
+}
+#{{section_id}} .compare-at-price {
+	text-decoration: line-through;
+	margin-left: 14px;
+	color: {% if section.settings.compare_at_price_color != blank  %} {{section.settings.compare_at_price_color}} {% else %} #999999 {% endif %};
+	font-size: 16px
+}
+
+#{{section_id}} .product_code {
+	display: flex;
+	align-items: center;
+	margin-bottom: 5px;
+}
+#{{section_id}} .copy_code {
+	text-decoration: underline;
+	margin-left: 5px;
+	cursor: pointer;
+	color: {% if section.settings.copy_text_color != blank %} {{section.settings.copy_text_color}} {% else %} var(--light_color) {% endif %};
+	font-size: 16px;
+}
+#{{section_id}} .code_txt {
+	white-space: nowrap;
+	color: {% if section.settings.code_text_color != blank %} {{section.settings.code_text_color}} {% else %} #999999 {% endif %};
+	font-size: 16px;	
+}
+
+#{{section_id}} .limited_items_content_button {
+	width: fit-content;
+	border: 1px solid;
+	border-radius: {% if section.settings.button_radius != blank %} {{ section.settings.button_radius  }} {% else %} var(--button_border_radius) {% endif %};
+	outline: none;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 44px;
+	line-height: normal;
+	font-size: 18px;
+	padding: 0 25px;
+	cursor: pointer;
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+	-webkit-tap-highlight-color: transparent;
+  margin: 15px 0;
+}
+
+#{{section_id}} .limited_items_content_button_buy-now {
+	color: {% if section.settings.button_txt_color != blank %} {{ section.settings.button_txt_color }} {% else %} #ffffff {% endif %};
+	border-color: {% if section.settings.button_border_color != blank %} {{ section.settings.button_border_color }} {% else %} var(--light_color) {% endif %};
+	background: {% if section.settings.button_bg != blank %} {{ section.settings.button_bg }} {% else %} var(--light_color) {% endif %};
+}
+
+#{{section_id}} .limited_items_content .limited_items_content_button_buy-now:hover { 
+	background: {% if section.settings.button_hover_bg != blank %} {{section.settings.button_hover_bg}} {% else %} transparent {% endif %} !important; 
+	border-color: {% if section.settings.button_hover_border_color != blank %} {{section.settings.button_hover_border_color}} {% else %} var(--button_border_color) {% endif %} !important;
+	color: {% if section.settings.button_hover_txt_color != blank %} {{ section.settings.button_hover_txt_color }} {% else %} var(--button_txt_color) {% endif %} !important;
+}
+
+#{{section_id}} .limited_items_content_button-disabled {
+	background-color: var(--button_disabled_color) !important;
+	color: var(--button_disabled_text_color) !important;
+	border-color: var(--button_disabled_color) !important;
+	pointer-events: none;
+	cursor: not-allowed;
+}
+
+#{{section_id}} .product_tips {
+  font-size: 11px;
+  color: {{ section.settings.product_tips_color }};
+}
+
+#{{section_id}} .component_count_timer .time-txt {
+	display: none;
+}
+
+
+@media(max-width: 769px) {
+	#{{ section_id }} .component_limited_deals {
+		padding: {{ section.settings.mobile_box_padding }};
+	}
+	#{{ section_id }} .component_limited_deals-box {
+		margin-bottom: 20px;
+    height: auto;
+	}
+  #{{ section_id }} .limited_items {
+    flex-wrap: wrap;
+		padding: 90px 12px 32px 12px;
+  }
+	#{{section_id}} .limited_items_content_bigtitle {
+		font-size: 22px;
+	}
+  #{{ section_id }} .limited_items_img {
+    width: 100%;
+		margin-top: 0;
+  }
+  #{{ section_id }} .limited_items_content {
+    width: 100%;
+    padding: 12px 0 0 0;
+  }
+	#{{section_id}}  .component_count_timer_box {
+		display: block;
+	}
+	#{{section_id}}  .component_count_timer_box .timer_prefix {
+		margin: 0 0 5px 0;
+		font-size: 14px;
+		text-align: center;
+	}
+	#{{section_id}} .limited_items_icon .icon_txt {
+		font-size: 14px;
+	}
+	#{{section_id}} .limited_items_content_title {
+		font-size: 18px;
+	}
+	#{{section_id}} .price-div {
+		font-size: 28px;
+	}
+	#{{section_id}} .limited_items_content_price {
+		margin: 20px 0 15px 0;
+	}
+	#{{section_id}} .compare-at-price {
+		font-size: 14px
+	}
+	#{{section_id}} .copy_code, #{{section_id}} .code_txt {
+		font-size: 12px;
+	}
+	#{{section_id}} .limited_items_content_button {
+		height: 40px;
+		font-size: 16px;
+	}
+	#{{section_id}} .component_count_timer .time-count {
+    width: 24px !important;
+   	height: 24px !important;
+  }
+	#{{section_id}} .component_count_timer .dot .dot-1, 
+	#{{section_id}} .component_count_timer .dot .dot-2 {
+		width: 3px !important;
+		height: 3px !important;
+		border-radius: 3px !important;
+	}
+	#{{section_id}} .product_tips {
+		font-size: 9px;
+	}
+}
+</style>
+<div class="component_limited_deals">
+	<div class="component_limited_deals-box">
+		<div class="component_limited_deals_slick">
+		{% for block in blocks %}
+		{% assign oProduct = block.settings.product_info %}
+		{% assign variants = oProduct.variants %}
+		{% assign oProduct_variant = oProduct.selected_or_first_available_variant %}
+		{% for child_variant in variants  %} 
+			{% if child_variant.sku == block.settings.variant_sku %}
+			{% assign oProduct_variant = child_variant %}
+			{% endif %}
+		{% endfor %}
+		<div class="limited_items">
+			
+			<div class="limited_items_content_bigtitle">
+				{{block.settings.product_bigtitle}}
+			</div>
+			<div class="limited_items_img">
+				<div class="limited_items_img_a">
+          <img class="items_img showPc lazyload"  data-src="{{ block.settings.product_image | image_url }}"/>
+					<img class="items_img showMobile lazyload"  data-src="{{ block.settings.mobile_product_image | image_url }}"/>
+				</div>
+				{% if block.settings.custom_product_off != blank or section.settings.has_show_discount %}
+					<div class="limited_items_icon">
+						<div class="limited_items_icon_div limited_items_icon_div_{{forloop.index}}">
+							{% if section.settings.icon_bg != blank %}
+							<img src="{{ section.settings.icon_bg | image_url }}" />
+							{% else %}
+							{{ section.settings.icon_default }}
+							{% endif %}
+							<span 
+								class="icon_txt icon_txt_{{forloop.index}}">
+								{% if block.settings.custom_product_off != blank %}
+								{{ block.settings.custom_product_off }}
+								{% else %}
+								{{ section.settings.icon_txt }}
+								{% endif %}
+							</span>
+						</div>
+					</div>
+					{% endif %}
+			</div>
+			<div 
+				class="limited_items_content limited_items_content_{{forloop.index}}">
+				<div class="title-desc-div">
+					<div
+						class="limited_items_content_title"
+					>
+						{% if block.settings.product_title != blank %}
+						{{block.settings.product_title}}
+						{% else %}
+						{{ oProduct.title }}
+						{% endif %}
+					</div>
+				</div>
+
+        <div class="limited_items_content_price">
+					<span 
+						class="price-div">
+            <span>{{ section.settings.price_prefix_text }}</span>
+						{% render 'price-element', price: oProduct_variant.price %}
+					</span>
+					<span
+						class="compare-at-price"
+					>
+            <span>{{ section.settings.compare_at_price_prefix_text }}</span>
+						{% render 'price-element', price: oProduct_variant.compare_at_price %}
+					</span>
+				</div>
+
+				<div class="component_count_timer_box component_count_timer_box_{{forloop.index}}">
+					<div class="timer_prefix">{{ section.settings.component_count_timer_prefix }}</div>
+					{% render 'component_count_timer_v2',
+						startTime: block.settings.startTime,
+    				endTime: block.settings.endTime
+						index: forloop.index
+					%}
+				</div>
+
+        {% if section.settings.has_show_discount %}
+				<div class="product_code product_code-{{forloop.index}}">
+					<div class="code_txt">
+						<span class="code-text">{{ section.settings.code_text }}:</span>
+						<span class="code-number code-number-{{forloop.index}}"></span>
+					</div>
+					<div 
+						class="copy_code"
+						data-product_title="{{oProduct.title}}"
+						data-sku="{{oProduct_variant.sku}}"
+						data-copy-text="{{section.settings.copy_text}}"
+						data-copying-text="{{section.settings.copying_text}}">
+							{{section.settings.copy_text}}
+					</div>
+				</div>
+        {% endif %}
+
+				<button 
+					class="
+						{% if oProduct_variant.available == false or oProduct_variant.price == 999999999  %}
+						limited_items_content_button-disabled
+						{% endif %}
+						limited_items_content_button limited_items_content_button_buy-now
+					"
+					data-v_id="{{oProduct_variant.id}}"
+				>
+						{% if oProduct_variant.available and oProduct_variant.price != 999999999  %}
+						{{ section.settings.button_txt}}
+						{% else %}
+						{{ 'products.product.sold_out' | t }}
+						{% endif %}
+					</button>
+
+          {% if block.settings.product_tips != blank %}
+          <div class="product_tips">{{ block.settings.product_tips }}</div>
+          {% endif %}
+			</div>
+		</div>
+		{% endfor %}
+		</div>
+	</div>
+</div>
+
+<script>
+// 定时器  index: 代表第几个 sold_txt: 按钮售罄的文案, flag: 代表是否为超出时间范围
+window['component_count_timer_{{section_id}}'] = function(index,sold_txt,flag) {
+	if(flag) {
+		$(`#{{ section_id }} .component_count_timer_box_${index}`).hide()
+	}
+}
+$(function() {
+
+	$('#{{ section_id }} .limited_items_content_button').on('click', function() {
+		var v_id = $(this).data('v_id')
+		var line_items = [{
+			variant_id: v_id,
+			quantity: 1
+		}];
+		Shopify.theme.bundleBuynow_BF({
+			authorization: "{{ authorization }}",
+			checkout: {
+				line_items: line_items,
+				presentment_currency: "{{ shop.currency }}",
+				is_upstream_button: true,
+				page_type: "product",
+				secret: true,
+				wallet_name: "Checkout"
+			},
+			onSuccess: () => {},
+			onError: err => {
+				console.log(err)
+				$.dialog({ title: err.message, content: err.description, type: 'red' });
+			}
+		});
+	})
+	
+
+	{% if section.settings.has_show_discount %}
+	;(function() {
+		let skus = []
+		let filterSkus = []
+		{% for block in  blocks %}
+		{% assign oProduct = block.settings.product_info %}
+		{% assign variants = oProduct.variants %}
+		{% assign oProduct_variant = oProduct.selected_or_first_available_variant %}
+		{% for child_variant in variants  %} 
+			{% if child_variant.sku == block.settings.variant_sku %}
+			{% assign oProduct_variant = child_variant %}
+			{% endif %}
+		{% endfor %}
+		skus.push("{{oProduct_variant.sku}}")
+		{% if block.settings.custom_product_off != blank %}
+    filterSkus.push("{{oProduct_variant.sku}}")
+    {% endif %}
+		{% endfor %}
+		let params = { "skus": skus, "shopify_domain": "{{ shop.permanent_domain }}" };
+		$.ajax({
+			type: 'GET',
+			url: '/apps/pp/shopifyservices/coupons/by_skus',
+			data: params,
+			success: function success(data) {
+				skus.forEach(function(key,index) {
+					index++;
+					if(data[key] && data[key][0] && filterSkus.indexOf(key) === -1) {
+						$(`#{{section_id}} .code-number-${index}`).text(data[key][0].title)
+            $(`#{{section_id}} .limited_items_content_button_${index}`).attr('data-code', data[key][0].title)
+						if(data[key][0].value_type === "fixed_amount") {
+							$(`#{{section_id}} .icon_txt_${index}`).prepend(data[key][0].value_style)
+						}else if(data[key][0].value_type === "percentage") {
+							$(`#{{section_id}} .icon_txt_${index}`).prepend(Math.abs(parseInt(data[key][0].value)) + '%')
+						}
+						$(`#{{section_id}} .limited_items_content_${index} .price-div`).text(Shopify.formatMoney(parseFloat(data[key][0].variant_price4wscode) * 100, $('body').data('money-format')) )
+						$(`#{{section_id}} .limited_items_content_${index} .compare-at-price`).text(Shopify.formatMoney(parseFloat(data[key][0].variant_price) * 100, $('body').data('money-format')) )
+					}else {
+						$(`#{{section_id}} .product_code-${index}`).css({
+							visibility: 'hidden'
+						})
+						if(filterSkus.indexOf(key) === -1) {
+							$(`#{{section_id}} .limited_items_icon_div_${index}`).css({
+								opacity: 0
+							})
+						}
+					}
+				})
+			}
+		})
+	})()
+	{% endif %}
+
+	function execCoy(text) {
+    const input = document.createElement('INPUT');
+    input.style.opacity  = 0;
+    input.style.position = 'absolute';
+    input.style.left = '-100000px';
+    document.body.appendChild(input);
+
+    input.value = text;
+    input.select();
+    input.setSelectionRange(0, text.length);
+    document.execCommand('copy');
+    document.body.removeChild(input);
+    return true;
+  }
+
+	$('#{{ section_id }} .copy_code').on('click', function() {
+		let copying_text = $(this).data('copying-text')
+		let copy_text = $(this).data('copy-text');
+		let sku = $(this).data('sku');
+		let product_title = $(this).data('product_title')
+		let code_number = $(this).prev('.code_txt').find('.code-number').text()
+		let self = $(this)
+		$(this).text(copying_text)
+		execCoy(code_number)
+		dataLayer.push({
+			"event": "uaEvent",
+			"eventCategory": 'copy',
+			"eventAction": "{{section.settings.eventAction}}",
+			"eventLabel":  code_number + '_' + sku // 由coupon和sku拼接而成
+		})
+		window.dataLayer.push({ "event_parameters": null });
+		window.dataLayer.push({
+			"event": "ga4Event",
+			"event_name": "copy_coupon_code",
+			"event_parameters": {
+				"page_group": "{{section.settings.ga4_page_group}}",
+				"coupon_name": code_number,
+				"info": product_title
+			}
+		});
+		setTimeout(function() {
+			self.text(copy_text)
+		}, 500)
+	})
+})
+</script>
+
+{% schema %}
+{
+	"name": "Page Eufy Bf 2022",
+	"presets": [
+		{
+			"name": "Page Eufy Bf 2022",
+			"settings": {
+				"icon_default": "{% render 'component_flash_sale_icon' %}"
+			}
+		}
+	],
+	"settings": [
+		{
+			"type": "header",
+			"content": "模块结构"
+		},
+		{
+			"type": "text",
+			"id": "box_padding",
+			"label": "边距",
+			"default": "50px 10px"
+		},
+		{
+			"type": "text",
+			"id": "mobile_box_padding",
+			"label": "Mobie端边距",
+			"default": "30px 10px"
+		},
+		{
+			"type": "color",
+			"id": "box_bg",
+			"label": "模块背景色"
+		},
+		{
+			"type": "header",
+			"content": "产品卡片配置区"
+		},
+		{
+			"type": "text",
+			"id": "limited_items_radius",
+			"label": "卡片圆角",
+			"default": "16px"
+		},
+		{
+			"type": "color",
+			"id": "limited_items_border_color",
+			"label": "卡片边框颜色",
+			"info": "如果不需要边框，请设置为透明色"
+		},
+		{
+			"type": "color",
+			"id": "card_bg",
+			"label": "产品卡片的背景色",
+			"default": "#ffffff"
+		},
+		{
+			"type": "color",
+			"id": "product_title_color",
+			"label": "产品标题颜色",
+			"default": "#000000"
+		},
+		{
+			"type": "color",
+			"id": "product_bigtitle_color",
+			"label": "产品大标题颜色",
+			"default": "#000000"
+		},
+		{
+			"type": "color",
+			"id": "product_tips_color",
+			"label": "提示文案颜色",
+			"default": "#fff"
+		},
+    {
+      "type": "html",
+      "id": "price_prefix_text",
+      "label": "价格前缀",
+      "default": "Only"
+    },
+		{
+			"type": "color",
+			"id": "price_color",
+			"label": "价格颜色",
+			"default": "#000000"
+		},
+    {
+      "type": "html",
+      "id": "compare_at_price_prefix_text",
+      "label": "原价前缀",
+      "default": "Was"
+    },
+		{
+			"type": "color",
+			"id": "compare_at_price_color",
+			"label": "原价格颜色",
+			"default": "#999999"
+		},
+		{
+			"type": "html",
+			"id": "component_count_timer_prefix",
+			"label": "倒计时前缀",
+			"default": "Deals End in"
+		},
+		{
+			"type": "color",
+			"id": "timer_prefix_color",
+			"label": "倒计时前缀颜色",
+			"default": "#fff"
+		},
+		{
+			"type": "header",
+			"content": "操作按钮区"
+		},
+		{
+			"type": "text",
+			"id": "button_radius",
+			"label": "按钮圆角",
+			"default": "70px"
+		},
+		{
+			"type": "text",
+			"id": "button_txt",
+			"label": "按钮1文案",
+			"default": "Buy Now"
+		},
+		{
+			"type": "header",
+			"content": "按钮1正常状态区"
+		},
+		{
+			"type": "color",
+			"id": "button_bg",
+			"label": "按钮背景色"
+		},
+		{
+			"type": "color",
+			"id": "button_border_color",
+			"label": "按钮边框颜色"
+		},
+		{
+			"type": "color",
+			"id": "button_txt_color",
+			"label": "按钮文案颜色",
+			"default": "#ffffff"
+		},
+		{
+			"type": "header",
+			"content": "按钮hover状态区"
+		},
+		{
+			"type": "color",
+			"id": "button_hover_bg",
+			"label": "按钮hover时背景色"
+		},
+		{
+			"type": "color",
+			"id": "button_hover_border_color",
+			"label": "按钮hover时边框颜色"
+		},
+		{
+			"type": "color",
+			"id": "button_hover_txt_color",
+			"label": "按钮hover时文案颜色",
+			"default": "#ffffff"
+		},
+		{
+      "type": "header",
+      "content": "倒计时部分"
+    },
+    {
+      "type": "color",
+      "id": "timer_bg",
+      "label": "倒计时背景色",
+      "default": "#000"
+    },
+    {
+      "type": "color",
+      "id": "timer_color",
+      "label": "倒计时文案的颜色",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "timer_txt_color",
+      "label": "年月日文案颜色",
+      "default": "#000000"
+    }, 
+    {
+      "type": "color",
+      "id": "dot_color",
+      "label": "时间分隔符背景色",
+      "default": "#000"
+    },
+    {
+      "type": "text",
+      "id": "days",
+      "label": "Days的描述文案",
+      "default": "Days"
+    },
+    {
+      "type": "text",
+      "id": "hours",
+      "label": "Hours的描述文案",
+      "default": "Hours"
+    },
+    {
+      "type": "text",
+      "id": "minutes",
+      "label": "Minutes的描述文案",
+      "default": "Minutes"
+    },
+    {
+      "type": "text",
+      "id": "seconds",
+      "label": "Seconds的描述文案",
+      "default": "Seconds"
+    },
+		{
+			"type": "header",
+			"content": "折扣角标"
+		},
+		{
+			"type": "image_picker",
+			"id": "icon_bg",
+			"label": "icon的背景图片"
+		},
+		{
+			"type": "liquid",
+			"id": "icon_default",
+			"label": "icon的默认值"
+		},
+		{
+			"type": "html",
+			"id": "icon_txt",
+			"label": "icon的文案",
+			"default": "<br/>Off"
+		},
+		{
+			"type": "color",
+			"id": "icon_txt_color",
+			"label": "icon的文案颜色",
+			"default": "#ffffff"
+		},
+		{
+			"type": "header",
+			"content": "Code区域"
+		},
+		{
+			"type": "text",
+			"id": "code_text",
+			"label": "Code文案",
+			"default": "CODE"
+		},
+		{
+			"type": "color",
+			"id": "code_text_color",
+			"label": "Code文案颜色",
+			"default": "#999999"
+		},
+		{
+			"type": "text",
+			"id": "copy_text",
+			"label": "Copy文案",
+			"default": "Copy"
+		},
+		{
+			"type": "text",
+			"id": "copying_text",
+			"label": "拷贝中的文案",
+			"default": "COPIED"
+		},
+		{
+			"type": "color",
+			"id": "copy_text_color",
+			"label": "Code文案颜色"
+		},
+		{
+			"type": "header",
+			"content": "部分字段控制显示"
+		},
+		{
+			"type": "checkbox",
+			"id": "has_show_discount",
+			"label": "是否显示折扣",
+			"default": true
+		}
+	],
+	"blocks": [
+		{
+			"type": "limited_item",
+			"name": "limited_item",
+      "limit": 1,
+			"settings": [
+				{
+					"type": "product",
+					"id": "product_info",
+					"label": "选择产品",
+					"info": "用于获取产品信息"
+				},
+				{
+					"type": "text",
+					"id": "variant_sku",
+					"label": "variant_sku",
+					"info": "提供给自定义展示不同商品的variant，如果不填写，默认就展示第一个可用的variant"
+				},
+        {
+					"type": "image_picker",
+					"id": "product_image",
+					"label": "自定义产品图",
+					"info": "尽量使用透明底图片"
+				},
+				{
+					"type": "image_picker",
+					"id": "mobile_product_image",
+					"label": "Mobile端自定义产品图",
+					"info": "尽量使用透明底图片"
+				},
+				{
+					"type": "html",
+					"id": "product_bigtitle",
+					"label": "自定义大标题"
+				},
+				{
+					"type": "html",
+					"id": "product_title",
+					"label": "自定义产品标题"
+				},
+        {
+          "type": "html",
+          "id": "product_tips",
+          "label": "提示信息",
+          "default": "* How to use: Smart Trackers will be shipped out in Mid Nov. The $20 coupon will be sent via email and valid since Nov 15th for all Black Friday Deals."
+        },
+				{
+					"type": "html",
+					"id": "custom_product_off",
+					"label": "自定义折扣",
+					"info": "设置自定义折扣，会优先以自定义折扣为准"
+				},
+				{
+					"type": "header",
+					"content": "倒计时部分"
+				},
+				{
+					"type": "text",
+					"id": "startTime",
+					"label": "开始时间",
+					"info": "请以标准时间为参考,例如。假如活动是北京时间2022-09-18 08:00开始,那么填写的时间为 2022-09-18T08:00:00.000+08:00。格式：（YYYY-MM-DDThh:mmTZD）。T是用来指示时间元素的开始字符，日期和时间合并表示时，要在时间前面加大写字母T。TZD表示时区指示符：Z或+hh:mm或-hh:mm，+或-表示时区距离UTC(世界标准时间)时区多远"
+				},
+				{
+					"type": "text",
+					"id": "endTime",
+					"label": "结束时间",
+					"info": "请以标准时间为参考,例如。假如活动是北京时间2022-09-18 08:00开始,那么填写的时间为 2022-09-18T08:00:00.000+08:00。格式：（YYYY-MM-DDThh:mmTZD）。T是用来指示时间元素的开始字符，日期和时间合并表示时，要在时间前面加大写字母T。TZD表示时区指示符：Z或+hh:mm或-hh:mm，+或-表示时区距离UTC(世界标准时间)时区多远"
+				}
+			]
+		}
+	]
+}
+
+{% endschema %}

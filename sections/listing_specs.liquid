@@ -1,0 +1,128 @@
+{% if product.metafields.global.layout.value %}
+  {% assign layout = product.metafields.global.layout.value %}
+{% else %}
+  {% assign layout = product.metafields.global.layout %}
+{% endif %}
+
+{% if product.metafields.global.specs.value %}
+  {% assign specs = product.metafields.global.specs.value %}
+{% else %}
+  {% assign specs = product.metafields.global.specs %}
+{% endif %}
+
+{% if page.metafields['global']['specs'].value %}
+  {% assign specs = page.metafields['global']['specs'].value %}
+{% else %}
+  {% assign specs = page.metafields['global']['specs'] %}
+{% endif %}
+
+{% if product.metafields.global.specs.value %}
+  {% assign specs = product.metafields.global.specs.value %}
+{% else %}
+  {% assign specs = product.metafields.global.specs %}
+{% endif %}
+
+{% if product.metafields.global.specs.value %}
+  {% assign specs = product.metafields.global.specs.value %}
+{% else %}
+  {% assign specs = product.metafields.global.specs %}
+{% endif %}
+
+{{ 'listing_specs.scss.css' | asset_url | stylesheet_tag }}
+
+{% assign settings = section.settings %}
+
+{%- if template contains 'product' -%}
+  {% assign variant = product.selected_or_first_available_variant %}
+{%- else %}
+  {% assign variant = specs.variant %}
+{% endif %}
+{% assign types = specs | map: 'type_name' | uniq %}
+{% comment %} liquid 不能创建 Object, 所以没法提前 根据 type 创建 {% endcomment %}
+{%- if specs.data and specs.data.size > 0 -%}
+  <section id="specs" class="listing_v2_section grid-item{% if settings.class != blank %} {{settings.class}}{% endif %}" data-section-id="{{ section.id }}">
+    <div class="m-box">
+      <div class="m-box-wrap">
+        <h2 class="prodTitle"> 
+          <span>{{ specs.title }}</span>
+        </h2>
+        {% for item in specs.data %}
+          <div class="m-list bb-9f9f9f">
+            <span class="specs-title">{{ item.name }}</span>
+            <span class="icon-list">
+              <i class="iconfont init-icon">&#xe86b;</i>
+              <i class="iconfont up-icon">&#xe603;</i>
+            </span>
+          </div>
+          <div class="m-content">
+            {% for child in item.children %}
+              <div class="item">
+                {% if child.title %}<h6 class="col">{{ child.title }}</h6>{% endif %}
+                <ul class="col info"> 
+                  <li> 
+                    <span class="value">{{ child.des }}</span>
+                  </li>
+                </ul>
+              </div>
+            {% endfor %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+<script>
+  $(document).ready(function () {
+      var icon = $('.icon-list');
+      function changeIcon(mainNode) {
+        if (mainNode) {
+          var _active = mainNode.hasClass('active');
+          _active ? mainNode.removeClass('active') : mainNode.addClass('active');
+        }
+      }
+      $('.m-list').click(function () {
+        var _active = $(this).hasClass('bb-9f9f9f');
+        _active ? $(this).removeClass('bb-9f9f9f') : $(this).addClass('bb-9f9f9f');
+        $(this).next('div').slideToggle();
+        changeIcon($(this).children(icon));
+        dataLayer.push({
+          "event": "uaEvent",
+          "eventCategory": "specs",
+          "eventAction": $(this).find('.specs-title').text(),
+          "eventLabel": "{{ variant.sku }}",
+          "eventValue": "undefined",
+        })
+      });
+    });
+</script>
+
+{% schema %}
+{
+  "name": "Product Specs",
+  "presets": [
+  {
+    "category": "Product Specs Sections 2.0",
+    "name": "Product Specs 2.0"
+  }
+  ],
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "[AnkerFields: products](/admin/apps/betametafields/products), specs"
+    },
+    {
+      "type": "text",
+      "id": "class",
+      "label": "CSS Class",
+      "default": "specs"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Specs"
+    }
+  ]
+}
+{% endschema %}

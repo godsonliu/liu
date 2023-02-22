@@ -1,0 +1,71 @@
+{{ 'index__subscribe-section.scss.css' | asset_url | stylesheet_tag }}
+
+<section class="index__subscribe-section">
+  <div class="index__subscribe-box container-wrapper">
+      <div class="index__subscribe-col">
+        <div class="index__subscribe-title">{{ section.settings.title }}</div>
+        {% render 'subscribe-form_2.0',
+          type: 'block',
+          snippets_id: section.id,
+          show_top_emailtxt: true,
+          show_email_icon: true,
+          use_placeholders: section.settings.placeholder,
+          bottom_subscribe: 'true',
+          policy_text: section.settings.policy_text,
+          info_fill_email: section.settings.info_fill_email,
+          info_err_email: section.settings.info_err_email,
+          info_seccess: section.settings.info_seccess,
+          info_select_policy: section.settings.info_select_policy,
+          index_subscribe: true
+        %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "index subscribe section",
+  "presets": [{
+    "name": "index subscribe section"
+  }],
+  "settings": [{
+    "type": "text",
+    "id": "title",
+    "label": "标题"
+  },{
+    "type": "text",
+    "id": "placeholder",
+    "label": "邮件输入提示文本",
+    "default": "Enter your e-mail"
+  },{
+    "type": "html",
+    "id": "policy_text",
+    "label": "法律条款文本",
+    "default": "BY CLICKING 'SUBSCRIBE', YOU AGREE TO THE <a href='/policies/terms' target='_blank' rel='noopener noreferrer'>TERMS OF USE</a> and <a href='/policies/privacy-policy' target='_blank' rel='noopener noreferrer'>PRIVACY POLICY</a>."
+  },
+  {
+    "type": "text",
+    "id": "info_seccess",
+    "label": "邮件订阅成功提醒",
+    "default": "Welcome to Soundcore"
+  },
+  {
+    "type": "text",
+    "id": "info_fill_email",
+    "label": "空值提交报错提醒",
+    "default": "Please enter your email address."
+  },
+  {
+    "type": "text",
+    "id": "info_err_email",
+    "label": "邮箱格式验证失败提醒",
+    "default": "Please enter a valid email address (Example: name@domain.com)."
+  },
+  {
+    "type": "text",
+    "id": "info_select_policy",
+    "label": "未勾选同意法律条款提醒",
+    "default": "Please agree to the Terms of Use and Privacy Policy."
+  }]
+}
+{% endschema %}

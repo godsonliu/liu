@@ -1,0 +1,71 @@
+{%- assign lang = page.metafields['global'] -%}
+
+{% if lang.banner_1.value %}
+  {% assign banner_1 = lang.banner_1.value %}
+{% else %}
+  {% assign banner_1 = lang.banner_1 %}
+{% endif %}
+
+
+<style>
+  .banner-1-text-wrap {
+    top: 28vw !important;
+  }
+
+  @media (max-width: 1440px) {
+    .banner-1-text-wrap {
+      top: 29.2vw !important;
+    }
+  }
+
+  @media (max-width: 798px) {
+    .banner-1-text-wrap {
+      top: 0 !important;
+    }
+
+    .mobile-main {
+      top: 135vw !important;
+    }
+  }
+</style>
+
+<div class="banner-1">
+  <video class="desktop-show lazyload" poster="{{ banner_1.desktop_poster_1 }}" data-src="{{ banner_1.desktop_video_1 }}" playsinline  autoplay muted loop></video>
+  <video class="mobile-show lazyload" poster="{{ banner_1.mobile_poster_1 }}" data-src="{{ banner_1.mobile_video_1 }}" playsinline autoplay muted loop></video>
+
+  <div class="banner-1-wrap">
+    <div class="banner-1-main">
+      <div class="banner-1-text-wrap">
+  
+        <div class="mobile-main Spin">
+          <div class="banner-1-input-wrap Spin">
+            <input type="text" placeholder="{{ banner_1.input_placeholder}}" maxlength="200" class="subscriptionInput">
+            <button class="subscription">{{ banner_1.btn_text }}</button>
+            <div class="mask"></div>
+            <div class="spinner">
+              <i class="iconfont">&#xe6c0;</i>
+              <div class="focus"><i class="iconfont">&#xe6c0;</i></div>
+            </div>
+          </div>
+          <div>
+            <input id="toggle" type="checkbox">
+            {{ banner_1.contest_rules }}
+          </div>
+          <p class="tips"></p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+{% schema %}
+{
+  "name": "t8530 banner 1",
+  "presets": [{
+    "category": "t8530_banner_1",
+    "name": "t8530 banner 1"
+  }]
+}
+{% endschema %}

@@ -1,0 +1,126 @@
+{% if page.metafields['global']['banner'].value %}
+  {% assign banner = page.metafields['global']['banner'].value %}
+{% else %}
+  {% assign banner = page.metafields['global']['banner'] %}
+{% endif %}
+
+{% if page.metafields['global']['accessories_for'].value %}
+  {% assign accessories_for = page.metafields['global']['accessories_for'].value %}
+{% else %}
+  {% assign accessories_for = page.metafields['global']['accessories_for'] %}
+{% endif %}
+
+{% comment %}
+  To edit the contents of this file, look inside the `sections` folder for the file name that comes directly after `section`. Eg. {% section 'product__main' %} or {% section 'page__banner' %}
+
+  - https://help.shopify.com/en/themes/development/templates/collection-liquid
+{% endcomment %}
+
+{{ 'series.scss.css' | asset_url | stylesheet_tag }}
+
+{% paginate collections.all.products by 2000 %}
+
+{%- capture data_series_model_products -%}
+[
+  {%- for product in collections.all.products -%}
+  {
+    "id": "{{product.id}}",
+    "variant_id": "{{product.variants[0].id}}",
+    "title": "{{product.title | escape}}",
+    "image": "{{ product | img_url: '1024x' }}",
+    "handle": "{{ product.handle }}",
+    "tags": "{{ product.tags | join: ', ' }}",
+    "price": "{{ product.price | money }}",
+    "available": "{%- if product.price != 999999999 and product.available -%}1{%- else -%}0{%- endif -%}"
+  }{%- if forloop.last == false -%},{%- endif -%}
+  {%- endfor -%}
+]
+{%- endcapture -%}
+
+
+<div id="template-{{ template | replace: '.', '-' | handle }}" class="shopify-section series-page" data-check-for-order="true">
+  <section class="section__wrapper
+                  section
+                  ">
+
+    <div class="container {% if settings.heading_divider_style == 'long' %}has-heading-divider-below {% endif %}">
+      <div class="collection__breadcrumb two-fifths medium-down--one-whole column has-padding-bottom">
+        {% comment %} Collection breadcrumb {% endcomment %}
+        <div class="breadcrumb__container">
+          {% render 'breadcrumb', context: 'series', seriescrumbs: 'series', modelcrumbs: '-' %}
+        </div>
+      </div>
+    </div>
+    <div class="flex_acc">
+      <div class="modelpro"></div>
+      <div class="flowbox">
+        <div id="series_model__main" class="container ">
+          {% section 'page-accessories' %}
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+{% endpaginate %}
+
+
+<script type="text/template" id="mainhandle_template">
+  <div>
+    <% if (item.discontinued) { %>
+      <div class="product"> 
+    <% } else { %>
+      <a class="product" href="/products/<%- item.handle %>" target="_blank" rel="noopener noreferrer"> 
+    <% }  %>
+      <div class="content">
+        <img src="<%- item.image %>" alt="">
+        <p class="descMain">{{ accessories_for }}</p>
+        <p class="title"><%- item.title %></p>
+        <span class="line"></span>
+      </div>
+    <% if (item.discontinued) { %>
+    </div> 
+    <% } else { %>
+    </a>
+    <% }  %>
+  </div>
+</script>
+
+<script>
+  $(document).ready(function () {
+    const query_tag = Shopify.theme.custom.GetQueryValue('tag');
+    const query_title = Shopify.theme.custom.GetQueryValue('title');
+    const series = Shopify.theme.custom.GetQueryValue('series');
+    const discontinued = Shopify.theme.custom.GetQueryValue('discontinued');
+    const image = Shopify.theme.custom.GetQueryValue('img');
+
+    if (query_tag && series) {
+      $('.breadcrumb .modelcrumbs').html(query_title);
+      $('.breadcrumb .seriescrumbs').html(series);
+
+      var $series_model = $('#series_model__main');
+      var $model_tmpl = $series_model.find('script#accessories__template');
+      var series_all_products = JSON.parse(`{{ data_series_model_products }}`);
+      var series_products = series_all_products.filter(v => v.tags.split(', ').some(tag => tag.toLowerCase() === query_tag.toLowerCase()));
+      $series_model.find('.model__container').html($.tmpl($model_tmpl, { products: series_products }));
+
+      const mainHandle = query_tag.split('_')[1];
+      const $proMain_tmpl = $('#mainhandle_template');
+      if (discontinued) {
+        $('.modelpro').html($.tmpl($proMain_tmpl, { item: { discontinued, image, title: HTMLDecode(query_title) } }));
+      } else {
+        var mainProduct = series_all_products.filter(v => v.handle.toLowerCase() === mainHandle.toLowerCase());
+        $('.modelpro').html($.tmpl($proMain_tmpl, { item:  { ...mainProduct[0], title: HTMLDecode(mainProduct[0].title) } }));
+      }
+
+    }
+    function HTMLDecode(text) { 
+      var temp = document.createElement("div"); 
+      temp.innerHTML = text; 
+      var output = temp.innerText || temp.textContent; 
+      temp = null; 
+      return output; 
+    }
+
+    Shopify.contentCreator.util.imgSeturl();
+  })
+</script>

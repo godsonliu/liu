@@ -1,0 +1,111 @@
+{% assign pop = page.metafields.global.pop.value %}
+
+<section class="ps-ret txt-center white bg-black over-hide linear-gradient-section mach-main-section mach-main-section-3">
+  <div class="ps-ret tech-wrap">
+    <div class="tech-img-wrap">
+      {% if section.settings.img_pc != blank %}
+        <div class="media-image-wrap tech-pc-image-wrap is-hidden-mobile-only">
+          {% render 'lazyload_image',  
+            src: section.settings.img_pc,
+            alt: section.settings.img_pc.alt,
+            width: section.settings.img_pc.width,
+            aspect_ratio: section.settings.img_pc.aspect_ratio,
+            isSchemaData: true
+          %}
+        </div>
+      {% elsif section.settings.img_mb == blank %}
+        <div class="media-image-wrap">
+          {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
+        </div>
+      {% endif %}
+      {% if section.settings.img_mb != blank %}
+        <div class="media-image-wrap tech-mob-image-wrap is-hidden-desktop-only">
+          {% render 'lazyload_image',  
+            src: section.settings.img_mb,
+            alt: section.settings.img_mb.alt,
+            width: section.settings.img_mb.width,
+            aspect_ratio: section.settings.img_mb.aspect_ratio,
+            isSchemaData: true
+          %}
+        </div>
+      {% endif %}
+    </div>
+    <div class="tech-img-title">
+      <p class="large-title">{{ section.settings.mian_title }}</p>
+    </div>
+  </div>
+  <div class="tech-info-wrap">
+    <p class="white-grey sub-title">{{ section.settings.sub_title }}</p>
+    <p class="tech-info-title">{{ section.settings.title }}</p>
+    <p class="white-grey tech-info-desc">{{ section.settings.desc }}</p>
+    {% render 'lazyload_image',  
+      src: section.settings.text_img,
+      alt: section.settings.text_img.alt,
+      width: section.settings.text_img.width,
+      aspect_ratio: section.settings.text_img.aspect_ratio,
+      additional_classes: 'tech-info-img tech-info-last',
+      isSchemaData: true
+    %}
+    <p class="grey tech-info-subtext tech-info-last">{{ section.settings.subtext }}</p>
+  </div>
+
+  {% render 'mach-landing-pop'
+    section: section,
+    color: 'black',
+    idx: 1,
+    data: pop.b
+  %}
+</section>
+
+{% schema %}
+{
+  "name": "Mach Main Section 3",
+  "presets": [{
+      "category": "Mach Main Section 3",
+      "name": "Mach Main Section 3"
+  }],
+  "settings": [{
+    "type": "header",
+    "content": "内容"
+  },{
+    "type": "textarea",
+    "id": "mian_title",
+    "label": "主标题"
+  },{
+    "type": "textarea",
+    "id": "sub_title",
+    "label": "内容副标题"
+  },{
+    "type": "textarea",
+    "id": "title",
+    "label": "内容主标题"
+  },{
+    "type": "textarea",
+    "id": "desc",
+    "label": "内容描述"
+  },{
+    "type": "textarea",
+    "id": "subtext",
+    "label": "内容副描述"
+  },{
+    "type": "textarea",
+    "id": "pop_txt",
+    "label": "弹窗按钮文本"
+  },{
+    "type": "header",
+    "content": "图片"
+  },{
+    "type": "image_picker",
+    "id": "img_pc",
+    "label": "桌面端主背景图片"
+  },{
+    "type": "image_picker",
+    "id": "img_mb",
+    "label": "移动端主背景图片"
+  },{
+    "type": "image_picker",
+    "id": "text_img",
+    "label": "文本图"
+  }]
+}
+{% endschema %}

@@ -1,0 +1,166 @@
+
+.block {
+  @extend %block;
+}
+  
+.delete {
+  @extend %delete;
+}
+
+.close {
+  @extend %close;
+}
+
+.highlight {
+  @extend %block;
+
+  font-weight: $weight-normal;
+  max-width: 100%;
+  overflow: hidden;
+  padding: 0;
+
+  pre {
+    overflow: auto;
+    max-width: 100%;
+  }
+}
+
+.loader {
+  @extend %loader;
+}
+
+.number {
+  @include align-items(center);
+  background-color: $background;
+  border-radius: $radius-rounded;
+  @include inline-flexbox();
+  font-size: $size-medium;
+  height: 2em;
+  @include justify-content(center);
+  margin-right: 1.5rem;
+  min-width: 2.5em;
+  padding: 0.25rem 0.5rem;
+  text-align: center;
+  vertical-align: top;
+}
+
+// logo-list
+
+.logo-list {
+
+  .has-background {
+    padding-top: 20px;
+  }
+
+  .logo-list__wrapper {
+    @include respond-to('small-down') {
+      max-width: $site-max-width;
+      width: $site-width;
+    }
+  }
+}
+
+// map
+
+.maps {
+  width: 100%;
+}
+
+.map {
+  height: 100%;
+  width: 100%;
+}
+
+// livechat
+
+.Friendbuy-ribbon-transition{
+  @media (max-width: 768px) {
+    display: none!important;
+  }
+}
+
+@media (min-width: 769px) {
+  .txt-center{
+    text-align: center;
+  }
+
+  .txt-right{
+    text-align: right;
+  }
+
+  .info-top-left{
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+  .info-top-center {
+    align-items: flex-start;
+    justify-content: center;
+  }
+
+  .info-top-right {
+    align-items: flex-start;
+    justify-content: flex-end;
+  }
+
+  .info-middle-left {
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .info-middle-center {
+    align-items: center;
+    justify-content: center;
+  }
+
+  .info-middle-right {
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .info-bottom-left {
+    align-items: flex-end;
+    justify-content: flex-start;
+  }
+
+  .info-bottom-center {
+    align-items: flex-end;
+    justify-content: center;
+  }
+
+  .info-bottom-right {
+    align-items: flex-end;
+    justify-content: flex-end;
+  }
+}
+
+@media (max-width: 768px) {
+  .mb-txt-center{
+    text-align: center;
+  }
+
+  .mb-txt-right{
+    text-align: right;
+  }
+}
+
+.product_myregistry{
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  .icon{
+    width: 24px;
+    height: 24px;
+    color: #000;
+  }
+
+  .txt {
+    font-size: 14px;
+    margin-left: 10px;
+
+    &:hover{
+      color: #21d2c5;
+    }
+  }
+}

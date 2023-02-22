@@ -1,0 +1,165 @@
+<link rel="stylesheet" href="{{ 'spring-clean-2022-withEufy.scss.css' | asset_url }}">
+{% style %}
+  .spring-clean-2022-withEufy {
+    background: {{ section.settings.background-color }};
+  }
+  .spring-clean-2022-withEufy .box-container .title { 
+    color: {{ section.settings.title-color}}
+  }
+  .spring-clean-2022-withEufy .box-container .product-card .info-content .question-text{
+    color: {{ section.settings.card-text-color}}
+  }
+  .spring-clean-2022-withEufy .box-container .product-card .info-content a{
+    background: {{ section.settings.card-btn-color}}
+  }
+  .spring-clean-2022-withEufy .box-container .product-card .info-content .with_eufy_btn {
+    margin-top: 5px;
+  }
+  .spring-clean-2022-withEufy .box-container .product-card .info-content .with_eufy_btn_2 {
+    margin-top: 8px;
+  }
+{% endstyle %}
+<section class="spring-clean-2022-withEufy">
+  <div class="box-container">
+    <div class="title">
+      <h3>{{ section.settings.title}}</h3>
+    </div>
+    {% for block in section.blocks %}
+    <div class="product-card product-card-{{forloop.index }} {{ block.settings.img-position }}">
+      <div class="info-content">
+        <p class="question-text">{{block.settings.question}}</p>
+        <h4 class="title">{{block.settings.title}}</h4>
+        <p class="desc">{{block.settings.desc}}</p>
+        <a class="learn_more_btn with_eufy_btn" data-sku="{{ block.settings.sku }}" href="{{ block.settings.handle }}" target="_blank" rel="noopener noreferrer">
+          {{block.settings.learnmore_text}}
+        </a>
+        {% if block.settings.learnmore_text2 != blank %}
+          <a class="learn_more_btn with_eufy_btn with_eufy_btn_2" data-sku="{{ block.settings.sku }}" href="{{ block.settings.href }}" target="_blank" rel="noopener noreferrer">
+            {{block.settings.learnmore_text2}}
+          </a>
+        {% endif %}
+      </div>
+      <div class="img-content">
+        <img class="lazyload is-hidden-mobile-only" data-src="{{ block.settings.mobile_image | img_url: '1200x'}}" alt="{{ block.settings.title}}"/>
+        <img class="lazyload is-hidden-desktop-only" data-src="{{ block.settings.mobile_image | img_url: '750x' }}" alt="{{ block.settings.title}}"/>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+</section>
+{% schema %}
+
+{
+  "name": "Spring Cleaning with eufy",
+  "class": "spring-clean-withEufy",
+  "presets": [
+    {
+      "category": "Spring Clean withEufy Sections",
+      "name": "Spring Clean withEufy"
+    }
+  ],
+  "settings": [{
+    "type": "text",
+    "id": "title",
+    "label": "title"
+  },
+  {
+    "type": "color",
+    "id": "background-color",
+    "label": "Background",
+    "default": "#EFF4E8"
+  },
+  {
+    "type": "color",
+    "id": "title-color",
+    "label": "Title Color",
+    "default": "#4a7743"
+  },
+  {
+    "type": "color",
+    "id": "card-text-color",
+    "label": "Card Text Title Color",
+    "default": "#4a7743"
+  },
+  {
+    "type": "color",
+    "id": "card-btn-color",
+    "label": "Card Button Color",
+    "default": "#76A44A"
+  }],
+  "blocks": [{
+    "type": "product_list",
+    "name": "产品列表",
+    "settings": [{
+      "type": "text",
+      "id": "question",
+      "label": "问题",
+      "default": "How are you freshening up your home?"
+    },{
+      "type": "text",
+      "id": "title",
+      "label": "产品名称",
+      "default": "RoboVac X8"
+    },{
+      "type": "text",
+      "id": "desc",
+      "label": "描述",
+      "default": "Experience a hands-free cleaning experience with an intelligent, self-navigating robotic vacuum."
+    },{
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },{
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile Image"
+    },{
+      "type": "select",
+      "id": "img-position",
+      "label": "图片位置",
+      "default": "right",
+      "options": [
+        {
+          "value": "right",
+          "label": "靠右"
+        },
+        {
+          "value": "left",
+          "label": "靠左"
+        }
+      ]
+    },{
+      "type": "text",
+      "id": "learnmore_text",
+      "label": "LearnMore Text",
+      "default": "Learn More"
+    },{
+      "type": "textarea",
+      "id": "btn_css",
+      "label": "Btn CSS",
+      "info": "自定义样式（注意：请按照标准的css语法添加样式）"
+    },{
+      "type": "text",
+      "id": "handle",
+      "label": "handle",
+      "info": "产品handle"
+    },{
+      "type": "text",
+      "id": "sku",
+      "label": "sku",
+      "info": "产品sku"
+    },{
+      "type": "text",
+      "id": "learnmore_text2",
+      "label": "LearnMore Text2",
+      "default": "Learn More"
+    },{
+      "type": "url",
+      "id": "href",
+      "label": "LearnMore Text2 Target Link"
+    }]
+  }]
+}
+
+{% endschema %}

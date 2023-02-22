@@ -1,0 +1,180 @@
+{% if page.metafields['global']['nav'].value %}
+  {% assign nav = page.metafields['global']['nav'].value %}
+{% else %}
+  {% assign nav = page.metafields['global']['nav'] %}
+{% endif %}
+
+{% if page.metafields['global']['banner'].value %}
+  {% assign banner = page.metafields['global']['banner'].value %}
+{% else %}
+  {% assign banner = page.metafields['global']['banner'] %}
+{% endif %}
+
+{% if page.metafields['global']['bbm_data'].value %}
+  {% assign bbm_data = page.metafields['global']['bbm_data'].value %}
+{% else %}
+  {% assign bbm_data = page.metafields['global']['bbm_data'] %}
+{% endif %}
+
+{% if page.metafields['global']['dc_data'].value %}
+  {% assign dc_data = page.metafields['global']['dc_data'].value %}
+{% else %}
+  {% assign dc_data = page.metafields['global']['dc_data'] %}
+{% endif %}
+
+{% if page.metafields['global']['subscribeTxt'].value %}
+  {% assign subscribeTxt = page.metafields['global']['subscribeTxt'].value %}
+{% else %}
+  {% assign subscribeTxt = page.metafields['global']['subscribeTxt'] %}
+{% endif %}
+
+{% if page.metafields.global.nav.value %}
+  {% assign nav = page.metafields.global.nav.value %}
+{% else %}
+  {% assign nav = page.metafields.global.nav %}
+{% endif %}
+
+{% if page.metafields.global.subscribeTxt.value %}
+  {% assign subscribeTxt = page.metafields.global.subscribeTxt.value %}
+{% else %}
+  {% assign subscribeTxt = page.metafields.global.subscribeTxt %}
+{% endif %}
+
+<section class="eufyCare">
+  <div class="nav">
+    <div class="txt">
+      <span>{{ nav.title }}</span>
+      <a onClick="goAnchor('subscribeBox')">{{ nav.sign_up }}</a>
+    </div>
+  </div>
+  <div class="banner">
+    <div class="bg">
+      <img class="is-hidden-mobile-only" src="{{ banner.img }}" />
+      <img class="is-hidden-desktop-only" src="{{ banner.mob_img }}" />
+    </div>
+    <div class="txt">
+      <h3>{{ banner.title }}</h3>
+      <p>{{ banner.desc }}</p>
+    </div>
+  </div>
+  <div id="BBM">
+    {% for item in bbm_data %}
+      <div class="bbm_con floatCon">
+        <div class="bg">
+          {% comment %} landing page img{% endcomment %}
+          {% if forloop.index0 < 2 %}
+            <img class="is-hidden-desktop-only" src="{{ item.mob_src }}" />
+            <video class="is-hidden-mobile-only" src="{{ item.src }}" preload="auto" muted="muted" autoplay="autoplay" loop="loop"></video>
+            {% else %}
+            <img class="lazyload is-hidden-desktop-only" data-src="{{ item.mob_src }}" />
+            <video class="lazyload is-hidden-mobile-only" data-src="{{ item.src }}" preload="auto" muted="muted" autoplay="autoplay" loop="loop"></video>
+          {% endif %}
+        </div>
+        <div class="txt">
+          <div class="txtBox">
+            <h3>{{ item.title }}</h3>
+            <p>{{ item.desc }}</p>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  <div id="DC">
+    {% for item in dc_data %}
+      <div class="dc_con floatCon">
+        <div class="bg">
+          <div class="dogAni">
+            <img class="lazyload dog_bg" data-src="{{ item.dog_bg }}" />
+            <img class="lazyload dog" data-src="{{ item.dog }}" />
+            <img class="cover1 is-hidden-mobile-only lazyload" data-src="{{ item.cover1 }}" />
+            <img class="cover2 is-hidden-mobile-only lazyload" data-src="{{ item.cover2 }}" />
+            <img class="cover1 is-hidden-desktop-only lazyload" data-src="{{ item.mob_cover1 }}" />
+            <img class="cover2 is-hidden-desktop-only lazyload" data-src="{{ item.mob_cover2 }}" />
+          </div>
+        </div>
+        <div class="txt">
+          <div class="txtBox">
+            <h3>{{ item.title }}</h3>
+            <p>{{ item.desc }}</p>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  <div id="subscribeBox" class="subscribeBox">
+    <div class="box bbmBox">
+      <div class="txt">
+        <h3>{{ subscribeTxt.bbm_title }}</h3>
+        <p>{{ subscribeTxt.bbm_desc }}</p>
+      </div>
+      {% render 'subscribe-form', 
+        type: 'block',
+        snippets_id: 'eufyCare_bbm_signup',
+        deals_type: 'eufyCare_bbm_signup',
+        submit_position: 'bottom',
+        submit_btn_txt: {{ nav.sign_up }},
+        use_placeholders: {{ subscribeTxt.use_placeholders }},
+        captchaShow: true
+      %}
+    </div>
+    <div class="box dcBox">
+      <div class="txt">
+        <h3>{{ subscribeTxt.dc_title }}</h3>
+        <p>{{ subscribeTxt.dc_desc }}</p>
+      </div>
+      {% render 'subscribe-form', 
+        type: 'block',
+        snippets_id: 'eufyCare_dc_signup',
+        deals_type: 'eufyCare_dc_signup',
+        submit_position: 'bottom',
+        submit_btn_txt: {{ nav.sign_up }},
+        use_placeholders: {{ subscribeTxt.use_placeholders }},
+        captchaShow: true
+      %}
+    </div>
+  </div>
+</section>
+
+<script src="{{ 'gsap.min.js' | asset_url }}"></script>
+<script src="{{ 'ScrollTrigger.min.js' | asset_url }}"></script>
+<script>
+  var playVideo = false;
+  function goAnchor(id) {
+    $('html, body').animate({ scrollTop: $(`#${id}`).offset().top - 99 }, 800);
+  }
+  $(document).ready(function(){
+    gsap.registerPlugin(ScrollTrigger);
+
+    ScrollTrigger.create({
+      trigger: ".banner1",
+      start: 'top top+=64',
+      end: '+=64',
+      onEnter: () => {
+        gsap.to('.nav1', { height: document.body.offsetWidth > 768 ? 64 : 47 });
+      },
+      onEnterBack: () => {
+        gsap.to('.nav1', { height: 0 });
+      }
+    });
+
+    $('.floatCon').each((i, ele) => {
+      const floatCon = ele;
+      const txt = ele.querySelector('.eufyCare .txtBox');
+      const dog = ele.querySelector('.dog');
+      ScrollTrigger.create({
+        trigger: floatCon,
+        start: 'top center-=10%',
+        end: '+=30',
+        onEnter: () => {
+          gsap.to(dog, { y: -100, duration: 0.5 });
+          gsap.to(txt, { y: -100, opacity: 1, duration: 0.8, delay: 0.6 });
+        },
+        onEnterBack: () => {
+          gsap.to(dog, { y: 0 });
+          gsap.to(txt, { y: 0, opacity: 0 });
+        }
+      });
+    });
+
+  })
+</script>

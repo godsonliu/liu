@@ -1,0 +1,129 @@
+{% if page.metafields.global.pop.value %}
+  {% assign pop = page.metafields.global.pop.value %}
+{% else %}
+  {% assign pop = page.metafields.global.pop %}
+{% endif %}
+
+<aside class="common-section cam3-common-pop-section">
+  <i class="flex-center pop-section-close-btn js-cam3-pop-close">
+    <svg class="is-hidden-mobile-only" width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M32.4875 28.1199L21.3458 16.9782L32.4657 5.85838C33.6672 4.65683 33.6672 2.69065 32.4657 1.4891C31.2641 0.287546 29.2979 0.287546 28.0964 1.4891L16.9766 12.6089L5.85674 1.4891C4.65519 0.287546 2.68902 0.287546 1.48746 1.4891C0.285912 2.69065 0.285912 4.65683 1.48746 5.85838L12.6073 16.9782L1.48746 28.098C0.285912 29.2996 0.285912 31.2657 1.48746 32.4673C2.68902 33.6688 4.65519 33.6688 5.85674 32.4673L16.9766 21.3475L28.0964 32.4673C29.2979 33.6688 31.2641 33.6688 32.4657 32.4673C33.6672 31.2657 33.6891 29.3214 32.4875 28.1199Z" fill="#333333"/>
+    </svg>
+    <svg class="is-hidden-desktop-only" width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M17.788 15.4574L11.8795 9.54893L17.7764 3.65205C18.4136 3.01487 18.4136 1.9722 17.7764 1.33501C17.1392 0.697824 16.0966 0.697823 15.4594 1.33501L9.5625 7.23188L3.66563 1.33501C3.02844 0.697823 1.98577 0.697824 1.34858 1.33501C0.711397 1.9722 0.711397 3.01487 1.34858 3.65205L7.24546 9.54893L1.34858 15.4458C0.711397 16.083 0.711398 17.1257 1.34858 17.7628C1.98577 18.4 3.02844 18.4 3.66563 17.7628L9.5625 11.866L15.4594 17.7628C16.0966 18.4 17.1392 18.4 17.7764 17.7628C18.4136 17.1257 18.4252 16.0946 17.788 15.4574Z" fill="#333333"/>
+    </svg>           
+  </i>
+  <div class="h-100 over-auto cam3-common-pop-box">
+    {% for block in pop %}
+      {% case block.type %}
+        {% when 'image_column' %}
+        <div class="flex-center cam3-common-pop-content image-colunm-content {{ block.custom_class }}">
+          <div class="cam3-common-content-inner">
+            {% if block.heading != blank %}
+              <p class="heading">{{ block.heading }}</p>
+            {% endif %}
+            {% if block.desc != blank %}
+              <p class="sec-description">{{ block.desc }}</p>
+            {% endif %}
+            <div class="image-column-list-wrap">
+              <ul class="image-column-list col-{{ block.column_nums }}">
+                {% for column in block.columns %}
+                  <li class="image-column-item">
+                    <div class="image-column-img-content">
+                      <div class="image-column-img-wrap">
+                        {% if column.mobimg != blank %}
+                          {% assign imgCls = 'is-hidden-mobile-only image-column-img' %}  
+                        {% else %}
+                          {% assign imgCls = 'image-column-img' %}  
+                        {% endif %}
+                        {% if column.img != blank %}
+                          {% render 'lazyload_image',  
+                            src: column.img,
+                            alt: column.alt,
+                            width: block.img_width,
+                            height: block.img_height,
+                            additional_classes: imgCls
+                          %}
+                          {% if column.mobimg != blank %}
+                            {% render 'lazyload_image',  
+                              src: column.mobimg,
+                              alt: column.alt,
+                              width: block.mob_img_width,
+                              height: block.mob_img_height,
+                              additional_classes: 'is-hidden-desktop-only image-column-img'
+                            %}
+                          {% endif %}
+                        {% else %}
+                          {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+                        {% endif %}
+                      </div>
+                      <div class="image-column-info-wrap">
+                        {% if column.title != blank %}
+                          <p class="image-column-title">{{ column.title }}</p>
+                        {% endif %}
+                        {% if column.desc != blank %}
+                          <p class="image-column-desc">{{ column.desc }}</p>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {% when 'image_with_text' %}
+        <div class="cam3-common-pop-content image-with-text-content {{ block.custom_class }}">
+          {% for item in block.banners %}
+            <div class="image-with-text-inner-box">
+              {% if item.title != blank %}
+                <p class="heading">{{ item.title }}</p>
+              {% endif %}
+              {% if item.desc != blank %}
+                <p class="sec-description" style="max-width:{{ item.text_width | default: 700 }}px;">{{ item.desc }}</p>
+              {% endif %}
+              {% if item.img != blank %}
+                <div class="sec-image-wrap is-hidden-mobile-only">
+                  {% render 'lazyload_image',  
+                    src: item.img,
+                    alt: item.alt,
+                    width: block.img_width,
+                    height: block.img_height,
+                    additional_classes: 'image-with-text-img'
+                  %}
+                </div>
+              {% elsif item.mobimg != blank %}
+                {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+              {% endif %}
+              {% if item.mobimg != blank %}
+                <div class="sec-image-wrap is-hidden-desktop-only">
+                  {% render 'lazyload_image',  
+                    src: item.mobimg,
+                    alt: item.alt,
+                    width: block.mob_img_width,
+                    height: block.mob_img_height,
+                    additional_classes: ' image-with-text--img'
+                  %}
+                </div>
+              {% endif %}
+              {% if item.tips != blank %}
+                <p class="sec-description">{{ item.tips }}</p>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      {% endcase %}
+    {% endfor %}
+  </div>
+</aside>
+
+
+{% schema %}
+{
+  "name": "cam3 common pop",
+  "presets": [{
+    "name": "cam3 common pop"
+  }]
+}
+{% endschema %}

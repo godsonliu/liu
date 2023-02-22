@@ -1,0 +1,61 @@
+{% style %}
+@media screen and (max-width: 768px) {
+  #shopify-section-{{ section.id }} .sec-image-wrap_{{ block.id }}{
+    {% if block.settings.img_mb_margin != blank %}
+      margin: {{ block.settings.img_mb_margin }};
+    {% endif %}
+  }
+
+  #shopify-section-{{ section.id }} .img-mb-sec-wrap_{{ block.id }} img{
+    {% if block.settings.img_mb_width != 0 %}
+      max-width: {{ block.settings.img_mb_width }}px;
+    {% endif %}
+  }
+}
+@media screen and (min-width: 769px) {
+  #shopify-section-{{ section.id }} .sec-image-wrap_{{ block.id }}{
+    {% if block.settings.img_margin != blank %}
+      margin: {{ block.settings.img_margin }};
+    {% endif %}
+  }
+
+  #shopify-section-{{ section.id }} .img-pc-sec-wrap_{{ block.id }} img{
+    {% if block.settings.img_width != 0 %}
+      max-width: {{ block.settings.img_width | divided_by: 19.2 }}vw;
+    {% endif %}
+  }
+}
+{% endstyle %}
+
+<div class="sec-image-wrap sec-image-wrap_{{ block.id }}">
+  {% if block.settings.img != blank %}
+    <div class="img-sec-wrap img-pc-sec-wrap_{{ block.id }} is-hidden-mobile-only">
+      {% render 'lazyload_image',  
+        src: block.settings.img,
+        alt: block.settings.img.alt,
+        width: block.settings.img.width,
+        aspect_ratio: block.settings.img.aspect_ratio,
+        isSchemaData: true
+      %}
+    </div>
+  {% elsif block.settings.img_mb == blank %}
+    <div class="img-sec-wrap">
+      {% if imgtag == blank %}
+        {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
+      {% else %}
+        {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+      {% endif %}
+    </div>
+  {% endif %}
+  {% if block.settings.img_mb != blank %}
+    <div class="img-sec-wrap img-mb-sec-wrap_{{ block.id }} is-hidden-desktop-only">
+      {% render 'lazyload_image',  
+        src: block.settings.img_mb,
+        alt: block.settings.img_mb.alt,
+        width: block.settings.img_mb.width,
+        aspect_ratio: block.settings.img_mb.aspect_ratio,
+        isSchemaData: true
+      %}
+    </div>
+  {% endif %}
+</div>

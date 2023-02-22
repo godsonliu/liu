@@ -1,0 +1,114 @@
+{% assign section_id = 'shopify-section-' | append: section.id %}
+<style>
+.component_rules_bg {
+  padding: {{ section.settings.box_padding }};
+  background: {{section.settings.box_bg}};
+}
+#{{section_id}} .component_rules_{{section.id}} {
+  width: 100%;
+}
+#{{section_id}} .component_rules_{{section.id}} .rule-title {
+  font-weight: 500;
+  font-size: 40px;
+  text-align: center;
+  color: {{section.settings.title_color}};
+}
+#{{section_id}} .component_rules_{{section.id}} .rule-desc {
+  width: fit-content;
+  margin: 40px auto 0 auto;
+  line-height: 30px;
+  font-size: 16px;
+  color: {{section.settings.desc_color}};
+  text-align: left;
+}
+@media(max-width: 769px) {
+  #{{section_id}} .component_rules_{{section.id}} {
+    padding: {{ section.settings.mobile_box_padding }};
+  }
+  #{{section_id}} .component_rules_{{section.id}} .rule-title {
+    font-size: 20px;
+  }
+  #{{section_id}} .component_rules_{{section.id}} .rule-desc {
+    margin-top: 20px;
+    font-size: 14px;
+  }
+}
+</style>
+
+<div class="component_rules_bg {{ section.settings.custom_class }}">
+  <div class="component_rules_{{section.id}}">
+    <div class="rule-title">{{section.settings.title}}</div>
+    <div class="rule-desc">{{section.settings.desc}}</div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "component_rules_v2",
+    "presets": [
+			{
+				"name": "component_rules_v2"
+			}
+		],
+    "settings": [
+      {
+        "type": "header",
+        "content": "结构方面"
+      },
+      {
+        "type": "text",
+        "id": "box_padding",
+        "label": "模块边距",
+        "default": "60px 0",
+        "info": "上边距 右边距 下边距 左边距。遵循顺时针，带上单位px, 以空格隔开。例如 ：20px 10px 15px 12px"
+      },
+      {
+        "type": "text",
+        "id": "mobile_box_padding",
+        "label": "Mobile端模块边距",
+        "default": "30px 10px"
+      },
+      {
+        "type": "color",
+        "id": "box_bg",
+        "label": "section背景色"
+      },
+      {
+        "type": "header",
+        "content": "文本内容区"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "标题",
+        "default": "Rules"
+      },
+      {
+        "type": "color",
+        "id": "title_color",
+        "label": "标题颜色",
+        "default": "#000"
+      },
+      {
+        "type": "html",
+        "id": "desc",
+        "label": "描述"
+      },
+      {
+        "type": "color",
+        "id": "desc_color",
+        "label": "描述颜色",
+        "default": "#333"
+      },
+      {
+        "type": "header",
+        "content": "开发相关"
+      },
+      {
+        "type": "text",
+        "id": "custom_class",
+        "label": "自定义类名"
+      }
+    ]
+  }
+{% endschema %}

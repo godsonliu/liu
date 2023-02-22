@@ -1,0 +1,39 @@
+{% if product.metafields.global.listing_paragraph.value %}
+  {% assign listing_paragraph = product.metafields.global.listing_paragraph.value %}
+{% else %}
+  {% assign listing_paragraph = page.metafields.global.listing_paragraph.value %}
+{% endif %}
+
+{% if listing_paragraph != blank %}
+<style>
+  .p-box-wrap{
+    background-color: #fff;
+    padding: 53px 0;
+  }
+
+  @media screen and (max-width: 768px){
+    .p-box-wrap {
+      padding: 12px 16px;
+    }
+  }
+</style>
+<section class="common-section listing_v2_section">
+  <div class="p-box-wrap">
+    <div class="wrap m-box-wrap">
+      <p class="text subtext">{{ listing_paragraph }}</p>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% schema %}
+{
+  "name": "listing_paragraph",
+  "presets": [
+    {
+      "category": "Custom Dynamic Sections",
+      "name": "listing paragraph"
+    }
+  ]
+}
+{% endschema %}

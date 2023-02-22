@@ -1,0 +1,101 @@
+<div class="t8530_feature_4">
+  <div class="sec-title-middle">{{ section.settings.title }}</div>
+  <div class="label">{{ section.settings.label }}</div>
+  <div class="sec-description">{{ section.settings.subtitle }}</div>
+  <div class="box-container">
+    <div class="img-wrap">
+      <div class="cover"></div>
+      {% render 'lazyload_image',  
+        src: section.settings.image,
+        alt: section.settings.image.alt,
+        width: section.settings.image.width,
+        aspect_ratio: section.settings.image.aspect_ratio,
+        additional_classes: "is-hidden-mobile-only",
+        isSchemaData: true
+      %}
+
+      {% render 'lazyload_image',  
+        src: section.settings.image_mob,
+        alt: section.settings.image_mob.alt,
+        width: section.settings.image_mob.width,
+        aspect_ratio: section.settings.image_mob.aspect_ratio,
+        additional_classes: "is-hidden-desktop-only",
+        isSchemaData: true
+      %}
+      <div class="bg-cover">
+        <img src="https://cdn.shopify.com/s/files/1/0521/9411/5753/files/pc_pic_center.jpg?v=1667446260" class="is-hidden-mobile-only">
+        <img src="https://cdn.shopify.com/s/files/1/0521/9411/5753/files/mob1_7edec8ee-6aaa-43db-94fc-1027ad8e3b1f.png?v=1667456430" class="is-hidden-desktop-only">
+        <i class="l1"></i>
+        <i class="l2"></i>
+        <i class="l3"></i>
+        <i class="l4"></i>
+        <i class="l5"></i>
+        <i class="l6"></i>
+        <i class="l7"></i>
+        <i class="l8"></i>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(function() {
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: ".t8530_feature_4 .box-container",
+          start: "center center",
+          end: "+=2000",
+          pin: true,
+          {% comment %} markers: true, {% endcomment %}
+          scrub: true
+        }
+      })
+      .to(".t8530_feature_4 .cover", {opacity: 0.6})
+      .to(".t8530_feature_4 .bg-cover", {opacity: 1}, "=")
+      .to(".t8530_feature_4 .img-wrap", {borderRadius: 0}, ">")
+      .to(".t8530_feature_4 .bg-cover", {scale: 3}, ">")
+      .to(".t8530_feature_4 .l1", {opacity: 0, scale: 0.33}, "<")
+      .to(".t8530_feature_4 .l2", {opacity: 0, scale: 0.33}, "<")
+      .to(".t8530_feature_4 .l3", {opacity: 0, scale: 0.33}, "<")
+      .to(".t8530_feature_4 .l4", {opacity: 0, scale: 0.33}, "<")
+      .to(".t8530_feature_4 .l5", {opacity: 0, scale: 0.33}, "<")
+      .to(".t8530_feature_4 .l6", {opacity: 0, scale: 0.33}, "<")
+      .to(".t8530_feature_4 .l7", {opacity: 0, scale: 0.33}, "<")
+      .to(".t8530_feature_4 .l8", {opacity: 0, scale: 0.33}, "<");
+  })
+</script>
+
+{% schema %}
+{
+  "name": "t8530 feature4",
+  "settings": [{
+    "type": "textarea",
+    "id": "title",
+    "label": "标题"
+  },{
+    "type": "textarea",
+    "id": "label",
+    "label": "标签"
+  }, {
+    "type": "textarea",
+    "id": "subtitle",
+    "label": "副标题"
+  }, {
+    "type": "image_picker",
+    "id": "image",
+    "label": "图片"
+  }, {
+    "type": "image_picker",
+    "id": "image_large",
+    "label": "放大图片"
+  }, {
+    "type": "image_picker",
+    "id": "image_mob",
+    "label": "移动端图片"
+  }, {
+    "type": "image_picker",
+    "id": "image_mob_large",
+    "label": "移动端放大图片"
+  }]
+}
+{% endschema %}

@@ -1,0 +1,254 @@
+{% if shop.metafields['global']['friendbuy'].value %}
+  {% assign friendbuy = shop.metafields['global']['friendbuy'].value %}
+{% else %}
+  {% assign friendbuy = shop.metafields['global']['friendbuy'] %}
+{% endif %}
+
+{% if shop.metafields['global']['friendbuy_v2'].value %}
+  {% assign friendbuy_v2 = shop.metafields['global']['friendbuy_v2'].value %}
+{% else %}
+  {% assign friendbuy_v2 = shop.metafields['global']['friendbuy_v2'] %}
+{% endif %}
+
+{% if shop.metafields['global']['percept'].value %}
+  {% assign percept = shop.metafields['global']['percept'].value %}
+{% else %}
+  {% assign percept = shop.metafields['global']['percept'] %}
+{% endif %}
+
+{% if template contains "page" %}
+  {% if page.metafields['global']['is_menu'].value %}
+    {% assign is_menu = page.metafields['global']['is_menu'].value %}
+  {% else %}
+    {% assign is_menu = page.metafields['global']['is_menu'] %}
+  {% endif %}
+{% else %}
+  {% if product.metafields['global']['is_menu'].value %}
+    {% assign is_menu = product.metafields['global']['is_menu'].value %}
+  {% else %}
+    {% assign is_menu = product.metafields['global']['is_menu'] %}
+  {% endif %}
+{% endif %}
+
+{% if shop.metafields['global']['common'].value %}
+  {% assign common = shop.metafields['global']['common'].value %}
+{% else %}
+  {% assign common = shop.metafields['global']['common'] %}
+{% endif %}
+
+{% if shop.metafields['reviews']['yotpo'].value %}
+  {% assign yotpo = shop.metafields['reviews']['yotpo'].value %}
+{% else %}
+  {% assign yotpo = shop.metafields['reviews']['yotpo'] %}
+{% endif %}
+
+<script defer src="{{ 'vendors.js' | asset_url }}"></script>
+<script defer src="{{ 'utilities.js' | asset_url }}"></script>
+<script src="{{ 'app.js' | asset_url }}"></script>
+<script src="{{ 'theme.js' | asset_url }}"></script>
+
+{% if settings.show_multiple_currencies or shop.enabled_currencies.size > 1 %}
+<script type="text/javascript" src="/services/javascripts/currencies.js"></script>
+{% endif %}
+
+{%- if settings.show_multiple_currencies or shop.enabled_currencies.size > 1 -%}
+<script defer src="{{ 'currencyConversion.js' | asset_url }}"></script>
+{%- endif -%}
+
+{%- if settings.enable_shipping_calculator and template contains "cart" -%}
+<script defer type="text/javascript" src="{{ 'shopify_common.js' | shopify_asset_url }}"></script>
+<script defer type="text/javascript" src="{{ 'api.jquery.js' | shopify_asset_url }}"></script>
+<script defer type="text/javascript" src="/services/javascripts/countries.js"></script>
+{%- endif -%}
+
+{%- if template.directory == 'customers' -%}
+<script src="{{ 'shopify_common.js' | shopify_asset_url }}"></script>
+<script src="{{ 'customer_area.js' | shopify_asset_url }}"></script>
+{%- endif -%}
+
+{%- if template.name == 'product' -%}
+{{ 'product-anker.scss.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'product-anker.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+{% if template.name == 'index' %}
+<script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "WebSite",
+      "name": "{{ shop.name }}",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "{{ routes.search_url }}?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      },
+      "url": "{{ shop.url }}{{ page.url }}"
+    }
+  </script>
+{% endif %}
+
+<script>
+  window.price_tax = "";
+  {% if common.price_tax %}
+  window.price_tax = "{{ common.price_tax }}";
+  {% endif %}
+</script>
+
+<script>
+  var ShopMetafields = {
+    recaptcha: '{{ shop.metafields.global.recaptcha.value }}'
+  };
+</script>
+
+
+{% if friendbuy_v2 %}
+<script>
+  window["friendbuyAPI"] = friendbuyAPI = window["friendbuyAPI"] || [];
+  friendbuyAPI.merchantId = "{{ friendbuy_v2.id }}";
+  friendbuyAPI.push(["merchant", friendbuyAPI.merchantId]);
+  {% if customer %}
+  window['friendbuyAPI'].push(['track', 'customer',
+    {
+      id: '{{customer.id}}',
+      email: '{{customer.email}}',
+      first_name: '{{customer.first_name}}',
+      last_name: '{{customer.last_name}}'
+    }
+  ]);
+  {% endif %}
+  (function (f, r, n, d, b, u, y) {
+    while ((u = n.shift())) {
+      (b = f.createElement(r)), (y = f.getElementsByTagName(r)[0]);
+      b.async = 1;
+      b.src = u;
+      y.parentNode.insertBefore(b, y);
+    }
+  })(document, "script", [
+    "https://static.fbot.me/friendbuy.js",
+    "https://campaign.fbot.me/" + friendbuyAPI.merchantId + "/campaigns.js",
+  ]);
+</script>
+{% elsif friendbuy %}
+<script>
+  window['friendbuy'] = window['friendbuy'] || [];
+  window['friendbuy'].push(['site', '{{friendbuy.id}}']);
+  {% if customer %}
+  window['friendbuy'].push(['track', 'customer',
+    {
+      id: '{{customer.id}}',
+      email: '{{customer.email}}',
+      first_name: '{{customer.first_name}}',
+      last_name: '{{customer.last_name}}'
+    }
+  ]);
+  {% endif %}
+  (function (f, r, n, d, b, y) {
+    b = f.createElement(r), y = f.getElementsByTagName(r)[0]; b.async = 1; b.src = n; y.parentNode.insertBefore(b, y);
+  })(document, 'script', '//cdn.friendbuy.ph/js/friendbuy.min.js');
+</script>
+{% endif %}
+
+{% comment %} yotpo reviews {% endcomment %}
+{%- if yotpo and yotpo.show_yotpo_reviews == 'true' -%}
+<script type="text/javascript">
+  (function e() {
+    var e = document.createElement("script");
+    e.type = "text/javascript",
+      e.async = true,
+      e.src = "{{ yotpo.yotpo_src }}";
+    var t = document.getElementsByTagName("script")[0];
+    t.parentNode.insertBefore(e, t);
+  })();
+</script>
+{%- endif -%}
+
+{% if percept %}
+<script> (function () { var d = document; function l() { var s = d.createElement("script"); s.type = "text/javascript"; s.src = "https://widget.percept.ai/anker/production.js"; s.async = true; var x = d.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x); } window.attachEvent ? window.attachEvent("onload", l) : window.addEventListener("load", l, false) }());</script>
+<script>window.perceptSettings = {{ percept.global | json }}</script>
+{% endif %}
+
+<script type="application/json" id="isMenu">   {{ is_menu | json }} </script>
+<script>
+  $(document).ready(function () {
+    const result = JSON.parse($('#isMenu').text())
+    let scrollAction = { x: 'undefined', y: 'undefined' }, scrollDirection;
+    let offset = 0
+    if (typeof Shopify.theme.jsAnnouncementBar !== 'undefined' && Shopify.theme.jsAnnouncementBar.enable_sticky) {
+      offset = Shopify.theme.jsAnnouncementBar.getAnnouncementHeight()
+    }
+
+    function scrollFunc() {
+      if (typeof scrollAction.x == 'undefined') {
+        scrollAction.x = window.pageXOffset
+        scrollAction.y = window.pageYOffset
+      }
+      let diffX = scrollAction.x - window.pageXOffset
+      let diffY = scrollAction.y - window.pageYOffset
+      if (diffX < 0) {
+        // Scroll right
+        scrollDirection = 'right'
+      } else if (diffX > 0) {
+        // Scroll left
+        scrollDirection = 'left'
+      } else if (diffY < 0) {
+        // Scroll down
+        scrollDirection = 'down'
+      } else if (diffY > 5) {
+        // Scroll up
+        scrollDirection = 'up'
+      } else {
+        // First scroll event
+      }
+      scrollAction.x = window.pageXOffset
+      scrollAction.y = window.pageYOffset
+    }
+
+    function onScrollMenu() {
+      const showMenu = $('.mobile-menu__toggle-button').attr('data-show-mobile-menu')
+      if (showMenu == 'true') return
+      let s = document.documentElement.scrollTop || document.body.scrollTop
+      scrollFunc()
+      let $shopify = $('#shopify-section-announcement-bar')
+      let barHeight = $shopify.height()
+      //监听页面滚动事件
+      if (scrollDirection == 'down') {
+        //页面向下滚动要做的事情
+        let $mobile = $('#mobile-header')
+        let headerHeight = $mobile.height()
+        if (s > barHeight + headerHeight) {
+          $('.nav').css('top', -100 + 'px')
+          $('#mobile-header').css('opacity', 0)
+          $('#mobile-header').unstick()
+          $('#shopify-section-header__icon-bar').css('top', '-56.89px')
+        }
+      }
+
+      if (scrollDirection == 'up') {
+        let NavHeight = $('#shopify-section-header-classic').height()
+        let swiperHeight = $('#shopify-section-header__icon-bar').height()
+        $('.nav').css({
+          'top': (NavHeight + swiperHeight) + 'px',
+          'transition': 'top .4s linear'
+        })
+        //页面向上滚动要做的事情
+        $('#mobile-header').css('opacity', 1)
+        $('#mobile-header').addClass('sticky--enabled').addClass('mobile-header-add').sticky({
+          wrapperClassName: 'header-sticky-wrapper',
+          zIndex: 40,
+          topSpacing: offset
+        })
+        let $mobile = $('#mobile-header-sticky-wrapper')
+        let wrapper = $mobile.offset().top
+        if (s > (wrapper + barHeight) && $('#mobile-header-sticky-wrapper')) {
+          $('#mobile-header').css({ 'position': 'fixed', 'top': 0, 'zIndex': 40, 'width': '100%' })
+        }
+        $('#shopify-section-header__icon-bar').css('top', $mobile.height())
+      }
+    }
+
+    if ($(window).width() < 768 && !isNaN(result)) {
+      window.addEventListener('scroll', Shopify.contentCreator.util.throttle(onScrollMenu, 200))
+    }
+  });
+</script>
+

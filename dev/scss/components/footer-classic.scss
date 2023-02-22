@@ -1,0 +1,192 @@
+ // Classic layout
+
+ .footer__content {
+    border-bottom: $footer_border;
+    border-top: $footer_border;
+    padding: 6rem 1rem 3rem;
+    @media (max-width: 767px) {
+      &.section.has-background {
+        padding: 3rem 30px 2rem;
+        padding-left: 30px;
+        padding-right: 30px;
+      }
+    }
+    .newsletter-form__wrapper {
+      .newsletter-form {
+        .field {
+          &.is-default-width {
+            min-width: 0;
+            position: absolute;
+            top: 0;
+            right: -1px;
+            .button {
+              padding: 0 2.5rem;
+              width: auto;
+            }
+          }
+          .control {
+            width: auto;
+            input { padding: 0 100px 0 34px; }
+          }
+        }
+      }
+    }
+  }
+  .block__newsletter {
+    @media (max-width: 767px) {
+      margin: 2rem;
+      .footer__heading {
+        text-align: center;
+        margin: 20px 0;
+      }
+    }
+  }
+  .footer__container {
+    background: #000;
+  }
+  .footer__extra-content {
+    color: #767676;
+    a { color: #767676; }
+    .container {
+      flex-direction: row-reverse;
+    }
+  }
+  @media only screen and (max-width: 480px) {
+    .footer__block { padding: 0; }
+  }
+
+  .footer__brands {
+    $brandColor: #767676;
+    padding: 2rem 0;
+    .brands {
+      line-height: 1.2;
+      text-align: center;
+      a { text-decoration: none; }
+      .col {
+        position: relative;
+        display: table-cell;
+        vertical-align: middle;
+      }
+      .main {
+        width: 200px;
+        &:after {
+          position: absolute;
+          content: "";
+          width: 1px;
+          height: 4rem;
+          background: $brandColor;
+          right: 0;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+        i { font-size: 4rem; }
+        a {
+          color: #a4a4a4;
+          &:hover { color: #FFF; }
+        }
+      }
+      .cell {
+        display: table-cell;
+        width: 16.66%;
+        @media (max-width: 767px) {
+          display: inline-block;
+          width: auto;
+          margin: 0 5%;
+          line-height: 4rem;
+        }
+        a {
+          text-align: center;
+          vertical-align: middle;
+          color: $brandColor;
+          transition: 200ms;
+          &:hover { color: #FFF; }
+          i { font-size: 4rem; }
+        }
+      }
+      @media (max-width: 767px) {
+        padding-top: .5rem;
+        .col { display: block; width: 100%; }
+        .main {
+          text-align: center;
+          &:after {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+
+  .footer__menu {
+    .footer__heading {
+      font-weight: bold;
+    }
+    .plus {
+      pointer-events: none;
+      float: right;
+      position: relative;
+      width: 1.2rem;
+      height: 1.2rem;
+      overflow: hidden;
+      margin-top: 2px;
+      transition: 0.5s;
+      display: none;
+      @media (max-width: 767px) { display: block; }
+      &:after, &:before {
+        content: '';
+        position: absolute;
+        height: 2px;
+        width: 100%;
+        top: 50%;
+        left: 0;
+        margin-top: -1px;
+        background: #fff;
+      }
+      &:after { transform: rotate(90deg); }
+      &.active { transform: rotate(225deg); }
+    }
+    ul {
+      @media (max-width: 767px) { display: none; }
+    }
+    .active {
+      display: block;
+    }
+  }
+
+  .footer__block.one-fifth .is-stretched-width {
+    min-width: 100% !important; // Used to override default newsletter form styling
+  }
+
+  .footer__block .is-stretched-width {
+
+    @include respond-to('large-down') {
+      min-width: 100% !important; // Used to override default newsletter form styling
+    }
+  }
+
+  .footer-classic__disclosure {
+    @include justify-content(flex-end);
+
+    @include respond-to('medium-down') {
+      @include justify-content(center);
+    }
+  }
+
+  .footer__credits + .footer__payment-methods {
+
+    @include respond-to('small-down') {
+      margin-top: 20px;
+    }
+  }
+
+  .footer__credits {
+    text-align: center;
+    img { width: auto; }
+  }
+
+  .footer__payment-methods {
+
+    @include respond-to('small-down') {
+      text-align: center;
+      @include justify-content(center);
+    }
+  }

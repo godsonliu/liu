@@ -1,0 +1,204 @@
+.index__subscribe-section{
+  display: flex;
+  justify-content: center;
+  padding-bottom: 7.87125vw;
+  background: #F5F5F7;
+  @media screen and (max-width: 768px){
+    background: #ffffff;
+  }
+  .index__subscribe-box{
+    padding: 60px 0px;
+    background-color: #ffffff;
+    border-radius: 0px 0px 32px 32px;
+    .index__subscribe-col{
+      width: 1000px;
+    }
+    .index__subscribe-title{
+      font-size: 24px;
+      font-weight: 600;
+    }
+    .newsletter-form__wrapper{
+      width: 100%;
+      max-width: 100%;
+    }
+    .newsletter-form{
+      margin-top: 45px;
+    }
+    .newsletter-form__wrapper .newsletter-form .field.is-stretched-width{
+      flex: 3 0 80%;
+    }
+    .newsletter-form__wrapper .newsletter-form .field.is-default-width{
+      flex: 3 0 20%;
+    }
+      border-radius: 0px;
+    .newsletter-form__wrapper .newsletter-form .field .control input{
+      height: 80px;
+      line-height: 80px;
+      background: #F5F5F7;
+      color: #2D2D2D;
+      border-radius: 8px 0px 0px 8px;
+      font-size: 20px;
+    }
+    .newsletter-form .field .control .button{
+      height: 80px;
+      line-height: 80px;
+      background: #000000 !important;
+      border-radius: 0px 8px 8px 0px;
+      font-size: 20px;
+    }
+    .policyBox{
+      display: flex;
+      justify-content: center;
+      color: #666666;
+      font-size: 16px;
+      input{ 
+        margin-right: 8px;
+        width: 26px;
+        height: 26px;
+      }
+      span{
+        vertical-align: middle;
+      }
+      a{
+        color: #666666;
+        text-decoration: underline;
+      }
+    }
+    .newsletter-form__wrapper .contact-form__form-errors .form__error{
+      padding: 12px 24px;
+      background: rgba(0, 0, 0, 0.4);
+      color: #FFFFFF;
+      border-radius: 4px;
+    }
+    .form_error_box{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .one-whole{
+        min-width: 50%;
+        max-width: 100%;
+        width: auto;
+      }
+    }
+    @media screen and (max-width: 1920px) and (min-width: 1281px){
+      padding: 45px 0px;
+      border-radius: 0px 0px 24px 24px;
+      .index__subscribe-col{
+        width: 750px;
+      }
+      .index__subscribe-title{
+        font-size: 20px;
+      }
+      .newsletter-form{
+        margin-top: 30px;
+      }
+      .newsletter-form__wrapper .newsletter-form .field .control input,.newsletter-form .field .control .button{
+        height: 62px;
+        line-height: 62px;
+        font-size: 16px;
+      }
+      .policyBox{
+        font-size: 14px;
+        input{
+          width: 20px;
+          height: 20px;
+        }
+      }
+    }
+    @media screen and (max-width: 1280px) and (min-width: 769px) { 
+      padding: 30px 0px;
+      border-radius: 0px 0px 16px 16px;
+      .index__subscribe-col{
+        width: 500px;
+      }
+      .newsletter-form__wrapper .newsletter-form .field.is-stretched-width{
+        flex: 3 0 350px;
+      }
+      .index__subscribe-title{
+        font-size: 16px;
+      }
+      .newsletter-form{
+        margin-top: 16px;
+      }
+      .newsletter-form__wrapper .newsletter-form .field .control input,.newsletter-form .field .control .button{
+        height: 46px;
+        line-height: 46px;
+        font-size: 14px;
+      }
+      .policyBox{
+        font-size: 12px;
+        input{
+          width: 16px;
+          height: 16px;
+        }
+      }
+    }
+    @media screen and (max-width: 768px) and (min-width: 415px) { 
+      padding: 50px 24px;
+      border-radius: 0px;
+      .index__subscribe-col{
+        width: 100%;
+      }
+      .newsletter-form__wrapper .newsletter-form .field.is-stretched-width{
+        flex: 3 0 calc(100% - 150px);
+      }
+      .index__subscribe-title{
+        font-size: calc((24 / 750)*100vw);
+      }
+      .newsletter-form{
+        margin-top: calc( 60 / 750 * 100vw);
+      }
+      .newsletter-form__wrapper .newsletter-form .field .control input,.newsletter-form .field .control .button{
+        height: 50px;
+        line-height: 50px;
+        font-size: 14px;
+      }
+      .policyBox{
+        font-size: 14px;
+        input{
+          width: 16px;
+          height: 16px;
+        }
+      }
+    }
+    @media screen and (max-width: 414px){
+      padding: 50px 16px;
+      border-radius: 0px;
+      .index__subscribe-col{
+        width: 100%;
+      }
+      .newsletter-form__wrapper .newsletter-form .field.is-stretched-width{
+        flex: 1 0 100%;
+      }
+      .index__subscribe-title{
+        font-size: 16px;
+      }
+      margin-top: 30px;
+      .newsletter-form__wrapper .newsletter-form .field .control input,.newsletter-form .field .control .button{
+        height: 50px;
+        line-height: 50px;
+        border-radius: 8px;
+        text-align: center;
+        font-size: 14px;
+      }
+      .policyBox{
+        font-size: 12px;
+        input{
+          width: 16px;
+          height: 16px;
+        }
+      }
+    }
+  }
+  .newsletter__text,.icon{
+    display: none;
+  }
+}
+.button--primary:hover,
+a.button--primary.button:hover,
+.index__subscribe-section .index__subscribe-box .newsletter-form .field .control .button:hover,
+.index__subscribe-section .index__subscribe-box .newsletter-form .field .control .button:active{
+  background: linear-gradient(0deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)), #000000 !important;
+  border: 1px solid #000000;
+  color: #ffffff;
+}

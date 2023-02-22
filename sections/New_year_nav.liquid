@@ -1,0 +1,300 @@
+{% assign DataId = section.settings.data_id %}
+{% if page.metafields['global'][DataId].value %}
+  {% assign web_product_navs = page.metafields['global'][DataId].value %}
+{% else %}
+  {% assign web_product_navs = page.metafields['global'][DataId] %}
+{% endif %}
+
+{% assign custom_css = section.settings.custom_css %}
+{% assign clearFirstLine = section.settings.clearFirstLine %}
+<style>
+  #{{ DataId }}.NewYearNav { width: 100%; z-index: 19;transition: all 0.5s ease-in-out 0s;  background: {{ web_product_navs.section_background_color }}; }
+  #{{ DataId }}.NewYearNav .nav_box {
+    display: flex;  align-items: center;justify-content: center;
+    width: 100%; max-width: 1200px; margin: 0 auto;
+    height: 72px; line-height: 52px;
+    flex-wrap: nowrap; 
+    border-radius: 36px; z-index: 20;white-space: nowrap;
+    background:{{ web_product_navs.row_background_color }};
+  }
+  #{{ DataId }}.NewYearNav .nav_box li {
+    margin: 0 2vw;  line-height: 2.4;
+    position: relative; font-size: 30px; cursor: pointer;
+    color: #fff; text-align: center;height: 100%;flex: 1;
+  }
+  #{{ DataId }}.NewYearNav .nav_box li span{opacity: .5;display: inline-block;height: 100%;}
+  #{{ DataId }}.NewYearNav .nav_box li span:hover {opacity: 1;font-weight: bold; border-bottom: 4px solid {{ web_product_navs.section_color }}; }
+  #{{ DataId }}.NewYearNav .nav_box li .active { opacity: 1; font-weight: bold; border-bottom: 4px solid {{ web_product_navs.section_color }}; }
+  #{{ DataId }}.NewYearNav .nav_box li a { font-size: 24px; color: #fff; }
+  #{{ DataId }}.NewYearNav .NewYearNavImg{position: absolute;width: 100%;height: 100%; z-index: -1;}
+  #{{DataId}} .TimeContent{display: flex;flex-direction: column;justify-content: center;line-height: 1.2;text-align: center;margin: 0 3px;}
+  #{{DataId}} .TimeContent .time_text{font-weight: normal;font-size: 10px;}
+  #{{DataId}} .endIn{margin: 0 24px 0 34px;padding-top: 10px;}
+  /* font-size: 24px; */
+  #{{DataId}} .dots{display: inline-block;transform: translateY(9px);}
+  #{{DataId}} .time{display: flex;font-size: 36px;color: #fff;font-weight: bold;justify-content: center;}
+  @media (max-width: 768px) {
+    #{{ DataId }}.NewYearNav { padding: 0; }
+    #{{ DataId }}.NewYearNav .nav_box {
+      box-sizing: border-box; list-style-type: none;
+      display: flex; display: -webkit-box; display: -webkit-flex; display: -ms-flexbox;
+      flex-wrap: nowrap; -webkit-flex-wrap: nowrap; -ms-flex-wrap: nowrap;
+      justify-content: space-between; -webkit-box-pack: justify; -webkit-justify-content: space-between; -ms-flex-pack: justify;
+      padding: 0;border-radius: 0;height: 57px;
+    }
+    #{{ DataId }}.NewYearNav .nav_box li:hover { border: none; }
+    #{{ DataId }}.NewYearNav .nav_box::-webkit-scrollbar { width: 0px; }
+    #{{ DataId }}.NewYearNav .nav_box::-webkit-scrollbar { display: none; }
+    #{{ DataId }}.NewYearNav .nav_box li {
+      {% if web_product_navs.data.size >3 %}
+      margin: 0 2vw;
+      {% else %}
+      margin: 0;
+      {% endif %}
+      -webkit-box-flex: 1;
+      -webkit-flex: 1 0 auto;
+      -ms-flex: 1 0 auto;
+      flex: 1 0 auto;
+      position: relative;
+      font-size: 16px; color: #fff;
+      height: 100%; line-height: 57px;
+    }
+    #{{DataId}} .TimeContent{font-size: 21px;}
+    #{{DataId}} .endIn{margin: 0 5px 0 5px;font-size: 10px;}
+    #{{DataId}} .dots{transform: translateY(4px);font-size: 18px;}
+    #{{DataId}} .time{display: flex;flex-direction: column;padding-left: 6px;}
+  }
+  {%- if custom_css != blank -%} {{ custom_css }} {% endif %}
+</style>
+<div class="NewYearNav" id="{{DataId}}">
+  {% if section.settings.bgImg != blank %}
+    <img data-src="{{section.settings.bgImg | img_url: ''}}" alt="" class="lazyload NewYearNavImg">
+  {% endif %}
+  <ul class="nav_box">
+    {% if section.settings.endTime != blank %}
+    <div class="time">
+      <div class="endIn is-hidden-mobile-only">{{section.settings.EndIn}}</div>
+      <div style="display: flex;">
+        <div class="TimeContent">
+          <span class="time_text">{{section.settings.Days}}</span>
+          <span class="timeDay"><span class="time_days">03</span> </span>
+        </div>
+        <div>
+          <span class="dots">:</span>
+        </div>
+        <div class="TimeContent">
+          <span class="time_text">{{section.settings.Hours}}</span>
+          <span class="timeHours"><span class="time_hours">05</span> </span>
+        </div>
+        <div>
+          <span class="dots">:</span>
+        </div>
+        <div class="TimeContent">
+          <span class="time_text">{{section.settings.Mins}}</span>
+          <span class="timeMinuts">11</span>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+    <ul style="width:65%;overflow: hidden; overflow-x: auto;display: flex;height: 100%;">
+      {% for item in web_product_navs.data %}
+        <li data-index="{{ forloop.index0 }}" onclick="goAnchor('{{ item.link }}','{{ item.label }}')">
+          <span>
+            {{ item.label }}
+          </span>
+        </li>
+      {% endfor %}
+    </ul>
+  </ul>
+</div>
+
+<script>
+  const navTop = $('#{{DataId}}').offset().top;
+  const nav_data = `{{ data | json }}` || [];
+  let headerHeigh=0
+  const arr = [];
+  {% for item in web_product_navs.data %} arr.push("{{ item.link }}"); {% endfor %}
+
+  let width = window.innerWidth;
+  let elseDistance = $(window).width() < 769 ? 99 : headerHeigh + $('#{{DataId}}').height();
+  let BF_Nav = {};
+  
+  function goAnchor(id,textContent) {
+    $("html, body").stop().animate({
+      scrollTop: $(`#${id}`).offset().top - (elseDistance + 10 )
+    }, 400);
+    dataLayer.push({
+      "event": "uaEvent",
+      "eventCategory": '2022_newyear',
+      "eventAction": textContent,
+      "eventLabel": "undefined",
+      "eventValue": "undefined",
+    })
+  };
+  BF_Nav.navMove = function (distance) {
+    $('#{{ DataId }} li').stop().animate({ left: distance }, 150);
+    $('#{{ DataId }} img').stop().animate({ left: distance }, 150);
+  }
+  BF_Nav.navHighLight = function (index) {
+    $('#{{DataId}} .nav_box li span').removeClass('active');
+    $('#{{DataId}} .nav_box li span').eq(index).addClass("active")
+  }
+  let NavtopTow=0
+  let sure=true
+  BF_Nav.BF_Scroll = function () {
+    headerHeigh = $('.container').height()+$('#shopify-section-header__icon-bar').height();
+    let top = $(window).scrollTop();
+    if ($('#{{DataId}} .nav_box').length > 0) {
+      const xishu = elseDistance + 30;
+      for (let i = 0; i < arr.length; i++) {
+        let skia = top - $('#' + arr[i]).offset().top + xishu;
+        if (skia > 0) {
+          if ($(window).width()<768) {
+            if(i< arr.length-1){
+              if (i>=3) {
+                BF_Nav.navMove(-20-((i-2)*140))
+              }else{
+                BF_Nav.navMove(0)
+              }
+            }else{
+              if (i>=3) {
+                BF_Nav.navMove(-170)
+              }
+            }
+          }else{
+            if(i< arr.length-1){
+              if (i>=3) {
+                BF_Nav.navMove(-120-((i-3)*140))
+              }else{
+                BF_Nav.navMove(0)
+              }
+            }else{
+              if (i>=3) {
+                BF_Nav.navMove(-170)
+              }
+            }
+          }
+          BF_Nav.navHighLight(i);
+        }
+      }
+      let timer=setTimeout(function(){
+        if ($(window).width()<768) {
+          $('#{{DataId}}').css('transition', 'all 0.5s ease-in-out 0s');
+        }
+        NavtopTow=$(window).scrollTop()
+        if ((top-NavtopTow)>0) {
+          if (top + headerHeigh >= navTop) {
+            $('#{{DataId}}').css('position', `fixed`);
+            $('#{{DataId}}').css('top', ($(window).width() < 769 ? ($('.mobile-header').height()+$('#shopify-section-header__icon-bar').height()): headerHeigh));
+          }
+        }else if((top-NavtopTow)<0){
+          if (top + headerHeigh >= navTop) {
+            $('#{{DataId}}').css('position','fixed')
+            $('#{{DataId}}').css('top', ($(window).width() < 769 ? 0: headerHeigh));
+          } else {
+            $('#{{DataId}} .nav_box li span').removeClass('active');
+          }
+        }
+      },100)
+      if (top + headerHeigh < navTop) {
+        $('#{{DataId}}').css('transition', 'none');
+        $('#{{DataId}}').css('position', `relative`);
+        $('#{{DataId}}').css('top', '0');
+        $('#{{DataId}} .nav_box li span').removeClass('active');
+    }
+    }
+  };
+  $(document).ready(function () {
+    if (`{{ section.settings.clearFirstLine | json }}` == 'true'){
+      $('#{{DataId}}.NewYearNav .data_img_0').hide();
+    };
+    window.addEventListener('scroll', Shopify.contentCreator.util.throttle(BF_Nav.BF_Scroll, 200));
+    countDown();
+    function addZero(i) {
+        return i < 10 ? "0" + i: i + "";
+    }
+    function countDown() {
+      var nowtime = new Date();
+      var endtime = new Date("{{section.settings.endTime}}");
+      var lefttime = parseInt((endtime.getTime() - nowtime.getTime()) / 1000);
+      var d = parseInt(lefttime / (24*60*60))
+      var h = parseInt(lefttime / (60 * 60) % 24);
+      var m = parseInt(lefttime / 60 % 60);
+      d = addZero(d)
+      h = addZero(h);
+      m = addZero(m);
+      if(lefttime<=0){
+        $('#{{DataId}} .nav_box .time').hide()
+      }else{
+        $('#{{DataId}} .nav_box .time').show()
+        $('.time_days').text(d)
+        $('.time_hours').text(h)
+        $('.timeMinuts').text(m)
+      }
+      setTimeout(countDown, 1000);
+    }
+  })
+  
+</script>
+
+{% schema %}
+
+{
+  "name": "New_year_nav",
+  "presets": [
+    {
+      "category": "Custom Dynamic Sections",
+      "name": "New year nav"
+    }
+  ],
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Custom CSS",
+      "info": "自定义样式（注意：请按照标准的css语法添加样式）"
+    }, 
+    {
+      "type": "checkbox",
+      "id": "clearFirstLine",
+      "label": "clear FirstLine",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "data_id",
+      "label": "metafields data id",
+      "default": "New_year_nav"
+    },{
+      "type": "text",
+      "id": "endTime",
+      "label": "结束时间",
+      "info": "建议格式（ 2021/12/27,17:57:00 ）"
+    },{
+      "type": "text",
+      "id": "Days",
+      "label": "天文案",
+      "default": "Days"
+
+    },{
+      "type": "text",
+      "id": "Hours",
+      "label": "小时文案",
+      "default": "Hours"
+    },{
+      "type": "text",
+      "id": "Mins",
+      "label": "分钟文案",
+      "default": "Mins"
+    },{
+      "type": "text",
+      "id": "EndIn",
+      "label": "EndIn 文案",
+      "default": "End in"
+    }
+  ]
+}
+
+{% endschema %}
+
+   

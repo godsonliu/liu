@@ -1,0 +1,77 @@
+{% if shop.metafields.global.PixelId.value %}
+  {% assign PixelId = shop.metafields.global.PixelId.value %}
+{% else %}
+  {% assign PixelId = shop.metafields.global.PixelId %}
+{% endif %}
+
+{% for item in PixelId %}
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '{{ item }}');
+    fbq('track', 'PageView');
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id={{ item }}&ev=PageView&noscript=1" /></noscript>
+{% endfor %}
+<div class="search-overlay animated fadeIn" data-search-type="overlay" aria-modal="true" role="dialog" aria-label="{{ settings.search_title }}">
+
+  {% render 'icon',
+          name: 'x',
+          icon_class: 'search-overlay__close'
+  %}
+
+  <section class="section search-overlay__wrapper">
+    <div class="container">
+
+      <div class="one-whole column text-align-center">
+        <div class="search-overlay__title">{{ settings.search_title}}</div>
+
+      </div>
+
+      <div class="one-whole column" data-autocomplete-{{ settings.enable_autocomplete }}>
+        <form class="search-form search-popup__form" action="{{ routes.search_url }}">
+          <div class="search__fields">
+            <input type="hidden" name="type" value="{{ settings.search_option }}" />
+            <label for="q" class="visuallyhidden">{{ settings.search_placeholder }}</label>
+            <div class="field">
+              <div class="control has-icons-left">
+                <input aria-label="Search" class="input" id="q" type="text" name="q" placeholder="{{ settings.search_placeholder }}" value="{{ search.terms }}" x-webkit-speech autocapitalize="off" autocomplete="off" autocorrect="off" />
+                {% render 'icon',
+                        name: 'search',
+                        class: 'icon is-left'
+                %}
+              </div>
+            </div>
+            <input type="submit" name="search" class="visuallyhidden" value="submit" />
+          </div>
+        </form>
+      </div>
+
+      {% if settings.search_menu != blank %}
+        {% assign search_menu = linklists[settings.search_menu] %}
+        <div class="one-whole column text-align-center">
+          <div class="search-menu">
+            <span>{{ 'general.search.common_terms' | t }}:</span>
+            <ul class="search-menu__list">
+              {% for link in search_menu.links %}
+                <li class="search-menu__item">
+                  <a class="{% if link.active %}is-active{% endif %}" href="{{ link.url }}">
+                    {{ link.title }}
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      {% endif %}
+
+    </div>
+  </section>
+</div>

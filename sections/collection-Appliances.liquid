@@ -1,0 +1,320 @@
+{% if collection.metafields['global']['badges'].value %}
+  {% assign badges = collection.metafields['global']['badges'].value %}
+{% else %}
+  {% assign badges = collection.metafields['global']['badges'] %}
+{% endif %}
+
+{% if collection.metafields['global']['banner'].value %}
+  {% assign banner = collection.metafields['global']['banner'].value %}
+{% else %}
+  {% assign banner = collection.metafields['global']['banner'] %}
+{% endif %}
+
+{% if collection.metafields['global']['ads_banner'].value %}
+  {% assign ads_banner = collection.metafields['global']['ads_banner'].value %}
+{% else %}
+  {% assign ads_banner = collection.metafields['global']['ads_banner'] %}
+{% endif %}
+
+{% if shop.metafields['global']['common'].value %}
+  {% assign common = shop.metafields['global']['common'].value %}
+{% else %}
+  {% assign common = shop.metafields['global']['common'] %}
+{% endif %}
+
+{% if collection.metafields.global.filtersData.value %}
+  {% assign filtersData = collection.metafields.global.filtersData.value %}
+{% else %}
+  {% assign filtersData = collection.metafields.global.filtersData %}
+{% endif %}
+
+{% if collection.metafields['global']['collection-products'].value %}
+  {% assign collection_products = collection.metafields['global']['collection-products'].value %}
+{% else %}
+  {% assign collection_products = collection.metafields['global']['collection-products'] %}
+{% endif %}
+
+{% if shop.metafields.global.discounts.value %}
+  {% assign discounts = shop.metafields.global.discounts.value %}
+{% else %}
+  {% assign discounts = shop.metafields.global.discounts %}
+{% endif %}
+
+{% if collection.metafields.global.collections.value %}
+  {% assign meta_collections = collection.metafields.global.collections.value %}
+{% else %}
+  {% assign meta_collections = collection.metafields.global.collections %}
+{% endif %}
+
+
+<section class="collection-Appliances">
+  {% comment %} banner {% endcomment %}
+  <div id="collection_banner">
+    <div class="banner is-hidden-mobile-only" id="bannerAni">
+      <div class="bg">
+        <img class="img" src="{{ banner.main_img }}" alt="" />
+        <div class="txt">
+          <p class="title">{{ banner.title }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="banner mob_banner is-hidden-desktop-only">
+      <div class="bg">
+        <img class="lazyload" data-src="{{ banner.mob_img }}" alt="" />
+      </div>
+      <div class="txt">
+        <p class="title">{{ banner.title }}</p>
+      </div>
+    </div>
+
+    {% if ads_banner != blank %} 
+      <div class="banner sub_banner">
+        <div class="bg">
+          <img alt="" class="lazyload is-hidden-mobile-only" data-src="{{ ads_banner.bg }}" />
+          <img alt="" class="lazyload is-hidden-desktop-only" data-src="{{ ads_banner.mob_bg }}" />
+        </div>
+        {% if ads_banner.title != blank %} 
+          <div class="txt">
+            <p class="title">{{ ads_banner.title }}</p>
+            <p class="desc">{{ ads_banner.desc }}</p>
+            <a class="btn" href="{{ ads_banner.link }}">{{ common.learn_more }}</a>
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+
+    {% if banner.tips != blank %} 
+      <div class="collections banner_tips">
+        <div class="tips">
+          <i class="line"></i>
+          <p>{{ banner.tips }}</p>
+          <i class="line"></i>
+        </div>
+      </div>
+    {% endif %}
+
+  </div>
+
+  {% comment %} product {% endcomment %}
+  <div class="collection-products" id="collection-products">
+
+    {% comment %} filters {% endcomment %}
+    {% if filtersData.showFiltersData %}
+      <div class="products-filters">
+        {% render 'Appliances-products-filters', collection: collection %}
+      </div>
+    {% endif %}
+
+    <div class="Spin">
+      <div class="content cnt filtersSpin collectionProductsList">
+        {% for item in collection_products %}
+
+          {% if discounts.show_discounts %}
+            {% paginate collections[item.handle].products by 1000 %}
+              {% render 'collection__DiscountMark', products: collections[item.handle].products %}
+            {% endpaginate %}
+          {% endif %}
+          
+          {% assign prodList = collections[item.handle].products %}
+          <div class="item" data-handle="{{ item.handle }}">
+            <div class="banner sub_banner">
+              <div class="bg">
+                <img class="lazyload is-hidden-mobile-only" data-src="{{ item.bg }}" />
+                <img class="lazyload is-hidden-desktop-only" data-src="{{ item.mob_bg }}" />
+              </div>
+              <div class="txt">
+                <p class="title">{{ item.title }}</p>
+                <p class="desc">{{ item.desc }}</p>
+                <a class="btn" href="/collections/{{ item.handle }}">{{ common.learn_more }}</a>
+              </div>
+            </div>
+            <div class="Spin" data-handle="{{ item.handle }}">
+              <div class="content cnt prodsSpin">
+                <ul class="prods">
+                  {% for product in prodList %}
+                    <li class="prod {% if forloop.index0 > 3 %} hidden {% endif %} itemProduct" data-handle="{{ product.handle }}">
+                      <a class="prodLink pushDatalayer" href="{{ product.url | within: collection }}">
+                        <div class="img image-element__wrap">
+                          <img class='lazyload' data-src="{{ product.featured_media.preview_image | img_url: '1600x' }}">
+                        </div>
+                      </a>
+                      <div class="txt">
+                        {% comment %} <p class="title">{{ product.title }}</p>
+                        <div class="reviews">
+                          {% render 'include_overview_reviews', product: product %}
+                        </div>
+                        <div class="buy">
+                          <p class="price"></p>
+                          <a class="btn" href="{{ product.url }}">Buy Now</a>
+                        </div> {% endcomment %}
+                        {% render 'product-thumbnail__product-info',
+                          product: product,
+                          collection_handles: collection_handles,
+                          show_trustpilot: true
+                        %}
+                        <a class="btn" href="{{ product.url | within: collection }}">{{ common.buy_now }}</a>
+                      </div>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
+              <div class="mask prodsSpin"></div>
+              <div class="spinner prodsSpin">
+                <i class="iconfont">&#xe6c0;</i>
+                <div class="focus"><i class="iconfont">&#xe6c0;</i></div>
+              </div>
+            </div>
+            {% if prodList[4] != blank %}
+              <a class="load_more" data-handle="{{ item.handle }}" onClick="loadProds('{{ item.handle }}')">— {{ common.load_more }} —</a>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+      <div class="mask filtersSpin"></div>
+      <div class="spinner filtersSpin">
+        <i class="iconfont">&#xe6c0;</i>
+        <div class="focus"><i class="iconfont">&#xe6c0;</i></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="collections">
+    <ul class="data">
+      {% for item in meta_collections.data %}
+        <li class="item">
+          <div class="bg"><img class="lazyload" data-src="{{ item.img }}" alt="" /></div>
+          <div class="txt">
+            <div class="txtBox">
+              <p>{{ item.sub_title }}</p>
+              <h3>{{ item.title }}</h3>
+              <a class="btn" href="{{ item.link }}">{{ common.learn_more }}</a>
+            </div>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+
+    {% if meta_collections.txt != blank %}
+      <div class="tips">
+        <i class="line"></i>
+        <p>{{ meta_collections.txt }}</p>
+        <i class="line"></i>
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="collections-badges">
+    <div class="box">
+      <div class="txt">
+        {% for item in badges %}
+          <p class="item">{{ item.txt }}</p>
+        {% endfor %}
+      </div>
+      <div class="logos">
+        {% for item in badges %}
+          <a class="item" onClick="clickLogosIndex({{ forloop.index0 }})"><img class="lazyload" data-src="{{ item.img }}" alt="" /></a>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="{{ 'gsap.min.js' | asset_url }}"></script>
+<script src="{{ 'ScrollTrigger.min.js' | asset_url }}"></script>
+
+<script>
+  let logosIndex = 0;
+  let len;
+  let logosIndexInt;
+  let screenHeight;
+  let bannerScroll = true;
+
+  $(document).ready(function(){
+    len = $('.collections-badges .txt .item').length - 1;
+    setLogosIndex(0);
+    logosIndexInt = setInterval(() => {
+      if (logosIndex < len) {
+        logosIndex += 1;
+      } else {
+        logosIndex = 0;
+      }
+      setLogosIndex(logosIndex);
+    }, 3000);
+
+    if(window.innerWidth > 768) {
+      gsap.registerPlugin(ScrollTrigger);
+      var imgH = 600 * window.innerWidth / 2542;
+      var imgX = window.innerWidth - (2542 * ($('#bannerAni img').height()) / 600);
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: "#collection_banner",
+          start: 'top top+=99',
+          end: '+=2000',
+          scrub: true,
+          pin: true
+          // markers: true
+        }
+      })
+        .to("#bannerAni .img",  { x: imgX })
+        .to("#bannerAni .img", { x: 0, width: window.innerWidth, height: imgH, ease: "none" })
+        .to("#bannerAni .title",  { fontSize: 70, ease: "none" }, "<");
+    }
+
+    const $banner = document.getElementById('collection_banner');
+    const $bannerSticky = $banner && $banner.getElementsByClassName('sticky_container') && $banner.getElementsByClassName('sticky_container')[0];
+
+    setScrollTop = () => {
+      screenHeight = window.innerHeight - 99;
+      if ($banner) $banner.style.height = `${screenHeight * 3.5}px`;
+      if ($bannerSticky) $bannerSticky.style.height = `${screenHeight}px`;
+      const bannerTop = $banner && $banner.getBoundingClientRect().top;
+      bannerScrolled = - (bannerTop / (screenHeight * 2.5));
+      if (bannerScrolled > 0.3) {
+        $('#collection_banner .bg img').addClass('active');
+      } else {
+        $('#collection_banner .bg img').removeClass('active');
+      }
+      if (bannerScrolled > 0.6) {
+        $('#collection_banner .bg img').removeClass('active');
+        $('#collection_banner .bg img').css({'width': `${window.innerWidth}`, 'height': `${899 * window.innerWidth / 3734}`, 'transform': 'translateX(0)'});
+      }
+    }
+
+    // 将动画绑定在滚动条上
+    // window.addEventListener('scroll', setScrollTop);
+
+  });
+
+  function clickLogosIndex(num) {
+    logosIndex = num;
+    setLogosIndex(logosIndex);
+    if(logosIndexInt) clearInterval(logosIndexInt);
+    logosIndexInt = setInterval(() => {
+      if (logosIndex < len) {
+        logosIndex += 1;
+      } else {
+        logosIndex = 0;
+      }
+      setLogosIndex(logosIndex);
+    }, 3000);
+  }
+
+  function setLogosIndex(num) {
+    $('.collections-badges .txt .item').removeClass('active');
+    $('.collections-badges .logos .item').removeClass('active');
+    $('.collections-badges .txt .item').eq(num).addClass('active');
+    $('.collections-badges .logos .item').eq(num).addClass('active');
+  }
+
+  function loadProds(proHandle) {
+    $('.collection-products').find(`.Spin[data-handle = ${proHandle}] .prodsSpin`).addClass('active');
+    $('.collection-products').find(`.item[data-handle = ${proHandle}] .prod`).removeClass('hidden');
+    $('.collection-products').find(`.item[data-handle = ${proHandle}] .load_more`).addClass('hidden');
+    setTimeout(function(){
+      $('.collection-products').find(`.Spin[data-handle = ${proHandle}] .prodsSpin`).removeClass('active');
+    }, 500);
+  }
+  
+</script>

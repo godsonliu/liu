@@ -1,0 +1,186 @@
+<style>
+.page-scene-video-div {
+  width: 100%;
+  background: #f7f8f8;
+}
+.page-scene-video-title {
+  font-size: 35px;
+  color: #000;
+  font-weight: 600;
+  text-align: center;
+}
+.page-scene-video {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 50px 0;
+}
+.page-scene-video .scene-video-item{
+  max-width: 29vw;
+  margin-right: 4.16vw;
+}
+.page-scene-video .scene-video-item:last-child {
+  margin-right: 0;
+}
+.page-scene-video .scene-video-item video {
+  border-radius: 15px;
+}
+.page-scene-video .scene-video-item .video-text-content {
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  left: 50%;
+  bottom: 50%;
+  transform: translate(-50%, 50%);
+}
+.page-scene-video .scene-video-item .video-text-content .svg-icon {
+  margin: 0;
+  line-height: 1;
+}
+@media(max-width: 769px) {
+  .page-scene-video {
+    padding: 30px 10px;
+  }
+  .page-scene-video-title {
+    font-size: 24px;
+  }
+  .page-scene-video .scene-video-item {
+    width: 50%;
+    height: 132px;
+    max-width: 100%;
+    margin-right: 10px;
+  }
+  .page-scene-video .scene-video-item .section-video-player {
+    height: 100%;
+  }
+  .page-scene-video .scene-video-item .section-video-player .video-content {
+    height: 100%;
+  }
+  .page-scene-video .scene-video-item .section-video-player .video-content video {
+    height: 100%;
+    object-fit: cover;
+  }
+}
+</style>
+
+<section class="page-scene-video-div">
+  <div class="page-scene-video-title">{{ section.settings.scene_video_title }}</div>
+  <div class="page-scene-video">
+    {% for block in section.blocks %}
+      <div class="scene-video-item">
+        {% render 'component_video_player_v2', video_params: block.settings %}
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+
+{% schema %}
+  {
+    "name": "Page Scene Video",
+    "presets": [
+      {
+        "name": "Page Scene Video"
+      }
+    ],
+    "settings": [
+      {
+        "type": "text",
+        "id": "scene_video_title",
+        "label": "视频区域标题",
+        "default": "Customers ‘ story with Eufy"
+      },
+      {
+        "type": "image_picker",
+        "id": "button_icon",
+        "label": "按钮的icon"
+      },
+      {
+        "type": "text",
+        "id": "eventLabel",
+        "label": "eventLabel",
+        "info": "用于GA数据上报，指明上报的来源",
+        "default": "laser_warm_up"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "scene_item_video",
+        "name": "scene_item_video",
+        "settings": [
+          {
+            "type": "text",
+            "id": "short_videoUrl",
+            "label": "短视频URL",
+            "info": "视频时长比较短，文件比较小，简短描述的视频，用于首屏渲染时快速加载，推荐尺寸：1920 * 1080",
+            "default": "https://cdn.shopify.com/s/files/1/0516/0098/2167/files/warm_up_short_video.mp4"
+          },
+          {
+            "type": "text",
+            "id": "video_width_px",
+            "label": "Video Source Width",
+            "info": "该视频的分辨率，用于在渲染短视频时，填充video标签的width属性，利于web性能的cls",
+            "default": "1920"
+          },
+          {
+            "type": "text",
+            "id": "video_height_px",
+            "label": "Video Source Height",
+            "info": "作用同上",
+            "default": "1080"
+          },
+          {
+            "type": "text",
+            "id": "video_url",
+            "label": "Video Url",
+            "info": "点击弹窗展示的长视频，对上面短视频的补充，这种视频一般体积比较大，也可以充分去描述产品内容，目前可支持放到vimeo和Youtube两个平台",
+            "default": "https://player.vimeo.com/video/700388576?autoplay=true&controls=true"
+          },
+          {
+            "type": "text",
+            "id": "mobile_short_videoUrl",
+            "label": "Mobile Short Video Url",
+            "info": "这是移动端的短视频，因为分辨率和PC端不一样，所以重新定义。推荐尺寸：750 * 1100",
+            "default": "https://cdn.shopify.com/s/files/1/0516/0098/2167/files/warm_up_short_moble_video.mp4"
+          },
+          {
+            "type": "text",
+            "id": "mobile_video_width_px",
+            "info": "与PC端同义",
+            "label": "Mobile Video Source Width",
+            "default": "750"
+          },
+          {
+            "type": "text",
+            "id": "mobile_video_height_px",
+            "info": "与PC端同义",
+            "label": "Mobile Video Source Height",
+            "default": "1100"
+          },
+          {
+            "type": "text",
+            "id": "mobile_video_url",
+            "info": "与PC端同义",
+            "label": "Mobile Video Url",
+            "default": "https://player.vimeo.com/video/700388185?autoplay=true&controls=true" 
+          },
+          {
+            "type": "text",
+            "id": "video_posterUrl",
+            "info": "PC端视频的海报图，用于在网络非常慢的时候，会优先加载海报图，不至于出现白屏的情况，图片分辨率要与PC端的视频保持一致",
+            "label": "Video Poster Url",
+            "default": "https://cdn.shopify.com/s/files/1/0516/0098/2167/files/warm-up-video-poster.jpg"
+          },
+          {
+            "type": "text",
+            "id": "mobile_video_posterUrl",
+            "info": "移动端视频的海报图，用于在网络非常慢的时候，会优先加载海报图，不至于出现白屏的情况，图片分辨率要与移动端的视频保持一致",
+            "label": "Mobile Video Poster Url",
+            "default": "https://cdn.shopify.com/s/files/1/0516/0098/2167/files/warm-up-mobile-video-poster.jpg"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

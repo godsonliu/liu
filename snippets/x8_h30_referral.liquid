@@ -1,0 +1,213 @@
+{% assign lang = product.metafields['global'] %}
+
+{% if lang.referralData.value %}
+  {% assign referralData = lang.referralData.value %}
+{% else %}
+  {% assign referralData = lang.referralData %}
+{% endif %}
+
+
+{% assign showReferralBox = true %}
+
+{% if referralData %}
+  <div id="ActReferral" class="swap--visible">
+    <div class="referralBox">
+      <div class="box box_code">
+        <div onclick="closeBox()" class="close">
+          <i class="iconfont">x</i>
+        </div>
+        <div class="image">
+          <img class="pc_show" src="{{ referralData.bg }}" />
+          <img class="mob_show" src="{{ referralData.bg }}" />
+        </div>
+        <div class="txt">
+          <div class="txtBox">
+            <div class="referralForm">
+              <h3 class="title">{{ referralData.title }}</h3>
+              <div class="pro">
+                <img src="{{ referralData.pro_img }}" />
+                <p>{{ product.title }}</p>
+              </div>
+              <div class="Spin referralSpin">
+                <div class="content cnt code">
+                  <h3 class="title">{{ referralData.off_tit }}</h3>
+                  <p class="desc">{{ referralData.desc_1 }}</p>
+                  <p id="x8h30Code"></p>
+                  <p class="desc">{{ referralData.desc_2 }}</p>
+                  <div class="copyBtn">
+                    <p class="copyText" onclick="copyx8h30CodeCode()">
+                      <button type="button" class="copyCouponCode button button-normal">{{ referralData.copy }}</button>
+                    </p>
+                    <p class="copyTextReplace" style="display:none;">
+                      <button class="button button-normal">{{ referralData.copied }}</button>
+                    </p>
+                  </div>
+                  <div class="tips">{{ referralData.date }}</p>
+                </div>
+              </div>
+              <div class="mask"></div>
+              <div class="spinner">
+                <i class="iconfont">&#xe6c0;</i>
+                <div class="focus"><i class="iconfont">&#xe6c0;</i></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .swap--visible {
+      opacity: 0 !important;
+      visibility: hidden !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      width: 0 !important;
+      height: 0 !important;
+      display: none;
+    }
+    #ActReferral .copyBtn p { margin: 0; }
+    #ActReferral .copyTextReplace button { font-size: 14px; }
+    #ActReferral img { width: 100%; max-width: none; }
+    #ActReferral .button {
+      height: 36px;
+      line-height: 36px;
+      border-radius: 18px;
+      background: #25d0c4;
+      color: #fff;
+      display: inline-block;
+      padding: 0 4rem;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 700;
+    }
+    #ActReferral a { cursor: pointer; }
+    #ActReferral {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(48, 48, 48, 0.8);
+      z-index: 100001;
+    }
+    #ActReferral .referralBox {
+      position: absolute;
+      top: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #fff;
+      max-width: 400px;
+      width: 80%;
+    }
+    #ActReferral .box { position: relative; }
+    #ActReferral .txt { width: 100%; padding: 0 4rem; text-align: center; position: absolute; left: 50%; top: 8%; transform: translateX(-50%); }
+    #ActReferral .txt .title { font-size: 28px; font-weight: 700; margin-bottom: 1rem; color: #000; }
+    #ActReferral .txt .pro p { font-size: 16px; font-weight: 600; }
+    #ActReferral .txt .pro img { width: 70%; }
+    #ActReferral .txt .code { margin: 1rem auto; width: 80%; }
+    #ActReferral .txt .code .title { color: #efa837; margin-bottom: 1rem; font-size: 34px; }
+    #ActReferral .txt .code .desc { font-size: 19px; margin: 0 auto; font-weight: 700; }
+    #ActReferral .tips { font-size: 14px; font-weight: 600; }
+    #ActReferral .close { position: absolute; top: 10px; right: 10px; color: #424041; cursor: pointer; background: none; }
+    #ActReferral .close i { font-size: 28px; font-style: normal; }
+    #ActReferral #x8h30Code { width: 100%; text-align: center; font-weight: 700; font-size: 22px; border-bottom: 2px solid #333; color: #25d0c4; margin: 0; }
+    #ActReferral .linkBox .clipboard_btn {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #00a7e1;
+      font-size: 18px;
+    }
+    .pc_show { display: block; }
+    .mob_show { display: none; }
+    @media (max-width: 768px){
+      .pc_show { display: none; }
+      .mob_show { display: block; }
+      #ActReferral .referralBox { top: 20px; }
+      #ActReferral .referralBox .box { display: block; }
+      #ActReferral .referralBox .txt { width: 100%; min-width: 0; }
+      #ActReferral .referralBox .txt .title { font-size: 20px; }
+      #ActReferral .close { top: 2%; right: 2%; transform: translateY(0); }
+      #ActReferral .referralBox .image img { margin: 0 auto; }
+      #ActReferral .button { font-size: 14px; }
+      #x8h30Code { font-size: 20px !important; }
+    }
+  </style>
+
+  <script>
+    var x8h30Code = "";
+    $(document).ready(function(){
+      const query = getQuery();
+      const url = window.location.href;
+      x8h30Code = localStorage.getItem('x8h30Code');
+      if (url.includes("{{ referralData.utm }}")) {
+        $('#ActReferral').removeClass('swap--visible');
+        if (x8h30Code) {
+          $('#x8h30Code').html(x8h30Code);
+        } else {
+          getx8code();
+        }
+      }
+    })
+
+    function getx8code() {
+      $('.referralSpin').addClass('active');
+      const { grecaptcha } = window;
+      if (!grecaptcha) return null;
+
+      grecaptcha.ready(() => {
+        grecaptcha.execute(ShopMetafields.recaptcha, { action: "coupons/eufy_x8" }).then((recaptcha) => {
+          const params = { "g-recaptcha-response": recaptcha, "shopify_domain": "{{ shop.permanent_domain }}" };
+          $.ajax({
+            type: 'GET',
+            url: '/apps/pp/shopifyactivities/coupons/eufy_x8',
+            contentType: "application/json",
+            dataType:"json",
+            data: params,
+            complete: function(body) {
+              x8h30Code = body.responseText;
+              if (x8h30Code == 'null') {
+                $('#ActReferral').addClass('swap--visible');
+                openModal("<p>{{ referralData.codenull }}</p>");
+                $('.referralSpin').removeClass('active');
+              } else {
+                $('#x8h30Code').html(x8h30Code);
+                localStorage.setItem('x8h30Code', x8h30Code);
+                $('.referralSpin').removeClass('active');
+              }
+            }
+          });
+        })
+      })
+    }
+
+    function closeBox() {
+      $('#ActReferral').addClass('swap--visible');
+    }
+    function getQuery () {
+      const url = window.location.search; //获取url中"?"符后的字串
+      const theRequest = new Object();
+      if (url.indexOf("?") != -1) {
+        const str = url.substr(1),
+        strs = str.split("&");
+        for(let i = 0; i < strs.length; i ++) {
+          theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+        }
+      }
+      return theRequest;
+    }
+    function copyx8h30CodeCode() {
+      execCoy(x8h30Code);
+      $('#ActReferral .copyTextReplace').show();
+      $('#ActReferral .copyText').hide();
+      setInterval(function(){
+        $('#ActReferral .copyTextReplace').hide();
+        $('#ActReferral .copyText').show();
+      }, 3000);
+    }
+  </script>
+
+{% endif %}

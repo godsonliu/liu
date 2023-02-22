@@ -1,0 +1,102 @@
+{% comment %} 
+  title: 标题
+  desc: 描述
+  button_txt： 按钮文案
+  hasClose: 是否需要关闭标签
+{% endcomment %}
+{% assign section_id = 'shopify-section-' | append: section.id %}
+<style>
+.mach_dialog_div {
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,.4);
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 199;
+  display: none;
+}
+.mach_dialog {
+  width: 95%;
+  max-width: 800px;
+  background: #FFFFFF;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  padding: 30px 60px;
+  text-align: center;
+  position: relative;
+}
+.dialog-close {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  cursor: pointer;
+}
+.mach_dialog_title {
+  font-weight: 500;
+  font-size: 48px;
+  line-height: 55px;
+  color: #1D1D1F;
+}
+.mach_dialog_desc {
+  max-height: 400px;
+  overflow-y: auto;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 24px;
+  color: #6E6E73;
+  margin: 50px 0;
+}
+.mach_dialog_button {
+  width: 100%;
+  height: 60px;
+  background: #EF3340;
+  border-radius: 80px;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 24px;
+  color: #FFFFFF;
+  border: none;
+  cursor: pointer;
+}
+
+
+@media(max-width: 769px) {
+  .mach_dialog {
+    width: 95%;
+    padding: 30px;
+  }
+}
+
+</style>
+<div class="mach_dialog_div">
+  <div class="mach_dialog">
+    <div class="mach_dialog_title">{{ title }}</div>
+    <div class="mach_dialog_desc">{{ desc }}</div>
+    {% if button_txt != blank %}
+    <button class="mach_dialog_button">{{ button_txt }}</button>
+    {% endif %}
+    {% if hasClose != blank %}
+    <svg class="dialog-close" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M10 1.81818C5.48131 1.81818 1.81818 5.48131 1.81818 10C1.81818 14.5187 5.48131 18.1818 10 18.1818C14.5187 18.1818 18.1818 14.5187 18.1818 10C18.1818 5.48131 14.5187 1.81818 10 1.81818ZM0 10C0 4.47715 4.47715 0 10 0C15.5228 0 20 4.47715 20 10C20 15.5228 15.5228 20 10 20C4.47715 20 0 15.5228 0 10Z" fill="#86868B"/>
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M7.07092 12.929C6.7159 12.5739 6.7159 11.9983 7.07092 11.6433L11.6433 7.07089C11.9984 6.71587 12.574 6.71587 12.929 7.07089C13.284 7.42591 13.284 8.00152 12.929 8.35654L8.35657 12.929C8.00155 13.284 7.42595 13.284 7.07092 12.929Z" fill="#86868B"/>
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M7.07092 7.07104C7.42595 6.71602 8.00155 6.71602 8.35657 7.07104L12.929 11.6435C13.284 11.9985 13.284 12.5741 12.929 12.9291C12.574 13.2841 11.9984 13.2841 11.6433 12.9291L7.07092 8.35669C6.7159 8.00167 6.7159 7.42606 7.07092 7.07104Z" fill="#86868B"/>
+    </svg>
+    {% endif %}
+  </div>
+</div>
+
+<script>
+$(function() {
+  $('#{{section_id}} .mach_dialog_button, #{{section_id}} .dialog-close').click(function() {
+    $('#{{section_id}} .mach_dialog_div').hide()
+  })
+})
+</script>

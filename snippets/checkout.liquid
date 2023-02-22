@@ -1,0 +1,13 @@
+{% if settings.Pay_img != blank %}
+  <div class="custom_pay_icon">
+    <div class="custom_pay_icon-container">
+      <p>{{settings.Pay_img_text}}</p>
+      <div class="payment-methods" style="margin-top: 10px;">
+        {% for type in shop.enabled_payment_types %}
+          {{ type | payment_type_svg_tag: class:'payment-icon' }}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endif %}
+  

@@ -1,0 +1,288 @@
+{% assign lang = product.metafields['global'] %}
+
+{% if lang.getcode.value %}
+  {% assign getcode = lang.getcode.value %}
+{% else %}
+  {% assign getcode = lang.getcode %}
+{% endif %}
+
+{% if shop.metafields.global.country.value %}
+  {% assign country = shop.metafields.global.country.value %}
+{% else %}
+  {% assign country = shop.metafields.global.country %}
+{% endif %}
+
+{% assign custom_css = section.settings.custom_css %}
+
+{% if getcode %}
+
+  <link rel="stylesheet" href="{{ 'listing_getcode.scss.css' | asset_url }}">
+
+  {% render 'css-loop', css: custom_css, id: id %}
+
+  <section class="getcode_loop">
+    <div class="loop_box">
+      <div class="loop_background">
+        <img
+          class="lazyload is-hidden-mobile-only"
+          src="{{ getcode.background }}"
+        />
+        <img
+          class="lazyload is-hidden-desktop-only"
+          src="{{ getcode.mob_background }}"
+        />
+      </div>
+      <div class="getcode txt">
+        <h3>{{ getcode.getcode_title }}</h3>
+        <p>{{ getcode.getcode_desc }}</p>
+        <button onClick="showCode(true)" class="open">{{ getcode.getcode_btn }}</button>
+        <button class="swap--visible end">{{ getcode.getcode_end_btn }}</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="getcode_dialog swap--visible">
+    <div class="code_box">
+      <div class="code_txt">
+        <div class="close" onClick="showCode(false)"><i class="iconfont">&#xe723;</i></div>
+        <div class="Spin getcode_box">
+          <div class="content cnt">
+            <div class="txt">
+              <h3 class="title">{{ getcode.getcode_dialog_title }}</h3>
+              <p class="sub_tit">{{ getcode.getcode_dialog_subtitle }}<p>
+              <p class="desc">{{ getcode.getcode_dialog_desc }}</p>
+            </div>
+            <form id="getcode_dialog_form" class="getcode_dialog_form">
+              <input type="text" placeholder="{{ getcode.getcode_email_placeholder }}" autocomplete="nope" maxlength="200" name="email" value="" />
+              <input type="text" placeholder="{{ getcode.getcode_phone_placeholder }}" maxlength="20" name="phone" id="phone_number" value="" />
+              <p class="tips">{{ getcode.getcode_tips }}</p>
+              <div class="policyBox">
+                <label>
+                  <span><input type="checkbox" name="policy" value="yes" class="policy_checkbox" /></span>
+                  <span class="policy_text">{{ getcode.getcode_policy }}</span>
+                </label>
+              </div>
+              <button class="button" type="submit">{{ getcode.getcode_submit }}</button>
+              <div class="form_feedback_box">
+                <div class="swap--visible form_feedback_box_txt info_error"></div>
+                <div class="swap--visible form_feedback_box_txt info_fill_email">{{ getcode.getcode_fill_email }}</div>
+                <div class="swap--visible form_feedback_box_txt info_err_email">{{ getcode.getcode_err_email }}</div>
+                <div class="swap--visible form_feedback_box_txt info_err_phone">{{ getcode.getcode_err_phone }}</div>
+                <div class="swap--visible form_feedback_box_txt info_select_policy">{{ getcode.getcode_select_policy }}</div>
+              </div>
+            </form>
+          </div>
+          <div class="mask"></div>
+          <div class="spinner">
+            <i class="iconfont">&#xe6c0;</i>
+            <div class="focus"><i class="iconfont">&#xe6c0;</i></div>
+          </div>
+        </div>
+
+        <div class="showcode_box swap--visible">
+          <p class="title">{{ getcode.getcode_code_title }}</p>
+          <span class="code"></span>
+          <p class="copy" onClick="copyCouponCode()">{{ getcode.getcode_copy }}</p>
+          <p class="date_txt">{{ getcode.getcode_date_txt }}</p>
+          <div class="buttonBox">
+            <a class="button amazon" target="_blank" rel="noopener noreferrer" href="{{  getcode.getcode_buy_amazon_link }}">{{ getcode.getcode_buy_amazon }}</a>
+            <a class="button eufyWeb" target="_blank" rel="noopener noreferrer" href="{{  getcode.getcode_buy_eufy_link }}">{{ getcode.getcode_buy_eufy }}</a>
+          </div>
+        </div>
+
+        <div class="endcode_box swap--visible">
+          <h3 class="title">{{ getcode.getcode_title }}</h3>
+          <p class="sub_tit">{{ getcode.getcode_subtitle }}<p>
+          <p class="desc">{{ getcode.getcode_end_desc }}</p>
+          <div class="buttonBox">
+            <a class="button" onClick="go_back()"><i class="iconfont">&#xe6bd;</i><span>{{ getcode.getcode_go_back }}</span></a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <link rel="stylesheet" href="https://cdn.shopify.com/s/files/1/0516/0098/2167/files/intlTelInput.css?v=1626753585">
+  <script src="https://cdn.shopify.com/s/files/1/0516/0098/2167/files/intlTelInput.js?v=1626750830"></script>
+  <script>
+    let getCodeTxt = ""
+    function showCode(toggle) {
+      dataLayer.push({
+        "event": "uaEvent", // Trigger
+        "eventCategory": 't2730_landing_page',
+        "eventAction": "join_now",
+        "eventLabel": "", 
+        "nonInteraction": true, 
+      })
+      toggle ? $('.getcode_dialog').removeClass('swap--visible') : $('.getcode_dialog').addClass('swap--visible')
+      $('.getcode_dialog .getcode_box').removeClass('swap--visible')
+      $('.getcode_dialog .showcode_box').addClass('swap--visible')
+    }
+    if (window.location.search.substring(1).split('=')[0] == 'alert') {
+      showCode(true)
+    }
+    $("#phone_number").intlTelInput({
+      nationalMode: false,
+      utilsScript: "https://cdn.shopify.com/s/files/1/0516/0098/2167/files/utils.js?v=1626750869"
+    });
+    const subscribe_private = {
+      timer: null,
+      regExp: {
+        email: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+        phone: /^[0][1-9]\d{8,9}$|^[0][1-9]\d{0,3}-\d{1,4}-\d{3,4}$|^[0][1-9][0]\d{8}$|^[0][1-9][0]-\d{4}-\d{4}$/,
+      },
+      isPhone: val => subscribe_private.regExp.phone.test(val),
+      isEmail: val => subscribe_private.regExp.email.test(val),
+      tip_info: (clas, val) => {
+        $('#getcode_dialog_form button[type="submit"]').prop("disabled", false)
+        $(`#getcode_dialog_form .form_feedback_box_txt`).addClass('swap--visible')
+        $(`#getcode_dialog_form .${clas}`).removeClass('swap--visible')
+        if (val) $(`#getcode_dialog_form .${clas} .form__error`).html(val)
+        if (subscribe_private.timer) clearTimeout(subscribe_private.timer)
+        subscribe_private.timer = setTimeout(() => { 
+          $(`#getcode_dialog_form .${clas}`).addClass('swap--visible')
+        }, 8000)
+      }
+    }
+    $('#getcode_dialog_form button[type="submit"]').on('click', function (e) {
+      e.stopPropagation()
+      e.preventDefault()
+      $(this).prop("disabled", true)
+      let value = $('#getcode_dialog_form').serializeArray()
+      const email = value.filter(v => v.name === "email")[0].value
+      const policy = value.filter(v => v.name === "policy")[0]
+      const phone_number = value.filter(v => v.name === "phone")[0].value
+      if (!email) {
+        subscribe_private.tip_info('info_fill_email')
+      } else
+      if (!policy || policy.value !== 'yes') {
+        subscribe_private.tip_info('info_select_policy')
+      } else
+      if (email && !subscribe_private.isEmail(email)) {
+        subscribe_private.tip_info('info_err_email')
+      } else {
+        $(this).prop("disabled", false)
+        $('.getcode_dialog .getcode_box').addClass('active')
+        const data = {
+          phone_number: ( phone_number ? phone_number : null ),
+          email, genre: "{{ getcode.getcode_deals_type }}",
+          shopify_domain: "{{ shop.permanent_domain }}",
+          country_code: "{{ country.code }}",
+          single_brand_subscribe: false
+        }
+        Shopify.contentCreator.pastApi.subscribe_activities_emails({
+          params: data,
+          fn: (body) => {
+            if (body && body.coupon && body.coupon.code) {
+              subscribe_private.tip_info('info_seccess')
+              if ($('#getcode_dialog_form input[name="phone"]').val()) {
+                $('.getcode_dialog .showcode_box .eufyWeb').addClass('swap--visible')
+              } else {
+                $('.getcode_dialog .showcode_box .eufyWeb').removeClass('swap--visible')
+              }
+              $('#getcode_dialog_form input[name="email"]').val('')
+              $('#getcode_dialog_form input[name="phone"]').val('')
+              $('#getcode_dialog_form input[name="policy"]').prop("checked", false)
+              $('.getcode_dialog .getcode_box').removeClass('active')
+              $('.getcode_dialog .getcode_box').addClass('swap--visible')
+              $('.getcode_dialog .showcode_box').removeClass('swap--visible')
+              getCodeTxt = body.coupon.code
+              $('.getcode_dialog .showcode_box .code').text(getCodeTxt)
+              var md5Email = md5(email)
+              window.dataLayer.push({
+                'event': '{{ getcode.getcode_deals_type }}',
+                'country_code': '{{ shop.name }}',
+                'user_id': '{{ customer.id }}',
+                'email': md5Email
+              })
+              window.dataLayer.push({
+                "event": "uaEvent",
+                "eventCategory": 'subscribe',
+                "eventAction": "{{ getcode.getcode_deals_type }}",
+                "eventLabel": 'undefined',
+                "eventValue": 'undefined',
+              })
+              fbq('track', 'CompleteRegistration')
+            } else {
+              $('.getcode_dialog .close').addClass('swap--visible')
+              $('.getcode_dialog .getcode_box').removeClass('active')
+              $('.getcode_dialog .getcode_box').addClass('swap--visible')
+              $('.getcode_dialog .endcode_box').removeClass('swap--visible')
+            }
+          }, 
+          error: (err) => {
+            $('.getcode_dialog .getcode_box').removeClass('active')
+            $('.getcode_dialog .showcode_box .code').text('')
+            const { responseJSON } = err || {};
+            if (err.status === 409) {
+              subscribe_private.tip_info('info_seccess');
+              $('#getcode_dialog_form input[name="email"]').val('')
+              $('#getcode_dialog_form input[name="phone"]').val('')
+              $('#getcode_dialog_form input[name="policy"]').prop("checked", false)
+            } else if (err.status === 404) {
+              $('.getcode_dialog .close').addClass('swap--visible')
+              $('.getcode_dialog .getcode_box').addClass('swap--visible')
+              $('.getcode_dialog .endcode_box').removeClass('swap--visible')
+            } else if (err.status === 400) {
+              if (err.responseJSON.message[0]) {
+                err.responseJSON.message.map(item => {
+                  if (item == 'phone_number must be a valid phone number') subscribe_private.tip_info('info_err_phone')
+                })
+              } else {
+                if (err.responseJSON.message == 'phone_number must be a valid phone number') subscribe_private.tip_info('info_err_phone')
+              }
+            } else if (responseJSON) {
+              subscribe_private.tip_info('info_error', responseJSON.error || responseJSON.err)
+            }
+          }
+        });
+      }
+    })
+    function go_back() {
+      $('.getcode').addClass('swap--visible')
+      $('.getcode_dialog .end').removeClass('swap--visible')
+      $('.getcode_dialog .open').addClass('swap--visible')
+    }
+    function copyCouponCode() {
+      execCoy(getCodeTxt)
+      $('.showcode_box .copy').html('{{ getcode.getcode_copied }}')
+      setInterval(function(){
+        $('.showcode_box .copy').html('{{ getcode.getcode_copy }}')
+      }, 3000)
+    }
+    function execCoy(text) {
+        const input = document.createElement('INPUT');
+        input.style.opacity  = 0;
+        input.style.position = 'absolute';
+        input.style.left = '-100000px';
+        document.body.appendChild(input);
+        input.value = text;
+        input.select();
+        input.setSelectionRange(0, text.length);
+        document.execCommand('copy');
+        document.body.removeChild(input);
+        return true;
+      }
+  </script>
+
+{% endif %}
+
+{% schema %}
+  {
+    "name": "listing2.0_getcode",
+    "presets": [
+      {
+        "category": "listing2.0_getCode",
+        "name": "listing2.0_getcode"
+      }
+    ],
+    "settings": [
+      {
+        "type": "textarea",
+        "id": "custom_css",
+        "label": "Custom CSS"
+      }
+    ]
+  }
+{% endschema %}

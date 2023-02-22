@@ -1,0 +1,165 @@
+{% if product.metafields.global.downloads.value %}
+  {% assign downloads = product.metafields.global.downloads.value %}
+{% else %}
+  {% assign downloads = product.metafields.global.downloads %}
+{% endif %}
+
+{% assign collection_group = products | map: 'id' %}
+{% assign collection_group_thumb = collection_group | append : 'thumb' %}
+{% assign collection_group_mobile = collection_group | append : 'mobile' %}
+
+{% if related_products == true %}
+  {% assign related_items = true %}
+{% else %}
+  {% assign related_items = false %}
+{% endif %}
+
+{% assign for_limit = limit %}
+
+{% comment %} loop through product list {% endcomment %}
+{% for product in products limit: limit %}
+
+  {% comment %} if product display is in the loop of products increase limit by one {% endcomment %}
+  {% if product.id == skip_product.id  %}
+    {% assign for_limit = limit | plus: 1 %}
+  {% endif %}
+{% endfor %}
+
+{% for product in products limit: for_limit %}
+
+  {% comment %} Skip product if we're on its product page {% endcomment %}
+  {% if product.id != skip_product.id %}
+
+    {% if type == 'block' %}
+      {% assign object = block %}
+    {% else %}
+      {% assign object = section %}
+    {% endif %}
+
+    {% assign secondaryImage = product.media[1] %}
+
+    {% assign collection_handles = product.collections | map: 'handle' %}
+    {% if product.featured_media.preview_image.alt contains 'youtube' or image.alt contains 'vimeo' %}
+      {% assign alt_text = product.title %}
+    {% else %}
+      {% assign alt_text = product.featured_media.preview_image.alt %}
+    {% endif %}
+
+    {% if type == 'block' %}
+      {% assign image_crop = block.settings.image_crop %}
+    {% else %}
+      {% assign image_crop = section.settings.image_crop %}
+    {% endif %}
+
+    {% if section.settings.align_height == true %}
+    {% style %}
+      .product-{{ product.id }} .image__container img,
+      .product-{{ product.id }} .product-thumbnail__video .plyr {
+        max-width: 100%;
+        width: {{ height }}px;
+        margin: 0 auto;
+      }
+
+      .shopify-model-viewer-ui model-viewer {
+        --progress-bar-height: 2px;
+        --progress-bar-color: {{ settings.regular_color }};
+      }
+  {% endstyle %}
+    {% endif %}
+
+    <div class="
+      {% render 'column-width', value: products_per_row %}
+      medium-down--one-half
+      {% if mobile_products_per_row == '1' %}
+        small-down--one-whole
+      {% else %}
+        small-down--one-half
+      {% endif %}
+      column
+      {% if settings.enable_quickshop %}
+        quick-shop--true
+        quick-shop--closed
+        product-{{ product.id }} js-product_section
+      {% endif %}
+      {% if settings.stickers_enabled %}
+        has-thumbnail-sticker
+      {% endif %}
+      {% if product.media[1] != blank and settings.show_secondary_image == true %}
+        has-secondary-image-swap
+      {% endif %}
+      thumbnail
+      product__thumbnail
+      product__grid-item
+      has-padding-bottom"
+      {% if section.settings.pagination_type != 'basic_pagination' %}
+        data-load-more--grid-item
+      {% endif %}>
+      <div class="product-wrap pages_downloads">
+          <div class="mask-down swap--visible">
+            <div class="mask-close">
+              <i class="iconfont close"></i>
+            </div>
+            <ul class="table">
+              {% for item in downloads %}
+                <li>
+                  <p class="col down">
+                    <a href={{ item.url }} target="_blank" rel="noopener noreferrer">
+                      <span>{{ item.title | url_decode }}</span>
+                    </a>
+                  </p>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        <div class="downloads_box">
+          <div class="image__container product__imageContainer">
+            <a role="button" class="downImgBox">
+              {% comment %} Primary image {% endcomment %}
+              {%- assign image = product.featured_media.preview_image -%}
+              <img class="downImg" src="{{ image | img_url: '2000x' }}" alt="{{ alt_text | escape }}">
+            </a>
+          </div>
+        </div>
+        <div class="thumbnail__caption text-align-{{ settings.thumbnail_text_alignment }}">
+          <div class="product-thumbnail">
+            <a href="{{ product.url | within: collection }}" class="product-thumbnail__title">{{ product.title }}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  {% endif %}
+{% endfor %}
+
+<script>
+  $(document).ready(function () {
+    $(".pages_downloads").on("click", function(e){
+      e.stopPropagation();
+      $(this).find(".mask-down").removeClass("swap--visible");
+    })
+    $(".mask-close .close").on("click", function(e){
+      e.stopPropagation();
+      e.preventDefault();
+      $(this).parents(".mask-down").addClass("swap--visible");
+    })
+  })
+</script>
+{% comment %} JSON-LD Structured data - https://developers.google.com/search/docs/guides/intro-structured-data {% endcomment %}
+{% unless context == 'product_recommendations' %}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "OfferCatalog",
+      "itemListElement": [
+        {% for product in products limit: for_limit %}
+          {
+            "@type": "ListItem",
+            "position": "{{ forloop.index | json }}",
+            "url": "{{ shop.url }}{{ product.url }}",
+            "name": "{{ product.title }}"
+          } {%- unless forloop.last -%},{%- endunless -%}
+        {% endfor %}
+      ]
+    }
+  </script>
+{% endunless %}

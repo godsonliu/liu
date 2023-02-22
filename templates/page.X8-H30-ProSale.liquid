@@ -1,0 +1,512 @@
+{% assign lang =  page.metafields['global'] %}
+
+{% if lang.banner.value %}
+  {% assign banner = lang.banner.value %}
+{% else %}
+  {% assign banner = lang.banner %}
+{% endif %}
+
+{% if lang.pro_buyCode.value %}
+  {% assign pro_buyCode = lang.pro_buyCode.value %}
+{% else %}
+  {% assign pro_buyCode = lang.pro_buyCode %}
+{% endif %}
+
+{% if lang.pro_getCode.value %}
+  {% assign pro_getCode = lang.pro_getCode.value %}
+{% else %}
+  {% assign pro_getCode = lang.pro_getCode %}
+{% endif %}
+
+{% if lang.terms.value %}
+  {% assign terms = lang.terms.value %}
+{% else %}
+  {% assign terms = lang.terms %}
+{% endif %}
+
+{% if lang.rule.value %}
+  {% assign rule = lang.rule.value %}
+{% else %}
+  {% assign rule = lang.rule %}
+{% endif %}
+
+{% if lang.nav.value %}
+  {% assign nav = lang.nav.value %}
+{% else %}
+  {% assign nav = lang.nav %}
+{% endif %}
+
+{% if lang.whatsInBox.value %}
+  {% assign whatsInBox = lang.whatsInBox.value %}
+{% else %}
+  {% assign whatsInBox = lang.whatsInBox %}
+{% endif %}
+
+{% if shop.metafields['global']['common'].value %}
+  {% assign policy_text = shop.metafields['global']['common'].value %}
+{% else %}
+  {% assign policy_text = shop.metafields['global']['common'] %}
+{% endif %}
+
+{% if shop.metafields['global']['common'].value %}
+  {% assign info_seccess = shop.metafields['global']['common'].value %}
+{% else %}
+  {% assign info_seccess = shop.metafields['global']['common'] %}
+{% endif %}
+
+{% if shop.metafields['global']['common'].value %}
+  {% assign info_fill_email = shop.metafields['global']['common'].value %}
+{% else %}
+  {% assign info_fill_email = shop.metafields['global']['common'] %}
+{% endif %}
+
+{% if shop.metafields['global']['common'].value %}
+  {% assign info_err_email = shop.metafields['global']['common'].value %}
+{% else %}
+  {% assign info_err_email = shop.metafields['global']['common'] %}
+{% endif %}
+
+{% if shop.metafields['global']['common'].value %}
+  {% assign info_select_policy = shop.metafields['global']['common'].value %}
+{% else %}
+  {% assign info_select_policy = shop.metafields['global']['common'] %}
+{% endif %}
+
+{% if shop.metafields['global']['common'].value %}
+  {% assign info_fill_captcha = shop.metafields['global']['common'].value %}
+{% else %}
+  {% assign info_fill_captcha = shop.metafields['global']['common'] %}
+{% endif %}
+
+{% if shop.metafields['global']['common'].value %}
+  {% assign use_placeholders = shop.metafields['global']['common'].value %}
+{% else %}
+  {% assign use_placeholders = shop.metafields['global']['common'] %}
+{% endif %}
+
+{% if shop.metafields.global.common.value %}
+  {% assign common = shop.metafields.global.common.value %}
+{% else %}
+  {% assign common = shop.metafields.global.common %}
+{% endif %}
+
+{% if shop.metafields.global.storefront_key.value %}
+  {% assign storefront_key = shop.metafields.global.storefront_key.value %}
+{% else %}
+  {% assign storefront_key = shop.metafields.global.storefront_key %}
+{% endif %}
+
+{{ 'X8-H30.scss.css' | asset_url | stylesheet_tag }}
+
+{% assign snippets_id = pro_getCode.deals_type %}
+{% assign info_seccess = pro_getCode.info_seccess %}
+{% assign submit_btn_txt = banner.btn_getcode %}
+{% assign dataLayer = pro_getCode.deals_type %}
+{% assign info_fill_deals_type = pro_getCode.info_fill_deals_type %}
+{% assign info_seccess_x8 = pro_getCode.info_seccess_x8 %}
+{% assign info_seccess_h30 = pro_getCode.info_seccess_h30 %}
+{% assign info_seccess_both = pro_getCode.info_seccess_both %}
+
+{%- if submit_btn_txt -%}
+  {% assign submit_btn_txt = submit_btn_txt %}
+{%- else %}
+  {% assign submit_btn_txt = section.settings.submit_btn_txt %}
+{% endif %}
+{%- if policy_text -%}
+  {% assign policy_text = policy_text %}
+{%- else %}
+{% endif %}
+{%- if info_seccess -%}
+  {% assign info_seccess = info_seccess %}
+{%- else %}
+{% endif %}
+{%- if info_fill_email -%}
+  {% assign info_fill_email = info_fill_email %}
+{%- else %}
+{% endif %}
+{%- if info_err_email -%}
+  {% assign info_err_email = info_err_email %}
+{%- else %}
+{% endif %}
+{%- if info_select_policy -%}
+  {% assign info_select_policy = info_select_policy %}
+{%- else %}
+{% endif %}
+{%- if info_fill_captcha -%}
+  {% assign info_fill_captcha = info_fill_captcha %}
+{%- else %}
+{% endif %}
+{%- if use_placeholders -%}
+  {% assign use_placeholders = use_placeholders %}
+{%- else %}
+{% endif %}
+
+<div class="X8-H30-ProSale">
+  <div class="banner">
+    <video class="bg  is-hidden-desktop-only" src="{{banner.video_mobile}}" poster="{{banner.image_mobile}}" preload="auto" muted="muted" autoplay="autoplay" loop="loop" playsinline></video>
+    <video class="bg lazyload is-hidden-mobile-only" data-src="{{ banner.video }}" poster="{{banner.image}}" preload="auto" muted="muted" autoplay="autoplay" loop="loop" playsinline></video>
+    <div class="txt">
+      <h3>{{ banner.title }}</h3>
+      <div class="btn"><a onClick="goAnchor('bundle-nav')">{{ banner.btn }}</a></div>
+    </div>
+  </div>
+  <ul id="bundle-nav" class="nav">
+    {% for item in nav %}
+      <li><a href="{{ item.link }}">{{ item.txt }}</a></li>
+    {% endfor %}
+  </ul>
+
+  {% if pro_buyCode != blank %}
+    <div class="pro buyCode">
+      <div class="proBox">
+        <div class="titleBox">
+          <h3>{{ pro_buyCode.title }}</h3>
+          <p>{{ pro_buyCode.desc }}</p>
+        </div>
+        <div class="prodList">
+          {% for item in pro_buyCode.proList %}
+            <div class="prodItem">
+              <div class="img">
+                <a href="{{ item.link }}">
+                  <img src="{{ item.img }}" />
+                  <div class="tagImg"><img src="{{ item.tag }}" /></div>
+                </a>
+              </div>
+              <div class="txt">
+                <div class="txtBox">
+                  <div class="Spin overview_{{ item.id }}">
+                    <div class="content cnt">
+                      <a href="{{ item.link }}"><h3 class="proTitle">{{ item.name }}</h3></a>
+                      <h3 class="title">{{ item.txt_tit }}</h3>
+                      <p class="proPrice">{{ item.price }}</p>
+                      <div class="proBtn">
+                        <a class="get_code {% if forloop.index0 == 0 %}x8get_code{% else %}h30get_code{% endif %}" onclick="BuyCode('{{ item.id }}')">{{ item.btn_getcode }}</a>
+                        <a class="learn_more" href="{{ item.link }}">{{ pro_buyCode.btn_learnmore }}</a>
+                      </div>
+                      <div class="mask"></div>
+                      <div class="spinner">
+                        <i class="iconfont"></i>
+                        <div class="focus"><i class="iconfont"></i></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  {% if pro_getCode != blank %}
+    <div class="pro getCode">
+      <div class="proBox">
+        <div class="Spin Spin_{{ pro_getCode.deals_type }} subscribe">
+          <div class="content cnt">
+            <div class="subscribeBox">
+              <div class="txt">
+                <i class="iconfont">&#xe86c;</i>
+                {% comment %} <p class="desc">{{ pro_getCode.desc }}</p> {% endcomment %}
+                <h3 class="title">{{ pro_getCode.title }}</h3>
+                <div class="chooseProduct">
+                  <p>{{ pro_getCode.chooseTxt }}</p>
+                  <form class="options">
+                    <label for="x8_code"><input type="radio" id="x8_code" name="code" value="x8">{{ pro_getCode.options1 }}</label>
+                    <label for="h30_code"><input type="radio" id="h30_code" name="code" value="h30">{{ pro_getCode.options2 }}</label>
+                    <label for="both_code"><input type="radio" id="both_code" name="code" value="both">{{ pro_getCode.options3 }}</label>
+                  </form>
+                </div>
+              </div>
+              <div class="subscribeForm">
+                <div class="newsletter-form__wrapper">
+                  <form method="post" id="newsletter_form" accept-charset="UTF-8" class="{{snippets_id}} contact-form newsletter-form--newsletter-section">
+                    <div class="newsletter-form form">
+                      {% comment %} Email {% endcomment %}
+                      <div class="field is-stretched-width">
+                        <div class="control {% if settings.show_form_icons %} has-icons-left has-icons-left--responsive-form{% endif %}">
+                          <input class="input is-{{ field_input_style }} is-{{ field_input_size }}" type="email" name="contact[email]" maxlength="200" placeholder="{{ use_placeholders }}" aria-label="{{ use_placeholders }}"/>
+                          {% if settings.show_form_icons and show_email_icon %}
+                            {% render 'icon', name: 'email' %}
+                          {% endif %}
+                        </div>
+                      </div>
+                      {% comment %} Submit button {% endcomment %}
+                      <div class="field is-default-width is-align-self-end">
+                        <div class="control submit">
+                          {%- assign button_label = 'general.newsletter_form.submit' | t -%}
+                          <button type="submit" class="button reverse {{ settings.form_button_style }} is-within-form brandButtonText" {{ attribute }}>
+                            {% if submit_btn_txt != blank %}
+                              {{ submit_btn_txt }}
+                            {% else %}
+                              {{ button_label }}
+                            {% endif %}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="policyBox">
+                      <label>
+                        <span>
+                          <input type="checkbox" name="policy" value="yes" />
+                        </span>
+                        <span>{{ policy_text }}</span>
+                      </label>
+                    </div>
+                    <div class="form_error_box">
+                      <div class="column contact-form__form-errors swap--visible info_error">
+                        <p class="form__error"></p>
+                      </div>
+                      <div class="column contact-form__form-errors swap--visible info_seccess">
+                        <p class="form__error quote">{{ info_seccess }}</p>
+                      </div>
+                      <div class="column contact-form__form-errors swap--visible info_fill_email">
+                        <p class="form__error">{{ info_fill_email }}</p>
+                      </div>
+                      <div class="column contact-form__form-errors swap--visible info_err_email">
+                        <p class="form__error">{{ info_err_email }}</p>
+                      </div>
+                      <div class="column contact-form__form-errors swap--visible info_select_policy">
+                        <p class="form__error">{{ info_select_policy }}</p>
+                      </div>
+                      <div class="column contact-form__form-errors swap--visible info_fill_captcha">
+                        <p class="form__error">{{ info_fill_captcha }}</p>
+                      </div>
+                      <div class="column contact-form__form-errors swap--visible info_fill_deals_type">
+                        <p class="form__error">{{ info_fill_deals_type }}</p>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mask"></div>
+          <div class="spinner">
+            <i class="iconfont"></i>
+            <div class="focus"><i class="iconfont"></i></div>
+          </div>
+        </div>
+
+        <div class="prodList">
+          {% for item in pro_getCode.proList %}
+            <div class="prodItem">
+              <div class="img">
+                <a href="{{ item.link }}"><img src="{{ item.img }}" /></a>
+                <div class="imgTxt">
+                  <a href="{{ item.link }}"><h3 class="proTitle">{{ item.name }}</h3></a>
+                  <div class="proDots">
+                    {% for d in item.sale_dots %}
+                      <div class="itemDot"><img data-src="{{ d.icon }}" class="lazyload" alt="" loading="lazy"> <span>{{ d.txt }}</span></div>
+                    {% endfor %}
+                  </div>
+                  <p class="proPrice">{{ item.price }}</p>
+                </div>
+              </div>
+              <div class="txt">
+                <div class="txtBox">
+                  <h3 class="title">{{ item.txt_tit }}</h3>
+                  <div class="proBtn">
+                    <a class="learn_more" href="{{ item.link }}">{{ pro_getCode.btn_learnmore }}</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  <div class="rule">
+    {% if terms %}
+      <div class="txt left">
+        <div class="txtBox" data-handle="terms">
+          <p>{{ terms }}</p>
+        </div>
+        <a class="btn" data-handle="terms">{{ common.btn_more }}</a>
+      </div>
+    {% endif %}
+    {% if rule %}
+      <div class="txt right">
+        <div class="txtBox" data-handle="rule">
+          <p>{{ rule }}</p>
+        </div>
+        <a class="btn" data-handle="rule">{{ common.btn_more }}</a>
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="whatsInBox">
+    <ul class="links">
+      {% for item in whatsInBox %}
+        <li class="item">
+          <a href="{{ item.link }}">
+            <div class="bg">
+              <img class="is-hidden-mobile-only" src="{{ item.img }}" />
+              <img class="is-hidden-desktop-only" src="{{ item.mob_img }}" />
+            </div>
+            <div class="txt">
+              <p class="name">{{ item.name }}</p>
+              <h3 class="tit">{{ item.title }}</h3>
+              <p class="desc">{{ item.desc }}</p>
+            </div>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+<script>
+  let o_deals_type;
+  let seccessTxt = '{{ info_seccess }}';
+
+  function goAnchor(id) {
+    $('html, body').animate({ scrollTop: $(`#${id}`).offset().top - (document.body.offsetWidth > 768 ? 99 : 77) }, 800);
+  }
+  function BuyCode(id) {
+    $(".overview_{{ id }}").addClass('active');
+    Shopify.theme.bundleBuynow({
+      authorization: "{{ storefront_key }}",
+      checkout: {
+        line_items: [{ variant_id: id, quantity: 1 }],
+        presentment_currency: "{{ shop.currency }}",
+        is_upstream_button: true,
+        page_type: "product",
+        secret: true,
+        wallet_name: "Checkout"
+      },
+      onSuccess: () => {
+        $(".overview_{{ id }}").removeClass('active');
+      },
+      onError: err => {
+        $.dialog({ title: err.message, content: err.description, type: 'red' });
+      }
+    });
+  }
+  $(document).ready(function(){
+    $('.rule .txtBox').each(function(index, item) {
+      const h = $(this).innerHeight();
+      $(this).css('max-height', h);
+      $(this).addClass('less');
+    });
+    $('.rule .btn').on('click', function(){
+      const handle = $(this).attr('data-handle');
+      if ($(`.rule .txtBox[data-handle=${handle}]`).hasClass('less')) {
+        $(`.rule .txtBox[data-handle=${handle}]`).removeClass('less');
+        $(this).html(`{{ common.btn_less }}`);
+      } else {
+        $(`.rule .txtBox[data-handle=${handle}]`).addClass('less');
+        $(this).html(`{{ common.btn_more }}`);
+      }
+    })
+
+    if($('.getCode .newsletter-form')) $('.getCode .newsletter-form').append("<p class='tips'>{{ pro_getCode.tips }}</p>");
+
+    $('.chooseProduct .options').on('click', function(e){
+      if (e.target && e.target.nodeName.toUpperCase() == "INPUT") {
+        const code = e.target.value;
+        if (code === 'x8') {
+          o_deals_type = `{{ pro_getCode.deals_type }}_${code}`;
+          {% if info_seccess_x8 %}
+            seccessTxt = "{{ info_seccess_x8 }}";
+          {% endif %}
+        } else if ( code === 'h30') {
+          o_deals_type = `{{ pro_getCode.deals_type }}_${code}`;
+          {% if info_seccess_h30 %}
+            seccessTxt = "{{ info_seccess_h30 }}";
+          {% endif %}
+        } else {
+          o_deals_type = '{{ pro_getCode.deals_type }}';
+          {% if info_seccess_both %}
+            seccessTxt = "{{ info_seccess_both }}";
+          {% endif %}
+        }
+      }
+    })
+  })
+</script>
+
+<script src="{{ 'md5.js' | asset_url }}"></script>
+
+<script>
+  $(document).ready(function () {
+    const subscribe_private = {
+      timer: null,
+      regExp: {
+        email: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      },
+      isEmail: val => subscribe_private.regExp.email.test(val),
+      tip_info: (clas, val) => {
+        $('#newsletter_form.{{snippets_id}} button[type="submit"]').prop("disabled", false);
+        $('#newsletter_form.{{snippets_id}} .contact-form__form-errors').addClass('swap--visible');
+        $(`#newsletter_form.{{snippets_id}} .${clas}`).removeClass('swap--visible');
+        if (val) $(`#newsletter_form.{{snippets_id}} .${clas} .form__error`).html(val);
+        if (subscribe_private.timer) clearTimeout(subscribe_private.timer);
+        subscribe_private.timer = setTimeout(() => { 
+          $(`#newsletter_form.{{snippets_id}} .${clas}`).addClass('swap--visible');
+        }, 8000);
+      }
+    };
+    $('#newsletter_form.{{ snippets_id }} button[type="submit"]').on('click', function (e) {
+      e.stopPropagation();
+      e.preventDefault();
+      $(this).prop("disabled", true);
+      let value = $('#newsletter_form.{{snippets_id}}').serializeArray();
+      const email = value.filter(v => v.name === "contact[email]")[0].value;
+      const policy = value.filter(v => v.name === "policy")[0];
+      if (!email) {
+        subscribe_private.tip_info('info_fill_email');
+      } else
+      if (!o_deals_type) {
+        subscribe_private.tip_info('info_fill_deals_type');
+      } else
+      if (!policy || policy.value !== 'yes') {
+        subscribe_private.tip_info('info_select_policy');
+      } else
+      if (email && !subscribe_private.isEmail(email)) {
+        subscribe_private.tip_info('info_err_email');
+      } else {
+        const data = { email, brand: 'eufy' };
+        data.deals_type = o_deals_type;
+        if($(`.Spin_{{ snippets_id }}`)) $(`.Spin_{{ snippets_id }}`).addClass('active');
+        Shopify.contentCreator.pastApi.subscribe_deals_emails({
+          params: data,
+          fn: (body) => {
+            var md5Email = md5(email);
+            window.dataLayer.push({
+              'event': o_deals_type,
+              'country_code': '{{ shop.name }}',
+              'user_id': '{{ customer.id }}',
+              'email': md5Email
+            });
+            $('.{{snippets_id}} .captcha input').html("");
+            {% if succssInfo %}
+              $('.newsletter_form .{{succssInfo}}').removeClass('swap--visible');
+              window.setTimeout(() => {
+                $('.newsletter_form .{{succssInfo}}').addClass('swap--visible');
+                $('#newsletter_form.{{snippets_id}} button[type="submit"]').prop("disabled", false);
+              }, 2500);
+            {% else %}
+              Shopify.contentCreator.activities.openSuccessBox(seccessTxt);
+              $('#newsletter_form.{{snippets_id}} button[type="submit"]').prop("disabled", false);
+              if($('.Spin_{{ snippets_id }}')) $('.Spin_{{ snippets_id }}').removeClass('active');
+            {% endif %}
+            $('#newsletter_form.{{snippets_id}} input[name="contact[email]"]').val('');
+            $('#newsletter_form.{{snippets_id}} input[name="policy"]').prop("checked", false);
+          }, 
+          error: (err) => {
+            if($('.Spin_{{ snippets_id }}')) $('.Spin_{{ snippets_id }}').removeClass('active');
+            const { responseJSON } = err || {};
+            if (responseJSON) {
+              subscribe_private.tip_info('info_error', responseJSON.error || responseJSON.err);
+            } else {
+              subscribe_private.tip_info('info_err_email');
+            }
+          }
+        });
+      }
+    });
+  })
+</script>

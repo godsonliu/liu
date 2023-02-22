@@ -1,0 +1,65 @@
+
+/*
+  加购逻辑
+  取元素的data属性 多个商品逗号分割
+  data-variant_id
+  data-quantity
+*/
+$(function() {
+  $('.j_any_custom_addcart').on('click',function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    let variant_ids = $(this).data('variant_id').toString().split(',') 
+    let quantitys = $(this).data('quantity').toString().split(',')  
+    let items = []
+    variant_ids.forEach((item,index) => {
+      items.push({
+        id: item,
+        quantity: quantitys[index]
+      })
+    })
+    Shopify.theme.addItemsToCart(items, {
+      onSuccess: function() {},
+      onError: function(err) {
+        $.dialog({ title: err.message, content: err.description, type: 'red' });
+      }
+    })
+  })
+
+  $('.j_any_custom_buynow').on('click',function(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    let variant_ids = $(this).data('variant_id').toString().split(',') 
+    let quantitys = $(this).data('quantity').toString().split(',') 
+    let authorization = $(this).data('authorization')
+    let currency = $(this).data('currency')  
+    let line_items = []
+    variant_ids.forEach((item,index) => {
+      line_items.push({
+        variant_id: item,
+        quantity: quantitys[index]
+      })
+    })
+    
+
+		Shopify.theme.bundleBuynow_BF({
+			authorization: authorization,
+			checkout: {
+				line_items: line_items,
+				presentment_currency: currency,
+				is_upstream_button: true,
+				page_type: "product",
+				secret: true,
+				wallet_name: "Checkout",
+				page_group: window.location.pathname,
+				page_position: window.location.pathname + "_Checkout"
+			},
+			onSuccess: () => {},
+			onError: err => {
+				console.log(err)
+				$.dialog({ title: err.message, content: err.description, type: 'red' });
+			}
+		});
+
+  })
+})

@@ -1,0 +1,120 @@
+<style>
+.cam3_live_standout_title {
+  font-size: 32px;
+  color: #fff;
+  font-weight: 700;
+  text-align: center;
+  padding: 50px 0;
+}
+.cam3_live_standout_list {
+  max-width: 1024px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto auto;
+  grid-gap: 18px;
+}
+.cam3-live-standout-item {
+  position: relative;
+  border-radius: 20px;
+  box-sizing: border-box;
+}
+.cam3-live-standout-item:first-child {
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+.standout-item-image {
+  width: 100%;
+}
+.standout-item-div {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  bottom: 20px;
+  text-align: center;
+  padding: 0 10px;
+}
+.standout-item-title {
+  line-height: 22px;
+  font-weight: 700;
+  font-size: 16px;
+  color: #fff;
+}
+.standout-item-desc {
+  line-height: 18px;
+  font-weight: 500;
+  font-size: 14px;
+  color: #fff;
+  display: none;
+}
+@media(max-width: 769px) {
+  .cam3_live_standout_list {
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: auto auto auto auto auto;
+  }
+  .cam3-live-standout-item:first-child {
+    grid-column-start: 1;
+    grid-column-end: 1;
+  }
+  .cam3_live_standout_title {
+    font-size: 20px;
+  }
+}
+</style>
+
+<div class="cam3_live_standout">
+  <div class="cam3_live_standout_title">{{ section.settings.cam3_live_standout_title }}</div>
+  <div class="cam3_live_standout_list">
+    {% for block in section.blocks %}
+    {% if block.type == 'cam3_live_standout_item' %}
+      <div class="cam3-live-standout-item">
+        <div class="standout-item-div">
+          <div class="standout-item-title" data-new-title="{{ block.settings.new_standout_list_title }}">{{ block.settings.standout_list_title }}</div>
+          <div class="standout-item-desc">{{ block.settings.standout_list_desc }}</div>
+        </div>
+        <img 
+          class="standout-item-image showPc" 
+          width="{{block.settings.standout_list_default_img.width}}"
+          height="{{block.settings.standout_list_default_img.height}}"
+          data-standout_list_img="{{ block.settings.standout_list_img | image_url }}"
+          src="{{ block.settings.standout_list_default_img | image_url }}"  
+        />
+        <img 
+          class="standout-item-image showMobile" 
+          width="{{block.settings.standout_list_default_mobile_img.width}}"
+          height="{{block.settings.standout_list_default_mobile_img.height}}"
+          data-standout_list_img="{{ block.settings.standout_list_mobile_img | image_url }}"
+          src="{{ block.settings.standout_list_default_mobile_img | image_url }}"  
+        />
+      </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+<script>
+$(function() {
+  let curTime = new Date().getTime()
+  let pd_time = new Date("{{section.settings.pd_time}}").getTime()
+  function arrivePdTime() {
+    if(curTime >= pd_time) {
+      let standout_item_images = $('.standout-item-image')
+      standout_item_images.each(function() {
+        let product_img = $(this).data('standout_list_img')
+        $(this).attr('src', product_img)
+      })
+      $('.standout-item-title').each(function() {
+        let html = $(this).data('new-title')
+        $(this).html(html)
+      })
+      $('.standout-item-desc').show()
+    }else {
+      setTimeout(function() {
+        curTime = new Date().getTime();
+        arrivePdTime()
+      }, 1000)
+    }
+  }
+  arrivePdTime()
+})
+</script>

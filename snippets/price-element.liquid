@@ -1,0 +1,14 @@
+{% comment %}
+Required values
+price: <product price>
+{% endcomment %}
+
+{% if price == 999999999 %}
+  <span class="product-thumbnail__sold-out sold-out">{{ 'products.product.sold_out' | t }}</span>
+{% elsif price == 0 %}
+  <span class="free">FREE</span>
+{% elsif settings.currency_format == 'money_with_currency_format' %}
+  {{ price | money_with_currency }}
+{% else %}
+  {{ price | money }}
+{% endif %}

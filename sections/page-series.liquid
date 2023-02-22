@@ -1,0 +1,107 @@
+{% if page.metafields['global']['all_series'].value %}
+  {% assign all_series = page.metafields['global']['all_series'].value %}
+{% else %}
+  {% assign all_series = page.metafields['global']['all_series'] %}
+{% endif %}
+
+
+{% comment %} CSS {% endcomment %}
+{% paginate collections.all.products by 2000 %}
+
+{%- assign allproducts = collections.all.products -%}
+
+<div class="series__main {{ css_class }}">
+  <div class="wrapper">
+    {% for item in all_series.main %}
+      <div class="series__container">
+        <h1>{{item}}</h1>
+        {% for series in all_series.group[forloop.index0] %}
+          <div class="series_box" data-series="{{series.tag}}">
+            <h2 class="series_title" data-series="{{series.tag}}">
+              {{series.txt}} <b class="kai">+</b><b class="he">-</b>
+            </h2>
+            <ul class="products_content">
+              {% for prod in allproducts %}
+                {% assign tagsWhere = prod.tags | where: series.tag %}
+                {% assign tagsIn = tagsWhere | join: '' %}
+                {% if tagsIn != '' %}
+                  <li data-product="{{ prod.title | escape }}">
+                    <a href="/pages/series?series={{series.txt}}&tag=accessory_{{prod.handle}}&title={{prod.title | escape }}" alt="" target="_blank" rel="noopener noreferrer" class="content">
+                      <img class="lazyload" data-src="{{ prod | img_url: '1024x' }}" alt="">
+                      <h4>{{ prod.title }}</h4>
+                    </a>
+                  </li>
+                {% endif %}
+              {% endfor %}
+              {% for prod in series.discontinued_product_handle %}
+                <li data-product="{{prod.title}}">
+                  <a href="/pages/series?series={{series.txt}}&tag=accessory_{{prod.handle}}&title={{prod.title | escape }}&img={{ prod.img }}&discontinued=1" alt="" target="_blank" rel="noopener noreferrer" class="content">
+                    <img class="lazyload" data-src="{{ prod.img }}" alt="">
+                    <h4>{{ prod.title }}</h4>
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endfor %}
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    const q_series = Shopify.theme.custom.GetQueryValue('series');
+      if (q_series) {
+        $(`.series_box[data-series="${q_series}"]`).addClass('active');
+        $([document.documentElement, document.body]).animate({
+          scrollTop: $(`.series_box[data-series="${q_series}"]`).offset().top - 120
+      }, 0);
+    }
+
+    $('.series__main').on('click', '.series_box .series_title', function() {
+      const series = $(this).data('series');
+      const $current = $(`.series_box[data-series="${series}"]`);
+      if ($current.hasClass('active')) {
+        $current.removeClass('active');
+      } else {
+        $current.addClass('active');
+      }
+    })
+
+  });
+</script>
+
+{% endpaginate %}
+
+{% schema %}
+{
+  "name": "Collection",
+  "class": "collection-template-classic collection-main has-sidebar-option jsCollection",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Product thumbnails"
+    },
+    {
+      "type": "header",
+      "content": "Advanced"
+    },
+    {
+      "type": "paragraph",
+      "content": "[Learn more](https://help.outofthesandbox.com/hc/en-us/articles/360022329373)"
+    },
+    {
+      "type": "text",
+      "id": "css_class",
+      "label": "CSS Class"
+    },
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Custom CSS"
+    }
+  ]
+}
+
+{% endschema %}

@@ -1,0 +1,345 @@
+{% assign lang = product.metafields.global %}
+
+{% if lang.nav.value %}
+  {% assign nav = lang.nav.value %}
+{% else %}
+  {% assign nav = lang.nav %}
+{% endif %}
+
+{% if lang.dogcam.value %}
+  {% assign dogcam = lang.dogcam.value %}
+{% else %}
+  {% assign dogcam = lang.dogcam %}
+{% endif %}
+
+{% if lang.video.value %}
+  {% assign video = lang.video.value %}
+{% else %}
+  {% assign video = lang.video %}
+{% endif %}
+
+{% if lang.products.value %}
+  {% assign products = lang.products.value %}
+{% else %}
+  {% assign products = lang.products %}
+{% endif %}
+
+<link rel="stylesheet" href="{{ 'eufy_dogcam_ct.scss.css' | asset_url }}">
+<script src="{{ 'eufy_dogcam_ct.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'framePlayer.js' | asset_url }}" defer="defer"></script>
+
+<div class="eufy_dogcam_1">
+  <div class="nav">
+    <div class="txt_1 pc_1_show">
+      <span class="span_1">{{ nav.title_1 }}</span>
+      <span class="span_2">{{ nav.title_2 }}</span>
+      <span class="span_3">{{ nav.title_3 }}</span>
+    </div>
+    <div class="txt">
+      <span>{{ nav.title }}</span>
+      <a id="newCart">{{ nav.sign_up }}</a>
+      
+    </div>
+  </div>
+  {% if section.settings.video_true == true %}
+    <div id="videoCoverYouTube">
+      <div class="box" id="youtubeVideo"></div>
+      <a class="closeVideo"><i class="iconfont">&#xe723;</i></a>
+    </div>
+  {% endif %}
+  <div class="banner_bg1" id="banner_bg1">
+    
+    <div class="contain_1">
+      
+      <div class="banner_bg1_bg">
+        <img class="pc_show lazyload" data-src="{{ dogcam.banner_bg1_bg }}" alt="">
+        <img class="mob_show lazyload" data-src="{{ dogcam.bg1_img_mob }}" alt="">
+      </div>
+      <!-- <div class="banner_bg1_video" id="banner_bg1_video"></div> -->
+      <div class="banner_bg1_all" id="banner_bg1_all">
+        <img class="pc_show lazyload" data-src="{{ dogcam.bg1_img }}" alt="">
+        
+        <div class="banner_bg1_content">
+          <p class="bg1_p1">{{ dogcam.bg1_p1 }}</p>
+          <a class="bg1_a" onclick="goAnchor('product-main')">{{ dogcam.bg1_a }}</a><br/>
+          {% if section.settings.button_true == true %}
+            <a id="new_video">
+              <img class="new_video_img lazyload" data-src="{{ dogcam.new_video_img }}" alt="">
+              {{ dogcam.new_video }}
+            </a>
+          {% endif %}
+          
+        </div>
+        
+      </div>
+      <div class="framePlayer_all">
+        <div id="framePlayer_dh" class="framePlayer_dh pc_show">
+          <canvas
+            width="100%"
+            style="height: 100%; width: 100%"
+          ></canvas>
+        </div>
+        <div id="framePlayer_dh_mob" class="framePlayer_dh_mob mob_show">
+          <canvas
+            width="100%"
+            style="height: 100%; width: 100%"
+          ></canvas>
+        </div>
+        <div class="banner_bg1_dh_p pc_show">
+          <p class="banner_bg1_dh_p1">{{ dogcam.banner_bg1_dh_p1 }}</p>
+          <p class="banner_bg1_dh_p2">{{ dogcam.banner_bg1_dh_p2 }}</p>
+        </div>
+      </div>
+      <div class="bg_player">
+        <img class="pc_show lazyload" data-src="{{ dogcam.bg_player }}" alt="">
+        
+        <div class="bg_player_content">
+          <p class="bg_player_p1">{{ dogcam.bg_player_p1 }}</p>
+          <p class="bg_player_p2">{{ dogcam.bg_player_p2 }}</p>
+          <div class="bg_player_three pc_show">
+            <div class="bg_player_three_1">
+              <div class="bg_player_three_1_img">
+                <img class="lazyload" data-src="{{ dogcam.bg_player_three_1_img }}" alt="">
+              </div>
+              <p class="bg_player_three_1_p">{{ dogcam.bg_player_three_1_p }}</p>
+            </div>
+            <div class="bg_player_three_2">
+              <div class="bg_player_three_2_img">
+                <img class="lazyload" data-src="{{ dogcam.bg_player_three_2_img }}" alt="">
+              </div>
+              <p class="bg_player_three_2_p">{{ dogcam.bg_player_three_2_p }}</p>
+            </div>
+            <div class="bg_player_three_3">
+              <div class="bg_player_three_3_img">
+                <img class="lazyload" data-src="{{ dogcam.bg_player_three_3_img }}" alt="">
+              </div>
+              <p class="bg_player_three_3_p">{{ dogcam.bg_player_three_3_p }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  
+</div>
+<script>
+  const tag = document.createElement('script');
+
+  tag.src = "https://www.youtube.com/iframe_api";
+  const firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+  let banner_video;
+  function onYouTubeIframeAPIReady() {
+    banner_video = new YT.Player('youtubeVideo', {
+      height: '100%',
+      width: '100%',
+      videoId: '{{ video.videoId_banner }}',
+    });
+  } 
+
+  $('#new_video').click(() => {
+    $('#videoCoverYouTube').css({ display: "block" });
+    banner_video.playVideo();
+  });
+  $('#videoCoverYouTube .closeVideo').click(() => {
+    $('#videoCoverYouTube').css({ display: "none" });
+    banner_video.stopVideo();
+  });
+</script>
+
+<script>
+  {% for item in products %}
+    {% assign oProduct = all_products[item.handle] %}
+    {% if oProduct.variants == blank %}
+      {% assign sold_out = true %}
+    {% else %}
+      {% for v in oProduct.variants %}
+        {% if v.sku == item.sku %}
+          {% assign oVariant = v %}
+        {% endif %}
+      {% endfor %}
+      {% if oVariant.available == false or oVariant.price == 999999999 %}
+        {% assign sold_out = true %}
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+
+  {% if sold_out %}
+    $("#newCart").css({ pointerEvents: "none", background: "#ccc" });
+    $("#newCart").html("{{ 'products.product.sold_out' | t }}");
+  {% endif %}
+</script>
+<script>
+  $("#dogcam_email_close").click(function(){
+    $('.succssInfo').addClass('swap--visible');
+    $('#newsletter_form button[type="submit"]').prop("disabled", false);
+  });
+  $('#newCart').click(e => {
+    e.preventDefault();
+    let variantsArr = [];
+    let obj = JSON.parse('{{ product.variants[0] | json }}');
+
+    window.dataLayer.push({
+      'event': 'eeEvent',
+      'eventCategory': 'EnhancedEcommerce',
+      'eventAction': 'Added Product',
+      'eventLabel': obj.sku,
+      'ecommerce': {
+          'currencyCode': 'USD', // 填写对应货币 
+          'add': {
+              'products': [{
+                  'name': obj.name, // 对应H2单元格截图的product name
+                  'id': obj.sku, // 对应H2单元格截图的product id (注意大小写)
+                  'category': '', // 留空
+                  'categoryName': 'Charger', // 对应H2单元格截图的product cat...
+                  'brand': 'Eufy', // 对应H2单元格截图的product brand
+                  'variant': 'White', // 对应H2单元格截图的product variant
+                  'price': obj.price, // 对应H2单元格截图的product price
+                  'quantity': '1' // 对应H2单元格截图的product quantity
+              }]
+          }
+      }
+    })
+    Shopify.theme.addItemsToCart([{  quantity: Number($(".purchase-details input").val()), id: obj.id }], {
+      onSuccess: () => {},
+      onError: err => $.dialog({ title: err.message, content: err.description, type: 'red' }),
+      onDone: () => {},
+    })
+  })
+</script>
+<script>
+  function goAnchor(id) {
+    $("html, body").animate({
+      scrollTop: $(`.${id}`).offset().top - 99
+    }, 0);
+  }
+  const width = window.innerWidth;   
+    
+  $(window).scroll(function(){
+      
+    const top = $(window).scrollTop(); 
+    if($('.nav').length > 0){
+      const dh_fd = $('.nav').offset().top;
+      const dh_div = $('.nav').height();
+      const skia = top - dh_div; 
+      if(width > 768){
+        if(top > 0){
+          $(`.contain_1`).css({position: `sticky`,top:"150px"});
+        }else{
+          $(`.contain_1`).css({position: `relative`,top:"0px"});
+        }
+      }else{
+        if(top > 0){
+          $(`.contain_1`).css({position: `sticky`,top:"128px"});
+        }else{
+          $(`.contain_1`).css({position: `relative`,top:"0px"});
+        }
+      }
+      
+      if (skia > 0 ) {
+        $(`.nav`).css('position', `fixed`);
+        $(`.nav`).css('top', $(window).width() < 769 ? '78px' : '64px');
+        $(`.nav`).css('opacity', `1`);
+        
+      } else {
+        $(`.nav`).css('position', `relative`);
+        $(`.nav`).css('top', `0px`);
+        $(`.nav`).css('opcacity', `0`);
+      }
+    }
+  })
+</script>
+<!-- <script>
+  $(document).ready(function() {
+    var banner_video = [];
+    banner_video[0] = "{{ dogcam.banner_video }}";
+    var banner_bg1_video=document.getElementById('banner_bg1_video');
+    var width = window.innerWidth;
+    var banner_bg1_all = document.getElementById('banner_bg1_all');
+    if(width > 769){
+      banner_bg1_video.innerHTML='<video class="dogcam_img pc_show lazyload" preload="auto" muted="muted" autoplay="autoplay" style="width: 100%; height: 100%;" data-src='+banner_video[0]+'></video>';
+    }
+
+    window.setTimeout(function() {
+      banner_bg1_all.style.display = "block";
+    } , 5000);
+  });
+</script> -->
+
+
+
+{% schema %}
+  {
+    "name": "Eufy Dogcam Bg1",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "button_true",
+        "label": "bg3_button",
+        "info": "视频按钮的显示/隐藏",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "video_true",
+        "label": "videoCoverYouTube",
+        "info": "视频的显示/隐藏",
+        "default": true
+      },
+      {
+        "type": "html",
+        "id": "policy_text",
+        "label": "Policy text",
+        "default": "I consent to the <a href='/policies/terms-of-service' rel='noopener noreferrer'>Terms of Use</a> and <a href='/policies/privacy-policy' rel='noopener noreferrer'>Privacy Policy</a>."
+      },
+      {
+        "type": "text",
+        "id": "info_seccess",
+        "label": "info_seccess Text",
+        "default": "Welcome to Eufy!"
+      },
+      {
+        "type": "text",
+        "id": "info_fill_email",
+        "label": "info_fill_email Text",
+        "default": "Please enter your email address."
+      },
+      {
+        "type": "text",
+        "id": "info_err_email",
+        "label": "info_err_email Text",
+        "default": "Please enter a valid email address (Example: name@domain.com)."
+      },
+      {
+        "type": "text",
+        "id": "info_select_policy",
+        "label": "info_agree_policy Text",
+        "default": "Please agree to the Terms of Use and Privacy Policy."
+      },
+      {
+        "type": "text",
+        "id": "submit_btn_txt",
+        "label": "submit_btn Text",
+        "default": "Sign up"
+      },
+      {
+        "type": "select",
+        "id": "submit_position",
+        "label": "Submit position",
+        "options": [
+          { "value": "", "label": "none"},
+          { "value": "bottom", "label": "Bottom"}
+        ],
+        "default": "bottom"
+      },
+      {
+        "type": "text",
+        "id": "use_placeholders",
+        "label": "email_placeholders Text",
+        "default": "E-Mail"
+      }
+    ]
+  }
+
+{% endschema %}

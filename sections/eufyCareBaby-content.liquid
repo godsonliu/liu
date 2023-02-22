@@ -1,0 +1,231 @@
+{% if page.metafields['global']['nav'].value %}
+  {% assign nav = page.metafields['global']['nav'].value %}
+{% else %}
+  {% assign nav = page.metafields['global']['nav'] %}
+{% endif %}
+
+{% if page.metafields['global']['banner'].value %}
+  {% assign banner = page.metafields['global']['banner'].value %}
+{% else %}
+  {% assign banner = page.metafields['global']['banner'] %}
+{% endif %}
+
+{% if page.metafields.global.nav.value %}
+  {% assign nav = page.metafields.global.nav.value %}
+{% else %}
+  {% assign nav = page.metafields.global.nav %}
+{% endif %}
+
+{% if page.metafields.global.subscribeTxt.value %}
+  {% assign subscribeTxt = page.metafields.global.subscribeTxt.value %}
+{% else %}
+  {% assign subscribeTxt = page.metafields.global.subscribeTxt %}
+{% endif %}
+
+{% if page.metafields['global']['bbm_data'].value %}
+  {% assign bbm_data = page.metafields['global']['bbm_data'].value %}
+{% else %}
+  {% assign bbm_data = page.metafields['global']['bbm_data'] %}
+{% endif %}
+
+{% if page.metafields['global']['subscribeTxt'].value %}
+  {% assign subscribeTxt = page.metafields['global']['subscribeTxt'].value %}
+{% else %}
+  {% assign subscribeTxt = page.metafields['global']['subscribeTxt'] %}
+{% endif %}
+
+<section class="eufyCare">
+ 
+  <div class="nav">
+ 
+    <div class="txt">
+      <span>{{ nav.title }}</span>
+      <a class="is-hidden-mobile-only" onclick="goAnchor('banner')">{{ nav.sign_up }}</a>
+      <a class="is-hidden-desktop-only" onclick="goAnchor('subscribeBox')">{{ nav.sign_up }}</a>
+
+    </div>
+  </div>
+  <div class="banner" id="banner">
+    <div class="bg">
+      <img class="is-hidden-mobile-only" src="{{ banner.img }}"/>
+      <img class="is-hidden-desktop-only" src="{{ banner.mob_src }}"/>
+    </div>
+    <div class="txt">
+      <h3>{{ banner.title }}</h3>
+      <div class="subscribeBox" id="subscribeBox">
+        <div class="box bbmBox">
+          {% render 'subscribe-form',
+                type: 'block',
+                snippets_id: 'eufyCare_bbm_signupOne',
+                deals_type: 'eufyCare_bbm_signup',
+                dataLayer: 'eufyCare_bbm_signup',
+                submit_position: 'bottom',
+                submit_btn_txt: {{ nav.sign_up }},
+                use_placeholders: {{ subscribeTxt.use_placeholders }}
+                %}
+        </div>
+      </div>
+    
+    </div>
+  </div>
+  <div id="BBM">
+    {% for item in bbm_data %}
+      <div class="bbm_con floatCon">
+        <div class="bg">
+          {% comment %} landing page {% endcomment %}
+          {% if forloop.index0 < 1 %}
+            <video class="is-hidden-mobile-only" src="{{ item.src }}" preload="auto" muted="muted" autoplay="autoplay" loop="loop"></video>
+            <img class="is-hidden-desktop-only" src="{{ item.mob_src }}"/>
+              {% else %}
+              <video class="is-hidden-mobile-only lazyload" data-src="{{ item.src }}" preload="auto" muted="muted" autoplay="autoplay" loop="loop"></video>
+              <img class="is-hidden-desktop-only lazyload" data-src="{{ item.mob_src }}"/>
+              {% endif %}
+        </div>
+        <div class="txt">
+          <div class="txtBox">
+            <h3>{{ item.title }}</h3>
+            <p>{{ item.desc }}</p>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  <div class="subscribeBox" id="subscribeBox">
+    <div class="box bbmBox">
+      <div class="txt">
+        <h3>{{ subscribeTxt.bbm_title }}</h3>
+        <p>{{ subscribeTxt.bbm_desc }}</p>
+      </div>
+      {% render 'subscribe-form',
+            type: 'block',
+            snippets_id: 'eufyCare_bbm_signup',
+            deals_type: 'eufyCare_bbm_signup',
+            dataLayer: 'eufyCare_bbm_signup',
+            submit_position: 'bottom',
+            submit_btn_txt: {{ nav.sign_up }},
+            use_placeholders: {{ subscribeTxt.use_placeholders }}
+            %}
+    </div>
+  </div>
+
+</section>
+<script src="{{ 'gsap.min.js' | asset_url }}"></script>
+<script src="{{ 'ScrollTrigger.min.js' | asset_url }}"></script>
+<script>
+  
+  var playVideo = false;
+  function goAnchor(id) {
+    $("html, body").animate({
+      scrollTop: $(`#${id}`).offset().top - 99
+    }, 800);
+  }
+  function HeightHeader(el1, el2, el3) {
+    let headerHightBOX = el1.height() + el2.height() + (
+      el3
+        ? el3.height()
+        : 0
+    )
+    $(".nav").css({
+      "position": "fixed",
+      "top": headerHightBOX + "px"
+    })
+
+  }
+  $(document).ready(function () {
+    gsap.registerPlugin(ScrollTrigger);
+    ScrollTrigger.create({
+      trigger: ".banner1",
+      start: "top top+=64",
+      end: "+=64",
+      onEnter: () => {
+        gsap.to(".nav1", {
+          height: document.body.offsetWidth > 768
+            ? 64
+            : 47
+        });
+      },
+      onEnterBack: () => {
+        gsap.to(".nav1", {height: 0});
+      }
+    });
+    if ($(window).width() <= 768) {
+      let BoxBool = document
+        .getElementsByTagName("body")[0]
+        .className
+        .indexOf("announcement-bar--visible")
+      if ($(window).scrollTop() !== 0) {
+        let headerHightBOX = $("#mobile-header").height() + $("#mob_header__icon-bar").height()
+        $(".nav").css("top", headerHightBOX + "px")
+      } else {
+        if (BoxBool !== -1) {
+          let headerHightBOX = $("#mobile-header").height() + $("#mob_header__icon-bar").height() + $(".announcement-bar__container").height()
+          $(".nav").css("top", headerHightBOX + "px")
+        } else {
+          let headerHightBOX = $("#mobile-header").height() + $("#mob_header__icon-bar").height()
+          $(".nav").css("top", headerHightBOX + "px")
+        }
+
+      }
+    }
+    setTimeout(function () {
+      let BoxBool = document
+        .getElementsByTagName("body")[0]
+        .className
+        .indexOf("announcement-bar--visible")
+      if ($(window).width() > 768) {
+        if (BoxBool == -1) {
+          HeightHeader($("#header"), $("#shopify-section-header__icon-bar"))
+        } else {
+          HeightHeader($("#header"), $("#shopify-section-header__icon-bar"), $("#announcement-bar"))
+        }
+        $(window).scroll(function () {
+          if (BoxBool !== -1 && $(window).scrollTop() == 0) {
+            HeightHeader($("#header"), $("#shopify-section-header__icon-bar"), $("#announcement-bar"))
+          } else {
+            HeightHeader($("#header"), $("#shopify-section-header__icon-bar"))
+          }
+        })
+      }
+    }, 0)
+
+    $(".announcement-bar__close").click(function () {
+      if ($(window).width() > 768) {
+        HeightHeader($("#header"), $("#shopify-section-header__icon-bar"))
+      } else {
+        let headerHight = $("#mobile-header").height() + $("#mob_header__icon-bar").height()
+        $(".nav").css("top", headerHight + "px")
+
+      }
+    })
+    $(".floatCon").each((i, ele) => {
+      const floatCon = ele;
+      const txt = ele.querySelector(".eufyCare .txtBox");
+      const dog = ele.querySelector(".dog");
+      ScrollTrigger.create({
+        trigger: floatCon,
+        start: "top center-=10%",
+        end: "+=40",
+        onEnter: () => {
+          gsap.to(dog, {
+            y: -100,
+            duration: 0.5
+          });
+          gsap.to(txt, {
+            y: -100,
+            opacity: 1,
+            duration: 0.8,
+            delay: 0.1
+          });
+        },
+        onEnterBack: () => {
+          gsap.to(dog, {y: 0});
+          gsap.to(txt, {
+            y: 0,
+            opacity: 0
+          });
+        }
+      });
+    });
+
+  })
+</script>

@@ -1,0 +1,218 @@
+<section class="ps-ret over-hide cam3-main-section cam3-main-section-5">
+  {% for block in section.blocks %}
+    {% case block.type %}
+      {% when 'img_section' %}
+      <div class="ps-ret img-section {{ block.settings.custom_class }}" {% if block.settings.id != blank %}id="{{ block.settings.id }}"{% endif %}>
+        <div class="vh-100 ps-ret flex-center over-hide img-sec-wrap is-hidden-mobile-only">
+          <div class="bg-img-wrap js-4k-bg-wrap">
+            {% render 'lazyload_image',  
+              src: block.settings.img2,
+              alt: block.settings.img2.alt,
+              width: block.settings.img2.width,
+              aspect_ratio: block.settings.img2.aspect_ratio,
+              isSchemaData: true
+            %}
+          </div>
+          <div class="bg-img-info">
+            {% if block.settings.title != blank %}
+              <p class="sec-title-middle white">{{ block.settings.title }}</p>
+            {% endif %}
+            {% if block.settings.desc != blank %}
+              <p class="sec-description white">{{ block.settings.desc }}</p>
+            {% endif %}
+            <p class="sec-zoom-info">
+              <span class="js-4k-zoom-in">1</span>
+              <span >× Zoom</span>
+            </p>
+            {% if block.settings.link != blank %}
+              <a class="sec-link sec-bg-link js-video-pop-pullup">{{ block.settings.link }}</a>
+            {% endif %}
+          </div>
+          <div class="mask-img-wrap js-4k-mask-wrap">
+            <svg width="2560" height="1440" viewBox="0 0 2560 1440" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M2560 0H0V1440H2560V0ZM1170.54 994.23H1222.11V923.918H1170.54V654.68H1087.05L899.254 931.242V994.23H1082.07V1083H1170.54V994.23ZM1082.07 851.262V923.918H978.941L1057.46 805.266C1062.93 797.062 1067.71 789.25 1071.81 781.828C1075.91 774.211 1079.82 766.398 1083.53 758.391H1085.88C1085.68 761.32 1085.29 766.496 1084.7 773.918C1084.31 781.145 1083.92 789.445 1083.53 798.82L1082.36 826.945C1082.16 836.32 1082.07 844.426 1082.07 851.262ZM1527.67 1083H1630.8L1480.21 844.23L1629.62 654.68H1528.84L1412.83 800.285C1406.77 808.684 1400.82 817.082 1394.96 825.48C1389.1 833.879 1383.14 842.277 1377.09 850.676V654.68H1286.27V1083H1377.09V930.07L1415.46 902.531L1527.67 1083Z" fill="white"/>
+            </svg>                                       
+          </div>
+        </div>
+
+        <div class="vh-100 ps-ret flex-center over-hide img-sec-wrap is-hidden-desktop-only">
+          <div class="bg-img-wrap js-4k-bg-wrap">
+            {% render 'lazyload_image',  
+              src: block.settings.img_mb,
+              alt: block.settings.img_mb.alt,
+              width: block.settings.img_mb.width,
+              aspect_ratio: block.settings.img_mb.aspect_ratio,
+              isSchemaData: true
+            %}
+          </div>
+          <div class="bg-img-info">
+            {% if block.settings.title != blank %}
+              <p class="sec-title-middle white">{{ block.settings.title }}</p>
+            {% endif %}
+            {% if block.settings.desc != blank %}
+              <p class="sec-description white">{{ block.settings.desc }}</p>
+            {% endif %}
+            <p class="sec-zoom-info">
+              <span class="js-4k-zoom-in">1</span>
+              <span >× Zoom</span>
+            </p>
+            {% if block.settings.link != blank %}
+              <a class="sec-link sec-bg-link js-video-pop-pullup">{{ block.settings.link }}</a>
+            {% endif %}
+          </div>
+          <div class="mask-img-wrap js-4k-mask-wrap">
+            <svg width="750" height="1480" viewBox="0 0 375 740" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M375 0H0V740H375V0ZM148.279 432.533H170.623V402.064H148.279V285.395H112.098L30.7207 405.238V432.533H109.939V471H148.279V432.533ZM109.939 370.58V402.064H65.252L99.2754 350.648C101.645 347.094 103.719 343.708 105.496 340.492C107.273 337.191 108.966 333.806 110.574 330.336H111.59C111.505 331.605 111.336 333.848 111.082 337.064C110.913 340.196 110.743 343.793 110.574 347.855L110.066 360.043C109.982 364.105 109.939 367.618 109.939 370.58ZM303.035 471H347.723L282.469 367.533L347.215 285.395H303.543L253.27 348.49C250.646 352.13 248.064 355.769 245.525 359.408C242.986 363.048 240.405 366.687 237.781 370.326V285.395H198.426V471H237.781V404.73L254.412 392.797L303.035 471Z" fill="white"/>
+            </svg>           
+          </div>
+        </div>
+      </div>
+
+      {% when 'info_section' %}
+      {% style %}
+        @media screen and (min-width: 769px) {
+          #shopify-section-{{ section.id }} .sec-title-large{
+            {% if block.settings.title_width != 0 %}
+              max-width: {{ block.settings.title_width | divided_by: 19.2 }}vw
+            {% endif %}
+          }
+
+          #shopify-section-{{ section.id }} .sec-description{
+            {% if block.settings.desc_width != 0 %}
+              max-width: {{ block.settings.desc_width}}px;
+            {% endif %}
+          }
+        }
+      {% endstyle %}
+      <div class="info-section abs-section fourk-info-section js-4k-info-section {{ block.settings.custom_class }}" {% if block.settings.id != blank %}id="{{ block.settings.id }}"{% endif %}>
+        <div class="info-box">
+          <p class="sec-title-large gradient-font">{{ block.settings.title }}</p>
+          <p class="sec-subtitle">{{ block.settings.subtitle }}</p>
+          <p class="sec-description">{{ block.settings.desc }}</p>
+        </div>
+      </div>
+    {% endcase %}
+  {% endfor %}
+</section>
+
+{% schema %}
+{
+  "name": "cam3 main section 5",
+  "presets": [
+    {
+      "category": "cam3 main section 5",
+      "name": "cam3 main section 5"
+    }
+  ],
+  "settings":[],
+  "blocks": [{
+    "type": "img_section",
+    "name": "img section",
+    "settings": [{
+      "type": "header",
+      "content": "图片"
+    },{
+      "type": "image_picker",
+      "id": "img2",
+      "label": "pc端4k背景图"
+    },{
+      "type": "image_picker",
+      "id": "img_mb",
+      "label": "移动端4k背景图"
+    },{
+      "type": "header",
+      "content": "内容"
+    },{
+      "type": "text",
+      "id": "title",
+      "label": "标题"
+    },{
+      "type": "textarea",
+      "id": "desc",
+      "label": "副文本"
+    },{
+      "type": "textarea",
+      "id": "link",
+      "label": "链接文本"
+    },
+    {
+      "type": "header",
+      "content": "桌面端设置"
+    },{
+      "type": "number",
+      "id": "padding_y",
+      "label": "上下内边距",
+      "default": 0
+    },{
+      "type": "number",
+      "id": "padding_x",
+      "label": "左右内边距",
+      "default": 0
+    },{
+      "type": "header",
+      "content": "移动端设置"
+    },{
+      "type": "number",
+      "id": "mb_padding_y",
+      "label": "上下内边距",
+      "default": 0
+    },{
+      "type": "number",
+      "id": "mb_padding_x",
+      "label": "左右内边距",
+      "default": 0
+    },{
+      "type": "header",
+      "content": "开发设置"
+    },{
+      "type": "text",
+      "id": "id",
+      "label": "id"
+    },{
+      "type": "text",
+      "id": "custom_class",
+      "label": "自定义类名"
+    }]
+  },{
+    "type": "info_section",
+    "name": "info section",
+    "settings": [{
+      "type": "header",
+      "content": "主内容"
+    },{
+      "type": "text",
+      "id": "title",
+      "label": "标题"
+    },{
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "副标题"
+    },{
+      "type": "textarea",
+      "id": "desc",
+      "label": "副文本"
+    },{
+      "type": "number",
+      "id": "title_width",
+      "label": "标题容器宽度",
+      "default": 0
+    },{
+      "type": "number",
+      "id": "desc_width",
+      "label": "副文本容器宽度",
+      "default": 0
+    },{
+      "type": "header",
+      "content": "开发设置"
+    },{
+      "type": "text",
+      "id": "id",
+      "label": "id"
+    },{
+      "type": "text",
+      "id": "custom_class",
+      "label": "自定义类名"
+    }]
+  }]
+}
+{% endschema %}

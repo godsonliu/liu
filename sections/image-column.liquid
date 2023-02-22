@@ -1,0 +1,494 @@
+{% style %}
+  {% if section.settings.bg_color != blank %}
+    .section-bg-{{ section.id }} {
+      background-color: {{ section.settings.bg_color }};
+    }
+  {% endif %}
+
+  #shopify-section-{{ section.id }} .media-info-wrap{
+    {% if section.settings.text_width != 0 %}
+      max-width: {{ section.settings.text_width }}px;
+    {% endif %}
+    {% if section.settings.text_color != blank %}
+      color: {{ section.settings.text_color }};
+    {% endif %}
+  }
+
+  @media screen and (max-width: 768px) {
+    #shopify-section-{{ section.id }} .image-column-section{
+      {% if section.settings.mb_padding_y != 0 %}
+        padding-top: {{ section.settings.mb_padding_y }}px;
+        padding-bottom: {{ section.settings.mb_padding_y }}px;
+      {% endif %}
+
+      {% if section.settings.mb_padding_x != 0 %}
+        padding-left: {{ section.settings.mb_padding_x }}px;
+        padding-right: {{ section.settings.mb_padding_x }}px;
+      {% endif %}
+    }
+
+    #shopify-section-{{ section.id }} .image-column-list-wrap{
+      {% if section.settings.mobile_margin_top != 0 %}
+        margin-top: {{ section.settings.mobile_margin_top }}px;
+      {% endif %}
+    }
+
+    #shopify-section-{{ section.id }} .image-column-item{
+      {% if section.settings.mb_row_gap != 0 %}
+        margin-bottom: {{ section.settings.mb_row_gap }}px;
+      {% endif %}
+    }
+
+    #shopify-section-{{ section.id }} .image-column-img-wrap img{
+      {% if section.settings.mobile_img_width != 0 %}
+        width: {{ section.settings.mobile_img_width }}px;
+      {% endif %}
+    }
+  }
+
+  @media screen and (min-width: 769px) {
+    #shopify-section-{{ section.id }} .image-column-section{
+      {% if section.settings.padding_y != 0 %}
+        padding-top: {{ section.settings.padding_y | divided_by: 19.2 }}vw;
+        padding-bottom: {{ section.settings.padding_y | divided_by: 19.2 }}vw;
+      {% endif %}
+
+      {% if section.settings.padding_x != 0 %}
+        padding-left: {{ section.settings.padding_x }}px;
+        padding-right: {{ section.settings.padding_x }}px;
+      {% endif %}
+    }
+
+    #shopify-section-{{ section.id }} .image-column-list-wrap{
+      {% if section.settings.column_width != 0 %}
+        max-width: {{ section.settings.column_width }}px;
+        width: 95%;
+      {% endif %}
+     
+      {% if section.settings.desktop_margin_top != 0 %}
+        margin-top: {{ section.settings.desktop_margin_top }}px;
+      {% endif %}
+    }
+
+    #shopify-section-{{ section.id }} .image-column-list{
+      {% if section.settings.column_gap != 0 %}
+        column-gap: {{ section.settings.column_gap }}px;
+      {% endif %}
+      {% if section.settings.row_gap != 0 %}
+        row-gap: {{ section.settings.row_gap }}px;
+      {% endif %}
+      justify-content: {{ section.settings.desktop_row_alignment }};
+    }
+
+    #shopify-section-{{ section.id }} .image-column-list.col-{{ section.settings.column_nums }} .image-column-item{
+      {% if section.settings.column_gap != 0 %}
+        {% assign gap_tatol = section.settings.column_nums | minus: 1 | times: section.settings.column_gap %}
+        width: calc({{ 100.00 | divided_by: section.settings.column_nums }}% - {{ gap_tatol | divided_by: section.settings.column_nums }}px)
+      {% else %}
+        width: {{ 100.00 | divided_by: section.settings.column_nums }}%
+      {% endif %}
+    }
+
+    #shopify-section-{{ section.id }} .image-column-img-wrap{
+      text-align: {{ section.settings.desktop_img_alignment }}
+    }
+
+    #shopify-section-{{ section.id }} .image-column-info-wrap{
+      text-align: {{ section.settings.desktop_info_alignment }}
+    }
+
+    #shopify-section-{{ section.id }} .image-column-img-wrap img{
+      {% if section.settings.desktop_img_width != 0 %}
+        width: {{ section.settings.desktop_img_width }}px;
+      {% endif %}
+    }
+  }
+
+  {% if section.settings.custom_css != blank %}
+    {{ section.settings.custom_css }}
+  {% endif %}
+{% endstyle %}
+
+<section class="common-section image-column-section section-bg-{{ section.id }} {{ section.settings.custom_class }}" {% if section.settings.id != blank %}id="{{ section.settings.id }}"{% endif %}>
+  <div class="column-info-wrap">
+    <div class="column-inner-wrap media-txt-{{ section.settings.desktop_content_alignment }} media-mb-txt-{{ section.settings.mobile_content_alignment }}">
+      {% if section.settings.heading != blank %}
+        <p class="heading">{{ section.settings.heading }}</p>
+      {% endif %}
+      {% if section.settings.text != blank %}
+        <div class="text {{ section.settings.text_style }}" style="{{ textstyle | strip_newlines | strip }}">{{ section.settings.text }}</div>
+      {% endif %}
+    </div>
+  </div>
+  <div class="image-column-list-wrap">
+    <ul class="image-column-list col-{{ section.settings.column_nums }}">
+      {% for block in section.blocks %}
+        {% if block.settings.margin_top != 0 %}
+          {% style %}
+            @media screen and (min-width: 769px) {
+              .image-column-item_{{ block.id }} {
+                margin-top: {{ block.settings.margin_top }}px;
+              }
+            }
+          {% endstyle %}
+        {% endif %}
+        <li class="image-column-item image-column-item_{{ block.id }}">
+          {% render 'column-img-item',  
+            img: block.settings.img,
+            mobimg: block.settings.mb_img,
+            title: block.settings.title,
+            desc: block.settings.desc,
+            vimeo: block.settings.vimeo,
+            ratio: block.settings.ratio
+          %}
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "image column",
+  "presets": [{
+    "name": "image column",
+    "blocks": [
+      {
+        "type": "column"
+      },
+      {
+        "type": "column"
+      },
+      {
+        "type": "column"
+      }
+    ]
+  }],
+  "settings": [{
+    "type": "header",
+    "content": "内容"
+  },{
+    "type": "text",
+    "id": "heading",
+    "default": "Section title",
+    "label": "标题"
+  },{
+    "type": "textarea",
+    "id": "text",
+    "default": "Section description...",
+    "label": "段落内容"
+  },{
+    "type": "select",
+    "id": "text_style",
+    "options": [
+      {
+        "value": "paragraph",
+        "label": "正文"
+      },
+      {
+        "value": "subtitle",
+        "label": "副标题"
+      },
+      {
+        "value": "subtext",
+        "label": "副文本"
+      }
+    ],
+    "default": "paragraph",
+    "label": "段落类型"
+  },{
+    "type": "header",
+    "content": "修饰"
+  },{
+    "type": "color",
+    "id": "text_color",
+    "label": "文本颜色"
+  },{
+    "type": "color",
+    "id": "bg_color",
+    "label": "背景颜色"
+  },{
+    "type": "header",
+    "content": "桌面端设置"
+  },{
+    "type": "range",
+    "id": "padding_y",
+    "min": 0,
+    "max": 400,
+    "step": 4,
+    "unit": "px",
+    "label": "上下内边距",
+    "default": 100
+  },{
+    "type": "range",
+    "id": "padding_x",
+    "min": 0,
+    "max": 400,
+    "step": 4,
+    "unit": "px",
+    "label": "左右内边距",
+    "default": 0
+  },{
+    "type": "select",
+    "id": "desktop_content_alignment",
+    "options": [
+      {
+        "value": "left",
+        "label": "左对齐"
+      },
+      {
+        "value": "center",
+        "label": "居中"
+      },
+      {
+        "value": "right",
+        "label": "右对齐"
+      }
+    ],
+    "default": "center",
+    "label": "标题内容对齐方式"
+  },{
+    "type": "range",
+    "id": "text_width",
+    "min": 0,
+    "max": 1000,
+    "step": 20,
+    "unit": "px",
+    "label": "标题容器宽度",
+    "default": 0
+  },{
+    "type": "number",
+    "id": "desktop_margin_top",
+    "label": "图文模块上外边距",
+    "default": 0
+  },{
+    "type": "number",
+    "id": "column_width",
+    "label": "图文容器宽度",
+    "default": 1200
+  },{
+    "type": "number",
+    "id": "column_gap",
+    "label": "图文块间距",
+    "default": 0
+  },{
+    "type": "number",
+    "id": "row_gap",
+    "label": "图文行间距",
+    "default": 0
+  },
+  {
+    "type": "number",
+    "id": "desktop_img_width",
+    "label": "图片宽度",
+    "default": 0
+  },
+  {
+    "type": "select",
+    "id": "column_nums",
+    "label": "图文排版布局",
+    "options": [
+      {
+        "value": "1",
+        "label": "一行一个"
+      },{
+        "value": "2",
+        "label": "一行两个"
+      },{
+        "value": "3",
+        "label": "一行三个"
+      },{
+        "value": "4",
+        "label": "一行四个"
+      },{
+        "value": "5",
+        "label": "一行五个"
+      }
+    ],
+    "default": "3"
+  },{
+    "type": "select",
+    "id": "desktop_img_alignment",
+    "options": [
+      {
+        "value": "left",
+        "label": "左对齐"
+      },
+      {
+        "value": "center",
+        "label": "居中"
+      },
+      {
+        "value": "right",
+        "label": "右对齐"
+      }
+    ],
+    "default": "center",
+    "label": "图片对齐方式"
+  },{
+    "type": "select",
+    "id": "desktop_info_alignment",
+    "options": [
+      {
+        "value": "left",
+        "label": "左对齐"
+      },
+      {
+        "value": "center",
+        "label": "居中"
+      },
+      {
+        "value": "right",
+        "label": "右对齐"
+      }
+    ],
+    "default": "center",
+    "label": "文案对齐方式"
+  },{
+    "type": "select",
+    "id": "desktop_row_alignment",
+    "options": [
+      {
+        "value": "flex-start",
+        "label": "左对齐"
+      },
+      {
+        "value": "center",
+        "label": "居中"
+      },
+      {
+        "value": "flex-end",
+        "label": "右对齐"
+      },
+      {
+        "value": "space-evenly",
+        "label": "两端均匀对齐"
+      },
+      {
+        "value": "space-around",
+        "label": "两端空隙对齐"
+      },
+      {
+        "value": "space-between",
+        "label": "两端贴边对齐"
+      }
+    ],
+    "default": "flex-start",
+    "label": "图文行排列对齐方式"
+  },{
+    "type": "header",
+    "content": "移动端设置"
+  },{
+    "type": "select",
+    "id": "mobile_content_alignment",
+    "options": [
+      {
+        "value": "left",
+        "label": "左对齐"
+      },
+      {
+        "value": "center",
+        "label": "居中"
+      },
+      {
+        "value": "right",
+        "label": "右对齐"
+      }
+    ],
+    "default": "center",
+    "label": "标题内容对齐方式"
+  },{
+    "type": "range",
+    "id": "mb_padding_y",
+    "min": 0,
+    "max": 100,
+    "step": 1,
+    "unit": "px",
+    "label": "上下内边距",
+    "default": 40
+  },{
+    "type": "range",
+    "id": "mb_padding_x",
+    "min": 0,
+    "max": 100,
+    "step": 1,
+    "unit": "px",
+    "label": "左右内边距",
+    "default": 0
+  },{
+    "type": "number",
+    "id": "mb_row_gap",
+    "label": "图文行间距",
+    "default": 0
+  },{
+    "type": "number",
+    "id": "mobile_margin_top",
+    "label": "图文模块上外边距",
+    "default": 0
+  },{
+    "type": "number",
+    "id": "mobile_img_width",
+    "label": "图片宽度",
+    "default": 0
+  },{
+    "type": "text",
+    "id": "id",
+    "label": "id",
+    "info": "非必填，一般针对开发来使用"
+  },{
+    "type": "text",
+    "id": "custom_class",
+    "label": "自定义容器类名"
+  },{
+    "type": "textarea",
+    "id": "custom_css",
+    "label": "自定义样式内容"
+  }],
+  "blocks": [{
+    "type": "column",
+    "name": "column",
+    "settings": [{
+      "type": "header",
+      "content": "内容"
+    },{
+      "type": "textarea",
+      "id": "title",
+      "label": "标题",
+      "default": "column title"
+    },{
+      "type": "textarea",
+      "id": "desc",
+      "label": "副文本",
+      "default": "column description..."
+    },{
+      "type": "header",
+      "content": "桌面端设置"
+    },{
+      "type": "number",
+      "id": "margin_top",
+      "label": "上外边距值",
+      "default": 0
+    },{
+      "type": "image_picker",
+      "id": "img",
+      "label": "图片"
+    },{
+      "type": "header",
+      "content": "移动端设置"
+    },{
+      "type": "image_picker",
+      "id": "mb_img",
+      "label": "图片",
+      "info": "如果移动端设置图片未上传，移动端会默认即使用桌面端设置图片"
+    },{
+      "type": "text",
+      "id": "vimeo",
+      "label": "video id"
+    },{
+      "type": "text",
+      "id": "ratio",
+      "label": "宽高比"
+    }]
+  }]
+}
+{% endschema %}

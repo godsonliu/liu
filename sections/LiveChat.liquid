@@ -1,0 +1,341 @@
+{% if shop.metafields.global.livechat.value %}
+  {% assign livechat = shop.metafields.global.livechat.value %}
+{% else %}
+  {% assign livechat = shop.metafields.global.livechat %}
+{% endif %}
+
+{% if section.settings.show_LiveChat %}
+
+  {% if section.settings.show_embeddedservice %}
+    {% style %}
+
+      .embeddedServiceHelpButton{
+        z-index: -1;
+      }
+      .embeddedServiceSidebar.modalContainer{
+        z-index: 40; 
+      }
+
+      .embeddedServiceSidebarMinimizedDefaultUI{
+        display: none;
+      }
+
+      .embeddedServiceHelpButton{
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      .livechat{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        z-index: 8;
+        right: 1rem;
+        bottom: 156px;
+        width: 46px;
+        height: 46px;
+        background: rgba(0, 0, 0, .4);
+        text-align: center;
+        transition: 200ms;
+        border-radius: 100px;
+        cursor: pointer;
+      }
+
+      .livechat::before {
+        display: inline-block;
+        content: '';
+        width: 16px;
+        height: 16px;
+        background-image: url('data:image/webp;base64,UklGRoQFAABXRUJQVlA4WAoAAAASAAAAPwAAPwAAQU5JTQYAAAAAAAAAAABBTk1GWAUAAAEAAAIAADoAADUAAGQAAAFWUDhMQAUAAC86QA0QBQXbtp5E0/wn83furpxzmRVQcvrIuRSM3NUinwoTiKAASbJp28pn27Zt27Zt27Zt27Zt28a3bSwHbiMpUrK9dJTjP8C9mg8cFpMj5uoK+IYyY2OEn80sy3bOp5YLsOB/i2nT7lb5OHdMMSAyhAQ6VcalskyYPBNvvlSeRFeMM00UlolHZIv8k5tn+LB38yI4ky35GTevYqQZm9I0gKfD42AypR2LY8sfEY64/mNxzhlAcnlYmjNJEJ+CMsXG8m+EkyxDvtusr+CdA2FxRGWyCwhnuLxpN0xYTkfhJl1sRjjT9V4/l8DEOAmbxmu8+wrhbPFv0M80QBznwTVNvhChEYtNw2gq3zEe/Osl2nwPQkMuH5AUBKPGncpbf7iLVFxHaMztWyflQI1ne588GyguIjTo7vU48aNvlfBu75M35VKERl2fm7nzaH996Onp6Xpld0Ro2MWCCzfu3bkDQ0Mj36RU+LtpEITK/7izp6+v69vyTOODsPuqE/VDRwfweCNWTYQWTEaNCARg0Cm2j9oAv2jxRAp4d0ushNCK3pgvY/DpRXqsHbYfZSoYkJLh33ZAUGq8gg9mz5YGIVzaAUS+vi3Wz4yoIMde3qRlrD9fTA37ZANWaygV+C/bGPaNeudzNt9TMvKj6ZCwZzKpeEBduDQQ5Sv/oURgEx/fYPFk3DLb7w8r1h+j/DMKl0pKjqOHFfh/3mzC5ZoSFbNpzBrArB7+rzesnkhGfI7E0iem3EEF/h1mZ6iIgGtAirL55CAj7j3GiQQUvJFkFwWMAKUvpUGufulVKBCTXbgUH6kq3AX/uddlSbmu/CK3rio2z178Z+xHSPLs2SRj+Vs9s+gPeq96wi6QVITFY9ExZka8blXGqmphpRCRaTgsKWdVEa8e4swoLIXcxlJ5td5pLQKjFwU9lU6jScwRHuKncZWRlCVsthWXwEIYucuwrwiWz+gEvIWUw+fZnat3BkdB6085mBS5cmMGLB8GXvlzqwp1wIVXT0KgmZmwy1cVy5MiBS8FjHeverG239YzrZnANqRcZb7tmcYHtimDHb38tqoo3xEWSaDk4d1ZHKwq8A9X8JMlABqLZj6Q8gy3AyAuiEBR729xgaknUfsYYH1swLPjIsyJhxX5ezk14YApTVEKf1Iqd4NAS7C8T1uWy/3iu0RuKrXF9na9YnNeaxSl3Cb2ym421yvwpd8lTLNLbOaPp1O/Z4PKoMs3IFDdfYdf6RX4pfyeXoHfd9/TK/Afnww67P4ILVncYCLCv96Tln+2hDP9ETAmVgdaYpzvAhASp2E7s7r7oQtUMj1C+bEVZs1+cwNevbpg9Ghj8rt/+9N/4Natf31EWL5rgaD00NQU8HiCvnBW87PY1sHicEAkkjCSxY0PvmZjvNn/Oe9PP3mNtHrfOE7JNx37P2YYGvmi1mh8SM8rD548evQIdAbeYlPTU4xk3Hj0ZC8MfGHi4eeGJxu2/+045NU1qWOze/jb6KiLCWr0dRXnG531M79Qhy1Rh6Gmwj9NzmKxEk3HoqHJBtd7dn/HB9Na2+LZ8t0/Z+3lZ7KiBgnBoCFHXd887MkfpUP1zF9MIFByJEs2P596pgzZCbs+L+JQ0Dm49ubHYoVXmaFR9TlAJRqzU2QDimv464S94mW00C84wlMkjuG0R0BYHc+6SklcJg6hq1DMuBSeLJPWr1hdPCp/qF8Xf+Tv1/u9CWLFqSkbS3EcLXrQ0+mSRnHMeGxTdTyGSOiTh6SIC48bk/7bueUCLCgX+EOHbUlZK7OH94Enc3GOAw==');
+        background-size: 100%;
+        speak: none;
+        vertical-align: -2px;
+      }
+
+      .livechat.actived{
+        background-color: #21d2c5;
+      }
+
+      @media (min-width: 769px) {
+        .livechat:hover{
+          background-color: #21d2c5;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .livechat{
+          bottom: 97px;
+        }
+      }
+    {% endstyle %}
+
+    <a class="livechat"></a>
+
+    <!-- <script type='text/javascript' src='https://service.force.com/embeddedservice/5.0/esw.min.js'></script> -->
+    <script type='text/javascript' src='{{ "esw.min.js" | asset_url }}'></script>
+    <script type='text/javascript'>
+        /*
+            获取URL中测参数
+        */
+        function getQueryVariable(variable) {
+          var query = window.location.search.substring(1);
+          var vars = query.split("&");
+          for (var i=0;i<vars.length;i++) {
+                  var pair = vars[i].split("=");
+                  if(pair[0] == variable){return pair[1];}
+          }
+          return(false);
+        }
+        
+        var initESW = function(gslbBaseURL) {
+            embedded_svc.settings.displayHelpButton = true; //或为假,flase时隐藏按钮
+            embedded_svc.settings.language = '{{ livechat.language }}'; //例如，输入 'en' 或 'en-US'
+
+            embedded_svc.settings.defaultMinimizedText = 'Live Chat'; //（默认设置为与专家聊天）
+            embedded_svc.settings.disabledMinimizedText = 'Live Chat'; //（默认设置为客服人员离线）
+            embedded_svc.settings.chatbotAvatarImgURL = '{{ livechat.chatbotAvatarImgURL }}';
+
+            //设置聊天前联系人字段
+            embedded_svc.settings.extraPrechatInfo = [{
+                "entityName":"Contact",
+                "saveToTranscript":"Contact",
+                "showOnCreate":true,
+                "entityFieldMaps":[
+                    {"doCreate":true,
+                      "doFind":false,
+                      "fieldName":"LastName",
+                      "isExactMatch":false,
+                      "label":"{{ livechat.LastName }}"
+                    },
+                    {"doCreate":true,
+                      "doFind":false,
+                      "fieldName":"FirstName",
+                      "isExactMatch":false,
+                      "label":"{{ livechat.FirstName }}"
+                    },
+                    {"doCreate":true,
+                      "doFind":true,
+                      "fieldName":"ContactKey__c",
+                      "isExactMatch":true,
+                    "label":"{{ livechat.ContactKey__c }}"
+                    },
+                    {"doCreate":true,
+                      "doFind":false,
+                      "fieldName":"Send_Transcript__c",
+                      "isExactMatch":false,
+                      "label":"{{ livechat.Send_Transcript__c }}"
+                    }
+                ]
+            }];
+
+            //设置聊天前聊天脚本的自定义字段
+            embedded_svc.settings.extraPrechatFormDetails = [{
+                "label": "PageUrl",
+                "value":  window.location.href,
+                "displayToAgent": true,
+                "transcriptFields": ["PageUrl__c"]
+            },
+            {
+                "label":"{{ livechat.FirstName }}", 
+                "transcriptFields": ["First_Name__c"]
+            },
+            {
+                "label":"{{ livechat.LastName }}", 
+                "transcriptFields": ["Last_Name__c"]
+            },
+            {
+                "label":"{{ livechat.ContactKey__c }}",
+                "transcriptFields": ["Email__c"]
+            },
+            {
+                "label":"{{ livechat.Send_Transcript__c }}", 
+                "transcriptFields": ["Email_Transcript__c"]
+            },
+            {
+                "label":"Source", 
+                "value":  "Web Site",
+                "transcriptFields": ["Source__c"]
+            },
+            {
+                "label":"Source Desc",
+                "value":  "{{ shop.domain }}",//传递网站名称
+                "transcriptFields": ["Source_Desc__c"]
+            },
+            {
+                "label":"Custom Language", 
+                "value":  "{{ livechat.Custom_Language__c }}",
+                "transcriptFields": ["Custom_Language__c"]
+            },
+            {
+                "label":"Brand", 
+                "value":  "eufy",
+                "transcriptFields": ["Brand__c"]
+            }];
+
+            embedded_svc.settings.enabledFeatures = ['LiveAgent'];
+            embedded_svc.settings.entryFeature = 'LiveAgent';
+
+            embedded_svc.init(
+                'https://ankertechnologycompanyltd.my.salesforce.com',
+                '{{ livechat.embedded_svc }}',
+                gslbBaseURL,
+                '00D5g000004DkWQ',
+                '{{ livechat.embedded_key }}',
+                {
+                    baseLiveAgentContentURL: 'https://c.la2-c1-ukb.salesforceliveagent.com/content',
+                    deploymentId: '5725g000000kKK5',
+                    buttonId: '{{ livechat.buttonId }}',
+                    baseLiveAgentURL: 'https://d.la2-c1-ukb.salesforceliveagent.com/chat',
+                    eswLiveAgentDevName: '{{ livechat.eswLiveAgentDevName }}',
+                    isOfflineSupportEnabled: false
+                }
+            );
+        };
+
+        if (!window.embedded_svc) {
+            var s = document.createElement('script');
+            s.setAttribute('src', 'https://ankertechnologycompanyltd.my.salesforce.com/embeddedservice/5.0/esw.min.js');
+            s.onload = function() {
+                initESW(null);
+            };
+            document.body.appendChild(s);
+        } else {
+            initESW('https://service.force.com');
+        }
+
+        // 当存在聊天状态时，保留激活样式
+        if(localStorage.livechatAct) {
+          $('.livechat').addClass('actived')
+        }
+
+        const config = { attributes: true }
+
+        let flag = false
+
+        // hack方式，通过监听embeddedServiceHelpButton按钮的display值判断当前是否处于聊天状态中
+        const observer = new MutationObserver((mutationsList, observer) => {
+          for(let mutation of mutationsList) {
+            if (mutation.type === 'attributes') {
+              const target = $(mutation.target)
+              const display = target.css('display')
+              if(display === 'none') {
+                $('.livechat').addClass('actived')
+                localStorage.livechatAct = true
+              } else {
+                $('.livechat').removeClass('actived')
+                localStorage.removeItem('livechatAct')
+              }
+            }
+          }
+        })
+
+        // 自定义仿生livechat激活事件
+        $('.livechat').on('click', function() {
+          const opened = $('.embeddedServiceSidebarMinimizedDefaultUI').length
+          if(opened)  {
+            $('.embeddedServiceSidebarMinimizedDefaultUI').trigger("click");
+          } else {
+            $('.helpButtonEnabled').trigger("click");
+          }
+
+          if(!flag) {
+            flag = true
+            observer.observe($('.embeddedServiceHelpButton')[0], config)
+          }
+
+          // ga3
+          dataLayer.push({
+            "event": "uaEvent", 
+            "eventCategory": "bottom_function",
+            "eventAction": "customer_service",
+            "eventLabel": "", 
+          })
+
+          // ga4
+          window.dataLayer.push({ "event_parameters": null });
+          window.dataLayer.push({
+            "event": "ga4Event",
+            "event_name": "bottom_function",
+            "event_parameters": {
+              "action": "customer_service"
+            }
+          })
+        })
+    </script>
+    
+  {% else %}
+    <section>
+      <a id="LiveChat" class="LiveChat" target="_blank" rel="noopener noreferrer" href="{{ section.settings.LiveChat_link }}">
+        <i class="iconfont">&#xe62a;</i>
+      </a>
+    </section>
+    <style>
+      .LiveChat {
+        position: fixed;
+        z-index: 8;
+        right: 4.5rem;
+        bottom: 4rem;
+        background: rgba(0, 0, 0, .8);
+        width: 2.8rem;
+        text-align: center;
+        color: #eee;
+        transition: 200ms;
+        border-radius: 0.2em;
+        display: inline-block;
+        cursor: pointer;
+      }
+      .LiveChat:hover {
+        background: #21CCBF;
+        color: white;
+      }
+      .LiveChat i {
+        font-size: 1.4em;
+        line-height: 2.8rem;
+      }
+    </style>
+    <script src="{{ section.settings.LiveChat_src }}"></script>
+  {% endif %}
+
+{% endif %}
+
+{% schema %}
+
+{
+  "name": "LiveChat",
+  "presets": [
+    {
+      "name": "LiveChat"
+    }
+  ],
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_LiveChat",
+      "label": "Show LiveChat",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_embeddedservice",
+      "label": "Show embeddedservice",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "LiveChat_link",
+      "label": "LiveChat Link",
+      "default": "https://v1.live800.com/live800/chatClient/chatbox.jsp?companyID=982876&configID=45172&jid=5944239825&lan=en&s=1"
+    },
+    {
+      "type": "text",
+      "id": "LiveChat_src",
+      "label": "LiveChat Src",
+      "default": "/v1.live800.com/live800/chatClient/monitor.js?jid=5944239825&companyID=982876&configID=45168&codeType=custom&ss=1"
+    }
+  ]
+}
+
+{% endschema %}
+
+

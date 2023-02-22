@@ -1,0 +1,165 @@
+
+{% if shop.metafields['global']['checkout_address_info'].value %}
+  {% assign checkout_address_info = shop.metafields['global']['checkout_address_info'].value %}
+{% else %}
+  {% assign checkout_address_info = shop.metafields['global']['checkout_address_info'] %}
+{% endif %}
+
+{% if checkout_address_info.checkout_form_valid %}
+
+<script defer async>
+  (function($) {
+    function fieldsValid(address1Input, address2Input) {
+      const address1 = address1Input?.val()?.trim();
+      const address2 = address2Input?.val()?.trim();
+      const coutrySelectOpt = $('#checkout_shipping_address_country option:selected');
+      const normalizedLocale = coutrySelectOpt.data('code') || ''
+      const PackstationReg = /(Packstation|Postfiliale)/gi;
+      const POboxReg = /(P(\.)?O(\.)?\s*(box)|P\.O.)/gi;
+      if(normalizedLocale === 'DE') {
+        if(address1) {
+          let address1Input_parent = address1Input.closest('div[data-address-field="address1"]')
+          let field__additional_info = address1Input.next('.field__additional-info')
+          if(PackstationReg.test(address1)) {
+            address1Input_parent.addClass('field--error');
+            if(address1Input_parent.find('.field__message--error').length === 0) {
+              if(!(field__additional_info.length > 0 && !field__additional_info.hasClass('visually-hidden'))) {
+                address1Input_parent.append(`
+                  <p class="field__message field__message--error">{{ checkout_address_info.packstationErr }}</p>
+                `)
+              }
+            }
+            return false;
+          }else {
+            address1Input_parent.removeClass('field--error');
+            if(address1Input_parent.find('.field__message--error').length > 0) {
+              address1Input_parent.find('.field__message--error').remove()
+            }  
+            return true;
+          }
+        }
+
+        if(address2) {
+          let address2Input_parent = address2Input.closest('div[data-address-field="address2"]')
+          let field__additional_info = address2Input.next('.field__additional-info')
+          if(PackstationReg.test(address2)) {
+            address2Input_parent.addClass('field--error');
+            if(address2Input_parent.find('.field__message--error').length === 0) {
+              if(!(field__additional_info.length > 0 && !field__additional_info.hasClass('visually-hidden'))) {
+                address2Input_parent.append(`
+                  <p class="field__message field__message--error">{{ checkout_address_info.packstationErr }}</p>
+                `)
+              }
+            }
+            return false;
+          }else {
+            address2Input_parent.removeClass('field--error');
+            if(address2Input_parent.find('.field__message--error').length > 0) {
+              address2Input_parent.find('.field__message--error').remove()
+            }  
+            return true;
+          }
+        }
+
+        return true;
+      }
+      else if(normalizedLocale === 'US' || normalizedLocale === 'CA') {
+        if(address1) {
+          let address1Input_parent = address1Input.closest('div[data-address-field="address1"]')
+          let field__additional_info = address1Input.next('.field__additional-info')
+          if(POboxReg.test(address1)) {
+            address1Input_parent.addClass('field--error');
+            if(address1Input_parent.find('.field__message--error').length === 0) {
+              if(!(field__additional_info.length > 0 && !field__additional_info.hasClass('visually-hidden'))) {
+                address1Input_parent.append(`
+                  <p class="field__message field__message--error">{{ checkout_address_info.POboxErr }}</p>
+                `)
+              }
+            }
+            return false;
+          }else {
+            address1Input_parent.removeClass('field--error');
+            if(address1Input_parent.find('.field__message--error').length > 0) {
+              address1Input_parent.find('.field__message--error').remove()
+            }  
+            return true;
+          }
+        }
+        if(address2) {
+          let address2Input_parent = address2Input.closest('div[data-address-field="address2"]')
+          if(POboxReg.test(address2)) {
+            address2Input_parent.addClass('field--error');
+            if(address2Input_parent.find('.field__message--error').length === 0) {
+              address2Input_parent.append(`
+                <p class="field__message field__message--error">{{ checkout_address_info.POboxErr }}</p>
+              `)
+            }
+            return false;
+          }else {
+            address2Input_parent.removeClass('field--error');
+            if(address2Input_parent.find('.field__message--error').length > 0) {
+              address2Input_parent.find('.field__message--error').remove()
+            }  
+            return true;
+          }
+        }
+        return true;
+      }
+      else {
+        return true;
+      }
+    }
+    $(document).on("page:load page:change", function() {
+      if (Shopify.Checkout.step === "contact_information") {
+        let submitButton = $('#continue_button')
+        let submitForm = $("div[data-step='contact_information'] form")
+        let address1Input = $("#checkout_shipping_address_address1")
+        let address2Input = $("#checkout_shipping_address_address2")
+        submitButton.on("click", function(e) {
+          e.preventDefault();
+          if(fieldsValid(address1Input, address2Input)) {
+            submitForm.submit();
+          } else {
+            // Show an error
+          }
+        });
+        submitButton.on("keyup", function(e) {
+          if (e.keycode === 13) {
+            e.preventDefault();
+            submitButton.trigger("click");
+          }
+        });
+
+        address1Input.on('blur', function(e) {
+          setTimeout(function() {
+            fieldsValid(address1Input)
+          }, 500)
+        })
+        address1Input.on('input', function(e) {
+          let address1Input_parent = address1Input.closest('div[data-address-field="address1"]')
+          address1Input_parent.removeClass('field--error');
+          if(address1Input_parent.find('.field__message--error').length > 0) {
+            address1Input_parent.find('.field__message--error').remove()
+          } 
+        })
+
+        address2Input.on('blur', function(e) {
+          setTimeout(function() {
+            fieldsValid(null, address2Input)
+          }, 500)
+        })
+
+        address2Input.on('input', function(e) {
+          let address2Input_parent = address2Input.closest('div[data-address-field="address2"]')
+          address2Input_parent.removeClass('field--error');
+          if(address2Input_parent.find('.field__message--error').length > 0) {
+            address2Input_parent.find('.field__message--error').remove()
+          } 
+        })
+
+      }
+    });
+  })(Checkout.$);
+</script>
+
+{% endif %}

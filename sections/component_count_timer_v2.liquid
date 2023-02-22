@@ -1,0 +1,136 @@
+<style>
+.component_count_timer_{{section.id}} {
+  width: 100%;
+  padding: {{ section.settings.box_padding }};
+  display: flex;
+	justify-content: center;
+  align-items: center;
+	background: {{section.settings.box_bg}};
+}
+
+@media(max-width: 769px) {
+  .component_count_timer_{{section.id}} {
+    padding: {{ section.settings.mobile_box_padding }};
+  }
+}
+</style>
+
+<div class="component_count_timer_{{section.id}} {{section.settings.custom_class}}">
+  {% render 'component_count_timer_v2',
+    index: 0,
+    startTime: section.settings.startTime,
+    endTime: section.settings.endTime
+  %}
+</div>
+
+<script>
+
+// 定时器  index: 代表第几个 sold_txt: 按钮售罄的文案, flag: 代表是否为超出时间范围
+window["component_count_timer_{{'shopify-section-' | append: section.id}}"] = function(index,sold_txt,flag) {
+  $(`.component_count_timer_{{section.id}}`).hide()
+}
+</script>
+
+
+{% schema %}
+  {
+    "name": "component_count_timer_v2",
+    "presets": [
+      {
+        "name": "component_count_timer_v2"
+      }
+    ],
+    "settings": [
+      {
+        "type": "color",
+        "id": "box_bg",
+        "label": "外层盒子背景色"
+      },
+      {
+        "type": "text",
+        "id": "box_padding",
+        "label": "模块边距",
+        "default": "25px 10px"
+      },
+      {
+        "type": "text",
+        "id": "mobile_box_padding",
+        "label": "Mobile模块边距",
+        "default": "20px 10px"
+      },
+      {
+        "type": "header",
+        "content": "倒计时部分"
+      },
+      {
+        "type": "text",
+        "id": "startTime",
+        "label": "开始时间",
+        "info": "请以标准时间为参考,例如。假如活动是北京时间2022-09-18 08:00开始,那么填写的时间为 2022-09-18T08:00:00.000+08:00。格式：（YYYY-MM-DDThh:mmTZD）。T是用来指示时间元素的开始字符，日期和时间合并表示时，要在时间前面加大写字母T。TZD表示时区指示符：Z或+hh:mm或-hh:mm，+或-表示时区距离UTC(世界标准时间)时区多远"
+      },
+      {
+        "type": "text",
+        "id": "endTime",
+        "label": "结束时间",
+        "info": "请以标准时间为参考,例如。假如活动是北京时间2022-09-18 08:00开始,那么填写的时间为 2022-09-18T08:00:00.000+08:00。格式：（YYYY-MM-DDThh:mmTZD）。T是用来指示时间元素的开始字符，日期和时间合并表示时，要在时间前面加大写字母T。TZD表示时区指示符：Z或+hh:mm或-hh:mm，+或-表示时区距离UTC(世界标准时间)时区多远"
+      },
+      {
+        "type": "color",
+        "id": "timer_bg",
+        "label": "倒计时背景色",
+        "default": "#fff"
+      },
+      {
+        "type": "color",
+        "id": "timer_color",
+        "label": "倒计时文案的颜色",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "id": "timer_txt_color",
+        "label": "年月日文案颜色",
+        "default": "#000000"
+      }, 
+      {
+        "type": "color",
+        "id": "dot_color",
+        "label": "时间分隔符背景色",
+        "default": "#000"
+      },
+      {
+        "type": "text",
+        "id": "days",
+        "label": "Days的描述文案",
+        "default": "Days"
+      },
+      {
+        "type": "text",
+        "id": "hours",
+        "label": "Hours的描述文案",
+        "default": "Hours"
+      },
+      {
+        "type": "text",
+        "id": "minutes",
+        "label": "Minutes的描述文案",
+        "default": "Minutes"
+      },
+      {
+        "type": "text",
+        "id": "seconds",
+        "label": "Seconds的描述文案",
+        "default": "Seconds"
+      },
+      {
+				"type": "header",
+				"content": "开发相关"
+			},
+			{
+				"type": "text",
+				"id": "custom_class",
+				"label": "自定义类名"
+			}
+    ]
+  }
+{% endschema %}

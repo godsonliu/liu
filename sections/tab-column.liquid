@@ -1,0 +1,58 @@
+<link rel="stylesheet" href="{{ 'contacts.scss.css' | asset_url }}">
+
+<div class="tab-colunm">
+    <h2 class="title">{{ section.settings.title }}</h2>
+    <div class="c-tabs">
+        <ul class="tab-list">
+            <li class="tab-items actived">{{ section.settings.tab1Title }}</li>
+            <li class="tab-items">{{ section.settings.tab2Title }}</li>
+        </ul>
+    </div>
+    <div class="tab-content-col actived">
+        {{ section.settings.tab1 }}
+    </div>
+    <div class="tab-content-col">
+        {{ section.settings.tab2 }}
+    </div>
+</div>
+
+<script>
+(function(){
+    $('.tab-colunm .tab-items').on('click', function(){
+        const idx = $(this).index()
+        $(this).addClass('actived').siblings().removeClass('actived')
+        $('.tab-content-col').eq(idx).addClass('actived').siblings('.tab-content-col').removeClass('actived')
+    })
+})()
+</script>
+
+{% schema %}
+{
+    "name": "contact tabs",
+    "presets": [{
+        "name": "contact tabs",
+        "category": "Custom contact tabs Sections"
+    }],
+    "settings": [{
+        "type": "text",
+        "id": "title",
+        "label": "title"
+    }, {
+        "type": "text",
+        "id": "tab1Title",
+        "label": "tab1 title"
+    },{
+        "type": "text",
+        "id": "tab2Title",
+        "label": "tab2 title"
+    },{
+        "type": "html",
+        "id": "tab1",
+        "label": "tab1 content"
+    },{
+        "type": "html",
+        "id": "tab2",
+        "label": "tab2 content"
+    }]
+}
+{% endschema %}

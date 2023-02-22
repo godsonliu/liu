@@ -1,0 +1,643 @@
+.LiveStreaming {
+  padding-top: 2rem;
+}
+.preview-video {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: static;
+}
+
+.model__container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.flexBox {
+  display: flex;
+
+  @media screen and (max-width: 769px) {
+    display: block;
+  }
+}
+
+.liveBox {
+  width: 70%;
+
+  @media screen and (max-width: 769px) {
+    width: 100%;
+  }
+
+  .lazyframe {
+    width: 100%;
+  }
+}
+
+.chatBox {
+  width: 30%;
+
+  @media screen and (max-width: 769px) {
+    width: 100%;
+  }
+
+  .lazyframe {
+    width: 100%;
+    height: 100%;
+
+    @media screen and (max-width: 769px) {
+      height: 350px;
+    }
+  }
+}
+
+.comingSoonContainer {
+  max-width: 1320px;
+  padding: 6rem 0 4rem 0;
+  @media screen and (max-width: 769px) {
+    padding: 3rem 10px 2rem 10px;
+  }
+}
+
+.comingSoonBox {
+  width: 92%;
+  margin: 0 auto;
+}
+
+.box_title {
+  width: 100%;
+  font-size: 36px;
+  font-weight: 600;
+  text-align: center;
+  padding-bottom: 3rem;
+  img {
+    width: 30px;
+    height: auto;
+    margin-right: 10px;
+    @media screen and (max-width: 769px) {
+      width: 20px;
+    }
+  }
+  @media screen and (max-width: 769px) {
+    padding-bottom: 1.6rem;
+  }
+}
+
+.timeLine {
+  width: 100%;
+  padding-left: 20px;
+  overflow: hidden;
+  @media screen and (max-width: 769px) {
+    padding-left: 0;
+    padding-bottom: 1rem;
+    overflow-x: auto;
+  }
+}
+
+.flex {
+  display: flex;
+  transition: all 300ms ease;
+  .line {
+    flex-shrink: 0;
+    width: 34%;
+    margin-left: -10px;
+    transition: all 300ms ease-out;
+    @media screen and (max-width: 769px) {
+      width: 33.3%;
+      margin-left: 0;
+    }
+  }
+
+  .brandname {
+    width: 100%;
+    height: 60px;
+    color: #fff;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 38px;
+    text-align: center;
+    margin-bottom: -1px;
+    background: #00a7e1;
+    overflow: hidden;
+    clip-path: polygon(
+      0% 0%,
+      95% 0%,
+      100% 50%,
+      95% 100%,
+      0% 100%,
+      5% 50%,
+      0% 0%
+    );
+    @media screen and (max-width: 769px) {
+      height: 68px;
+      font-size: 16px;
+      line-height: 25px;
+      padding: 5px 0;
+    }
+    .iconfont {
+      display: inline-block;
+      font-size: 36px;
+      font-weight: normal;
+      margin-right: 5px;
+      padding-top: 5px;
+      @media screen and (max-width: 769px) {
+        font-size: 26px;
+        display: block;
+      }
+    }
+    svg {
+      height: 50px;
+      fill: #fff;
+      @media screen and (max-width: 769px) {
+        height: 35px;
+        margin-top: -10px;
+        margin-bottom: -5px;
+      }
+    }
+    button {
+      display: block;
+      width: 100%;
+      height: 100%;
+      color: #fff;
+      border: 0;
+      padding: 0;
+      background: transparent;
+      outline: none;
+    }
+    img {
+      width: 18px;
+      height: auto;
+      margin-left: 5px;
+      vertical-align: text-bottom;
+      @media screen and (max-width: 769px) {
+        display: none;
+      }
+    }
+  }
+
+  .eufy {
+    .dot,
+    .brandname {
+      background: #21ccbf;
+    }
+
+    .action {
+      border-left: 1px solid #21ccbf;
+    }
+  }
+
+  .soundcore {
+    .dot,
+    .brandname {
+      background: #00a9df;
+    }
+
+    .action {
+      border-left: 1px solid #00a9df;
+    }
+  }
+
+  .nebula {
+    .dot,
+    .brandname {
+      background: #e42d46;
+    }
+
+    .action {
+      border-left: 1px solid #e42d46;
+    }
+  }
+
+  .anker_work {
+    .dot,
+    .brandname {
+      background: #007dff;
+    }
+
+    .action {
+      border-left: 1px solid #007dff;
+    }
+
+    .iconfont {
+      padding-top: 0;
+    }
+
+    svg {
+      height: 55px;
+      @media screen and (max-width: 769px) {
+        height: 40px;
+        margin-top: -10px;
+        margin-bottom: -5px;
+        margin-left: -15px;
+      }
+    }
+  }
+
+  &.move1 {
+    transform: translateX(-33.3%);
+  }
+  &.move2 {
+    transform: translateX(-66.6%);
+  }
+  &.move3 {
+    transform: translateX(-99.9%);
+  }
+  &.move4 {
+    transform: translateX(-133.2%);
+  }
+
+  .opacity0 {
+    opacity: 0;
+    @media screen and (max-width: 769px) {
+      opacity: 1;
+    }
+  }
+}
+
+.actionsList {
+  padding-right: 2rem;
+  @media screen and (max-width: 769px) {
+    display: none;
+  }
+  .action {
+    display: flex;
+    padding: 1.5rem 0 0 0;
+    border-left: 1px solid #00a7e1;
+  }
+
+  .time {
+    flex-shrink: 0;
+    font-size: 14px;
+    padding: 0 1rem;
+    padding-top: 3px;
+  }
+
+  .name {
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .dot {
+    flex-shrink: 0;
+    width: 7px;
+    height: 7px;
+    background: #00a7e1;
+    margin-top: 7px;
+    margin-left: -4px;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+  }
+}
+
+.actBtnBox {
+  width: 92%;
+  margin: 0 auto;
+  position: relative;
+  @media screen and (max-width: 769px) {
+    display: none;
+  }
+  span {
+    display: none;
+  }
+  button {
+    position: absolute;
+    top: 15px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: transparent;
+    border: 1px solid #333;
+    cursor: pointer;
+  }
+  b {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-30%, -70%);
+    width: 10px;
+    height: 10px;
+    border-left: 1px solid #333;
+    border-bottom: 1px solid #333;
+  }
+  .front {
+    left: -1%;
+    transform: translateX(-100%) rotate(45deg);
+  }
+  .back {
+    right: -1%;
+    transform: translateX(100%) rotate(-135deg);
+  }
+}
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999;
+  .mask {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    background: rgba($color: #000000, $alpha: 0.3);
+  }
+  .icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+    background: transparent;
+    border: 0;
+    outline: 0;
+  }
+  .container {
+    width: 88%;
+    max-width: 400px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    background: #fff;
+    padding: 20px;
+  }
+  .brand {
+    width: 100%;
+    text-align: center;
+    line-height: 1.1;
+    .iconfont svg {
+      height: 60px;
+      fill: #00a7e1;
+    }
+    .eufy svg {
+      fill: #21ccbf;
+    }
+    .soundcore svg {
+      fill: #00a9df;
+    }
+    .nebula svg {
+      fill: #e42d46;
+    }
+    .anker_work svg {
+      fill: #007dff;
+    }
+  }
+  .actionsPopup {
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  .action {
+    display: flex;
+  }
+
+  .time {
+    flex-shrink: 0;
+    font-size: 13px;
+    padding: 0 5px;
+    padding-top: 3px;
+  }
+
+  .name {
+    font-size: 14px;
+    font-weight: 500;
+    padding-left: 15px;
+    padding-bottom: 10px;
+    border-left: 1px solid #00a7e1;
+  }
+
+  .dot {
+    flex-shrink: 0;
+    width: 7px;
+    height: 7px;
+    background: #00a7e1;
+    margin-top: 7px;
+    margin-right: -4px;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+  }
+  .eufy {
+    .name {
+      border-left: 1px solid #21ccbf;
+    }
+    .dot {
+      background: #00a7e1;
+    }
+  }
+  .soundcore {
+    .name {
+      border-left: 1px solid #00a9df;
+    }
+    .dot {
+      background: #00a9df;
+    }
+  }
+  .nebula {
+    .name {
+      border-left: 1px solid #e42d46;
+    }
+    .dot {
+      background: #e42d46;
+    }
+  }
+  .anker_work {
+    .name {
+      border-left: 1px solid #007dff;
+    }
+    .dot {
+      background: #007dff;
+    }
+  }
+}
+
+.popup_agree {
+  width: 100%;
+  .container {
+    border-radius: 20px;
+    overflow: hidden;
+  }
+  .backimg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    transform: scale(1.1);
+    object-fit: cover;
+  }
+  .iconBox {
+    position: relative;
+    z-index: 2;
+    width: 40%;
+    padding-bottom: 40%;
+    border-radius: 50%;
+    margin: 2rem auto;
+    background: rgba($color: #fbbf9d, $alpha: 0.4);
+    img {
+      width: 100%;
+      height: auto;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+  .logo_list {
+    width: 100%;
+    display: block;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    .brandicon {
+      flex-shrink: 0;
+      position: relative;
+      width: 100px;
+      height: 65px;
+      margin: 6px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      transition: all 200ms ease-in;
+      cursor: pointer;
+      @media (max-width: 768px) {
+        width: 90px;
+        height: 60px;
+        margin: 2px;
+      }
+      a {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1;
+      }
+      img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 2;
+        width: auto;
+        max-width: 90%;
+        max-height: 36%;
+      }
+      .iconfont {
+        font-size: 28px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        z-index: 1;
+        transform: translate(-50%, -50%);
+      }
+    }
+    .anker .iconfont {
+      color: #00a7e1;
+    }
+    .eufy .iconfont {
+      color: #21ccbf;
+    }
+    .soundcore .iconfont {
+      color: #00a9df;
+    }
+    .nebula .iconfont {
+      color: #e42d46;
+    }
+    .ankerWork .iconfont {
+      color: #007dff;
+      font-size: 48px;
+    }
+    .anker:hover {
+      border: 1px solid #00a7e1;
+    }
+    .eufy:hover {
+      border: 1px solid #21ccbf;
+    }
+    .soundcore:hover {
+      border: 1px solid #00a9df;
+    }
+    .nebula:hover {
+      border: 1px solid #e42d46;
+    }
+    .ankerWork:hover {
+      border: 1px solid #007dff;
+    }
+  }
+  .submitBox {
+    position: relative;
+    z-index: 2;
+    padding: 10px;
+    border-radius: 12px;
+    background: #fff;
+  }
+  .policy {
+    width: 100%;
+    margin-top: 15px;
+    text-align: center;
+    a {
+      font-weight: 600;
+      text-decoration: underline;
+    }
+  }
+  .submit {
+    width: 100%;
+    margin-top: 15px;
+    button {
+      display: block;
+      color: #fff;
+      font-size: 18px;
+      line-height: 30px;
+      margin: 0 auto;
+      padding: 5px 20px 5px;
+      border-radius: 30px;
+      background: #00a9e1;
+      transition: all 0.2s ease-in;
+      border: none;
+      outline: none;
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+  }
+
+  .gray_block {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .form__error {
+    color: red;
+    text-align: center;
+    margin: 0 auto;
+    padding: 5px 0;
+  }
+  .visible-none {
+    opacity: 0;
+    display: none;
+  }
+}
+
+.section.has-background {
+  @media screen and (max-width: 769px) {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+.xIcon {
+  cursor: pointer;
+  svg {
+    height: 100%;
+    width: 100%;
+    color: #333;
+    fill: #333;
+  }
+}

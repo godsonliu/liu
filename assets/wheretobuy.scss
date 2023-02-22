@@ -1,0 +1,214 @@
+$color: #00a9e0;
+$fontSize: 16px;
+$gray: #323232;
+$bigTitleSize: 26px;
+$bannerFontSize: 52px;
+$maxPhoneWidth: 767px;
+$grayBglight: #edf2f5; 
+$grayTxtlight1: #6b6b6b;
+
+.Wheretobuy {
+  .module-container {
+    position: relative;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .banner {
+    position: relative;
+    padding: 6.6rem 1rem;
+    background: $color;
+    color: #fff;
+    text-align: center;
+    font-size: $fontSize;
+    @media (max-width: $maxPhoneWidth) {
+      padding: 2rem 1rem;
+    }
+    .title {
+      font-size: $bannerFontSize;
+      margin: 0;
+      line-height: 1.2;
+      @media (max-width: $maxPhoneWidth) {
+        font-size: $bigTitleSize;
+        line-height: 2.5rem;
+      }
+      color: white;
+    }
+    .desc{
+      padding-top: 1rem;
+    }
+    .filter{
+      padding-top: 2rem;
+      @media (max-width: $maxPhoneWidth) {
+        text-align: left;
+      }
+      p{margin: 0}
+      .item{
+        display: inline-block;
+        padding: 0 1.3rem;
+        text-align: left;
+        @media (max-width: $maxPhoneWidth) {
+          width: 100%;
+        }
+      }
+      .label{
+        color: #fff;
+        padding-bottom: .2rem;
+        font-size: 14px;
+      }
+      .select-wrap{
+        background: #fff;
+        border-radius: 20px;
+        display: inline-block;
+        box-sizing: border-box;
+        min-width: 10rem;
+        padding: 0 1rem;
+        overflow: hidden;
+        width: 200px;
+        @media (max-width: $maxPhoneWidth) {
+          width: 100%;
+        }
+      }
+      select{
+        background: transparent;
+        height: 40px;
+        font-size: 16px;
+        border: none;
+        width: 100%;
+        color: $gray;
+        outline: none;
+        text-align: center;
+      }
+    }
+  }
+  .types{
+    overflow: hidden;
+    background: $grayBglight;
+    text-align: center;
+    font-size: 18px;
+    line-height: 60px;
+    @media (max-width: $maxPhoneWidth) {
+      font-size: 14px;
+      line-height: 45px;
+    }
+    .item{
+      position: relative;
+      display: inline-block;
+      margin: 0 1rem;
+      cursor: pointer;
+      &:after{
+        content: "";
+        position: absolute;
+        left: 50%;
+        bottom: 0;
+        width: 0;
+        height: 2px;
+        // background: $color;
+        transition: 0.4s;
+        transform: translateX(-50%);
+      }
+      &:hover,
+      &.active{
+        // color: $color;
+        &:after{ width: 100%; }
+      }
+    }
+  }
+  .action{
+    display: none;
+    margin: 1rem 0;
+    text-align: center;
+    .more{
+      display: inline-block;
+      border-radius: 50%;
+      border: 1px solid $grayTxtlight1;
+      width: 2.8rem;
+      height: 2.8rem;
+      line-height: 3rem;
+      text-align: center;
+      position: relative;
+      cursor: pointer;
+      &:before, &:after {
+        content: '';
+        position: absolute;
+        height: 1px;
+        background: $grayTxtlight1;
+        left: 20%;
+        right: 20%;
+        top: 50%;
+        transition: 400ms;
+      }
+      &:before {
+        transform: rotate(90deg);
+      }
+      &:hover {
+        border-color: $color;
+        &:before, &:after {
+          background: $color;
+        }
+      }
+    }
+  }
+  .distribution {
+    line-height: 1.5;
+    .items {
+      padding: 1rem;
+      @media (max-width: $maxPhoneWidth) {
+        text-align: left;
+      }
+      .line {
+        list-style:none;
+        font-size: $fontSize;
+        display: table;
+        width: 100%;
+        padding: 1rem 0;
+        .country {
+          float:left;
+          width: 16rem;
+          font-weight: bold;
+          @media (max-width: $maxPhoneWidth) {
+            float: none; width: auto; text-align: left; padding-left: 1rem;
+          }
+          text-align: right;
+        }
+        .shops {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          margin-left: 14rem;
+          text-align: left;
+          @media (max-width: $maxPhoneWidth) {
+            margin-left: 0;
+          }
+          .image {
+            margin: 0;
+            text-align: center;
+            img {
+              width: 100%;
+              vertical-align: middle;
+            }
+          }
+          .shop {
+            display: inline-block;
+            vertical-align: top;
+            padding: 0.5rem 1rem;
+            box-sizing: border-box;
+            width: 20%;
+            line-height: 1.2;
+            @media (max-width: 1000px) {
+              width: 33.3%;
+            }
+            // @media (max-width: $maxPhoneWidth) { width: 100%; }
+            p { margin-bottom: 0; }
+            a {
+              color: $color;
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+    }
+  }
+}

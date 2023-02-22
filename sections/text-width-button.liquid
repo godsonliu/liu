@@ -1,0 +1,105 @@
+{{ 'text-with-button.scss.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  {%- if section.settings.background != blank -%}
+    .section-{{ section.id }}-bgcolor{
+      background-color: {{ section.settings.background }};
+    }
+  {%- endif -%}
+{%- endstyle -%}
+
+<section class="text-with-button section-{{ section.id }}-bgcolor">
+  <div class="page-width">
+    <div class="tb-info-box">
+      {% if section.settings.title != blank %}
+        <h4 class="tb-box-title">{{ section.settings.title }}</h4>
+      {% endif %}
+      {% if section.settings.text != blank %}
+        <div class="tb-box-desc">{{ section.settings.text }}</div>
+      {% endif %}
+    </div>
+
+    <div class="tb-button-box">
+      <a class="tb-box-button" target="{{ section.settings.target }}" href="{{ section.settings.url }}">{{ section.settings.button }}</a>
+    </div>
+  </div>
+</section>
+
+<script>
+$(function() {
+  $('.tb-button-box .tb-box-button').on('click', function() {
+    dataLayer.push({
+      "event": "uaEvent", 
+      "eventCategory": "Activity Page_{{section.settings.activity_name }}",
+      "eventAction": "PorchScare",
+      "eventLabel": "{{section.settings.button}}", //取按钮文案
+    })
+    window.dataLayer.push({ "event_parameters": null });
+    window.dataLayer.push({
+      "event": "ga4Event",
+      "event_name": "lp_button",
+      "event_parameters": {
+        "page_group": "Activity Page_{{section.settings.activity_name }}",
+        "button_name": "{{section.settings.button }}", //取按钮文案
+        "position": "PorchScare" 
+      }
+    })
+  })
+})
+</script>
+
+{% schema %}
+{
+  "name": "Text with Button",
+  "settings":[{
+    "type": "text",
+    "id": "activity_name",
+    "label": "埋点活动名称"
+  },{
+    "type": "color",
+    "id": "background",
+    "label": "背景颜色",
+    "default": "rgba(0,0,0,0)"
+  },{
+    "type": "text",
+    "id": "title",
+    "label": "标题",
+    "default": "Heading text here"
+  }, {
+    "type": "richtext",
+    "id": "text",
+    "label": "内容",
+    "default": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.</p>"
+  },{
+    "type": "text",
+    "id": "button",
+    "label": "按钮",
+    "default": "Button"
+  },{
+    "type": "url",
+    "id": "url",
+    "label": "按钮链接"
+  },{
+    "type": "select",
+    "id": "target",
+    "label": "链接跳转方式",
+    "options": [
+      {
+        "label": "本窗口",
+        "value": "_self"
+      },
+      {
+         "label": "新开窗口",
+        "value": "_blank"
+      }
+    ],
+    "default": "_self"
+  }],
+  "presets": [
+  {
+    "name": "Text with Button",
+    "category": "Text"
+  }
+]
+}
+{% endschema %}

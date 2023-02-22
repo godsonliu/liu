@@ -1,0 +1,48 @@
+{% if shop.metafields.global.discounts.value %}
+  {% assign discounts = shop.metafields.global.discounts.value %}
+{% else %}
+  {% assign discounts = shop.metafields.global.discounts %}
+{% endif %}
+
+<div class="DiscountMark prodCouponWrapper" style="display: none;">
+  <div class="DiscountBox">
+    <img  class="lazyload" data-src="{{ discounts.Mark_img }}">
+    <div class="DiscountTxtbox">
+      <div id="DiscountMarkTxt" class="DiscountMarkTxt"></div>
+      <span>{{ discounts.off }}</span>
+    </div>
+  </div>
+</div>
+
+<style>
+.DiscountMark {
+  position: absolute;
+  top: 0;
+  left: 10px;
+  z-index: 1;
+  width: 60px;
+}
+.DiscountMark .DiscountBox {
+  position: relative;
+  width: 100%;
+}
+.DiscountMark .DiscountTxtbox {
+  width: 100%;
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.DiscountMark .DiscountTxtbox .DiscountMarkTxt, .DiscountMark .DiscountTxtbox span {
+  font-size: 18px;
+  line-height: 1;
+  font-weight: 600;
+  color: #fff;
+  text-align: center;
+  width: 100%;
+  display: inline-block;
+}
+.DiscountMark .DiscountTxtbox span {
+  font-size: 14px;
+}
+</style>

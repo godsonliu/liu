@@ -1,0 +1,855 @@
+{% if shop.metafields['new_nav']['colors'].value %}
+  {% assign colors = shop.metafields['new_nav']['colors'].value %}
+{% else %}
+  {% assign colors = shop.metafields['new_nav']['colors'] %}
+{% endif %}
+
+{% comment %} Advanced {% endcomment %}
+{% assign css_class = section.settings.css_class %}
+{% assign custom_css = section.settings.custom_css %}
+{% assign parent_link = section.settings.parent_link %}
+{% if shop.metafields['new_nav'][parent_link].value %}
+  {% assign menuinfo = shop.metafields['new_nav'][parent_link].value %}
+{% else %}
+  {% assign menuinfo = shop.metafields['new_nav'][parent_link] %}
+{% endif %}
+
+{% comment %} 取出二级导航第一个渲染首屏 {% endcomment %}
+{% if menuinfo.children %}
+	{% assign menuinfo_children_info = menuinfo.children[0] %}
+	{% assign menuinfo_children_list = menuinfo_children_info.children %}
+{% else %}
+	{% assign menuinfo_children_info = nil %}
+	{% assign menuinfo_children_list = nil %}
+{% endif %}
+
+
+{% comment %} 取出三级导航第一个渲染首屏{% endcomment %}
+
+{% if menuinfo_children_list %}
+	{% assign menuinfo_children_children_info = menuinfo_children_list[0] %}
+	{% assign menuinfo_children_children_list = menuinfo_children_children_info.children %}
+{% else %}
+	{% assign menuinfo_children_children_info = nil %}
+	{% assign menuinfo_children_children_list = nil %}
+{% endif %}
+
+{% if colors[parent_link]%}
+{% if shop.metafields['new_nav']['colors'].value %}
+  {% assign lightColor = shop.metafields['new_nav']['colors']['value'][parent_link]%}
+{% else %}
+  {% assign lightColor = shop.metafields['new_nav']['colors'][parent_link] %}
+{% endif %}
+{% else %}
+	{% assign lightColor = '#000000' %}
+{% endif %}
+
+
+{% comment %}
+  This section gets dynamically removed from parent
+  section so we manually assign the section id in the CSS selector
+{% endcomment %}
+{% style %}
+  .mega-menu__{{ section.id }} .mega-menu {
+    background-color: {{ section.settings.mega_menu_background_color }} !important;
+    color: {{ section.settings.mega_menu_text_color }};
+		border-top: 0 !important;
+  }
+	.mega-menu__{{ section.id }} .mega-menu-line {
+		width: 100%;
+		height: 1px;
+		display: none;
+		background: linear-gradient(90deg, #1888BA 0%, #1991BB 4%, #1CA9BF 11%, #21D2C5 20%, #78CDDC 33%, #A7CAE9 41%, #B1B9F5 61%, #C1B4F2 68%, #E7A8EA 81%, #EFA5BE 87%, #FBA182 96%, #FFA06A 100%);
+	}
+	.mega-menu__{{ section.id }} .mega-menu-new-pc {
+		display: none;
+	}
+	.mega-menu__{{ section.id }} .mega-menu-new-mobile {
+		display: none;
+	}
+	@media (min-width: 769px) {
+		.mega-menu__{{ section.id }} .mega-menu-new-pc {
+				height: 600px;
+				overflow-y: auto;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				padding: 50px;
+				background: #fff;
+		}
+		.mega-menu__{{ section.id }} .mega-menu-line  {
+			display: block;
+		}
+
+    .mega-menu__{{ section.id }} .poster-img-title {
+      margin-bottom: 16px;
+    }
+	}
+	@media (max-width: 769px) {
+		.mega-menu__{{ section.id }} .mega-menu-new-mobile {
+			display: block;
+			background: #fff;
+		}
+	}
+	.mega-menu__{{ section.id }} .ul-tab {
+		width: 13.8vw;
+		max-width: 250px;
+	}
+	.mega-menu__{{ section.id }} .ul-tab-li {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		color: #6F6F6F;
+		font-size: 16px;
+		line-height: 22px;
+		cursor: pointer;
+		margin: 17px 0;
+	}
+	@media (max-width: 1024px) {
+		.mega-menu__{{ section.id }} .ul-tab-li {
+			font-size: 14px;
+		}
+	}
+	.mega-menu__{{ section.id }} .ul-tab-li-link {
+		color: #6F6F6F;
+	}
+	.mega-menu__{{ section.id }} .ul-tab-li .icon-list {
+		visibility: hidden;
+		transform: rotate(90deg);
+	}
+	.mega-menu__{{ section.id }} .ul-tab-li .icon-list-dn {
+		display: none;
+	}
+	.mega-menu__{{ section.id }} .ul-tab-li.active {
+		color: {{ lightColor }};
+	}
+	.mega-menu__{{ section.id }} .ul-tab-li.active a{
+		color: {{ lightColor }};
+	}
+	.mega-menu__{{ section.id }} .ul-tab-li.active .icon-list {
+		visibility: visible;
+	}
+	.mega-menu__{{ section.id }} .ul-tab-li.active .icon-list .iconfont {
+		color: {{ lightColor }};
+	}
+	.mega-menu__{{ section.id }} .ul-content {
+		flex: 1;
+		max-width: 960px;
+		margin-left: 90px;
+		position: relative;
+	}
+	.mega-menu__{{ section.id }} .poster-img {
+		width: 100%;
+		max-width: 960px;
+		max-height: max-content;
+		border-radius: 8px;
+	}
+	.mega-menu__{{ section.id }} .li-content-poster {
+		position: relative;
+		display: block;
+		font-size: 0;
+	}
+	.mega-menu__{{ section.id }} .poster-img-txt {
+		width: 280px;
+		position: absolute;
+		left: 10%;
+		top: 50%;
+		transform: translateY(-50%);
+	}
+	.mega-menu__{{ section.id }} .poster-img-title {
+		line-height: 30px;
+		font-size: 22px;
+		color: #000;
+		font-weight: bold;
+		word-break: keep-all;
+	}
+	.mega-menu__{{ section.id }} .poster-img-desc {
+		line-height: 30px;
+		font-size: 16px;
+		color: #000;
+		word-break: keep-all;
+	}
+	.mega-menu__{{ section.id }} .poster-img-button {
+		height: 26px;
+		display: inline-block;
+		margin-top: 5px;
+		padding: 0 15px;
+		border-radius: 15px;
+		border: 1px solid #fff;
+		color: #fff;
+		font-size: 16px;
+		background: transparent;
+	}
+	.mega-menu__{{ section.id }} .ul-tab-2 {
+		display: flex;
+		align-items: center;
+	}
+	.mega-menu__{{ section.id }} .ul-tab-2-li {
+		margin-right: 30px;
+		font-size: 14px;
+		color: #525252;
+		cursor: pointer;
+		padding-bottom: 10px;
+	}
+	.mega-menu__{{ section.id }} .ul-tab-2-li.active {
+		color: {{ lightColor }};
+		border-bottom: 1px solid {{ lightColor }};
+	}
+	.mega-menu__{{ section.id }} .card-list {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		padding: 1.5rem 0;
+		max-height: 80vh;
+		overflow-y: auto; 
+	}
+	.mega-menu__{{ section.id }} .card-item {
+		max-width: 230px;
+		width: 24%;
+		height: 300px;
+		padding: 0 15px; 
+		border-radius: 8px;
+		background: #F4F4F4 !important;
+		position: relative;
+		margin: 0 1% 6px 0;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	}
+	.mega-menu__{{ section.id }} .card-list-3rem {
+		padding: 3rem 0;
+	}
+	.mega-menu__{{ section.id }} .card-item:last-child {
+		margin-right: 0;
+	}
+	.mega-menu__{{ section.id }} .card-item:hover {
+		background: #f8f8f8 !important;
+	}
+	.mega-menu__{{ section.id }} .card-img {
+		width: 100%;
+		display: block;
+		max-height: max-content;
+	}
+	.mega-menu__{{ section.id }} .card-name {
+		font-size: 16px;
+		color: #525252;
+		line-height: 22px;
+		margin-top: 24px;
+		text-align: center;
+	}
+	.mega-menu__{{ section.id }} .card-icon {
+		width: 35px;
+		height: 47px;
+		position: absolute;
+		left: 15px;
+		top: 0;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	.mega-menu__{{ section.id }} .card-icon svg {
+		position: absolute;
+		left: 0;
+		top: 0;
+	}
+	.mega-menu__{{ section.id }} .card-icon svg path {
+		fill: {{lightColor}};
+		stroke: {{lightColor}};
+	}
+	{% comment %} best seller 颜色还是保持品牌色 {% endcomment %}
+	{% comment %} .mega-menu__{{ section.id }} .card-icon-best-seller svg path {
+		fill: #F4D37E;
+		stroke: #F4D37E;
+	} {% endcomment %}
+	.mega-menu__{{ section.id }} .card-icon-text {
+		font-size: 12px;
+		line-height: 16px;
+		color: #fff;
+		text-align: center;
+		z-index: 2;
+	}
+	.mega-menu__{{ section.id }} .menu-list-pc {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	.mega-menu__{{ section.id }} .menu-item-pc {
+		width: 33.333%;
+		max-width: 300px;
+		margin-right: 130px;
+		border-right: 1px solid #C4C4C4;
+	}
+	.mega-menu__{{ section.id }} .menu-item-pc:last-child {
+		border-right: none;
+		margin-right: 0;
+	}
+	.mega-menu__{{ section.id }} .menu-item-title-pc {
+		line-height: 22px;
+		font-size: 16px;
+		color: #000;
+		margin-bottom: 32px;
+	}
+	.mega-menu__{{ section.id }} .menu-item-list-pc {
+		min-height: 250px;
+	}
+	.mega-menu__{{ section.id }} .menu-item-link {
+		display: block;
+		line-height: 34px;
+		font-size: 14px;
+		color: #525252;
+	}
+	.mega-menu__{{ section.id }} .menu-item-link:hover {
+		color: {{lightColor}};
+	}
+	
+
+	.mega-menu__{{ section.id }} .mega-menu-new-mobile {
+		padding: 0 1.5rem 0 32px;
+		margin-top: -17px;
+	}
+	.mega-menu__{{ section.id }} .mobile-li {
+		border-bottom: 1px solid #E0E0E0;
+	}
+	.mega-menu__{{ section.id }} .mobile-li-active .mobile-li-text {
+		color: {{ lightColor }};
+	}
+	.mega-menu__{{ section.id }} .mobile-li-active .mobile-icon-list {
+		transition: all .5s;
+		transform: rotate(180deg);
+	}
+	.mega-menu__{{ section.id }} .mobile-li-active .mobile-li-children {
+		display: block;
+		padding-bottom: 10px;
+	}
+	.mega-menu__{{ section.id }} .mobile-li-active .d-flex-wrap {
+		display: flex;
+		flex-wrap: wrap;
+	}
+	.mega-menu__{{ section.id }} .mobile-li-active  .mobile-icon-svg path {
+		fill: {{ lightColor }};
+	}
+	.mega-menu__{{ section.id }} .mobile-li-text {
+		width: 100%;
+		height: 55px;
+		font-size: 14px;
+		color: #525252;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		cursor: pointer;
+	}
+	.mega-menu__{{ section.id }} .mobile-li-children {
+		display: none;
+	}
+	.mega-menu__{{ section.id }} .mobile-icon-list {
+		font-size: 0;
+	}
+	.mega-menu__{{ section.id }} .mobile-poster-img-txt {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		background-color: #F4F4F4;
+		padding: 15px 0 15px 15px;
+		border-radius: 8px 8px 0 0;
+	}
+	.mega-menu__{{ section.id }} .mobile-poster-title {
+		line-height: 22px;
+		color: #393939;
+		font-size: 16px;
+	}
+	.mega-menu__{{ section.id }} .mobile-poster-desc{
+		line-height: 20px;
+		font-size: 14px;
+		color: #8D8D8D;
+	}
+	.mega-menu__{{ section.id }} .mobile-poster-img {
+		width: 100%;
+		border-radius: 0 0 8px 8px;
+		margin-bottom: 8px;
+	}
+	.mega-menu__{{ section.id }} .mobile-poster-img:last-child {
+		margin-bottom: 0;
+	}
+	.mega-menu__{{ section.id }} .mobile-li-children-tab-first-child {
+		margin-top: -10px;
+	}
+	.mega-menu__{{ section.id }} .mobile-children-tab-text {
+		margin: 4px 0 12px 0;
+		line-height: 16px;
+		font-size: 12px;
+		color: #525252;
+	}	
+	.mega-menu__{{ section.id }} .mobile-card-list {
+		display: flex;
+		flex-wrap: wrap;
+	}
+	.mega-menu__{{ section.id }} .mobile-card-item {
+		width: calc((100% - 8px) / 2);
+		height: 220px;
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		padding: 0 12px;
+		background: #F4F4F4 !important;
+		border-radius: 8px; 
+		margin: 0 8px 8px 0;
+	}
+	.mega-menu__{{ section.id }} .mobile-card-item:nth-child(even) {
+		margin-right: 0;
+	}
+	.mega-menu__{{ section.id }} .mobile-card-img {
+		width: 100%;
+		display: block;
+		margin-bottom: 14px;
+	}
+	.mega-menu__{{ section.id }} .mobile-card-name {
+		text-align: center;
+		font-size: 12px;
+		line-height: 16px;
+		color: #525252;
+	}
+	.mega-menu__{{ section.id }} .mobile-li-children-text {
+		height: 32px;
+		display: flex;
+		align-items: center;
+		font-size: 12px;
+		color: #525252;
+		padding-left: 10px;
+	}
+	.mega-menu__{{ section.id }} .customer-check-more {
+		font-size: 14px;
+		position: absolute;
+		top: 0;
+		right: 0;
+		color: #525252;
+	}
+	.mega-menu__{{ section.id }} .customer-check-more:hover {
+		color: {{ lightColor }};
+	}
+	.mega-menu__{{ section.id }} .customer-check-more-mobile {
+		width: 100%;
+		text-align: center;
+		display: inline-block;
+		margin: 14px auto;
+		font-size: 14px;
+		line-height: 19px;
+	}
+
+{% endstyle %}
+{% comment %} 
+type取值类型：
+	tab: 代表子级为tab类型
+	image: 代表子级为卡片类型
+	menu: 代表子级为直接展示的菜单
+	text: 代表该级为文案
+	link: 代表该级为跳转的a标签
+{% endcomment %}
+<div class="mega-menu {{ css_class }} mega-menu--header-{{ settings.header_layout }}" data-parent-link="{{ section.settings.parent_link | downcase | replace: ' ', '-' }}" role="menu">
+  <div class="mega-menu-line"></div>
+	<div class="mega-menu-new-pc">
+    {% if menuinfo.type == 'tab' %}
+      {% if menuinfo.children %}
+				<ul class="ul-tab" id="{{ section.id }}_ul_tab_pc">
+					{% for li in  menuinfo.children %}
+					<li class="ul-tab-li {% if forloop.index == 1 %}active{% endif %}" data-index="{{forloop.index}}" data-id="{{li.id}}" data-parent-id="{{li.parentId}}" tabindex="0">
+						{% if li.type == 'link' %}
+							<a href="{{ li.href }}" {% if li.blank %} target="_blank" rel="noopener noreferrer" {% endif %} class="ul-tab-li-link">{{ li.name }}</a>
+						{% else %}
+							{{ li.name }}
+						{% endif %}
+						<span class="icon-list {% if li.type == 'link' %}icon-list-dn{% endif %}">
+							<i class="iconfont">&#xe603;</i>
+						</span>
+					</li>
+					{% endfor %}
+				</ul>
+				<div class="ul-content" id="{{ section.id }}_ul_content">
+					{% if menuinfo_children_info.type == 'tab'%}
+					<div class="ul-content-tab" id="{{ section.id }}_ul_content_tab_pc">
+						<ul class="ul-tab-2" id="{{ section.id }}_ul_tab_2_pc">
+							{% for li2 in menuinfo_children_list %}
+								<li class="ul-tab-2-li {% if forloop.index == 1 %}active{% endif %}" data-index="{{forloop.index}}" data-id="{{li2.id}}" data-parent-id="{{li2.parentId}}">{{ li2.name }}</li>
+							{% endfor %}
+						</ul>
+						{% if menuinfo_children_children_info.type == 'image' %}
+							<div class="card-list" id="{{ section.id }}_card_list_pc">
+								{% for li3 in menuinfo_children_children_list %}
+									<a class="card-item" {% if li3.info.blank %} target="_blank" rel="noopener noreferrer" {% endif %} data-index="{{forloop.index}}" href="{{li3.info.href}}" data-id="{{li3.id}}" data-parent-id="{{li3.parentId}}"> 
+										<img class="card-img lazyload" width="400" height="340" alt="" data-src="{{li3.info.imageUrl}}"/>
+										<div class="card-name">{{li3.info.title}}</div>
+										{% if li3.info.new != blank %}
+										<div class="card-icon {% if li3.info.bestSeller %}card-icon-best-seller{% endif %}">
+											<svg width="35" height="47" viewBox="0 0 35 47" fill="none" xmlns="http://www.w3.org/2000/svg">
+												<path d="M0 44.9922V0H35V44.9922C35 46.4214 33.5443 47.3893 32.2263 46.8365L18.2737 40.9834C17.7788 40.7758 17.2212 40.7758 16.7263 40.9834L2.77367 46.8365C1.45572 47.3893 0 46.4214 0 44.9922Z" fill="#21D2C5"/>
+											</svg>
+											<span class="card-icon-text">{{ li3.info.newText }}</span>
+										</div>
+										{% endif %}
+									</a>
+								{% endfor %}
+							</div>
+						{% endif %}
+					</div> 
+					{% elsif menuinfo_children_info.type == 'poster' %}
+					<div id="{{ section.id }}_ul_content_poster_pc">
+						{% for li2 in menuinfo_children_list %}
+							<a class="li-content-poster" {% if li2.blank %} target="_blank" rel="noopener noreferrer" {% endif %} data-index="{{forloop.index}}" href="{{li2.href}}" data-id="{{li2.id}}" data-parent-id="{{li2.parentId}}">
+								<img data-src="{{li2.imageUrl}}" class="poster-img lazyload" width="960" height="300" alt="" />
+								<div class="poster-img-txt">
+									{% if li2.image_txt_isLeave == blank %}
+										<div class="poster-img-title" style="color: {{li2.posterTitleColor}}">{{ li2.posterTitle }}</div>
+										<div class="poster-img-desc" style="color: {{li2.posterDescColor}}">{{ li2.posterDesc }}</div>		
+										<div class="poster-img-button" style="color: {{li2.posterButtonColor}}; background-color: {{ li2.posterButtonBgColor }}; border-color: {{li2.posterButtonBorderColor}}">{{ li2.posterButtonText }}</div>
+									{% endif %}
+								</div>
+							</a> 
+						{% endfor %}
+					</div>
+					{% elsif menuinfo_children_info.type == 'image' %}
+						<div class="ul-content-tab">
+							<div class="card-list {% if menuinfo_children_info.checkMoreText != blank %}card-list-3rem{% endif %}">
+								{% for li2 in menuinfo_children_list %}
+									<a class="card-item" {% if li2.info.blank %} target="_blank" rel="noopener noreferrer" {% endif %} data-index="{{forloop.index}}" href="{{li2.info.href}}" data-id="{{li2.id}}" data-parent-id="{{li2.parentId}}"> 
+										<img class="card-img lazyload" width="400" height="340" alt="" data-src="{{li2.info.imageUrl}}"/>
+										<div class="card-name">{{li2.info.title}}</div>
+										{% if li2.info.new != blank %}
+											<div class="card-icon {% if li2.info.bestSeller %}card-icon-best-seller{% endif %}">
+												<svg width="35" height="47" viewBox="0 0 35 47" fill="none" xmlns="http://www.w3.org/2000/svg">
+													<path d="M0 44.9922V0H35V44.9922C35 46.4214 33.5443 47.3893 32.2263 46.8365L18.2737 40.9834C17.7788 40.7758 17.2212 40.7758 16.7263 40.9834L2.77367 46.8365C1.45572 47.3893 0 46.4214 0 44.9922Z" fill="#21D2C5"/>
+												</svg>
+												<span class="card-icon-text">{{ li2.info.newText }}</span>
+											</div>
+										{% endif %}
+									</a>
+								{% endfor %}
+							</div>
+						</div>
+					{% endif %}
+					{% if menuinfo_children_info.checkMoreText != blank %}
+						<a class="customer-check-more" {% if menuinfo_children_info.checkMoreBlank %} target="_blank" rel="noopener noreferrer" {% endif %}  href="{{menuinfo_children_info.checkMoreHref}}">{{ menuinfo_children_info.checkMoreText }}</a>
+					{% endif %}
+				</div>
+			{% endif %}
+		{% elsif menuinfo.type == 'image' %}
+			<div class="ul-content-tab">
+				<div class="card-list">
+					{% for li in menuinfo.children %}
+						<a class="card-item" data-index="{{forloop.index}}" {% if li.info.blank %} target="_blank" rel="noopener noreferrer" {% endif %} href="{{li.info.href}}" data-id="{{li.id}}" data-parent-id="{{li.parentId}}"> 
+							<img class="card-img lazyload" width="400" height="340" alt="" data-src="{{li.info.imageUrl}}"/>
+							<div class="card-name">{{li.info.title}}</div>
+							{% if li.info.new != blank %}
+								<div class="card-icon {% if li.info.bestSeller %}card-icon-best-seller{% endif %}">
+									<svg width="35" height="47" viewBox="0 0 35 47" fill="none" xmlns="http://www.w3.org/2000/svg">
+										<path d="M0 44.9922V0H35V44.9922C35 46.4214 33.5443 47.3893 32.2263 46.8365L18.2737 40.9834C17.7788 40.7758 17.2212 40.7758 16.7263 40.9834L2.77367 46.8365C1.45572 47.3893 0 46.4214 0 44.9922Z" fill="#21D2C5"/>
+									</svg>
+									<span class="card-icon-text">{{ li.info.newText }}</span>
+								</div>
+							{% endif %}	
+						</a>
+					{% endfor %}
+				</div>
+			</div>
+		{% elsif menuinfo.type == 'menu' %}
+			{% if menuinfo.children %}
+				<div class="menu-list-pc">
+					{% for li in menuinfo.children %}
+						<div class="menu-item-pc" data-id="{{li.id}}" data-parent-id="{{li.parentId}}">
+							<div class="menu-item-title-pc">{{ li.name }}</div>
+							<div class="menu-item-list-pc">
+								{% for li2 in li.children %}
+									{% if li2.type == 'link' %}
+										<a class="menu-item-link" data-id="{{li2.id}}" data-parent-id="{{li2.parentId}}" {% if li2.blank %} target="_blank" rel="noopener noreferrer" {% endif %} href="{{li2.href}}">{{ li2.name }}</a>
+									{% endif%}
+								{% endfor %}
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			{% endif %}	
+    {% endif %} 
+  </div>
+  <div class="mega-menu-new-mobile">
+		{% if menuinfo.type == 'tab' %}
+			{% if menuinfo.children %}
+				<ul class="mobile-tab-ul">
+					{% for li in  menuinfo.children %}
+						<li class="mobile-li {% if forloop.index == 1 %}mobile-li-active{% endif %}" data-index="{{forloop.index}}" data-id="{{li.id}}" data-parent-id="{{li.parentId}}" tabindex="0">
+							<div class="mobile-li-text">
+								{% if li.type == 'link' %}
+									<a href="{{ li.href }}" {% if li.blank %} target="_blank" rel="noopener noreferrer" {% endif %} class="ul-tab-li-link">{{ li.name }}</a>
+								{% else %}
+									{{ li.name }}
+									<span class="mobile-icon-list">
+										<svg class="mobile-icon-svg" width="15" height="15" viewBox="0 0 15 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path d="M3.30806 5.81196C3.55214 5.56789 3.94786 5.56789 4.19194 5.81196L7.5 9.12002L10.8081 5.81196C11.0521 5.56789 11.4479 5.56789 11.6919 5.81196C11.936 6.05604 11.936 6.45177 11.6919 6.69585L7.94194 10.4458C7.69786 10.6899 7.30214 10.6899 7.05806 10.4458L3.30806 6.69585C3.06398 6.45177 3.06398 6.05604 3.30806 5.81196Z" fill="#525252"/>
+										</svg>
+									</span>
+								{% endif %}
+							</div>
+							{% if li.children %}
+							<div class="mobile-li-children {% if li.type == 'image'%}d-flex-wrap{% endif %}">
+								{% for li2 in li.children %}
+									{% if li.type == 'poster' %}
+										<div class="mobile-poster-img-txt">
+											<div class="mobile-poster-title">{{ li2.posterTitle }}</div>
+											<div class="mobile-poster-desc">{{ li2.posterDesc }}</div>
+										</div>
+										<a href="{{li2.href}}" {% if l2.blank %} target="_blank" rel="noopener noreferrer" {% endif %}>
+											<img class="mobile-poster-img lazyload" width="636" height="300"  data-src="{{li2.mobileImageUrl}}" data-id="{{ li2.id }}" data-parent-id="{{ li2.parentId }}" />
+										</a>
+									{% elsif li.type == 'tab' %}
+										<div class="mobile-li-children-tab {% if forloop.index == 1 %}mobile-li-children-tab-first-child{% endif %}">
+											<div class="mobile-children-tab-text" data-id="{{ li2.id }}" data-parent-id="{{ li2.parentId }}">{{ li2.name }}</div>
+											{% if li2.children %}
+												<div class="mobile-card-list">
+													{% for li3 in li2.children %}
+														{% if li2.type == 'image' %}
+															<a class="mobile-card-item" href="{{li3.info.href}}" {% if li3.info.blank %} target="_blank" rel="noopener noreferrer" {% endif %} data-id="{{ li3.id }}" data-parent-id="{{ li3.parentId }}">
+																<img class="mobile-card-img lazyload" width="400" height="340" data-src="{{li3.info.imageUrl}}" alt="{{ li3.info.title }}" />
+																<div class="mobile-card-name">{{ li3.info.title }}</div>
+																{% if li3.info.new != blank %}
+																	<div class="card-icon {% if li3.info.bestSeller %}card-icon-best-seller{% endif %}">
+																		<svg width="35" height="47" viewBox="0 0 35 47" fill="none" xmlns="http://www.w3.org/2000/svg">
+																			<path d="M0 44.9922V0H35V44.9922C35 46.4214 33.5443 47.3893 32.2263 46.8365L18.2737 40.9834C17.7788 40.7758 17.2212 40.7758 16.7263 40.9834L2.77367 46.8365C1.45572 47.3893 0 46.4214 0 44.9922Z" fill="#21D2C5"/>
+																		</svg>
+																		<span class="card-icon-text">{{ li3.info.newText }}</span>
+																	</div>
+																{% endif %}
+															</a>
+														{% endif %}	
+													{% endfor %}
+												</div>
+											{% endif %}
+										</div>
+									{% elsif li.type == 'image'%}
+										<a class="mobile-card-item" href="{{li2.info.href}}" {% if li2.info.blank %} target="_blank" rel="noopener noreferrer" {% endif %} data-id="{{ li2.id }}" data-parent-id="{{ li2.parentId }}">
+											<img class="mobile-card-img lazyload" width="400" height="340" data-src="{{li2.info.imageUrl}}"  alt="{{ li2.info.title }}"/>
+											<div class="mobile-card-name">{{ li2.info.title }}</div>
+											{% if li2.info.new != blank %}
+												<div class="card-icon {% if li2.info.bestSeller %}card-icon-best-seller{% endif %}">
+													<svg width="35" height="47" viewBox="0 0 35 47" fill="none" xmlns="http://www.w3.org/2000/svg">
+														<path d="M0 44.9922V0H35V44.9922C35 46.4214 33.5443 47.3893 32.2263 46.8365L18.2737 40.9834C17.7788 40.7758 17.2212 40.7758 16.7263 40.9834L2.77367 46.8365C1.45572 47.3893 0 46.4214 0 44.9922Z" fill="#21D2C5"/>
+													</svg>
+													<span class="card-icon-text">{{ li2.info.newText }}</span>
+												</div>
+											{% endif %}
+										</a>
+									{% endif %}
+								{% endfor %}
+								{% if li.checkMoreText != blank %}
+									<a class="customer-check-more-mobile" href="{{li.checkMoreHref}}" {% if li.checkMoreBlank %} target="_blank" rel="noopener noreferrer" {% endif %}>{{ li.checkMoreText }}</a>
+								{% endif %}
+							</div>
+							{% endif %}
+						</li>
+					{% endfor %}
+				</ul>
+			{% endif %}
+		{% elsif menuinfo.type == 'image' %}
+			<div class="mobile-card-list">
+				{% if menuinfo.children %}
+					{% for li in menuinfo.children %}
+						<a class="mobile-card-item" href="{{li.info.href}}" {% if li.info.blank %} target="_blank" rel="noopener noreferrer" {% endif %} data-id="{{ li.id }}" data-parent-id="{{ li.parentId }}">
+							<img class="mobile-card-img lazyload" width="400" height="340"  data-src="{{li.info.imageUrl}}" alt="{{ li.info.title }}" />
+							<div class="mobile-card-name">{{ li.info.title }}</div>
+							{% if li.info.new != blank %}
+								<div class="card-icon {% if li.info.bestSeller %}card-icon-best-seller{% endif %}">
+									<svg width="35" height="47" viewBox="0 0 35 47" fill="none" xmlns="http://www.w3.org/2000/svg">
+										<path d="M0 44.9922V0H35V44.9922C35 46.4214 33.5443 47.3893 32.2263 46.8365L18.2737 40.9834C17.7788 40.7758 17.2212 40.7758 16.7263 40.9834L2.77367 46.8365C1.45572 47.3893 0 46.4214 0 44.9922Z" fill="#21D2C5"/>
+									</svg>
+									<span class="card-icon-text">{{ li.info.newText }}</span>
+								</div>
+							{% endif %}
+						</a>
+					{% endfor %}
+				{% endif %}
+			</div>
+		{% elsif menuinfo.type == 'menu' %}
+			<ul class="mobile-tab-ul">
+				{% for li in  menuinfo.children %}
+					<li class="mobile-li {% if forloop.index == 1 %}mobile-li-active{% endif %}" data-index="{{forloop.index}}" data-id="{{li.id}}" data-parent-id="{{li.parentId}}" tabindex="0">
+						<div class="mobile-li-text">
+							{% if li.type == 'link' %}
+								<a href="{{ li.href }}" {% if li.blank %} target="_blank" rel="noopener noreferrer" {% endif %} class="ul-tab-li-link">{{ li.name }}</a>
+							{% else %}
+								{{ li.name }}
+								<span class="mobile-icon-list">
+									<svg class="mobile-icon-svg" width="15" height="15" viewBox="0 0 15 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+										<path d="M3.30806 5.81196C3.55214 5.56789 3.94786 5.56789 4.19194 5.81196L7.5 9.12002L10.8081 5.81196C11.0521 5.56789 11.4479 5.56789 11.6919 5.81196C11.936 6.05604 11.936 6.45177 11.6919 6.69585L7.94194 10.4458C7.69786 10.6899 7.30214 10.6899 7.05806 10.4458L3.30806 6.69585C3.06398 6.45177 3.06398 6.05604 3.30806 5.81196Z" fill="#525252"/>
+									</svg>
+								</span>
+							{% endif %}
+						</div>
+						{% if li.children %}
+						<div class="mobile-li-children">
+							{% for li2 in li.children %}
+								{% if li2.type == 'link' %}
+									<a href="{{li2.href}}" {% if li2.blank %} target="_blank" rel="noopener noreferrer" {% endif %} class="mobile-li-children-text">{{li2.name}}</a>
+								{% endif %}
+							{% endfor %}
+						</div>
+						{% endif %}
+					</li>
+				{% endfor %}
+			</ul>
+		{% endif %}
+	</div>
+</div> 
+
+
+<script>
+
+$(function() {
+	let menuinfo = {{ menuinfo | json }}
+	function findChildInfo(list,parentId,id) {
+		let info = null
+		function fn(list) {
+			list = list || []
+			for(let i = 0; i < list.length; i++) {
+				if(list[i].id === id && list[i].parentId === parentId) {
+					info = list[i];
+					break;
+				}else {
+					if( list[i].children) {
+						info = fn(list[i].children)
+						if(info) break;
+					}
+				}
+			}
+			return info;
+		}
+		return fn(list)
+	}
+
+	function ulTabLiOuputHtml(menuinfo_children_info) {
+		let menuinfo_children_list =  menuinfo_children_info.children || null
+		if(menuinfo_children_info.type === 'tab') {
+			let menuinfo_children_children_info = menuinfo_children_list && menuinfo_children_list[0]
+			let menuinfo_children_children_list = menuinfo_children_children_info.children || []
+			let children_html = 
+				menuinfo_children_children_list ? 
+					`<div class="card-list" id="{{ section.id }}_card_list_pc">
+						${
+							menuinfo_children_children_list.map(function(li3, index) {
+								return `<a class="card-item" data-index="${index+1}" href="${li3.info.href}" ${ li3.info.blank ? 'target="_blank" rel="noopener noreferrer"' : ''} data-id="${li3.id}" data-parent-id="${li3.parentId}"> 
+								<img class="card-img" width="400" height="340" alt="" src="${li3.info.imageUrl}"/>
+								<div class="card-name">${li3.info.title}</div>
+								${ li3.info.new ? `<div class="card-icon ${li3.info.bestSeller ? 'card-icon-best-seller' : ''}">
+									<svg width="35" height="47" viewBox="0 0 35 47" fill="none" xmlns="http://www.w3.org/2000/svg">
+										<path d="M0 44.9922V0H35V44.9922C35 46.4214 33.5443 47.3893 32.2263 46.8365L18.2737 40.9834C17.7788 40.7758 17.2212 40.7758 16.7263 40.9834L2.77367 46.8365C1.45572 47.3893 0 46.4214 0 44.9922Z" fill="#21D2C5"/>
+									</svg>
+									<span class="card-icon-text">${ li3.info.newText }</span>
+								</div>` : ``}
+							</a>`
+							}).join('')
+						}
+					</div>` : ''
+
+			return `<div class="ul-content-tab" id="{{ section.id }}_ul_content_tab_pc">
+						<ul class="ul-tab-2" id="{{ section.id }}_ul_tab_2_pc">
+							${
+								menuinfo_children_list.map(function(li2,index) {
+									return `<li class="ul-tab-2-li ${ index === 0 ? 'active' : ''}" data-index="${index+1}" data-id="${li2.id}" data-parent-id="${li2.parentId}">${ li2.name }</li>`
+								}).join('')
+							}
+						</ul>
+						${ children_html }
+					</div>`		
+		}else if(menuinfo_children_info.type === 'poster') {
+			return `<div id="{{ section.id }}_ul_content_poster_pc">
+						${
+							menuinfo_children_list.map(function(li2, index) {
+								return `<a class="li-content-poster" data-index="${index+1}" href="${li2.href}" ${li2.blank ? 'target="_blank" rel="noopener noreferrer"' : ''} data-id="${li2.id}" data-parent-id="${li2.parentId}">
+								<img src="${li2.imageUrl}" class="poster-img" width="960" height="300" alt="" />
+								<div class="poster-img-txt">
+									${ !li2.image_txt_isLeave ? 
+									`	<div class="poster-img-title" style="color: ${li2.posterTitleColor}">${ li2.posterTitle }</div>
+									<div class="poster-img-desc" style="color: ${li2.posterDescColor}">${ li2.posterDesc }</div>
+									<div class="poster-img-button" style="color: ${li2.posterButtonColor}; background-color: ${ li2.posterButtonBgColor }; border-color: ${li2.posterButtonBorderColor}">${ li2.posterButtonText }</div>` 
+									: ``}
+								</div>
+							</a> `
+							}).join('')
+						}
+					</div>`	
+		}else if(menuinfo_children_info.type === 'image') {
+			return `<div class="ul-content-tab">
+				<div class="card-list ${menuinfo_children_info.checkMoreText ? 'card-list-3rem' : ''}">
+					${
+						menuinfo_children_list.map(function(li2,index) {
+							return `<a class="card-item" data-index="${index+1}" href="${li2.info.href}" ${li2.info.blank ? 'target="_blank" rel="noopener noreferrer"' : ''} data-id="${li2.id}" data-parent-id="${li2.parentId}"> 
+							<img class="card-img" width="400" height="340" alt="" src="${li2.info.imageUrl}"/>
+							<div class="card-name">${li2.info.title}</div>
+							${ li2.info.new ? `<div class="card-icon ${li2.info.bestSeller ? 'card-icon-best-seller' : ''}">
+								<svg width="35" height="47" viewBox="0 0 35 47" fill="none" xmlns="http://www.w3.org/2000/svg">
+									<path d="M0 44.9922V0H35V44.9922C35 46.4214 33.5443 47.3893 32.2263 46.8365L18.2737 40.9834C17.7788 40.7758 17.2212 40.7758 16.7263 40.9834L2.77367 46.8365C1.45572 47.3893 0 46.4214 0 44.9922Z" fill="#21D2C5"/>
+								</svg>
+								<span class="card-icon-text">${ li2.info.newText }</span>
+							</div>` : '' }
+						</a>`
+						}).join('')
+					}
+				</div>
+			</div>`
+		}else {
+			return ''
+		}		
+	}
+
+	function ulTab2LiOutputHtml(menuinfo_children_info) {
+		let menuinfo_children_list = menuinfo_children_info.children || null
+		if(menuinfo_children_info.type === 'image') {
+			if(menuinfo_children_list) {
+				return menuinfo_children_list.map(function(li3,index) {
+					return `<a class="card-item" href="${li3.info.href}" ${li3.info.blank ? 'target="_blank" rel="noopener noreferrer"' : ''} data-index="${index+1}" data-id="${li3.id}" data-parent-id="${li3.parentId}"> 
+						<img class="card-img" width="400" height="340" alt="" src="${li3.info.imageUrl}"/>
+						<div class="card-name">${li3.info.title}</div>
+						${ li3.info.new ? `<div class="card-icon ${li3.info.bestSeller ? 'card-icon-best-seller' : ''}">
+							<svg width="35" height="47" viewBox="0 0 35 47" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path d="M0 44.9922V0H35V44.9922C35 46.4214 33.5443 47.3893 32.2263 46.8365L18.2737 40.9834C17.7788 40.7758 17.2212 40.7758 16.7263 40.9834L2.77367 46.8365C1.45572 47.3893 0 46.4214 0 44.9922Z" fill="#21D2C5"/>
+							</svg>
+							<span class="card-icon-text">${ li3.info.newText }</span>
+						</div>` : ``}
+					</a>`
+				}).join('')
+			}
+		}
+	}
+
+	function megaMenu(ulElement, ul2Eelement) {
+		$(document).on('mouseover', ulElement, function() {
+			var index = $(this).attr('data-index')
+			index = index - 1
+			var isActive = $(this).hasClass('active')
+			if(!isActive) {
+				let menuinfo_children_info = menuinfo.children[index]
+				let html = ulTabLiOuputHtml(menuinfo_children_info)
+				if(menuinfo_children_info.checkMoreText) {
+					html += `<a class="customer-check-more" href="${menuinfo_children_info.checkMoreHref}" ${menuinfo_children_info.checkMoreBlank ? 'target="_blank" rel="noopener noreferrer"' : ''} >${ menuinfo_children_info.checkMoreText }</a>`
+				}
+				$('#{{ section.id }}_ul_content').html(html)
+				$('#{{ section.id }}_ul_tab_pc .ul-tab-li').removeClass('active')  
+				$(this).addClass('active')
+			}
+		})
+		$(document).on('mouseover', ul2Eelement, function() {
+			var index = $(this).attr('data-index')
+			index = index - 1
+			var isActive = $(this).hasClass('active')
+			if(!isActive) {
+				let menuinfo_children_info = findChildInfo(menuinfo.children, $(this).attr('data-parent-id'),$(this).attr('data-id'))
+				$('#{{ section.id }}_card_list_pc').html(ulTab2LiOutputHtml(menuinfo_children_info))
+				$('#{{ section.id }}_ul_tab_2_pc .ul-tab-2-li').removeClass('active')  
+				$(this).addClass('active')
+			}
+		})
+		$(document).on('click', '.mega-menu__{{ section.id }} .mobile-li-text', function() {
+			$(this).parent('.mobile-li').toggleClass('mobile-li-active')
+		})
+	}
+	megaMenu('#{{ section.id }}_ul_tab_pc .ul-tab-li', '#{{ section.id }}_ul_tab_2_pc .ul-tab-2-li')
+})
+
+</script>

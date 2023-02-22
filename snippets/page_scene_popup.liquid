@@ -1,0 +1,123 @@
+<style>
+.window_noscroll body {
+  // 方法不好，会使得滚动条回到顶部
+  //height: 100vh !important;
+  //position: relative !important;
+  //overflow: hidden !important;
+}
+.page_scene_popup_div {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  display: none;
+  z-index: 99;
+}
+.page_scene_mask {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: rgba(0,0,0,.5);
+}
+.page_scene_popup {
+  width: 100%;
+  max-width: 500px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: #d6d7d7;
+  padding: 34px;
+  border: 1px solid #fff;
+  border-radius: 15px;
+}
+.page_scene_popup_title {
+  font-size: 30px;
+  font-weight: 500;
+  color: #000;
+  text-align: center;
+}
+.page_scene_popup_desc {
+  font-size: 20px;
+  color: #595757;
+  text-align: center;
+  margin: 10px 0;
+}
+.page_scene_popup_close {
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  cursor: pointer;
+}
+.page_scene_popup_close svg {
+  width: 100%;
+  height: 100%;
+}
+.page_scene_popup_list {
+  height: 100vh;
+  max-height: 400px;
+  overflow-y: auto;
+  margin-top: 20px;
+  position: relative;
+}
+@media(max-width: 768px) {
+  .page_scene_popup {
+    width: 95%;
+    padding: 34px 10px;
+  }
+  .page_scene_popup_title {
+    font-size: 18px;
+  }
+}
+</style>
+
+<div class="page_scene_popup_div">
+  <div class="page_scene_mask"></div>
+  <section class="page_scene_popup">
+    {% if popup_title != blank %}
+    <div class="page_scene_popup_title">{{ popup_title }}</div>
+    {% endif %}
+    {% if popup_desc != blank %}
+    <div class="page_scene_popup_desc">{{ popup_desc }}</div>
+    {% endif %}
+    <div class="page_scene_popup_close">
+      {% render 'icon-close-small' %}
+    </div>
+    <div class="page_scene_popup_list">
+      {{ slot_content }}
+    </div>
+  </section>
+</div>
+
+{% comment %} 
+  section_id: section的 id
+  slot_content: 插槽内容
+  className: 触发弹窗的类名 例如：.class
+  popup_title: 弹窗标题
+{% endcomment %}
+
+<script>
+
+$(function() {
+  {% if className != blank %}
+  let classNames = $('{{className}}')
+  $('#{{ section_id }} .page_scene_popup_close').on('click', function() {
+    $('#{{ section_id }} .page_scene_popup_div').hide();
+    $('html').removeClass('window_noscroll')
+    classNames.trigger('scene_popup_close');
+  })
+  classNames.on('click', function() {
+    let index = $(this).data('index'), forloop_index = $(this).data('forloop_index');
+    $('#{{ section_id }} .page_scene_popup_div').show();
+    $('html').addClass('window_noscroll')
+    $(this).trigger('scene_popup_show', { index, forloop_index });
+  })
+  {% endif %}
+})
+
+</script>

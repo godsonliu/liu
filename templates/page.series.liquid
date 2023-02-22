@@ -1,0 +1,101 @@
+{% if page.metafields['global']['banner'].value %}
+  {% assign banner = page.metafields['global']['banner'].value %}
+{% else %}
+  {% assign banner = page.metafields['global']['banner'] %}
+{% endif %}
+
+{% if page.metafields['global']['placeholder'].value %}
+  {% assign placeholder = page.metafields['global']['placeholder'].value %}
+{% else %}
+  {% assign placeholder = page.metafields['global']['placeholder'] %}
+{% endif %}
+
+{% if page.metafields['global']['none_result'].value %}
+  {% assign none_result = page.metafields['global']['none_result'].value %}
+{% else %}
+  {% assign none_result = page.metafields['global']['none_result'] %}
+{% endif %}
+
+{% comment %}
+  To edit the contents of this file, look inside the `sections` folder for the file name that comes directly after `section`. Eg. {% section 'product__main' %} or {% section 'page__banner' %}
+  - https://help.shopify.com/en/themes/development/templates/collection-liquid
+{% endcomment %}
+
+{{ 'series.scss.css' | asset_url | stylesheet_tag }}
+
+
+<div id="template-{{ template | replace: '.', '-' | handle }}" class="shopify-section series-page" data-check-for-order="true">
+
+  <div class="banner">
+    <img 
+      data-seturl
+      data-pc-src="{{ banner.pc }}" 
+      data-mobile-src="{{ banner.mobile }}" 
+      alt=""
+    />
+  </div>
+
+  <section class="section__wrapper section">
+
+    <div class="series_model__header container {% if settings.heading_divider_style == 'long' %}has-heading-divider-below {% endif %}">
+      <div class="search">
+        <h1>{{ page.metafields['global'].title }}</h1>
+        <div class="control has-icons-left"> 
+          <input aria-label="Search" class="input" type="text" name="series_search" 
+            placeholder="{{ placeholder }}" value="" autocomplete="off" autocorrect="off" >
+          {% render 'icon',
+            name: 'search',
+            class: 'icon is-left'
+          %}
+        </div>
+        <div class="none_result">
+          <p>{{ none_result }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="series_model__main">
+      {% section 'page-series' %}
+    </div>
+  </section>
+</div>
+
+<script>
+  $(document).ready(function () {
+    $('.breadcrumb .seriescrumbs').html('series');
+    $('.series_model__header .search .input').on('input', 
+      Shopify.contentCreator.util.throttle(function () { 
+        const val = $(this).val();
+        var init = 0;
+        // 节流
+        if (val && val.trim() !== '') {
+            $('.series_box').addClass('searchActive');
+            const li =  $('.series__container .products_content li');
+            const value = val.replace(/[\s\r\n]/g, '').toLocaleLowerCase();
+            $.each(li, (index, element) => {
+              const $current = $(element);
+              const data = $current.data('product').replace(/[\s\r\n]/g, '').toLocaleLowerCase();
+
+              if (data.includes(value) || value.includes(data)) {
+                $current.removeClass('hidden');
+                init++;
+              } else {
+                $current.addClass('hidden');
+              }
+            });
+            if (init <= 0) {
+              $('.search .none_result').css('display', 'block');
+            } else {
+              $('.search .none_result').css('display', 'none');
+            }
+        } else {
+          $('.series_box').removeClass('searchActive');
+          $('.series__container .products_content li').removeClass('hidden');
+        }
+      }, 1000));
+  
+    Shopify.contentCreator.util.imgSeturl();
+    
+
+  })
+</script>

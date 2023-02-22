@@ -1,0 +1,418 @@
+{% if shop.metafields['global']['storefront_key'].value %}
+  {% assign authorization = shop.metafields['global']['storefront_key'].value %}
+{% else %}
+  {% assign authorization = shop.metafields['global']['storefront_key'] %}
+{% endif %}
+
+{{ 'page-bundle.scss.css' | asset_url | stylesheet_tag }}
+<div class="page-bundle">
+  {% for block in section.blocks %}
+  {% assign oProduct = block.settings.product_object %}
+  {% assign oProduct_variant = oProduct.selected_or_first_available_variant %}
+  {% if block.settings.vr_product %}
+  {% assign vr_product_variant = block.settings.vr_product.selected_or_first_available_variant %}
+  {% endif %}
+  <div class="bundle-item bundle-item-{{forloop.index}}">
+    <div class="product-image">
+      {% if block.settings.product_image != blank %}
+      <img src="{{ block.settings.product_image | img_url: '' }}" alt="" />
+      {% else %}
+      <img src="{{ oProduct_variant.image | image_url}}" />
+      {% endif %}
+    </div>
+    {% if section.settings.has_progress %}
+    <div class="product-progress product-progress-{{oProduct_variant.sku}}_{{forloop.index}}">
+      <div class="product-light-progress"></div>
+    </div>
+    {% endif %}
+    <div class="product-info">
+      <div class="product-message">
+        <div class="product-title">{{ oProduct.title }}</div>
+        {% if section.settings.has_show_discount %}
+				<div class="product_code product_code-{{forloop.index}}">
+					<div 
+						class="code_txt"
+						style="
+							color: {{section.settings.code_text_color}};
+							font-size: {{section.settings.code_text_font_size}};		
+						">
+						<span 
+							class="code-text"
+						>{{ section.settings.code_text }}：</span>
+						<span class="code-number"></span>
+					</div>
+					<div 
+						class="copy_code"
+						data-copy-text="{{section.settings.copy_text}}"
+						data-copying-text="{{section.settings.copying_text}}"
+						style="
+							color: {{section.settings.copy_text_color}};
+							font-size: {{section.settings.copy_text_font_size}};		
+						">{{section.settings.copy_text}}</div>
+				</div>
+				{% endif %}
+        <div class="price-div">
+          <div class="product-price">
+            {% render 'price-element', price: oProduct_variant.price %}
+          </div>
+          <div class="product-compare_at_price">
+            {% render 'price-element', price: oProduct_variant.compare_at_price %}
+          </div>
+        </div>
+      </div>
+      <div class="product-button">
+        {% if section.settings.has_add_to_cart %}
+        <button class="add-to-cart" data-id="{{oProduct_variant.id}}" {% if vr_product_variant != blank %}data-vr_id="{{vr_product_variant.id}}"{% endif %}>{{section.settings.add_to_cart}}</button>
+        {% else %}
+        <button class="buy-now" data-id="{{oProduct_variant.id}}" {% if vr_product_variant != blank %}data-vr_id="{{vr_product_variant.id}}"{% endif %}>{{section.settings.buy_now}}</button>
+        {% endif %}
+        <a href="{{oProduct_variant.url}}" class="learn_more">{{section.settings.learn_more}}</a>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<script>
+{% for block in section.blocks %}
+/* 库存进度条 */
+$(function() { 
+  {% assign oProduct = block.settings.product_object %}
+  {% assign oProduct_variant = oProduct.selected_or_first_available_variant %}
+  let total_count = '{{section.settings.product_count}}'
+  let product_count = window.localStorage.getItem('{{oProduct_variant.sku}}_product_count_{{forloop.index}}') || {% if section.settings.product_count_2 != blank %} '{{section.settings.product_count_2}}' {% else %} '{{section.settings.product_count}}' {% endif %};
+  let time_count = '{{section.settings.time_count}}';
+  let random_count = '{{section.settings.random_count}}'
+  function calculate_count() {
+    if(product_count > 5) {
+      product_count = product_count - Math.ceil(Math.random(1) * random_count)
+      if(product_count < 5) product_count = 5;
+      window.localStorage.setItem('{{oProduct_variant.sku}}_product_count_{{forloop.index}}', product_count < 5 ? 5 : product_count)
+      let width = parseInt((product_count / total_count) * 100) + '%'
+      $('.product-progress-{{oProduct_variant.sku}}_{{forloop.index}} .product-light-progress').css({
+        width: width
+      }).text(width)
+      setTimeout(function() {  calculate_count() }, time_count * 60 * 1000)
+    }  
+  }
+  {% if section.settings.has_progress %} 
+  calculate_count()
+  {% endif %}
+
+  /* 折扣逻辑 */
+  {% if section.settings.has_show_discount %}
+  ;(function() {
+    let skus = []
+    let jsVariants;
+    let index = "{{forloop.index}}"
+    {% assign oProduct = block.settings.product_object %}
+    {% assign oProduct_variant = oProduct.selected_or_first_available_variant %}
+    jsVariants = {{ oProduct_variant | json }};
+    {% for item in oProduct.variants %}
+      skus.push("{{ item.sku }}");
+    {% endfor %}
+    let params = { "skus": skus, "shopify_domain": "{{ shop.permanent_domain }}" };
+    $.ajax({
+      type: 'GET',
+      url: '/apps/pp/shopifyservices/coupons/by_skus',
+      data: params,
+      success: function success(data) {
+        if(data[jsVariants.sku] && data[jsVariants.sku][0]) {
+          $(`.page-bundle .bundle-item-${index} .code-number`).text(data[jsVariants.sku][0].title)
+          $(`.page-bundle .bundle-item-${index} .product-price`).text( Shopify.formatMoney(parseFloat(data[jsVariants.sku][0].variant_price4wscode) * 100, $('body').data('money-format')))
+          $(`.page-bundle .bundle-item-${index} .product-compare_at_price`).text(Shopify.formatMoney(parseFloat(data[jsVariants.sku][0].variant_price) * 100, $('body').data('money-format')))
+        }else {
+          $(`.page-bundle .bundle-item-${index} .product_code`).css({
+            visibility: 'hidden'
+          })
+        }
+      }
+    })
+  })()
+  {% endif %}
+
+})
+{% endfor %}
+
+$(function() {
+  /* 加购逻辑 */
+  $('#shopify-section-{{section.id}} .page-bundle .add-to-cart').on('click', function() {
+    let items = [{id: $(this).attr('data-id'), quantity: 1, properties: { '{{section.settings.properties_key}}': '{{section.settings.properties_value}}' } }]
+    let vr_id = $(this).attr('data-vr_id')
+    if(vr_id) {
+      items.push({
+        id: vr_id,
+        quantity: 1,
+        properties: {
+          '{{section.settings.properties_key}}': '{{section.settings.properties_value}}'
+        }
+      })
+    }
+    Shopify.theme.addItemsToCart(items, {
+      onSuccess: function() {
+        $('.component-sign-up').addClass('component-sign-up-db')
+      },
+      onError: function(err) {
+        $.dialog({ title: err.message, content: err.description, type: 'red' });
+      }
+    })
+  })
+  /* buy now 逻辑 */
+  $('#shopify-section-{{section.id}} .page-bundle .buy-now').on('click', function() {
+    let line_items = [{variant_id: $(this).attr('data-id'), quantity: 1, properties: { '{{section.settings.properties_key}}': '{{section.settings.properties_value}}' }}]
+    let vr_id = $(this).attr('data-vr_id')
+    if(vr_id) {
+      line_items.push({
+        variant_id: vr_id,
+        quantity: 1,
+        properties: {
+          '{{section.settings.properties_key}}': '{{section.settings.properties_value}}'
+        }
+      })
+    }
+    Shopify.theme.bundleBuynow_BF({
+			authorization: "{{ authorization }}",
+			checkout: {
+				line_items: line_items,
+				presentment_currency: "{{ shop.currency }}",
+				is_upstream_button: true,
+				page_type: "product",
+				secret: true,
+				wallet_name: "Checkout"
+			},
+			onSuccess: () => {},
+			onError: err => {
+				console.log(err)
+				$.dialog({ title: err.message, content: err.description, type: 'red' });
+			}
+		});
+  })
+
+  function execCoy(text) {
+    const input = document.createElement('INPUT');
+    input.style.opacity  = 0;
+    input.style.position = 'absolute';
+    input.style.left = '-100000px';
+    document.body.appendChild(input);
+
+    input.value = text;
+    input.select();
+    input.setSelectionRange(0, text.length);
+    document.execCommand('copy');
+    document.body.removeChild(input);
+    return true;
+  }
+
+	$('#shopify-section-{{section.id}}  .copy_code').on('click', function() {
+		let copying_text = $(this).data('copying-text')
+		let copy_text = $(this).data('copy-text');
+		let sku = $(this).data('sku');
+		let product_title = $(this).data('product_title')
+		let code_number = $(this).prev('.code_txt').find('.code-number').text()
+		let self = $(this)
+		$(this).text(copying_text)
+		execCoy(code_number)
+		dataLayer.push({
+			"event": "uaEvent",
+			"eventCategory": 'copy',
+			"eventAction": "{{section.settings.eventAction}}",
+			"eventLabel":  code_number + '_' + sku // 由coupon和sku拼接而成
+		})
+		window.dataLayer.push({ "event_parameters": null });
+		window.dataLayer.push({
+			"event": "ga4Event",
+			"event_name": "copy_coupon_code",
+			"event_parameters": {
+				"page_group": "{{section.settings.ga4_page_group}}",
+				"coupon_name": code_number,
+				"info": product_title
+			}
+		});
+		setTimeout(function() {
+			self.text(copy_text)
+		}, 500)
+	})
+})
+</script>
+
+{% schema %}
+  {
+    "name": "page_bundle",
+    "presets": [
+      {
+        "name": "page_bundle"
+      }
+    ],
+    "settings": [
+      {
+        "type": "header",
+        "content": "特别属性区"
+      },
+      {
+        "type": "text",
+        "id": "properties_key",
+        "label": "针对此活动加购时额外加的参数的属性名",
+        "default": "_loading_page"
+      },
+      {
+        "type": "text",
+        "id": "properties_value",
+        "label": "针对此活动加购时额外加的参数的属性值",
+        "default": "_loading_page"
+      },
+      {
+        "type": "header",
+        "content": "埋点相关"
+      },
+      {
+        "type": "text",
+        "id": "eventAction",
+        "label": "Ga3的埋点字段",
+        "default": "pd_live"
+      },
+      {
+        "type": "text",
+        "id": "ga4_page_group",
+        "label": "Ga4的埋点字段",
+        "default": "Live Streaming Page"
+      },
+      {
+        "type": "header",
+        "content": "加购区"
+      },
+      {
+        "type": "text",
+        "id": "add_to_cart",
+        "label": "加购文案",
+        "default": "Add To Cart"
+      },
+      {
+        "type": "text",
+        "id": "buy_now",
+        "label": "加购文案",
+        "default": "Buy Now"
+      },
+      {
+        "type": "checkbox",
+        "id": "has_add_to_cart",
+        "label": "是否显示加购",
+        "info": "不选中，则显示buy now",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "has_progress",
+        "label": "是否显示进度条",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "has_show_discount",
+        "label": "是否显示折扣",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "learn_more",
+        "label": "Learn More",
+        "default": "Learn More"
+      },
+      {
+        "type": "number",
+        "id": "random_count",
+        "label": "每次递减时的随机数最大值",
+        "default": 10
+      },
+      {
+        "type": "number",
+        "id": "product_count",
+        "label": "虚拟的产品总库存,不需要调整",
+        "default": 100
+      },
+      {
+        "type": "number",
+        "id": "product_count_2",
+        "label": "库存2",
+        "info": "因为库存的减少不是基于时间，为了给用户一个库存很少的感觉，将采用库存2 / 总虚拟库存"
+      },
+      {
+        "type": "number",
+        "id": "time_count",
+        "label": "时间间隔",
+        "info": "每隔多久刷新一次库存,单位为分钟",
+        "default": 1
+      },
+      {
+        "type": "header",
+        "content": "Code文案区域"
+      },
+      {
+        "type": "text",
+        "id": "code_text",
+        "label": "Code文案",
+        "default": "CODE"
+      },
+      {
+        "type": "color",
+        "id": "code_text_color",
+        "label": "Code文案颜色",
+        "default": "#999999"
+      },
+      {
+        "type": "text",
+        "id": "code_text_font_size",
+        "label": "Code文案大小",
+        "default": "14px"
+      },
+      {
+        "type": "text",
+        "id": "copy_text",
+        "label": "Copy文案",
+        "default": "Copy"
+      },
+      {
+        "type": "text",
+        "id": "copying_text",
+        "label": "拷贝中的文案",
+        "default": "COPIED"
+      },
+      {
+        "type": "color",
+        "id": "copy_text_color",
+        "label": "Code文案颜色",
+        "default": "#00a7e1"
+      },
+      {
+        "type": "text",
+        "id": "copy_text_font_size",
+        "label": "Copy文案大小",
+        "default": "14px"
+      }
+    ],
+    "blocks": [
+      {
+        "name":"bundle_item",
+        "type":"bundle_item",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "product_image",
+            "label": "上传的产品图"
+          },
+          {
+            "type": "product",
+            "id": "product_object",
+            "label": "产品",
+            "info": "用来获取产品信息"
+          },
+          {
+            "type": "product",
+            "id": "vr_product",
+            "label": "赠品",
+            "info": "选择赠品，则自动加购"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

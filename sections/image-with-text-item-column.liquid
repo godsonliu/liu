@@ -1,0 +1,412 @@
+{% style %}
+#shopify-section-{{ section.id }} .iwt-item-column-box{
+  {% if section.settings.bg_color != blank %}
+    background-color: {{ section.settings.bg_color }};
+  {% endif %}
+
+  {% if section.settings.border_radius != 0 %}
+    border-radius: {{ section.settings.border_radius }}px;
+  {% endif %}
+}
+@media screen and (max-width: 768px) {
+  #shopify-section-{{ section.id }} .iwt-item-column{
+    {% if section.settings.mb_padding_y != 0 %}
+      padding-top: {{ section.settings.mb_padding_y }}px;
+      padding-bottom: {{ section.settings.mb_padding_y }}px;
+    {% endif %}
+
+    {% if section.settings.mb_padding_x != 0 %}
+      padding-left: {{ section.settings.mb_padding_x }}px;
+      padding-right: {{ section.settings.mb_padding_x }}px;
+    {% endif %}
+  }
+
+  #shopify-section-{{ section.id }} .iwt-item-column-box{
+    {% if section.settings.mb_row_gap != 0 %}
+      margin-bottom: {{ section.settings.mb_row_gap }}px;
+    {% endif %}
+
+    {% if section.settings.mb_box_padding_y != 0 %}
+      padding-top: {{ section.settings.mb_box_padding_y }}px;
+      padding-bottom: {{ section.settings.mb_box_padding_y }}px;
+    {% endif %}
+
+    {% if section.settings.mb_box_padding_x != 0 %}
+      padding-left: {{ section.settings.mb_box_padding_x }}px;
+      padding-right: {{ section.settings.mb_box_padding_x }}px;
+    {% endif %}
+  }
+
+  {% if section.settings.mb_row_gap != 0 %}
+    #shopify-section-{{ section.id }} .iwt-item-column-box:last-child{
+      margin-bottom: 0px;
+    }
+  {% endif %}
+
+  #shopify-section-{{ section.id }} .iwt-info-column{
+    {% if section.settings.mb_info_padding != blank %}
+      padding: {{ section.settings.mb_info_padding }};
+    {% endif %}
+  }
+}
+
+@media screen and (min-width: 769px) {
+  #shopify-section-{{ section.id }} .iwt-item-column{
+    {% if section.settings.padding_y != 0 %}
+      padding-top: {{ section.settings.padding_y | divided_by: 19.2 }}vw;
+      padding-bottom: {{ section.settings.padding_y | divided_by: 19.2 }}vw;
+    {% endif %}
+
+    {% if section.settings.padding_x != 0 %}
+      padding-left: {{ section.settings.padding_x | divided_by: 19.2 }}vw;
+      padding-right: {{ section.settings.padding_x | divided_by: 19.2 }}vw;
+    {% endif %}
+
+    {% if section.settings.box_width != 0 %}
+      max-width: {{ section.settings.box_width | divided_by: 19.2 }}vw;
+    {% endif %}
+
+    {% if section.settings.row_gap != 0 %}
+      row-gap: {{ section.settings.row_gap | divided_by: 19.2 }}vw;
+    {% endif %}
+
+    {% if section.settings.col_gap != 0 %}
+      column-gap: {{ section.settings.col_gap | divided_by: 19.2 }}vw;
+    {% endif %}
+  }
+
+  #shopify-section-{{ section.id }} .iwt-item-column.col-2 .iwt-item-column-box{
+    {% if section.settings.col_gap != 0 %}
+      width: calc(50% - {{ section.settings.col_gap | divided_by: 2 | divided_by: 19.2 }}vw);
+    {% endif %}
+  }
+
+  #shopify-section-{{ section.id }} .iwt-item-column-box{
+    {% if section.settings.box_padding_y != 0 %}
+      padding-top: {{ section.settings.box_padding_y | divided_by: 19.2 }}vw;
+      padding-bottom: {{ section.settings.box_padding_y | divided_by: 19.2 }}vw;
+    {% endif %}
+
+    {% if section.settings.box_padding_x != 0 %}
+      padding-left: {{ section.settings.box_padding_x | divided_by: 19.2 }}vw;
+      padding-right: {{ section.settings.box_padding_x | divided_by: 19.2 }}vw;
+    {% endif %}
+  }
+}
+
+{% if section.settings.custom_css != blank %}
+  {{ section.settings.custom_css }}
+{% endif %}
+{% endstyle %}
+
+<section class="ps-ret iwt-item-column col-{{ section.settings.col }} {{ section.settings.custom_class }}" {% if section.settings.id != blank %}id="{{ section.settings.id }}"{% endif %}>
+  {% for block in section.blocks %}
+    {% case block.type %}
+      {% when 'iwt-item' %}
+        <div class="ps-ret iwt-item-column-box item-order-{{ section.settings.desktop_order }} mb-item-order-{{ section.settings.mobile_order }} txt-{{ section.settings.desktop_content_alignment }} mb-txt-{{ section.settings.mobile_content_alignment }}">
+          <div class="iwt-img-column">
+            {% if block.settings.type == 'img' %}
+              {% render 'section-img'
+                section: section,
+                block: block,
+                imgtag: 'image'
+              %}
+            {% else %}
+              {{ block.settings.liquid }}
+            {% endif %}
+          </div>
+          <div class="iwt-info-column">
+            {% if block.settings.subtitle != blank %}
+              <p class="iwt-item-subtitle">{{ block.settings.subtitle }}</p>
+            {% endif %}
+            {% if block.settings.heading != blank %}
+              <p class="iwt-item-title">{{ block.settings.heading }}</p>
+            {% endif %}
+            {% if block.settings.subtext != blank %}
+              <p class="iwt-item-subtext">{{ block.settings.subtext }}</p>
+            {% endif %}
+          </div>
+        </div>
+      {% endcase %}
+    {% endfor %}
+</section>
+
+{% schema %}
+{
+  "name": "iwt item column",
+  "presets": [
+    {
+      "category": "iwt item column",
+      "name": "iwt item column",
+      "blocks":[{
+        "type": "iwt-item"
+      },{
+        "type": "iwt-item"
+      }]
+    }
+  ],
+  "settings": [{
+    "type": "header",
+    "content": "桌面端设置"
+  },{
+    "type": "number",
+    "id": "box_width",
+    "label": "外容器宽度",
+    "default": 0
+  },{
+    "type": "number",
+    "id": "padding_y",
+    "label": "外容器上下内边距",
+    "default": 0
+  },{
+    "type": "number",
+    "id": "padding_x",
+    "label": "外容器左右内边距",
+    "default": 0
+  },{
+    "type": "number",
+    "id": "box_padding_y",
+    "label": "内容器上下内边距",
+    "default": 0
+  },{
+    "type": "number",
+    "id": "box_padding_x",
+    "label": "内容器左右内边距",
+    "default": 0
+  },{
+    "type": "select",
+    "id": "desktop_content_alignment",
+    "options": [
+      {
+        "value": "left",
+        "label": "左对齐"
+      },
+      {
+        "value": "center",
+        "label": "居中"
+      },
+      {
+        "value": "right",
+        "label": "右对齐"
+      }
+    ],
+    "default": "left",
+    "label": "文本对齐方式"
+  },{
+    "type": "radio",
+    "id": "col",
+    "options": [
+      {
+        "value": "1",
+        "label": "一行一个"
+      },
+      {
+        "value": "2",
+        "label": "一行两个"
+      }
+    ],
+    "default": "2",
+    "label": "排列"
+  },{
+    "type": "number",
+    "id": "col_gap",
+    "label": "块间距",
+    "default": 0
+  },{
+    "type": "number",
+    "id": "row_gap",
+    "label": "行间距",
+    "default": 0
+  },{
+    "type": "select",
+    "id": "desktop_order",
+    "options": [
+      {
+        "value": "forward",
+        "label": "上图下文"
+      },
+      {
+        "value": "reverse",
+        "label": "上文下图"
+      }
+    ],
+    "default": "forward",
+    "label": "内容布局方式"
+  },{
+    "type": "header",
+    "content": "移动端设置"
+  },{
+    "type": "number",
+    "id": "mb_padding_y",
+    "label": "外容器上下内边距",
+    "default": 0
+  },{
+    "type": "number",
+    "id": "mb_padding_x",
+    "label": "外容器左右内边距",
+    "default": 0
+  },{
+    "type": "number",
+    "id": "mb_box_padding_y",
+    "label": "内容器上下内边距",
+    "default": 0
+  },{
+    "type": "number",
+    "id": "mb_box_padding_x",
+    "label": "内容器左右内边距",
+    "default": 0
+  },
+  {
+    "type": "text",
+    "id": "mb_info_padding",
+    "label": "文本内边距"
+  },{
+    "type": "number",
+    "id": "mb_row_gap",
+    "label": "行间距",
+    "default": 0
+  },{
+    "type": "select",
+    "id": "mobile_order",
+    "options": [
+      {
+        "value": "forward",
+        "label": "上图下文"
+      },
+      {
+        "value": "reverse",
+        "label": "上文下图"
+      }
+    ],
+    "default": "forward",
+    "label": "内容布局方式"
+  },{
+    "type": "select",
+    "id": "mobile_content_alignment",
+    "options": [
+      {
+        "value": "left",
+        "label": "左对齐"
+      },
+      {
+        "value": "center",
+        "label": "居中"
+      },
+      {
+        "value": "right",
+        "label": "右对齐"
+      }
+    ],
+    "default": "center",
+    "label": "文本对齐方式"
+  },{
+    "type": "header",
+    "content": "修饰"
+  },{
+    "type": "color",
+    "id": "bg_color",
+    "label": "内容器背景颜色"
+  },{
+    "type": "number",
+    "id": "border_radius",
+    "label": "内容器圆角",
+    "default": 0,
+    "info": "单位：px"
+  },{
+    "type": "header",
+    "content": "开发拓展"
+  },{
+    "type": "text",
+    "id": "id",
+    "label": "id",
+    "info": "非必填，一般针对开发来使用"
+  },{
+    "type": "text",
+    "id": "custom_class",
+    "label": "自定义容器类名"
+  },{
+    "type": "textarea",
+    "id": "custom_css",
+    "label": "自定义样式内容"
+  }],
+  "blocks": [{
+    "type": "iwt-item",
+    "name": "iwt-item",
+    "settings": [{
+      "type": "header",
+      "content": "内容"
+    },{
+      "type": "textarea",
+      "id": "subtitle",
+      "default": "Sub Title",
+      "label": "副标题"
+    },{
+      "type": "textarea",
+      "id": "heading",
+      "default": "Main Title",
+      "label": "标题"
+    },{
+      "type": "textarea",
+      "id": "subtext",
+      "default": "Image With Text Description",
+      "label": "副文本"
+    },{
+      "type": "header",
+      "content": "类型"
+    },{
+      "type": "radio",
+      "id": "type",
+      "label": "图片区展示形式",
+      "options": [
+        {
+          "value": "img",
+          "label": "图片"
+        },
+        {
+          "value": "liquid",
+          "label": "自定义"
+        }
+      ],
+      "default": "img"
+    },{
+      "type": "liquid",
+      "id": "liquid",
+      "label": "自定义liquid"
+    },{
+      "type": "header",
+      "content": "图片"
+    },{
+      "type": "image_picker",
+      "id": "img",
+      "label": "桌面端展示图片"
+    },{
+      "type": "image_picker",
+      "id": "img_mb",
+      "label": "移动端展示图片"
+    },{
+      "type": "header",
+      "content": "布局"
+    },{
+      "type": "number",
+      "id": "img_width",
+      "label": "桌面端图片最大宽度",
+      "default": 0
+    },{
+      "type": "text",
+      "id": "img_margin",
+      "label": "桌面端图片外边距",
+      "default": "30px 0"
+    },{
+      "type": "number",
+      "id": "img_mb_width",
+      "label": "移动端图片最大宽度",
+      "default": 0
+    },{
+      "type": "text",
+      "id": "img_mb_margin",
+      "label": "移动端图片外边距",
+      "default": "20px 0"
+    }]
+  }]
+}
+{% endschema %}

@@ -1,0 +1,167 @@
+{% if shop.metafields['global']['storefront_key'].value %}
+  {% assign authorization = shop.metafields['global']['storefront_key'].value %}
+{% else %}
+  {% assign authorization = shop.metafields['global']['storefront_key'] %}
+{% endif %}
+
+{% if page.metafields.global.previews.value %}
+  {% assign previews = page.metafields.global.previews.value %}
+{% else %}
+  {% assign previews = page.metafields.global.previews %}
+{% endif %}
+
+{% if page.metafields.global.copy.value %}
+  {% assign copy = page.metafields.global.copy.value %}
+{% else %}
+  {% assign copy = page.metafields.global.copy %}
+{% endif %}
+
+{% if page.metafields.global.data.value %}
+  {% assign bundles = page.metafields.global.data.value %}
+{% else %}
+  {% assign bundles = page.metafields.global.data %}
+{% endif %}
+
+{% if page.metafields.global.data.value %}
+  {% assign lang = page.metafields.global.data.value %}
+{% else %}
+  {% assign lang = page.metafields.global.data %}
+{% endif %}
+
+{% if page.metafields.global.reviews.value %}
+  {% assign reviews = page.metafields.global.reviews.value %}
+{% else %}
+  {% assign reviews = page.metafields.global.reviews %}
+{% endif %}
+
+{% if page.metafields.global.discountProperties.value %}
+  {% assign discountProperties = page.metafields.global.discountProperties.value %}
+{% else %}
+  {% assign discountProperties = page.metafields.global.discountProperties %}
+{% endif %}
+
+{% capture properties %}
+{% if discountProperties %}{{ discountProperties }}{% else %}{_eufysecuritybundlepromo: 'eufysecuritybundlepromo'}{% endif %}
+{% endcapture %}
+
+<div class='groupBuyFooter'>
+  <h1 class='subtitle'>{{ lang.reviews_text }}</h1>
+  <div class='reviews_container'>
+    {% for product in reviews %}
+        {% assign hasVariant = false %}
+        {% assign sold_out = false %}
+        {% capture variants %}[
+			{% assign prod = all_products[product.sku] %}
+			{% if prod.id == empty %}
+                {%assign str = product.sku | truncate: 5, ""  %}
+                {%assign prod = all_products[str] %}
+            {% endif %}
+			{% if prod.variants %}
+				{%- for variant in prod.variants -%}
+					{% if variant.sku == product.sku %}
+						{% if hasVariant %} ,{% endif %}{ variant_id: '{{ variant.id }}', quantity: {{ product.num }}, id: '{{ variant.id }}', properties:{{ properties }}}
+						{% assign hasVariant = true %}
+            {% if prod.available == false or prod.price == 99999999900 %}
+      					{% assign sold_out = true %}
+    				{% endif %}
+					{% endif %}
+				{%- endfor -%}
+			{% endif %}]
+        {% endcapture %}
+        <!-- 通过metafilds中配置的handle id和variant sku找出varaint id -->
+        {% if hasVariant %}
+            <div class='flexBox'>
+                <p class='name'>{{ product.name }}</p>
+                <div class='minBox'>
+                    <p class='content'>{{ product.review_content }}</p>
+                    <div class='authorDiv'>
+                        <p class='circleStyle' data-info='{{product.review_username}}'>
+                        {{ product.review_username }}
+                        </p>
+                        <span class='spanText'>{{ product.review_username }}</span>
+                    </div>
+                </div>
+                <div class='pic'>
+                    {% render 'image-element',
+                        image: prod.featured_image,
+                        alt: '',
+                        stretch_width: true,
+                        calculate_wrap: true
+                    %}
+                </div>
+                <p class='bundle'>{{ prod.subtitle }}</p>
+                {% if sold_out %}
+                  <div class='flexOne'>
+                    <button class="button button-normal soldOut_groupbuy disabled">
+                        {{copy.sold_out}}
+                    </button>
+                  </div>
+                 {% else %}
+                  <div class="flexAct">
+                    <button class="button button-normal addcart" onclick="bunldeAddtocart({{ variants | strip_newlines }})">
+                      {{ copy.reviewsAddCart }}
+                    </button>
+                    <button class="button button-normal buynow" onclick="bundleBuynow({{ variants | strip_newlines}})">
+                      {{ copy.reviewsToBuy }}
+                    </button>
+                  </div>
+                  {% endif %}
+            </div>
+      
+     	{% endif %}
+    {% endfor %}
+  </div>
+</div>
+ 
+<script>
+  function bunldeAddtocart(line_items) {
+    const spinner = $(".productList");
+    spinner.addClass('active');
+    Shopify.theme.addItemsToCart(line_items, {
+      onError: function(err) {
+        $.dialog({ title: err.message, content: err.description, type: 'red' })
+      },
+      onDone: () => spinner.removeClass('active')
+    });
+  }
+  function bundleBuynow(line_items) {
+    const spinner = $(".productList")
+    spinner.addClass('active');
+    Shopify.theme.bundleBuynow({
+      authorization: "{{ authorization }}",
+      checkout: {
+        line_items,
+        presentment_currency: "{{ shop.currency }}",
+        is_upstream_button: true,
+        page_type: "product",
+        secret: true,
+        wallet_name: "Checkout"
+      },
+      onSuccess: () => {
+        spinner.removeClass('active');
+      },
+      onError: err => {
+        $.dialog({ title: err.message, content: err.description, type: 'red' });
+        spinner.removeClass('active');
+      }
+    });
+  };
+  $(function () {
+    var colorList = [
+      '74 ,211 ,201', '88 ,151 ,171', '177 ,158 ,204',
+      ' 86 ,115 ,190', '192, 114 ,140', '159 ,220, 255',
+      '122 ,100 ,204,', '123 ,136 ,110', '83 ,149 ,206',
+      '129 ,181, 224', '215 ,170, 133', '176, 189, 201'
+    ];
+    function getRandomNumberByRange(start, end) {
+      return Math.floor(Math.random() * (end - start) + start)
+    };
+    $('.circleStyle').each(function(index,ele){
+      let random = getRandomNumberByRange(0,11);
+      let str = $(ele).data('info')||' ';
+      let text = str[0].toUpperCase();
+      $(ele).html(text);
+      $(ele).css('background',`rgb(${(colorList[random])})`);
+    });
+ });
+</script>

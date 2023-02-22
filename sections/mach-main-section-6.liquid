@@ -1,0 +1,152 @@
+{% assign pop = page.metafields.global.pop.value %}
+
+<section class="ps-ret bg-grey over-hide mach-main-section mach-main-section-6">
+  <div class="dry-bgimg-wrap">
+    <div class="media-image-wrap dry-pc-bg-wrap is-hidden-mobile-only">
+      {% render 'lazyload_image',  
+        src: section.settings.img_dry_pc,
+        alt: section.settings.img_dry_pc.alt,
+        width: section.settings.img_dry_pc.width,
+        aspect_ratio: section.settings.img_dry_pc.aspect_ratio,
+        isSchemaData: true
+      %}
+    </div>
+    <div class="media-image-wrap dry-mob-bg-wrap is-hidden-desktop-only">
+      {% render 'lazyload_image',  
+        src: section.settings.img_dry_mb,
+        alt: section.settings.img_dry_mb.alt,
+        width: section.settings.img_dry_mb.width,
+        aspect_ratio: section.settings.img_dry_mb.aspect_ratio,
+        isSchemaData: true
+      %}
+    </div>
+  </div>
+
+  <div class="ps-ret txt-center mob-pad dry-wrap">
+    <div class="dry-img-title">
+      <p class="large-title">{{ section.settings.mian_title }}</p>
+    </div>
+    <div class="dry-img-wrap">
+      <div class="media-image-wrap dry-pc-image-wrap is-hidden-mobile-only">
+        {% render 'lazyload_image',  
+          src: section.settings.img_pc,
+          alt: section.settings.img_pc.alt,
+          width: section.settings.img_pc.width,
+          aspect_ratio: section.settings.img_pc.aspect_ratio,
+          isSchemaData: true
+        %}
+      </div>
+      <div class="media-image-wrap dry-mob-image-wrap is-hidden-desktop-only">
+        {% render 'lazyload_image',  
+          src: section.settings.img_mb,
+          alt: section.settings.img_mb.alt,
+          width: section.settings.img_mb.width,
+          aspect_ratio: section.settings.img_mb.aspect_ratio,
+          isSchemaData: true
+        %}
+      </div>
+    </div>
+  </div>
+
+  <div class="mob-pad dry-info-wrap">
+    <div class="info-column">
+      <p class="grey sub-title">{{ section.settings.sub_title }}</p>
+      <p class="title dry-info-title">{{ section.settings.title }}</p>
+      <p class="grey sub-text dry-info-desc">{{ section.settings.desc }}</p>
+    </div>
+  </div>
+
+  <div class="ps-ret mob-pad mach-icon-wrap">
+    <ul class="mach-icon-list dry-icon-list">
+      {% for block in section.blocks %}
+        <li class="mach-icon-item">
+          <div class="mach-icon-content">
+            <div class="mach-icon">{{ block.settings.icon }}</div>
+            <p class="mach-icon-title">{{ block.settings.title }}</p>
+            <p class="mach-icon-desc">{{ block.settings.desc }}</p>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+
+{% render 'mach-landing-pop'
+  section: section,
+  color: 'white',
+  idx: 4,
+  data: pop.e
+%}
+
+{% schema %}
+{
+  "name": "Mach Main Section 6",
+  "presets": [{
+    "category": "Mach Main Section 6",
+    "name": "Mach Main Section 6"
+  }],
+  "settings": [{
+    "type": "header",
+    "content": "内容"
+  },{
+    "type": "textarea",
+    "id": "mian_title",
+    "label": "主标题"
+  },{
+    "type": "textarea",
+    "id": "sub_title",
+    "label": "内容副标题"
+  },{
+    "type": "textarea",
+    "id": "title",
+    "label": "内容主标题"
+  },{
+    "type": "textarea",
+    "id": "desc",
+    "label": "内容描述"
+  },{
+    "type": "textarea",
+    "id": "pop_txt",
+    "label": "弹窗按钮文本"
+  },{
+    "type": "header",
+    "content": "图片"
+  },{
+    "type": "image_picker",
+    "id": "img_dry_pc",
+    "label": "桌面端主背景图片"
+  },{
+    "type": "image_picker",
+    "id": "img_dry_mb",
+    "label": "移动端主背景图片"
+  },{
+    "type": "image_picker",
+    "id": "img_pc",
+    "label": "桌面端主图"
+  },{
+    "type": "image_picker",
+    "id": "img_mb",
+    "label": "移动端主图"
+  }],
+  "blocks": [{
+    "type": "icon",
+    "name": "icon",
+    "settings": [{
+      "type": "header",
+      "content": "内容"
+    },{
+      "type": "textarea",
+      "id": "icon",
+      "label": "图标"
+    },{
+      "type": "textarea",
+      "id": "title",
+      "label": "标题"
+    },{
+      "type": "textarea",
+      "id": "desc",
+      "label": "描述"
+    }]
+  }]
+}
+{% endschema %}

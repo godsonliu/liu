@@ -1,0 +1,69 @@
+/* # Icon bar
+================================================== */
+
+.icon-bar__block {
+    padding: 0.5rem 0.75rem;
+    @media (max-width: 767px) {
+      padding: 18px 0;
+    }
+  
+    @include respond-to('medium-up') {
+      &:first-child {
+        padding-left: 0;
+      }
+  
+      &:last-child {
+        padding-right: 0;
+      }
+    }
+  
+    // Sizes
+    &.is-small {
+      font-size: $size-small;
+    }
+  
+    &.is-medium {
+      font-size: $body-size;
+    }
+  
+    &.is-large {
+      font-size: $size-large;
+    }
+  
+    .icon-bar__text {
+      padding: 0 5px;
+    }
+  }
+  
+  /* # Icon with text column
+================================================== */
+
+.icon-with-text-column {
+  .title {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+  
+  .icon {
+    margin-bottom: 20px;
+    @include respond-to('medium-down') {
+      margin-bottom: 0;
+      margin-top: 20px;
+    }
+
+    &.is-small {
+      height: 2.8rem;
+      width: 2.8rem;
+    }
+
+    &.is-medium {
+      height: 3.6rem;
+      width: 3.6rem;
+    }
+
+    &.is-large {
+      height: 5.4rem;
+      width: 5.4rem;
+    }
+  }
+}

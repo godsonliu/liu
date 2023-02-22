@@ -1,0 +1,244 @@
+{% assign lang = product.metafields['global'] %}
+
+{% if lang.newMobileStyleFlag.value %}
+  {% assign newMobileStyleFlag = lang.newMobileStyleFlag.value %}
+{% else %}
+  {% assign newMobileStyleFlag = lang.newMobileStyleFlag %}
+{% endif %}
+
+{% if lang.customBar.value %}
+  {% assign customBar = lang.customBar.value %}
+{% else %}
+  {% assign customBar = lang.customBar %}
+{% endif %}
+
+{% if lang.newKlarnaFlag.value %}
+  {% assign newKlarnaFlag = lang.newKlarnaFlag.value %}
+{% else %}
+  {% assign newKlarnaFlag = lang.newKlarnaFlag %}
+{% endif %}
+
+{% if lang.nav.value %}
+  {% assign nav = lang.nav.value %}
+{% else %}
+  {% assign nav = lang.nav %}
+{% endif %}
+
+{% if lang.nav.value %}
+  {% assign nav = lang.nav.value %}
+{% else %}
+  {% assign nav = lang.nav %}
+{% endif %}
+
+{% if product.metafields.global.layout.value %}
+  {% assign layout = product.metafields.global.layout.value %}
+{% else %}
+  {% assign layout = product.metafields.global.layout %}
+{% endif %}
+
+{% if product.metafields['global']['href'].value %}
+  {% assign href = product.metafields['global']['href'].value %}
+{% else %}
+  {% assign href = product.metafields['global']['href'] %}
+{% endif %}
+
+{% if shop.metafields.global.common.value %}
+  {% assign common = shop.metafields.global.common.value %}
+{% else %}
+  {% assign common = shop.metafields.global.common %}
+{% endif %}
+
+{% if product.metafields['global']['banner'].value %}
+  {% assign banner = product.metafields['global']['banner'].value %}
+{% else %}
+  {% assign banner = product.metafields['global']['banner'] %}
+{% endif %}
+
+{% if shop.metafields['reviews']['yotpo'].value %}
+  {% assign yotpo = shop.metafields['reviews']['yotpo'].value %}
+{% else %}
+  {% assign yotpo = shop.metafields['reviews']['yotpo'] %}
+{% endif %}
+
+{% if variant.metafields['global']['hide_reviews'].value %}
+  {% assign hide_reviews = variant.metafields['global']['hide_reviews'].value %}
+{% else %}
+  {% assign hide_reviews = variant.metafields['global']['hide_reviews'] %}
+{% endif %}
+
+{% if product.metafields.global.banner.value %}
+  {% assign banner = product.metafields.global.banner.value %}
+{% else %}
+  {% assign banner = product.metafields.global.banner %}
+{% endif %}
+
+{% if product.metafields['global']['newMobileStyleFlag'].value %}
+  {% assign newMobileStyleFlag = product.metafields['global']['newMobileStyleFlag'].value %}
+{% else %}
+  {% assign newMobileStyleFlag = product.metafields['global']['newMobileStyleFlag'] %}
+{% endif %}
+
+{% if variant.metafields['global']['customize_num_buynow'].value %}
+  {% assign customize_num_buynow = variant.metafields['global']['customize_num_buynow'].value %}
+{% else %}
+  {% assign customize_num_buynow = variant.metafields['global']['customize_num_buynow'] %}
+{% endif %}
+
+{% if product.metafields.global.subscribe_get_code.value %}
+  {% assign subscribe_get_code = product.metafields.global.subscribe_get_code.value %}
+{% else %}
+  {% assign subscribe_get_code = product.metafields.global.subscribe_get_code %}
+{% endif %}
+
+{{ 'X8.scss.css' | asset_url | stylesheet_tag }}
+
+
+
+<div class="product__x8">
+  {% if nav %}
+    <ul id="bundle-nav" class="TopNav">
+      {% for item in nav %}
+        <li>
+          <a {% if item.anchor != blank %} onclick="goAnchor('{{ item.anchor }}')" {% else %} href="{{ item.link }}" {% endif %}>
+            {{ item.txt }}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  {% comment %} Product - classic (default) {% endcomment %}
+  <div id="template-{{ template | replace: '.', '-' | handle }}" class="shopify-section product-page section__wrapper">
+    {% comment %} Product wrapper {% endcomment %}
+    <section class="section section--has-sidebar-option">
+      <div class="container">
+        {% section 'product__sidebar' %}
+        
+        {% section 'product__main' %} 
+
+        {% comment %} {% section 'product__recommendations' %} {% endcomment %}
+      </div>
+    </section>
+  </div>
+  <div class="seeOtherTwo">{{ href.text }}
+    <div>
+    {% for item in href.href%}
+      <a href="{{ item.src}}">{{item.name}}</a>
+    {%endfor%}
+    </div>
+  </div>
+
+  {% if product.metafields['global'].terms or product.metafields['global'].rule %}
+    <div class="rule">
+      {% if product.metafields['global'].terms %}
+        <div class="txt left">
+          <div class="txtBox" data-handle="terms">
+            <p>{{ product.metafields['global'].terms }}</p>
+          </div>
+          <a class="btn" data-handle="terms">{{ common.btn_more }}</a>
+        </div>
+      {% endif %}
+      {% if product.metafields['global'].rule %}
+        <div class="txt right">
+          <div class="txtBox" data-handle="rule">
+            <p>{{ product.metafields['global'].rule }}</p>
+          </div>
+          <a class="btn" data-handle="rule">{{ common.btn_more }}</a>
+        </div>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  {% section 'product-meta-video' %}
+
+  <div id="X8" class="X8_banner">
+    <img src="{{ banner.src }}" alt="" class="banner_img is-hidden-mobile-only">
+    <img src="{{ banner.mob_src }}" class="is-hidden-desktop-only">
+    <div class="txt">
+        <h1>{{ banner.title }}</h1>
+        <div class="banner_txt">
+            <!-- <div class="shopX8" >
+                {{ banner.shopTitle }}
+            </div> -->
+            <div class="watch" onclick="openVideo()">
+                <i class="iconfont"> {{ banner.Iconfont }}</i>
+                <span > {{ banner.watchTitle }}</span>
+            </div>
+        </div>
+    </div>
+  </div>
+  {% section 'X8-content'%}
+  {% section 'product_X8'%}
+          <!-- {% section 'product-meta-compare' %} -->
+  {% comment %} product.metafields.global.subtitle # snippets/product-info.liquid {% endcomment %}
+  {% assign sorting = "highlights|reviews|compare|faqs|specs|downloads" | split: '|' %}
+  {% assign variant = product.selected_or_first_available_variant %}
+  {% if layout.sort != blank %}
+    {% assign sorting = layout.sort | split: '|' %}
+  {% endif %}
+  {% for key in sorting %}
+    {% case key %}
+      {% when 'highlights' %}
+        {% comment %} product.metafields.global.highlights {% endcomment %}
+        {% section 'product-meta-highlights' %}
+      {% when 'reviews' %}
+        {% section 'product-meta-reviews' %}
+      {% when 'compare' %}
+        {% comment %} product.metafields.global.compare {% endcomment %}
+        {% section 'product-meta-compare' %}
+      {% when 'faqs' %}
+        {% comment %} product.metafields.global.faqs {% endcomment %}
+        {% section 'product-meta-faqs' %}
+      {% when 'specs' %}
+        {% comment %} product.metafields.global.specs {% endcomment %}
+        {% section 'product-meta-specs' %}
+      {% when 'downloads' %}
+        {% comment %} product.metafields.global.downloads {% endcomment %}
+        {% section 'product-meta-downloads' %}
+    {% endcase %}
+  {% endfor %}
+
+
+  <div class="container">
+    {% section 'product__recommendations' %}
+  </div>
+
+  {%- if yotpo and yotpo.show_yotpo_reviews == 'true' and hide_reviews != 'true' -%}
+    <div class="yotpoReviews wrap" id="yotpoReviews_anchor_point"> 
+      <div class="yotpo yotpo-main-widget" data-product-id="{{ product.id }}" data-name="{{ product.title | escape }}" data-url="{{ shop.url }}{{ product.url }}" data-image-url="{{ product.featured_image | product_img_url: "large" |replace: '?', '%3F' | replace: '&','%26'}}" data-description="{{ product.description | escape }}"></div>
+    </div>
+  {% endif %}
+
+  {% include 'x8_h30_referral' %}
+
+  <script>
+          // youtube
+          const tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    const firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('H30_video_url', {
+        height: '100%',
+        width: '100%',
+        videoId: '{{ banner.ytb_id }}',
+        playlist: ['{{ banner.ytb_id }}']
+      });
+    }
+    function openVideo() {
+      $('.H30_video').show();
+      player.playVideo();
+    }
+    $(document).ready(function(){
+      referralTrack('variants', '{{ variant.sku }}', 'page');
+      $('.customize_num_buynow').addClass('x8get_code');
+    })
+  </script>
+  {% if customize_num_buynow or subscribe_get_code %}
+    <style>
+      .product-quantity-box.purchase-details__quantity, #shopify-section-product__main .modal_price.subtitle, .product_trustpilot, #shopify-section-product-meta-reviews { display: none; }
+      .customize_num_buynow { margin: 0; }
+    </style>
+  {% endif %}
+
+</div>

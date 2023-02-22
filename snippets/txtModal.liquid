@@ -1,0 +1,131 @@
+<div id="txtModal" class="txtModal" role="dialog">
+  <div class="txtModalCover" onclick="closeTxtModal()"></div>
+  <div class="dialogTxtModal">
+    <div class="txtModalContent">
+      <button
+        id="txtModal_close" type="button" class="txtModalClose"
+        onclick="closeTxtModal()"
+        aria-label="close"
+      >
+        <i class="iconfont">&#xe723;</i>
+      </button>
+      <div id="txtModal_con"></div>
+    </div>
+  </div>
+</div>
+
+<style>
+  #txtModal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    visibility: visible;
+    overflow-y: auto;
+    z-index: 10000002;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+  #txtModal .txtModalCover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  #txtModal .dialogTxtModal {
+    width: 90%;
+    margin: 4em auto 5%;
+    max-width: 60em;
+    transition: 400ms;
+    display: block;
+  }
+  #txtModal .txtModalContent {
+    display: inline-block;
+    max-width: 100%;
+    position: relative;
+    background: white;
+    border-radius: 8px;
+    text-align: left;
+  }
+  #txtModal .txtModalClose {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    color: #323232;
+    transition: 400ms;
+    background: transparent;
+    border: none;
+    padding: 3px;
+    z-index: 1;
+    cursor: pointer;
+  }
+  #txtModal .txtModalClose i {
+    font-size: 20px;
+  }
+  #txtModal #txtModal_con {
+    font-size: 14px;
+    color: #6b6b6b;
+  }
+  #txtModal #txtModal_con .title {
+    color: #333;
+    padding: 21px 50px 21px 35px;
+    border-bottom: 1px solid #e6e6e6;
+    font-size: 28px;
+    margin: 0;
+  }
+  #txtModal #txtModal_con .txtCon {
+    width: 100%;
+    padding: 1.5em 2.5em 2.5em;
+    box-sizing: border-box;
+  }
+  #txtModal #txtModal_con .item {
+    display: inline-block;
+    width: 300px;
+    margin: 10px;
+  }
+  #txtModal #txtModal_con a {
+    display: block;
+    font-size: 16px;
+    border: 1px solid #21CCBF;
+    padding: 5px;
+    border-radius: 5px;
+    text-align: center;
+  }
+  #txtModal #txtModal_con p {
+    font-size: 16px;
+  }
+  @media (max-width: 767px){
+    #txtModal .dialogTxtModal {
+      transform: translate(0);
+      top: 0;
+      left: 0;
+      width: 100%;
+      margin: 0 auto;
+    }
+    #txtModal #txtModal_con .txtCon {
+      padding: 1.5rem;
+    }
+    #txtModal .txtModalContent {
+      border-radius: 0;
+    }
+    #txtModal #txtModal_con .title {
+      color: #333;
+      font-size: 24px;
+      padding: 21px 50px 21px 21px;
+    }
+  }
+</style>
+
+<script>
+  function closeTxtModal() {
+    $('#txtModal').css("display", "none");
+  }
+  function openTxtModal(con) {
+    $('#txtModal').css("display", "block");
+    $('#txtModal_con').html(`${con}`);
+  }
+</script>

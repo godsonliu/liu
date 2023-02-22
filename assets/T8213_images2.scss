@@ -1,0 +1,242 @@
+$maxPhoneWidth: 767px;
+$maxPadWidth: 1024px; 
+$theme_color: #203066;
+$theme_blue: #00A9E0;
+$color: #272727;
+$titleSize:2.5vw;
+$descSize:0.95vw;
+
+.t8213_images2{
+  .banner2{
+    width: 100%;
+    position: relative;
+    padding: 0px;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    overflow: hidden;
+    .bg {
+      width: 100%;
+      img {
+          display: block;
+          width: 100%;
+          height: auto;
+      }
+    }
+    .banner_2_content{
+      position: absolute;
+      width: 100%;
+      max-width: 1200px;
+      height: 100%;
+      .content_left {
+        position: absolute;
+        left: 0px;
+        bottom: 0px;
+        width: calc((345 / 1920) * 100vw);
+        height: calc((345 / 1920) * 176vw);
+        padding: 0;
+        img {
+          display: block;
+          width: 100%;
+          height: auto;
+        }
+        @media screen and (min-width: 1920px) {
+          width: 345px;
+          height: 608px;
+        }
+        @media screen and (max-width: $maxPhoneWidth) {
+          left: calc((32 / 750) * 100vw);
+          width: calc((418 / 750) * 100vw);
+          height: calc((418 / 750) * 176vw);
+        }
+        .cover {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          // height: 0;
+          width: 100%;
+          transform: translate(0%,100%);
+          transition: .3s ease-out;
+        }
+      }
+      .content_left_desc{
+        position: absolute;
+        display:flex;
+        flex-direction: column;
+        align-items: center;
+        width: calc((345 / 1920) * 100vw);
+        height:auto;
+        bottom: calc((345 / 1920) * 109vw);
+        left: calc((345 / 1920) * 10vw);
+        .left-line{
+          margin-top: 20px;
+          opacity: 0;
+          .line{
+            height:calc((345 / 1920) * 80vw);
+            width: auto;
+          }
+        }
+        @media screen and (min-width: 1920px){
+          width: 345px;
+          bottom: 380px;
+          left: 34px;
+          .left-line{
+            margin-top: 10px;
+            .line{
+              height: 300px;
+              width: auto;
+            }
+          }
+        }
+        @media screen and (max-width: $maxPhoneWidth){
+          left: calc((418 / 750) * 80vw);
+          bottom: calc((418 / 750) * 75vw);
+          width: calc((379 / 750) * 100vw);
+          align-items: flex-end;
+          .left-line{
+            margin-top: 10px;
+            .line{
+              width: calc((379 / 750) * 100vw);
+              height: 20px;
+            }
+          }
+        }
+      }
+      .desc{
+        position: absolute;
+        left: calc(50% - 250px);
+        top: calc(50% - 77px);
+        width: 500px;
+        text-align: center;
+        margin: 0 auto;
+        p{ 
+          display: block;
+          color:#333333;
+          font-size: 48px;
+          font-weight: 600;
+          scale: 1;
+          
+        }
+        @media screen and (max-width: 1200px) and (min-width: $maxPhoneWidth){
+          width: calc((500 / 1200) * 100vw);
+          left: calc(50% - (500 / 1200) * 50vw);
+          p{
+            font-size: calc((48 / 1200) * 100vw);
+          }
+        }
+        @media screen and (max-width: $maxPhoneWidth) {
+          width: 100%;
+          left: 0;
+          top: 40%;
+          padding: 0px 20px;
+          p{
+            font-size: calc((50 / 750) * 100vw);
+          }
+        }
+      }
+      .content_right{
+        position: absolute;
+        right: 0px;
+        top: 0px;
+        width: calc((338 / 1920) * 100vw);
+        height: calc((338 / 1920) * 137vw);
+        padding: 0;
+        img {
+          display: block;
+          width: 100%;
+          height: auto;
+        }
+        @media screen and (min-width: 1920px) {
+          width: 338px;
+          height: 463px;
+        }
+        @media screen and (max-width: $maxPhoneWidth) {
+          right: calc((32 / 750) * 100vw);
+          width: calc((416 / 750) * 100vw);
+          height: calc((416 / 750) * 123vw);
+        }
+        .cover {
+          position: absolute;
+          bottom: 100%;
+          left: 0;
+          width: 100%;
+          transform:translate(0,0);
+          transition: .3s ease-out;
+        }
+      }
+      .content_right_desc{
+        position: absolute;
+        display:flex;
+        flex-direction: column;
+        align-items: center;
+        width: calc((338 / 1920) * 100vw);
+        height:auto;
+        top: calc((338 / 1920) * 124vw);
+        right: calc((338 / 1920) * 5vw);
+        .right-line{
+          opacity: 0;
+          .line{
+            height:calc((345 / 1920) * 59vw);
+            width: auto;
+          }
+        }
+        @media screen and (min-width: 1920px){
+          width: 338px;
+          top: 420px;
+          right: 18px;
+          .left-line{
+            margin-top: 10px;
+            .line{
+              height: 300px;
+              width: auto;
+            }
+          }
+        }
+      }
+      .content_right_desc_mobile{
+        position: absolute;
+        display:flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width: calc((408 / 750) * 100vw);
+        height:auto;
+        bottom: 72%;
+        right: calc((338 / 750) * 90vw);
+        .right-line{
+          opacity: 0;
+          margin-top: 10px;
+          .line{
+            width: calc((408 / 750) * 100vw);
+            height: 20px;
+          }
+        }
+      }
+      
+      .content-text{
+        width: calc((220 / 1920) * 100vw);
+        text-align: center;
+        color: #333333;
+        opacity: 0;
+        h{
+          font-size: calc((36 / 1920) * 100vw);
+          font-weight: 600;
+        }
+        p{
+          font-size: calc((20 / 1920) * 100vw);
+        }
+        @media screen and (max-width: $maxPhoneWidth) {
+          width: 110px;
+          text-align: left;
+          h{
+            font-size: 18px;
+          }
+          p{
+            font-size: 12px;
+          }
+        }
+      }
+    }
+  }
+}

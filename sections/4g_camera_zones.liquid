@@ -1,0 +1,48 @@
+{% if template contains 'page' %}
+  {% if page.metafields['global']['4g_camera_zones'].value %}
+    {% assign lang = page.metafields['global']['4g_camera_zones'].value %}
+  {% else %}
+    {% assign lang = page.metafields['global']['4g_camera_zones'] %}
+  {% endif %}
+{% else %}
+  {% if product.metafields['global']['4g_camera_zones'].value %}
+    {% assign lang = product.metafields['global']['4g_camera_zones'].value %}
+  {% else %}
+    {% assign lang = product.metafields['global']['4g_camera_zones'] %}
+  {% endif %}
+{% endif %}
+
+<section id="{{lang.id | default: 'camera-4g-zones'}}" class="camera-4g-zones">
+  <div class="box-container">
+    <div class="box-content">
+      <h2 class="title">{{ lang.title }}</h2>
+      <p class="desc">{{ lang.desc }}</p>
+    </div>
+    <div class="box-img">
+      <div class="phone_bg">
+          <img class="lazyload" data-src="{{ lang.phone_bg }}" alt="" aria-hidden="true">
+      </div>
+      <div class="img_blocks">
+        {% for item in lang.list %}
+          <div class="img-block">
+            <img class="lazyload" data-src="{{ item.img_pc }}" alt="" aria-hidden="true">
+          </div>
+        {% endfor %}
+      </div>
+  </div>
+  </div>
+</section> 
+<script>
+  $(function() {
+    $(".camera-4g-zones .img_blocks").slick({
+      dots: false,
+      arrows:false,
+      autoplay:true,
+      infinite: true,
+      slidesToShow:1,
+      slidesToScroll:1,
+      speed:3000,
+      cssEase:'ease',
+    });
+  })
+</script>

@@ -1,0 +1,42 @@
+
+{% if template contains "product" %}
+  {% assign productData = product.metafields.product.data.value %}
+  {% if productData.payment.add2cart != blank %}
+    <!-- <link rel="stylesheet" href="{{ 'trynow.scss' | asset_url }}"> -->
+    <!-- Load React --> 
+    <script src="https://unpkg.com/react@17/umd/react.production.min.js"></script> 
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script> 
+    <!-- Load TryNow SDK --> 
+    <script src="https://components.trynow.net/shopify/4.3.5/trynow-components.js"></script>
+
+    <script>
+      const TryNowConfig = {}
+      const initPopUp = () => {
+      const PopUpSettings = {
+        tryNowDays: TryNowConfig.days,
+      };
+      const body = document.querySelector('body');
+
+      const popupContainer = document.createElement('div');
+        popupContainer.classList.add('tn-popup');
+        const popUpModal = React.createElement(TryNowComponents.PopupModal, {
+          settings: PopUpSettings,
+        });
+        body.append(popupContainer);
+        ReactDOM.render(popUpModal, popupContainer);
+      };
+
+      document.addEventListener('DOMContentLoaded', initPopUp, false);
+
+      const initInfoIcon = () => {
+        const elements = document.querySelectorAll('.tn-info-icon');
+        elements.forEach((node) => {
+          const infoIcon = React.createElement(TryNowComponents.InfoIcon);
+          ReactDOM.render(infoIcon, node);
+        });
+      };
+
+      document.addEventListener('DOMContentLoaded', initInfoIcon, false);
+    </script>
+  {% endif %}
+{% endif %}

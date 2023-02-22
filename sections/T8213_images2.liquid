@@ -1,0 +1,92 @@
+
+{% if template contains 'page' %}
+  {% if page.metafields['global']['images2'].value %}
+    {% assign lang = page.metafields['global']['images2'].value %}
+  {% else %}
+    {% assign lang = page.metafields['global']['images2'] %}
+  {% endif %}
+{% else %}
+  {% if product.metafields['global']['images2'].value %}
+    {% assign lang = product.metafields['global']['images2'].value %}
+  {% else %}
+    {% assign lang = product.metafields['global']['images2'] %}
+  {% endif %}
+{% endif %}
+
+
+
+{{ 'T8213_images2.scss.css' | asset_url | stylesheet_tag }}
+
+<div  id="images"></div>
+<section class="t8213_images2">
+  <div class="banner2">
+    <div class="bg">
+      <img class="lazyload is-hidden-mobile-only" data-src="{{ lang.img2_pc }}" alt=""/>
+      <img class="lazyload is-hidden-desktop-only" data-src="{{ lang.img2_mobile }}" alt=""/>
+    </div>
+    <div class="banner_2_content banner_2_content-pc is-hidden-mobile-only">
+      <div class="content_left">
+        <img class="lazyload cover" data-src="{{ lang.img2_1_pc }}" alt=""/>
+      </div>
+      <div class="content_desc content_left_desc">
+        <div class="content-text left-text">
+          <h>{{ lang.text2_left_h }}</h>
+          <p>{{ lang.text2_left_p }}</p>
+        </div>
+        <div class="left-line">
+          <img class="lazyload line" data-src="{{ lang.line_1 }}" alt="line"/>
+        </div>
+      </div>
+      <div class="desc">
+        <p>{{ lang.text2_desc }}</p>
+      </div>
+      <div class="content_right">
+        <img class="lazyload cover" data-src="{{ lang.img2_2_pc }}" alt=""/>
+      </div>
+      <div class="content_desc content_right_desc">
+        <div class="right-line">
+          <img class="lazyload line" data-src="{{ lang.line_2 }}" alt="line"/>
+        </div>
+        <div class="lazyload content-text right-text">
+          <h>{{ lang.text2_right_h }}</h>
+          <p>{{ lang.text2_right_p }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="banner_2_content banner_2_content-mobile is-hidden-desktop-only">
+      <div class="content_left">
+        <img class="lazyload cover" data-src="{{ lang.img2_1_mobile }}" alt=""/>
+      </div>
+      <div class="content_desc content_left_desc">
+        <div class="lazyload content-text left-text">
+          <h>{{ lang.text2_left_h }}</h>
+          <p>{{ lang.text2_left_p }}</p>
+        </div>
+        <div class="left-line">
+          <img class="lazyload line" data-src="{{ lang.line_3 }}" alt="line"/>
+        </div>
+      </div>
+      <div class="desc">
+        <p>{{ lang.text2_desc }}</p>
+      </div>
+      <div class="content_right">
+        <img class="lazyload cover" data-src="{{ lang.img2_2_mobile }}" alt=""/>
+      </div>
+      <div class="content_desc content_right_desc_mobile">
+        <div class="lazyload content-text right-text">
+          <h>{{ lang.text2_right_h }}</h>
+          <p>{{ lang.text2_right_p }}</p>
+        </div>
+        <div class="right-line">
+          <img class="lazyload line" data-src="{{ lang.line_3 }}" alt="line"/>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+$(document).ready(function(){
+    
+  })
+</script>

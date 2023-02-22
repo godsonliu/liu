@@ -1,0 +1,180 @@
+$maxPhoneWidth: 767px;
+$minPadWidth: 768px; 
+$maxPadWidth: 1024px; 
+
+.spring-clean-2022-withEufy{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 80px;
+  width: 100%;
+  height: auto;
+  background: #EFF4E8;
+  .box-container{
+    width: 1200px;
+    border: none;
+    overflow: hidden;
+    text-align: center;
+  }
+  .box-container .title{
+    margin-bottom: 2rem;
+    font-weight: bold;
+    font-size: 48px;
+    line-height: 150%;
+    color: #4A7743;
+  }
+  .box-container .product-card{
+    display: flex;
+    margin-bottom: 20px;
+    width: 100%;
+    height: 580px;
+    background: #FFFFFF;
+    overflow: hidden;
+    border-radius: 50px;
+    .info-content{
+      padding: 80px 40px;
+      width: 40%;
+      height: 100%;
+    }
+    .info-content .question-text{
+      margin-bottom: 90px;
+      font-weight: bold;
+      font-size: 40px;
+      line-height: 110%;
+      letter-spacing: 0.05em;
+      color: #4A7743;
+    }
+    .info-content .title{
+      font-weight: 600;
+      font-size: 25px;
+      line-height: 112.68%;
+      text-align: center;
+      letter-spacing: 0.05em;
+      color: #000000;
+    }
+    .info-content .desc{
+      margin-top: 20px;
+      font-weight: 600;
+      font-size: 17px;
+      line-height: 126.68%;
+      text-align: center;
+      color: #000000;
+    }
+    .info-content a{
+      margin-top: 35px;
+      display: inline-block;
+      padding: 0 20px;
+      min-width: 80%;
+      height: 50px;
+      line-height: 50px;
+      background: #76A44A;
+      border: none;
+      border-radius: 25px;
+      font-weight: 600;
+      font-size: 24px;
+      color: #fff;
+      white-space: nowrap;
+    }
+    .img-content{
+      width: 60%;
+      height: 100%;
+      img{
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+  .box-container .product-card.left{ 
+    flex-direction: row-reverse;
+    .img-content{
+      img{
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+  @media screen and (max-width: 1200px) and (min-width: $minPadWidth){
+    .box-container{
+      width: 100%;
+    }
+    .box-container .title{
+      font-size: calc(48 / 1200 * 100vw);
+      line-height: calc(90 / 1200 * 100vw);
+    }
+    .box-container .product-card{
+      height: calc(580 / 1200 * 100vw);
+      .info-content{
+        padding-top: calc(40 / 1200 * 100vw);
+        padding-bottom: calc(40 / 1200 * 100vw);
+      }
+      .info-content .question-text{
+        margin-bottom: calc(90 / 1200 * 100vw);
+        font-size: calc(40 / 1200 * 100vw);
+      }
+      .info-content .title{
+        font-size: calc(25 / 1200 * 100vw);
+      }
+      .info-content .desc{
+        margin-top: calc(20 / 1200 * 100vw);
+        font-size: calc(17 / 1200 * 100vw);
+      }
+      .info-content a{
+        margin-top: calc(35 / 1200 * 100vw);
+        height: calc(50 / 1200 * 100vw);
+        line-height: calc(50 / 1200 * 100vw);
+        border-radius:calc(50 / 1200 * 100vw);
+        font-size: calc(24 / 1200 * 100vw);
+      }
+    }
+  }
+  @media screen and (max-width: $maxPhoneWidth){
+    padding-top: 30px;
+    .box-container{
+      width: calc(700 / 750 * 100vw);;
+    }
+    .box-container .title{
+      font-size: 24px;
+    }
+    .box-container .product-card,.box-container .product-card.left{
+      display: flex;
+      flex-direction: column-reverse;
+      height: auto;
+      background: transparent;
+      overflow: hidden;
+      border-radius: calc(50 / 750 * 100vw);
+      .info-content{
+        margin-top: 0;
+        padding-top: calc(20 / 750 * 100vw);
+        padding-bottom: calc(20 / 750 * 100vw);
+        width: 100%;
+        height: auto;
+        background: #FFFFFF;
+      }
+      .info-content .question-text{
+        margin-bottom: calc(30 / 750 * 100vw);
+        font-size: calc(40 / 750 * 100vw);
+      }
+      .info-content .title{
+        font-size: calc(35 / 750 * 100vw);
+      }
+      .info-content .desc{
+        margin-top: calc(20 / 750 * 100vw);
+        font-size: calc(16 / 750 * 100vw);
+      }
+      .info-content a{
+        margin-top: calc(30 / 750 * 100vw);
+        min-width: 50%;
+        height: calc(50 / 750 * 100vw);
+        line-height: calc(50 / 750 * 100vw);
+        border-radius:calc(50 / 750 * 100vw);
+        font-size: calc(24 / 750 * 100vw);
+      }
+      .img-content{
+        width: 100%;
+        min-height: calc(574 / 750 * 100vw);;
+      }
+    }
+
+  }
+}

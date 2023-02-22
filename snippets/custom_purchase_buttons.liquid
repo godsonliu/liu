@@ -1,0 +1,158 @@
+{% if shop.metafields['global']['storefront_key'].value %}
+  {% assign storefront_key = shop.metafields['global']['storefront_key'].value %}
+{% else %}
+  {% assign storefront_key = shop.metafields['global']['storefront_key'] %}
+{% endif %}
+
+
+{% assign sold_out = false %}
+{% for item in variant_arr %}
+  {% assign oProduct = all_products[item.handle] %}
+  {% if oProduct.variants == blank %}
+    {% assign sold_out = true %}
+  {% else %}
+    {% for v in oProduct.variants %}
+      {% if v.sku == item.sku %}
+        {% assign oVariant = v %}
+      {% endif %}
+    {% endfor %}
+    {% if oVariant.available == false or oVariant.price == 999999999 %}
+      {% assign sold_out = true %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+
+{% if sold_out == true %}
+  <span class="product_soldout product-thumbnail__sold-out">{{ 'products.product.sold_out' | t }}</span>
+  <style>.product_price, .purchase-details__quantity { overflow: hidden; display: none; height: 0; margin: 0; }</style>
+{% else %}
+  {% if addcart_txt != blank %}<button class="product_addcart customize_button_addtocart">{{ addcart_txt }}</button>{% endif %}
+  {% if buynow_txt != blank %}<button class="product_buynow customize_button_buynow">{{ buynow_txt }}</button>{% endif %}
+{% endif %}
+
+<script>
+  // 数据上报
+  const buyProductsList = [];
+  const addProductList = []
+  let productskus;
+  {% for item in variant_arr %}
+    {% assign itemPro = all_products[item.handle] %}
+    var oProduct = {{ itemPro | json }};
+    var oVariant = oProduct.variants.find(o => o.sku === '{{ item.sku }}');
+    buyProductsList.push({
+      'name': oVariant.name,
+      'id': oVariant.sku,
+      'category': '',
+      'categoryName': oProduct.type,
+      'brand': "{{ shop.name }}",
+      'variant': oVariant.title,
+      'price': oVariant.price / 100,
+      'quantity': Number($(".purchase-details input").val())
+    });
+
+    addProductList.push({
+      "item_id": oVariant.sku,
+      "item_name": oProduct.title,
+      "item_brand": '{{ shop.name }}',
+      "item_category": oProduct.type,
+      "item_variant": oVariant.title,
+      "price": oVariant.price / 100,
+      "quantity": Number($(".purchase-details input").val())
+    })
+    productskus = productskus ? productskus + ',' +oVariant.sku : oVariant.sku;
+  {% endfor %}
+
+  const custom_purchase = {
+    line_item: function line_item(variants, product) {
+      let line_item = {};
+      variants.map(item => {
+        if(item.sku === product.sku) line_item.variant_id = item.id
+      });
+      line_item.quantity = Number($(".purchase-details input").val());
+      return line_item;
+    },
+    variantArr: function variantArr(variants, product) {
+      let variantArr = {};
+      variants.map(item => {
+        if(item.sku === product.sku) variantArr.id = item.id
+      });
+      variantArr.quantity = Number($(".purchase-details input").val());
+      return variantArr;
+    }
+  }
+
+  $('.customize_button_addtocart').click(e => {
+    e.preventDefault();
+    let variantsArr = [];
+    let priceArr = []
+    let price = 0
+    {% for item in variant_arr %}
+      {% assign product = all_products[item.handle] %}
+      variantsArr.push(custom_purchase.variantArr({{ product.variants | json }}, {{ item | json }}))
+    {% endfor %}
+    Shopify.theme.addItemsToCart(variantsArr, {
+      onError: err => $.dialog({ title: err.message, content: err.description, type: 'red' })
+    })
+
+    addProductList.map(item => {
+      priceArr.push(item.price)
+    })
+
+    price = Math.max(...priceArr)
+
+    window.dataLayer.push({ "event_parameters": null });
+    window.dataLayer.push({
+      "event": "ga4Event",
+      "event_name": "add_to_cart",
+      "event_parameters": {
+        "page_group": "Product Detail Page_" + productskus,
+        "position": "Product Detail Page", 
+        "currency": "{{ shop.currency }}",
+        "value": price,
+        "items": addProductList
+      },
+    });
+  })
+
+  $('.customize_button_buynow').click(e => {
+    e.preventDefault();
+    let line_items = [];
+    const cookieDiscount = $('#purchase').data('cookies-discount') ?  Cookies.get('discount_code') : ''
+    const discount =  cookieDiscount || Shopify.theme.getURLParams('discount') || $('#couponCode').text() || ''
+
+    {% for item in variant_arr %}
+      {% assign product = all_products[item.handle] %}
+      line_items.push(custom_purchase.line_item({{ product.variants | json }}, {{ item | json }}));
+    {% endfor %}
+    Shopify.theme.bundleBuynow({
+      authorization: "{{ storefront_key }}",
+      checkout: {
+        line_items: line_items,
+        presentment_currency: "{{ shop.currency }}",
+        is_upstream_button: true,
+        page_type: "product",
+        secret: true,
+        discount,
+        wallet_name: "Checkout"
+      },
+      onSuccess: () => {},
+      onError: err => $.dialog({ title: err.message, content: err.description, type: 'red' })
+    });
+
+    // 数据上报
+    window.dataLayer.push({
+      'event': 'eeEvent',
+      'eventCategory': 'EnhancedEcommerce',
+      'eventAction': 'BuyNow', 
+      'eventLabel': productskus,
+      'ecommerce': {
+        'currencyCode': '{{ shop.currency }}', // 填写对应货币 USD EUR...
+        'add': {
+          'products': buyProductsList
+        }
+      }
+    })
+  })
+
+</script>
+

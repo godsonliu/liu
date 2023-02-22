@@ -1,0 +1,24 @@
+{% comment %}
+Required values
+domain: shop.permanent_domain
+{% endcomment %}
+{% assign app = domain | replace: '.myshopify.com', '' %}
+{% assign mulpass = 'https://' %}
+
+{% if app contains 'beta' %}
+  {% assign mulpass = mulpass | append: 'beta.' %}
+{% endif %}
+
+{% if app contains 'ankerwork' %}
+  {% assign mulpass = mulpass | append: 'passport.ankerwork.com' %}
+{% elsif app contains 'eufy' %}
+  {% assign mulpass = mulpass | append: 'passport.eufy.com' %}
+{% elsif app contains 'soundcore' %}
+  {% assign mulpass = mulpass | append: 'passport.soundcore.com' %}
+{% elsif app contains 'nebula' %}
+  {% assign mulpass = mulpass | append: 'passport.seenebula.com' %}
+{% else %}
+  {% assign mulpass = mulpass | append: 'passport.anker.com' %}
+{% endif %}
+
+{{ mulpass | append: '/' | append: action | append: '?app=' | append: app }}

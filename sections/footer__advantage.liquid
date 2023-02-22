@@ -1,0 +1,63 @@
+
+{% assign id = section.id %}
+{% assign css_class = section.settings.css_class %}
+{% assign custom_css = section.settings.custom_css %}
+
+{% render 'css-loop', css: css_class, id: id %}
+{% render 'css-loop', css: custom_css, id: id %}
+
+{% comment %} HTML markup {% endcomment %}
+{% if section.settings.show_advantage %}
+  <section class="section {{ css_class }}">
+    <div class="Advantage">
+      <div class="Advantage_list">
+        <ul>
+          {{ section.settings.advantage_item1 }}
+          <li>
+            <img class="ico lazyload" data-src="https://cdn.shopify.com/s/files/1/0521/9411/5753/files/icon-2.svg" alt="{{ section.settings.advantage_item2_txt }}">
+            <p>{{ section.settings.advantage_item2_txt }}</p>
+            <div class="footer__aside-item footer__aside-item--payment">
+              <div class="payment-list">
+                {% for type in shop.enabled_payment_types %}
+                  {{ type | payment_type_svg_tag: class: 'payment-list__item' }}
+                {% endfor %}
+              </div>
+            </div>
+          </li>
+          {{ section.settings.advantage_item3 }}
+        </ul>
+      </div>
+    </div>
+  </section>
+{% endif %}
+
+{% schema %}
+
+{
+  "name": "footer__advantage",
+  "class": "footer__advantage",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_advantage",
+      "label": "Show advantage",
+      "default": true
+    },
+    { "type": "html", "id": "advantage_item1", "label": "advantage_item1", "default": "<li><img  class='ico lazyload' data-src='https://cdn.shopify.com/s/files/1/0521/9411/5753/files/icon-1.svg' alt='Safe & Secure'><p>Safe &amp; Secure</p>></li>" },
+    { "type": "text", "id": "advantage_item2_txt", "label": "advantage_item2_txt", "default": "Pay with Ease" },
+    { "type": "html", "id": "advantage_item3", "label": "advantage_item2", "default": "<li><img class='ico lazyload' data-src='https://cdn.shopify.com/s/files/1/0521/9411/5753/files/icon-3.svg' alt='Trusted Delivery'><p>Trusted Delivery</p><img class='image lazyload' data-src='https://dz02g1kgtiysz.cloudfront.net/deals/files/190717_165430_logisticukus.png' alt='logistics services'></li>"},
+    {
+      "type": "text",
+      "id": "css_class",
+      "label": "CSS Class"
+    },
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Custom CSS"
+    }
+  ]
+}
+
+
+{% endschema %}

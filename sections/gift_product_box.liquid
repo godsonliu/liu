@@ -1,0 +1,70 @@
+<section class="gift-product-box">
+  <div class="gift-box">
+    {% render 'lazyload_image',  
+      src: section.settings.img1,
+      alt: section.settings.img1.alt,
+      width: section.settings.img1.width,
+      aspect_ratio: section.settings.img1.aspect_ratio,
+      isSchemaData: true
+    %}
+    <p>{{ section.settings.title1 }}</p>
+    <a href="{{section.settings.link1}}"></a>
+  </div>
+  <div class="gift-box">
+    {% render 'lazyload_image',  
+      src: section.settings.img2,
+      alt: section.settings.img2.alt,
+      width: section.settings.img2.width,
+      aspect_ratio: section.settings.img2.aspect_ratio,
+      isSchemaData: true
+    %}
+    <p>{{ section.settings.title2 }}</p>
+    <a href="{{section.settings.link2}}"></a>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "gift_product_box",
+  "settings": [
+    {
+      "type": "header",
+      "content": "盒子一配置区"
+    },
+    {
+      "type": "image_picker",
+      "id": "img1",
+      "label": "图片"
+    },
+    {
+      "type": "text",
+      "id": "title1",
+      "label": "标题"
+    },
+    {
+      "type": "url",
+      "id": "link1",
+      "label": "链接"
+    },
+    {
+      "type": "header",
+      "content": "盒子二配置区"
+    },
+    {
+      "type": "image_picker",
+      "id": "img2",
+      "label": "图片"
+    },
+    {
+      "type": "text",
+      "id": "title2",
+      "label": "标题"
+    },
+    {
+      "type": "url",
+      "id": "link2",
+      "label": "链接"
+    }
+  ]
+}
+{% endschema%}

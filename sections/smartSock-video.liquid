@@ -1,0 +1,162 @@
+<style>
+  .smartSock-video {
+    padding: 5.52vw 0;
+  }
+  .smartSock-video .video-container {
+    position: relative;
+    width: 62.5vw;
+    margin: 0 auto;
+  }
+  .smartSock-video video {
+    display: block;
+    width: 100%;
+  }
+  .smartSock-video .mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+  }
+  .smartSock-video .play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 5.2vw;
+    height: 5.2vw;
+    background-image: url("https://cdn.shopify.com/s/files/1/0521/9411/5753/files/sock_play.png?v=1657528046");
+    background-repeat: no-repeat;
+    background-size: 100%;
+    cursor: pointer;
+  }
+  @media screen and (min-width: 1921px) {
+    .smartSock-video .play {
+      width: 100px;
+      height: 100px;
+    }
+  }
+  @media screen and (max-width: 768px) {
+    .smartSock-video {
+      padding: 17.2vw 0;
+    }
+    .smartSock-video .video-container {
+      width: 90.66vw;
+    }
+    .smartSock-video .play {
+      width: 13.33vw;
+      height: 13.33vw;
+    }
+  }
+</style>
+
+{% assign custom_css = section.settings.custom_css %}
+{% render 'css-loop',
+  css: custom_css,
+  id: section.id
+%}
+
+<section class="smartSock-video">
+  <div class="video-container">
+    <video src="{{ section.settings.video }}" poster="{{ section.settings.poster | image_url }}" preload playsinline="false" webkit-playsinline="false"></video>
+    <div class="mask">
+      <i class="play"></i>
+    </div>
+  </div>
+</section>
+
+<script>
+  $(function() {
+    $(".smartSock-video .play").on("click", function() {
+      $(".smartSock-video video").attr("controls", "controls");
+      $(".smartSock-video").find("video")[0].play();
+      $(".mask").hide();
+
+      {% assign handle = page.handle %}
+      {% if page.handle == blank %}
+        {% assign handle = product.handle %}
+      {% endif %}
+
+      // GA3代码
+      dataLayer.push({
+        "event": "uaEvent", 
+        "eventCategory": "Activity Page_{{handle}}",
+        "eventAction": "watch_video",
+        "eventLabel": "{{ section.settings.video }}", //取视频title
+      });
+
+      // GA4代码
+      window.dataLayer.push({ "event_parameters": null });
+      window.dataLayer.push({
+        "event": "ga4Event",
+        "event_name": "video_start",
+        "event_parameters": {
+          "video_title": "{{ section.settings.video }}",
+          "page_group":"Activity Page_{{handle}}"
+        }
+      });
+    });
+
+    var videoProgress = {};
+    $(".smartSock-video video").on("timeupdate", function(e) {
+      var progress = this.currentTime / this.duration * 100;
+      var video_percent;
+      var arr = [10, 25, 50, 75];
+      arr.forEach(function(item) {
+        if (progress > item && videoProgress[item]) {
+          window.dataLayer.push({ "event_parameters": null });
+          window.dataLayer.push({
+            "event": "ga4Event",
+            "event_name": "video_progress",
+            "event_parameters": {
+              "video_title": "{{ section.settings.video }}", 
+              "page_group":"Activity Page_{{handle}}",
+              "video_percent": item, //进展10%、25%、50%、75%各触发一次，注意取值是数值，不带百分号%
+            }
+          });
+        }
+        videoProgress[item] = progress < item;
+      });
+    });
+    $(".smartSock-video video").on("ended", function() {
+      window.dataLayer.push({ "event_parameters": null });
+      window.dataLayer.push({
+        "event": "ga4Event",
+        "event_name": "video_complete",
+        "event_parameters": {
+          "video_title": "{{ section.settings.video }}",
+          "page_group":"Activity Page_{{handle}}"
+        }
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Smart Sock Video",
+  "presets": [
+    {
+      "name": "Smart Sock Video"
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "video",
+      "label": "视频地址"
+    },
+    {
+      "type": "image_picker",
+      "id": "poster",
+      "label": "视频海报"
+    },
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Custom CSS"
+    }
+  ]
+}
+{% endschema %}

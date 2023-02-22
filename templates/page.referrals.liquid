@@ -1,0 +1,10 @@
+{{ 'Referrals.scss.css' | asset_url | stylesheet_tag }}
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js"></script>
+
+<main
+  id="template-{{ template | replace: '.', '-' | handle }}"
+  class="shopify-section default-page"
+>
+  {% section 'referrals' %}
+</main>

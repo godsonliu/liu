@@ -1,0 +1,206 @@
+{% comment %}
+To edit the contents of this file, look inside the `sections` folder for the file name that comes directly after
+`section`. Eg. {% section 'product__main' %} or {% section 'page__banner' %}
+
+- https://help.shopify.com/en/themes/development/templates/collection-liquid
+{% endcomment %}
+
+<div
+  id="template-{{ template | replace: '.', '-' | handle }}"
+  class="shopify-section collection-page"
+  data-check-for-order="true"
+>
+  {% comment %} Collection banner {% endcomment %}
+  {% section 'collection__banner' %}
+  <section class="section__wrapper
+                  section
+                  ">
+    <div class="container {% if settings.heading_divider_style == 'long' %}has-heading-divider-below {% endif %}">
+      <div class="collection__breadcrumb two-fifths medium-down--one-whole column has-padding-bottom">
+        {% comment %} Collection breadcrumb {% endcomment %}
+        <div class="breadcrumb__container">
+          {% render 'breadcrumb', context: 'collection' %}
+        </div>
+      </div>
+      <div class="collection__spacer three-fifths column hide-when-banner-enabled"></div>
+      <div class="two-fifths medium-down--one-whole column has-no-side-gutter hide-when-banner-enabled">
+        {% comment %} Collection title {% endcomment %}
+        {% render 'heading',
+                title: collection.title,
+                heading_tag: 'h1',
+                context: 'collection',
+                text_alignment: 'left'
+        %}
+      </div>
+      <div class="collection__filters three-fifths medium-down--one-whole column">
+        {% comment %} Collection filters {% endcomment %}
+        {% render 'collection__filters' %}
+      </div>
+      {% if settings.heading_divider_width != 0 and settings.heading_divider_style == 'long' %}
+      <div class="heading-divider-below heading-wrapper one-whole column hide-when-banner-enabled">
+        <div class="heading-divider
+                      heading-divider--{{ settings.heading_divider_style }}"
+          {% if settings.heading_divider_animation != "none" %}
+          data-scroll-class="{{ settings.heading_divider_animation }}" {% endif %}>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+
+    {% comment %} Collection description {% endcomment %}
+    {% comment %} {% if collection.description != blank %}
+    <div class="container">
+      <div class="one-whole column">
+        <div class="collection__description content has-padding-bottom">
+          {{ collection.description }}
+        </div>
+      </div>
+    </div>
+    {% endif %} {% endcomment %}
+
+    {% comment %} Collection sidebar and main content area {% endcomment %}
+    <div class="container collection__content">
+      {% section 'collection__sidebar' %}
+      {% section 'collection__main' %}
+    </div>
+  </section>
+</div>
+
+<script>
+  $(document).ready(function () {
+
+    referralTrack('products', '{{ collection.handle }}', 'page');
+
+    let allProducts = {{ collection.products | json }};
+    let impressionsArr = [];
+    let productItems = [];
+    allProducts.map((item, index) => {
+
+      var productPrice;
+      if (!item.available) productPrice = "";
+      else if (item.price_min > 0) productPrice = item.price_min / 100;
+      else if (item.compare_at_price_max > item.price) productPrice = item.compare_at_price_max / 100;
+      else if (item.price === 999999999) productPrice = "";
+      else productPrice = "";
+
+      impressionsArr.push({
+        "brand": "{{ shop.name }}",
+        "list": "{{ collection.title }}",
+        "id": item.id,
+        "name": item.title,
+        "price": productPrice,
+        "variant": "",
+        "position": index,
+        "category": "{{ collection.title }}"
+      });
+      productItems.push({
+        "item_id": "{{ item.first_available_variant.sku }}",
+        "item_name": item.title,
+        "item_brand": "{{ shop.name }}",
+        "item_category": item.type,
+        "item_variant": "{{ item.first_available_variant.title }}",
+        "price": item.price,
+        "index": index,
+        "item_list_id": "{{ collection.id }}",
+        "item_list_name": "{{ collection.title }}"
+      });
+
+      $(`#itemProduct${index} .dataReviews`).click(function(){
+        window.dataLayer.push({
+          "event": "select_item",
+          "page_group": "Product List Page_" + "{{ collection.title }}",
+          "action": "Reviews_" + item.title,
+          "ecommerce": {
+            "currency": "{{ shop.currency }}",
+            "items": [{
+              "item_id": "{{ item.first_available_variant.sku }}",
+              "item_name": item.title,
+              "item_brand": "{{ shop.name }}",
+              "item_category": item.type,
+              "item_variant": "{{ item.first_available_variant.title }}",
+              "price": productPrice,
+              "index": index,
+              "item_list_id": "{{ collection.id }}",
+              "item_list_name": "{{ collection.title }}"
+            }]
+          }
+        });
+      })
+        
+      $(`#itemProduct${index} .btn`).click(function(){
+        window.dataLayer.push({
+          "event": "eeEvent",
+          "eventCategory": "EnhancedEcommerce",
+          "eventAction": "Clicked Product List",
+          "nonInteraction": false,
+          "ecommerce": {
+            "currencyCode": "{{ shop.currency }}",
+            "click": {
+              "actionField": {
+                "list": "{{ collection.title }}"
+              },
+              "products": [{
+                "id": item.id,
+                "name": item.title,
+                "price": productPrice,
+                "variant": "",
+                "position": index,
+                "brand": "{{ shop.name }}",
+                "category": "{{ collection.title }}"
+              }]
+            }
+          }
+        });
+        pushSelectItemDataLayer(productPrice, item, index)
+      })
+      // Learn more 点击 ga4 埋点
+      $(`#itemProduct${index} .pushDatalayer`).click(function(){
+        pushSelectItemDataLayer(productPrice, item, index)
+      })
+    });
+
+    // GA代码
+    window.dataLayer.push({
+      "event": "eeEvent",
+      "eventCategory": "EnhancedEcommerce",
+      "eventAction": "Viewed Product List",
+      "nonInteraction": true,
+      "ecommerce": {
+        "currencyCode": "{{ shop.currency }}",
+        "impressions": impressionsArr
+      }
+    });
+    
+    // GA4代码
+    window.dataLayer.push({
+      "event": "view_item_list",
+      "page_group": "Product List Page_" + "{{ collection.title }}",
+      "ecommerce": {
+        "currency": "{{ shop.currency }}",
+        "items": productItems
+      }
+    });
+  })
+
+  function pushSelectItemDataLayer (productPrice, item, index) {
+    window.dataLayer.push({
+      "event": "select_item",
+      "page_group": "Product List Page_" + "{{ collection.title }}",
+      "action": "Img_" + item.title,
+      "ecommerce": {
+        "currency": "{{ shop.currency }}",
+        "items": [{
+          "item_id": "{{ item.first_available_variant.sku }}",
+          "item_name": item.title,
+          "item_brand": "{{ shop.name }}",
+          "item_category": item.type,
+          "item_variant": "{{ item.first_available_variant.title }}",
+          "price": productPrice,
+          "index": index,
+          "item_list_id": "{{ collection.id }}",
+          "item_list_name": "{{ collection.title }}"
+        }]
+      }
+    });}
+
+</script>

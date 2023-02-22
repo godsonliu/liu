@@ -1,0 +1,87 @@
+
+{% assign DataId = section.settings.data_id %}
+{% assign custom_css = section.settings.custom_css %}
+{% if product.metafields['global'][DataId].value %}
+  {% assign G20_exhibition = product.metafields['global'][DataId].value %}
+{% else %}
+  {% assign G20_exhibition = product.metafields['global'][DataId] %}
+{% endif %}
+
+<!-- 
+  is-hidden-mobile-only  只在移动端隐藏
+  is-hidden-desktop-only 只在PC端隐藏
+-->
+{%- if G20_exhibition.data != blank -%}
+  <div class="G20_exhibition" id="{{DataId}}">
+    {%- if G20_exhibition.section_title != blank -%}
+      <h1 class="section_title is-hidden-desktop-only">{{G20_exhibition.section_title}}</h1>
+    {%- endif -%}
+    <div class="flex_box">
+      {%- for item in G20_exhibition.data -%}
+        <div class="flex_item is-reverse-{{item.reverse}}">
+          <div class="text_container">
+            <p class="main_title">{{ item.main_title }}</p>
+            <p class="sub_title"> {{ item.sub_title }} </p>
+          </div>
+          <div class="img_container">
+            <img class="lazyload is-hidden-mobile-only"  data-src="{{ item.pc_img }}"  alt="">
+            <img class="lazyload is-hidden-desktop-only" data-src="{{ item.mob_img }}" alt="">
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+{%- endif -%}
+
+<style>
+  #{{DataId}}.G20_exhibition { padding: 6.25vw 0; width: 100%; color: #2C2C2C }
+  #{{DataId}}.G20_exhibition .flex_box { width: 67.7%; margin: 0 auto; color: #2C2C2C; display: flex; flex-wrap: wrap; justify-content: center; }
+  #{{DataId}}.G20_exhibition .flex_box .flex_item { width: 100%; display: flex; align-items: center; margin-bottom: 60px; flex-wrap: wrap; }
+  #{{DataId}}.G20_exhibition .flex_box .flex_item:last-child { margin-bottom: 0;}
+  #{{DataId}}.G20_exhibition .flex_box .is-reverse-true { flex-direction: row-reverse; }
+  #{{DataId}}.G20_exhibition .img_container { width: 61.5%; }
+  #{{DataId}}.G20_exhibition .img_container img { width: 100%; display: block; }
+  #{{DataId}}.G20_exhibition .text_container { width: 38%; padding-right: 46px; }
+  #{{DataId}}.G20_exhibition .text_container .main_title { font-size: calc(40 / 1920 * 100vw); font-weight:700; line-height: 1.2; color: #2C2C2C; }
+  #{{DataId}}.G20_exhibition .text_container .sub_title { margin-top: 18px; font-size: calc(18 / 1920 * 100vw); font-weight:600; color: #2C2C2C; }
+  #{{DataId}}.G20_exhibition .flex_box .is-reverse-true .text_container { padding-left: 80px; }
+  
+  @media (max-width: 767px) {
+    #{{DataId}}.G20_exhibition { padding:50px 36px; width: 100%; color: #2C2C2C }
+    #{{DataId}}.G20_exhibition .section_title { font-size: 30px; font-weight: 700; text-align: center; margin-bottom: 40px; color: #2C2C2C; }
+    #{{DataId}}.G20_exhibition .flex_box { width: 100%; }
+    #{{DataId}}.G20_exhibition .flex_box .flex_item { width: 100%; flex-direction: column-reverse; margin-bottom: 40px; }
+    #{{DataId}}.G20_exhibition .flex_box .flex_item:last-child { margin-bottom: 0; }
+    #{{DataId}}.G20_exhibition .flex_box .is-reverse-true { flex-direction: column-reverse; }
+    #{{DataId}}.G20_exhibition .img_container { width: 100%; }
+    #{{DataId}}.G20_exhibition .text_container { width: 100%; padding: 0; text-align: center; }
+    #{{DataId}}.G20_exhibition .flex_box .is-reverse-true .text_container { padding: 0; }
+    #{{DataId}}.G20_exhibition .text_container .main_title { font-size: 24px; font-weight:700; margin-top: 20px; }
+    #{{DataId}}.G20_exhibition .text_container .sub_title  { margin-top: 15px; font-size: 13px; }
+  }
+
+  {%- if custom_css != blank -%} {{ custom_css }} {% endif %}
+</style>
+
+{% schema %}
+
+{
+  "name": "G20_exhibition",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Custom CSS",
+      "info": "自定义样式（注意：请按照标准的css语法添加样式）"
+    },
+    {
+      "type": "text",
+      "id": "data_id",
+      "label": "metafields data id",
+      "default": "G20_exhibition"
+    }
+  ]
+}
+
+{% endschema %}
+

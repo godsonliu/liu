@@ -1,0 +1,2018 @@
+{% assign lang = page.metafields.global %}
+
+{% if lang.bundles.value %}
+  {% assign bundles = lang.bundles.value %}
+{% else %}
+  {% assign bundles = lang.bundles %}
+{% endif %}
+
+{% if lang.pageTxt.value %}
+  {% assign pageTxt = lang.pageTxt.value %}
+{% else %}
+  {% assign pageTxt = lang.pageTxt %}
+{% endif %}
+
+{% if lang.productTxt.value %}
+  {% assign productTxt = lang.productTxt.value %}
+{% else %}
+  {% assign productTxt = lang.productTxt %}
+{% endif %}
+
+{% if shop.metafields['global']['storefront_key'].value %}
+  {% assign authorization = shop.metafields['global']['storefront_key'].value %}
+{% else %}
+  {% assign authorization = shop.metafields['global']['storefront_key'] %}
+{% endif %}
+
+{% if product.metafields['global']['custom_variants'].value %}
+  {% assign custom_variants = product.metafields['global']['custom_variants'].value %}
+{% else %}
+  {% assign custom_variants = product.metafields['global']['custom_variants'] %}
+{% endif %}
+
+
+{% assign main_product = all_products[bundles.main_product.handle] %}
+{% assign sub_product = all_products[bundles.sub_product.handle] %}
+
+{% for v in main_product.variants %}
+  {% if v.sku == bundles.main_product.sku %}
+    {% assign main_variant = v %}
+  {% endif %}
+{% endfor %}
+{% for v in sub_product.variants %}
+  {% if v.sku == bundles.sub_product.sku %}
+    {% assign sub_variant = v %}
+  {% endif %}
+{% endfor %}
+
+<script>
+  $(function() {
+    const custom_variants = JSON.parse('{{ custom_variants | json }}');
+    if (custom_variants) {
+      let sku = "";
+      const Moblie_text = JSON.parse('{{ Moblie_text | json }}');
+      {%- for variant in product.variants -%}
+        {% if forloop.first == true %}
+          sku = "{{ variant.sku }}"
+        {% endif %}
+      {% endfor %}
+      const dom = custom_variants.sku.map((v, i) => {
+        const act = sku === v ? 'current' : '';
+        return `<li class="color ${act}" data-sku="${v}" onclick="location.href='/products/${v}#template-product-t8520'">
+          <a href="/products/${v}#template-product-x8">
+            <div class="dot" style="background: ${custom_variants.background[i]}"></div>
+          </a>
+          <span class="txt"> ${custom_variants.color_txt[i]}</span>
+        </li>`;
+      }).join('');
+      if (custom_variants.sku.indexOf(sku) > -1) {
+        $('.custom_variants').html(`<ul class="options">${dom}</ul>`);
+        $('.custom_variants').removeClass('swap--visible');
+      }
+    }
+    $(".lb_2").slick({
+      dots: true,
+      // autoplay:true,
+      infinite: true,
+      slidesToShow:1,
+      prevArrow: $('.slick-prev'),
+      nextArrow: $('.slick-next'),
+    });
+    $(".y_1").click (function(){
+      $(".y_1").css('display','none');
+      $(".y_2").css('display','block');
+      $(".y_3").css('display','block');
+      $(".y_1_s").css('display','block');
+      $(".y_2_s").css('display','none');
+      $(".y_3_s").css('display','none');
+      $(".qh_content_1").css('display','block');
+      $(".qh_content_2").css('display','none');
+      $(".qh_content_3").css('display','none');
+    });
+    $(".y_2").click (function(){
+      $(".y_1").css('display','block');
+      $(".y_2").css('display','none');
+      $(".y_3").css('display','block');
+      $(".y_1_s").css('display','none');
+      $(".y_2_s").css('display','block');
+      $(".y_3_s").css('display','none');
+      $(".qh_content_1").css('display','none');
+      $(".qh_content_2").css('display','block');
+      $(".qh_content_3").css('display','none');
+    });
+    $(".y_3").click (function(){
+      $(".y_1").css('display','block');
+      $(".y_2").css('display','block');
+      $(".y_3").css('display','none');
+      $(".y_1_s").css('display','none');
+      $(".y_2_s").css('display','none');
+      $(".y_3_s").css('display','block');
+      $(".qh_content_1").css('display','none');
+      $(".qh_content_2").css('display','none');
+      $(".qh_content_3").css('display','block');
+    });
+    const T8520_main = {
+      init_num: (v) => {
+        if (v > 0.9) return 1;
+        if (v < 0.1) return 0;
+        return v;
+      },
+      getRandom: (n, m) => {
+        var num = Math.floor(Math.random() * (m - n + 1) + n);
+        return num;
+      },
+    }
+
+    const width = window.innerWidth;
+    const viewPortHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+    let h = 600;
+    if (width > 769) {
+      h = viewPortHeight - 92;    
+    } else {
+      h = viewPortHeight - 60;
+    }
+    if (width > 769) {
+      $('.T8520_main .content_3').height(h * 4.5 + 'px');
+    } else {
+      $('.T8520_main .content_3').height(h * 4 + 'px');
+    }
+    
+    const s10_cont3 = h ;
+    const s10_cont4 = h * 2;
+    const s10_cont6 = h * 1.8;
+    const s10_cont5 = h * 3;
+    
+    $(window).scroll(function(){
+       
+      const top = $(window).scrollTop();
+      
+      if($('.dh_fd').length > 0){
+        const dh_fd = $('.dh_fd').offset().top;
+        const dh_div = $('.dh_fd').height();
+        const skia = top - dh_div; 
+        if (skia > 0 ) {
+          $(`.dh_fd`).css('position', `fixed`);
+          $(`.dh_fd`).css('top', $(window).width() < 769 ? '78px' : '111px');
+        } else {
+          $(`.dh_fd`).css('position', `relative`);
+          $(`.dh_fd`).css('top', `0px`);
+        }
+      }
+      
+      const sticky1_position = $('.content_3').offset().top;
+      const ski1 = top - sticky1_position;
+      
+      if (ski1 > 0 && ski1 < s10_cont3) {
+        const opacity_1 = ski1 / h;
+        $(`.p_z`).css('transform', `translateY(-${300 * opacity_1}px)`);
+        $(`.p_z`).css('opacity', 1 - opacity_1*10);
+      }
+      if (ski1 > h * 0.2  && ski1 <  s10_cont4) {
+        const opacity = (ski1 - h * 0.2) / (h * 1.96 );
+        if (width > 769) {
+          $(`.dh_1`).css('transform', `scale(${1 - ( 1 * opacity)})`);
+          if (width >= 1600){
+            $(`.dh_1`).css('top', `-${1250 * opacity}px`);
+          }else if(width<1600 && width>=1200){
+            $(`.dh_1`).css('top', `-${1350 * opacity}px`);
+          }else if(width<1200 && width>=1024){
+            $(`.dh_1`).css('top', `-${1000 * opacity}px`);
+          }else if(width<1024){
+            $(`.dh_1`).css('top', `-${900 * opacity}px`);
+          }
+        } else {
+          $(`.dh_1`).css('transform', `scale(${1 - ( 1 * opacity)})`);
+          $(`.dh_1`).css('top', `-${100 * opacity}px`);
+          
+        }
+      }
+      if (ski1 > s10_cont4){
+        const opacity_2 = (ski1 - 2*h) / h;
+        //$(`.dh_1`).css('opacity', 1 -(opacity_2));
+        //$(`.dh_tu`).css('opacity', opacity_2);
+        //$(`.dh_tu img`).css('transform', `scale(${0.8 + ( 0.2 * opacity_2)})`);
+        $(".dh_1").addClass("active_1");
+        $(".dh_tu .dh_img").addClass("active_2");
+      }else{
+        $(".dh_1").removeClass("active_1");
+        $(".dh_tu .dh_img").removeClass("active_2");
+      }
+    })
+
+    referralTrack('{{ template.suffix }}', '{{ page.handle }}', 'page');
+  })
+</script>
+
+<div class="T8520_main">
+  {% if productTxt != blank %}
+    <div class="dh_fd">
+      <div class="contain_dh">
+        <div class="dh_p">{{ productTxt.dh_p }}</div>
+        <a class="dh_a" href="#{{ productTxt.displayId }}">{{ productTxt.dh_a }}</a>
+      </div>
+    </div>
+  {% endif %}
+    
+  <div class="lazy">
+    <div class="banner_lb">
+      <div class="banner_lb_img">
+        <img class="pc_show lazyload" data-src="{{ section.settings.banner_lb_1 | img_url: '' }}">
+        <img class="mob_show lazyload" data-src="{{ section.settings.mob_banner_lb_1 | img_url: '' }}">
+      </div>
+      <div class="banner_lb_wz">
+        <p class="banner_p_1">{{section.settings.banner_p_1}}</p>
+        <p class="banner_p_2">{{section.settings.banner_p_2}}</p>
+      </div> 
+    </div>
+    
+  </div>
+  
+  {% if productTxt != blank %}
+    <div class="subscribe buyProducts Spin" id="{{ productTxt.displayId }}">
+
+      <div class="content cnt">
+        <div class="wrap">
+          <div class="img">
+            <img class="lazyload" data-src="{{ productTxt.product_img }}" />
+          </div>
+          <div class="txt">
+            
+            <h2 class="title">{{ productTxt.txt_title }}</h2>
+            <ul class="desc">{{ productTxt.txt_info }}</ul>
+
+            <div class="deals">
+              {% if bundles != blank %}
+                {% assign sold_out = false %}
+                {% if main_product.variants == blank or main_product.available == false or sub_product.variants == blank or sub_product.available == false  %}
+                  {% assign sold_out = true %}
+                {% endif %}
+
+                {% if sold_out %}
+                  <p class="non_stock">{{ pageTxt.non_stock }}</p>
+                {% else %}
+                  <div class="price">
+                    <span class="sell_price">{{ main_variant.price | money }}</span>
+                  </div>
+
+                  <div class="purchase-details__quantity">
+                    <span class="quantity_txt">{{ pageTxt.quantity }}</span>
+                    <div class="quantity-wrapper">
+                      <a id="btn_reduce" class="quantity_btn btn_reduce" role="button" onclick="quantitySet('reduce')">
+                        <i class="iconfont">&#xe729;</i>
+                      </a>
+                      <input class="quantity-bundle" max="{{ main_variant.inventory_quantity }}" onChange="quantityInput()" />
+                      <a id="btn_add" class="quantity_btn btn_add" role="button" onclick="quantitySet('add')">
+                        <i class="iconfont">&#xe727;</i>
+                      </a>
+                    </div>
+                  </div>
+
+                  <div class="buy">
+                    <div class="table">
+                      <div class="copy">
+                        <span class="value">
+                          <span class="code"><span>{{ pageTxt.code_txt }} {{ pageTxt.code }}</span></span>
+                          <button
+                            type="button"
+                            onClick="copyTxt()"
+                            class="clipboard_btn link"
+                            data-clipboard-text="{{ pageTxt.code }}"
+                          >{{ pageTxt.copy }}</button>
+                        </span>
+                      </div>
+                      <a id="btn_buynow" class="button-normal submit buy_btn" onclick="bundleBuynow()">{{ pageTxt.buy_now }}</a>
+                    </div>
+                  </div>
+                {% endif %}
+
+              {% else %}
+                <div class="newsletter_form subscribe_form">
+                  <div class="succssInfo swap--visible">
+                    <img class="lazyload" data-src="{{ section.settings.gou_1 | img_url: '' }}" alt="">
+                    <p>{{ section.settings.info_seccess }}</p>
+                  </div>
+                  <h1 class="newsletter_form_title ">{{section.settings.banner_form_title}}</h1>
+                  {% render 'subscribe-form', 
+                    type: 'block',
+                    snippets_id: 'eufy_t8520',
+                    deals_type: 'eufy_t8520',
+                    succssInfo: 'succssInfo',
+                    dataLayer:'t8520sub',
+                    submit_position: section.settings.submit_position,
+                    policy_text: section.settings.policy_text,
+                    info_fill_email: section.settings.info_fill_email,
+                    info_err_email: section.settings.info_err_email,
+                    info_seccess: section.settings.info_seccess,
+                    info_select_policy: section.settings.info_select_policy,
+                    info_fill_captcha: section.settings.info_fill_captcha
+                  %}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+          
+        </div>
+      </div>
+      <div class="mask"></div>
+      <div class="spinner">
+        <i class="iconfont"></i>
+        <div class="focus"><i class="iconfont"></i></div>
+      </div>
+    </div>
+  {% endif %}
+
+  <div class="content_3">
+    <div class="contain_1">
+      <div class="p_z">
+        <p class="p3">{{ section.settings.p3 }}</p>
+        <p class="p4">{{ section.settings.p4 }}</p>
+      </div>
+      <div class="vh_gd" style="position: relative;">
+        <div class="dh_1">
+          <img class="lazyload" data-src="{{ section.settings.yaokong | img_url: '' }}">
+        </div>
+        <div class="dh_tu">
+          <img class="dh_img lazyload pc_show" data-src="{{ section.settings.dh_tu | img_url: '' }}">
+          <img class="dh_img lazyload mob_show" data-src="{{ section.settings.dh_tu_mobile | img_url: '' }}">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="content_4">
+    
+      <img class="pc_show lazyload" data-src="{{ section.settings.banner_2 | img_url: '' }}">
+      <img class="mob_show lazyload" data-src="{{ section.settings.banner_2_mobile | img_url: '' }}">
+    
+    <div class="contain_2">
+      
+      <div class="wrap">
+        <p class="p5">{{ section.settings.p5 }}</p>
+        <p class="p5_1">{{ section.settings.p5_1 }}</p>
+        <p class="p6">{{ section.settings.p6 }}</p>
+        <img class="img_1 lazyload" data-src="{{ section.settings.zhiwen | img_url: '' }}">
+      </div>
+      
+    </div>
+  </div>
+  <div class="content_5">
+    <div class="video_k">
+      <div class="lazyload" data-src="{{ section.settings.video_k }}" data-mobile-src="{{ section.settings.video_k }}"></div>
+    </div>
+    
+    <div class="sp_btm"></div>
+    <div class="contain_3">
+      <div class="wrap">
+        <p class="p7">{{ section.settings.p7 }}</p>
+        <p class="p8">{{ section.settings.p8 }}</p>
+        <div class="ceshi_2">
+          <p class="p9">
+            {{ section.settings.p9 }}
+          </p>
+        </div>
+        
+        <img class="img_2 lazyload" data-src="{{ section.settings.tubiao_1 | img_url: '' }}">
+      </div>
+      
+    </div>
+  </div>
+  <div class="content_6">
+    <div class="contain">
+      <div class="contain_left">
+        <p class="p10">{{ section.settings.p10_1 }}</p>
+        <p class="p11">
+          {{ section.settings.p11_1 }}
+        </p>
+        <div class="dtb">
+          <img class="lazyload" data-src="{{ section.settings.icon_1 | img_url: '' }}">
+          <p class="p12">Smart Lock</p>
+        </div>
+        <div class="xtb">
+          <img class="lazyload" data-src="{{ section.settings.icon_2 | img_url: '' }}">
+          <p class="p12">iPhone 8</p>
+        </div>
+        <div class="contain_4_left">
+          <img class="lazyload" data-src="{{ section.settings.bj_left | img_url: '' }}">
+        </div>
+      </div>
+      <div class="contain_right">
+        <div class="p10">{{ section.settings.p10_2 }}</div>
+        <div class="p11">
+          {{ section.settings.p11_2 }}
+        </div>
+        <div class="contain_4_right">
+          <img class="lazyload" data-src="{{ section.settings.bj_right | img_url: '' }}">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="content_7">
+    <p class="p13">{{ section.settings.p13 }}</p>
+    <div style="position: relative;">
+      <button class="slick-prev slick-arrow" aria-label="Previous" type="button">Previous</button>
+      <div class="lb_2">
+        
+        <div class="lb_all">
+          <div class="lb_img">
+            <img class="pc_show lazyload" data-src="{{ section.settings.lb_2a | img_url: '' }}">
+            
+            <img class="mob_show lazyload" data-src="{{ section.settings.lb_2a_mobile | img_url: '' }}">
+            <div class="btm"></div>
+          </div>
+          <div class="wrap_1">
+            <div class="btm_d">
+              <p class="p14">{{ section.settings.p14_1 }}</p>
+              <p class="p15">{{ section.settings.p15_1 }}</p>
+            </div>
+            <div class="lb_sj">
+              <img class="lazyload" data-src="{{ section.settings.lb_1a | img_url: '' }}">
+            </div>
+          </div>
+          
+        </div>
+        <div class="lb_all">
+          <div class="lb_img">
+            <img class="pc_show lazyload" data-src="{{ section.settings.lb_2b | img_url: '' }}">
+            
+            <img class="mob_show lazyload" data-src="{{ section.settings.lb_2b_mobile | img_url: '' }}">
+            <div class="btm"></div>
+          </div>
+          <div class="wrap_1">
+            <div class="btm_d">
+              <p class="p14">{{ section.settings.p14_2 }}</p>
+              <p class="p15">{{ section.settings.p15_2 }}</p>
+            </div>
+            <!-- <div class="lb_sj">
+              <img class="lazyload" data-src="{{ section.settings.lb_1b | img_url: '' }}">
+            </div> -->
+          </div>
+          
+        </div>
+        <div class="lb_all">
+          <div class="lb_img">
+            <img class="pc_show lazyload" data-src="{{ section.settings.lb_2c | img_url: '' }}">
+            
+            <img class="mob_show lazyload" data-src="{{ section.settings.lb_2c_mobile | img_url: '' }}">
+            <div class="btm"></div>
+          </div>
+          <div class="wrap_1">
+            <div class="btm_d">
+              <p class="p14">{{ section.settings.p14_3 }}</p>
+              <p class="p15">{{ section.settings.p15_3 }}</p>
+            </div>
+            <div class="lb_sj">
+              <img class="lazyload" data-src="{{ section.settings.lb_1c | img_url: '' }}">
+            </div>
+          </div>
+          
+        </div>
+        
+      </div>
+      <button class="slick-next slick-arrow" aria-label="Next" type="button">Next</button>
+    </div>
+    
+  </div>
+
+  <div class="unlock" id="unlock">
+    <div class="sticky_container">
+      <div class="unlock_con">
+        <h2 class="title">{{ section.settings.title_unlock }}</h2>
+        <p class="desc">{{ section.settings.desc_unlock }}</p>
+        <div class="unlock_content">
+          <div class="txtBox pc_show">
+            <div class="txtArr">
+              <div class="txt1 txt">
+                <div class="txt_box">
+                  <div class="ico"><img class="lazyload" data-src="{{ section.settings.tubiao_a | img_url: '' }}" /></div>
+                  <div class="tit">{{ section.settings.tit_unlock_1 }}</div>
+                </div>
+                <!-- <p class="desc">{{ section.settings.desc_unlock_1 }}</p> -->
+              </div>
+              <div class="txt2 txt">
+                <div class="txt_box">
+                  <div class="ico"><img class="lazyload" data-src="{{ section.settings.tubiao_b | img_url: '' }}" /></div>
+                  <div class="tit">{{ section.settings.tit_unlock_2 }}</div>
+                </div>
+                <!-- <p class="desc">{{ section.settings.desc_unlock_2 }}</p> -->
+              </div>
+              <div class="txt3 txt">
+                <div class="txt_box">
+                  <div class="ico"><img class="lazyload" data-src="{{ section.settings.tubiao_c | img_url: '' }}" /></div>
+                  <div class="tit">{{ section.settings.tit_unlock_3 }}</div>
+                </div>
+                <!-- <p class="desc">{{ section.settings.desc_unlock_3 }}</p> -->
+              </div>
+              <div class="txt4 txt">
+                <div class="txt_box">
+                  <div class="ico"><img class="lazyload" data-src="{{ section.settings.tubiao_d | img_url: '' }}" /></div>
+                  <div class="tit">{{ section.settings.tit_unlock_4 }}</div>
+                </div>
+                <!-- <p class="desc">{{ section.settings.desc_unlock_4 }}</p> -->
+              </div>
+              <div class="txt5 txt">
+                <div class="txt_box">
+                  <div class="ico"><img class="lazyload" data-src="{{ section.settings.tubiao_e | img_url: '' }}" /></div>
+                  <div class="tit">{{ section.settings.tit_unlock_5 }}</div>
+                </div>
+                <!-- <p class="desc">{{ section.settings.desc_unlock_5 }}</p> -->
+              </div>
+              <div class="txt6 txt">
+                <div class="txt_box">
+                  <div class="ico"><img class="lazyload" data-src="{{ section.settings.tubiao_f | img_url: '' }}" /></div>
+                  <div class="tit">{{ section.settings.tit_unlock_6 }}</div>
+                </div>
+                <!-- <p class="desc">{{ section.settings.desc_unlock_5 }}</p> -->
+              </div>
+            </div>
+          </div>
+          <div class="imgBox">
+            <div class="img1 img">
+              <div class="mob_show txt">
+                <div class="txt_box">
+                  <div class="ico"><img class="lazyload" data-src="{{ section.settings.tubiao_a_mobile | img_url: '' }}" /></div>
+                  <div class="tit">{{ section.settings.tit_unlock_1 }}</div>
+                </div>
+                <!-- <p class="desc">{{ section.settings.desc_unlock_1 }}</p> -->
+              </div>
+              <img class="lazyload" data-src="{{ section.settings.sz_a | img_url: '' }}" />
+            </div>
+            <div class="img2 img">
+              <div class="mob_show txt">
+                <div class="txt_box">
+                  <div class="ico"><img class="lazyload" data-src="{{ section.settings.tubiao_b_mobile | img_url: '' }}" /></div>
+                  <div class="tit">{{ section.settings.tit_unlock_2 }}</div>
+                </div>
+                <!-- <p class="desc">{{ section.settings.desc_unlock_2 }}</p> -->
+              </div>
+              <img class="lazyload" data-src="{{ section.settings.sz_b | img_url: '' }}" />
+            </div>
+            <div class="img3 img">
+              <div class="mob_show txt">
+                <div class="txt_box">
+                  <div class="ico"><img class="lazyload" data-src="{{ section.settings.tubiao_c_mobile | img_url: '' }}" /></div>
+                  <div class="tit">{{ section.settings.tit_unlock_3 }}</div>
+                </div>
+                <!-- <p class="desc">{{ section.settings.desc_unlock_3 }}</p> -->
+              </div>
+              <img class="lazyload" data-src="{{ section.settings.sz_c | img_url: '' }}" />
+            </div>
+            <div class="img4 img">
+              <div class="mob_show txt">
+                <div class="txt_box">
+                  <div class="ico"><img class="lazyload" data-src="{{ section.settings.tubiao_d_mobile | img_url: '' }}" /></div>
+                  <div class="tit">{{ section.settings.tit_unlock_4 }}</div>
+                </div>
+                <!-- <p class="desc">{{ section.settings.desc_unlock_4 }}</p> -->
+              </div>
+              <img class="lazyload" data-src="{{ section.settings.sz_d | img_url: '' }}" />
+            </div>
+            <div class="img5 img">
+              <div class="mob_show txt">
+                <div class="txt_box">
+                  <div class="ico"><img class="lazyload" data-src="{{ section.settings.tubiao_e_mobile | img_url: '' }}" /></div>
+                  <div class="tit">{{ section.settings.tit_unlock_5 }}</div>
+                </div>
+                <!-- <p class="desc">{{ section.settings.desc_unlock_5 }}</p> -->
+              </div>
+              <img class="lazyload" data-src="{{ section.settings.sz_e | img_url: '' }}" />
+            </div>
+            <div class="img6 img">
+              <div class="mob_show txt">
+                <div class="txt_box">
+                  <div class="ico"><img class="lazyload" data-src="{{ section.settings.tubiao_f_mobile | img_url: '' }}" /></div>
+                  <div class="tit">{{ section.settings.tit_unlock_6 }}</div>
+                </div>
+                <!-- <p class="desc">{{ section.settings.desc_unlock_5 }}</p> -->
+              </div>
+              <img class="lazyload" data-src="{{ section.settings.sz_f | img_url: '' }}" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content_9">
+    
+      <div class="contain_9_left">
+        <div class="left_top">
+          <p class="p16">{{ section.settings.p16 }}</p>
+          <p class="p17 pc_show">{{ section.settings.p17 }}
+          </p>
+          <p class="p17 mob_show">{{ section.settings.p17_1 }}
+          </p>
+          <div class="icon_3">
+            <img class="lazyload" data-src="{{ section.settings.icon_3 | img_url: '' }}">
+            <p class="p20">{{ section.settings.p20_1 }}</p>
+          </div>
+          <div class="icon_4">
+            <img class="lazyload" data-src="{{ section.settings.icon_4 | img_url: '' }}">
+            <p class="p20">{{ section.settings.p20_2 }}</p>
+          </div>
+          <div class="sj_1">
+            <img class="lazyload" data-src="{{ section.settings.shouji | img_url: '' }}">
+          </div>
+        </div>
+        <div class="left_bottom">
+          <img class="pc_show lazyload" data-src="{{ section.settings.bg_2 | img_url: '' }}">
+          <img class="mob_show lazyload" data-src="{{ section.settings.bj_1_mobile | img_url: '' }}">
+        </div>
+      </div>
+      <div class="contain_9_right pc_show">
+        <div class="right_top">
+          <img class="lazyload" data-src="{{ section.settings.bj_1 | img_url: '' }}">
+          
+        </div>
+        <div class="right_bottom">
+          <p class="p18">{{ section.settings.p18 }}</p>
+          <p class="p19">{{ section.settings.p19 }}</p>
+          <div class="icon_5">
+            <img class="lazyload" data-src="{{ section.settings.icon_5 | img_url: '' }}">
+            <p class="p21">{{ section.settings.p21 }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="contain_9_right mob_show">
+        
+        <div class="right_bottom">
+          <p class="p18">{{ section.settings.p18 }}</p>
+          <p class="p19">{{ section.settings.p19 }}</p>
+          <div class="icon_5">
+            <img class="lazyload" data-src="{{ section.settings.icon_5 | img_url: '' }}">
+            <p class="p21">{{ section.settings.p21 }}</p>
+          </div>
+        </div>
+        <div class="right_top">
+          <img class="pc_show lazyload" data-src="{{ section.settings.bj_1 | img_url: '' }}">
+          <img class="mob_show lazyload" data-src="{{ section.settings.bj_2_mobile | img_url: '' }}">
+        </div>
+      </div>
+  </div>
+  
+  <div class="cut" id="cut">
+    <div class="sticky_container">
+      <div class="bg">
+        <img class="lazyload" data-src="https://cdn.shopify.com/s/files/1/0519/5458/1696/files/Lark20210201-104057.png?v=1612147810" />
+      </div>
+      <div class="cut_con">
+        <h2 class="title">{{ section.settings.title_safe }}</h2>
+        <p class="desc">{{ section.settings.desc_safe }}</p>
+        <div class="cut_box pc_show">
+          <div class="cut_content">
+            <div class="fit_img">
+              <img src='https://cdn.shopify.com/s/files/1/0521/9411/5753/files/a7bba7c11b570c0b010a00028c0e8d94.png?v=1612432761' />
+            </div>
+            <div class="cut_img">
+              <img class="cut_img1" src='https://cdn.shopify.com/s/files/1/0521/9411/5753/files/01.png?v=1612324279' />
+              <img class="cut_img2" src='https://cdn.shopify.com/s/files/1/0521/9411/5753/files/02.png?v=1612324288' />
+              <img class="cut_img3" src='https://cdn.shopify.com/s/files/1/0521/9411/5753/files/03.png?v=1612324296' />
+              <img class="cut_img4" src='https://cdn.shopify.com/s/files/1/0521/9411/5753/files/04.png?v=1612324308' />
+              <img class="cut_img5" src='https://cdn.shopify.com/s/files/1/0521/9411/5753/files/05.png?v=1612324316' />
+              <img class="cut_img6" src='https://cdn.shopify.com/s/files/1/0521/9411/5753/files/06.png?v=1612324325' />
+              <img class="cut_img7" src='https://cdn.shopify.com/s/files/1/0521/9411/5753/files/07.png?v=1612324333' />
+              <img class="cut_img8" src='https://cdn.shopify.com/s/files/1/0521/9411/5753/files/Lark20210205-181015.png?v=1612519834' />
+              <img class="cut_img9" src='https://cdn.shopify.com/s/files/1/0521/9411/5753/files/09.png?v=1612324350' />
+            </div>
+          </div>
+          <div class="cut_txt cut_txt1">
+            <!-- <img data-src="https://cdn.shopify.com/s/files/1/0519/5458/1696/files/4_e14e9f4a-2a5b-4253-aaf2-aa693b2eadb2.png?v=1611888900" /> -->
+            <div class="txt">
+              <h2>{{ section.settings.h2_1 }}</h2>
+              <p>{{ section.settings.h2_p_1 }}</p>
+            </div>
+          </div>
+          <div class="cut_txt cut_txt2">
+            <!-- <img data-src="https://cdn.shopify.com/s/files/1/0519/5458/1696/files/4_5a030e7f-5607-490a-8b90-66780c1adcc5.png?v=1611888891" /> -->
+            <div class="txt">
+              <h2>{{ section.settings.h2_2 }}</h2>
+              <p>{{ section.settings.h2_p_2 }}</p>
+            </div>
+          </div>
+        </div>
+        <div class="cut_image mob_show">
+          <div class="cut_txt cut_txt1">
+            <!-- <img data-src="https://cdn.shopify.com/s/files/1/0519/5458/1696/files/4_e14e9f4a-2a5b-4253-aaf2-aa693b2eadb2.png?v=1611888900" /> -->
+            <div class="txt">
+              <h2>{{ section.settings.h2_1 }}</h2>
+              <p>{{ section.settings.h2_p_1 }}</p>
+            </div>
+          </div>
+          <img style="margin-top:5vh;margin-bottom:5vh;" class="lazyload" data-src="https://cdn.shopify.com/s/files/1/0521/9411/5753/files/202125-91114.png?v=1612516580" />
+          
+          <div class="cut_txt cut_txt2">
+            <!-- <img data-src="https://cdn.shopify.com/s/files/1/0519/5458/1696/files/4_5a030e7f-5607-490a-8b90-66780c1adcc5.png?v=1611888891" /> -->
+            <div class="txt">
+              <h2>{{ section.settings.h2_2 }}</h2>
+              <p>{{ section.settings.h2_p_2 }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="content_tj">
+    <div class="tj_left">
+      <div class="p34">{{ section.settings.p34_1 }}</div>
+      <div class="tj_img_1">
+        <img class="pc_show lazyload" data-src="{{ section.settings.bg_3 | img_url: '' }}">
+        <img class="mob_show lazyload" data-src="{{ section.settings.bj_3_mobile | img_url: '' }}">
+      </div>
+      <p class="p35">{{ section.settings.p35_1 }}</p>
+    </div>
+    <div class="tj_right">
+      <div class="tj_right_top">
+        <div class="p34">{{ section.settings.p34_2 }}</div>
+        <div class="tj_img_2">
+          <img class="pc_show lazyload" data-src="{{ section.settings.bg_4 | img_url: '' }}">
+          <img class="mob_show lazyload" data-src="{{ section.settings.bg_4_mobile | img_url: '' }}">
+        </div>
+        <p class="p35">{{ section.settings.p35_2 }}
+          </p>
+      </div>
+      <div class="tj_right_bottom">
+        <div class="p34">{{ section.settings.p34_3 }}</div>
+        <div class="tj_img_3">
+          <img class="pc_show lazyload" data-src="{{ section.settings.bg_5 | img_url: '' }}">
+          <img class="mob_show lazyload" data-src="{{ section.settings.bg_5_mobile | img_url: '' }}">
+        </div>
+        <p class="p35">{{ section.settings.p35_3 }}
+          </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="content_11">
+    <div class="p22">{{ section.settings.p22 }}</div>
+    <div class="bg_6">
+      <img class="pc_show lazyload" data-src="{{ section.settings.bg_6 | img_url: '' }}">
+      <img class="mob_show lazyload" data-src="{{ section.settings.bj_6_mobile | img_url: '' }}">
+      <div class="p23">{{ section.settings.p23 }}</div>
+      <div class="p23_1">{{ section.settings.p23_1 }}</div>
+      <div class="p24">{{ section.settings.p24 }}</div>
+    </div>
+    <div class="bg_7">
+      <img class="pc_show lazyload" data-src="{{ section.settings.bg_7 | img_url: '' }}">
+      <img class="mob_show lazyload" data-src="{{ section.settings.bj_7_mobile | img_url: '' }}">
+      <div class="p25">{{ section.settings.p25 }}</div>
+      <div class="p25_1">{{ section.settings.p25_1 }}</div>
+      <div class="p26">{{ section.settings.p26 }}</div>
+    </div>
+    <div class="bg_z">
+      <div class="bg_z_left">
+        <div class="bg_z_left_top">
+          <p class="p27">{{ section.settings.p27 }}</p>
+          <p class="p27_1">{{ section.settings.p27_1 }}</p>
+          <p class="p28">{{ section.settings.p28 }}</p>
+        </div>
+        <div class="bg_z_left_bottom">
+          <img class="pc_show lazyload" data-src="{{ section.settings.bg_9 | img_url: '' }}">
+          <img class="mob_show lazyload" data-src="{{ section.settings.bg_8_mobile | img_url: '' }}">
+        </div>
+      </div>
+      <div class="bg_z_right pc_show">
+        <div class="bg_z_right_top">
+          <img class="lazyload" data-src="{{ section.settings.bg_8 | img_url: '' }}">
+        </div>
+        <div class="bg_z_right_bottom">
+          <div class="p29">{{ section.settings.p29 }}</div>
+          <div class="p29_1">{{ section.settings.p29_1 }}</div>
+          <div class="p30">{{ section.settings.p30 }}</div>
+        </div>
+      </div>
+      <div class="bg_z_right mob_show">
+        <div class="bg_z_right_bottom">
+          <div class="p29">{{ section.settings.p29 }}</div>
+          <div class="p29_1">{{ section.settings.p29_1 }}</div>
+          <div class="p30">{{ section.settings.p30 }}</div>
+        </div>
+        <div class="bg_z_right_top">
+          <img class="lazyload" data-src="{{ section.settings.bg_9_mobile | img_url: '' }}">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="content_12">
+    <div class="p31">{{ section.settings.p31 }}</div>
+    <div class="p31_1">{{ section.settings.p31_1 }}</div>
+    <div class="p32">
+      {{ section.settings.p32 }}
+    </div>
+    <div class="san_y">
+      <div class="ceshi_1">
+        <div class="y_1" style="display: none;">
+          <div class="yuan">
+            <img class="lazyload" data-src="{{ section.settings.sql | img_url: '' }}">
+          </div>
+          <p class="p33">{{ section.settings.p33_1 }}</p>
+        </div>
+        <div class="y_1_s" style="display: block;">
+          <div class="yuan">
+            <img class="lazyload" data-src="{{ section.settings.sb | img_url: '' }}">
+          </div>
+          <p class="p33">{{ section.settings.p33_1 }}</p>
+        </div>
+        <div class="y_2" style="display: block;">
+          <div class="yuan">
+            <img class="lazyload" data-src="{{ section.settings.ks | img_url: '' }}">
+          </div>
+          <p class="p33">{{ section.settings.p33_2 }}</p>
+        </div>
+        <div class="y_2_s" style="display: none;">
+          <div class="yuan">
+            <img class="lazyload" data-src="{{ section.settings.ksb | img_url: '' }}">
+          </div>
+          <p class="p33">{{ section.settings.p33_2 }}</p>
+        </div>
+        <div class="y_3" style="display: block;">
+          <div class="yuan">
+            
+            <img class="lazyload" data-src="{{ section.settings.yh | img_url: '' }}">
+          </div>
+          <p class="p33">{{ section.settings.p33_3 }}</p>
+        </div>
+        <div class="y_3_s" style="display: none;">
+          <div class="yuan">
+            <img class="lazyload" data-src="{{ section.settings.yhb | img_url: '' }}">
+          </div>
+          <p class="p33">{{ section.settings.p33_3 }}</p>
+        </div>
+      </div>
+      
+    </div>
+    <div class="bg_10">
+      <div class="ceshi_1 pc_show">
+        <div class="qh_content_1" style="display: block;">
+          <div class="qh_img_1">
+            <img class="lazyload" data-src="{{ section.settings.qh_1_img | img_url: '' }}">
+          </div>
+          <video  src="{{ section.settings.qh_1_video }}" preload="auto" muted="muted" autoplay="autoplay" loop="loop" playsinline></video>
+        </div>
+        <div class="qh_content_2" style="display: none;">
+          <div class="qh_img_2">
+            <img class="lazyload" data-src="{{ section.settings.qh_2_img | img_url: '' }}">
+          </div>
+          <video  src="{{ section.settings.qh_2_video }}" preload="auto" muted="muted" autoplay="autoplay" loop="loop" playsinline></video>
+        </div>
+        <div class="qh_content_3" style="display: none;">
+          <div class="qh_img_3">
+            <img class="lazyload" data-src="{{ section.settings.qh_3_img | img_url: '' }}">
+          </div>
+          <video  src="{{ section.settings.qh_3_video }}" preload="auto" muted="muted" autoplay="autoplay" loop="loop" playsinline></video>
+        </div>
+      </div>
+      <div class="ceshi_1 mob_show">
+        <div class="qh_content_1" style="display: block;">
+          <div class="qh_img_1">
+            <img class="lazyload" data-src="{{ section.settings.qh_1_img | img_url: '' }}">
+          </div>
+          <video  src="{{ section.settings.qh_1_video }}" preload="auto" muted="muted" autoplay="autoplay" loop="loop" playsinline></video>
+        </div>
+        <div class="qh_content_2" style="display: none;">
+          <div class="qh_img_2">
+            <img class="lazyload" data-src="{{ section.settings.qh_2_img | img_url: '' }}">
+          </div>
+          <video  src="{{ section.settings.qh_2_video }}" preload="auto" muted="muted" autoplay="autoplay" loop="loop" playsinline></video>
+        </div>
+        <div class="qh_content_3" style="display: none;">
+          <div class="qh_img_3">
+            <img class="lazyload" data-src="{{ section.settings.qh_3_img | img_url: '' }}">
+          </div>
+          <video  src="{{ section.settings.qh_3_video }}" preload="auto" muted="muted" autoplay="autoplay" loop="loop" playsinline></video>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(function() {
+    const cut_list = [
+      'https://cdn.shopify.com/s/files/1/0519/5458/1696/files/1.png?v=1611884722',
+      'https://cdn.shopify.com/s/files/1/0519/5458/1696/files/2.png?v=1611884724',
+      'https://cdn.shopify.com/s/files/1/0519/5458/1696/files/3.png?v=1611884724',
+      'https://cdn.shopify.com/s/files/1/0519/5458/1696/files/4.png?v=1611884723',
+      'https://cdn.shopify.com/s/files/1/0519/5458/1696/files/5.png?v=1611884724',
+      'https://cdn.shopify.com/s/files/1/0519/5458/1696/files/6.png?v=1611884724',
+      'https://cdn.shopify.com/s/files/1/0519/5458/1696/files/7.png?v=1611884724',
+      'https://cdn.shopify.com/s/files/1/0519/5458/1696/files/8.png?v=1611884724',
+      'https://cdn.shopify.com/s/files/1/0519/5458/1696/files/9.png?v=1611884724'
+    ]
+    
+  })
+
+  $(document).ready(function(){
+    function setScrollTop() {
+      
+      const screenHeight = window.innerHeight - 100;
+      $('#unlock').css("height", `${screenHeight * 6}px`);
+      $('#unlock .sticky_container').css("height", `${screenHeight}px`);
+      const unlockTop = $('#unlock')[0].getBoundingClientRect().top
+      const unlockScrolled = - (unlockTop / (screenHeight * 5));
+
+      $('#unlock .imgBox').find('.img').css('opacity', '0');
+      $('#unlock .txtBox').find('.txt').css('opacity', '0.2');
+      if (unlockScrolled >= 0.2) {
+        $('#unlock .imgBox .img1').css('opacity', '0');
+        $('#unlock .txtBox .txt1').css('opacity', '0.2');
+      } else {
+        $('#unlock .imgBox .img1').css('opacity', '1');
+        $('#unlock .txtBox .txt1').css('opacity', '1');
+      }
+      if (unlockScrolled >= 0 && unlockScrolled < 0.2) {
+        $('#unlock .txtArr').css('transform', 'translateY(0%)');
+      } else if (unlockScrolled >= 0.2 && unlockScrolled < 0.35) {
+        $('#unlock .txtArr').css('transform', 'translateY(-20%)');
+        $('#unlock .imgBox .img2').css('opacity', '1');
+        $('#unlock .txtBox .txt2').css('opacity', '1');
+      } else if (unlockScrolled >= 0.35 && unlockScrolled < 0.5) {
+        $('#unlock .txtArr').css('transform', 'translateY(-40%)');
+        $('#unlock .imgBox .img3').css('opacity', '1');
+        $('#unlock .txtBox .txt1').css('opacity', '0');
+        $('#unlock .txtBox .txt3').css('opacity', '1');
+      } else if (unlockScrolled >= 0.5 && unlockScrolled < 0.65) {
+        $('#unlock .txtArr').css('transform', 'translateY(-60%)');
+        $('#unlock .imgBox .img4').css('opacity', '1');
+        $('#unlock .txtBox .txt1').css('opacity', '0');
+        $('#unlock .txtBox .txt2').css('opacity', '0');
+        $('#unlock .txtBox .txt4').css('opacity', '1');
+      } else if (unlockScrolled >= 0.65 && unlockScrolled < 0.8) {
+        $('#unlock .txtArr').css('transform', 'translateY(-75%)');
+        $('#unlock .imgBox .img5').css('opacity', '1');
+        $('#unlock .txtBox .txt1').css('opacity', '0');
+        $('#unlock .txtBox .txt2').css('opacity', '0');
+        $('#unlock .txtBox .txt3').css('opacity', '0');
+        $('#unlock .txtBox .txt5').css('opacity', '1');
+      } else if (unlockScrolled >= 0.8) {
+        $('#unlock .txtArr').css('transform', 'translateY(-90%)');
+        $('#unlock .imgBox .img6').css('opacity', '1');
+        $('#unlock .txtBox .txt1').css('opacity', '0');
+        $('#unlock .txtBox .txt2').css('opacity', '0');
+        $('#unlock .txtBox .txt3').css('opacity', '0');
+        $('#unlock .txtBox .txt4').css('opacity', '0');
+        $('#unlock .txtBox .txt6').css('opacity', '1');
+      }
+      
+      $('#cut').css("height", `${screenHeight * 3}px`);
+      $('#cut .sticky_container').css("height", `${screenHeight * 1.2}px`);
+      const cutTop = $('#cut')[0].getBoundingClientRect().top
+      const cutScrolled = - (cutTop / (screenHeight * 2));
+      if ($(window).width() < 769) {
+         $('#cut').css("height", `${screenHeight * 1}px`);
+      }
+      if (cutScrolled > 0.3) {
+        $('.fit_img').removeClass('active');
+        $('.cut_img img').addClass('active');
+      } else {
+        $('.fit_img').addClass('active');
+        $('.cut_img img').removeClass('active');
+      }
+      if (cutScrolled > 0.5) {
+        $('.cut_txt').addClass('active');
+      } else {
+        $('.cut_txt').removeClass('active');
+      }
+    }
+
+    // 初始化样式
+    setScrollTop();
+    // 将动画绑定在滚动条上
+    window.addEventListener('scroll', setScrollTop);
+
+
+  })
+</script>
+
+<script>
+  const spinner = $(".buyProducts");
+  let quantityBundle = 1;
+  const max = {{ main_variant.inventory_quantity }};
+  function copyTxt() {
+    $('.clipboard_btn').html('{{ pageTxt.copied }}');
+  }
+
+  function quantityInput() {
+    const event = window.event;
+    const { value } = event.target;
+    if (/^[0-9]{0,5}$/.test(value)) {
+      if(value > max) {
+         quantityBundle = max;
+         openModal(`<p>{{ pageTxt.maxQuantity }}</p>`)
+      }
+      quantityBundle = value;
+    };
+    $('.quantity-bundle').val(quantityBundle);
+  }
+
+  quantitySet = type => {
+    const quantity = Number($('.quantity-bundle').val());
+    // 判断是否达到最大/最小值
+    if (type === 'add' && quantity >= max) openModal(`<p>{{ pageTxt.maxQuantity }}</p>`);
+    const quant = ((type === 'reduce' && quantity > 1) && (quantity - 1))
+      || ((type === 'add' && quantity < max) && (quantity + 1))
+      || quantity;
+    // 判断是执行加还是减操作并给予变化
+    quantityBundle = quant;
+    if(quantityBundle <= 1) {
+      $('#btn_reduce').addClass('disable');
+    } else {
+      $('#btn_reduce').removeClass('disable');
+    };
+    $('.quantity-bundle').val(quantityBundle);
+  }
+
+  $(document).ready(function(){
+    var clipboard = new Clipboard('.clipboard_btn');
+    $('.quantity-bundle').val(quantityBundle);
+    if(quantityBundle <= 1) {
+      $('#btn_reduce').addClass('disable');
+    } else {
+      $('#btn_reduce').removeClass('disable');
+    };
+  })
+  function line_item(variant){
+    let line_item = {};
+    line_item.variant_id = variant.id;
+    line_item.quantity = quantityBundle;
+    return line_item;
+  }
+  function bundleBuynow() {
+    spinner.addClass('active');
+    let line_items = [];
+    line_items.push(line_item({{ main_variant | json }}));
+    line_items.push(line_item({{ sub_variant | json }}));
+
+    Shopify.theme.bundleBuynow({
+      authorization: "{{ authorization }}",
+      checkout: {
+        line_items: line_items,
+        presentment_currency: "{{ shop.currency }}",
+        is_upstream_button: true,
+        page_type: "product",
+        secret: true,
+        wallet_name: "Checkout"
+      },
+      onSuccess: () => {},
+      onError: err => {
+        $.dialog({ title: err.message, content: err.description, type: 'red' });
+        spinner.removeClass('active');
+      }
+    });
+  }
+</script>
+
+{% schema %}
+  {
+    "name": "t8520",
+    "settings": [
+      {
+        "type": "html",
+        "id": "policy_text",
+        "label": "Policy text",
+        "default": "BY CLICKING 'SUBSCRIBE', YOU AGREE TO THE <a href='/policies/terms' target='_blank' rel='noopener noreferrer'>TERMS OF USE</a> and <a href='/policies/privacy-policy' target='_blank' rel='noopener noreferrer'>PRIVACY POLICY</a>."
+      },
+      {
+        "type": "text",
+        "id": "info_seccess",
+        "label": "info_seccess Text",
+        "default": "Welcome to Eufy!"
+      },
+      {
+        "type": "text",
+        "id": "info_fill_email",
+        "label": "info_fill_email Text",
+        "default": "Please enter your email address."
+      },
+      {
+        "type": "text",
+        "id": "info_err_email",
+        "label": "info_err_email Text",
+        "default": "Please enter a valid email address (Example: name@domain.com)."
+      },
+      {
+        "type": "text",
+        "id": "info_select_policy",
+        "label": "info_agree_policy Text",
+        "default": "Please agree to the Terms of Use and Privacy Policy."
+      },
+      {
+        "type": "text",
+        "id": "submit_btn_txt",
+        "label": "submit_btn Text",
+        "default": "Sign Up Now"
+      },
+      {
+        "type": "select",
+        "id": "submit_position",
+        "label": "Submit position",
+        "options": [
+          { "value": "", "label": "none"},
+          { "value": "bottom", "label": "Bottom"}
+        ],
+        "default": "bottom"
+      },
+      {
+        "type": "text",
+        "id": "use_placeholders",
+        "label": "email_placeholders Text",
+        "default": "Enter email address"
+      },{
+        "type": "image_picker",
+        "id": "banner_lb_1", 
+        "label": "banner_lb_1"  
+      },
+      {
+        "type": "image_picker",
+        "id": "banner_lb_2", 
+        "label": "banner_lb_2"  
+      },
+      {
+        "type": "image_picker",
+        "id": "banner_lb_3", 
+        "label": "banner_lb_3"  
+      },
+      {
+        "type": "image_picker",
+        "id": "mob_banner_lb_1", 
+        "label": "mob_banner_lb_1"  
+      },
+      {
+        "type": "image_picker",
+        "id": "mob_banner_lb_2", 
+        "label": "mob_banner_lb_2"  
+      },
+      {
+        "type": "image_picker",
+        "id": "mob_banner_lb_3", 
+        "label": "mob_banner_lb_3"  
+      },
+      {
+        "type": "image_picker",
+        "id": "wrap_img_1", 
+        "label": "wrap_img_1"  
+      },
+      {
+        "type": "image_picker",
+        "id": "yaokong", 
+        "label": "yaokong"  
+      },
+      {
+        "type": "image_picker",
+        "id": "gou_1", 
+        "label": "gou_1"  
+      },
+      {
+        "type": "image_picker",
+        "id": "dh_tu", 
+        "label": "dh_tu"  
+      },
+      {
+        "type": "image_picker",
+        "id": "dh_tu_mobile", 
+        "label": "dh_tu_mobile"  
+      },
+      {
+        "type": "image_picker",
+        "id": "banner_2", 
+        "label": "banner_2"  
+      },
+      {
+        "type": "image_picker",
+        "id": "banner_2_mobile", 
+        "label": "banner_2_mobile"  
+      },
+      {
+        "type": "image_picker",
+        "id": "zhiwen", 
+        "label": "zhiwen"  
+      },
+      {
+        "type": "image_picker",
+        "id": "tubiao_1", 
+        "label": "tubiao_1"  
+      },
+      {
+        "type": "image_picker",
+        "id": "icon_1", 
+        "label": "icon_1"  
+      },
+      {
+        "type": "image_picker",
+        "id": "icon_2", 
+        "label": "icon_2"  
+      },
+      {
+        "type": "image_picker",
+        "id": "bj_left", 
+        "label": "bj_left"  
+      },
+      {
+        "type": "image_picker",
+        "id": "bj_right", 
+        "label": "bj_right"  
+      },
+      {
+        "type": "image_picker",
+        "id": "lb_2a", 
+        "label": "lb_2a"  
+      },
+      {
+        "type": "image_picker",
+        "id": "lb_2a_mobile", 
+        "label": "lb_2a_mobile"  
+      },
+      {
+        "type": "image_picker",
+        "id": "lb_1a", 
+        "label": "lb_1a"  
+      },
+      {
+        "type": "image_picker",
+        "id": "lb_2b", 
+        "label": "lb_2b"  
+      },
+      {
+        "type": "image_picker",
+        "id": "lb_2b_mobile", 
+        "label": "lb_2b_mobile"  
+      },
+      {
+        "type": "image_picker",
+        "id": "lb_1b", 
+        "label": "lb_1b"  
+      },
+      {
+        "type": "image_picker",
+        "id": "lb_2c", 
+        "label": "lb_2c"  
+      },
+      {
+        "type": "image_picker",
+        "id": "lb_2c_mobile", 
+        "label": "lb_2c_mobile"  
+      },
+      {
+        "type": "image_picker",
+        "id": "lb_1c", 
+        "label": "lb_1c"  
+      },
+      {
+        "type": "image_picker",
+        "id": "tubiao_a", 
+        "label": "tubiao_a"  
+      },
+      {
+        "type": "image_picker",
+        "id": "tubiao_a_mobile", 
+        "label": "tubiao_a_mobile"  
+      },
+      {
+        "type": "image_picker",
+        "id": "sz_a", 
+        "label": "sz_a"  
+      },
+      {
+        "type": "image_picker",
+        "id": "tubiao_b", 
+        "label": "tubiao_b"  
+      },
+      {
+        "type": "image_picker",
+        "id": "tubiao_b_mobile", 
+        "label": "tubiao_b_mobile"  
+      },
+      {
+        "type": "image_picker",
+        "id": "sz_b", 
+        "label": "sz_b"  
+      },
+      {
+        "type": "image_picker",
+        "id": "tubiao_c", 
+        "label": "tubiao_c"  
+      },
+      {
+        "type": "image_picker",
+        "id": "tubiao_c_mobile", 
+        "label": "tubiao_c_mobile"  
+      },
+      {
+        "type": "image_picker",
+        "id": "sz_c", 
+        "label": "sz_c"  
+      },
+      {
+        "type": "image_picker",
+        "id": "tubiao_d", 
+        "label": "tubiao_d"  
+      },
+      {
+        "type": "image_picker",
+        "id": "tubiao_d_mobile", 
+        "label": "tubiao_d_mobile"  
+      },
+      {
+        "type": "image_picker",
+        "id": "sz_d", 
+        "label": "sz_d"  
+      },
+      {
+        "type": "image_picker",
+        "id": "tubiao_e", 
+        "label": "tubiao_e"  
+      },
+      {
+        "type": "image_picker",
+        "id": "tubiao_e_mobile", 
+        "label": "tubiao_e_mobile"  
+      },
+      {
+        "type": "image_picker",
+        "id": "tubiao_f", 
+        "label": "tubiao_f"  
+      },
+      {
+        "type": "image_picker",
+        "id": "tubiao_f_mobile", 
+        "label": "tubiao_f_mobile"  
+      },
+      {
+        "type": "image_picker",
+        "id": "sz_e", 
+        "label": "sz_e"  
+      },
+      {
+        "type": "image_picker",
+        "id": "sz_f", 
+        "label": "sz_f"  
+      },
+      {
+        "type": "image_picker",
+        "id": "icon_3", 
+        "label": "icon_3"  
+      },
+      {
+        "type": "image_picker",
+        "id": "icon_4", 
+        "label": "icon_4"  
+      },
+      {
+        "type": "image_picker",
+        "id": "shouji", 
+        "label": "shouji"  
+      },
+      {
+        "type": "image_picker",
+        "id": "bg_2", 
+        "label": "bg_2"  
+      },
+      {
+        "type": "image_picker",
+        "id": "bj_1_mobile", 
+        "label": "bj_1_mobile"  
+      },
+      {
+        "type": "image_picker",
+        "id": "bj_1", 
+        "label": "bj_1"  
+      },
+      {
+        "type": "image_picker",
+        "id": "icon_5", 
+        "label": "icon_5"  
+      },
+      {
+        "type": "image_picker",
+        "id": "bj_2_mobile", 
+        "label": "bj_2_mobile"  
+      },
+      {
+        "type": "image_picker",
+        "id": "bg_3", 
+        "label": "bg_3"  
+      },
+      {
+        "type": "image_picker",
+        "id": "bj_3_mobile", 
+        "label": "bj_3_mobile"  
+      },
+      {
+        "type": "image_picker",
+        "id": "bg_4", 
+        "label": "bg_4"  
+      },
+      {
+        "type": "image_picker",
+        "id": "bg_4_mobile", 
+        "label": "bg_4_mobile"  
+      },
+      {
+        "type": "image_picker",
+        "id": "bg_5", 
+        "label": "bg_5"  
+      },
+      {
+        "type": "image_picker",
+        "id": "bg_5_mobile", 
+        "label": "bg_5_mobile"  
+      },
+      {
+        "type": "image_picker",
+        "id": "bg_6", 
+        "label": "bg_6"  
+      },
+      
+      {
+        "type": "image_picker",
+        "id": "bj_6_mobile", 
+        "label": "bj_6_mobile"  
+      },
+      {
+        "type": "image_picker",
+        "id": "bg_7", 
+        "label": "bg_7"  
+      },
+      {
+        "type": "image_picker",
+        "id": "bj_7_mobile", 
+        "label": "bj_7_mobile"  
+      },
+      {
+        "type": "image_picker",
+        "id": "bg_9", 
+        "label": "bg_9"  
+      },
+      {
+        "type": "image_picker",
+        "id": "bg_8_mobile", 
+        "label": "bg_8_mobile"  
+      },
+      {
+        "type": "image_picker",
+        "id": "bg_8", 
+        "label": "bg_8"  
+      },
+      {
+        "type": "image_picker",
+        "id": "bg_9_mobile", 
+        "label": "bg_9_mobile"  
+      },
+      {
+        "type": "image_picker",
+        "id": "sql", 
+        "label": "sql"  
+      },
+      {
+        "type": "image_picker",
+        "id": "sb", 
+        "label": "sb"  
+      },
+      {
+        "type": "image_picker",
+        "id": "ks", 
+        "label": "ks"  
+      },
+      {
+        "type": "image_picker",
+        "id": "ksb", 
+        "label": "ksb"  
+      },
+      {
+        "type": "image_picker",
+        "id": "yh", 
+        "label": "yh"  
+      },
+      {
+        "type": "image_picker",
+        "id": "yhb", 
+        "label": "yhb"  
+      },
+      {
+        "type": "image_picker",
+        "id": "bg_10a", 
+        "label": "bg_10a"  
+      },
+      {
+        "type": "image_picker",
+        "id": "bg_10b", 
+        "label": "bg_10b"  
+      },
+      {
+        "type": "image_picker",
+        "id": "bg_10c", 
+        "label": "bg_10c"  
+      },
+      {
+        "type": "image_picker",
+        "id": "bg_10a_mobile", 
+        "label": "bg_10a_mobile"  
+      },
+      {
+        "type": "image_picker",
+        "id": "bg_10b_mobile", 
+        "label": "bg_10b_mobile"  
+      },
+      {
+        "type": "image_picker",
+        "id": "bg_10c_mobile", 
+        "label": "bg_10c_mobile"  
+      },
+      {
+        "type": "image_picker",
+        "id": "qh_1_img", 
+        "label": "qh_1_img"  
+      },
+      {
+        "type": "image_picker",
+        "id": "qh_2_img", 
+        "label": "qh_2_img"  
+      },
+      {
+        "type": "image_picker",
+        "id": "qh_3_img", 
+        "label": "qh_3_img"  
+      },
+      {
+        "type": "text",
+        "id": "qh_1_video",
+        "label": "qh_1_video Text",
+        "default": "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/1_21b11c12-71bb-4357-854f-e95c15058d26.mp4?v=1612669827"
+      },
+      {
+        "type": "text",
+        "id": "qh_2_video",
+        "label": "qh_2_video Text",
+        "default": "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/2_d60d4679-6740-43ac-af27-63f10f0e6f83.mp4?v=1612669915"
+      },
+      {
+        "type": "text",
+        "id": "qh_3_video",
+        "label": "qh_3_video Text",
+        "default": "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/3.mp4?v=1612669954"
+      },
+      {
+        "type": "text",
+        "id": "video_k",
+        "label": "video_k Text",
+        "default": "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/6s_1.mp4?v=1612670004"
+      },  
+      
+      {
+        "type": "text",
+        "id": "p3",
+        "label": "p3 Text",
+        "default": "Your Keys are<br> Always On Hand"
+      },
+      {
+        "type": "text",
+        "id": "banner_p_1",
+        "label": "banner_p_1 Text",
+        "default": "Home is Just a Touch Away"
+      },
+      {
+        "type": "text",
+        "id": "banner_p_2",
+        "label": "banner_p_2 Text",
+        "default": "eufy Security Smart Lock Touch & Wi-Fi"
+      },
+      {
+        "type": "text",
+        "id": "p4",
+        "label": "p4 Text",
+        "default": "Fingerprint Unlock"
+      },
+      {
+        "type": "text",
+        "id": "p5",
+        "label": "p5 Text",
+        "default": "Always with You<br>Can\'t be Lost"
+      },
+      {
+        "type": "text",
+        "id": "p5_1",
+        "label": "p5_1 Text",
+        "default": "No Keys Required"
+      },
+      {
+        "type": "text",
+        "id": "p6",
+        "label": "p6 Text",
+        "default": "Forget the headaches that come with losing your key and have safe access to your home, always."
+      },
+      {
+        "type": "text",
+        "id": "p7",
+        "label": "p7 Text",
+        "default": "Quicker Than Unlocking Your Phone"
+      },
+      {
+        "type": "text",
+        "id": "p8",
+        "label": "p8 Text",
+        "default": "Ultra-Fast Unlock"
+      },
+      {
+        "type": "text",
+        "id": "p9",
+        "label": "p9 Text",
+        "default": "Smart Lock is powered by a Mabuchi motor that allows you to unlock your front door in less than a second. Mabuchi motors are world famous for their reliability and speed."
+      },
+      
+      {
+        "type": "text",
+        "id": "p10_1",
+        "label": "p10_1 Text",
+        "default": "99.99999%<br>Recognition Rate"
+      },
+      {
+        "type": "text",
+        "id": "p10_2",
+        "label": "p10_2 Text",
+        "default": "Smarter with Each Unlock"
+      },
+      {
+        "type": "text",
+        "id": "p11_1",
+        "label": "p11_1 Text",
+        "default": "The chance of Smart Lock failing to recognize your fingerprint is one in a million. This near perfect accuracy allows you to open your door in no time, every time."
+      },
+      {
+        "type": "text",
+        "id": "p11_2",
+        "label": "p11_2 Text",
+        "default": "The built-in self-learning AI chip means that every time you unlock Smart Lock the recognition rate improves. "
+      },
+      {
+        "type": "text",
+        "id": "p12_1",
+        "label": "p12_1 Text",
+        "default": "Smart Lock"
+      },
+      {
+        "type": "text",
+        "id": "p12_2",
+        "label": "p12_2 Text",
+        "default": "iPhone 8"
+      },
+      {
+        "type": "text",
+        "id": "p13",
+        "label": "p13 Text",
+        "default": "Grant Access from<br>Near or Far"
+      },
+      
+      {
+        "type": "text",
+        "id": "p14_1",
+        "label": "p14_1 Text",
+        "default": "Let Them In When You’re Out"
+      },
+      {
+        "type": "text",
+        "id": "p14_2",
+        "label": "p14_2 Text",
+        "default": "Open Sesame"
+      },
+      {
+        "type": "text",
+        "id": "p14_3",
+        "label": "p14_3 Text",
+        "default": "A Connection You Can Count On"
+      },
+      {
+        "type": "text",
+        "id": "p15_1",
+        "label": "p15_1 Text",
+        "default": "Open your front door from anywhere via the app. When someone you trust is outside your front door simply tap a button and unlock your door in seconds."
+      },
+      {
+        "type": "text",
+        "id": "p15_2",
+        "label": "p15_2 Text",
+        "default": "Unlock your front door simply by asking Alexa or the Google assistant."
+      },
+      {
+        "type": "text",
+        "id": "p15_3",
+        "label": "p15_3 Text",
+        "default": "The built-in Broadcom Wi-Fi chip allows for a connection that is two times stronger than those used in typical smart locks. This ulta-reliable link ensures that remote unlocking is effortless and instant."
+      },
+      {
+        "type": "text",
+        "id": "title_unlock",
+        "label": "title_unlock Text",
+        "default": "Unlock it Your Way"
+      },
+      {
+        "type": "text",
+        "id": "desc_unlock",
+        "label": "desc_unlock Text",
+        "default": "Choose between any of the 5 ways to unlock Smart Lock."
+      },
+      {
+        "type": "text",
+        "id": "tit_unlock_1",
+        "label": "tit_unlock_1 Text",
+        "default": "Fingerprint"
+      },
+      {
+        "type": "text",
+        "id": "tit_unlock_2",
+        "label": "tit_unlock_2 Text",
+        "default": "Wi-Fi"
+      },
+      {
+        "type": "text",
+        "id": "tit_unlock_3",
+        "label": "tit_unlock_3 Text",
+        "default": "Wi-Fi"
+      },
+      {
+        "type": "text",
+        "id": "tit_unlock_4",
+        "label": "tit_unlock_4 Text",
+        "default": "Wi-Fi"
+      },
+      {
+        "type": "text",
+        "id": "tit_unlock_5",
+        "label": "tit_unlock_5 Text",
+        "default": "Wi-Fi"
+      },
+      {
+        "type": "text",
+        "id": "tit_unlock_6",
+        "label": "tit_unlock_6 Text",
+        "default": "Wi-Fi"
+      },
+      {
+        "type": "text",
+        "id": "desc_unlock_1",
+        "label": "desc_unlock_1 Text",
+        "default": "0.3s recognition, 1s unlocking, shorter than the time of unlocking your phone"
+      },
+      {
+        "type": "text",
+        "id": "desc_unlock_2",
+        "label": "desc_unlock_2 Text",
+        "default": "Wi-Fi remote unlock, use eufy security APP to unlock, work with alexa & Google Assistant;"
+      },
+      {
+        "type": "text",
+        "id": "desc_unlock_3",
+        "label": "desc_unlock_3 Text",
+        "default": "Wi-Fi remote unlock, use eufy security APP to unlock, work with alexa & Google Assistant;"
+      },
+      {
+        "type": "text",
+        "id": "desc_unlock_4",
+        "label": "desc_unlock_4 Text",
+        "default": "Wi-Fi remote unlock, use eufy security APP to unlock, work with alexa & Google Assistant;"
+      },
+      {
+        "type": "text",
+        "id": "desc_unlock_5",
+        "label": "desc_unlock_5 Text",
+        "default": "Wi-Fi remote unlock, use eufy security APP to unlock, work with alexa & Google Assistant;"
+      },
+      {
+        "type": "text",
+        "id": "p16",
+        "label": "p16 Text",
+        "default": "Never Wonder<br>if You Forgot to Lock"
+      },
+      {
+        "type": "text",
+        "id": "p17",
+        "label": "p17 Text",
+        "default": "If you leave your home and forgot to lock the door it will do so automatically after the time period you set. The gyroscope and geomagnetic chip detect when the door is unlocked and trigger the lock after the set time.        "
+      },
+      {
+        "type": "text",
+        "id": "p17_1",
+        "label": "p17_1 Text",
+        "default": "If you leave your home and forgot to lock the door it will do so automatically after the time period you set. The gyroscope and geomagnetic chip detect when the door is unlocked and trigger the lock after the set time.        "
+      },
+      
+      {
+        "type": "text",
+        "id": "p20_1",
+        "label": "p20_1 Text",
+        "default": "Auto Lock"
+      },
+      {
+        "type": "text",
+        "id": "p20_2",
+        "label": "p20_2 Text",
+        "default": "Built-in<br>Gyroscope"
+      },
+      {
+        "type": "text",
+        "id": "p18",
+        "label": "p18 Text",
+        "default": "Their Access is Temporary<br>Your Safety is Permanent"
+      },
+      {
+        "type": "text",
+        "id": "p19",
+        "label": "p19 Text",
+        "default": "Create a temporary password for your neighbor or baby sitter to use that will allow them to unlock your door during the time frame you set."
+      },
+      {
+        "type": "text",
+        "id": "p21",
+        "label": "p21 Text",
+        "default": "Temporary Password"
+      },
+      {
+        "type": "text",
+        "id": "title_safe",
+        "label": "title_safe Text",
+        "default": "Strength is Key"
+      },
+      {
+        "type": "text",
+        "id": "desc_safe",
+        "label": "desc_safe Text",
+        "default": "Maximum Protection"
+      },
+      {
+        "type": "text",
+        "id": "p34_1",
+        "label": "p34_1 Text",
+        "default": "Withstands Any Weather"
+      },
+      {
+        "type": "text",
+        "id": "p34_2",
+        "label": "p34_2 Text",
+        "default": "At Your Door for Decades"
+      },
+      {
+        "type": "text",
+        "id": "p34_3",
+        "label": "p34_3 Text",
+        "default": "Magnet-Proof Design"
+      },
+      {
+        "type": "text",
+        "id": "p35_1",
+        "label": "p35_1 Text",
+        "default": "Come rain or shine, Smart Lock boasts an IP65 rating so that it is always ready to protect your home."
+      },
+      {
+        "type": "text",
+        "id": "p35_2",
+        "label": "p35_2 Text",
+        "default": "Tested to last for 250,000 unlocks, Smart Lock is designed to be fully functional even after 30 years of use."
+      },
+      {
+        "type": "text",
+        "id": "p35_3",
+        "label": "p35_3 Text",
+        "default": "Smart Lock automatically locks when a strong magnetic field is detected."
+      },
+      {
+        "type": "text",
+        "id": "p22",
+        "label": "p22 Text",
+        "default": "Product Details"
+      },
+      {
+        "type": "text",
+        "id": "p23",
+        "label": "p23 Text",
+        "default": "Charge Once,<br> Unlock for Months"
+      },
+      {
+        "type": "text",
+        "id": "p23_1",
+        "label": "p23_1 Text",
+        "default": "10-Month Battery Life"
+      },
+      {
+        "type": "text",
+        "id": "p24",
+        "label": "p24 Text",
+        "default": "The rechargeable 10,000mAh lithium battery allows you to enjoy convenient unlocking for up to 10 months. When a recharge is needed simply remove the battery or power up directly via the micro USB port."
+      },
+      {
+        "type": "text",
+        "id": "p25",
+        "label": "p25 Text",
+        "default": "No Need to Call Out an Expert"
+      },
+      {
+        "type": "text",
+        "id": "p25_1",
+        "label": "p25_1 Text",
+        "default": "Simple Installation"
+      },
+      {
+        "type": "text",
+        "id": "p26",
+        "label": "p26 Text",
+        "default": "The intuitive installation process allows you to have Smart Lock up and running in minutes. The easy to follow guide means there is no need for you to hire professional help. "
+      },
+      {
+        "type": "text",
+        "id": "p27",
+        "label": "p27 Text",
+        "default": "Plug-in & Power Up"
+      },
+      {
+        "type": "text",
+        "id": "p27_1",
+        "label": "p27_1 Text",
+        "default": "Emergency Unlock"
+      },
+      {
+        "type": "text",
+        "id": "p28",
+        "label": "p28 Text",
+        "default": "If Smart Lock runs out of power before you have had the chance to charge it simply use a portable charger for emergency access."
+      },
+      {
+        "type": "text",
+        "id": "p29",
+        "label": "p29 Text",
+        "default": "No Need to Call Out an Expert"
+      },
+      {
+        "type": "text",
+        "id": "p29_1",
+        "label": "p29_1 Text",
+        "default": "Simple Installation"
+      },
+      {
+        "type": "text",
+        "id": "p30",
+        "label": "p30 Text",
+        "default": "The intuitive installation process allows you to have Smart Lock up and running in minutes. The easy to follow guide means there is no need for you to hire professional help. "
+      },
+      {
+        "type": "text",
+        "id": "p31",
+        "label": "p31 Text",
+        "default": "Do it All from the App"
+      },
+      {
+        "type": "text",
+        "id": "p31_1",
+        "label": "p31_1 Text",
+        "default": "Do it All from the App"
+      },
+      {
+        "type": "text",
+        "id": "p32",
+        "label": "p32 Text",
+        "default": "In the App, you can easily check the status of smart lock, remote unlocking, user management, modify settings, etc."
+      },
+      {
+        "type": "text",
+        "id": "p33_1",
+        "label": "p33_1 Text",
+        "default": "Smart lock status check"
+      },
+      {
+        "type": "text",
+        "id": "p33_2",
+        "label": "p33_2 Text",
+        "default": "Remote unlocking"
+      },
+      {
+        "type": "text",
+        "id": "p33_3",
+        "label": "p33_3 Text",
+        "default": "User Management"
+      },
+      {
+        "type": "text",
+        "id": "h2_1",
+        "label": "h2_1 Text",
+        "default": "BHMA-Grade Safety"
+      },
+      {
+        "type": "text",
+        "id": "h2_2",
+        "label": "h2_2 Text",
+        "default": "Drill-Proof Steel"
+      },
+      {
+        "type": "text",
+        "id": "h2_p_1",
+        "label": "h2_p_1 Text",
+        "default": "Proven to withstand strong under vigerous testing standards."
+      },
+      {
+        "type": "text",
+        "id": "h2_p_2",
+        "label": "h2_p_2 Text",
+        "default": "Smart Lock incorporates stainless steel, zinc alloy, and advanced metal plating for unrivaled front door protection. "
+      }
+      
+      
+    ]
+  }
+{% endschema %}
+
+
+

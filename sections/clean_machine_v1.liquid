@@ -1,0 +1,424 @@
+{% assign lang = page.metafields.global %}
+
+{% if lang.v1_video.value %}
+  {% assign v1_video = lang.v1_video.value %}
+{% else %}
+  {% assign v1_video = lang.v1_video %}
+{% endif %}
+
+{% if lang.v1_to_clean.value %}
+  {% assign v1_to_clean = lang.v1_to_clean.value %}
+{% else %}
+  {% assign v1_to_clean = lang.v1_to_clean %}
+{% endif %}
+
+{% if lang.v1_rolling_brush.value %}
+  {% assign v1_rolling_brush = lang.v1_rolling_brush.value %}
+{% else %}
+  {% assign v1_rolling_brush = lang.v1_rolling_brush %}
+{% endif %}
+
+{% if lang.v1_multi_surfaces.value %}
+  {% assign v1_multi_surfaces = lang.v1_multi_surfaces.value %}
+{% else %}
+  {% assign v1_multi_surfaces = lang.v1_multi_surfaces %}
+{% endif %}
+
+{% if lang.v1_self_cleaning.value %}
+  {% assign v1_self_cleaning = lang.v1_self_cleaning.value %}
+{% else %}
+  {% assign v1_self_cleaning = lang.v1_self_cleaning %}
+{% endif %}
+
+{% if lang.v1_dry_technology.value %}
+  {% assign v1_dry_technology = lang.v1_dry_technology.value %}
+{% else %}
+  {% assign v1_dry_technology = lang.v1_dry_technology %}
+{% endif %}
+
+{% if lang.v1_clean_pop.value %}
+  {% assign v1_clean_pop = lang.v1_clean_pop.value %}
+{% else %}
+  {% assign v1_clean_pop = lang.v1_clean_pop %}
+{% endif %}
+
+{% if lang.whatbox.value %}
+  {% assign whatbox = lang.whatbox.value %}
+{% else %}
+  {% assign whatbox = lang.whatbox %}
+{% endif %}
+
+{% if lang.cus_spces.value %}
+  {% assign cus_spces = lang.cus_spces.value %}
+{% else %}
+  {% assign cus_spces = lang.cus_spces %}
+{% endif %}
+
+{{ 'clean_machine.scss.css' | asset_url | stylesheet_tag }}
+
+{% assign list = v1_video.list %}
+{% assign list2 = v1_rolling_brush.list2 %}
+{% assign list3 = v1_multi_surfaces.list3 %}
+{% assign list4 = v1_self_cleaning.list4 %}
+{% assign list5 = v1_dry_technology.list5 %}
+
+<section class="clean_machine_v1">
+
+  <div class="v1_video" id="images">
+    <div class="v1_video_title">{{ v1_video.v1_video_title }}</div>
+    <div class="v1_video_contain">
+      {% for o in list %}
+        <div class="v1_video_content">
+          <div class="v1_video_p1">{{ o.v1_video_p1 }}</div>
+          <div class="v1_video_p2">{{ o.v1_video_p2 }}</div>
+          <div class="v1_video_video">
+            {% render 'lazyload_video', img_src: o.img, video_id: o.video_id, ratio: o.video_ratio, additional_classes: "is-hidden-mobile-only" %}
+            {% render 'lazyload_video', img_src: o.mob_img, video_id: o.mob_video_id, ratio: o.mob_video_ratio, additional_classes: "is-hidden-desktop-only" %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="v1_clean" id="feature">
+    <div class="v1_clean_content_pc is-hidden-mobile-only">
+      <div class="v1_clean_banner">
+        {% render 'lazyload_image', src: v1_to_clean.v1_clean_banner, alt: v1_to_clean.v1_clean_title %}
+      </div>
+      <div class="v1_clean_bg">
+        {% render 'lazyload_image', src: v1_to_clean.v1_clean_bg, alt: v1_to_clean.v1_clean_title %}
+      </div>
+      <div class="v1_clean_dh">
+        {% render 'lazyload_image', src: v1_to_clean.v1_clean_dh, alt: v1_to_clean.v1_clean_title %}
+      </div>
+      <div class="v1_clean_txtBox">
+        <p class="v1_clean_title">{{ v1_to_clean.v1_clean_title }}</p>
+        <p class="v1_clean_text">{{ v1_to_clean.v1_clean_text }}</p>
+      </div>
+    </div>
+    <div class="v1_clean_content_mob is-hidden-desktop-only">
+      <div class="v1_clean_banner">
+        {% render 'lazyload_image', src: v1_to_clean.v1_clean_banner_mob, alt: v1_to_clean.v1_clean_title %}
+      </div>
+      <div class="v1_clean_bg">
+        {% render 'lazyload_image', src: v1_to_clean.v1_clean_bg_mob, alt: v1_to_clean.v1_clean_title %}
+      </div>
+      <div class="v1_clean_dh">
+        {% render 'lazyload_image', src: v1_to_clean.v1_clean_dh_mob, alt: v1_to_clean.v1_clean_title %}
+      </div>
+      <div class="v1_clean_txtBox">
+        <p class="v1_clean_title">{{ v1_to_clean.v1_clean_title }}</p>
+        <p class="v1_clean_text">{{ v1_to_clean.v1_clean_text }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="v1_rolling_brush">
+    <div class="rolling_brush_banner">
+      <div class="rolling_brush_banner_image is-hidden-mobile-only">
+        {% render 'lazyload_image', src: v1_rolling_brush.rolling_brush_banner, alt: v1_rolling_brush.rolling_brush_title %}
+      </div>
+      <div class="rolling_brush_banner_image is-hidden-desktop-only">
+        {% render 'lazyload_image', src: v1_rolling_brush.rolling_brush_banner_mob, alt: v1_rolling_brush.rolling_brush_title %}
+      </div>
+      <div class="rolling_brush_tip is-hidden-desktop-only">{{ v1_rolling_brush.rolling_brush_tip }}</div>
+      <div class="rolling_brush_p">
+        <div class="rolling_brush_title">{{ v1_rolling_brush.rolling_brush_title }}</div>
+        <div class="rolling_brush_text">{{ v1_rolling_brush.rolling_brush_text }}</div>
+        <div class="rolling_brush_tip is-hidden-mobile-only">{{ v1_rolling_brush.rolling_brush_tip }}</div>
+      </div>
+      
+    </div>
+    <div class="rolling_brush_content">
+      <div class="brush_slick">
+        {% for brush in list2 %}
+          {% assign i = forloop.index0 %}
+          <div class="brush_slick_content">
+            <div class="brush_slick_image">
+              {% render 'lazyload_image', src: brush.brush_slick_image, alt: brush.brush_slick_title %}
+            </div>
+            <div class="brush_slick_title">{{ brush.brush_slick_title }}</div>
+            <div class="brush_slick_text brush_slick_text-{{i}}">{{ brush.brush_slick_text }}</div>
+            <div class="brush_slick_tip">{{ brush.brush_slick_tip }}</div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <div class="v1_multi_surfaces">
+    <div class="multi_surfaces_images">
+      <div class="multi_surfaces_p">
+        <div class="multi_surfaces_title">{{ v1_multi_surfaces.multi_surfaces_title }}</div>
+        <div class="multi_surfaces_text">{{ v1_multi_surfaces.multi_surfaces_text }}</div>
+      </div>
+      <div class="multi_surfaces_video">
+        {% render 'lazyload_image', src: v1_multi_surfaces.img, alt: "", additional_classes: "is-hidden-mobile-only" %}
+        {% render 'lazyload_image', src: v1_multi_surfaces.mob_img, alt: "", additional_classes: "is-hidden-desktop-only" %}
+      </div>
+    </div>
+    <div class="multi_surfaces_content">
+      <div class="multi_surfaces_slick">
+        {% for multi in list3 %}
+          <div class="surfaces_slick_content">
+            <div class="surfaces_slick_img is-hidden-mobile-only">
+              {% render 'lazyload_image', src: multi.img, alt: multi.text %}
+            </div>
+            <div class="surfaces_slick_img is-hidden-desktop-only">
+              {% render 'lazyload_image', src: multi.img_mob, alt: multi.text %}
+            </div>
+            <div class="surfaces_slick_text">{{ multi.text }}</div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <div class="v1_self_cleaning">
+    <div class="self_cleaning_images">
+      <div class="self_cleaning_p">
+        <div class="self_cleaning_title">{{ v1_self_cleaning.self_cleaning_title }}</div>
+        <div class="self_cleaning_text">{{ v1_self_cleaning.self_cleaning_text }}</div>
+      </div>
+      <div class="self_cleaning_video">
+        {% render 'lazyload_video', img_src: v1_self_cleaning.img, video_id: v1_self_cleaning.video_id, ratio: v1_self_cleaning.video_ratio, additional_classes: "is-hidden-mobile-only" %}
+        {% render 'lazyload_video', img_src: v1_self_cleaning.mob_img, video_id: v1_self_cleaning.mob_video_id, ratio: v1_self_cleaning.mob_video_ratio, additional_classes: "is-hidden-desktop-only" %}
+      </div>
+    </div>
+    <div class="self_cleaning_content">
+      <div class="self_cleaning_bg">
+        {% for self in list4 %}
+          {% assign i = forloop.index0 %}
+          <div class="self_cleaning_flex">
+            <div class="flex_image">
+              <div class="flex_img">
+                {% render 'lazyload_image', src: self.img, alt: self.title %}
+              </div>
+            </div>
+            <div class="flex_p">
+              <div class="flex_p_all">
+                <div class="flex_p_title">{{ self.title }}</div>
+                <div class="flex_p_text flex_p_text{{i}}">{{ self.text }}</div>
+                {% if self.tip %}<div class="flex_p_tip">{{ self.tip }}</div>{% endif %}
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  
+  <div class="v1_dry_technology">
+    <div class="dry_technology_images">
+      <div class="dry_technology_images_banner">
+        <div class="dry_technology_banner is-hidden-mobile-only">
+          {% render 'lazyload_image', src: v1_dry_technology.dry_technology_banner, alt: v1_dry_technology.v1_dry_title %}
+        </div>
+        <div class="dry_technology_banner is-hidden-desktop-only">
+          {% render 'lazyload_image', src: v1_dry_technology.dry_technology_banner_mob, alt: v1_dry_technology.v1_dry_title_mob %}
+        </div>
+      </div>
+      <div class="dry_technology_images_content">
+        <div class="v1_dry_title">{{ v1_dry_technology.v1_dry_title }}</div>
+        <div class="v1_dry_text">{{ v1_dry_technology.v1_dry_text }}</div>
+        <div class="v1_dry_p">
+          <div class="v1_dry_p_a">
+            <div class="v1_dry_p_a1">{{ v1_dry_technology.v1_dry_p_a1 }}</div>
+            <div class="v1_dry_p_a2">{{ v1_dry_technology.v1_dry_p_a2 }}</div>
+            <div class="v1_dry_p_a3">{{ v1_dry_technology.v1_dry_p_a3 }}</div>
+          </div>
+          <div class="v1_dry_p_b">
+            <div class="v1_dry_p_b1">{{ v1_dry_technology.v1_dry_p_b1 }}</div>
+            <div class="v1_dry_p_b2">{{ v1_dry_technology.v1_dry_p_b2 }}</div>
+            <div class="v1_dry_p_b3">{{ v1_dry_technology.v1_dry_p_b3 }}</div>
+          </div>
+          <div class="v1_dry_odor">{{ v1_dry_technology.v1_dry_odor }}</div>
+        </div>
+        <div class="v1_dry_tip">{{ v1_dry_technology.v1_dry_tip }}</div>
+      </div>
+    </div>
+    <div class="dry_technology_content">
+      <div class="dry_technology_bg">
+        {% for self in list5 %}
+          <div class="self_cleaning_flex">
+            <div class="flex_image">
+              <div class="flex_img">
+                {% render 'lazyload_image', src: self.img, alt: self.title %}
+              </div>
+            </div>
+            <div class="flex_p">
+              <div class="flex_p_all">
+                <div class="flex_p_title">{{ self.title }}</div>
+                <div class="flex_p_text">{{ self.text }}</div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <div class="v1_clean_pop">
+    <div class="contain">
+      <div class="clean_pop_banner_images">
+        <div class="clean_pop_banner is-hidden-mobile-only">
+          {% render 'lazyload_image', src: v1_clean_pop.clean_pop_banner %}
+        </div>
+        <div class="clean_pop_banner is-hidden-desktop-only">
+          {% render 'lazyload_image', src: v1_clean_pop.clean_pop_banner_mob %}
+        </div>
+        <div class="clean_pop_btm is-hidden-desktop-only"></div>
+      </div>
+      
+      <div class="clean_pop_content">
+        <div class="clean_pop_p1_all">
+          <div class="clean_pop_p1_a">
+            {{ v1_clean_pop.clean_pop_p1_a }}
+          </div>
+          <div class="clean_pop_p1_b">
+            {{ v1_clean_pop.clean_pop_p1_b }}
+          </div>
+        </div>
+        <div class="clean_pop_p2_all">
+          <div class="clean_pop_p2_a">
+            {{ v1_clean_pop.clean_pop_p2_a }}
+          </div>
+          <div class="clean_pop_p2_b">
+            {{ v1_clean_pop.clean_pop_p2_b }}
+          </div>
+        </div>
+        {% if v1_clean_pop.clean_pop_p3 %}<div class="clean_pop clean_pop_p3"><i class="iconfont">&#xe667;</i>{{ v1_clean_pop.clean_pop_p3 }}</div>{% endif %}
+        {% if v1_clean_pop.clean_pop_p4 %}<div class="clean_pop clean_pop_p4"><i class="iconfont">&#xe667;</i>{{ v1_clean_pop.clean_pop_p4 }}</div>{% endif %}
+        {% if v1_clean_pop.clean_pop_p5 %}<div class="clean_pop clean_pop_p5"><i class="iconfont">&#xe667;</i>{{ v1_clean_pop.clean_pop_p5 }}</div>{% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="whatsbox">
+    <div class="bg">
+      {% render 'lazyload_image', src: whatbox.bg, alt: "whatsbox" %}
+    </div>
+    <div class="txt">
+      <h3>{{ whatbox.title }}</h3>
+      <p>{{ whatbox.desc }}</p>
+    </div>
+  </div>
+
+  {% if cus_spces.title %}
+    <div class="proSpces" id="specs">
+      <div class="contentBox">
+        <h3 class="proSpcesTitle"><span>{{ cus_spces.title }}</span></h3>
+        <ul>
+          {% for item in cus_spces.list %}
+            <li>
+              <h3 class="title"><span>{{ item.key }}</span><i></i></h3>
+              <div class="txt">
+                <div class="txtBox">{{ item.value }}</div>
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  {% endif %}
+
+</section>
+
+<script>
+  $(document).ready(function(){
+    const width = $(window).width()
+    const height = $(window).height()
+    gsap.registerPlugin(ScrollTrigger);
+    if (width > 768) {
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: ".v1_clean_content_pc",
+          start: 'top top+=64',
+          end: `+=${1 * height}`,
+          // markers: true,
+          pin: true,
+          scrub: 1
+        }
+      })
+      .to('.v1_clean_dh', { left: '0%', duration: '0.4' })
+      .to('.v1_clean_bg', { clipPath: 'inset(0 0 0 10%)', duration: '0.4' }, "<=0.03")
+      .to('.v1_clean_bg', { clipPath: 'inset(0 0 0 10%)', duration: '0.1' })
+
+
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: ".v1_clean_pop",
+          start: 'top top+=64',
+          end: `+=${1 * height}`,
+          // markers: true,
+          pin: true,
+          scrub: true
+        }
+      })
+        .to(".clean_pop", { opacity: 0.8, transform: 'translateY(-40px)', duration: 0.04 })
+        .to(".clean_pop", { opacity: 0, duration: 0.04 })
+        .to(".clean_pop_p1_all, .clean_pop_p2_all", { opacity: 1, duration: 0.04 })
+
+    } else {
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: ".v1_clean_content_mob",
+          start: 'top top+=49px',
+          end: `+=${1 * height}`,
+          //markers: true,
+          pin: true,
+          scrub: true
+        }
+      })
+      .to('.v1_clean_dh', { top: '90px', duration: '0.43' })
+      .to('.v1_clean_bg', { clipPath: 'inset(20% 0 0 0)', duration: '0.5' }, "<=0.03")
+      .to('.v1_clean_dh', { top: '90px', duration: '0.1' })
+
+
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: ".v1_clean_pop",
+          start: 'top top+=49px',
+          end: `+=${2 * height}`,
+          //markers: true,
+          pin: true,
+          scrub: true
+        }
+      })
+        .to(".clean_pop", { opacity: 0.8, transform: 'translateY(-30px)', duration: 0.1 })
+        .to(".clean_pop", { opacity: 0, duration: 0.1 })
+        .to(".clean_pop_banner_images", { opacity: 0.3, duration: 0.1 }, "<=0")
+        .to(".clean_pop_p1_all", { opacity: 1, duration: 0.1 })
+        .to(".clean_pop_p1_all", { opacity: 0, duration: 0.05 })
+        .to(".clean_pop_p2_all", { opacity: 1, duration: 0.1 })
+    } 
+  })
+
+  $(document).ready(function(){
+
+    // spces
+    $('.proSpces .txt').each((i, ele) => {
+      const h = ele.offsetHeight;
+      ele.style.maxHeight = `${h}px`;
+    });
+    $('.proSpces .txt').addClass('hideTxt');
+    $('.proSpces .txt').eq(0).removeClass('hideTxt');
+    $('.proSpces .txt').eq(0).addClass('showTxt');
+    $('.proSpces .title').eq(0).addClass('showTxt');
+    $(document).on('click', '.proSpces .title', function() {
+      const $dom = $(this).parents('li');
+      if ($($('.txt', $dom)).hasClass('showTxt')) {
+        $($('.txt', $dom)).removeClass('showTxt');
+        $(this).removeClass('showTxt');
+        $($('.txt', $dom)).addClass('hideTxt');
+      } else {
+        $('.proSpces .title').removeClass('showTxt');
+        $('.proSpces .txt').removeClass('showTxt');
+        $('.proSpces .txt').addClass('hideTxt');
+        $($('.txt', $dom)).addClass('showTxt');
+        $(this).addClass('showTxt');
+        $($('.txt', $dom)).removeClass('hideTxt');
+      }
+    });
+  })
+</script>

@@ -1,0 +1,43 @@
+{%- assign isTryNow = false -%} 
+{%- for item in checkout.line_items -%}
+    {%- for p in item.properties -%}
+        {%- if p.first == 'tn_enabled' and p.last == 'true' -%} 
+            {%- assign isTryNow = true -%} 
+        {%- endif -%} 
+    {%- endfor -%}
+{%- endfor -%} 
+{%-if isTryNow == true -%} 
+<!-- Load React --> 
+<script src="https://unpkg.com/react@17/umd/react.production.min.js"></script> 
+<script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script> 
+<!-- Load TryNow SDK --> 
+<script src="https://components.trynow.net/shopify/4.3.5/trynow-components.js"></script>
+<script>
+    window.tryNowCheckout = { 
+        shippingAddress: {{ checkout.shipping_address | json }}, 
+        email: '{{ checkout.email }}'
+    }
+
+    ShopifyPay = null;
+    document.addEventListener('page:load', function () { 
+        TryNowComponents.restyleCheckout();
+    });
+    document.addEventListener('page:change', function () { 
+        TryNowComponents.restyleCheckout();
+    });
+    window.addEventListener('change', function () { 
+        TryNowComponents.restyleCheckout(); 
+    });
+</script>
+{% else %}
+<script> 
+    window.onload = function () { 
+        var properties = document.querySelectorAll('.product__description__property'); 
+        properties.forEach(property => {
+            if (property.innerHTML.includes('tn_enabled')) { 
+                property.remove(); 
+            }
+        }) 
+    }
+</script>
+{%- endif -%}

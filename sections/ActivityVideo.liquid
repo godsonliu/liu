@@ -1,0 +1,121 @@
+<section class="home_video home_slick {{ section.settings.arrows_color }}">
+  {% if section.settings.video_title != blank %}
+    <div class="title"><h4>{{ section.settings.video_title }}</h4></div>
+  {% endif %}
+  <div class="actVideo-slick-slider">
+    {% for block in section.blocks %}
+      <div>
+        <div class="item">
+          <div class="image" onclick="playVideo('{{ block.settings.video_url }}','{{ block.settings.name }}')">
+            <img class="lazy lazyload" data-src="{{ block.settings.img }}" alt="">
+            <a class="play" onclick="playVideo('{{ block.settings.video_url }}','{{ block.settings.name }}')">
+               <img class="lazyload" data-src="https://cdn.shopify.com/s/files/1/0501/7678/6607/files/fa8670625d8117f4fd10561c66d79852.png?v=1613808086" alt="play">
+            </a>
+          </div>
+          <div class="text">
+            <p class="info">{{ block.settings.tips }}</p>
+            <p class="name">{{ block.settings.name }}</p>
+          </div>
+          <div class="cover"></div>
+
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <div class="cover_video swap--visible">
+    <div class="video_container">
+      <div class="full_screen" onclick="closeVideoBox()"></div>
+      <div class="video_content">
+        <iframe
+          width="100%"
+          height="100%"
+          data-pagefly-popup="true"
+          allowfullscreen="allowfullscreen"
+        ></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  function playVideo(url,name) {
+    $('.cover_video iframe').attr('src', url);
+    $('.cover_video').removeClass('swap--visible');
+    dataLayer.push({
+      "event": "uaEvent", // Trigger
+      "eventCategory": '{{ section.settings.eventCategory }}',
+      "eventAction": "media_review",
+      "eventLabel": name, // 传各个KOL的名字
+    })
+  }
+  function closeVideoBox() {
+    $('.cover_video iframe').attr('src', '');
+    $('.cover_video').addClass('swap--visible');
+  }
+  
+
+  $(document).ready(function(){
+    // 滑动模块
+    $('.actVideo-slick-slider').on('afterChange', function(){
+      $('.actVideo-slick-slider .slick-slide .cover').removeClass("swap--visible");
+      $('.actVideo-slick-slider .slick-active .cover').addClass('swap--visible');
+      // $('.actVideo-slick-slider .slick-slide').css({"padding": "0 20px"});
+      // $('.actVideo-slick-slider .slick-active').css({"padding": "0 10px"});
+    });
+    $('.actVideo-slick-slider').slick({
+      infinite: true,
+      speed: 300,
+      slidesToShow: 3,
+      easing: 'linear',
+      centerMode: true,
+      variableWidth: true
+    });
+    $('.actVideo-slick-slider .slick-active .cover').addClass('swap--visible');
+    // $('.actVideo-slick-slider .slick-active').css({"padding": "0 10px"});
+  })
+</script>
+
+
+{% schema %}
+{
+  "name": "ActivityVideo",
+  "class": "ActivityVideo",
+  "presets": [
+    {
+      "category": "SmartScale P2 Pro Banner3 Sections",
+      "name": "ActivityVideo"
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "video_title",
+      "label": "ActivityVideo Title"
+    },{
+      "type": "text",
+      "id": "arrows_color",
+      "label": "Arrows Color",
+      "default": "dark"
+    },
+    {
+      "type": "text",
+      "id": "eventCategory",
+      "label": "Event Category",
+      "default": "h30_listing"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "video_content",
+      "name": "video_content",
+      "settings": [
+        { "type": "text", "id": "img", "label": "Cover Img" },
+        { "type": "text", "id": "tips", "label": "Tips" },
+        { "type": "text", "id": "name", "label": "Name" },
+        { "type": "text", "id": "video_url", "label": "Video Url" }
+      ]
+    }
+  ]
+}
+{% endschema %}

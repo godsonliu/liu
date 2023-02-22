@@ -1,0 +1,147 @@
+<section class="ps-ret mb-vh-100 white bg-black over-hide mach-main-section mach-main-section-1">
+  <div class="h-100 kv-section">
+
+
+    <div class="h-100 frames-wrap">
+      <canvas id="machFrames"></canvas>
+    </div>
+
+    <div class="ps-ret h-100 bg-black kv-video-wrap">
+      <video class="is-hidden-desktop-only mb-kv-video" poster="https://cdn.shopifycdn.net/s/files/1/0521/9411/5753/files/mach_frames_1.jpg" src="{{ section.settings.mb_bg_video }}" playsinline autoplay muted ></video>
+      <video class="is-hidden-mobile-only kv-video" poster="https://cdn.shopifycdn.net/s/files/1/0521/9411/5753/files/mach_pc_frames_1.jpg" src="{{ section.settings.pc_bg_video }}" playsinline autoplay muted></video>
+    </div>
+    
+    <div class="h-100 kv-title-wrap ">
+      <div class="kv-title-inner-wrap">
+        <h1 class="mach-title">
+          <span class="title-part-1">{{ section.settings.title }}</span> 
+          <span class="title-part-2">{{ section.settings.title_1 }}</span>
+        </h1>
+        <a class="watch-video js-kv-vedio" id="kvVideo">{{ section.settings.intro_video }}</a>
+      </div>
+    </div>
+    
+    <i class="kv-mask"></i>
+
+    <div class="kv-puzzle-wrap">
+      <div class="kv-puzzle-inner-wrap">
+        <div class="puzzle-title-wrap">
+          <div class="puzzle-title-inner">
+            <p class="large-sub-text">{{ section.settings.sec_desc }}</p>
+            <p class="large-title">{{ section.settings.sec_title }}</p>
+          </div>
+        </div>
+        <div class="puzzle-picture-wrap">
+          {% for block in section.blocks %}
+            <div class="puzzle-img-wrap{% if forloop.first %} puzzle-frist-img{% endif %}">
+              {% render 'section-img'
+                section: section,
+                block: block
+              %}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{% render 'component_video_player_popup_v2'
+ id: 'kvVideo',
+ vid: 'oyR9H65WmE4'
+%}
+
+{% schema %}
+{
+    "name": "Mach Main Section 1",
+    "presets": [{
+        "category": "Mach Main Section 1",
+        "name": "Mach Main Section 1"
+    }],
+    "settings": [{
+      "type": "header",
+      "content": "内容"
+    },{
+      "type": "textarea",
+      "id": "title",
+      "label": "品牌名",
+      "default": "MACH"
+    },{
+      "type": "textarea",
+      "id": "title_1",
+      "label": "slogan",
+      "default": "All-in-One StickVac with Steam Mop"
+    },{
+      "type": "text",
+      "id": "intro_video",
+      "label": "预览视频",
+      "default": "Intro Video"
+    },{
+      "type": "textarea",
+      "id": "sec_title",
+      "label": "卖点标题",
+      "default": "All-in-One StickVac with Steam Mop"
+    },{
+      "type": "textarea",
+      "id": "sec_desc",
+      "label": "卖点描述",
+      "default": "The Total Floor Cleaning Solution"
+    },{
+      "type": "header",
+      "content": "视频"
+    },{
+      "type": "text",
+      "id": "pc_bg_video",
+      "label": "桌面端KV视频"
+    },{
+      "type": "text",
+      "id": "mb_bg_video",
+      "label": "移动端KV视频",
+      "default": "https://cdn.shopify.com/videos/c/o/v/e88630ccefe14c668550a205c57f5423.mp4"
+    },{
+      "type": "text",
+      "id": "preview_video",
+      "label": "预览视频"
+    }],
+    "blocks": [{
+      "type": "image",
+      "name": "image",
+      "settings": [{
+        "type": "header",
+        "content": "图片"
+      },{
+        "type": "image_picker",
+        "id": "img",
+        "label": "桌面端展示图片"
+      },{
+        "type": "image_picker",
+        "id": "img_mb",
+        "label": "移动端展示图片"
+      },{
+        "type": "header",
+        "content": "布局"
+      },{
+        "type": "number",
+        "id": "img_width",
+        "label": "桌面端图片最大宽度",
+        "default": 0
+      },{
+        "type": "text",
+        "id": "img_margin",
+        "label": "桌面端图片外边距",
+        "default": "30px 0"
+      },{
+        "type": "number",
+        "id": "img_mb_width",
+        "label": "移动端图片最大宽度",
+        "default": 0
+      },{
+        "type": "text",
+        "id": "img_mb_margin",
+        "label": "移动端图片外边距",
+        "default": "20px 0"
+      }]
+    }]
+}
+{% endschema %}

@@ -1,0 +1,102 @@
+
+.page-wrapper {
+  padding: 0 0 80px ;
+  background: #001C2A;
+  color: #fff;
+}
+
+.faq-paragraph-title{
+  color: #fff;
+  border-bottom-color: rgba(255, 255, 255, .5);
+}
+
+.faq-paragraph-content{
+  color: #fff;
+}
+
+.proof-contianer{
+  padding: 70px 70px 120px;
+  background-color: #19578c;
+  border-radius: 14px;
+
+  @media (max-width: 768px) {
+    padding: 30px 20px 40px;
+  }
+
+  .image-with-text__text-column:nth-child(3){
+    flex: 1;
+  }
+
+  .image-with-text__text-column:nth-child(7){
+    margin: 0 0 0 15px;
+    padding: 0;
+    width: 15%;
+
+    @media (max-width: 768px) {
+      margin: 0;
+      width: 100%;
+    }
+  }
+
+  .image-with-text__wrapper{
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+  }
+}
+
+.testimonial-block{
+  &.has-images-enabled-true {
+    .testimonial__name{
+      align-self: flex-start;
+      margin-top: 0;
+      padding: 240px 40px 25px;
+      font-size: 24px;
+      max-height: none;
+      height: auto;
+      background-color: transparent;
+
+      p:last-of-type{
+        margin-top: 20px;
+        font-size: 16px;
+      }
+    }
+  }
+
+  .testimonial__description{
+    display: none;
+  }
+
+  .testimonial__image{
+    margin-top: 0;
+  }
+
+  &.testimonial-align--center {
+    .testimonial__image{
+      margin-left: -100px;
+      height: 200px;
+      width: 200px;
+      max-width: none;
+      max-height: none;
+    }
+  }
+}
+
+.heading-divider{
+  display: none;
+}
+
+.heading-section__content{
+  padding: 50px 0 0;
+
+  @media (max-width: 767px) {
+    padding: 50px 0 0;
+  }
+
+  .title{
+    @media (max-width: 767px) {
+      width: 100%;
+      text-align: center;
+    }
+  }
+}

@@ -1,0 +1,61 @@
+// window.addEventListener('DOMContentLoaded', function() {});
+$(function() {
+  function renderFaqs() {
+    var $faqs = $('div.prodFaq')
+    if (!$faqs[0]) return
+    var faqs = $faqs.data('faqs')
+    var paging = $faqs.data('paging');
+    var type = $faqs.data('type'); // faqs_show_categories 
+    var $pagenav = $faqs.find('.pagenav');
+    var obj = faqs.reduce(function(prev, next) {
+      var key = next.category_name || '';
+      if (!key) return prev;
+      prev[key] = (prev[key] || []).concat(next);
+      return prev;
+    }, {});
+    var types = Object.keys(obj);
+    var rows = obj[type] || faqs;
+    var $tmpl = $faqs.find('script[type="text/template"]')
+    var render = function() {
+      var template = function(data) {
+        $faqs.find('.items').html($.tmpl($tmpl, { faqs: data, paging: paging }));
+      };
+      if (!paging) return template(rows)
+      $pagenav.pagination({
+        dataSource: rows,
+        pageSize: $faqs.data('pagesize'),
+        callback: function(data, pagination) {
+          template(data);
+        }
+      });
+    }
+    $faqs.on('click', '.list .nav li', function(e) {
+      var $this = $(this)
+      type = $this.data('type');
+      rows = obj[type] || faqs;
+      $this.addClass('active').siblings().removeClass('active')
+      render();
+    });
+    $faqs.on('click', '.items dl', function(e) {
+      if (paging) return
+      $(this).addClass('cur').siblings().removeClass('cur');
+    });
+    render();
+  }
+  renderFaqs();
+  // for admin
+  document.addEventListener('shopify:section:load', function(evt) {
+    var container = $('[data-section-id]', evt.target)[0];
+    // console.warn(1111, this, evt, container)
+    if (!container) return
+    renderFaqs();
+  });
+
+  {% comment %}
+  var cfg = window._page || {};
+  var country = cfg.country || {
+    dateFormat: 'MM-DD-YYYY\nMMDDYYYY', // DE: dateFormat: 'MM-DD-YYYY\nMMDDYYYY',
+  }
+  var rating = ejs.compile( $('script#rating').text());
+  {% endcomment %}
+});

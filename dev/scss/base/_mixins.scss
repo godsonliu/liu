@@ -1,0 +1,1315 @@
+/* # Mixins */
+@use "sass:math";
+
+@mixin respond-to($media-query) {
+  $breakpoint-found: false;
+
+  @each $breakpoint in $breakpoints {
+    $name: nth($breakpoint, 1);
+    $declaration: nth($breakpoint, 2);
+
+    @if $media-query==$name and $declaration {
+      $breakpoint-found: true;
+
+      @media only screen and #{$declaration} {
+        @content;
+      }
+    }
+  }
+
+  @if $breakpoint-found==false {
+    @warn 'Breakpoint "#{$media-query}" does not exist';
+  }
+}
+
+@mixin responsive-display-helper($breakpoint: '') {
+  .#{$breakpoint}show {
+    display: block !important;
+  }
+
+  .#{$breakpoint}hide {
+    display: none !important;
+  }
+}
+
+@mixin responsive-text-align-helper($breakpoint: '') {
+  .#{$breakpoint}text-left {
+    text-align: left !important;
+  }
+
+  .#{$breakpoint}text-right {
+    text-align: right !important;
+  }
+
+  .#{$breakpoint}text-center {
+    text-align: center !important;
+  }
+}
+
+@mixin object-fit($fit: fill, $position: null) {
+  -o-object-fit: $fit;
+  object-fit: $fit;
+
+  @if $position {
+    -o-object-position: $position;
+    object-position: $position;
+    font-family: 'object-fit: #{$fit}; object-position: #{$position}';
+  }
+
+  @else {
+    font-family: 'object-fit: #{$fit}';
+  }
+}
+
+@mixin prefix($property, $value, $prefixes) {
+  @each $prefix in $prefixes {
+    @if $prefix==webkit {
+      -webkit-#{$property}: $value;
+    }
+
+    @else if $prefix==moz {
+      -moz-#{$property}: $value;
+    }
+
+    @else if $prefix==ms {
+      -ms-#{$property}: $value;
+    }
+
+    @else if $prefix==o {
+      -o-#{$property}: $value;
+    }
+
+    @else if $prefix==spec {
+      #{$property}: $value;
+    }
+
+    @else {
+      @warn 'Unrecognized prefix: #{$prefix}';
+    }
+  }
+}
+
+@mixin flexbox() {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
+
+@mixin inline-flexbox() {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -moz-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+}
+
+@mixin flex($values) {
+  -webkit-box-flex: $values;
+  -moz-box-flex: $values;
+  -webkit-flex: $values;
+  -ms-flex: $values;
+  flex: $values;
+}
+
+@mixin flex-direction($direction) {
+  -webkit-flex-direction: $direction;
+  -moz-flex-direction: $direction;
+  -ms-flex-direction: $direction;
+  flex-direction: $direction;
+}
+
+@mixin flex-wrap($wrap) {
+  -webkit-flex-wrap: $wrap;
+  -moz-flex-wrap: $wrap;
+  -ms-flex-wrap: $wrap;
+  flex-wrap: $wrap;
+}
+
+@mixin flex-flow($flow) {
+  -webkit-flex-flow: $flow;
+  -moz-flex-flow: $flow;
+  -ms-flex-flow: $flow;
+  flex-flow: $flow;
+}
+
+@mixin order($val) {
+  -webkit-box-ordinal-group: $val;
+  -moz-box-ordinal-group: $val;
+  -ms-flex-order: $val;
+  -webkit-order: $val;
+  order: $val;
+}
+
+@mixin flex-grow($grow) {
+  -webkit-flex-grow: $grow;
+  -moz-flex-grow: $grow;
+  -ms-flex-grow: $grow;
+  flex-grow: $grow;
+}
+
+@mixin flex-shrink($shrink) {
+  -webkit-flex-shrink: $shrink;
+  -moz-flex-shrink: $shrink;
+  -ms-flex-shrink: $shrink;
+  flex-shrink: $shrink;
+}
+
+@mixin flex-basis($width) {
+  -webkit-flex-basis: $width;
+  -moz-flex-basis: $width;
+  -ms-flex-basis: $width;
+  flex-basis: $width;
+}
+
+@mixin justify-content($justify) {
+  -webkit-justify-content: $justify;
+  -moz-justify-content: $justify;
+  -ms-justify-content: $justify;
+  justify-content: $justify;
+  -ms-flex-pack: $justify;
+}
+
+@mixin align-content($align) {
+  -webkit-align-content: $align;
+  -moz-align-content: $align;
+  -ms-align-content: $align;
+  align-content: $align;
+}
+
+@mixin align-items($align) {
+  -webkit-align-items: $align;
+  -moz-align-items: $align;
+  -ms-align-items: $align;
+  align-items: $align;
+}
+
+@mixin align-self($align) {
+  -webkit-align-self: $align;
+  -moz-align-self: $align;
+  -ms-align-self: $align;
+  align-self: $align;
+}
+
+@mixin logo-text-style() {
+  font-family: "Open Sans", sans-serif;
+  font-weight: bold;
+  font-style: normal;
+  font-size: 16px;
+  text-transform: none;
+}
+
+@mixin headline-style($font-size: $font-size-header) {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+  font-size: $font-size * 1px;
+  text-transform: none;
+  line-height: 1.5;
+  display: block;
+  letter-spacing: 0px;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  @include respond-to('medium-down') {
+    font-size: floor($font-size * 0.8) * 1px;
+  }
+
+  >a,
+  >a:link,
+  >a:visited {
+    color: #323232;
+  }
+
+  >a:hover,
+  >a:focus {
+    color: $link-hover;
+  }
+}
+
+
+@mixin word-wrap {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  -ms-word-break: break-word;
+  word-break: break-word;
+}
+
+@mixin center($width, $height: 0) {
+  position: absolute;
+
+  @if $height !=0 {
+    left: calc(50% - (#{$width} / 2));
+    top: calc(50% - (#{$height} / 2));
+  }
+
+  @else {
+    left: calc(50% - (#{$width} / 2));
+    top: calc(50% - (#{$width} / 2));
+  }
+}
+
+@mixin icon($size, $dimensions) {
+  display: inline-block;
+  font-size: $size;
+  height: $dimensions;
+  line-height: $dimensions;
+  text-align: center;
+  vertical-align: top;
+  width: $dimensions;
+}
+
+@mixin hamburger($dimensions) {
+  cursor: pointer;
+  display: block;
+  height: $dimensions;
+  position: relative;
+  width: $dimensions;
+
+  span {
+    background-color: currentColor;
+    display: block;
+    height: 1px;
+    left: calc(50% - 8px);
+    position: absolute;
+    transform-origin: center;
+    transition-duration: $speed;
+    transition-property: background-color, opacity, transform;
+    transition-timing-function: $easing;
+    width: 16px;
+
+    &:nth-child(1) {
+      top: calc(50% - 6px);
+    }
+
+    &:nth-child(2) {
+      top: calc(50% - 1px);
+    }
+
+    &:nth-child(3) {
+      top: calc(50% + 4px);
+    }
+  }
+
+  &:hover {
+    background-color: rgba(black, 0.05);
+  }
+
+  &.is-active {
+    span {
+      &:nth-child(1) {
+        transform: translateY(5px) rotate(45deg);
+      }
+
+      &:nth-child(2) {
+        opacity: 0;
+      }
+
+      &:nth-child(3) {
+        transform: translateY(-5px) rotate(-45deg);
+      }
+    }
+  }
+}
+
+@mixin overflow-touch {
+  -webkit-overflow-scrolling: touch;
+}
+
+@mixin placeholder {
+  $placeholders: ":-moz"":-webkit-input""-moz""-ms-input";
+
+  @each $placeholder in $placeholders {
+    &:#{$placeholder}-placeholder {
+      @content;
+    }
+  }
+}
+
+@mixin unselectable {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+%unselectable {
+  @include unselectable;
+}
+
+@mixin arrow($color: transparent) {
+  font-family: 'flex-icon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  content: '\e904';
+  display: block;
+  pointer-events: none;
+  position: absolute;
+  transform-origin: center;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.8em;
+}
+
+%arrow {
+  @include arrow;
+}
+
+@mixin block {
+  &:not(:last-child) {
+    margin-bottom: 1.5rem;
+  }
+}
+
+%block {
+  @include block;
+}
+
+@mixin delete {
+  @extend %unselectable;
+
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  background-color: rgba($black, 0.2);
+  border: none;
+  border-radius: $radius-rounded;
+  cursor: pointer;
+  pointer-events: auto;
+  display: inline-block;
+  @include flex-grow(0);
+  @include flex-shrink(0);
+  font-size: 0;
+  height: 20px;
+  max-height: 20px;
+  max-width: 20px;
+  min-height: 20px;
+  min-width: 20px;
+  outline: none;
+  position: relative;
+  vertical-align: top;
+  width: 20px;
+
+  &::before,
+  &::after {
+    background-color: $white;
+    content: "";
+    display: block;
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%) rotate(45deg);
+    transform-origin: center center;
+  }
+
+  &::before {
+    height: 2px;
+    width: 50%;
+  }
+
+  &::after {
+    height: 50%;
+    width: 2px;
+  }
+
+  &:hover,
+  &:focus {
+    background-color: rgba($black, 0.3);
+  }
+
+  &:active {
+    background-color: rgba($black, 0.4);
+  }
+
+  &.is-small {
+    height: 16px;
+    max-height: 16px;
+    max-width: 16px;
+    min-height: 16px;
+    min-width: 16px;
+    width: 16px;
+  }
+
+  &.is-medium {
+    height: 24px;
+    max-height: 24px;
+    max-width: 24px;
+    min-height: 24px;
+    min-width: 24px;
+    width: 24px;
+  }
+
+  &.is-large {
+    height: 32px;
+    max-height: 32px;
+    max-width: 32px;
+    min-height: 32px;
+    min-width: 32px;
+    width: 32px;
+  }
+}
+
+%delete {
+  @include delete;
+}
+
+@mixin close {
+  @extend %unselectable;
+
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  background-color: #e5e5e5;
+  border: none;
+  border-radius: $radius-rounded;
+  cursor: pointer;
+  pointer-events: auto;
+  display: inline-block;
+  @include inline-flexbox();
+  @include flex-grow(0);
+  @include flex-shrink(0);
+  @include justify-content(center);
+  @include align-items(center);
+  position: relative;
+  height: 20px;
+  max-height: 20px;
+  max-width: 20px;
+  min-height: 20px;
+  min-width: 20px;
+  width: 20px;
+  padding: 0;
+  color: currentColor;
+  transition: 0.2s linear;
+
+  .icon {
+    fill: currentColor;
+    height: 50%;
+    max-height: 50%;
+    max-width: 50%;
+    min-height: 50%;
+    min-width: 50%;
+    width: 50%;
+  }
+
+  &:hover,
+  &:focus {
+    background-color: rgba($black, 0.3);
+  }
+
+  &:active {
+    background-color: rgba($black, 0.4);
+  }
+
+  &.is-small {
+    height: 16px;
+    max-height: 16px;
+    max-width: 16px;
+    min-height: 16px;
+    min-width: 16px;
+    width: 16px;
+  }
+
+  &.is-medium {
+    height: 24px;
+    max-height: 24px;
+    max-width: 24px;
+    min-height: 24px;
+    min-width: 24px;
+    width: 24px;
+  }
+
+  &.is-large {
+    height: 32px;
+    max-height: 32px;
+    max-width: 32px;
+    min-height: 32px;
+    min-width: 32px;
+    width: 32px;
+  }
+}
+
+%close {
+  @include close;
+}
+
+@mixin loader {
+  animation: spinAround 500ms infinite linear;
+  border: 2px solid $grey-lighter;
+  border-radius: $radius-rounded;
+  border-right-color: transparent;
+  border-top-color: transparent;
+  content: "";
+  display: block;
+  height: 1em;
+  position: relative;
+  width: 1em;
+}
+
+%loader {
+  @include loader;
+}
+
+@mixin overlay($offset: 0) {
+  bottom: $offset;
+  left: $offset;
+  position: absolute;
+  right: $offset;
+  top: $offset;
+}
+
+%overlay {
+  @include overlay;
+}
+
+@mixin sale-sticker {
+  background-color: $sale-sticker-color;
+  color: set-text-color($sale-sticker-color);
+}
+
+@mixin new-sticker {
+  background-color: $new-sticker-color;
+  color: set-text-color($new-sticker-color);
+}
+
+@mixin bestseller-sticker {
+  background-color: $bestseller-sticker-color;
+  color: set-text-color($bestseller-sticker-color);
+}
+
+@mixin comingsoon-sticker {
+  background-color: $comingsoon-sticker-color;
+  color: set-text-color($comingsoon-sticker-color);
+}
+
+@mixin staffpick-sticker {
+  background-color: $staffpick-sticker-color;
+  color: set-text-color($staffpick-sticker-color);
+}
+
+@mixin preorder-sticker {
+  background-color: $preorder-sticker-color;
+  color: set-text-color($preorder-sticker-color);
+}
+
+@mixin container-column-generator($breakpoint: '') {
+
+  .#{$breakpoint}hidden {
+    display: none !important;
+  }
+
+  .#{$breakpoint}visible {
+    display: block !important;
+  }
+
+  .#{$breakpoint}one {
+    width: calc(#{math.percentage(math.div(1, 16))} - #{$gutter});
+  }
+
+  .#{$breakpoint}two {
+    width: calc(#{math.percentage(math.div(2, 16))} - #{$gutter});
+  }
+
+  .#{$breakpoint}three {
+    width: calc(#{math.percentage(math.div(3, 16))} - #{$gutter});
+  }
+
+  .#{$breakpoint}four {
+    width: calc(#{math.percentage(math.div(4, 16))} - #{$gutter});
+  }
+
+  .#{$breakpoint}five {
+    width: calc(#{math.percentage(math.div(5, 16))} - #{$gutter});
+  }
+
+  .#{$breakpoint}six {
+    width: calc(#{math.percentage(math.div(6, 16))} - #{$gutter});
+  }
+
+  .#{$breakpoint}seven {
+    width: calc(#{math.percentage(math.div(7, 16))} - #{$gutter});
+  }
+
+  .#{$breakpoint}eight {
+    width: calc(#{math.percentage(math.div(8, 16))} - #{$gutter});
+  }
+
+  .#{$breakpoint}nine {
+    width: calc(#{math.percentage(math.div(9, 16))} - #{$gutter});
+  }
+
+  .#{$breakpoint}ten {
+    width: calc(#{math.percentage(math.div(10, 16))} - #{$gutter});
+  }
+
+  .#{$breakpoint}eleven {
+    width: calc(#{math.percentage(math.div(11, 16))} - #{$gutter});
+  }
+
+  .#{$breakpoint}twelve {
+    width: calc(#{math.percentage(math.div(12, 16))} - #{$gutter});
+  }
+
+  .#{$breakpoint}thirteen {
+    width: calc(#{math.percentage(math.div(13, 16))} - #{$gutter});
+  }
+
+  .#{$breakpoint}fourteen {
+    width: calc(#{math.percentage(math.div(14, 16))} - #{$gutter});
+  }
+
+  .#{$breakpoint}fifteen {
+    width: calc(#{math.percentage(math.div(15, 16))} - #{$gutter});
+  }
+
+  .#{$breakpoint}sixteen {
+    width: calc(#{math.percentage(math.div(16, 16))} - #{$gutter});
+  }
+
+  .#{$breakpoint}one-whole {
+    width: calc(100% - #{$gutter});
+  }
+
+  .#{$breakpoint}one-half {
+    width: calc(#{math.percentage(math.div(1, 2))} - #{$gutter});
+  }
+
+  .#{$breakpoint}one-third {
+    width: calc(#{math.percentage(math.div(1, 3))} - #{$gutter});
+  }
+
+  .#{$breakpoint}two-thirds {
+    width: calc(#{math.percentage(math.div(2, 3))} - #{$gutter});
+  }
+
+  .#{$breakpoint}one-fourth {
+    width: calc(#{math.percentage(math.div(1, 4))} - #{$gutter});
+  }
+
+  .#{$breakpoint}two-fourths {
+    width: calc(#{math.percentage(math.div(2, 4))} - #{$gutter});
+  }
+
+  .#{$breakpoint}three-fourths {
+    width: calc(#{math.percentage(math.div(3, 4))} - #{$gutter});
+  }
+
+  .#{$breakpoint}one-fifth {
+    width: calc(#{math.percentage(math.div(1, 5))} - #{$gutter});
+  }
+
+  .#{$breakpoint}two-fifths {
+    width: calc(#{math.percentage(math.div(2, 5))} - #{$gutter});
+  }
+
+  .#{$breakpoint}three-fifths {
+    width: calc(#{math.percentage(math.div(3, 5))} - #{$gutter});
+  }
+
+  .#{$breakpoint}four-fifths {
+    width: calc(#{math.percentage(math.div(4, 5))} - #{$gutter});
+  }
+
+  .#{$breakpoint}one-sixth {
+    width: calc(#{math.percentage(math.div(1, 6))} - #{$gutter});
+  }
+
+  .#{$breakpoint}two-sixths {
+    width: calc(#{math.percentage(math.div(2, 6))} - #{$gutter});
+  }
+
+  .#{$breakpoint}three-sixths {
+    width: calc(#{math.percentage(math.div(3, 6))} - #{$gutter});
+  }
+
+  .#{$breakpoint}four-sixths {
+    width: calc(#{math.percentage(math.div(4, 6))} - #{$gutter});
+  }
+
+  .#{$breakpoint}five-sixths {
+    width: calc(#{math.percentage(math.div(5, 6))} - #{$gutter});
+  }
+
+  .#{$breakpoint}one-seventh {
+    width: calc(#{math.percentage(math.div(1, 7))} - #{$gutter});
+  }
+
+  .#{$breakpoint}two-sevenths {
+    width: calc(#{math.percentage(math.div(2, 7))} - #{$gutter});
+  }
+
+  .#{$breakpoint}three-sevenths {
+    width: calc(#{math.percentage(math.div(3, 7))} - #{$gutter});
+  }
+
+  .#{$breakpoint}four-sevenths {
+    width: calc(#{math.percentage(math.div(4, 7))} - #{$gutter});
+  }
+
+  .#{$breakpoint}five-sevenths {
+    width: calc(#{math.percentage(math.div(5, 7))} - #{$gutter});
+  }
+
+  .#{$breakpoint}one-eighth {
+    width: calc(#{math.percentage(math.div(1, 8))} - #{$gutter});
+  }
+
+  .#{$breakpoint}two-eighths {
+    width: calc(#{math.percentage(math.div(2, 8))} - #{$gutter});
+  }
+
+  .#{$breakpoint}three-eighths {
+    width: calc(#{math.percentage(math.div(3, 8))} - #{$gutter});
+  }
+
+  .#{$breakpoint}four-eighths {
+    width: calc(#{math.percentage(math.div(4, 8))} - #{$gutter});
+  }
+
+  .#{$breakpoint}five-eighths {
+    width: calc(#{math.percentage(math.div(5, 8))} - #{$gutter});
+  }
+
+  .#{$breakpoint}six-eighths {
+    width: calc(#{math.percentage(math.div(6, 8))} - #{$gutter});
+  }
+
+  .#{$breakpoint}seven-eighths {
+    width: calc(#{math.percentage(math.div(7, 8))} - #{$gutter});
+  }
+
+  .#{$breakpoint}one-tenth {
+    width: calc(#{math.percentage(math.div(1, 10))} - #{$gutter});
+  }
+
+  .#{$breakpoint}two-tenths {
+    width: calc(#{math.percentage(math.div(2, 10))} - #{$gutter});
+  }
+
+  .#{$breakpoint}three-tenths {
+    width: calc(#{math.percentage(math.div(3, 10))} - #{$gutter});
+  }
+
+  .#{$breakpoint}four-tenths {
+    width: calc(#{math.percentage(math.div(4, 10))} - #{$gutter});
+  }
+
+  .#{$breakpoint}five-tenths {
+    width: calc(#{math.percentage(math.div(5, 10))} - #{$gutter});
+  }
+
+  .#{$breakpoint}six-tenths {
+    width: calc(#{math.percentage(math.div(6, 10))} - #{$gutter});
+  }
+
+  .#{$breakpoint}seven-tenths {
+    width: calc(#{math.percentage(math.div(7, 10))} - #{$gutter});
+  }
+
+  .#{$breakpoint}eight-tenths {
+    width: calc(#{math.percentage(math.div(8, 10))} - #{$gutter});
+  }
+
+  .#{$breakpoint}nine-tenths {
+    width: calc(#{math.percentage(math.div(9, 10))} - #{$gutter});
+  }
+
+  .#{$breakpoint}one-twelfth {
+    width: calc(#{math.percentage(math.div(1, 12))} - #{$gutter});
+  }
+
+  .#{$breakpoint}two-twelfths {
+    width: calc(#{math.percentage(math.div(2, 12))} - #{$gutter});
+  }
+
+  .#{$breakpoint}three-twelfths {
+    width: calc(#{math.percentage(math.div(3, 12))} - #{$gutter});
+  }
+
+  .#{$breakpoint}four-twelfths {
+    width: calc(#{math.percentage(math.div(4, 12))} - #{$gutter});
+  }
+
+  .#{$breakpoint}five-twelfths {
+    width: calc(#{math.percentage(math.div(5, 12))} - #{$gutter});
+  }
+
+  .#{$breakpoint}six-twelfths {
+    width: calc(#{math.percentage(math.div(6, 12))} - #{$gutter});
+  }
+
+  .#{$breakpoint}seven-twelfths {
+    width: calc(#{math.percentage(math.div(7, 12))} - #{$gutter});
+  }
+
+  .#{$breakpoint}eight-twelfths {
+    width: calc(#{math.percentage(math.div(8, 12))} - #{$gutter});
+  }
+
+  .#{$breakpoint}nine-twelfths {
+    width: calc(#{math.percentage(math.div(9, 12))} - #{$gutter});
+  }
+
+  .#{$breakpoint}ten-twelfths {
+    width: calc(#{math.percentage(math.div(10, 12))} - #{$gutter});
+  }
+
+  .#{$breakpoint}eleven-twelfths {
+    width: calc(#{math.percentage(math.div(11, 12))} - #{$gutter});
+  }
+
+  .#{$breakpoint}offset-by-one {
+    left: calc(#{math.percentage(math.div(1, 16))});
+  }
+
+  .#{$breakpoint}offset-by-two {
+    left: calc(#{math.percentage(math.div(2, 16))});
+  }
+
+  .#{$breakpoint}offset-by-three {
+    left: calc(#{math.percentage(math.div(3, 16))});
+  }
+
+  .#{$breakpoint}offset-by-four {
+    left: calc(#{math.percentage(math.div(4, 16))});
+  }
+
+  .#{$breakpoint}offset-by-five {
+    left: calc(#{math.percentage(math.div(5, 16))});
+  }
+
+  .#{$breakpoint}offset-by-six {
+    left: calc(#{math.percentage(math.div(6, 16))});
+  }
+
+  .#{$breakpoint}offset-by-seven {
+    left: calc(#{math.percentage(math.div(7, 16))});
+  }
+
+  .#{$breakpoint}offset-by-eight {
+    left: calc(#{math.percentage(math.div(8, 16))});
+  }
+
+  .#{$breakpoint}offset-by-nine {
+    left: calc(#{math.percentage(math.div(9, 16))});
+  }
+
+  .#{$breakpoint}offset-by-ten {
+    left: calc(#{math.percentage(math.div(10, 16))});
+  }
+
+  .#{$breakpoint}offset-by-eleven {
+    left: calc(#{math.percentage(math.div(11, 16))});
+  }
+
+  .#{$breakpoint}offset-by-twelve {
+    left: calc(#{math.percentage(math.div(12, 16))});
+  }
+
+  .#{$breakpoint}offset-by-thirteen {
+    left: calc(#{math.percentage(math.div(13, 16))});
+  }
+
+  .#{$breakpoint}offset-by-fourteen {
+    left: calc(#{math.percentage(math.div(14, 16))});
+  }
+
+  .#{$breakpoint}offset-by-fifteen {
+    left: calc(#{math.percentage(math.div(15, 16))});
+  }
+
+  .equal-columns--outside-trim {
+
+    .#{$breakpoint}one-half:nth-of-type(2n),
+    .#{$breakpoint}eight:nth-of-type(2n),
+    .#{$breakpoint}one-third:nth-of-type(3n),
+    .#{$breakpoint}one-fourth:nth-of-type(4n),
+    .#{$breakpoint}four:nth-of-type(4n),
+    .#{$breakpoint}one-fifth:nth-of-type(5n),
+    .#{$breakpoint}one-sixth:nth-of-type(6n),
+    .#{$breakpoint}one-seventh:nth-of-type(7n),
+    .#{$breakpoint}two:nth-of-type(8n) {
+      margin-right: 0;
+    }
+
+    .#{$breakpoint}one-half:nth-of-type(2n+1),
+    .#{$breakpoint}eight:nth-of-type(2n+1),
+    .#{$breakpoint}one-third:nth-of-type(3n+1),
+    .#{$breakpoint}one-fourth:nth-of-type(4n+1),
+    .#{$breakpoint}four:nth-of-type(4n+1),
+    .#{$breakpoint}one-fifth:nth-of-type(5n+1),
+    .#{$breakpoint}one-sixth:nth-of-type(6n+1),
+    .#{$breakpoint}one-seventh:nth-of-type(7n+1),
+    .#{$breakpoint}two:nth-of-type(8n+1) {
+      margin-left: 0;
+    }
+
+    @if $breakpoint=='large-down--' {
+      @include respond-to('large-down') {
+
+        .#{$breakpoint}one-half.#{$breakpoint}one-half,
+        .#{$breakpoint}eight.#{$breakpoint}eight,
+        .#{$breakpoint}one-third.#{$breakpoint}one-third,
+        .#{$breakpoint}one-fourth.#{$breakpoint}one-fourth,
+        .#{$breakpoint}four.#{$breakpoint}four,
+        .#{$breakpoint}one-fifth.#{$breakpoint}one-fifth,
+        .#{$breakpoint}one-sixth.#{$breakpoint}one-sixth,
+        .#{$breakpoint}one-seventh.#{$breakpoint}one-seventh,
+        .#{$breakpoint}two.#{$breakpoint}two {
+          margin-right: #{$gutter};
+          margin-left: #{$gutter};
+        }
+
+        .#{$breakpoint}one-half:nth-of-type(2n),
+        .#{$breakpoint}eight:nth-of-type(2n),
+        .#{$breakpoint}one-third:nth-of-type(3n),
+        .#{$breakpoint}one-fourth:nth-of-type(4n),
+        .#{$breakpoint}four:nth-of-type(4n),
+        .#{$breakpoint}one-fifth:nth-of-type(5n),
+        .#{$breakpoint}one-sixth:nth-of-type(6n),
+        .#{$breakpoint}one-seventh:nth-of-type(7n),
+        .#{$breakpoint}two:nth-of-type(8n) {
+          margin-right: 0;
+        }
+
+        .#{$breakpoint}one-half:nth-of-type(2n+1),
+        .#{$breakpoint}eight:nth-of-type(2n+1),
+        .#{$breakpoint}one-third:nth-of-type(3n+1),
+        .#{$breakpoint}one-fourth:nth-of-type(4n+1),
+        .#{$breakpoint}four:nth-of-type(4n+1),
+        .#{$breakpoint}one-fifth:nth-of-type(5n+1),
+        .#{$breakpoint}one-sixth:nth-of-type(6n+1),
+        .#{$breakpoint}one-seventh:nth-of-type(7n+1),
+        .#{$breakpoint}two:nth-of-type(8n+1) {
+          margin-left: 0;
+        }
+      }
+    }
+
+    @if $breakpoint=='medium-down--' {
+      @include respond-to('medium-down') {
+
+        .#{$breakpoint}one-half.#{$breakpoint}one-half,
+        .#{$breakpoint}eight.#{$breakpoint}eight,
+        .#{$breakpoint}one-third.#{$breakpoint}one-third,
+        .#{$breakpoint}one-fourth.#{$breakpoint}one-fourth,
+        .#{$breakpoint}four.#{$breakpoint}four,
+        .#{$breakpoint}one-fifth.#{$breakpoint}one-fifth,
+        .#{$breakpoint}one-sixth.#{$breakpoint}one-sixth,
+        .#{$breakpoint}one-seventh.#{$breakpoint}one-seventh,
+        .#{$breakpoint}two.#{$breakpoint}two {
+          margin-right: #{$gutter};
+          margin-left: #{$gutter};
+        }
+
+        .#{$breakpoint}one-half:nth-of-type(2n),
+        .#{$breakpoint}eight:nth-of-type(2n),
+        .#{$breakpoint}one-third:nth-of-type(3n),
+        .#{$breakpoint}one-fourth:nth-of-type(4n),
+        .#{$breakpoint}four:nth-of-type(4n),
+        .#{$breakpoint}one-fifth:nth-of-type(5n),
+        .#{$breakpoint}one-sixth:nth-of-type(6n),
+        .#{$breakpoint}one-seventh:nth-of-type(7n),
+        .#{$breakpoint}two:nth-of-type(8n) {
+          margin-right: 0;
+        }
+
+        .#{$breakpoint}one-half:nth-of-type(2n+1),
+        .#{$breakpoint}eight:nth-of-type(2n+1),
+        .#{$breakpoint}one-third:nth-of-type(3n+1),
+        .#{$breakpoint}one-fourth:nth-of-type(4n+1),
+        .#{$breakpoint}four:nth-of-type(4n+1),
+        .#{$breakpoint}one-fifth:nth-of-type(5n+1),
+        .#{$breakpoint}one-sixth:nth-of-type(6n+1),
+        .#{$breakpoint}one-seventh:nth-of-type(7n+1),
+        .#{$breakpoint}two:nth-of-type(8n+1) {
+          margin-left: 0;
+        }
+      }
+    }
+
+    @if $breakpoint=='small-down--' {
+      @include respond-to('small-down') {
+
+        .#{$breakpoint}one-half.#{$breakpoint}one-half,
+        .#{$breakpoint}eight.#{$breakpoint}eight,
+        .#{$breakpoint}one-third.#{$breakpoint}one-third,
+        .#{$breakpoint}one-fourth.#{$breakpoint}one-fourth,
+        .#{$breakpoint}four.#{$breakpoint}four,
+        .#{$breakpoint}one-fifth.#{$breakpoint}one-fifth,
+        .#{$breakpoint}one-sixth.#{$breakpoint}one-sixth,
+        .#{$breakpoint}one-seventh.#{$breakpoint}one-seventh,
+        .#{$breakpoint}two.#{$breakpoint}two {
+          margin-right: #{$gutter};
+          margin-left: #{$gutter};
+        }
+
+        .#{$breakpoint}one-half:nth-of-type(2n),
+        .#{$breakpoint}eight:nth-of-type(2n),
+        .#{$breakpoint}one-third:nth-of-type(3n),
+        .#{$breakpoint}one-fourth:nth-of-type(4n),
+        .#{$breakpoint}four:nth-of-type(4n),
+        .#{$breakpoint}one-fifth:nth-of-type(5n),
+        .#{$breakpoint}one-sixth:nth-of-type(6n),
+        .#{$breakpoint}one-seventh:nth-of-type(7n),
+        .#{$breakpoint}two:nth-of-type(8n) {
+          margin-right: 0;
+        }
+
+        .#{$breakpoint}one-half:nth-of-type(2n+1),
+        .#{$breakpoint}eight:nth-of-type(2n+1),
+        .#{$breakpoint}one-third:nth-of-type(3n+1),
+        .#{$breakpoint}one-fourth:nth-of-type(4n+1),
+        .#{$breakpoint}four:nth-of-type(4n+1),
+        .#{$breakpoint}one-fifth:nth-of-type(5n+1),
+        .#{$breakpoint}one-sixth:nth-of-type(6n+1),
+        .#{$breakpoint}one-seventh:nth-of-type(7n+1),
+        .#{$breakpoint}two:nth-of-type(8n+1) {
+          margin-left: 0;
+        }
+      }
+    }
+
+    .#{$breakpoint}one-whole:nth-of-type(1n+1) {
+      width: 100%;
+      margin-right: 0;
+      margin-left: 0;
+    }
+
+    .#{$breakpoint}one-half {
+      width: calc(#{math.percentage(math.div(1, 2))} - (#{$gutter} - (#{$gutter} / 2)));
+    }
+
+    .#{$breakpoint}one-third {
+      width: calc(#{math.percentage(math.div(1, 3))} - (#{$gutter} - (#{$gutter} / 3)));
+    }
+
+    .#{$breakpoint}one-fifth {
+      width: calc(#{math.percentage(math.div(1, 5))} - (#{$gutter} - (#{$gutter} / 5)));
+    }
+
+    .#{$breakpoint}one-fourth {
+      width: calc(#{math.percentage(math.div(1, 4))} - (#{$gutter} - (#{$gutter} / 4)));
+    }
+
+    .#{$breakpoint}one-sixth {
+      width: calc(#{math.percentage(math.div(1, 6))} - (#{$gutter} - (#{$gutter} / 6)));
+    }
+
+    .#{$breakpoint}one-seventh {
+      width: calc(#{math.percentage(math.div(1, 7))} - (#{$gutter} - (#{$gutter} / 7)));
+    }
+
+    .#{$breakpoint}two {
+      width: calc(#{math.percentage(math.div(2, 16))} - (#{$gutter} - (#{$gutter} / 8)));
+    }
+
+    .#{$breakpoint}four {
+      width: calc(#{math.percentage(math.div(4, 16))} - (#{$gutter} - (#{$gutter} / 4)));
+    }
+
+    .#{$breakpoint}seven {
+      width: calc(#{math.percentage(math.div(7, 16))} - (#{$gutter} - (#{$gutter} / 2)));
+    }
+
+    .#{$breakpoint}eight {
+      width: calc(#{math.percentage(math.div(8, 16))} - (#{$gutter} / 2));
+    }
+
+    .#{$breakpoint}nine {
+      width: calc(#{math.percentage(math.div(9, 16))} - (#{$gutter} - (#{$gutter} / 2)));
+    }
+  }
+
+
+  .has-no-side-gutter-mega {
+    .mega-menu__block {
+      margin: 0 !important;
+      width: math.percentage(math.div(1, 5));
+    }
+  }
+
+  .has-no-side-gutter {
+
+    &.has-background {
+      padding-right: 0px;
+      padding-left: 0px;
+    }
+
+    .#{$breakpoint}one-whole,
+    .#{$breakpoint}one-half,
+    .#{$breakpoint}eight,
+    .#{$breakpoint}one-third,
+    .#{$breakpoint}two-thirds,
+    .#{$breakpoint}one-fourth,
+    .#{$breakpoint}four,
+    .#{$breakpoint}one-fifth,
+    .#{$breakpoint}three-fifths,
+    .#{$breakpoint}two-fifths,
+    .#{$breakpoint}one-sixth,
+    .#{$breakpoint}one-seventh,
+    .#{$breakpoint}one-eighth,
+    .#{$breakpoint}two {
+      margin-right: 0;
+      margin-left: 0;
+    }
+
+    .#{$breakpoint}one-whole {
+      width: 100%;
+    }
+
+    .#{$breakpoint}one-half {
+      width: math.percentage(math.div(1, 2));
+    }
+
+    .#{$breakpoint}one-third {
+      width: math.percentage(math.div(1, 3));
+    }
+
+    .#{$breakpoint}one-fourth {
+      width: math.percentage(math.div(1, 4));
+    }
+
+    .#{$breakpoint}one-fifth {
+      width: math.percentage(math.div(1, 5));
+    }
+
+    .#{$breakpoint}two-fifths {
+      width: math.percentage(math.div(2, 5));
+    }
+
+    .#{$breakpoint}three-fifths {
+      width: math.percentage(math.div(3, 5));
+    }
+
+    .#{$breakpoint}one-sixth {
+      width: math.percentage(math.div(1, 6));
+    }
+
+    .#{$breakpoint}one-seventh {
+      width: math.percentage(math.div(1, 7));
+    }
+
+    .#{$breakpoint}one-eighth {
+      width: math.percentage(math.div(1, 8));
+    }
+
+    .#{$breakpoint}two-thirds {
+      width: math.percentage(math.div(2, 3));
+    }
+
+    .#{$breakpoint}two {
+      width: math.percentage(math.div(2, 16));
+    }
+
+    .#{$breakpoint}four {
+      width: math.percentage(math.div(4, 16));
+    }
+
+    .#{$breakpoint}seven {
+      width: math.percentage(math.div(7, 16));
+    }
+
+    .#{$breakpoint}eight {
+      width: math.percentage(math.div(8, 16));
+    }
+
+    .#{$breakpoint}nine {
+      width: math.percentage(math.div(9, 16));
+    }
+  }
+
+  .has-no-side-gutter-mega {
+    .#{$breakpoint}one-sixth {
+      width: math.percentage(math.div(1, 5));
+    }
+
+    .#{$breakpoint}one-seventh {
+      width: math.percentage(math.div(1, 5));
+    }
+
+    .#{$breakpoint}one-eighth {
+      width: math.percentage(math.div(1, 5));
+    }
+  }
+}
+
+@mixin control {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  @include align-items(center);
+  border: $control-border-width solid transparent;
+  border-radius: 0; //Was $control-radius
+  box-shadow: none;
+  @include inline-flexbox();
+  font-size: $size-normal;
+  height: $control-height;
+  @include justify-content(flex-start);
+  line-height: $control-line-height;
+  padding-bottom: $control-padding-vertical;
+  padding-left: $control-padding-horizontal;
+  padding-right: $control-padding-horizontal;
+  padding-top: $control-padding-vertical;
+  position: relative;
+  vertical-align: top;
+
+  // States
+  &:focus,
+  &.is-focused,
+  &:active,
+  &.is-active {
+    outline: none;
+  }
+
+  &[disabled],
+  fieldset[disabled] & {
+    cursor: not-allowed;
+  }
+}
+
+%control {
+  @include control;
+}
+
+// The controls sizes use mixins so they can be used at different breakpoints
+@mixin control-small {
+  border-radius: $control-radius-small;
+  font-size: $size-small;
+}
+
+@mixin control-medium {
+  font-size: $size-medium;
+}
+
+@mixin control-large {
+  font-size: $size-large;
+}
+
+// banner 图 按比例放大
+@mixin scaleImg($size: 200%, $position: center) {
+  max-width: none;
+  width: $size;
+
+  @if $position==center {
+    transform: translate(#{($size - 100%) * 0.5 / $size * -100%});
+  }
+
+  @else if $position==right {
+    transform: translate(#{($size - 100%) / $size * -100%});
+  }
+
+  @else if $position==left {
+    transform: translate(0);
+  }
+
+  @else {
+    transform: translate(#{($size - 100%) * $position / $size * -100%});
+    // @warn 'Unrecognized position: #{$position}';
+  }
+}

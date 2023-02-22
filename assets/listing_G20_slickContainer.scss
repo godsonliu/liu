@@ -1,0 +1,199 @@
+.MultiList1 {
+  padding: 112px 0 75px;
+  //background: #F8F8F8;
+  overflow: hidden;
+  color: #2c2c2c;
+  @media screen and (max-width: 768px) {
+    padding: 50px 0;
+  }
+  .main_title {
+    font-size: calc(58 / 1920 * 100vw);
+    font-weight: 700;
+    margin-bottom: 3.2vw;
+    text-align: center;
+    line-height: 1;
+    color: #2c2c2c;
+    @media screen and (min-width: 1920px) {
+      font-size: 58px;
+    }
+    @media screen and (max-width: 768px) {
+      font-size: 28px;
+      margin: 0 auto 42px;
+    }
+  }
+  @media screen and (max-width: 768px) {
+    .act_box,
+    .dot_list {
+      display: none;
+    }
+    .slick_content {
+      width: 100%;
+      padding: 0 1rem;
+      .move0 {
+        width: 100%;
+        display: block;
+      }
+      .slick_li {
+        width: 100%;
+        padding: 1rem 0;
+        .li_content {
+          transform: translate(0, 0);
+          padding: 1rem;
+        }
+      }
+    }
+  }
+  .MultiList1_list {
+    &:first-child {
+      .slick-next,
+      .slick-prev {
+        top: 38%;
+      }
+    }
+    .slick-next {
+      z-index: 1;
+      right: 25px;
+      width: 36px;
+      height: 36px;
+    }
+    .slick-prev {
+      z-index: 1;
+      left: 25px;
+      width: 36px;
+      height: 36px;
+    }
+    .slick-prev:before,
+    .slick-next:before {
+      font-size: 36px;
+    }
+    .slick-track {
+      display: flex;
+      align-items: stretch;
+    }
+    .slick-list {
+      //此处为了能支持浏览器终端切换  需要覆写被编译后的centerPadding
+      padding: 0 28vw !important;
+      @media screen and (max-width: 768px) {
+        padding: 0 !important;
+      }
+    }
+    .slick-slide {
+      display: flex;
+      height: auto;
+      justify-content: center;
+      align-items: flex-start;
+    }
+    .slick-dots {
+      bottom: -50px;
+      @media screen and (min-width: 769px) and (max-width: 1441px) {
+        bottom: -4.56vw;
+      }
+      @media screen and (max-width: 768px) {
+        bottom: -11.73vw;
+      }
+    }
+    .slick-dots li {
+      margin: 0 5px;
+    }
+    .slick-dots li button:before {
+      font-size: 14px;
+      color: #dddddd;
+      opacity: 1;
+    }
+    .slick-dots li.slick-active button:before {
+      color: #22c9bb;
+      opacity: 1;
+    }
+    .itembox {
+      width: 80%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 40px;
+      flex-wrap: wrap;
+      @media screen and (max-width: 768px) {
+        width: 100%;
+        padding: 0 36px 10px;
+        border-radius: 15px;
+      }
+      .imgbox {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        img {
+          width: 100%;
+          height: auto;
+          border-radius: 24px;
+          @media screen and (max-width: 768px) {
+            border-radius: 20px;
+          }
+        }
+      }
+      .txt {
+        flex: 1;
+        text-align: center;
+        h3 {
+          color: #2c2c2c;
+          font-size: calc(40 / 1920 * 100vw);
+          font-weight: 700;
+          line-height: 1.2;
+          margin-top: 22px;
+          @media screen and (max-width: 768px) {
+            color: #2c2c2c;
+            margin-top: 15px;
+          }
+        }
+        p {
+          color: #2c2c2c;
+          font-size: calc(20 / 1920 * 100vw);
+          font-weight: 600;
+          margin: 20px auto;
+          width: 90%;
+          @media screen and (max-width: 768px) {
+            color: #2f2f2f;
+            width: 100%;
+            margin: 10px auto;
+          }
+        }
+        .extraText {
+          color: #717171;
+          font-weight: 600;
+          font-size: calc(12 / 1920 * 100vw);
+        }
+        // @media screen and (min-width: 1920px) {
+        //   h3 {
+        //     font-size: 28px;
+        //   }
+        //   p {
+        //     font-size: 20px;
+        //   }
+        // }
+        @media screen and (max-width: 768px) {
+          h3 {
+            font-size: 24px;
+          }
+          p {
+            font-size: 13px;
+          }
+          .extraText {
+            font-size: 13px;
+          }
+        }
+      }
+    }
+  }
+}
+.G20_banner_notes_txt {
+  font-size: 14px;
+  color: #adadad;
+  margin-top: 13vw;
+  @media (max-width: 768px) {
+    width: 83vw;
+    margin: 9vw auto 0;
+    font-size: 12px;
+  }
+}
+.G20_banner_img_icon {
+  margin-top: 2vw;
+  width: 55%;
+}

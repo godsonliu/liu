@@ -1,0 +1,56 @@
+{% if shop.metafields['global']['storefront_key'].value %}
+  {% assign storefront_key = shop.metafields['global']['storefront_key'].value %}
+{% else %}
+  {% assign storefront_key = shop.metafields['global']['storefront_key'] %}
+{% endif %}
+
+{% comment %} 自定义的buynow按钮 {% endcomment %}
+<button class="customize_buynow">{{ buynow_txt }}</button>
+
+<script>
+  $('.customize_buynow').click(e => {
+    e.preventDefault();
+    Shopify.theme.bundleBuynow({
+      authorization: "{{ storefront_key }}",
+      checkout: {
+        line_items: [{ variant_id: {{ variant_id }}, quantity: {{ variant_quantity }} }],
+        presentment_currency: "{{ shop.currency }}",
+        is_upstream_button: true,
+        page_type: "product",
+        secret: true,
+        wallet_name: "Checkout"
+      },
+      onSuccess: () => {},
+      onError: err => {
+        $.dialog({ title: err.message, content: err.description, type: 'red' });
+      }
+    });
+  })
+</script>
+
+<style>
+.customize_buynow {
+  background: linear-gradient(to right,#4391e5,#03d7c7);
+  background-image: linear-gradient(to right,#4391e5,#03d7c7);
+  color: #fff;
+  font-weight: 600;
+  border-radius: 22px;
+  height: 44px;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 0 4rem;
+  border: none;
+  margin: 3rem 0;
+}
+.customize_buynow:hover {
+  background: #fff;
+  color: #1db2a6;
+  border: 1px solid #1db2a6;
+}
+.product-form-container {
+  padding: 0;
+}
+.purchase-details .purchase-details__spb--true {
+  margin-top: 0;
+}
+</style>

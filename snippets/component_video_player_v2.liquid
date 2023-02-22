@@ -1,0 +1,189 @@
+{% assign section_id = 'shopify-section-' | append: section.id %}
+
+<style>
+@media (min-width: 769px) {
+  .showMobile {
+    display: none !important;
+  }
+}
+@media (max-width: 769px) {
+  .showPc {
+    display: none !important;
+  }
+}
+.section-video-player {
+  width: 100%;
+  {% if section.settings.max_width != blank %} max-width: {{section.settings.max_width}} {% endif %};
+  position: relative;
+}
+.video-text-content {
+  width: 70%;
+  height: 55%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: center;
+  color: #fff;
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  bottom: 10%;
+  transform: translateX(-50%);
+}
+@media (max-width: 769px) {
+  .video-text-content {
+    width: 94%;
+  }
+}
+.video-player-title {
+  font-size: 38px;
+  line-height: 1.5;
+  margin-bottom: 14px;
+  font-weight: 700;
+  {% if section.settings.title_color != blank %} color: {{section.settings.title_color}} {% else %} #fff {% endif %};
+  font-weight: 500;
+}
+@media (max-width: 769px) {
+  .video-player-title {
+    font-size: 28px;
+    line-height: 40px;
+    margin-bottom: 3px;
+  }
+}
+.video-player-subtitle {
+  font-size: 20px;
+  line-height: 1.5;
+  {% if section.settings.subtitle_color != blank %} color: {{section.settings.subtitle_color}} {% else %} #fff {% endif %};
+}
+.player-button-text {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  line-height: 1;
+  font-weight: 600;
+  text-decoration: underline;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-appearance: none;
+  cursor: pointer;
+  {% if section.settings.play_button_text_color != blank %} color: {{section.settings.play_button_text_color}} {% else %} #fff {% endif %};
+}
+@media (max-width: 769px) {
+  .player-button-text {
+    font-size: 20px;
+    line-height: 40px;
+  }
+}
+.svg-icon {
+  margin-left: 12px;
+}
+.video-content {
+  width: 100%;
+  font-size: 0;
+  margin: 0 auto;
+}
+.video-content video {
+  width: 100%;
+}
+
+
+</style>
+{% comment %} 
+
+video_params: {
+  video_url: 'PC端弹窗视频url',
+  mobile_video_url: '移动端弹窗视频url',
+  video_width_px: 'PC端视频宽'
+  video_height_px: 'PC端视频高'
+  short_videoUrl： 'PC端短视频URL'
+  video_posterUrl： 'PC端短视频海报URL'
+
+  mobile_video_width_px: 'Mobile端视频宽'
+  mobile_video_height_px: 'Mobile端视频高'
+  mobile_short_videoUrl： 'Mobile端短视频URL'
+  mobile_video_posterUrl： 'Mobile端短视频海报URL'
+
+}
+
+{% endcomment %}
+<section class="section-video-player">
+	<div class="video-text-content">
+    {% if section.settings.title != blank or  section.settings.subtitle != blank %}
+		<div>
+			{% if section.settings.title != blank %}
+			<div class="video-player-title">{{ section.settings.title }}</div>
+			{% endif %}
+			{% if section.settings.subtitle  %}
+			<div class="video-player-subtitle">
+				{{ section.settings.subtitle }}
+			</div>
+			{% endif %}
+		</div>
+    {% endif %}	
+		<div 
+      class="player-button-text player_button" 
+      data-url="{% if video_params.video_url != blank %} {{ video_params.video_url }} {% else %} {{ section.settings.video_url }} {% endif %}" 
+      data-mobile-url=" {% if video_params.mobile_video_url != blank %} {{ video_params.mobile_video_url }} {% else %} {{ section.settings.mobile_video_url }} {% endif %}"
+    >
+			{{ section.settings.play_button_text }}
+			{% if section.settings.button_icon != blank %}
+			<div class="svg-icon">
+				<img src="{{ section.settings.button_icon | image_url: width: 36 }}" />
+			</div>
+			{% else %}
+			<div class="svg-icon">
+				<svg width="12" height="20" viewBox="0 0 12 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M1 1L10 10L1 19" stroke="white" stroke-width="2" stroke-linecap="round"/>
+				</svg>
+			</div>
+			{% endif %}
+		</div>
+	</div>
+	<div class="video-content">
+		<video 
+      class="showPc lazyload" 
+      width="{% if video_params.video_width_px != blank %} {{ video_params.video_width_px }} {% else %} {{ section.settings.video_width_px }} {% endif %}" 
+      height="{% if video_params.video_height_px != blank %} {{ video_params.video_height_px }} {% else %} {{ section.settings.video_height_px }} {% endif %}" 
+      loop autoplay muted
+      data-src="{% if video_params.short_videoUrl != blank %} {{ video_params.short_videoUrl }} {% else %} {{ section.settings.short_videoUrl }} {% endif %}"   
+      poster="{% if video_params.video_posterUrl != blank %} {{ video_params.video_posterUrl }} {% else %} {{ section.settings.video_posterUrl }} {% endif %}"
+    >
+    </video>
+		<video 
+      class="showMobile lazyload mobile-video" 
+      width="{% if video_params.mobile_video_width_px != blank %} {{ video_params.mobile_video_width_px }} {% else %} {{ section.settings.mobile_video_width_px }} {% endif %}" 
+      height="{% if video_params.mobile_video_height_px != blank %} {{ video_params.mobile_video_height_px }} {% else %} {{ section.settings.mobile_video_height_px }} {% endif %}" 
+      loop autoplay muted
+      data-src="{% if video_params.mobile_short_videoUrl != blank %} {{ video_params.mobile_short_videoUrl }} {% else %} {{ section.settings.mobile_short_videoUrl }} {% endif %}"  
+      poster="{% if video_params.mobile_video_posterUrl != blank %} {{ video_params.mobile_video_posterUrl }} {% else %} {{ section.settings.mobile_video_posterUrl }} {% endif %}"
+    >
+    </video>
+	</div>
+	{% render 'component_videoPlayer_popup_v2', className: '.section-video-player .player_button' %}
+</section>
+
+<script>
+$(function() {
+  $('#{{section_id}} .section-video-player .player_button', 'video_player_popup_show', function() {
+    dataLayer.push({
+      "event": "uaEvent",
+      "eventCategory": "click",
+      "eventAction": "watch_video",
+      "eventLabel": "{{section.settings.eventLabel}}",
+      "eventValue": "undefined"
+    })
+  })
+	if(document.body.clientWidth < 769) {
+		// 解决安卓手机不能重复播放问题
+		var videos = document.querySelectorAll('#{{section_id}} .mobile-video');
+		for(let i = 0; i < videos.length; i++) {
+			videos[i].loop = false;
+			videos[i].addEventListener('ended', function() {
+			this.currentTime=0.1; this.play(); }, false);
+			videos[i].play();
+		}
+	}	
+})
+</script>

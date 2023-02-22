@@ -1,0 +1,120 @@
+{% assign lang = product.metafields.global %}
+
+{% if lang.dogcam.value %}
+  {% assign dogcam = lang.dogcam.value %}
+{% else %}
+  {% assign dogcam = lang.dogcam %}
+{% endif %}
+
+{% if lang.video.value %}
+  {% assign video = lang.video.value %}
+{% else %}
+  {% assign video = lang.video %}
+{% endif %}
+
+<link rel="stylesheet" href="{{ 'eufy_dogcam_ct.scss.css' | asset_url }}">
+<script src="{{ 'eufy_dogcam_ct.js' | asset_url }}" defer="defer"></script>
+
+{% assign custom_css = section.settings.custom_css %}
+
+{% style %}
+  {%- if custom_css != blank -%}
+    {{ custom_css }}
+  {% endif %}
+{% endstyle %}
+
+<div class="eufy_dogcam_2">
+  <div class="banner_2">
+    <img class="pc_show lazyload" data-src="{{ dogcam.bg2_img }}" alt="">
+    <img class="mob_show lazyload" data-src="{{ dogcam.bg2_img_mob }}" alt="">
+    <div class="banner_2_img">
+      <img class="pc_show lazyload" data-src="{{ dogcam.bg2_img }}" alt="">
+      <img class="mob_show lazyload" data-src="{{ dogcam.bg2_img_mob }}" alt="">
+    </div>
+    <div class="bg2_btm"></div>
+    <div class="bg2_content">
+      <p class="bg2_p1">{{ dogcam.bg2_p1 }}</p>
+      <p class="bg2_p2">{{ dogcam.bg2_p2 }}</p>
+    </div>
+    {% if section.settings.button_true == true %}
+      <button id="bg2_button">
+        <img class="lazyload" data-src="{{ dogcam.bg2_button }}" alt="">
+      </button>
+    {% endif %}
+    {% if section.settings.video_true == true %}
+      <div id="videoCoverVimeo">
+        <div class="box">
+          <div class="lazyframe" id="vimeoVideo" data-ratio="16:9"></div>
+        </div>
+        <a class="closeVideo">
+          <img class="lazyload" data-src="{{ dogcam.playing }}" alt="">
+        </a>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+
+<script src="https://player.vimeo.com/api/player.js"></script>
+<script>
+  var dogcam_Player = new Vimeo.Player('vimeoVideo', {
+    id: $(window).width() > 769
+      ? '{{ video.video_id }}'
+      : '{{ video.video_id_mob }}',
+    loop: true,
+    controls: false
+  });
+  dogcam_Player.setVolume(0);
+
+  var vimeo_bufferend = false;
+  $('#bg2_button').click(() => {
+    $('.banner_2_img').css({ display: "none" });
+    $('.bg2_btm').css({ display: "none" });
+    $('.bg2_content').css({ display: "none" });
+    $('#bg2_button').css({ display: "none" });
+    dogcam_Player.play();
+    dogcam_Player.on('bufferend', function() {
+      vimeo_bufferend = true;
+    });
+  });
+
+  $(".closeVideo").click(function() {
+    if (vimeo_bufferend) {
+      dogcam_Player.pause();
+      $('.banner_2_img').css({ display: "block" });
+      $('.bg2_btm').css({ display: "block" });
+      $('.bg2_content').css({ display: "block" });
+      $('#bg2_button').css({ display: "block" });
+    }
+  })
+</script>
+
+{% schema %}
+
+{
+  "name": "eufy_dogcam_2",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "button_true",
+      "label": "bg3_button",
+      "info": "视频按钮的显示/隐藏",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "video_true",
+      "label": "videoCoverVimeo",
+      "info": "视频的显示/隐藏",
+      "default": true
+    },
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Custom CSS",
+      "info": "自定义样式（注意：请按照标准的css语法添加样式）"
+    }
+  ]
+}
+
+{% endschema %}

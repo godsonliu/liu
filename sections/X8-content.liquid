@@ -1,0 +1,818 @@
+{% assign lang = product.metafields['global'] %}
+
+{% if lang.products.value %}
+  {% assign products = lang.products.value %}
+{% else %}
+  {% assign products = lang.products %}
+{% endif %}
+
+{% if product.metafields['global']['custom_variants'].value %}
+  {% assign custom_variants = product.metafields['global']['custom_variants'].value %}
+{% else %}
+  {% assign custom_variants = product.metafields['global']['custom_variants'] %}
+{% endif %}
+
+{% if product.metafields['global']['CleanSmarter'].value %}
+  {% assign Moblie_text = product.metafields['global']['CleanSmarter'].value %}
+{% else %}
+  {% assign Moblie_text = product.metafields['global']['CleanSmarter'] %}
+{% endif %}
+
+{% if product.metafields['global']['banner'].value %}
+  {% assign banner = product.metafields['global']['banner'].value %}
+{% else %}
+  {% assign banner = product.metafields['global']['banner'] %}
+{% endif %}
+
+{% if product.metafields['global']['Kind'].value %}
+  {% assign Kind = product.metafields['global']['Kind'].value %}
+{% else %}
+  {% assign Kind = product.metafields['global']['Kind'] %}
+{% endif %}
+
+{% if product.metafields['global']['Hair'].value %}
+  {% assign Hair = product.metafields['global']['Hair'].value %}
+{% else %}
+  {% assign Hair = product.metafields['global']['Hair'] %}
+{% endif %}
+
+{% if product.metafields['global']['Clean_Twice'].value %}
+  {% assign Clean_Twice = product.metafields['global']['Clean_Twice'].value %}
+{% else %}
+  {% assign Clean_Twice = product.metafields['global']['Clean_Twice'] %}
+{% endif %}
+
+{% if product.metafields['global']['Mop'].value %}
+  {% assign Mop = product.metafields['global']['Mop'].value %}
+{% else %}
+  {% assign Mop = product.metafields['global']['Mop'] %}
+{% endif %}
+
+{% if product.metafields['global']['Multitasking'].value %}
+  {% assign Multitasking = product.metafields['global']['Multitasking'].value %}
+{% else %}
+  {% assign Multitasking = product.metafields['global']['Multitasking'] %}
+{% endif %}
+
+{% if product.metafields['global']['power'].value %}
+  {% assign power = product.metafields['global']['power'].value %}
+{% else %}
+  {% assign power = product.metafields['global']['power'] %}
+{% endif %}
+
+{% if product.metafields['global']['CleanSmarter'].value %}
+  {% assign CleanSmarter = product.metafields['global']['CleanSmarter'].value %}
+{% else %}
+  {% assign CleanSmarter = product.metafields['global']['CleanSmarter'] %}
+{% endif %}
+
+{% if product.metafields['global']['MultiImg'].value %}
+  {% assign MultiImg = product.metafields['global']['MultiImg'].value %}
+{% else %}
+  {% assign MultiImg = product.metafields['global']['MultiImg'] %}
+{% endif %}
+
+{% if product.metafields['global']['Multi'].value %}
+  {% assign Multi = product.metafields['global']['Multi'].value %}
+{% else %}
+  {% assign Multi = product.metafields['global']['Multi'] %}
+{% endif %}
+
+{% if product.metafields['global']['Boost'].value %}
+  {% assign Boost = product.metafields['global']['Boost'].value %}
+{% else %}
+  {% assign Boost = product.metafields['global']['Boost'] %}
+{% endif %}
+
+{% if product.metafields['global']['Putting'].value %}
+  {% assign Putting = product.metafields['global']['Putting'].value %}
+{% else %}
+  {% assign Putting = product.metafields['global']['Putting'] %}
+{% endif %}
+
+{% if product.metafields['global']['Box'].value %}
+  {% assign Box = product.metafields['global']['Box'].value %}
+{% else %}
+  {% assign Box = product.metafields['global']['Box'] %}
+{% endif %}
+
+{% if product.metafields['global']['tips'].value %}
+  {% assign tips = product.metafields['global']['tips'].value %}
+{% else %}
+  {% assign tips = product.metafields['global']['tips'] %}
+{% endif %}
+
+{% if product.metafields.global.tips.value %}
+  {% assign tips = product.metafields.global.tips.value %}
+{% else %}
+  {% assign tips = product.metafields.global.tips %}
+{% endif %}
+
+{% if product.metafields['global']['products'].value %}
+  {% assign products = product.metafields['global']['products'].value %}
+{% else %}
+  {% assign products = product.metafields['global']['products'] %}
+{% endif %}
+
+{% if shop.metafields['global']['storefront_key'].value %}
+  {% assign storefront_key = shop.metafields['global']['storefront_key'].value %}
+{% else %}
+  {% assign storefront_key = shop.metafields['global']['storefront_key'] %}
+{% endif %}
+
+{% if shop.metafields.global.common.value %}
+  {% assign common = shop.metafields.global.common.value %}
+{% else %}
+  {% assign common = shop.metafields.global.common %}
+{% endif %}
+
+
+<script src="{{ 'gsap.min.js' | asset_url }}" ></script>
+<script src="{{ 'ScrollTrigger.min.js' | asset_url }}"></script>
+
+<div class="H30_video" style="display: none;">
+  <div class="box">
+    <div class="lazyframe" id="H30_video_url" data-ratio="16:9"></div>
+  </div>
+  <a class="closeVideo" ><i class="iconfont">&#xe723;</i></a>
+</div>
+{% comment %} <div class="GoShop">
+  <div class="GoShopBox">
+    <p>{{ product.title }}</p>
+    <a id="BuyH30X8" class="btn" onclick="BuyNowx8(event)">{{ banner.nav_btn }}</a>
+  </div>
+</div> {% endcomment %}
+
+<div class="Kind">
+  <video class="KindVideo lazyload" data-src="{{ Kind.src }}" webkit-playsinline playsinline muted="muted"></video>
+  <div class="Kind_content">
+    <h1>{{ Kind.title }} <img loading="lazy" class="lazyload" data-src="{{ Kind.logo }}" alt=""> </h1>
+    <h2>{{ Kind.Subtitle }}</h2>
+    <p>{{ Kind.text }}</p>
+  </div>
+
+</div>
+<div class="Hair is-hidden-mobile-only">
+  <video  muted="muted" autoplay="autoplay" class="lazyload" data-src="{{ Hair.src }}"webkit-playsinline playsinline  alt="" loop="loop" ></video>
+  <!-- <img loading="lazyload"src="{{ Hair.moblieSrc }}" alt="" class="is-hidden-desktop-only"> -->
+  <div class="Hair_content">
+    <h1>{{ Hair.title }}</h1>
+    <p>{{ Hair.text }}</p>
+    <i>{{ Hair.SubTitle }}</i>
+  </div>
+</div>
+<div class="Hair_mobile is-hidden-desktop-only">
+  <video  muted="muted" autoplay="autoplay" webkit-playsinline playsinline src="{{ Hair.src }}" alt="" loop="loop" ></video>
+  <!-- <img loading="lazy"src="{{ Hair.moblieSrc }}" alt="" class="is-hidden-desktop-only"> -->
+  <div class="Hair_content">
+    <h1>{{ Hair.title }}</h1>
+    <p>{{ Hair.text }}</p>
+    <i>{{ Hair.SubTitle }}</i>
+  </div>
+</div>
+<div class="Clean_Twice">
+  <div class="Clean_Twice_content">
+    <div class="Clean_Twice_content-right is-hidden-desktop-only">
+      <video  muted="muted" src="{{ Clean_Twice.mob_src }}" autoplay="autoplay" webkit-playsinline playsinline loop="loop" alt=""></video>
+    </div>
+    <div class="Clean_Twice_content-left">
+      <h1>
+        {{ Clean_Twice.title }}
+      </h1>
+      <p>
+        {{ Clean_Twice.text }}
+      </p>
+      <i>{{ Clean_Twice.Subtitle }}</i>
+    </div>
+    <div class="Clean_Twice_content-right is-hidden-mobile-only">
+      <video  muted="muted" class="lazyload" data-src="{{ Clean_Twice.src }}" autoplay="autoplay" webkit-playsinline playsinline loop="loop" alt=""></video>
+    </div>
+  </div>
+</div>
+{% if Mop !=blank %}
+  <div class="Multitasking">
+    <img loading="lazy"data-src="{{ Multitasking.src }}" alt="" class="lazyload Multitasking_Bk is-hidden-mobile-only">
+    <img loading="lazy"data-src="{{ Multitasking.mob_src }}" alt="" class="lazyload Multitasking_Bk is-hidden-desktop-only">
+    <!-- <div class="Multitasking_content"> -->
+      <!-- <img loading="lazy"src="https://cdn.shopify.com/s/files/1/0521/9411/5753/files/T2261.png?v=1630744752" alt="" class="gundong is-hidden-mobile-only"> -->
+      <!-- <img loading="lazy"src="{{ Multitasking.MoB_anm_src }}" class="gundongMobile is-hidden-desktop-only" alt=""> -->
+    
+      <div class="Multitasking_anM">
+        <div class="clip">
+          <img loading="lazy"data-src="{{ Multitasking.anm_src }}" alt="" class="lazyload Multitasking_banner is-hidden-mobile-only">
+          <img loading="lazy"data-src="{{ Multitasking.MoB_anm_src }}" alt="" class="lazyload Multitasking_banner is-hidden-desktop-only">
+        </div>
+      <img loading="lazy"data-src="{{ Multitasking.Mult_src }}" alt="" class="lazyload gundong is-hidden-mobile-only">
+      <img loading="lazy"data-src="{{ Multitasking.Mult_mob_src }}" alt="" class="lazyload gundongMobile is-hidden-desktop-only">
+
+        <!-- <img loading="lazy"src="{{ Multitasking.Mult_src }}" alt="" class="is-hidden-mobile-only lazyload"> -->
+        <!-- <img loading="lazy"src="{{ Multitasking.Mult_mob_src }}" alt="" class="is-hidden-desktop-only lazyload"> -->
+        <div class="MultiOP">
+          <h1>{{ Multitasking.title }}</h1>
+          <p>{{ Multitasking.text }}</p>
+        </div>
+      <!-- </div> -->
+    </div>
+  </div>
+{%endif%}
+
+<!-- <div class="RunNum">
+  <h1>From 59% to 93%</h1>
+</div> -->
+
+
+<div class="power h1Copy is-hidden-mobile-only">
+  <div class="power_list">
+    <div class="slick_list power_listImg">
+      {% for item in power.src %}
+      <div class="item">
+        <img loading="lazy" class="lazyload" data-src="{{item}}" alt="">
+      </div>
+      {% endfor %}
+    </div>
+    <img loading="lazy"data-src="{{ power.xichenqi_src }}" class="xichenqi lazyload" alt="">
+  </div>
+
+  <h1>{{ power.title }}</h1>
+</div>
+<div class="power h1Copy is-hidden-desktop-only">
+  <div class="power_list">
+    <div class="slick_list power_listImg">
+      {% for item in power.moble_src %}
+      <div class="item">
+        <img loading="lazy" class="lazyload" data-src="{{item}}" alt="">
+      </div>
+      {% endfor %}
+    </div>
+    <img loading="lazy"data-src="{{ power.xichenqi_src }}" class="lazyload xichenqi" alt="">
+  </div>
+
+  <h1>{{ power.title }}</h1>
+</div>
+<!-- <div class="power is-hidden-desktop-only" id="power">
+  <div class="power_Mobile">
+    <img loading="lazy"src="{{ power.moble_src[0] }}" class="power_one lazyload" alt="">
+    <img loading="lazy"src="{{ power.moble_src[1] }}" class="power_two lazyload" alt="">
+    <img loading="lazy"src="{{ power.moble_src[2] }}" class="power_three lazyload" alt="">
+  </div>
+  <h1>{{ power.title }}</h1>
+</div> -->
+<div class="CleanSmarterBox">
+  <div class="CleanSmarter h1Copy is-hidden-mobile-only" id="CleanSmarterId">
+    <img loading="lazy" class="lazyload"  data-src="{{ CleanSmarter.src }}" alt="">
+    <h1>{{ CleanSmarter.title }}</h1>
+    <div class="CleanFlex">
+      <div class="CleanSmarter_contentLeft">
+        <p>{{ CleanSmarter.text }}</p>
+      </div>
+      <div class="CleanSmarter_contentRight">
+        <p>{{ CleanSmarter.text_two }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="CleanSmarter is-hidden-desktop-only" id="CleanSmarter">
+  <img loading="lazy" data-src="{{ CleanSmarter.mob_src }}" class="lazyload CleanSmarterImg" alt="">
+  <div class="CleanSmarter">
+  <h1>{{ CleanSmarter.title }}</h1>
+  <div class="CleanSmarter_contentLeft_mobile">
+    <h2 class="mob_title">{{ CleanSmarter.mob_titleTwo }}</h2>
+    <p class="text_two">{{ CleanSmarter.text }}</p>
+
+  </div>
+  <div class="CleanSmarter_contentRight_mobile">
+    <h2 class="mob_titleTwo">{{ CleanSmarter.mob_title }}</h2>
+    <p class="bob_text">{{ CleanSmarter.text_two }}</p>
+
+  </div>
+
+  </div>
+</div>
+
+
+  <div class="MultiBox">
+    <div class="Multi is-hidden-mobile-only">
+      <div class="Multi_content">
+        <div class="Multi_Box" id="Multi_Box">
+          <div class="Multi_img_pc_sroll">
+            {% for item in MultiImg%}
+            <div>
+              <img class="lazyload" data-src="{{ item.src }}" alt="">
+              <h2>{{ item.title }}</h2>
+              <p>{{item.text }}</p>
+            </div>
+            {% endfor%}
+          </div>
+          <div class="Multi_content_img">
+            <img loading="lazy"data-src="{{ Multi.Google }}" class="lazyload Google" alt="">
+            <img loading="lazy"data-src="{{ Multi.axela }}" class="axela lazyload" alt="">
+            <div class="Mutli_img_black">
+              {% for item in Multi.src %}
+              <img loading="lazy" class="lazyload" data-src="{{item}}" alt="" >
+              {%endfor%}
+            </div>
+          </div>
+        <div class="Multi_click" id="Multi_click">
+          {% for item in Multi.phone %}
+          <img loading="lazy" class="lazyload" data-src="{{item}}" alt="" >
+          {%endfor%}
+        </div>
+        </div>
+        <div class="divCopy">
+          <h1>{{ Multi.title }}</h1>
+          <p>{{ Multi.text }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="Multi is-hidden-desktop-only">
+    <div class="Multi_content">
+      <div class="Multi_content_mobile">
+        <h1>{{ Multi.title }}</h1>
+        <p>{{ Multi.text }}</p>
+      </div>
+      <div class="Multi_Box" id="Multi_Box">
+        <div class="Multi_content_img">
+          <img loading="lazy"data-src="{{ Multi.Google }}" class="lazyload Google" alt="">
+          <img loading="lazy"data-src="{{ Multi.axela }}" class="lazyload axela" alt="">
+          <div class="Mutli_img_black">
+            {% for item in Multi.src %}
+            <img loading="lazy"data-src="{{item}}" class="lazyload" alt="">
+            {%endfor%}
+          </div>
+        </div>
+        <div class="Multi_click">
+          {% for item in Multi.phone %}
+          <img loading="lazy" class="lazyload" data-src="{{item}}" alt="">
+          {%endfor%}
+        </div>
+      </div>
+      <div class="Multi_img_pc_sroll">
+        {% for item in MultiImg%}
+        <div>
+          <img class="lazyload" data-src="{{ item.src }}" alt="">
+          <h2>{{ item.title }}</h2>
+          <p>{{item.text }}</p>
+        </div>
+        {% endfor%}
+      </div>
+    </div>
+  </div>
+  <div class="Boost mediaBox">
+    <div class="Boostvideo">
+      <div class="fengcheBox">
+        <img loading="lazy"data-src="{{ Boost.fengche }}" alt="" class="lazyload fengche is-hidden-desktop-only">
+        <img loading="lazy"data-src="https://cdn.shopify.com/s/files/1/0504/7094/4954/files/20210903-144349.png?v=1631157117" alt="" class="lazyload mob_line is-hidden-desktop-only">
+      </div>
+        <img loading="lazy"data-src="{{ Boost.fengche }}" alt="" class="lazyload fengche is-hidden-mobile-only">
+      <video  webkit-playsinline playsinline src="{{ Boost.src }}" preload="auto"  muted="muted" id="BoostVideo"></video>
+      <img loading="lazy"data-src="{{ Boost.line_src }}" class="lazyload line is-hidden-mobile-only" alt="">
+    </div>
+    <div class="divCopy">
+      <h1>{{ Boost.title }}</h1>
+      <p>{{ Boost.text }}</p>
+    </div>
+
+  </div>
+
+<div style="height: 340vh;">
+  <div class="PuttingBox">
+    <div class="Putting mediaBox" id="Putting">
+      <!-- <img loading="lazy"src="{{ Putting.src }}" alt="" class="img2 is-hidden-mobile-only"> -->
+      <img loading="lazy"class="lazyload img1 is-hidden-mobile-only" data-src="{{ Putting.src }}" alt="">
+      <img loading="lazy"class="lazyload img1 is-hidden-desktop-only" data-src="{{ Putting.mob_src }}" alt="">
+      <!-- <img loading="lazy"src="{{ Putting.mob_src_Two }}" alt="" class="img2 is-hidden-desktop-only"> -->
+    <div class="divCopy">
+      <h1>{{ Putting.title }}</h1>
+      <p>{{ Putting.text }}</p>
+    </div>
+    </div> 
+  </div>
+</div>
+  <div class="Box">
+    <h1>{{ Box.title }}</h1>
+    <img loading="lazy" class="lazyload" data-src="{{ Box.src }}" alt="">
+  </div>
+
+
+<script>
+    {% for item in products %}
+    {% assign oProduct = all_products[item.handle] %}
+    {% if oProduct.variants == blank %}
+      {% assign sold_out = true %}
+    {% else %}
+      {% for v in oProduct.variants %}
+        {% if v.sku == item.sku %}
+          {% assign oVariant = v %}
+        {% endif %}
+      {% endfor %}
+      {% if oVariant.available == false or oVariant.price == 999999999 %}
+        {% assign sold_out = true %}
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+
+  {% if sold_out %}
+    $("#BuyH30X8").css({ pointerEvents: "none", background: "#ccc" });
+    $("#BuyH30X8").html(`{{ 'products.product.sold_out' | t }}`);
+  {% endif %}
+</script>
+
+<script>
+  {% if tips.content %}
+    $(function(){
+      $('#template-product-x8 .product__information').append("<div class='X8Box'>{{ tips.content }} <div> <img src='{{ tips.timeLine_src }}'' alt='timeLine'></div><div>")
+    })
+  {% endif %}
+  function line_item_x8(variants, product){
+    let line_item = {};
+    variants.map(item => {
+      if(item.sku === product.sku) {
+        line_item.variant_id = item.id;
+      };
+    });
+    line_item.quantity = 1;
+    return line_item;
+  }
+  function BuyNowx8(e){
+    e.preventDefault();
+    let line_items = [];
+    {% if products %}
+      {% for item in products %}
+        {% assign oProduct = all_products[item.handle] %}
+        line_items.push(line_item_x8({{ oProduct.variants | json }}, {{ item | json }}))
+      {% endfor %}
+      Shopify.theme.bundleBuynow({
+        authorization: "{{ storefront_key }}",
+        checkout: {
+          line_items: line_items,
+          presentment_currency: "{{ shop.currency }}",
+          is_upstream_button: true,
+          page_type: "product",
+          secret: true,
+          wallet_name: "Checkout"
+        },
+        onSuccess: () => {},
+        onError: err => {
+          $.dialog({ title: err.message, content: err.description, type: 'red' });
+        }
+      })
+    {% else %}
+      $('html, body').animate({ scrollTop: $('#template-product-x8').offset().top - (document.body.offsetWidth > 768 ? 99 : 43) }, 800);
+    {% endif %}
+  }
+  function goAnchor(id) {
+    $('html, body').animate({ scrollTop: $(`#${id}`).offset().top - (document.body.offsetWidth > 768 ? 99 : 43) }, 800);
+  }
+
+$(document).ready(function(){
+  {% if banner.tag %}
+    $('.product-gallery').append("<img class='h30_tag' src='{{ banner.tag }}' />")
+  {% endif %}
+    $('.rule .txtBox').each(function(index, item) {
+      const h = $(this).innerHeight();
+      $(this).css('max-height', h);
+      $(this).addClass('less');
+    });
+    $('.rule .btn').on('click', function(){
+      const handle = $(this).attr('data-handle');
+      if ($(`.rule .txtBox[data-handle=${handle}]`).hasClass('less')) {
+        $(`.rule .txtBox[data-handle=${handle}]`).removeClass('less');
+        $(this).html(`{{ common.btn_less }}`);
+      } else {
+        $(`.rule .txtBox[data-handle=${handle}]`).addClass('less');
+        $(this).html(`{{ common.btn_more }}`);
+      }
+    })
+
+    const custom_variants = JSON.parse('{{ custom_variants | json }}');
+    if (custom_variants) {
+      let sku = "";
+      const Moblie_text = JSON.parse('{{ Moblie_text | json }}');
+      {%- for variant in product.variants -%}
+        {% if forloop.first == true %}
+          sku = "{{ variant.sku }}"
+        {% endif %}
+      {% endfor %}
+      const dom = custom_variants.sku.map((v, i) => {
+        const act = sku === v ? 'current' : '';
+        return `<li class="color ${act}" data-sku="${v}">
+          <a href="/products/${v}">
+            <div class="dot" style="background: ${custom_variants.background[i]}"></div>
+          </a>
+          <span class="txt"> ${custom_variants.color_txt[i]}</span>
+        </li>`;
+      }).join('');
+      if (custom_variants.sku.indexOf(sku) > -1) {
+        $('.custom_variants').html(`<ul class="options">${dom}</ul>`);
+        $('.custom_variants').removeClass('swap--visible');
+      }
+    }
+  })
+
+let num=0;
+var timer=null;
+let numSpeed=1;
+  function Imgrotate(speed){
+    timer=setInterval(() => {
+      numSpeed+=speed
+      document.getElementsByClassName('fengche')[0].style.transform = 'rotate('+numSpeed+'deg)';
+      document.getElementsByClassName('fengche')[1].style.transform = 'rotate('+numSpeed+'deg)';
+    }, 10);
+  }
+    const throttle = (func, wait) => {
+    let timer;
+    return () => {
+      
+        if (timer) {
+            return
+        }
+        timer = setTimeout(() => {
+            func();
+            timer = null
+        }, wait)
+    }
+  }
+  let MultitaskingGsap = false;
+  let MultitaskingGsapMobile=false
+  let MultitaskingGsapTwo=false
+  let MultitaskingGsapMobiletwo=false
+  let Boxgsap=false
+  window.addEventListener('scroll', throttle(function() {
+    const multitasking = document.getElementsByClassName('Multitasking')[0];
+    const CleanSmarterBox = document.getElementsByClassName('CleanSmarterBox')[0];
+
+    if ((multitasking && multitasking.getBoundingClientRect().top < window.innerHeight && !Boxgsap)||(CleanSmarterBox && CleanSmarterBox.getBoundingClientRect().top < window.innerHeight && !Boxgsap)) {
+      Boxgsap=true
+      if ($(window).width() > 768 && !MultitaskingGsap) {
+        MultitaskingGsap = true;
+        ScrollTrigger.create({
+          trigger: ".Multitasking",
+          start: "top top+=45",
+          end: "+=100",
+          pin:true,
+          scrub:1,
+          onEnter: () => {
+            $('.gundong').css('left','21%')
+            $('.Multitasking_banner').css('clip-path','inset(0% 0 0 0%)')
+            gsap.to('.Multitasking_anM .MultiOP', {opacity: 1,duration:1});
+          }
+        });
+        ScrollTrigger.create({
+          trigger: ".Multi",
+          start: "top top-=700",
+          end: "+=0",
+          onEnter: () => {
+            gsap.to('.Multi_img_pc_sroll',{opacity:1})
+            gsap.to('.Multi_click',{opacity:0})
+            gsap.to('.Multi_content_img',{opacity:0})
+            $('.Multi').css({'overflow':"scroll"})
+            $('.Multi').css({'overflow-x':"hidden"})
+          },
+          onEnterBack: () => {
+            gsap.to('.Multi_img_pc_sroll',{opacity:0})
+            gsap.to('.Multi_click',{opacity:1})
+            gsap.to('.Multi_content_img',{opacity:1})
+            $('.Multi').css({'overflow':"scroll"})
+            $('.Multi').css({'overflow-x':"hidden"})
+          }
+        })
+        ScrollTrigger.create({
+          trigger: "#CleanSmarterId",
+          start: "top top-=700",
+          end: "+=0",
+          onEnter: () => {
+            gsap.to('.CleanSmarter_contentLeft', {top: 0,duration:1 })
+            gsap.to('.CleanSmarter h1', {top: '20%' ,duration:1})
+          },
+          onEnterBack: () => {
+            gsap.to('.CleanSmarter h1', {top: '56%' ,duration:1})
+            gsap.to('.CleanSmarter_contentLeft', {top: '100vh',duration:1 })
+          }
+        })
+        ScrollTrigger.create({
+          trigger: "#CleanSmarterId",
+          start: "top top-=1400",
+          end: "+=0",
+          onEnter: () => {
+            gsap.to('.CleanSmarter_contentLeft', {top: '-100vh',duration:1 })
+            gsap.to('.CleanSmarter_contentRight', {top: 0 ,duration:1})
+          },
+          onEnterBack: () => {
+            gsap.to('.CleanSmarter_contentLeft', {top: 0 ,duration:1})
+            gsap.to('.CleanSmarter_contentRight', {top: '200vh',duration: 1})
+          }
+        })
+        ScrollTrigger.create({
+          trigger: ".Boost",
+          start: "top top+=100",
+          end: "-=0",
+          onEnter: () => {
+            $('#BoostVideo').get(0).play()
+            clearInterval(timer)
+            Imgrotate(5)
+          },
+            onEnterBack: () => {
+            }
+        })
+        ScrollTrigger.create({
+          trigger: "#Putting",
+          start: "top top-=700",
+          end: "+=0",
+          onEnter: () => {
+            gsap.to('.img1',{transform:'translate(-50%,-50%) scale(1.1)',left:' 50%',
+              top:' 50%'})
+          },
+          onEnterBack: () => {
+            gsap.to('.img1',{transform:' translate(0,0) scale(6.5)',left:0,top:0})
+          }
+        })
+      }else{
+        ScrollTrigger.create({
+          trigger: ".Kind",
+          start: "top top-=400",
+          end: "+=0",
+          onEnter: () => {
+            gsap.to('.Hair_mobile', {opacity: 1})
+          },
+          onEnterBack: () => {
+            gsap.to('.Hair_mobile', {opacity: 0})
+          }
+        })
+        ScrollTrigger.create({
+          trigger: ".Boost",
+          start: "top top+=200",
+          end: "-=0",
+          onEnter: () => {
+            $('#BoostVideo').get(0).play()
+            clearInterval(timer)
+            Imgrotate(5)
+          },
+          onEnterBack: () => {
+          }
+        })
+      }
+      if ($(window).width() > 414 && !MultitaskingGsapMobile &&$(window).width() <= 768) {
+        MultitaskingGsapMobile=true
+        ScrollTrigger.create({
+          trigger: "#Putting",
+          start: "top top-=2200",
+          end: "-=0",
+          onEnter: () => {
+            gsap.to('.img1',{transform:' translate(0,0) scale(1)',left:0,top:0})
+          },
+          onEnterBack: () => {
+            gsap.to('.img1',{transform:'scale(6.5)'})
+          }
+        })
+        ScrollTrigger.create({
+          trigger: ".Clean_Twice",
+          start: "top top-=1500",
+          end: "-=0",
+          onEnter: () => {
+            // gsap.to('.gundongMobile ', {top: '4vh' ,duration:2});
+            gsap.to('.Multitasking_anM', {top: '-12vh',duration:1.85});
+          },
+          onEnterBack: () => {
+            gsap.to('.Multitasking_anM', {top: '100%'});
+            // gsap.to('.gundongMobile ', {top: '100%' });
+          }
+        })
+        ScrollTrigger.create({
+          trigger: ".Multitasking",
+          start: "top top-=0",
+          end: "+=100",
+          pin:true,
+          onEnter: () => {
+            $('.gundongMobile').css('top','4%')
+            gsap.to('.MultiOP', {opacity: 1});
+            $('.Multitasking_banner').css({'clip-path':"inset(0% 0 0 0%)"});
+          }
+        })
+        ScrollTrigger.create({
+          trigger: "#CleanSmarter",
+          start: "top top-=3500",
+          end: "+=0",
+          onEnter: () => {
+            gsap.to('.Google',{opacity:1})
+            gsap.to('.axela',{opacity:1})
+          },
+          onEnterBack: () => {
+            gsap.to('.Google',{opacity:0})
+            gsap.to('.axela',{opacity:0})
+          }
+        })
+      } 
+      if($(window).width() <= 414 && !MultitaskingGsapMobiletwo)  {
+        MultitaskingGsapMobiletwo=true
+        ScrollTrigger.create({
+          trigger: ".Multitasking",
+          start: "top top-=0",
+          end: "+=100",
+          pin:true,
+          onEnter: () => {
+            $('.gundongMobile').css('top','9%')
+            $('.Multitasking_banner').css('clip-path','inset(0% 0 0 0%)')
+            gsap.to('.MultiOP', {opacity: 1});
+          }
+        })
+        ScrollTrigger.create({
+          trigger: "#Putting",
+          start: "top top-=850",
+          end: "-=0",
+          onEnter: () => {
+            gsap.to('.img1',{transform:' translate(0,0) scale(1)',left:0,top:0})
+          },
+          onEnterBack: () => {
+            gsap.to('.img1',{transform:'scale(6.5)'})
+          }
+        })
+      }
+    }
+  },200));
+  gsap.registerPlugin(ScrollTrigger);
+  ScrollTrigger.create({
+    trigger: ".Kind",
+    start: "top top+=70",
+    end: "+=0",
+    onEnter: () => {
+      $('.KindVideo').get(0).play()
+    },
+    onEnterBack: () => {
+    }
+  })
+  $('#BoostVideo').on('ended',function(){
+    clearInterval(timer)
+    numSpeed=1
+    Imgrotate(15)
+  })
+  ScrollTrigger.create({
+    trigger: "body",
+    start: "top top-=100",
+    end: "+=0",
+    onEnter: () => {
+      gsap.to('.GoShop', { height: document.body.offsetWidth > 768 ? "64px" : "43px" })
+    },
+    onEnterBack: () => {
+      gsap.to('.GoShop', { height: "0" })
+    }
+  });
+  $(document).ready(function(){
+    $('.shopX8').on('click',function(){
+      if ($(window).width()>768) {
+      // $('body').css('overflow','scroll')
+      $("html, body").animate({scrollTop: ($("#template-product-x8").offset().top-$('#header').height()+30) }, {duration: 500,easing: "swing"})
+      }else if($(window).width()>414&&768>=$(window).width()){
+      // $('body').css('overflow','scroll')
+      $("html, body").animate({scrollTop: $("#template-product-x8").offset().top}, {duration: 500,easing: "swing"})
+      }else if($(window).width()<=414){
+      $("html, body").animate({scrollTop: $("#template-product-x8").offset().top}, {duration: 500,easing: "swing"})
+      }
+    })
+    $('.power_listImg').slick({
+      infinite: true,
+      speed: 300,
+      slidesToShow: 1,
+      autoplay: true,
+      autoplaySpeed: 2000,
+      easing: 'linear',
+      centerMode: true,
+      pauseOnHover: false,
+      adaptiveHeight:false
+    });
+  $('.Multi_click').slick({
+    infinite: false,
+    // dots: true,
+    speed: 500,
+    slidesToShow: 1,
+    autoplay: true,
+    autoplaySpeed: 2000,
+    easing: 'linear',
+    centerMode: true,
+    pauseOnHover: false,
+    adaptiveHeight:false,
+    fade: true,
+  });
+  $('.Mutli_img_black').slick({
+    infinite: false,
+    // dots: true,
+    speed: 2000,
+    slidesToShow: 1,
+    autoplay: true,
+    autoplaySpeed: 2000,
+    easing: 'linear',
+    centerMode: true,
+    pauseOnHover: false,
+    adaptiveHeight:false,
+    fade: true,
+  });
+    function hideVideo(){
+      player.stopVideo()
+      $('.H30_video').hide()
+    }
+    $('.closeVideo').on('click',function(){
+      hideVideo()
+    })
+  })
+</script>

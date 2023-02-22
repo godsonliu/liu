@@ -1,0 +1,746 @@
+{% assign lang = page.metafields.global %}
+
+{% if lang.banner.value %}
+  {% assign banner = lang.banner.value %}
+{% else %}
+  {% assign banner = lang.banner %}
+{% endif %}
+
+{% if lang.video.value %}
+  {% assign video = lang.video.value %}
+{% else %}
+  {% assign video = lang.video %}
+{% endif %}
+
+{% if lang.videos_rotate.value %}
+  {% assign videos_rotate = lang.videos_rotate.value %}
+{% else %}
+  {% assign videos_rotate = lang.videos_rotate %}
+{% endif %}
+
+{% if lang.better.value %}
+  {% assign better = lang.better.value %}
+{% else %}
+  {% assign better = lang.better %}
+{% endif %}
+
+{% if lang.multi.value %}
+  {% assign multi = lang.multi.value %}
+{% else %}
+  {% assign multi = lang.multi %}
+{% endif %}
+
+{% if lang.whatbox.value %}
+  {% assign whatbox = lang.whatbox.value %}
+{% else %}
+  {% assign whatbox = lang.whatbox %}
+{% endif %}
+
+{% if lang.power.value %}
+  {% assign power = lang.power.value %}
+{% else %}
+  {% assign power = lang.power %}
+{% endif %}
+
+{% if lang.cus_spces.value %}
+  {% assign cus_spces = lang.cus_spces.value %}
+{% else %}
+  {% assign cus_spces = lang.cus_spces %}
+{% endif %}
+
+{% if lang.MultiList.value %}
+  {% assign MultiList = lang.MultiList.value %}
+{% else %}
+  {% assign MultiList = lang.MultiList %}
+{% endif %}
+
+{% if lang.RollingList.value %}
+  {% assign RollingList = lang.RollingList.value %}
+{% else %}
+  {% assign RollingList = lang.RollingList %}
+{% endif %}
+
+{% if lang.text_image_1.value %}
+  {% assign text_image_1 = lang.text_image_1.value %}
+{% else %}
+  {% assign text_image_1 = lang.text_image_1 %}
+{% endif %}
+
+{% if lang.text_image_2.value %}
+  {% assign text_image_2 = lang.text_image_2.value %}
+{% else %}
+  {% assign text_image_2 = lang.text_image_2 %}
+{% endif %}
+
+{{ 'X8-H30.scss.css' | asset_url | stylesheet_tag }}
+
+
+<section class="X8-content-new x8-content-v3">
+  
+  <div class="ani">
+    <div class="banner main_banner">
+      <div class="bg">
+        {% render 'lazyload_image', src: banner.img, alt: "", additional_classes: "is-hidden-mobile-only" %}
+        {% render 'lazyload_image', src: banner.mob_img, alt: "", additional_classes: "is-hidden-desktop-only" %}
+        {% comment %} {% render 'lazyload_video', img_src: banner.img, video_id: banner.video_id, ratio: banner.video_ratio, additional_classes: "is-hidden-mobile-only" %}
+        {% render 'lazyload_video', img_src: banner.mob_img, video_id: banner.mob_video_id, ratio: banner.mob_video_ratio, additional_classes: "is-hidden-desktop-only" %} {% endcomment %}
+      </div>
+      <div class="txt">
+        <a
+          class="title" href="{{ banner.href }}"
+          target="_blank" rel="noopener noreferrer"
+        >{{ banner.title }}</a>
+        {% if banner.watchTitle %}
+          <div class="watch_video" onclick="whatchYTvideo('{{ banner.ytb_id }}')">
+            <i class="iconfont">{{ banner.Iconfont }}</i>
+            <span>{{ banner.watchTitle }}</span>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="sub_video" id="overview">
+      <div class="bg">
+        {% render 'lazyload_video', img_src: video.img, video_id: video.video_id, ratio: video.video_ratio, additional_classes: "is-hidden-mobile-only" %}
+        {% render 'lazyload_video', img_src: video.mob_img, video_id: video.mob_video_id, ratio: video.mob_video_ratio, additional_classes: "is-hidden-desktop-only" %}
+      </div>
+      <div class="txtBox">
+        <div class="box">
+          <h3 class="title txt">{{ video.title }}</h3>
+          <p class="txt1 txt">{{ video.txt1 }}</p>
+          <p class="txt2 txt">{{ video.txt2 }}</p>
+          <p class="txt3 txt">{{ video.txt3 }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="images_rotate" id="images">
+    <div class="rotate_content is-hidden-mobile-only">
+        <div class="rotate_images rotate_images_pc">
+          {% for image in lang.images_rotate.imagesListPc %}
+            <div class="lb_all">
+              <div class="lb_img">
+                {% render 'lazyload_image', src: image, style: "opacity: 0;", alt: "" %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+    </div>
+    <div class="rotate_content is-hidden-desktop-only">
+      <div class="rotate_images rotate_images_mob">
+        {% for image in lang.images_rotate.imagesListMobile %}
+          <div class="lb_all">
+            <div class="lb_img">
+              {% render 'lazyload_image', src: image, style: "opacity: 0;" alt: "" %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <section class="videos_rotate">
+    <div class="rotate_content">
+      <p class="title">{{ videos_rotate.title }}</p>
+      {% if videos_rotate.subtitle != blank %}
+        <span class="subtitle">{{ videos_rotate.subtitle }}</span>
+      {% endif %}
+      <div class="videos_rotate_slick">
+        {% for item in videos_rotate.list %}
+          <div class="item">
+            <div class="image">
+              {% render 'lazyload_image', src: item.image, alt: item.title %}
+              {% if item.hide_playIcon == blank %}
+                <div class="play-icon-img" data-url="{{ item.ytb_url }}">
+                  {% render 'lazyload_image', src: videos_rotate.play_icon, alt: "{{ item.title }} play icon" %}
+                </div>
+              {% endif %}
+            </div>
+            <div class="extra-text">{{ item.extra_text }}</div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <div class="better" id="feature">
+    <div class="betterBox">
+      <div class="contentBox">
+        <h3 class="title">{{ better.title }}</h3>
+        <p class="desc">{{ better.desc }}</p>
+        {% comment %} <div class="info">
+          <span>{{ better.info_left }}</span>
+          <span>{{ better.info_vs }}</span>
+          <span>{{ better.info_right }}</span>
+        </div> {% endcomment %}
+        <div class="txtBox">
+          {% for item in better.txtList %}
+            <div class="item">
+              <div class="txt">
+                <h3 class="tit">{{ item.tit }}</h3>
+                <p class="sub_tit">{{ item.sub_tit }}</p>
+                <p class="desc">{{ item.desc }}</p>
+              </div>
+              <div class="img">
+                {% render 'lazyload_video', img_src: item.img, video_id: item.video_id %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="text_image text_image1">
+    <div class="text_image_box">
+      {% for item in text_image_1 %}
+        <div class="item" id="text_image1_{{ forloop.index }}">
+          {% if item.video %}
+            <div class="video">
+              <video src="{{ item.video }}" playsinline muted="muted" autoplay="autoplay" loop="loop"></video>
+            </div>
+          {% else %}
+            <div class="image">
+              {% render 'lazyload_image', src: item.img, alt: "" %}
+            </div>
+          {% endif %}
+          <div class="text {% if item.iconlist %}text_center{% endif %}">
+            <h3 class="title">{{ item.title }}</h3>
+            <p class="desc">{{ item.desc }}</p>
+            <p class="tips">{{ item.tips }}</p>
+            {% if item.iconlist %}
+              <div class="iconlist">
+                {% for i in item.iconlist %}
+                  <div class="iconitem">
+                    {% render 'lazyload_image', src: i.icon, alt: "" %}
+                    <p>{{ i.txt }}</p>
+                  </div>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="multi">
+    <div class="contentBox">
+      <div class="txtBox">
+        <div class="txt1">
+          <h3 class="title">{{ multi.title }}</h3>
+          <p class="desc">{{ multi.sub_title }}</p>
+        </div>
+        <div class="txt2">
+          <h3 class="title">{{ multi.title_2 }}</h3>
+          <p class="desc">{{ multi.sub_title_2 }}</p>
+        </div>
+      </div>
+      <div class="imgBox">
+        <div class="bg">
+          {% render 'lazyload_image', src: multi.img, alt: "" %}
+        </div>
+        <div class="txt txt1">
+          <div class="txtBox">
+            <h4 class="tit">{{ multi.tit_1 }}</h4>
+            <p class="desc">{{ multi.desc_1 }}</p>
+            <span class="line"></span>
+          </div>
+        </div>
+        <div class="txt txt2">
+          <div class="txtBox">
+            <h4 class="tit">{{ multi.tit_2 }}</h4>
+            <p class="desc">{{ multi.desc_2 }}</p>
+            <span class="line"></span>
+          </div>
+        </div>
+        <div class="txt txt3">
+          <div class="txtBox">
+            <h4 class="tit">{{ multi.tit_3 }}</h4>
+            <p class="desc">{{ multi.desc_3 }}</p>
+            <span class="line"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="hoverBox">
+      <img class="lazyload" data-src="{{ multi.hover_img }}" alt="" />
+    </div>
+  </div>
+
+  {% comment %} <div class="MultiList" id="MultiList">
+    <ul class="MultiList_list">
+      {% for item in MultiList.list %}
+        <li class="item">
+          <div class="itembox">
+            <div class="imgbox">
+              <img class="is-hidden-mobile-only lazyload" data-src="{{ item.img }}" alt="">
+              <img class="is-hidden-desktop-only lazyload" data-src="{{ item.img }}" alt="">
+            </div>
+            <div class="txt">{{ item.txt }}</div>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  </div> {% endcomment %}
+
+  <div class="text_image text_image2">
+    <div class="text_image_box">
+      {% for item in text_image_2 %}
+        <div class="item">
+          {% if item.video %}
+            <div class="video">
+              <video  src="{{ item.video }}" playsinline muted="muted" autoplay="autoplay" loop="loop"></video>
+            </div>
+          {% else %}
+            <div class="image">
+              {% render 'lazyload_image', src: item.img, alt: "" %}
+            </div>
+          {% endif %}
+          <div class="text {% if item.iconlist %}text_center{% endif %}">
+            <h3 class="title">{{ item.title }}</h3>
+            <p class="desc">{{ item.desc }}</p>
+            <p class="tips">{{ item.tips }}</p>
+            {% if item.iconlist %}
+              <div class="iconlist">
+                {% for i in item.iconlist %}
+                  <div class="iconitem">
+                    <img class="lazyload" alt="" data-src="{{ i.icon }}" />
+                    <p>{{ i.txt }}</p>
+                  </div>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="RollingList" id="RollingList">
+    <div class="txt is-hidden-desktop-only">
+      {% for item in RollingList.list %}
+        <div class="item" data-index="{{ forloop.index0 }}">
+          <h3>{{ item.title }}</h3>
+          <p>{{ item.desc }}</p>
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="RollingList_list">
+      {% for item in RollingList.list %}
+        <div class="item" data-index="{{ forloop.index0 }}">
+          <div class="txt is-hidden-mobile-only">
+            <h3>{{ item.title }}</h3>
+            <p>{{ item.desc }}</p>
+          </div>
+          {% render 'lazyload_image', src: item.img, alt: "", additional_classes: "is-hidden-mobile-only" %}
+          {% render 'lazyload_image', src: item.mob_img, alt: "", additional_classes: "is-hidden-desktop-only" %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="whatsbox">
+    <div class="bg">
+      {% render 'lazyload_image', src: whatbox.bg, alt: "whatsbox" %}
+    </div>
+    <div class="txt">
+      <h3>{{ whatbox.title }}</h3>
+      <p>{{ whatbox.desc }}</p>
+    </div>
+  </div>
+
+  <div class="power">
+    <div class="power_list">
+      <div class="slick_list power_listImg is-hidden-mobile-only">
+        {% for item in power.src %}
+          <div class="item">
+            {% render 'lazyload_image', src: item, alt: "" %}
+          </div>
+        {% endfor %}
+      </div>
+      <div class="slick_list power_listImg is-hidden-desktop-only">
+        {% for item in power.moble_src %}
+          <div class="item">
+            {% render 'lazyload_image', src: item, alt: "" %}
+          </div>
+        {% endfor %}
+      </div>
+      <img class="product lazyload" alt="" data-src="{{ power.product_src }}" />
+    </div>
+    <h3 class="title">{{ power.title }}</h3>
+  </div>
+
+  {% if cus_spces.title %}
+    <div class="proSpces" id="specs">
+      <div class="contentBox">
+        <h3 class="proSpcesTitle"><span>{{ cus_spces.title }}</span></h3>
+        <ul>
+          {% for item in cus_spces.list %}
+            <li>
+              <h3 class="title"><span>{{ item.key }}</span><i></i></h3>
+              <div class="txt">
+                <div class="txtBox">{{ item.value }}</div>
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  {% endif %}
+
+  <div class="VideoCoverYouTube">
+    <div class="box">
+      <iframe width="100%" class="lazyload" height="100%" data-src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <a class="closeVideo"><i class="iconfont">&#xe723;</i></a>
+  </div>
+
+  <div class="x8_video" style="display: none;">
+    <div class="box">
+      <div class="lazyframe" id="x8_video_url" data-ratio="9:16"></div>
+    </div>
+    <a class="closeVideo" ><i class="iconfont">&#xe723;</i></a>
+  </div>
+  
+</section>
+
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js" defer></script>
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+
+<script>
+  $(document).ready(function(){
+    const X8_main = {
+      sec1_slick: 0,
+      sec1_slick_max: "{{ MultiList.length }}" - 1,
+      sec2_slick: 0,
+      sec2_slick_max: "{{ RollingList.length }}" - 1,
+      dot_list_fn: function(slick, i) {
+        X8_main[slick] = i;
+        $(`.${slick} .dot_list .dot`).removeClass('active');
+        $(`.${slick} .dot_list .dot:nth-child(${i + 1}`).addClass('active');
+    
+        $(`.${slick} ul`).removeClass();
+        $(`.${slick} ul`).addClass(`move${i}`);
+        if (X8_main[slick] == 0) {
+          $(`.${slick} .act_box .left`).addClass('disabled');
+          $(`.${slick} .act_box .left`).removeClass('able');
+        } else {
+          $(`.${slick} .act_box .left`).addClass('able');
+          $(`.${slick} .act_box .left`).removeClass('disabled');
+        }
+        if (X8_main[slick] == X8_main[`${slick}_max`]) {
+          $(`.${slick} .act_box .right`).addClass('disabled');
+          $(`.${slick} .act_box .right`).removeClass('able');
+        } else {
+          $(`.${slick} .act_box .right`).addClass('able');
+          $(`.${slick} .act_box .right`).removeClass('disabled');
+        }
+      },
+      arrow_left_fn: function(slick, current) { 
+        $(`.${slick} ul`).removeClass();
+        $(`.${slick} ul`).addClass(`move${current - 1}`);
+        X8_main[slick] = current - 1;
+  
+        $(`.${slick} .dot_list .dot`).removeClass('active');
+        $(`.${slick} .dot_list .dot:nth-child(${X8_main[slick] + 1}`).addClass('active');
+  
+        if (X8_main[slick] == 0) {
+          $(`.${slick} .act_box .left`).addClass('disabled');
+          $(`.${slick} .act_box .left`).removeClass('able');
+        } else {
+          $(`.${slick} .act_box .left`).addClass('able');
+          $(`.${slick} .act_box .left`).removeClass('disabled');
+        }
+        $(`.${slick} .act_box .right`).removeClass('disabled');
+        $(`.${slick} .act_box .right`).addClass('able');
+      },
+      arrow_right_fn: function(slick, current) {
+        $(`.${slick} ul`).removeClass();
+        $(`.${slick} ul`).addClass(`move${current + 1}`);
+        X8_main[slick] = current + 1;
+  
+        $(`.${slick} .dot_list .dot`).removeClass('active');
+        $(`.${slick} .dot_list .dot:nth-child(${X8_main[slick] + 1}`).addClass('active');
+  
+        if (X8_main[slick] == X8_main[`${slick}_max`]) {
+          $(`.${slick} .act_box .right`).addClass('disabled');
+          $(`.${slick} .act_box .right`).removeClass('able');
+          $(`.${slick} ul`).addClass(`moveLast`);
+        } else {
+          $(`.${slick} .act_box .right`).addClass('able');
+          $(`.${slick} .act_box .right`).removeClass('disabled');
+        }
+        $(`.${slick} .act_box .left`).removeClass('disabled');
+        $(`.${slick} .act_box .left`).addClass('able');
+      }
+    };
+
+    // all slick init
+    $('.slick_box .dot_list .dot:first-child').addClass('active');
+    // .sec1_slick init
+    const multi_list = "{{ MultiList.length }}";
+    if (window.innerWidth < 768 && multi_list) { 
+      X8_main.sec1_slick_max = multi_list - 1;
+    } else {
+      X8_main.sec1_slick_max = multi_list - 2;
+      $('.sec1_slick .dot_list .dot:nth-last-child(-n+1)').addClass('swap--visible');
+    };
+    $('.sec1_slick .dot_list .dot').on('click', function (e) {
+      const i = $(this).data('i');
+      X8_main.dot_list_fn('sec1_slick', i);
+    });
+    $('.sec1_slick .act_box .left').on('click', function (e) {
+      const current = X8_main.sec1_slick;
+      if (current > 0 && current <= X8_main.sec1_slick_max && $(this).hasClass('able')) {
+        X8_main.arrow_left_fn('sec1_slick', current);
+      }
+    });
+    $('.sec1_slick .act_box .right').on('click', function (e) {
+      const current = X8_main.sec1_slick;
+      if (current >= 0 && current < X8_main.sec1_slick_max && $(this).hasClass('able')) {
+        X8_main.arrow_right_fn('sec1_slick', current);
+      }
+    });
+    // .sec2_slick init
+    const RollingList = "{{ RollingList.length }}";
+    X8_main.sec2_slick_max = RollingList - 2;
+    $('.sec2_slick .dot_list .dot:nth-last-child(-n+1)').addClass('swap--visible');
+    $('.sec2_slick .dot_list .dot').on('click', function (e) {
+      const i = $(this).data('i');
+      X8_main.dot_list_fn('sec2_slick', i);
+    });
+    $('.sec2_slick .act_box .left').on('click', function (e) {
+      const current = X8_main.sec2_slick;
+      if (current > 0 && current <= X8_main.sec2_slick_max && $(this).hasClass('able')) {
+        X8_main.arrow_left_fn('sec2_slick', current);
+      }
+    })
+    $('.sec2_slick .act_box .right').on('click', function (e) {
+      const current = X8_main.sec2_slick;
+      if (current >= 0 && current < X8_main.sec2_slick_max && $(this).hasClass('able')) {
+        X8_main.arrow_right_fn('sec2_slick', current);
+      }
+    })
+
+    // rotate_images
+    $(".rotate_images_pc").slick({
+      dots: true,
+      autoplay:true,
+      infinite: true,
+      slidesToShow: 1
+    });
+    $(".rotate_images_mob").slick({
+      dots: true,
+      autoplay:true,
+      infinite: true,
+      slidesToShow:1
+    });
+    const width = window.innerWidth;
+    if (width > 768) {
+      $('.slick-prev').hover(
+      function(){
+        $(".left_arrow_active").addClass("active")
+        $(".left_arrow").removeClass("active")
+      },
+      function(){
+        $(".left_arrow").addClass("active")
+        $(".left_arrow_active").removeClass("active")
+      }
+      )
+      $('.slick-next').hover(
+        function(){
+          $(".right_arrow_active").addClass("active")
+          $(".right_arrow").removeClass("active")
+        },
+        function(){
+          $(".right_arrow").addClass("active")
+          $(".right_arrow_active").removeClass("active")
+        }
+      )
+    }
+    
+    // videos_rotate
+    $('.videos_rotate_slick').slick({
+      slidesToShow: 3,
+      slidesToScroll: 1,
+      responsive: [
+        {
+          breakpoint: 768,
+          settings: {
+            centerPadding: '1px',
+            slidesToShow: 1
+          }
+        }
+      ]
+    });
+    $('.play-icon-img').on('click', function () {
+      let url = $(this).attr('data-url');
+      if (url) {
+        $('.VideoCoverYouTube').css({ display: "block" }).find('iframe').attr('src', url)
+      }
+    });
+    $('.VideoCoverYouTube .closeVideo').click(() => {
+      $('.VideoCoverYouTube iframe').attr('src', '')
+      $('.VideoCoverYouTube').css({ display: "none" })
+    });
+
+    // power
+    $('.power_listImg').slick({
+      infinite: true,
+      speed: 300,
+      slidesToShow: 1,
+      centerPadding: window.innerWidth > 768 ? '20vw' : '10vw',
+      lazyLoad: 'ondemand',
+      autoplay: true,
+      autoplaySpeed: 2000,
+      easing: 'linear',
+      centerMode: true
+    });
+
+    // MultiList_list
+    if (window.innerWidth > 768) {
+      $('.MultiList_list').slick({
+        infinite: true,
+        speed: 300,
+        slidesToShow: 1,
+        centerPadding: '25vw',
+        lazyLoad: 'ondemand',
+        autoplay: true,
+        autoplaySpeed: 2000,
+        easing: 'linear',
+        dots: true,
+        centerMode: true
+      });
+    }
+
+    // RollingList
+    $('.RollingList_list').slick({
+      infinite: true,
+      speed: 300,
+      slidesToShow: 1,
+      centerPadding: window.innerWidth > 768 ? '0' : '20%',
+      //lazyLoad: 'ondemand',
+      autoplay: true,
+      autoplaySpeed: 2000,
+      easing: 'linear',
+      dots: window.innerWidth > 768 ? false : true,
+      centerMode: true
+    });
+    if (window.innerWidth < 768) {
+      $('.RollingList_list').on('setPosition', function() {
+        const index =  $('.RollingList .slick-slide[aria-hidden=false]').attr("data-index");
+        $('.RollingList .txt .item').css('opacity', '0');
+        $(`.RollingList .txt .item[data-index=${index}]`).css('opacity', '1');
+      });
+    }
+
+    $('.x8_video .closeVideo').click(function() {
+      $('.x8_video').hide();
+      $('#x8_video_url').html('');
+    });
+
+    // spces
+    $('.proSpces .txt').each((i, ele) => {
+      const h = ele.offsetHeight;
+      ele.style.maxHeight = `${h}px`;
+    });
+    $('.proSpces .txt').addClass('hideTxt');
+    $(document).on('click', '.proSpces .title', function() {
+      const $dom = $(this).parents('li');
+      if ($($('.txt', $dom)).hasClass('showTxt')) {
+        $($('.txt', $dom)).removeClass('showTxt');
+        $(this).removeClass('showTxt');
+        $($('.txt', $dom)).addClass('hideTxt');
+      } else {
+        $('.proSpces .title').removeClass('showTxt');
+        $('.proSpces .txt').removeClass('showTxt');
+        $('.proSpces .txt').addClass('hideTxt');
+        $($('.txt', $dom)).addClass('showTxt');
+        $(this).addClass('showTxt');
+        $($('.txt', $dom)).removeClass('hideTxt');
+      }
+    });
+
+  })
+
+  function goAnchor(id) {
+    $('html, body').animate({ scrollTop: $(`#${id}`).offset().top - (document.body.offsetWidth > 768 ? 99 : 43) }, 800);
+  }
+
+  function whatchYTvideo(id) {
+    $('.x8_video').show();
+    $('#x8_video_url').html(`<iframe src="https://www.youtube.com/embed/${id}?autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`)
+    dataLayer.push({
+      "event": "uaEvent",
+      "eventCategory": 'click_video',
+      "eventAction": "{{ page.handle }}",
+      "eventLabel": 'paul'
+    })
+  }
+</script>
+
+<script src="{{ 'gsap.min.js' | asset_url }}" defer></script>
+<script src="{{ 'ScrollTrigger.min.js' | asset_url }}" defer></script>
+<script>
+  $(document).ready(function(){
+    gsap.registerPlugin(ScrollTrigger);
+    if (window.innerWidth > 768) {
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: ".ani",
+          start: 'top top+=73',
+          end: '+=280%',
+          //markers: true,
+          pin: true,
+          scrub: true
+        }
+      })
+        .to('.main_banner', { top: '-100vh', duration: '0.45' })
+        .to('.sub_video .title', { top: '-18%', duration: '0.15' }, '-=0.2')
+        .to('.sub_video .txt1', { top: '-18%', duration: '0.15' }, '-=0.05')
+        .to('.sub_video .txt2', { top: '-18%', duration: '0.15' }, '-=0.05')
+        .to('.sub_video .txt3', { top: '50%', duration: '0.1' }, '-=0.05')
+    }
+  })
+  window.onload = function() {
+    if (window.innerWidth > 768) {
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: ".multi",
+          start: 'top top',
+          end: '+=800',
+          pin: true,
+          //markers: true,
+          scrub: 1
+        }
+      })
+        .to('.multi .hoverBox', { bottom: 0 })
+        .to('.multi .imgBox', { opacity: 0.2 }, "=")
+        .to('.multi .txtBox .txt1', { opacity: 0 }, "=")
+        .to('.multi .txtBox .txt2', { opacity: 1 })
+    } else {
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: ".multi",
+          start: 'top top',
+          end: '+=800',
+          pin: true,
+          //markers: true,
+          scrub: 1
+        }
+      })
+        .to('.multi .imgBox .txt1', { opacity: 0 })
+        .to('.multi .imgBox .txt2', { opacity: 1 })
+        .to('.multi .imgBox .txt2', { opacity: 0 })
+        .to('.multi .imgBox .txt3', { opacity: 1 })
+        .to('.multi .hoverBox', { bottom: 0 })
+        .to('.multi .txtBox .txt1', { opacity: 0 }, "<")
+        .to('.multi .txtBox .txt2', { opacity: 1 })
+      }
+  }
+</script>
+

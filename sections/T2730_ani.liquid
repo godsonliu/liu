@@ -1,0 +1,531 @@
+{% assign lang = page.metafields['global'] %}
+
+{% if lang.T2370_alert.value %}
+  {% assign T2370_alert = lang.T2370_alert.value %}
+{% else %}
+  {% assign T2370_alert = lang.T2370_alert %}
+{% endif %}
+
+{% if lang.first_ani.value %}
+  {% assign first_ani = lang.first_ani.value %}
+{% else %}
+  {% assign first_ani = lang.first_ani %}
+{% endif %}
+
+{% if lang.productListing.value %}
+  {% assign productListing = lang.productListing.value %}
+{% else %}
+  {% assign productListing = lang.productListing %}
+{% endif %}
+
+{% if lang.mop_ani.value %}
+  {% assign mop_ani = lang.mop_ani.value %}
+{% else %}
+  {% assign mop_ani = lang.mop_ani %}
+{% endif %}
+
+{{ 'T2730.scss.css' | asset_url | stylesheet_tag }}
+
+<section class="T2730">
+  <div class="H30_video" style="display: none;">
+    <div class="box">
+      <div class="lazyframe" id="H30_video_url" data-ratio="16:9"></div>
+    </div>
+    <a class="closeVideo"><i class="iconfont">&#xe723;</i></a>
+  </div>
+  {% comment %} <div class="T2370_alert">
+    <div class="alert_box">
+      <i class="iconfont alert_box_close">&#xe723;</i>
+      <img class="is-hidden-mobile-only" src="{{ T2370_alert.img }}" alt="">
+      <img class="is-hidden-desktop-only" src="{{ T2370_alert.img_mob }}" alt="">
+      <div class="alert_txt">
+        <h1>{{ T2370_alert.title }}</h1>
+        <p>{{ T2370_alert.txt }}</p>
+        <button onclick="showCode(true)" class="open">{{ T2370_alert.btn }}</button>
+      </div>
+    </div>
+  </div> {% endcomment %}
+  <div class="first_ani banner_top_bar" id="overview">
+    <div class="banner">
+      <div class="bannerBox" style="pointer-events: auto;">
+        <div class="txt">
+          <p class="sub_tit">{{ first_ani.banner_sub_tit }}</p>
+          <h3 class="title">{{ first_ani.banner_title }}</h3>
+          <div class="btns">
+            {% if first_ani.watch_video %}
+              <a class="watchvideo" style="z-index: 999;"><i class="iconfont">&#xe6d8;</i><span>{{ first_ani.watch_video }}</span></a>
+            {% endif %}
+            {% if productListing.button_txt %}
+              <a
+                class="buynow" style="z-index: 999;"
+                target="_blank" rel="noopener noreferrer"
+                href="{{ productListing.href }}"
+              >{{ productListing.button_txt }}</a>
+            {% endif %}
+          </div>
+        </div>
+        <div class="bg">
+          <video
+            id="bg_video"
+            class="lazyload is-hidden-mobile-only"
+            poster="{{ first_ani.video_img }}"
+            data-src="{{ first_ani.video_src }}"
+            preload="auto" muted="muted" autoplay="autoplay" playsinline
+          ></video>
+          <video
+            id="mob_bg_video"
+            class="lazyload is-hidden-desktop-only"
+            poster="{{ first_ani.mob_video_img }}"
+            data-src="{{ first_ani.mob_video_src }}"
+            preload="auto" muted="muted" autoplay="autoplay" playsinline
+          ></video>
+        </div>
+      </div>
+    </div>
+    
+    <div class="products onehide" style="pointer-events:none">
+      <div class="prodsBox">
+        <canvas id="prods"></canvas>
+      </div>
+    </div>
+
+    <div class="loop onehide">
+      <div class="loop_box">
+        <div class="loop_video">
+          <video
+            class="lazyload is-hidden-mobile-only"
+            src="{{ first_ani.loop_video_img }}"
+            data-src="{{ first_ani.loop_video }}"
+            preload="auto" muted="muted" autoplay="autoplay" loop="loop" playsinline
+          ></video>
+          <video
+            class="lazyload is-hidden-desktop-only"
+            poster="{{ first_ani.mob_loop_video_img }}"
+            data-src="{{ first_ani.mob_loop_video }}"
+            preload="auto" muted="muted" autoplay="autoplay" loop="loop" playsinline
+          ></video>
+        </div>
+        {% comment %} <div class="get_code txt">
+          <h3>{{ first_ani.get_code_title }}</h3>
+          <p>{{ first_ani.get_code_desc }}</p>
+          <button onClick="showCode(true)" class="swap--visible open">{{ first_ani.get_code_btn }}</button>
+          <button class="swap--visible end">{{ first_ani.get_code_end_btn }}</button>
+        </div> {% endcomment %}
+        <div class="txt loop_title"><h3>{{ first_ani.loop_title }}</h3></div>
+      </div>
+    </div>
+
+    <div class="sale_point onehide">
+      <div class="sale_point_box">
+        <div class="imgArr">
+          <div class="imgBox">
+            {% render 'lazyload_image', src: first_ani.sale_point_img, alt: "", additional_classes: "item is-hidden-mobile-only" %}
+            {% render 'lazyload_image', src: first_ani.mob_sale_point_img, alt: "", additional_classes: "item is-hidden-desktop-only" %}
+          </div>
+        </div>
+        <div class="txtArr">
+          <div class="txtBox">
+            {% for item in first_ani.txt_Arr %}
+              <div class="txt txt{{ forloop.index }}">
+                <h3>{{ item.tit }}</h3>
+                <p>{{ item.desc }}</p>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cover onehide">
+      <div class="coverBox">
+        <div class="txt">
+          <h3>{{ first_ani.cover_title }}</h3>
+          <p>{{ first_ani.cover_desc }}</p>
+        </div>
+        <div class="coverBorder"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mop_ani">
+    <div class="txt">
+      <div class="txtBox">
+        <h3 class="tit1">{{ mop_ani.bg_tit }}</h3>
+        <h3 class="tit2">{{ mop_ani.mop_tit }}</h3>
+      </div>
+    </div>
+    <div class="mop_box">
+      <div class="bg_box">
+        <div class="bg">
+          {% render 'lazyload_image', src: mop_ani.bg_img, alt: "", additional_classes: "is-hidden-mobile-only" %}
+          {% render 'lazyload_image', src: mop_ani.mob_bg_img, alt: "", additional_classes: "is-hidden-desktop-only" %}
+        </div>
+        <div class="cover">
+          {% render 'lazyload_image', src: mop_ani.bg_cover, alt: "", additional_classes: "is-hidden-mobile-only" %}
+          {% render 'lazyload_image', src: mop_ani.mob_bg_cover, alt: "", additional_classes: "is-hidden-desktop-only" %}
+        </div>
+      </div>
+    </div>
+    <div class="products">
+      <div class="productsBox">
+        <div class="imgs">
+          {% comment %} <canvas id="mop" class="is-hidden-mobile-only"></canvas> {% endcomment %}
+          
+          {% render 'lazyload_image', src: mop_ani.mop_img, alt: "", additional_classes: "item is-hidden-mobile-only" %}
+          {% render 'lazyload_image', src: mop_ani.mob_mop_img, alt: "", additional_classes: "item is-hidden-desktop-only" %}
+        </div>
+      </div>
+    </div>
+    <div class="kv">
+      {% render 'lazyload_image', src: mop_ani.kv, alt: "" %}
+    </div>
+    <div class="coverBorder"><div class="content"></div></div>
+    <div class="images"  >
+      <div class="images_box is-hidden-mobile-only">
+        <div class="imgs_left">
+          <span class="arrow arrow-top"><img src="{{ 'radius-10.gif' | asset_url }}" alt="" /></span>
+          <span class="arrow arrow-bottom"><img src="{{ 'radius-10.gif' | asset_url }}" alt="" /></span>
+          <div class="imagesOne">
+            <div class="img img1">
+              {% render 'lazyload_image', src: mop_ani.img_left_1, alt: "" %}
+            </div>
+          </div>
+          <div class="column">
+            <div class="img img2">{% render 'lazyload_image', src: mop_ani.img_left_2, alt: "" %}</div>
+            <div class="img img3">{% render 'lazyload_image', src: mop_ani.img_left_3, alt: "" %}</div>
+          </div>
+        </div>
+        <div class="imgs_right"  >
+          <span class="arrow arrow-top"><img src="{{ 'radius-10.gif' | asset_url }}" alt="" /></span>
+          <span class="arrow arrow-bottom" id="images"><img src="{{ 'radius-10.gif' | asset_url }}" alt="" /></span>
+          <div class="column" >
+            <div class="img img1">{% render 'lazyload_image', src: mop_ani.img_right_1, alt: "" %}</div>
+            <div class="img img2"  >{% render 'lazyload_image', src: mop_ani.img_right_2, alt: "" %}</div>
+          </div>
+          <div class="imagesOne">
+            <div class="img img3">{% render 'lazyload_image', src: mop_ani.img_right_3, alt: "" %}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="mob_images_box is-hidden-desktop-only"  >
+  {% for item in mop_ani.mob_imgs %}
+    <div class="mob_img">{% render 'lazyload_image', src: item, alt: "" %}</div>
+  {% endfor %}
+</div>
+
+<script src="{{ 'gsap.min.js' | asset_url }}" defer></script>
+<script src="{{ 'ScrollTrigger.min.js' | asset_url }}" defer></script>
+<link rel="stylesheet" href="https://cdn.shopify.com/s/files/1/0516/0098/2167/files/intlTelInput.css?v=1626753585">
+<script src="https://cdn.shopify.com/s/files/1/0516/0098/2167/files/intlTelInput.js?v=1626750830"></script>
+<script src="https://www.youtube.com/iframe_api"></script>
+
+<script>
+  $(document).ready(function(){
+    let player;
+    $('.watchvideo').on('click', function(e) {
+      e.stopPropagation()
+      dataLayer.push({
+        "event": "uaEvent", // Trigger
+        "eventCategory": 't2730_landing_page',
+        "eventAction": "watch_video",
+        "eventLabel": "click", 
+      })
+      onYouTubeIframeAPIReady()
+  })
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('H30_video_url', {
+      height: '100%',
+      width: '100%',
+      videoId: '{{ first_ani.videoId }}',
+      playlist: ['{{ first_ani.videoId }}']
+    });
+    $('.H30_video').show();
+    window.setTimeout(function() {
+      player.playVideo();
+    } , 2000);
+  }
+  $(document).on('click', '.closeVideo', function() {
+    $('.H30_video').hide()
+    player.pauseVideo();
+  })
+    var announcementCookie = Cookies.get('announcement-bar')
+    if(announcementCookie !== 'dismiss') $('.announcement-container').height('36px')
+
+    $('body').on('click', '.js-close-announcement', function () {
+      ScrollTrigger.refresh()
+    })
+
+    const width = $(window).width()
+    const height = $(window).height()
+
+    gsap.registerPlugin(ScrollTrigger)
+
+    // 首屏视频动画
+    {% comment %} disableWindowScroll()
+    const bg_video = document.getElementById("bg_video")
+    const mob_bg_video = document.getElementById("mob_bg_video")
+
+    if ( width > 768) {
+      bg_video.onended = function() {
+        enableWindowScroll()
+        ScrollTrigger.refresh()
+      }
+    } else {
+      mob_bg_video.onended = function() {
+        enableWindowScroll()
+        ScrollTrigger.refresh()
+      }
+    } {% endcomment %}
+
+    function disableWindowScroll() {
+      {% comment %} var top = $(document).scrollTop()
+      $(document).on('scroll.unable',function (e) {
+        $(document).scrollTop(top)
+      }) {% endcomment %}
+      //$('.mop_ani, .clean_machine_v1, .onehide').css("display", "none")
+    }
+    function enableWindowScroll() {
+      {% comment %} $(document).unbind("scroll.unable") {% endcomment %}
+      //$('.mop_ani, .clean_machine_v1, .onehide').css("display", "block")
+    }
+
+    $('.mob_images_box').slick({
+      arrows: true,
+      autoplay: false,
+      infinite: true,
+      speed: 1000,
+      autoplaySpeed: 3000,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      centerPadding: '50px',
+    });
+
+    // 首屏动画
+    const prodsCanvas = document.getElementById("prods")
+    if (prodsCanvas) {
+      const prodsContext = prodsCanvas.getContext("2d")
+      prodsCanvas.width = width > 768 ? 1920 : 750
+      prodsCanvas.height = width > 768 ? 1080 : 1624
+      const currentProds = [
+        "https://cdn.shopify.com/s/files/1/0519/5458/1696/files/00066-tuya.png?v=1651897262",
+        "https://cdn.shopify.com/s/files/1/0519/5458/1696/files/00068-tuya.png?v=1651897262",
+        "https://cdn.shopify.com/s/files/1/0519/5458/1696/files/00070-tuya.png?v=1651897262",
+        "https://cdn.shopify.com/s/files/1/0519/5458/1696/files/00072-tuya.png?v=1651897262",
+        "https://cdn.shopify.com/s/files/1/0519/5458/1696/files/00074-tuya.png?v=1651897262",
+        "https://cdn.shopify.com/s/files/1/0519/5458/1696/files/00076-tuya.png?v=1651897262",
+        "https://cdn.shopify.com/s/files/1/0519/5458/1696/files/00078-tuya.png?v=1651897262",
+        "https://cdn.shopify.com/s/files/1/0519/5458/1696/files/00080-tuya.png?v=1651897262",
+        "https://cdn.shopify.com/s/files/1/0519/5458/1696/files/00082-tuya.png?v=1651897262",
+        "https://cdn.shopify.com/s/files/1/0519/5458/1696/files/00084-tuya.png?v=1651897262",
+        "https://cdn.shopify.com/s/files/1/0519/5458/1696/files/00086-tuya.png?v=1651897262",
+        "https://cdn.shopify.com/s/files/1/0519/5458/1696/files/00088-tuya.png?v=1651897262",
+        "https://cdn.shopify.com/s/files/1/0519/5458/1696/files/00090-tuya.png?v=1651897262",
+        "https://cdn.shopify.com/s/files/1/0519/5458/1696/files/00092-tuya.png?v=1651897262",
+        "https://cdn.shopify.com/s/files/1/0519/5458/1696/files/00094-tuya.png?v=1651897262",
+        "https://cdn.shopify.com/s/files/1/0519/5458/1696/files/00096-tuya.png?v=1651897262",
+        "https://cdn.shopify.com/s/files/1/0519/5458/1696/files/00098-tuya.png?v=1651897262",
+        "https://cdn.shopify.com/s/files/1/0519/5458/1696/files/00100-tuya.png?v=1651897262",
+        "https://cdn.shopify.com/s/files/1/0519/5458/1696/files/00102-tuya.png?v=1651897262",
+        "https://cdn.shopify.com/s/files/1/0519/5458/1696/files/00104-tuya.png?v=1651897262",
+        "https://cdn.shopify.com/s/files/1/0519/5458/1696/files/00106-tuya.png?v=1651897262",
+        "https://cdn.shopify.com/s/files/1/0519/5458/1696/files/00108-tuya.png?v=1651897262",
+        "https://cdn.shopify.com/s/files/1/0519/5458/1696/files/00110-tuya.png?v=1651897262",
+        "https://cdn.shopify.com/s/files/1/0519/5458/1696/files/00112-tuya.png?v=1651897262",
+        "https://cdn.shopify.com/s/files/1/0519/5458/1696/files/00114-tuya.png?v=1651897262",
+        "https://cdn.shopify.com/s/files/1/0519/5458/1696/files/00116-tuya.png?v=1651897262",
+        "https://cdn.shopify.com/s/files/1/0519/5458/1696/files/00118-tuya.png?v=1651897262",
+        "https://cdn.shopify.com/s/files/1/0519/5458/1696/files/00120-tuya.png?v=1651897262",
+        "https://cdn.shopify.com/s/files/1/0519/5458/1696/files/00122-tuya.png?v=1651897262",
+        "https://cdn.shopify.com/s/files/1/0519/5458/1696/files/00124-tuya.png?v=1651897262",
+        "https://cdn.shopify.com/s/files/1/0519/5458/1696/files/00126-tuya.png?v=1651897262",
+        "https://cdn.shopify.com/s/files/1/0519/5458/1696/files/00128-tuya.png?v=1651897262",
+        "https://cdn.shopify.com/s/files/1/0519/5458/1696/files/00130-tuya.png?v=1651897262",
+        "https://cdn.shopify.com/s/files/1/0519/5458/1696/files/00132-tuya.png?v=1651897262",
+        "https://cdn.shopify.com/s/files/1/0519/5458/1696/files/00134-tuya.png?v=1651897262",
+        "https://cdn.shopify.com/s/files/1/0519/5458/1696/files/00136-tuya.png?v=1651897262",
+        "https://cdn.shopify.com/s/files/1/0519/5458/1696/files/00138-tuya.png?v=1651897262",
+        "https://cdn.shopify.com/s/files/1/0519/5458/1696/files/00139-tuya.png?v=1651897262",
+      ]
+      const mob_currentProds = [
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00066.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00067.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00068.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00069.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00070.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00071.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00072.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00073.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00074.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00075.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00076.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00077.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00078.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00079.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00080.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00081.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00082.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00083.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00084.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00085.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00086.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00087.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00088.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00089.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00090.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00091.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00092.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00093.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00094.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00095.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00096.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00097.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00098.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00099.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00100.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00101.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00102.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00103.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00104.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00105.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00106.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00107.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00108.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00109.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00110.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00111.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00112.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00113.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00114.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00115.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00116.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00117.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00118.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00119.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00120.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00121.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00122.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00123.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00124.png?v=1652777892",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00125.png?v=1652777849",
+        "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/00126.png?v=1652777849"
+      ]
+      const prodsCount = width > 768 ? currentProds.length : mob_currentProds.length
+      const prodsImages = []
+      const prod = { count: 0 }
+      for (let i = 0; i < prodsCount; i++) {
+        const img = new Image()
+        img.src = width > 768 ? currentProds[i] : mob_currentProds[i]
+        prodsImages.push(img)
+      }
+      prodsImages[0].onload = prodsRender
+      
+      function prodsRender() {
+        prodsContext.clearRect(0, 0, prodsCanvas.width, prodsCanvas.height)
+        prodsContext.drawImage(prodsImages[prod.count], 0, 0)
+      }
+  
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: ".first_ani",
+          start: width > 768 ? 'top top+=64px' : 'top top+=49px',
+          end: `+=${10 * height}`,
+          pin: true,
+          scrub: 1
+        }
+      })
+      .to('.first_ani .products', { opacity: 1, duration: '0.04' })
+      .to('.first_ani .banner', { opacity: 0, duration: '0.04' }, "<=0")
+      .to(prod, { count: prodsCount - 1, snap: "count", onUpdate: prodsRender, duration: '0.1' })
+      .to('.first_ani .loop', { opacity: 1, pointerEvents: 'auto', duration: '0.04' })
+      .to('.first_ani .products', { opacity: 0, duration: '0.04' }, "<=0")
+      .to('.first_ani .loop_video', { opacity: 0.5, duration: '0.04' }, "<=0")
+      .to('.first_ani .loop .loop_title', { opacity: 1, duration: '0.04' })
+      .to('.first_ani .sale_point', { opacity: 1, duration: '0.04' })
+      .to('.first_ani .loop .loop_title', { opacity: 0, duration: '0.001' }, '<=0')
+      .to('.first_ani .sale_point .title', { opacity: 0, duration: '0.04' })
+      .to('.first_ani .sale_point .imgBox', { transform: 'scale(3)', transformOrigin: width > 768 ? '50% 0%' : '50% 20%', duration: '0.1' }, "<=0")
+      
+      .to('.first_ani .sale_point .txt1', { opacity: 1, duration: '0.04' })
+      .to('.first_ani .sale_point .imgBox', { opacity: 0.5, duration: '0.04' }, "<=0")
+
+      .to('.first_ani .sale_point .imgBox', { transform: width > 768 ? 'scale(3) translateY(-65%)' : 'scale(3) translateY(-40%)', duration: '0.4' })
+
+      .to('.first_ani .sale_point .txt1', { opacity: 0, duration: '0.02' }, "<=0")
+      .to('.first_ani .sale_point .txt2', { opacity: 1, duration: '0.04' }, "<=0.02")
+      .to('.first_ani .sale_point .txt2', { opacity: 0, duration: '0.1' }, "<=0.06")
+      .to('.first_ani .sale_point .txt3', { opacity: 1, duration: '0.06' }, "<=0.04")
+      .to('.first_ani .sale_point .txt3', { opacity: 0, duration: '0.1' }, "<=0.06")
+      .to('.first_ani .sale_point .txt4', { opacity: 1, duration: '0.02' }, "<=0.04")
+      .to('.first_ani .sale_point .txt4', { opacity: 0, duration: '0.02' }, "<=0.04")
+      .to('.first_ani .sale_point .txt5', { opacity: 1, duration: '0.02' }, "<=0.02")
+      .to('.first_ani .sale_point .txt5', { opacity: 0, duration: '0.02' }, "<=0.02")
+      .to('.first_ani .sale_point .txt6', { opacity: 1, duration: '0.04' }, "<=0.04")
+      .to('.first_ani .sale_point .txt6', { opacity: 0, duration: '0.06' }, "<=0.04")
+      // 缩小动画
+      .to('.first_ani .coverBorder', { borderWidth: width > 768 ? '22vh 18vw 3vh 18vw' : '31vh 5vw 10vh', duration: '0.04' })
+      .to('.first_ani .cover .txt', { top: width > 768 ? '10vh' : '20vh', duration: '0.04' }, "<=0")
+      //.to('.first_ani .sale_point .imgBox img, .first_ani .loop_video video', { objectPosition: width > 768 ? 'center bottom' : 'center center', duration: '0.01' }, "<=0")
+      .to('.first_ani .sale_point .imgBox', { transform: width > 768 ? 'scale(2) translateY(-52%)' : 'scale(2) translateY(-35%)', duration: '0.04' }, "<=0")
+      .to('.first_ani .loop_video', { transformOrigin: width > 768 ? '50% 0%' : '50% 20%', transform: width > 768 ? 'scale(2) translateY(-52%)' : 'scale(2.1) translateY(-35%)', duration: '0.04' }, "<=0")
+      .to('.first_ani .sale_point', { opacity: 0, duration: '0.01' })
+      .to('.first_ani .cover .txt', { opacity: 1, duration: '0.1' })
+    }
+
+    if (width > 768) {
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: ".mop_ani",
+          start: 'top top+=64px',
+          end: `+=${5 * height}`,
+          pin: true,
+          // markers: true,
+          scrub: true
+        }
+      })
+        // 拖地动画
+        .to('.mop_ani .products .imgs', { left: '70%', duration: '0.03' })
+        .to('.mop_ani .products .imgs', { left: '0', duration: '0.07' })
+        .to('.mop_ani .cover', { clipPath: "inset(0 0 0 33%)", duration: '0.075' }, "<=0")
+        .to('.mop_ani .txt .tit1', { opacity: '0', duration: '0.02' })
+        .to('.mop_ani .cover', { clipPath: "inset(0 0 0 0%)", duration: '0.01' }, "<=0")
+        .to('.mop_ani .txt .tit2', { opacity: '1', duration: '0.04' }, "<=0.01")
+        // 帧动画
+        .to('.mop_ani .kv', { opacity: '1', duration: '0.04' })
+        .to('.mop_ani .imgs_left, .mop_ani .imgs_right', { width: '32vw', padding: '3.6vh 0', duration: '0.1' })
+        .to('.mop_ani .images_box .arrow-top', { top: "4%", duration: '0.1' }, "<=0")
+        .to('.mop_ani .images_box .arrow-bottom', { bottom: "4%", duration: '0.1' }, "<=0")
+        .to('.mop_ani .kv img', { transform: 'scale(0.92)', duration: '0.1' }, "<=0")
+
+        gsap.timeline({
+          scrollTrigger: {
+            trigger: ".clean_machine_v1",
+            start: 'top bottom',
+            end: 'top center',
+            scrub: true
+          }
+        })
+          .to('.mop_ani .column', { transform: 'translateY(-200px)', duration: '0.1' }, '<=0')
+
+    } else {
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: ".mop_ani",
+          start: 'top top+=49px',
+          end: `+=${1 * height}`,
+          pin: true,
+          scrub: true
+        }
+      })
+        .to('.mop_ani .bg img, .mop_ani .cover img', { transform: 'translateX(0)', duration: '0.1' })
+        .to('.mop_ani .txt .tit1', { opacity: '0', duration: '0.04' })
+        .to('.mop_ani .cover', { clipPath: "inset(0 0 0 0%)", duration: '0.04' }, "<=0")
+        .to('.mop_ani .txt .tit2', { opacity: '1', duration: '0.04' })
+        .to('.mop_ani .txt .tit2', { opacity: '1', duration: '0.04' })
+    }
+
+  })
+</script>

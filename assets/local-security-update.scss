@@ -1,0 +1,113 @@
+@mixin font-pc-resize-size($size: 0) {
+  @media (min-width: 769px) {
+    // font-size: calc(#{$size}vw / 19.2);
+    font-size: #{$size}px;
+  }
+}
+
+@mixin font-mb-resize-size($size: 0) {
+  font-size: calc(#{$size}vw / 3.75);
+  // font-size: #{$size}px;
+}
+
+.bule-title{
+  margin: 0 0 30px;
+  @include font-mb-resize-size(36);
+  @include font-pc-resize-size(72);
+  color: #025c85;
+  line-height: 1.4;
+  font-weight: 700;
+
+  @media (min-width: 769px) {
+    margin: 0 0 2.6vw;
+  }
+}
+
+.image-banner-section .heading{
+  @include font-mb-resize-size(36);
+  @include font-pc-resize-size(64);
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+
+.image-with-text-section{
+  .sec-title-middle{
+    @include font-mb-resize-size(30);
+    @include font-pc-resize-size(52);
+    font-weight: 600;
+  }
+}
+
+.bg-fafafa{
+  background-color: #fafafa;
+}
+
+.iwt-info-column{
+  @media (min-width: 769px) {
+    max-width: 425px;
+  }
+
+  .sec-title-middle{
+    @include font-mb-resize-size(24);
+    @include font-pc-resize-size(32);
+    font-weight: 600;
+  }
+}
+
+.btn-link{
+  display: inline-block;
+  padding: 7.5px 34px;
+  border: 1px solid #025c85;
+  border-radius: 300px;
+  color: #025c85;
+
+  @media (min-width: 769px) {
+    transition: .3s;
+    &:hover{
+      color: #fff;
+      background-color: #025c85;
+    }
+  }
+  &::after{
+    display: none;
+  }
+}
+
+.sec-description{
+  @include font-mb-resize-size(14);
+  @include font-pc-resize-size(18);
+}
+
+.note{
+  color: #888;
+  @include font-mb-resize-size(14);
+  @include font-pc-resize-size(16);
+}
+
+.mb-pad-25{
+  .sec-title-middle,
+  .sec-description{
+    @media (max-width: 768px) {
+      padding: 0 25px;
+    }
+  }
+}
+
+.data-protected{
+  @media (max-width: 768px) {
+    margin-bottom: -20px;
+    padding-bottom: 0!important;
+  }
+}
+
+.local-middle-title{
+  margin: 60px 0 27px;
+  @include font-mb-resize-size(20);
+  @include font-pc-resize-size(32);
+  font-weight: 600;
+
+  @media (min-width: 769px) {
+    margin: 2.6vw 0 1.40625vw;
+  }
+}

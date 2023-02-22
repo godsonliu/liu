@@ -1,0 +1,14 @@
+@media (max-width: 769px) {
+  #shopify-section-announcement-bar {
+    display: none !important;
+  }
+  #shopify-section-header-classic {
+    display: none !important;
+  }
+  .v2_top_bar_section {
+    display: none !important;
+  }
+  .v2_top_bar_section_db {
+    display: block !important;
+  }
+}

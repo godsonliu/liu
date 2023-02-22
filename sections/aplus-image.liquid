@@ -1,0 +1,36 @@
+{% render 'aplus-image-snippet' %}
+
+{% schema %}
+{
+  "name": "Aplus Image With Text",
+  "presets": [
+    {
+      "name": "Aplus Image With Text",
+      "settings": {}
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "headline"
+    },
+    {
+      "type": "text",
+      "id": "subheadline",
+      "label": "subheadline"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "body"
+    },
+    {
+      "type": "image_picker",
+      "id": "imageUrl",
+      "label": "image",
+      "info": "800 x 600 recommended"
+    }
+  ]
+}
+{% endschema %}

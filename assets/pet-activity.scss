@@ -1,0 +1,43 @@
+.flickity-enabled.is-draggable .flickity-viewport {
+  cursor: default!important;
+}
+.caption-content {
+  width: 100%!important;
+}
+.slideshow-classic__heading {
+  color: #333!important;
+}
+.image-with-text .is-width-wide {
+  padding: 0!important;
+  background: #faead9;
+}
+.one-half {
+  width: 50%!important;
+  margin: 0!important;
+}
+.image-with-text__text-column {
+  padding: 0 6vw!important;
+}
+.image-with-text__text {
+  p {
+    font-size: 1.04vw;
+    text-align: left;
+    line-height: 2;
+  }
+}
+
+@media screen and (min-width: 767px) {
+  .under-overlay-menu .caption {
+    margin-top: -9vw;
+  }
+}
+
+@media only screen and (max-width: 798px) {
+  .image-with-text__text-column {
+    order: 0;
+    padding: 13vw 7vw 9vw!important;
+  }
+  .one-half {
+    width: 100%!important;
+  }
+}

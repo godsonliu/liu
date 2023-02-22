@@ -1,0 +1,153 @@
+{{ 'listing_G20_slickContainer.scss.css' | asset_url | stylesheet_tag }}
+
+{% assign DataId = section.settings.data_id %}
+{% assign custom_css = section.settings.custom_css %}
+{% if product.metafields['global'][DataId].value %}
+  {% assign slickContainer = product.metafields['global'][DataId].value %}
+{% else %}
+  {% assign slickContainer = product.metafields['global'][DataId] %}
+{% endif %}
+
+<!-- 
+  is-hidden-mobile-only  只在移动端隐藏
+  is-hidden-desktop-only 只在PC端隐藏
+-->
+<style>
+    #{{DataId}} .MultiList1 { background:{{ slickContainer.bg_color | default: '#fff' }} }  
+    @media (max-width: 767px) { #{{DataId}}.slickContainer .MultiList1 .slick-dots { bottom: {{ slickContainer.mob_bottom | default:'-11.73vw' }} }}
+</style>
+
+{%- if slickContainer != blank -%}
+  <div class="slickContainer" id="{{DataId}}">
+    <div class="MultiList1">
+      {%- if slickContainer.section_title != blank -%}
+        <h1 class="main_title">{{ slickContainer.section_title }}</h1>
+      {%- endif -%}
+      <ul class="MultiList1_list">
+        {% for item in slickContainer.list %}
+          <li class="item">
+            <div class="itembox">
+              <div class="imgbox">
+                <img class="is-hidden-mobile-only  lazyload" data-src="{{ item.pc_img }}" alt="">
+                <img class="is-hidden-desktop-only lazyload" data-src="{{ item.mob_img }}" alt="">
+              </div>
+              <div class="txt">{{ item.txt }}</div>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+{%- endif -%}
+
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+
+<script>
+  $(document).ready(function(){
+    let logosIndex = 0;
+    let len;
+    let logosIndexInt;
+    const slick_props = {
+      sec1_slick: 0,
+      sec1_slick_max: "{{ slickContainer.list.size }}" - 1,
+      dot_list_fn: function(slick, i) {
+        slick_props[slick] = i;
+        $(`.${slick} .dot_list .dot`).removeClass('active');
+        $(`.${slick} .dot_list .dot:nth-child(${i + 1}`).addClass('active');
+        $(`.${slick} ul`).removeClass();
+        $(`.${slick} ul`).addClass(`move${i}`);
+        if (slick_props[slick] == 0) {
+          $(`.${slick} .act_box .left`).addClass('disabled');
+          $(`.${slick} .act_box .left`).removeClass('able');
+        } else {
+          $(`.${slick} .act_box .left`).addClass('able');
+          $(`.${slick} .act_box .left`).removeClass('disabled');
+        }
+        if (slick_props[slick] == slick_props[`${slick}_max`]) {
+          $(`.${slick} .act_box .right`).addClass('disabled');
+          $(`.${slick} .act_box .right`).removeClass('able');
+        } else {
+          $(`.${slick} .act_box .right`).addClass('able');
+          $(`.${slick} .act_box .right`).removeClass('disabled');
+        }
+      },
+      arrow_left_fn: function(slick, current) { 
+        $(`.${slick} ul`).removeClass();
+        $(`.${slick} ul`).addClass(`move${current - 1}`);
+        slick_props[slick] = current - 1;
+  
+        $(`.${slick} .dot_list .dot`).removeClass('active');
+        $(`.${slick} .dot_list .dot:nth-child(${slick_props[slick] + 1}`).addClass('active');
+  
+        if (slick_props[slick] == 0) {
+          $(`.${slick} .act_box .left`).addClass('disabled');
+          $(`.${slick} .act_box .left`).removeClass('able');
+        } else {
+          $(`.${slick} .act_box .left`).addClass('able');
+          $(`.${slick} .act_box .left`).removeClass('disabled');
+        }
+        $(`.${slick} .act_box .right`).removeClass('disabled');
+        $(`.${slick} .act_box .right`).addClass('able');
+      },
+      arrow_right_fn: function(slick, current) {
+        $(`.${slick} ul`).removeClass();
+        $(`.${slick} ul`).addClass(`move${current + 1}`);
+        slick_props[slick] = current + 1;
+  
+        $(`.${slick} .dot_list .dot`).removeClass('active');
+        $(`.${slick} .dot_list .dot:nth-child(${slick_props[slick] + 1}`).addClass('active');
+  
+        if (slick_props[slick] == slick_props[`${slick}_max`]) {
+          $(`.${slick} .act_box .right`).addClass('disabled');
+          $(`.${slick} .act_box .right`).removeClass('able');
+          $(`.${slick} ul`).addClass(`moveLast`);
+        } else {
+          $(`.${slick} .act_box .right`).addClass('able');
+          $(`.${slick} .act_box .right`).removeClass('disabled');
+        }
+        $(`.${slick} .act_box .left`).removeClass('disabled');
+        $(`.${slick} .act_box .left`).addClass('able');
+      }
+    };
+    $('.slick_box .dot_list .dot:first-child').addClass('active');
+    const multi_list = "{{ slickContainer.length }}";
+    $('#{{DataId}} .MultiList1_list').slick({
+        infinite: true,
+        speed: {{ slickContainer.speed | default: 300 }},
+        slidesToShow: 1,
+        // centerPadding: window.innerWidth > 768 ? '28vw' : '0px',
+        lazyLoad: 'ondemand',
+        autoplay: {{ slickContainer.autoplay | default: true }},
+        autoplaySpeed: {{ slickContainer.autoplaySpeed | default: 5000 }},
+        easing: 'linear',
+        dots: true,
+        centerMode: true,
+        arrows:$(window).width()>768?true:false
+      });
+    })
+</script>
+
+{% schema %}
+
+{
+  "name": "slickContainer",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Custom CSS",
+      "info": "自定义样式（注意：请按照标准的css语法添加样式）"
+    },
+    {
+      "type": "text",
+      "id": "data_id",
+      "label": "metafields data id",
+      "default": "slickContainer"
+    }
+  ]
+}
+
+{% endschema %}
+

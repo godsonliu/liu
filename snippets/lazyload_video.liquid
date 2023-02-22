@@ -1,0 +1,51 @@
+
+<div class="lazyload_video video_{{ video_id }} {{ additional_classes }}">
+  <div class="cover">
+    <img class="lazyload" data-src="{{ img_src }}" src="{{ img_src | replace: '.png', '_50x.png'| replace: '.jpg', '_50x.jpg'| replace: 'jpeg', '_50x.jpeg' }}" alt="{{ img_alt }}" />
+  </div>
+  <div class="lazyframe" id="player_{{ video_id }}" data-ratio="{% if ratio %}{{ ratio }}{% else %}16:9{% endif %}"></div>
+</div>
+
+<style>
+  .lazyload_video {
+    width: 100%; position: relative;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .lazyload_video .cover {
+    width: 100%; height: 100%; z-index: 6; line-height: 0;
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  }
+  .lazyframe:before{ padding-top:56.25%; }
+  .lazyload_video .cover img {
+    width: auto; height: 100%; max-width: none;
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  }
+</style>
+
+<script src="https://player.vimeo.com/api/player.js" defer></script>
+<script defer>
+  $(document).ready(function(){
+    // banner
+    var player_{{ video_id }} = new Vimeo.Player('player_{{ video_id }}', {
+      id: '{{ video_id }}',
+      {% comment %} background: true, {% endcomment %}
+      controls: false,
+      loop: true,
+      autoplay: true,
+      autopause: false,
+      quality: '{{quality}}' || '540p',
+      playsinline: true,
+      muted: true
+    })
+    player_{{ video_id }}.on('play', function() {
+      $('.video_{{ video_id }} .cover img').css({ "opacity": "0" })
+    })
+    const ratio = $("#player_{{ video_id }}").data("ratio")
+    const arr = ratio.split(":")
+    arr && $("#player_{{ video_id }}").append(`<style>.lazyframe[data-ratio="${ratio}"]:before{ padding-top: ${arr[1]/arr[0]*100}%; }</style>`)
+  })
+</script>
+
+
+

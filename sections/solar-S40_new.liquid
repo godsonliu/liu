@@ -1,0 +1,633 @@
+{% assign lang = product.metafields.global %}
+
+{% if lang.timis.value %}
+  {% assign timis = lang.timis.value %}
+{% else %}
+  {% assign timis = lang.timis %}
+{% endif %}
+
+{% if lang.solar.value %}
+  {% assign solar = lang.solar.value %}
+{% else %}
+  {% assign solar = lang.solar %}
+{% endif %}
+
+{% if product.metafields['global']['custom_variants'].value %}
+  {% assign custom_variants = product.metafields['global']['custom_variants'].value %}
+{% else %}
+  {% assign custom_variants = product.metafields['global']['custom_variants'] %}
+{% endif %}
+
+{% assign list = solar.list %}
+
+
+<div class="solar">
+    
+    <div class="rules_timing_a">
+        <div class="rules_timing_img pc_show">
+            <img src="{{ timis.rules_timing_img }}">
+        </div> 
+        <div class="contain_rules">
+            <div class="rules_timing_heading">{{ timis.rules_timing_heading }}</div>
+            <div class="rules_timing_heading_line mob_show"></div>
+            
+            <div class="rules_timing_content">
+                {% comment %} <div class="head_timing">{{ timis.head_timing }}</div>
+                <div class="timi_table pc_show">
+                    <div class="timi_table_bg"></div>
+                    <div class="timi_table_1">
+                        <p class="timi_table_a">{{ timis.timi_table_a_1 }}</p>
+                        <p class="timi_table_b timi_table_head">{{ timis.timi_table_b_1 }}</p>
+                        <p class="timi_table_c timi_table_head">{{ timis.timi_table_c_1 }}</p>
+                        <p class="timi_table_d timi_table_head">{{ timis.timi_table_d_1 }}</p>
+                        <p class="timi_table_e timi_table_head">{{ timis.timi_table_e_1 }}</p>
+                    </div>
+                    <div class="timi_table_1">
+                        <p class="timi_table_a">{{ timis.timi_table_a_2 }}</p>
+                        <p class="timi_table_b">{{ timis.timi_table_b_2 }}</p>
+                        <p class="timi_table_c">{{ timis.timi_table_c_2 }}</p>
+                        <p class="timi_table_d">{{ timis.timi_table_d_2 }}</p>
+                        <p class="timi_table_e">{{ timis.timi_table_e_2 }}</p>
+                    </div>
+                    <div class="timi_table_1">
+                        <p class="timi_table_a">{{ timis.timi_table_a_3 }}</p>
+                        <p class="timi_table_b">{{ timis.timi_table_b_3 }}</p>
+                        <p class="timi_table_c">{{ timis.timi_table_c_3 }}</p>
+                        <p class="timi_table_d">{{ timis.timi_table_d_3 }}</p>
+                        <p class="timi_table_e">{{ timis.timi_table_e_3 }}</p>
+                    </div>
+                    <div class="timi_table_1" style="border-bottom:2px solid #b7b6b7;">
+                        <p class="timi_table_a">{{ timis.timi_table_a_4 }}</p>
+                        <p class="timi_table_b">{{ timis.timi_table_b_4 }}</p>
+                        <p class="timi_table_c">{{ timis.timi_table_c_4 }}</p>
+                        <p class="timi_table_d">{{ timis.timi_table_d_4 }}</p>
+                        <p class="timi_table_e">{{ timis.timi_table_e_4 }}</p>
+                    </div>
+                </div>
+                <div class="timi_table_mob mob_show">
+                    <div class="timi_table_bg"></div>
+                    <div class="timi_table_1">
+                        <p class="timi_table_a timi_table_head"><span class="span1">{{ timis.timi_table_a_1_mob }}</span><span class="span_de">{{ timis.timi_table_a_1_mob_de }}</span></p>
+                        <p class="timi_table_b timi_table_head"><span class="span2">{{ timis.timi_table_a_2_mob }}</span><span class="span_de">{{ timis.timi_table_a_2_mob_de }}</span></p>
+                        <p class="timi_table_c timi_table_head"><span class="span2">{{ timis.timi_table_a_3_mob }}</span><span class="span_de">{{ timis.timi_table_a_3_mob_de }}</span></p>
+                        <p class="timi_table_d timi_table_head"><span class="span2">{{ timis.timi_table_a_4_mob }}</span><span class="span_de">{{ timis.timi_table_a_4_mob_de }}</span></p>
+                    </div>
+                    <div class="timi_table_1">
+                        <p class="timi_table_a"><span class="span_4">{{ timis.timi_table_b_1_mob }}</span></p>
+                        <p class="timi_table_b"><span class="span_3">{{ timis.timi_table_b_2 }}</span></p>
+                        <p class="timi_table_c"><span class="span_3">{{ timis.timi_table_b_3 }}</span></p>
+                        <p class="timi_table_d"><span class="span_4">{{ timis.timi_table_b_4 }}</span></p>
+                    </div>
+                    <div class="timi_table_1">
+                        <p class="timi_table_a"><span class="span_4">{{ timis.timi_table_c_1_mob }}</span></p>
+                        <p class="timi_table_b"><span class="span_3">{{ timis.timi_table_c_2 }}</span></p>
+                        <p class="timi_table_c"><span class="span_3">{{ timis.timi_table_c_3 }}</span></p>
+                        <p class="timi_table_d"><span class="span_4">{{ timis.timi_table_c_4 }}</span></p>
+                    </div>
+                    <div class="timi_table_1">
+                        <p class="timi_table_a"><span class="span_4">{{ timis.timi_table_d_1_mob }}</span></p>
+                        <p class="timi_table_b"><span class="span_3">{{ timis.timi_table_d_2 }}</span></p>
+                        <p class="timi_table_c"><span class="span_3">{{ timis.timi_table_d_3 }}</span></p>
+                        <p class="timi_table_d"><span class="span_4">{{ timis.timi_table_d_4 }}</span></p>
+                    </div>
+                    <div class="timi_table_1">
+                        <p class="timi_table_a"><span class="span_4">{{ timis.timi_table_e_1_mob }}</span></p>
+                        <p class="timi_table_b"><span class="span_3">{{ timis.timi_table_e_2 }}</span></p>
+                        <p class="timi_table_c"><span class="span_3">{{ timis.timi_table_e_3 }}</span></p>
+                        <p class="timi_table_d"><span class="span_4">{{ timis.timi_table_e_4 }}</span></p>
+                    </div>
+                </div> {% endcomment %}
+                <div class="rules_timimg_1_bottom_heading">{{ timis.rules_timimg_1_bottom_heading }}</div>
+                <div class="rules_timimg_2_bottom_heading">{{ timis.rules_timimg_2_bottom_heading }}</div>
+                <div class="rules_timimg_3_bottom_heading pc_show">{{ timis.rules_timimg_3_bottom_heading }}</div>
+            </div>
+        </div>
+        
+    </div>
+    <div class="banner_1">
+        <div class="banner_1_img pc_show">
+            <img src="{{ solar.banner_1_img }}">
+        </div>
+        <div class="banner_1_img mob_show">
+            <img src="{{ solar.banner_1_img_mob }}">
+        </div>
+        <p class="banner_1_p1">{{ solar.banner_1_p1 }}</p>
+        <div class="banner_1_line"></div>
+        <p class="banner_1_p2">{{ solar.banner_1_p2 }}</p>
+        <p class="banner_1_p3 pc_show">
+            {{ solar.banner_1_p3 }}
+        </p>
+        <p class="banner_1_p3 mob_show">
+            {{ solar.banner_1_p3_mob }}
+        </p>
+        <p class="banner_1_p4 pc_show">
+            {{ solar.banner_1_p4 }}
+        </p>
+        <p class="banner_1_p4 mob_show">
+            {{ solar.banner_1_p4_mob }}
+        </p>
+    </div>
+    <div class="banner_7 pc_show">
+        <div class="contain_1" style="overflow: hidden;height:100vh;">
+            
+        
+            <div class="banner_7_img">
+                <!-- <img class="lazyload" data-src="https://cdn.shopify.com/s/files/1/0521/9411/5753/files/banner_5_345174ba-6afd-4b2d-a148-4e43423c69b3.png?v=1620291628" style="opacity: 0;"> -->
+                <video src="{{ solar.video_1 }}" preload="auto" muted="muted" autoplay="autoplay" loop="loop" style="width: 100%; height: 100%;"></video>
+                <div class="banner_7_btm">
+                    <p class="banner_7_p1">{{ solar.banner_7_p1 }}</p>
+                    <p class="banner_7_p2">
+                        {{ solar.banner_7_p2 }}
+                    </p>
+                </div>
+            </div>
+            
+            <div class="banner_7_fd">
+                <img class="lazyload" data-src="{{ solar.banner_7_fd }}">
+            </div>
+        </div>  
+    </div>
+    <div class="banner_7_mob mob_show">
+        <div class="banner_7_mob_img">
+            <!-- <img class="lazyload" data-src="https://cdn.shopify.com/s/files/1/0521/9411/5753/files/2k.mp4?v=1620642090"> -->
+            <img class="lazyload" data-src="{{ solar.banner_7_mob_img }}">
+            <div class="banner_7_mob_btm">
+                <p class="banner_7_mob_p1">{{ solar.banner_7_p1 }}</p>
+                <p class="banner_7_mob_p2">
+                    {{ solar.banner_7_p2_mob }}
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="banner_8 pc_show">
+        <div class="contain_1">
+            <p class="banner_8_p1">{{ solar.banner_8_p1 }}</p>
+            <p class="banner_8_mob_p1">
+                {{ solar.banner_8_mob_p1 }}
+            </p>
+            <div class="gd_all">
+                <p class="banner_8_p3 pc_show">{{ solar.banner_8_p3 }}</p>
+                <div class="gd_img pc_show">
+                    <img class="lazyload" data-src="{{ solar.gd_img }}">
+                </div>
+                
+                <div class="gd_btm">
+                    <div class="gd_btm_img pc_show">
+                        <img class="lazyload gray" data-src="{{ solar.gd_btm_img }}">
+                    </div>
+                    <div class="gd_btm_img mob_show">
+                        <img class="lazyload gray" data-src="{{ solar.gd_btm_img_mob }}">
+                    </div>
+                </div>
+                <div class="gd_img mob_show">
+                    <img class="lazyload" data-src="{{ solar.gd_img_mob }}">
+                </div>
+                
+                
+            </div>
+            <p class="banner_8_p2">{{ solar.banner_8_p2 }}</p>
+            
+            <p class="banner_8_p3 mob_show">{{ solar.banner_8_p3_mob }}</p>
+            <div class="icon_all">
+                <!-- <div class="icon_1">
+                    <div class="icon_1_img">
+                        <img class="lazyload" data-src="https://cdn.shopify.com/s/files/1/0521/9411/5753/files/icon_1_c330e593-1cea-40eb-ba0f-d23dd4edd623.png?v=1620298793">
+                    </div>
+                    <p class="banner_8_p4">Color Night Vision</p>
+                </div> -->
+                <div class="icon_2">
+                    <div class="icon_2_img">
+                        <img class="lazyload" data-src="{{ solar.icon_2_img }}">
+                    </div>
+                    <p class="banner_8_p5">{{ solar.banner_8_p5 }}</p>
+                </div>
+                <div class="icon_3">
+                    <p class="banner_8_p7">{{ solar.banner_8_p7 }}</p>
+                    <p class="banner_8_p6">{{ solar.banner_8_p6 }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="banner_8_mob mob_show">
+        <div class="contain_2">
+            <p class="banner_8_p1">{{ solar.banner_8_p1 }}</p>
+            <p class="banner_8_mob_p1">
+                {{ solar.banner_8_mob_p1 }}
+            </p>
+            <div class="gd_all">
+                <div class="gd_img">
+                    <img class="lazyload" data-src="{{ solar.gd_img_mob }}">
+                </div>
+                
+                
+            </div>
+            <div class="icon_all">
+                <div class="icon_2">
+                    <div class="icon_2_img">
+                        <img class="lazyload" data-src="{{ solar.icon_2_img }}">
+                    </div>
+                    <p class="banner_8_p5">{{ solar.banner_8_p5 }}</p>
+                </div>
+                <div class="icon_3">
+                    <p class="banner_8_p7">{{ solar.banner_8_p7 }}</p>
+                    <p class="banner_8_p6">{{ solar.banner_8_p6 }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="banner_9">
+        <div class="banner_9_img pc_show">
+            <img class="lazyload" data-src="{{ solar.banner_9_img }}">
+        </div>
+        <div class="banner_9_img mob_show">
+            <img class="lazyload" data-src="{{ solar.banner_9_img_mob }}">
+        </div>
+        <div class="banner_9_gif">
+            <img class="lazyload" data-src="{{ solar.banner_9_gif }}">
+        </div>
+        <p class="banner_9_p1">{{ solar.banner_9_p1 }}</p>
+        <p class="banner_9_p2">
+            {{ solar.banner_9_p2 }}
+        </p>
+    </div>
+    <div class="banner_10">
+        <div class="banner_10_img pc_show">
+            <img class="lazyload" data-src="{{ solar.banner_10_img }}">
+        </div>
+        <div class="banner_10_img mob_show">
+            <img class="lazyload" data-src="{{ solar.banner_10_img_mob }}">
+        </div>
+        <div class="banner_10_shou pc_show">
+            <img class="lazyload" data-src="{{ solar.banner_10_shou }}">
+        </div>
+        <div class="banner_10_shou mob_show">
+            <img class="lazyload" data-src="{{ solar.banner_10_shou_mob }}">
+        </div>
+        <p class="banner_10_p1">{{ solar.banner_10_p1 }}</p>
+        <p class="banner_10_p2">
+            {{ solar.banner_10_p2 }}
+        </p>
+    </div>
+    <div class="banner_11 pc_show">
+        <div class="lb_all">
+            <div class="lb_1">
+                <div class="lb_1_img">
+                    <img class="lazyload" data-src="{{ solar.lb_1_img }}">
+                </div>
+                <p class="lb_1_p1">{{ solar.lb_1_p1 }}</p>
+                <p class="lb_1_p2">{{ solar.lb_1_p2 }}</p>
+                <div class="lb_1_icon">
+                    <img class="lazyload" data-src="{{ solar.lb_1_icon }}">
+                </div>
+                <p class="lb_1_p3">{{ solar.lb_1_p3 }}</p>
+            </div>
+            <div class="lb_1">
+                <div class="lb_2_img">
+                    <img class="lazyload" data-src="{{ solar.lb_2_img }}">
+                </div>
+                <p class="lb_2_p1">{{ solar.lb_2_p1 }}</p>
+                <p class="lb_2_p2">{{ solar.lb_2_p2 }}</p>
+                <div class="lb_2_icon">
+                    <img class="lazyload" data-src="{{ solar.lb_2_icon }}">
+                </div>
+                <p class="lb_2_p3">{{ solar.lb_2_p3 }}</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="banner_11_mob_1 mob_show">
+        <div class="banner_11_mob_1_img">
+            <img class="lazyload" data-src="{{ solar.banner_11_mob_1_img }}">
+        </div>
+        <p class="lb_1_p1">{{ solar.lb_1_p1 }}</p>
+        <p class="lb_1_p2">{{ solar.lb_1_p2 }}</p>
+        <div class="lb_1_icon">
+            <img class="lazyload" data-src="{{ solar.lb_1_icon }}">
+        </div>
+        <p class="lb_1_p3">{{ solar.lb_1_p3 }}</p>
+    </div>
+    <div class="banner_11_mob_2 mob_show">
+        <div class="banner_11_mob_2_img">
+            <img class="lazyload" data-src="{{ solar.banner_11_mob_2_img }}">
+        </div>
+        <p class="lb_2_p1">{{ solar.lb_2_p1 }}</p>
+        <p class="lb_2_p2">{{ solar.lb_2_p2 }}</p>
+        <div class="lb_2_icon">
+            <img class="lazyload" data-src="{{ solar.lb_2_icon }}">
+        </div>
+        <p class="lb_2_p3">{{ solar.lb_2_p3 }}</p>
+    </div>
+    <div class="banner_2">
+        <div class="banner_2_img pc_show">
+            <img class="lazyload" data-src="{{ solar.banner_2_img }}">
+        </div>
+        <div class="banner_2_img mob_show">
+            <img class="lazyload" data-src="{{ solar.banner_2_img_mob }}">
+        </div>
+        <p class="banner_2_p1">{{ solar.banner_2_p1 }}</p>
+        <p class="banner_2_p2">
+            {{ solar.banner_2_p2 }}
+        </p>
+    </div>
+
+    <div class="banner_3">
+        <p class="banner_3_p1">{{ solar.banner_3_p1 }}</p>
+        <p class="banner_3_p2 pc_show">
+            {{ solar.banner_3_p2 }}
+        </p>
+        <p class="banner_3_p2 mob_show">
+            {{ solar.banner_3_p2_mob }}
+        </p>
+        <div class="banner_3_qh">
+            <div class="qh_fg">
+                <img class="lazyload" data-src="{{ solar.qh_fg }}">
+            </div>
+            <div class="qh_all">
+                {% for o in list %}
+                    <div class="qh_1">
+                        <img class="lazyload" data-src="{{ o.qh_1 }}">
+                    </div>
+                {% endfor %} 
+            </div>
+        </div>
+        
+    </div>
+    <div class="banner_4">
+        <div class="contain_4">
+            <div class="banner_4_1">
+                <div class="banner_4_img1">
+                    <img class="lazyload" data-src="{{ solar.banner_4_img1 }}">
+                </div>
+                <p class="banner_4_p1">{{ solar.banner_4_p1 }}</p>
+                <p class="banner_4_p2">
+                    {{ solar.banner_4_p2 }}
+                </p>
+            </div>
+            <div class="banner_4_2">
+                <div class="banner_4_img2">
+                    <img class="lazyload" data-src="{{ solar.banner_4_img2 }}">
+                </div>
+                <p class="banner_4_p3">{{ solar.banner_4_p3 }}</p>
+                <p class="banner_4_p4">
+                    {{ solar.banner_4_p4 }}
+                </p>
+                <p class="banner_4_p5 pc_show">{{ solar.banner_4_p5 }}</p>
+            </div>
+        </div>
+        
+    </div>
+    <div class="banner_5">
+        <div class="contain_4">
+            <div class="banner_5_1">
+                <div class="banner_5_img1">
+                    <img class="lazyload" data-src="{{ solar.banner_5_img1 }}">
+                </div>
+                <p class="banner_5_p1">{{ solar.banner_5_p1 }}</p>
+                <p class="banner_5_p2">
+                    {{ solar.banner_5_p2 }}
+                </p>
+            </div>
+            <div class="banner_5_2">
+                <div class="banner_5_img2">
+                    <img class="lazyload" data-src="{{ solar.banner_5_img2 }}">
+                </div>
+                <p class="banner_5_p3">{{ solar.banner_5_p3 }}</p>
+                <p class="banner_5_p4">
+                    {{ solar.banner_5_p4 }}
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="banner_6">
+        <div class="contain_4">
+            <div class="banner_6_img">
+                <img class="lazyload" data-src="{{ solar.banner_6_img }}">
+            </div>
+            <p class="banner_6_p1">{{ solar.banner_6_p1 }}</p>
+            <p class="banner_6_p2">
+                {{ solar.banner_6_p2 }}
+            </p>
+        </div>
+    </div>
+    <div class="banner_12">
+        <div class="contain_4">
+            <p class="banner_12_p1">{{ solar.banner_12_p1 }}</p>
+            <p class="banner_12_p2">
+                {{ solar.banner_12_p2 }}
+            </p>
+            <div class="banner_12_img1">
+                <img class="lazyload" data-src="{{ solar.banner_12_img1 }}">
+            </div>
+            <div class="banner_12_img2">
+                <img class="lazyload" data-src="{{ solar.banner_12_img2 }}">
+            </div>
+        </div>
+    </div>
+    <div class="banner_13">
+        <p class="banner_13_p1">
+            {{ solar.banner_13_p1 }}
+        </p>
+        <p class="banner_13_p2">
+            {{ solar.banner_13_p2 }}
+        </p>
+        <div class="logo_all">
+            <div class="logo_1">
+                <img class="lazyload" data-src="{{ solar.logo_1 }}">
+            </div>
+            <div class="logo_2">
+                <img class="lazyload" data-src="{{ solar.logo_2 }}">
+            </div>
+        </div>
+        <div class="banner_13_img pc_show">
+            <img class="lazyload" data-src="{{ solar.banner_13_img }}">
+        </div>
+        <div class="banner_13_img mob_show">
+            <img class="lazyload" data-src="{{ solar.banner_13_img_mob }}">
+        </div>
+    </div>
+    <div class="banner_safe">
+        <div class="banner_safe_img pc_show">
+            <img class="lazyload" data-src="{{ solar.banner_safe_img }}">
+        </div>
+        <div class="banner_safe_img mob_show">
+            <img class="lazyload" data-src="{{ solar.banner_safe_img_mob }}">
+        </div>
+        <div class="banner_safe_p1">
+            {{ solar.banner_safe_p1 }}
+        </div>
+        <div class="banner_safe_logo">
+            <img class="lazyload" data-src="{{ solar.banner_safe_logo }}">
+        </div>
+        <div class="banner_safe_p2 pc_show">
+            {{ solar.banner_safe_p2 }}
+        </div>
+        <div class="banner_safe_p2 mob_show">
+            {{ solar.banner_safe_p2_mob }}
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function() {
+      const custom_variants = {% if custom_variants %}{{ custom_variants | json }}{% else %}{sku:[]}{% endif %};
+      // product variant init
+      let sku = "";
+      {%- for variant in product.variants -%}
+        {% if forloop.first == true %}
+          sku = "{{ variant.sku }}"
+        {% endif %}
+      {% endfor %}
+      const dom = custom_variants.sku.map((v, i) => {
+        const act = sku === v ? 'current' : '';
+        return `<li class="color ${act}" data-sku="${v}">
+            <a href="/products/${v}">
+            <div class="dot" style="background: ${custom_variants.background[i]}"></div>
+            <span class="txt"> ${custom_variants.color_txt[i]}</span>
+            </a>
+        </li>`;
+      }).join('');
+      if (custom_variants.sku.indexOf(sku) > -1) {
+        $('.custom_variants').html(`<ul class="options">${dom}</ul>`);
+        $('.custom_variants').removeClass('swap--visible');
+      }
+    })
+    
+  
+  </script>
+
+<script>
+    $(function() {
+        $(".lb_all").slick({
+        dots: true,
+        //fade:true,
+        speed:3000,
+        pauseOnHover:false,
+        arrows:false,
+        autoplay:true,
+        infinite: true,
+        slidesToShow:1,
+        });
+        $(".qh_all").slick({
+        dots: false,
+        arrows:false,
+        autoplay:true,
+        infinite: true,
+        slidesToShow:1,
+        slidesToScroll:1,
+        speed:3000,
+        cssEase:'ease',
+        });
+        
+      const solar = {
+        
+        init_num: (v) => {
+          if (v > 0.9) return 1;
+          if (v < 0.1) return 0;
+          return v;
+        },
+        getRandom: (n, m) => {
+          var num = Math.floor(Math.random() * (m - n + 1) + n);
+          return num;
+        },
+      }
+      
+      
+
+      const width = window.innerWidth;
+      const viewPortHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+      let h = 600;
+      if (width > 769) {
+        h = viewPortHeight - 92;    
+      } else {
+        h = viewPortHeight - 60;
+      }
+      if (width > 769) {
+        $('.solar .banner_7').height(h * 3 + 'px');
+        $('.solar .banner_8').height(h * 3 + 'px');
+      } else {
+        $('.solar .banner_7').height(h * 2 + 'px');
+        $('.solar .banner_8').height(h * 3 + 'px');
+      }
+      const s10_cont1 = h ;
+      
+      $(window).scroll(function(){
+         
+        const top = $(window).scrollTop();
+        const sticky7_position = $('.banner_7').offset().top;
+        const sticky8_position = $('.banner_8').offset().top;
+        const sticky10_position = $('.banner_10').offset().top;
+
+        const ski7 = top - sticky7_position;
+        const ski8 = top - sticky8_position;
+        const ski10 = top - sticky10_position;
+        
+
+        if (ski7 > h){
+            
+            $(".banner_7 .banner_7_btm").addClass("active");
+        }else{
+            
+            $(".banner_7 .banner_7_btm").removeClass("active");
+        }
+        if(ski7 <0){
+            $(`.banner_7_fd`).css('transform', 'translateX(0%)');
+            $(`.banner_7_fd img`).css('transform', `scale(1)`);  
+        }
+        if (ski7 > 0 && ski7 < h){
+            const opacity = ski7/ s10_cont1;
+            $(`.banner_7_fd`).css('transform', `translateX(-${100 * opacity}%)`);
+            $(`.banner_7_fd img`).css('transform', `scale(${1 + 20 * opacity})`);
+        }
+        if (ski8 < 0){
+            if(width > 769){
+                $(`.banner_8 .gd_btm`).css('width', `60vw`);
+                $(`.banner_8 .banner_8_p3`).css('left', `61.5vw`);
+            }else{
+                $(`.banner_8 .gd_btm`).css('width', `90vw`);
+            }
+            
+        }
+        if (ski8 > 0 && ski8 < h){
+            const opacity = ski8/ s10_cont1;
+            if(width > 769){
+                $(`.banner_8 .gd_btm`).css('width', `${60 - 60 * opacity}vw`);
+                
+            }else{
+                $(`.banner_8 .gd_btm`).css('width', `${90 - 90 * opacity}vw`);
+            }
+            
+        }
+        if(ski8 > h){
+            $(`.banner_8 .gd_btm`).css('width', `0px`);
+        }
+        if (width > 769){
+            
+            if(ski8 > 0 && ski8 < h){
+                const opacity = ski8/ s10_cont1;
+                $(`.banner_8 .banner_8_p3`).css('left', `${61.5 - 60 * opacity}vw`);
+                
+            }
+            if(ski8 > h){
+                $(`.banner_8 .banner_8_p3`).css('left', '1.5vw');
+            }
+        }
+        if (width > 769){
+            
+            if(ski8 > 0.7 * h){
+                $(`.banner_8 .banner_8_p2`).addClass("active");    
+            }else{
+                $(`.banner_8 .banner_8_p2`).removeClass("active");
+            }
+        }
+        if (ski10 > -0.6*h){
+            
+            $(".banner_10_shou").addClass("active");
+        }else{
+            
+            $(".banner_10_shou").removeClass("active");
+        }
+        
+      })
+    })
+  </script>
+  

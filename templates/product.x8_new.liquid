@@ -1,0 +1,285 @@
+{% assign lang = product.metafields['global'] %}
+
+{% if lang.href.value %}
+  {% assign href = lang.href.value %}
+{% else %}
+  {% assign href = lang.href %}
+{% endif %}
+
+{% if lang.terms.value %}
+  {% assign terms = lang.terms.value %}
+{% else %}
+  {% assign terms = lang.terms %}
+{% endif %}
+
+{% if lang.rule.value %}
+  {% assign rule = lang.rule.value %}
+{% else %}
+  {% assign rule = lang.rule %}
+{% endif %}
+
+{% if lang.newMobileStyleFlag.value %}
+  {% assign newMobileStyleFlag = lang.newMobileStyleFlag.value %}
+{% else %}
+  {% assign newMobileStyleFlag = lang.newMobileStyleFlag %}
+{% endif %}
+
+{% if lang.customBar.value %}
+  {% assign customBar = lang.customBar.value %}
+{% else %}
+  {% assign customBar = lang.customBar %}
+{% endif %}
+
+{% if lang.newKlarnaFlag.value %}
+  {% assign newKlarnaFlag = lang.newKlarnaFlag.value %}
+{% else %}
+  {% assign newKlarnaFlag = lang.newKlarnaFlag %}
+{% endif %}
+
+{% if lang.nav.value %}
+  {% assign nav = lang.nav.value %}
+{% else %}
+  {% assign nav = lang.nav %}
+{% endif %}
+
+{% if lang.nav.value %}
+  {% assign nav = lang.nav.value %}
+{% else %}
+  {% assign nav = lang.nav %}
+{% endif %}
+
+{% if product.metafields.global.layout.value %}
+  {% assign layout = product.metafields.global.layout.value %}
+{% else %}
+  {% assign layout = product.metafields.global.layout %}
+{% endif %}
+
+{% if shop.metafields.global.common.value %}
+  {% assign common = shop.metafields.global.common.value %}
+{% else %}
+  {% assign common = shop.metafields.global.common %}
+{% endif %}
+
+{% if shop.metafields['reviews']['yotpo'].value %}
+  {% assign yotpo = shop.metafields['reviews']['yotpo'].value %}
+{% else %}
+  {% assign yotpo = shop.metafields['reviews']['yotpo'] %}
+{% endif %}
+
+{% if variant.metafields['global']['hide_reviews'].value %}
+  {% assign hide_reviews = variant.metafields['global']['hide_reviews'].value %}
+{% else %}
+  {% assign hide_reviews = variant.metafields['global']['hide_reviews'] %}
+{% endif %}
+
+{% if variant.metafields['global']['customize_num_buynow'].value %}
+  {% assign customize_num_buynow = variant.metafields['global']['customize_num_buynow'].value %}
+{% else %}
+  {% assign customize_num_buynow = variant.metafields['global']['customize_num_buynow'] %}
+{% endif %}
+
+{% if product.metafields.global.subscribe_get_code.value %}
+  {% assign subscribe_get_code = product.metafields.global.subscribe_get_code.value %}
+{% else %}
+  {% assign subscribe_get_code = product.metafields.global.subscribe_get_code %}
+{% endif %}
+
+{{ 'X8-H30.scss.css' | asset_url | stylesheet_tag }}
+
+{% assign newMobileStyleFlag = 'false' %}
+
+<div class="product__x8_new">
+  {% if nav %}
+    <ul id="bundle-nav" class="TopNav">
+      {% for item in nav %}
+        <li>
+          <a {% if item.anchor != blank %} onclick="goAnchor('{{ item.anchor }}')" {% else %} href="{{ item.link }}" {% endif %}>
+            {{ item.txt }}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  {% comment %} Product - classic (default) {% endcomment %}
+  <div id="template-{{ template | replace: '.', '-' | handle }}" class="shopify-section product-page section__wrapper">
+    {% comment %} Product wrapper {% endcomment %}
+    <section class="section
+            is-width-standard
+            has-padding-top
+            has-padding-bottom
+            ">
+      <div class="container">
+        <div class="one-whole column is-flex is-justify-space-between is-flex-column-reverse-mobile is-align-center">
+          <div class="breadcrumb__container">
+            {% render 'breadcrumb', context: 'product' %}
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section section--has-sidebar-option">
+      <div class="container">
+        {% section 'product__sidebar' %}
+        
+        {% section 'product__main' %} 
+
+        {% comment %} {% section 'product__recommendations' %} {% endcomment %}
+      </div>
+    </section>
+  </div>
+  <div class="seeOtherTwo">{{ href.text }}
+    <div>
+    {% for item in href.href%}
+      <a href="{{ item.src}}">{{item.name}}</a>
+    {%endfor%}
+    </div>
+  </div>
+
+  {% if terms or rule %}
+    <div class="rule">
+      {% if terms %}
+        <div class="txt left">
+          <div class="txtBox" data-handle="terms">
+            <p>{{ terms }}</p>
+          </div>
+          <a class="btn" data-handle="terms">{{ common.btn_more }}</a>
+        </div>
+      {% endif %}
+      {% if rule %}
+        <div class="txt right">
+          <div class="txtBox" data-handle="rule">
+            <p>{{ rule }}</p>
+          </div>
+          <a class="btn" data-handle="rule">{{ common.btn_more }}</a>
+        </div>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  {% section 'product-meta-video' %}
+  {% section 'X8-content-new'%}
+
+  <div class="x8_video" style="display: none;">
+    <div class="box">
+      <div class="lazyframe" id="x8_video_url" data-ratio="16:9"></div>
+    </div>
+    <a class="closeVideo" ><i class="iconfont">&#xe723;</i></a>
+  </div>
+
+  <!-- {% section 'product-meta-compare' %} -->
+  {% comment %} subtitle # snippets/product-info.liquid {% endcomment %}
+  {% assign sorting = "highlights|reviews|compare|faqs|specs|downloads" | split: '|' %}
+  {% assign variant = product.selected_or_first_available_variant %}
+  {% if layout.sort != blank %}
+    {% assign sorting = layout.sort | split: '|' %}
+  {% endif %}
+  {% for key in sorting %}
+    {% case key %}
+      {% when 'highlights' %}
+        {% comment %} highlights {% endcomment %}
+        {% section 'product-meta-highlights' %}
+      {% when 'reviews' %}
+        {% section 'product-meta-reviews' %}
+      {% when 'compare' %}
+        {% comment %} compare {% endcomment %}
+        {% section 'product-meta-compare' %}
+      {% when 'faqs' %}
+        {% comment %} faqs {% endcomment %}
+        {% section 'product-meta-faqs' %}
+      {% when 'specs' %}
+        {% comment %} specs {% endcomment %}
+        {% section 'product-meta-specs' %}
+      {% when 'downloads' %}
+        {% comment %} downloads {% endcomment %}
+        {% section 'product-meta-downloads' %}
+    {% endcase %}
+  {% endfor %}
+
+  <div class="container">
+    {% section 'product__recommendations' %}
+  </div>
+
+  {%- if yotpo and yotpo.show_yotpo_reviews == 'true' and hide_reviews != 'true' -%}
+    <div class="yotpoReviews wrap" id="yotpoReviews_anchor_point"> 
+      <div class="yotpo yotpo-main-widget" data-product-id="{{ product.id }}" data-name="{{ product.title | escape }}" data-url="{{ shop.url }}{{ product.url }}" data-image-url="{{ product.featured_image | product_img_url: "large" |replace: '?', '%3F' | replace: '&','%26'}}" data-description="{{ product.description | escape }}"></div>
+    </div>
+  {% endif %}
+
+  {% include 'x8_h30_referral' %}
+</div>
+
+<script src="https://www.youtube.com/iframe_api"></script>
+
+<script>
+  $(document).ready(function(){
+    // closeVideo
+    $('.x8_video .closeVideo').click(function() {
+      $('.x8_video').hide();
+      $('#x8_video_url').html('');
+    });
+  })
+  // watchvideo
+  function whatchYTvideo(id) {
+    $('.x8_video').show();
+    $('#x8_video_url').html(`<iframe src="https://www.youtube.com/embed/${id}?autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`)
+  }
+
+  // function onScrollMenu() {
+  //  let s = document.documentElement.scrollTop || document.body.scrollTop;
+  //  if(s<=117){
+  //     $('.customBar').css('top','-100px');
+  //   }else{
+  //     $('.customBar').css('top','0px');
+  //   } 
+  // }
+  $(document).ready(function(){
+    referralTrack('variants', '{{ variant.sku }}', 'page');
+    $('.customize_num_buynow').addClass('x8get_code');
+    // let flag = `{{ newMobileStyleFlag }}` == 'true'
+    // if ($(window).width() < 768 && flag ) {
+    //   $('.product__information').addClass('mobile_8423_special_addPadding');
+    //   $('.modal_price').addClass('mobile_8423_special_noBlank');
+    //   $('.money').addClass('mobile_8423_special_price');
+    //   $('.product_name').addClass('mobile_8423_special_size');
+    //   $('#shopify-section-header__icon-bar').addClass('notFiexd');
+    //   $('#header').addClass('notFiexd');
+    //   $('.prodYotpoReviews').addClass('fixMarginTop');
+    //   $('#mobile-header').addClass('notFiexd');
+    //   $('.has-quantity-box').addClass('mobile_8423_special_position');
+    //   $('.brandButtonText').addClass('mobile_8423_special_width_half');
+    //   $('.purchase-details__buttons').addClass('mobile_8423_special_purchase-details__buttons');
+    //   $('.shopify-payment-button').addClass('mobile_8423_special_width_half').addClass('mobile_8423_special_noBorder ');
+    //   $('.notify-btn').addClass('mobile_8423_special_notice');
+    //   $('.product-quantity-box').addClass('mobile_8423_special_addQty');
+    //   $('.purchase-details__buttons').addClass('mobile_8423_special_top');
+    //   if('{{newKlarnaFlag}}'=='true'){
+    //     $('.klarna').addClass('mobile_8423_special_klarna_new');
+    //   }else{
+    //     $('.klarna').addClass('mobile_8423_special_klarna');
+    //   }
+    //   $('.customize_button_addtocart').addClass('mobile_8423_special_width_half');
+    //   $('.customize_button_buynow').addClass('mobile_8423_special_width_half');
+    //   $('.customize_button_buynow').css('border','none');
+    //   $('.customize_button_klarna').css('padding','0');
+    //   window.addEventListener('scroll', Shopify.contentCreator.util.throttle(onScrollMenu, 200));
+    // }
+  })
+</script>
+{% if customize_num_buynow or subscribe_get_code %}
+  <style>
+    .product-quantity-box.purchase-details__quantity, #shopify-section-product__main .modal_price.subtitle, .product_trustpilot, #shopify-section-product-meta-reviews { display: none; }
+    .customize_num_buynow { margin: 0; }
+  </style>
+{% endif %}
+
+<script>
+  // $('#newCart').click(e => {
+  //   e.preventDefault();
+  //   let obj = JSON.parse('{{ product.selected_or_first_available_variant | json }}');
+  //   Shopify.theme.addItemsToCart([{ quantity: Number($(".purchase-details input").val()), id: obj.id }], {
+  //     onSuccess: () => {},
+  //     onError: err => $.dialog({ title: err.message, content: err.description, type: 'red' }),
+  //     onDone: () => {},
+  //   })
+  // })
+</script>

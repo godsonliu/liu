@@ -1,0 +1,93 @@
+{% assign section_id = 'shopify-section-' | append: section.id %}
+<style>
+.cam3-ugc-join-rules {
+  margin: 50px 0;
+  font-size: 18px;
+  color: #333;
+  text-align: center;
+  padding: 0 10px;
+}
+.rules-here {
+  color: #025C85;
+  text-decoration: underline;
+}
+.rules-here:hover {
+  color: #025C85;
+}
+.cam3-ugc-join-rules .page_scene_popup {
+  max-width: 800px;
+  background: #fff;
+}
+.cam3-ugc-join-rules .page_scene_popup_list {
+  max-height: 500px;
+  text-align: left;
+}
+.cam3-ugc-join-rules .page_scene_popup_list h3 {
+  font-size: 36px;
+  color: #333;
+  margin-top: 20px;
+}
+.cam3-ugc-join-rules .page_scene_popup_list h3:first-child {
+  margin-top: 0;
+}
+.cam3-ugc-join-rules .page_scene_popup_list p {
+  font-size: 18px;
+  color: #333;
+  line-height: 26px;
+}
+.cam3-ugc-join-rules .page_scene_popup_list img {
+  max-width: 50%;
+  margin: 10px 0;
+  display: block;
+}
+.cam3-ugc-join-rules .page_scene_popup_list a{
+  color: #025C85;
+}
+
+@media(max-width: 769px) {
+  .cam3-ugc-join-rules .page_scene_popup_list h3 {
+    font-size: 20px;
+  }
+  .cam3-ugc-join-rules .page_scene_popup_list p {
+    font-size: 14px;
+  }
+  .cam3-ugc-join-rules .page_scene_popup_list img {
+    max-width: 90%;
+  }
+}
+</style>
+
+<section class="cam3-ugc-join-rules">
+  {{ section.settings.content_txt }}
+  {%
+    render 'page_scene_popup', 
+    section_id: section_id,
+    popup_title: '',
+    slot_content: section.settings.slot_content, 
+    className: '.cam3-ugc-join-rules .rules-here' 
+  %}
+</section>
+
+{% schema %}
+  {
+    "name": "Cam3 Ugc Join Rules",
+    "presets": [
+      {
+        "name": "Cam3 Ugc Join Rules"
+      }
+    ],
+    "settings": [
+      {
+        "type": "html",
+        "id": "content_txt",
+        "label": "文案",
+        "default": "*Selected social media platforms are Facebook, Instagram, Twitter, TikTok, and<br/> YouTube. Detailed rules can be found <a class='rules-here'>here</a>"
+      },
+      {
+        "type": "html",
+        "id": "slot_content",
+        "label": "弹窗规则"
+      }
+    ]
+  }
+{% endschema %}

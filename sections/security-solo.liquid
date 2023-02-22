@@ -1,0 +1,211 @@
+{% if page.metafields['global']['section_txt'].value %}
+  {% assign section_txt = page.metafields['global']['section_txt'].value %}
+{% else %}
+  {% assign section_txt = page.metafields['global']['section_txt'] %}
+{% endif %}
+
+{% if page.metafields['global']['subscribe'].value %}
+  {% assign subscribe = page.metafields['global']['subscribe'].value %}
+{% else %}
+  {% assign subscribe = page.metafields['global']['subscribe'] %}
+{% endif %}
+
+{% if page.metafields['global']['end_time'].value %}
+  {% assign end_time = page.metafields['global']['end_time'].value %}
+{% else %}
+  {% assign end_time = page.metafields['global']['end_time'] %}
+{% endif %}
+
+
+
+<div class="activities">
+  <section class="solois section">
+    <img class="lazyload" data-src="https://dix7fd4yse9rd.cloudfront.net/s/eufy/page/80812245178/files/1619503085039_sign-up-page-kv-bg.jpg" alt="" class="backimg" />
+    <div class="content">
+      <div class="title">
+        {{section_txt.solois}}
+      </div>
+    </div>
+
+    <div class="Launching">
+      <div class="newsletter_form">
+        <div class="succssInfo succssInfo_bottom swap--visible">
+          <img class="lazyload" data-src="https://dz02g1kgtiysz.cloudfront.net/deals/A3027-pre/210412_160559_gou.png" alt="{{ section.settings.success_img.alt | escape }}">
+          <p>{{ subscribe.info_seccess }}</p>
+        </div>
+        <div class="box">
+          <div class="title timer">
+            {{ subscribe.title }}
+          </div>
+          {% render 'subscribe-form', 
+              type: 'block',
+              snippets_id: 'solocam-sub',
+              deals_type: 'solocam-sub',
+              dataLayer: 'solocam-sub',
+              succssInfo: 'succssInfo_bottom',
+              policy_text: subscribe.policy_text,
+              submit_btn_txt: subscribe.submit_btn_txt,
+              info_fill_email: subscribe.info_fill_email,
+              info_err_email: subscribe.info_err_email,
+              info_seccess: subscribe.info_seccess,
+              use_placeholders: subscribe.use_placeholders,
+              info_select_policy: subscribe.info_select_policy 
+          %}
+        </div>
+      </div>
+    </div>
+
+  </section>
+  <section class="gosolo section">
+    <img class="lazyload" data-src="https://dix7fd4yse9rd.cloudfront.net/s/eufy/page/80812245178/files/1619589499916_2021428-135337.jpeg" alt="" class="backimg" />
+    <div class="prod">
+      <img class="lazyload" data-src="https://dz02g1kgtiysz.cloudfront.net/deals/files/210421_172804_sign-up-page-solo.png" alt="" class="p">
+      <img class="lazyload" data-src="https://dz02g1kgtiysz.cloudfront.net/deals/files/210421_172808_sign-up-page-solo.png" alt="" class="light">
+    </div>
+    <div class="content">
+      <div class="title">
+        {{section_txt.gosolo}}
+      </div>
+    </div>
+  </section>
+  <section class="lightup section">
+    <img class="lazyload" data-src="https://dz02g1kgtiysz.cloudfront.net/deals/files/210420_151613_s3.jpg" alt="" class="backimg" />
+    <div class="content">
+      <div class="title">
+        {{section_txt.lightup}}
+      </div>
+    </div>
+  </section>
+  <section class="forever section">
+    <img class="lazyload" data-src="https://dz02g1kgtiysz.cloudfront.net/deals/files/210420_151616_s4.jpg" alt="" class="backimg showPc" />
+    <img class="lazyload" data-src="https://dz02g1kgtiysz.cloudfront.net/deals/files/210423_095307_4.jpg" alt="" class="backimg showMobile" />
+    <div class="content">
+      <div class="title">
+        {{section_txt.forever}}
+      </div>
+    </div>
+    <div class="Launching">
+      <div class="newsletter_form">
+        <div class="succssInfo succssInfo_bottom swap--visible">
+          <img class="lazyload" data-src="https://dz02g1kgtiysz.cloudfront.net/deals/A3027-pre/210412_160559_gou.png" alt="{{ section.settings.success_img.alt | escape }}">
+          <p>{{ subscribe.info_seccess }}</p>
+        </div>
+        <div class="box">
+          <div class="title timer">
+            {{ subscribe.title }}
+          </div>
+          {% render 'subscribe-form', 
+              type: 'block',
+              snippets_id: 'solocam-sub-bottom',
+              deals_type: 'solocam-sub',
+              dataLayer: 'solocam-sub',
+              succssInfo: 'succssInfo_bottom',
+              policy_text: subscribe.policy_text,
+              submit_btn_txt: subscribe.submit_btn_txt,
+              info_fill_email: subscribe.info_fill_email,
+              info_err_email: subscribe.info_err_email,
+              info_seccess: subscribe.info_seccess,
+              use_placeholders: subscribe.use_placeholders,
+              info_select_policy: subscribe.info_select_policy 
+          %}
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.32/moment-timezone.min.js"></script>
+
+<script>
+
+$(document).ready(function () {
+
+  const s_solo = {}
+
+  const viewPortHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight || 860;
+
+  const client_width = $('.activities').width();
+  const section_height = $('.activities .solois').height();
+
+  if (client_width > 768) {
+    s_solo.skip = 120 + (viewPortHeight - section_height) / 2;
+    s_solo.h = viewPortHeight > 860 ? viewPortHeight - 92 : 860 - 92;
+  } else {
+    s_solo.skip = 120;
+    s_solo.h = viewPortHeight > 660 ? viewPortHeight - 60 : 660 - 60;
+    $('.activities .solois').css('height', s_solo.h + 'px');
+    $('.activities .gosolo').css('height', s_solo.h + 'px');
+    $('.activities .lightup').css('height', s_solo.h + 'px');
+    $('.activities .forever').css('height', s_solo.h + 'px');
+  }
+
+  $('.activities .solois .content').addClass('active');
+  s_solo.scrollfn = function (event) {
+    const top = $(window).scrollTop();
+    const section1_position = $('.activities .solois').offset().top - s_solo.skip;
+    const section2_position = $('.activities .gosolo').offset().top - s_solo.skip;
+    const section3_position = $('.activities .lightup').offset().top - s_solo.skip;
+    const section4_position = $('.activities .forever').offset().top - s_solo.skip;
+    
+    if (top < section2_position) {
+      $('.activities .solois .content').addClass('active');
+      $('.activities .gosolo .content').removeClass('active');
+      $('.activities .gosolo .light').removeClass('active');
+      $('.activities .lightup .content').removeClass('active');
+      $('.activities .forever .content').removeClass('active');
+    }
+    if (top > section2_position) {
+      $('.activities .gosolo .content').addClass('active');
+      $('.activities .gosolo .light').addClass('active');
+      $('.activities .solois .content').removeClass('active');
+    }
+    if (top > section3_position) {
+      $('.activities .lightup .content').addClass('active');
+    }
+    if (top > section4_position) {
+      $('.activities .forever .content').addClass('active');
+    }
+  }
+  $(window).scroll(
+    // 防抖节流
+    Shopify.contentCreator.util.throttle(s_solo.scrollfn, 50)
+  );
+
+  // 倒计时
+  s_solo.zeroPpadding = v => {
+      if (v.toString().length === 1) {
+        return `0${v}`;
+      }
+      return v;
+    }
+    s_solo.timerfn = () => {
+    const m1 = moment.utc();
+    const m4 = moment("{{ end_time }}");
+
+    const du2 = moment.duration(m4 - m1);
+    if (du2.asSeconds() < 0) {
+      $('.activities .Launching').addClass('swap--visible');
+    } else {
+      const days = du2.asDays() ? parseInt(du2.asDays(), 10) : 0;
+      const hours = du2.get('hours');
+      const mins = du2.get('minutes');
+      const ss = du2.get('seconds');
+      const clock = {
+        days,
+        hours: hours > 0 ? s_solo.zeroPpadding(hours) : '00',
+        mins: mins > 0 ? s_solo.zeroPpadding(mins) : '00',
+      };
+      $('.activities .timer .days').html(days);
+      $('.activities .timer .hours').html(hours);
+      $('.activities .timer .mins').html(mins);
+      $('.activities .timer .ss').html(ss);
+    }
+  }
+  window.setInterval(() => s_solo.timerfn(), 1000);
+  s_solo.timerfn();
+
+});
+
+</script>

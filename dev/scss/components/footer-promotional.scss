@@ -1,0 +1,86 @@
+//Promo layout
+
+.footer__container {
+    border-bottom: $footer_border;
+    border-top: $footer_border;
+  }
+
+  .footer__block .newsletter-form {
+    max-width: 80%;
+
+    @include respond-to('medium-down') {
+      max-width: 100%;
+    }
+  }
+
+  .footer__promo {
+
+    .link-list__block {
+      padding-top: 20px;
+    }
+
+    @include respond-to('small-down') {
+      @include flex-direction(column-reverse);
+    }
+  }
+
+  .footer__promo-container {
+    padding: 50px;
+  }
+
+  .footer__content {
+    padding-left: 40px;
+    padding-right: 40px;
+
+    @include respond-to('small-down') {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+  }
+
+  .footer-link-list__block {
+
+    &:first-child {
+      padding-top: 0;
+    }
+
+    @include respond-to('small-down') {
+      padding-top: 20px;
+    }
+  }
+
+  .footer__block:not(:last-child) {
+    padding-bottom: 20px;
+  }
+
+  .footer__wrap {
+    height: 100%;
+  }
+
+  .footer__credits {
+    @include align-self(end);
+  }
+
+  .footer__credits + .footer__payment-methods {
+    margin-top: 20px;
+  }
+
+  .footer__logo-wrapper {
+    width: 100%;
+
+    &.is-small {
+      max-width: 150px;
+    }
+
+    &.is-medium {
+      max-width: 200px;
+    }
+
+    &.is-large {
+      max-width: 250px;
+    }
+  }
+
+  .footer-menu__disclosure.footer-promotional__disclosure {
+    @include justify-content(flex-start);
+  }

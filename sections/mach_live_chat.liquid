@@ -1,0 +1,590 @@
+{% assign section_id = 'shopify-section-' | append: section.id %}
+<style>
+@media(max-width: 769px) {
+  .showPc {
+    display: none;
+  } 
+}
+@media(min-width: 769px) {
+  .showMobile {
+    display: none;
+  } 
+}
+.mach_live_chat_div {
+  background: #F5F5F7;
+  padding: 80px 30px;
+  padding-top: 0px;
+}
+.mach_live_chat {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto 50px auto;
+  text-align: center;
+}
+.live-chat-title {
+  font-size: 4.6875vw;
+  line-height: 5.36vw;
+  color: #000;
+  font-weight: 500;
+}
+.live-chat-desc {
+  color: #86868B;
+  font-size: 1.25vw;
+  line-height: 1.46vw;
+  font-weight: 400;
+  margin: 30px 0;
+}
+.live-chat-content {
+  width: 51vw;
+  max-width: 980px;
+  margin: 0 auto;
+  margin-top: 30px;
+  position: relative;
+}
+.live-chat-line {
+  height: 3px;
+  background: #D9D9D9;
+}
+.chat-list {
+  max-height: 650px;
+  overflow-y: auto;
+  padding: 50px;
+  text-align: left;
+  background: #FFFFFF;
+  border-radius: 5px;
+}
+.chat-item {
+  display: flex;
+  padding: 10px 15px;
+  margin-bottom: 30px;
+  background: #fff;
+}
+.chat-item-active {
+  animation: chartActive 2s 2;
+	-webkit-animation: chartActive 2s 2;
+  animation-direction: alternate;
+  -webkit-animation-direction: alternate;
+  border-radius: 10px;
+}
+@keyframes chartActive
+{
+	0% { 
+    box-shadow: none;
+  }
+	100% { 
+    box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.25);
+  }
+}
+.chat-img {
+  min-width: 50px;
+  height: 50px;
+  background: #484848;
+  color: #fff;
+  font-size: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50px;
+}
+.chat-info {
+  padding-top: 12px;
+  margin-left: 20px;
+}
+.chat-name,.chat-desc {
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  color: #000000;
+}
+.chat-desc {
+  color: #6E6E73;
+  margin: 10px 0;
+  word-break: break-word;
+}
+.chat-address {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: #86868B;
+}
+.leave-comment {
+  height: 60px;
+  background: #FFFFFF;
+  box-shadow: 0px 0px 23px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+  padding-left: 50px;
+  cursor: pointer;
+  margin-top: -5px;
+  position: relative;
+  z-index: 2;
+  color: #86868B;
+}
+.comment-svg {
+  margin-right: 20px;
+}
+.comment-text {
+  width: 100%;
+  background: #FFFFFF;
+  box-shadow: 0px 0px 23px rgba(0, 0, 0, 0.25);
+  border-radius: 10px 10px 0px 0px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  display: none;
+}
+.leave-comment-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 10px;
+  position: relative;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: #86868B
+}
+.comment-close {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+.leave-comment-area {
+  border-top: 1px solid #D9D9D9;
+  border-bottom: 1px solid #D9D9D9;
+}
+.leave-comment-textarea {
+  width: 100%;
+  height: 250px;
+  border: none;
+  resize: none;
+  padding: 20px;
+}
+.leave-comment-textarea:focus {
+  font-size: 16px;
+}
+.chart-number-text {
+  text-align: right;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: #CECECE;
+  padding: 10px;
+}
+.leave-comment-buttons {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px;
+}
+.comment-login, .comment-send {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: #FFFFFF;
+  padding: 6px 15px;
+  background: #EF3340;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+.comment-send {
+  display: none;
+}
+.comment-send-disabled {
+  background-color: #86868B;
+	pointer-events: none;
+	cursor: not-allowed;
+}
+
+@media(max-width: 769px) {
+  .mach_live_chat_div {
+    padding: 30px 24px;
+    background: #fff;
+  }
+  .live-chat-title {
+    font-size: 48px;
+    line-height: 48px;
+  }
+  .live-chat-desc {
+    font-size: 14px;
+    line-height: 20px;
+  }
+  .live-chat-content {
+    width: 100%;
+    max-width: 100%;
+  }
+  .chat-list {
+    max-height: 400px;
+    padding: 0px;
+  }
+  .chat-item {
+    padding: 10px 0;
+  }
+  .leave-comment {
+    padding-left: 15px;
+    margin-top: 20px;
+  }
+  .leave-comment-textarea {
+    height: 150px;
+  }
+}
+</style>
+
+<div class="mach_live_chat_div" id="mach_live_chat_div">
+  <div class="mach_live_chat">
+    <div class="live-chat-title">{{ section.settings.title }}</div>
+    <div class="live-chat-desc">{{ section.settings.desc }}</div>
+    {% comment %} <div class="live-chat-line"></div> {% endcomment %}
+    <div class="live-chat-content">
+      <div class="chat-list">
+      </div>
+      <div class="leave-comment">
+        <svg class="comment-svg" width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M24.6513 0.348715C24.9747 0.672093 25.0842 1.15213 24.9331 1.58378L17.0165 24.2028C16.8552 24.6635 16.4291 24.9791 15.9414 24.999C15.4537 25.0189 15.0032 24.7391 14.805 24.293L10.4671 14.5329L0.706983 10.195C0.260935 9.99679 -0.0189018 9.54635 0.000995576 9.05863C0.0208929 8.57092 0.336493 8.14477 0.797207 7.98352L23.4162 0.0668684C23.8479 -0.0842093 24.3279 0.0253372 24.6513 0.348715ZM4.41795 9.23883L11.8525 12.5431C12.1219 12.6628 12.3372 12.8781 12.4569 13.1475L15.7612 20.5821L21.8691 3.13095L4.41795 9.23883Z" fill="#86868B"/>
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M24.6509 0.348682C25.1159 0.813591 25.1159 1.56736 24.6509 2.03227L12.2105 14.4727C11.7456 14.9376 10.9918 14.9376 10.5269 14.4727C10.062 14.0078 10.062 13.254 10.5269 12.7891L22.9674 0.348682C23.4323 -0.116227 24.186 -0.116227 24.6509 0.348682Z" fill="#86868B"/>
+        </svg>
+        {{ section.settings.leave_comment }}
+      </div>
+      <div class="comment-text" id="comment_text">
+        <div class="leave-comment-text">
+          {{ section.settings.leave_comment  }}
+          <svg class="comment-close" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M10 1.81818C5.48131 1.81818 1.81818 5.48131 1.81818 10C1.81818 14.5187 5.48131 18.1818 10 18.1818C14.5187 18.1818 18.1818 14.5187 18.1818 10C18.1818 5.48131 14.5187 1.81818 10 1.81818ZM0 10C0 4.47715 4.47715 0 10 0C15.5228 0 20 4.47715 20 10C20 15.5228 15.5228 20 10 20C4.47715 20 0 15.5228 0 10Z" fill="#86868B"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M7.07092 12.929C6.7159 12.5739 6.7159 11.9983 7.07092 11.6433L11.6433 7.07089C11.9984 6.71587 12.574 6.71587 12.929 7.07089C13.284 7.42591 13.284 8.00152 12.929 8.35654L8.35657 12.929C8.00155 13.284 7.42595 13.284 7.07092 12.929Z" fill="#86868B"/>
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M7.07092 7.07104C7.42595 6.71602 8.00155 6.71602 8.35657 7.07104L12.929 11.6435C13.284 11.9985 13.284 12.5741 12.929 12.9291C12.574 13.2841 11.9984 13.2841 11.6433 12.9291L7.07092 8.35669C6.7159 8.00167 6.7159 7.42606 7.07092 7.07104Z" fill="#86868B"/>
+          </svg>
+        </div>
+        <div class="leave-comment-area">
+          <textarea maxlength="500" class="leave-comment-textarea" placeholder="{{ secstion.settings.please_comment }}"></textarea>
+          <div class="chart-number-text">
+            <span class="chart-number">0</span>
+            / 500
+          </div>
+        </div>
+         <div class="leave-comment-buttons">
+          <button class="comment-login">{{ section.settings.login }}</button>
+          <button class="comment-send">{{ section.settings.send }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% 
+  render 'mach_popup', 
+  email_placeholder: section.settings.email_placeholder,
+  email_error: section.settings.email_error,
+  plocy_err: section.settings.plocy_err,
+  agree_txt: section.settings.agree_txt,
+  type: 2
+%}
+<script>
+$(function() {
+
+  var diffHours = ''
+
+  {% if localization.country.iso_code == 'US' %}
+  diffHours = -8
+  {% else %}
+  diffHours = 1
+  {% endif %}
+
+  Date.prototype.Format = function (fmt) { 
+    let o = {
+      "M+": this.getUTCMonth() + 1, 
+      "d+": this.getUTCDate(), 
+      "h+": this.getUTCHours(),
+      "m+": this.getUTCMinutes(),
+      "s+": this.getUTCSeconds(),  
+      "q+": Math.floor((this.getUTCMonth() + 3) / 3), 
+      "S": this.getUTCMilliseconds()  
+    };
+    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var k in o)
+    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    return fmt;
+  }
+
+
+  function transformDate(dateString) {
+    let t = new Date(dateString)
+    t.setUTCHours( t.getUTCHours() + diffHours)
+    return t.Format("yyyy-MM-dd hh:mm")
+  }
+
+  const img_colors = ['#749759', '#975959', '#8E5997', '#597997', '#59978F', '#EF9440', '#7CC2CB', '#849EE2', '#AD94B6', '#AAC7AD']
+
+  function sendDisabled() {
+    let text = $('#{{ section_id }} .leave-comment-textarea').val().trim()
+    if( text.length === 0) {
+      $('#{{ section_id }} .comment-send').addClass('comment-send-disabled')
+    }else {
+      $('#{{ section_id }} .comment-send').removeClass('comment-send-disabled')
+    }
+  }
+
+  function outputHtml(item, className) {  
+    const index = Math.floor(Math.random() * img_colors.length)
+    return `<div class="chat-item ${ className || '' }">
+          <div class="chat-img" style="background: ${ img_colors[index] }">${ item.name.slice(0,2).replace(/^\S/, s => s.toUpperCase()) }</div>
+          <div class="chat-info">
+            <div class="chat-name">${ item.name }</div>
+            <div class="chat-desc">
+              ${ item.content }
+            </div>
+            <div class="chat-address">
+              <span class="chat-time">${ transformDate(item.created_at) }</span>
+              ${ item.country }
+            </div>
+          </div>
+      </div>`
+  }
+
+
+  function event_ga(text) {
+    dataLayer.push({
+      "event": "uaEvent", 
+      "eventCategory": 'comment',
+      "eventAction": text,
+      "eventLabel": '{{ page.handle }}'
+    })
+    window.dataLayer.push({ "event_parameters": null });
+    window.dataLayer.push({
+      "event": "ga4Event",
+      "event_name": "comment",
+      "event_parameters": {
+        "page_group": '{{ page.handle }}',
+        "action": text
+      }
+    })
+  }
+
+  $('#{{ section_id }} .leave-comment').click(function() {
+    const mach_user_email = $.cookie('live_chat_email') || $.cookie('mach_user_email')
+    $(this).hide()
+    $('#{{ section_id }} .leave-comment-textarea').val('')
+    $('#{{ section_id }} .chart-number').text(0)
+    sendDisabled()
+    $('#{{ section_id }} .comment-text').show().find('.leave-comment-textarea').focus()
+    document.getElementById('comment_text')?.scrollIntoView({ block: "center" })
+    if(mach_user_email) {
+      $('#{{ section_id }} .comment-login').hide()
+      $('#{{ section_id }} .comment-send').show()
+    }
+    event_ga('edit')
+  })
+  
+  $('#{{ section_id }} .comment-login').click(function() {
+    $('#{{ section_id }} .live-chat-popup-div').trigger('show-event', {
+      title: '{{section.settings.popup_title}}',
+      desc: '{{section.settings.popup_desc}}',
+      button_txt: '{{section.settings.button_txt}}'
+    })
+    event_ga('sign up')
+  })
+
+  $(document).on('mach_popup_submit', function(event, { type, email }) {
+    if(type == 2) {
+      $.cookie('live_chat_email', email, { path: '/', expires: 14  } )
+      if( !$.cookie('mach_user_email') ) {
+        $('.sign_up_input').val($.cookie('live_chat_email'))
+      }
+      $('#{{ section_id }} .comment-login').hide()
+      $('#{{ section_id }} .comment-send').show()
+      $('#{{section_id}} .live-chat-popup-div').hide()
+      $('#{{ section_id }} .comment-text').show().find('.leave-comment-textarea').focus()
+    }
+  })
+
+  $('#{{ section_id }} .comment-send').click(function() {
+    const mach_user_email = $.cookie('live_chat_email') || $.cookie('mach_user_email');
+    const data = {
+      email: mach_user_email,
+      shopify_domain: "{{ shop.permanent_domain }}",
+      register_source: window.location.href,
+      country_code: "{{ localization.country.iso_code }}",
+      country: "{{ shop.metafields.global.country.value.name }}",
+      name: mach_user_email.replace(/@.*/, ""),
+      content: $('.leave-comment-textarea').val().replace(/\</g, "&lt;").replace(/\>/g, "&gt;")
+    }
+    window?.mach_utils?.machRequest({
+      url: `/warm/message`,
+      method: 'POST',
+      params: data,
+      fn: (body) => {},
+      error: (err) => {
+        const { responseJSON } = err || {};
+      }
+    });
+
+    $('#{{ section_id }} .comment-close').click()
+    $('.chat-list').animate({
+      scrollTop: 0
+    })
+    $('.chat-list').prepend(outputHtml({
+      created_at: new Date(),
+      ...data
+    }, 'chat-item-active'))
+    setTimeout(function() {
+      $('.chat-item-active').removeClass('chat-item-active')
+    }, 2000)
+    document.getElementById('mach_live_chat_div')?.scrollIntoView()
+    event_ga('send')
+  })
+
+  $('#{{ section_id }} .comment-close').click(function() {
+    $('#{{ section_id }} .leave-comment').show()
+    $('#{{ section_id }} .comment-text').hide()
+    event_ga('exit')
+  })
+
+  $('#{{ section_id }} .leave-comment-textarea').keyup(function() {
+    let text = $(this).val().trim()
+    $('#{{ section_id }} .chart-number').text(text.length)
+    sendDisabled()
+  })
+
+  function getMessage() {
+    window?.mach_utils?.machRequest({
+      url: `/warm/message/now?page=1&size=300&shopify_domain={{ shop.permanent_domain }}&t=${ Date.now() }`,
+      method: 'GET',
+      fn: (body) => {
+        const data = body?.data;
+        let html = ''
+        if(Array.isArray(data) && data.length > 0) {
+          data.forEach(item => {
+            html += outputHtml(item)
+          })
+          $('.chat-list').html(html)
+        }
+      },
+      error: (err) => {
+        const { responseJSON } = err || {};
+        setTimeout(getMessage, 1000)
+      }
+    });
+  }
+
+  getMessage()
+
+})
+
+
+</script>
+
+{% schema %}
+  {
+    "name": "Mach Live Chat",
+    "presets": [
+      {
+        "name": "Mach Live Chat"
+      }
+    ],
+    "settings": [
+      {
+        "type": "html",
+        "id": "title",
+        "label": "标题",
+        "default": "Let’s<br class='showMobile' /> Chatting"
+      },
+      {
+        "type": "html",
+        "id": "desc",
+        "label": "描述",
+        "default": "Lorem ipsum dolor sit amet consectetur. Id purus urna at ullamcorper. Semper suspendisse et lobortis nunc."
+      },
+      {
+        "type": "html",
+        "id": "leave_comment",
+        "label": "Leave Comment",
+        "default": "Leave a Comment about MACH"
+      },
+      {
+        "type": "html",
+        "id": "please_comment",
+        "label": "Please Comment",
+        "default": "Please Comment"
+      },
+      {
+        "type": "html",
+        "id": "login",
+        "label": "Login",
+        "default": "Login"
+      },
+      {
+        "type": "html",
+        "id": "send",
+        "label": "Send",
+        "default": "Send"
+      },
+      {
+        "type": "header",
+        "content": "弹窗内容"
+      },
+      {
+        "type": "html",
+        "id": "popup_title",
+        "label": "弹窗标题",
+        "default": "Title"
+      },
+      {
+        "type": "html",
+        "id": "popup_desc",
+        "label": "弹窗描述",
+        "default": "Desc"
+      },
+      {
+        "type": "html",
+        "id": "popup_title_2",
+        "label": "留言成功后弹窗标题"
+      },
+      {
+        "type": "html",
+        "id": "popup_desc_2",
+        "label": "留言成功后弹窗描述"
+      },
+      {
+        "type": "html",
+        "id": "button_txt",
+        "label": "Sign Up",
+        "default": "Sign Up"
+      },
+      {
+        "type": "html",
+        "id": "Okay",
+        "label": "Okay",
+        "default": "Okay"
+      },
+      {
+        "type": "html",
+        "id": "email_placeholder",
+        "label": "邮箱输入提示",
+        "default": "Enter Your Email"
+      },
+      {
+        "type": "html",
+        "id": "email_error",
+        "label": "邮箱错误提示",
+        "default": "Please enter a valid email address"
+      },
+      {
+        "type": "html",
+        "id": "plocy_err",
+        "label": "勾选协议提示",
+        "default": "Please agree to the rules"
+      },
+      {
+        "type": "html",
+        "label": "协议",
+        "id": "agree_txt",
+        "default": "I consent to the Terms of Use and Privacy Policy."
+      }
+    ]
+  }
+{% endschema %}

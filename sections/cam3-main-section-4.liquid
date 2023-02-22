@@ -1,0 +1,167 @@
+<section class="ps-ret over-hide cam3-main-section cam3-main-section-4">
+  {% for block in section.blocks %}
+    {% case block.type %}
+      {% when 'img_section' %}
+      <div class="ps-ret img-section {{ block.settings.custom_class }}" {% if block.settings.id != blank %}id="{{ block.settings.id }}"{% endif %}>
+        <div class="vh-100 ps-ret flex-center over-hide img-sec-wrap is-hidden-mobile-only">
+          <div class="bg-img-wrap js-ai-bg-wrap">
+            {% render 'lazyload_image',  
+              src: block.settings.img2,
+              alt: block.settings.img2.alt,
+              width: block.settings.img2.width,
+              aspect_ratio: block.settings.img2.aspect_ratio,
+              isSchemaData: true
+            %}
+          </div>
+          <div class="mask-img-wrap js-ai-mask-wrap">
+            <svg width="2560" height="1440" viewBox="0 0 2560 1440" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M2560 0H0V1440H2560V0ZM1259.06 851.047L1290.11 953H1387.96L1236.21 522.922H1125.17L974 953H1071.85L1102.91 851.047H1259.06ZM1206.32 675.266L1237.38 774.875H1125.76L1156.52 675.266C1157.89 670.773 1160.13 663.254 1163.26 652.707C1166.38 642.16 1169.61 631.027 1172.93 619.309C1176.44 607.395 1179.18 597.434 1181.13 589.426C1183.08 597.434 1185.62 606.906 1188.75 617.844C1192.07 628.586 1195.29 639.23 1198.41 649.777C1201.73 660.129 1204.37 668.625 1206.32 675.266ZM1442.16 524.68V953H1532.98V524.68H1442.16Z" fill="white"/>
+            </svg>              
+          </div>
+        </div>
+
+        <div class="vh-100 ps-ret flex-center over-hide img-sec-wrap is-hidden-desktop-only">
+          <div class="bg-img-wrap js-ai-bg-wrap">
+            {% render 'lazyload_image',  
+              src: block.settings.img_mb,
+              alt: block.settings.img_mb.alt,
+              width: block.settings.img_mb.width,
+              aspect_ratio: block.settings.img_mb.aspect_ratio,
+              isSchemaData: true
+            %}
+          </div>
+          <div class="mask-img-wrap js-ai-mask-wrap">
+            <svg width="750" height="1480" viewBox="0 0 375 740" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M375 0H0V740H375V0ZM176.807 495.023L192.334 546H241.26L165.381 330.961H109.863L34.2773 546H83.2031L98.7305 495.023H176.807ZM150.439 407.133L165.967 456.938H110.156L125.537 407.133C126.221 404.887 127.344 401.127 128.906 395.854C130.469 390.58 132.08 385.014 133.74 379.154C135.498 373.197 136.865 368.217 137.842 364.213C138.818 368.217 140.088 372.953 141.65 378.422C143.311 383.793 144.922 389.115 146.484 394.389C148.145 399.564 149.463 403.812 150.439 407.133ZM268.359 331.84V546H313.77V331.84H268.359Z" fill="white"/>
+            </svg>                     
+          </div>
+        </div>
+      </div>
+
+      {% when 'info_section' %}
+      {% style %}
+        @media screen and (min-width: 769px) {
+          #shopify-section-{{ section.id }} .sec-title-large{
+            {% if block.settings.title_width != 0 %}
+              max-width: {{ block.settings.title_width | divided_by: 19.2 }}vw
+            {% endif %}
+          }
+
+          #shopify-section-{{ section.id }} .sec-description{
+            {% if block.settings.desc_width != 0 %}
+              max-width: {{ block.settings.desc_width}}px;
+            {% endif %}
+          }
+        }
+      {% endstyle %}
+      <div class="info-section abs-section {{ block.settings.custom_class }}" {% if block.settings.id != blank %}id="{{ block.settings.id }}"{% endif %}>
+        <div class="info-box">
+          <p class="sec-title-large gradient-font">{{ block.settings.title }}</p>
+          <p class="sec-description">{{ block.settings.desc }}</p>
+        </div>
+      </div>
+    {% endcase %}
+  {% endfor %}
+</section>
+
+{% schema %}
+{
+  "name": "cam3 main section 4",
+  "presets": [
+    {
+      "category": "cam3 main section 4",
+      "name": "cam3 main section 4"
+    }
+  ],
+  "settings":[],
+  "blocks": [{
+    "type": "img_section",
+    "name": "img section",
+    "settings": [{
+      "type": "header",
+      "content": "图片"
+    },{
+      "type": "image_picker",
+      "id": "img2",
+      "label": "pc端AI背景图"
+    },{
+      "type": "image_picker",
+      "id": "img_mb",
+      "label": "移动端AI背景图"
+    },{
+      "type": "header",
+      "content": "桌面端设置"
+    },{
+      "type": "number",
+      "id": "padding_y",
+      "label": "上下内边距",
+      "default": 0
+    },{
+      "type": "number",
+      "id": "padding_x",
+      "label": "左右内边距",
+      "default": 0
+    },{
+      "type": "header",
+      "content": "移动端设置"
+    },{
+      "type": "number",
+      "id": "mb_padding_y",
+      "label": "上下内边距",
+      "default": 0
+    },{
+      "type": "number",
+      "id": "mb_padding_x",
+      "label": "左右内边距",
+      "default": 0
+    },{
+      "type": "header",
+      "content": "开发设置"
+    },{
+      "type": "text",
+      "id": "id",
+      "label": "id"
+    },{
+      "type": "text",
+      "id": "custom_class",
+      "label": "自定义类名"
+    }]
+  },{
+    "type": "info_section",
+    "name": "info section",
+    "settings": [{
+      "type": "header",
+      "content": "主内容"
+    },{
+      "type": "text",
+      "id": "title",
+      "label": "标题"
+    },{
+      "type": "textarea",
+      "id": "desc",
+      "label": "副文本"
+    },{
+      "type": "number",
+      "id": "title_width",
+      "label": "标题容器宽度",
+      "default": 0
+    },{
+      "type": "number",
+      "id": "desc_width",
+      "label": "副文本容器宽度",
+      "default": 0
+    },{
+      "type": "header",
+      "content": "开发设置"
+    },{
+      "type": "text",
+      "id": "id",
+      "label": "id"
+    },{
+      "type": "text",
+      "id": "custom_class",
+      "label": "自定义类名"
+    }]
+  }]
+}
+{% endschema %}

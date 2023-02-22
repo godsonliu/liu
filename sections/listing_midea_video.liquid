@@ -1,0 +1,194 @@
+{% assign section_id = 'shopify-section-' | append: section.id %}
+{% if section.settings.MetabufKey != blank %}
+{% assign MetabufKey = section.settings.MetabufKey %}
+{% else %}
+{% assign MetabufKey = 'ProductVideo' %}
+{% endif %}
+
+{% if template contains "product" %}
+  {% assign ProductVideo = product.metafields.global[MetabufKey].value %}
+{% elsif template contains "page"  %}
+  {% assign ProductVideo = page.metafields.global[MetabufKey].value %}
+{% endif %}
+
+{% if product.metafields.global.highlights.value %}
+  {% assign highlights = product.metafields.global.highlights.value %}
+{% else %}
+  {% assign highlights = product.metafields.global.highlights %}
+{% endif %}
+
+{% assign settings = section.settings %}
+{% assign variant = product.selected_or_first_available_variant %}
+
+{%- if settings.show_product_video and ProductVideo and ProductVideo.size > 0  -%}
+  <section style="{% if section.settings.section_bg != blank %} border-color: {{section.settings.section_bg}} !important; {% endif %}" class="listing_v2_section home_slick {{ settings.arrows_color }} {{settings.class}}" data-section-id="{{ section.id }}" id="overview" >
+    <div class="prodVideo" style="{% if section.settings.section_bg != blank %} background: {{section.settings.section_bg}} !important; {% endif %}">
+      <div class="wrap">
+        {%- if settings.heading != blank -%}
+          <h2 class="prodTitle">
+            <span>
+              {% if ProductVideo.title != blank %}
+                {{ ProductVideo.title  }}
+              {% else %}
+                {{ settings.heading }}
+              {% endif %}
+            </span>
+          </h2>
+        {%- endif -%}
+        <div class="proVideo-slick-slider proVideoBox">
+          {% for block in ProductVideo.blocks %}
+            <div class="block">
+              <div class="item js-pro-video-item" data-url="{{ block.video_url }}">
+                <div class="image">
+                  {% render 'lazyload_image',  
+                    src: block.img,
+                    width: 600,
+                    height: 318,
+                    max_width: 600,
+                    alt: block.alt
+                  %}
+                  <a class="play">
+                    <img class="lazyload" data-src="https://cdn.shopify.com/s/files/1/0501/7678/6607/files/fa8670625d8117f4fd10561c66d79852.png?v=1613808086">
+                  </a>
+                </div>
+                <div class="text">
+                  <p class="info">{{ block.tips }}</p>
+                  <p class="name">{{ block.name }}</p>
+                </div>
+                <div class="cover"></div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+        <div class="cover_video swap--visible">
+          <div class="video_container">
+            <div class="full_screen js-close-metav-btn"></div>
+            <div class="video_content">
+              <iframe
+              width="100%"
+              height="100%"
+              data-pagefly-popup="true"
+              allowfullscreen="allowfullscreen"
+              class="lazyload"
+              ></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<script>
+  $(document).ready(function(){
+
+    $('#{{section_id}} .js-pro-video-item').on('click', function() {
+      const url = $(this).data('url')
+
+      $('#{{section_id}} .cover_video iframe').attr('src', url);
+      $('#{{section_id}} .cover_video').removeClass('swap--visible');
+
+      dataLayer.push({
+        "event": "uaEvent",
+        "eventCategory": "click",
+        "eventAction": "product_intro",
+        "eventLabel": "{{ variant.sku }}",
+        "eventValue": "undefined",
+      })
+    })
+
+    $('#{{section_id}} .js-close-metav-btn').on('click', function() {
+      const $wrap = $(this).parents('.cover_video')
+
+      $wrap.find('iframe').attr('src', '');
+      $wrap.addClass('swap--visible');
+    })
+
+    // 滑动模块
+    $('#{{section_id}} .proVideo-slick-slider').on('afterChange', function(){
+      $('#{{section_id}} .prodVideo .slick-slide').css("transform", "scale(1)");
+      $('#{{section_id}} .prodVideo .slick-current').css("transform", "scale(1.25)");
+      $('#{{section_id}} .prodVideo .slick-slide .cover').removeClass("swap--visible");
+      $('#{{section_id}} .prodVideo .slick-current .cover').addClass('swap--visible');
+    });
+
+    if ($('#{{section_id}} .prodVideo .proVideo-slick-slider .item').length <= 1 || ($('#{{section_id}} .prodVideo .proVideo-slick-slider .item').length <= 3 && window.innerWidth > 768)) {
+      $('#{{section_id}} .prodVideo .cover').addClass('swap--visible');
+      $('#{{section_id}} .prodVideo .block').css('padding', '0 8px');
+    } else if (window.innerWidth > 768 && $('#{{section_id}} .prodVideo .proVideo-slick-slider .item').length > 3) {
+      $('#{{section_id}} .prodVideo .proVideo-slick-slider').slick({
+        infinite: true,
+        dots: true,
+        speed: 200,
+        slidesToShow: 3,
+        centerMode: true,
+        centerPadding: '0px'
+      })
+    } else if (window.innerWidth <= 768) {
+        $('#{{section_id}} .prodVideo .proVideo-slick-slider').slick({
+        infinite: true,
+        dots: true,
+        speed: 200,
+        slidesToShow: 1,
+        centerMode: true,
+        centerPadding: '80px'
+      })
+    }
+    
+    $('#{{section_id}} .prodVideo .slick-current').css("transform", "scale(1.25)");
+    $('#{{section_id}} .prodVideo .slick-current .cover').addClass('swap--visible');
+  })
+</script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Product video",
+  "presets": [
+    {
+      "category": "Custom Dynamic Sections",
+      "name": "Product video"
+    }
+  ],
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "[AnkerFields: products](/admin/apps/betametafields/products), highlights"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_product_video",
+      "label": "Show ProductVideo",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "class",
+      "label": "CSS Class",
+      "default": "ProductVideo"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Unboxing & Reviews"
+    },{
+      "type": "text",
+      "id": "arrows_color",
+      "label": "Arrows Color",
+      "default": "dark"
+    },
+    {
+      "type": "color",
+      "id": "section_bg",
+      "label": "背景色"
+    },
+    {
+      "type": "text",
+      "id": "MetabufKey",
+      "label": "MetaBuf取值字段",
+      "info": "同一页面多个相同section，需要保持该字段取值不一样。默认为：ProductVideo",
+      "default": "ProductVideo"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,60 @@
+{% if template contains 'page' %}
+  {% if page.metafields['global']['feature'].value %}
+    {% assign lang = page.metafields['global']['feature'].value %}
+  {% else %}
+    {% assign lang = page.metafields['global']['feature'] %}
+  {% endif %}
+{% else %}
+  {% if product.metafields['global']['feature'].value %}
+    {% assign lang = product.metafields['global']['feature'].value %}
+  {% else %}
+    {% assign lang = product.metafields['global']['feature'] %}
+  {% endif %}
+{% endif %}
+
+{% assign reminders = lang.t8213-feature_reminders %}
+
+<section id="t8213-feature_2" class="t8213-feature_2">
+  <div class="t8213-feature-container">
+    <div class="reminders feature-container-row">
+      <div class="reminders-desc feature-wrap">
+        <h2 class="title">{{ reminders.reminders_title }}</h2>
+        <p class="desc">{{ reminders.reminders_desc }}</p>
+      </div>
+      <div class="reminders-img feature-wrap">
+        <!-- <img class="lazyload is-hidden-mobile-only reminders-img_pc" data-src="{{ reminders.reminders_img_pc }}" alt=""/>
+        <img class="lazyload is-hidden-desktop-only reminders-img_mob" data-src="{{ reminders.reminders_img_mob }}" alt=""/> -->
+        {% render 'lazyload_image',  
+          src: reminders.reminders_img_pc,
+          additional_classes: "is-hidden-mobile-only reminders-img_pc"
+          style: "opacity: 0;"
+          alt: "" %}
+        {% render 'lazyload_image',
+          src: reminders.reminders_img_mob,
+          additional_classes: "is-hidden-desktop-only reminders-img_mob",
+          style: "opacity: 0;"
+          alt: "" %}
+      </div>
+    </div>
+    <div class="scans feature-container-row">
+      <div class="scans-desc feature-wrap">
+        <h2 class="title">{{ reminders.scans_title }}</h2>
+        <p class="desc">{{ reminders.scans_desc }}</p>
+      </div>
+      <div class="scans-img feature-wrap">
+        <!-- <img class="lazyload is-hidden-mobile-only scans-img_pc" data-src="{{ reminders.scans_img_pc }}" alt=""/>
+        <img class="lazyload is-hidden-desktop-only scans-img_mob" data-src="{{ reminders.scans_img_mob }}" alt=""/> -->
+        {% render 'lazyload_image',  
+          src: reminders.scans_img_pc,
+          additional_classes: "is-hidden-mobile-only scans-img_pc"
+          style: "opacity: 0;"
+          alt: "" %}
+        {% render 'lazyload_image',
+          src: reminders.scans_img_mob,
+          additional_classes: "is-hidden-desktop-only scans-img_mob",
+          style: "opacity: 0;"
+          alt: "" %}
+      </div>
+    </div>
+  </div>
+</section>

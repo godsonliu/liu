@@ -1,0 +1,10 @@
+
+{{ 'Friendbuy.scss.css' | asset_url | stylesheet_tag }}
+<script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+
+<main
+  id="template-{{ template | replace: '.', '-' | handle }}"
+  class="shopify-section default-page"
+>
+  {% section 'page-friendbuy-account' %}
+</main>

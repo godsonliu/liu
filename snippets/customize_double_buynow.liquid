@@ -1,0 +1,105 @@
+{% assign lang = product.metafields.global %}
+
+{% if lang.products.value %}
+  {% assign products = lang.products.value %}
+{% else %}
+  {% assign products = lang.products %}
+{% endif %}
+
+{% if shop.metafields['global']['storefront_key'].value %}
+  {% assign storefront_key = shop.metafields['global']['storefront_key'].value %}
+{% else %}
+  {% assign storefront_key = shop.metafields['global']['storefront_key'] %}
+{% endif %}
+
+
+{% comment %} 自定义的buynow按钮 {% endcomment %}
+<button class="customize_double_buynow">{{ buynow_txt }}</button>
+
+<script>
+
+  function line_item(variants, product){
+    let line_item = {};
+    variants.map(item => {
+      if(item.sku === product.sku) {
+        line_item.variant_id = item.id;
+      };
+    });
+    line_item.quantity = $(".purchase-details input").val();
+    return line_item;
+  }
+  $('.customize_double_buynow').click(e => {
+    e.preventDefault();
+    let line_items = [];
+    {% for item in products %}
+      {% assign product = all_products[item.handle] %}
+      line_items.push(line_item({{ product.variants | json }}, {{ item | json }}))
+    {% endfor %}
+
+    Shopify.theme.bundleBuynow({
+      authorization: "{{ storefront_key }}",
+      checkout: {
+        line_items: line_items,
+        presentment_currency: "{{ shop.currency }}",
+        is_upstream_button: true,
+        page_type: "product",
+        secret: true,
+        wallet_name: "Checkout"
+      },
+      onSuccess: () => {},
+      onError: err => {
+        $.dialog({ title: err.message, content: err.description, type: 'red' });
+      }
+    });
+  })
+
+
+</script>
+<script type="text/javascript">  
+
+  window.onload = function(){ 
+    setTimeout(function(){
+      $('.shopify-payment-button__button')[0].innerHTML=`{{ buynow_txt_2 }}`;
+    }, 1500)
+  };    
+
+</script> 
+
+<style>
+.customize_double_buynow {
+  background: linear-gradient(to right,#4391e5,#03d7c7);
+  background-image: linear-gradient(to right,#4391e5,#03d7c7);
+  color: #fff;
+  font-weight: 600;
+  border-radius: 22px;
+  height: 36px;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0rem 4rem;
+  border: none;
+  max-width: calc(calc(50% - 12px));
+  width:100%;
+  
+}
+
+.customize_double_buynow:hover {
+  background: #fff;
+  color: #1db2a6;
+  border: 1px solid #1db2a6;
+}
+.product-form-container {
+  padding: 0;
+}
+.purchase-details .purchase-details__spb--true {
+  margin-top: 30px;
+}
+@media (max-width: 767px){
+  .customize_double_buynow{
+    max-width:100%;
+    margin-bottom:20px;
+  }
+  .purchase-details .purchase-details__spb--true {
+    margin-top: 20px;
+  }
+}
+</style>

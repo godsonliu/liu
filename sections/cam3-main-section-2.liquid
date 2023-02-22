@@ -1,0 +1,261 @@
+<section class="ps-ret cam3-main-section cam3-main-section-2">
+  {% for block in section.blocks %}
+    {% case block.type %}
+      {% when 'img_section' %}
+      <div class="ps-ret vh-100 flex-center z-index-1 img-section {{ block.settings.custom_class }}" {% if block.settings.id != blank %}id="{{ block.settings.id }}"{% endif %}>
+        <div class="img-sec-wrap ps-ret is-hidden-desktop-only js-cam3-mb-sec-wrap">
+          <div class="img-cam3-wrap js-cam3-wrap">
+            {% render 'lazyload_image',  
+              src: block.settings.mb_img,
+              alt: block.settings.mb_img.alt,
+              width: block.settings.mb_img.width,
+              aspect_ratio: block.settings.mb_img.aspect_ratio,
+              isSchemaData: true
+            %}
+          </div>
+          <div class="cam3-round-wrap js-mb-round-wrap">
+            <div class="cam3-pic-wrap js-mb-pic-wrap">
+              {% render 'lazyload_image',  
+                src: block.settings.mb_img3,
+                alt: block.settings.mb_img3.alt,
+                width: block.settings.mb_img3.width,
+                aspect_ratio: block.settings.mb_img3.aspect_ratio,
+                isSchemaData: true
+              %}
+            </div>
+            <p class="cam-zoom-in">
+              <span class="js-cam-zoom-count">1</span>
+              <span>× Zoom</span>
+            </p>
+            <div class="cam-wrap ps-ret js-mb-cam-wrap">
+              {% render 'lazyload_image',  
+                src: block.settings.mb_img2,
+                alt: block.settings.mb_img2.alt,
+                width: block.settings.mb_img2.width,
+                aspect_ratio: block.settings.mb_img2.aspect_ratio,
+                isSchemaData: true
+              %}
+            </div>
+          </div>
+        </div>
+        <div class="img-sec-wrap ps-ret is-hidden-mobile-only js-cam3-pc-sec-wrap">
+          <div class="img-cam3-wrap js-cam3-wrap">
+            {% render 'lazyload_image',  
+              src: block.settings.img,
+              alt: block.settings.img.alt,
+              width: block.settings.img.width,
+              aspect_ratio: block.settings.img.aspect_ratio,
+              isSchemaData: true
+            %}
+          </div>
+          <div class="cam3-round-wrap js-pc-round-wrap">
+            <div class="cam3-pic-wrap js-pc-pic-wrap">
+              {% render 'lazyload_image',  
+                src: block.settings.img3,
+                alt: block.settings.img3.alt,
+                width: block.settings.img3.width,
+                aspect_ratio: block.settings.img3.aspect_ratio,
+                isSchemaData: true
+              %}
+            </div>
+            <p class="cam-zoom-in">
+              <span class="js-cam-zoom-count">1</span>
+              <span>× Zoom</span>
+            </p>
+            <div class="cam-wrap ps-ret js-pc-cam-wrap">
+              {% render 'lazyload_image',  
+                src: block.settings.img2,
+                alt: block.settings.img2.alt,
+                width: block.settings.img2.width,
+                aspect_ratio: block.settings.img2.aspect_ratio,
+                isSchemaData: true
+              %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {% when 'info_section' %}
+      {% style %}
+        @media screen and (min-width: 769px) {
+          #shopify-section-{{ section.id }} .sec-title-large{
+            {% if block.settings.title_width != 0 %}
+              max-width: {{ block.settings.title_width | divided_by: 19.2 }}vw;
+            {% endif %}
+          }
+
+          #shopify-section-{{ section.id }} .sec-description{
+            {% if block.settings.desc_width != 0 %}
+              max-width: {{ block.settings.desc_width }}px;
+            {% endif %}
+          }
+        }
+      {% endstyle %}
+      <div class="info-section abs-section {{ block.settings.custom_class }}" {% if block.settings.id != blank %}id="{{ block.settings.id }}"{% endif %}>
+        <div class="info-box">
+          <p class="sec-title-large gradient-font">{{ block.settings.title }}</p>
+          <p class="sec-description">{{ block.settings.desc }}</p>
+          
+          {% if block.settings.img != blank %}
+            <div class="img-sec-wrap is-hidden-mobile-only">
+              {% render 'lazyload_image',  
+                src: block.settings.img,
+                alt: block.settings.img.alt,
+                width: block.settings.img.width,
+                aspect_ratio: block.settings.img.aspect_ratio,
+                isSchemaData: true
+              %}
+            </div>
+          {% elsif block.settings.img_mb == blank %}
+            <div class="img-sec-wrap">
+              {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
+            </div>
+          {% endif %}
+          {% if block.settings.img_mb != blank %}
+            <div class="img-sec-wrap is-hidden-desktop-only">
+              {% render 'lazyload_image',  
+                src: block.settings.img_mb,
+                alt: block.settings.img_mb.alt,
+                width: block.settings.img_mb.width,
+                aspect_ratio: block.settings.img_mb.aspect_ratio,
+                isSchemaData: true
+              %}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    {% endcase %}
+  {% endfor %}
+</section>
+
+{% schema %}
+{
+  "name": "cam3 main section 2",
+  "presets": [
+    {
+      "category": "cam3 main section 2",
+      "name": "cam3 main section 2"
+    }
+  ],
+  "settings":[],
+  "blocks": [{
+    "type": "img_section",
+    "name": "img section",
+    "settings": [{
+      "type": "header",
+      "content": "桌面端图片"
+    },{
+      "type": "image_picker",
+      "id": "img",
+      "label": "cam3镜头正面图"
+    },{
+      "type": "image_picker",
+      "id": "img2",
+      "label": "cam镜头图"
+    },{
+      "type": "image_picker",
+      "id": "img3",
+      "label": "画质展示图"
+    },{
+      "type": "header",
+      "content": "移动端图片"
+    },{
+      "type": "image_picker",
+      "id": "mb_img",
+      "label": "cam3镜头正面图"
+    },{
+      "type": "image_picker",
+      "id": "mb_img2",
+      "label": "cam镜头图"
+    },{
+      "type": "image_picker",
+      "id": "mb_img3",
+      "label": "画质展示图"
+    },{
+      "type": "header",
+      "content": "桌面端设置"
+    },{
+      "type": "number",
+      "id": "padding_y",
+      "label": "上下内边距",
+      "default": 0
+    },{
+      "type": "number",
+      "id": "padding_x",
+      "label": "左右内边距",
+      "default": 0
+    },{
+      "type": "header",
+      "content": "移动端设置"
+    },{
+      "type": "number",
+      "id": "mb_padding_y",
+      "label": "上下内边距",
+      "default": 0
+    },{
+      "type": "number",
+      "id": "mb_padding_x",
+      "label": "左右内边距",
+      "default": 0
+    },{
+      "type": "header",
+      "content": "开发设置"
+    },{
+      "type": "text",
+      "id": "id",
+      "label": "id"
+    },{
+      "type": "text",
+      "id": "custom_class",
+      "label": "自定义类名"
+    }]
+  },{
+    "type": "info_section",
+    "name": "info section",
+    "settings": [{
+      "type": "header",
+      "content": "主内容"
+    },{
+      "type": "text",
+      "id": "title",
+      "label": "标题"
+    },{
+      "type": "textarea",
+      "id": "desc",
+      "label": "副文本"
+    },{
+      "type": "number",
+      "id": "title_width",
+      "label": "标题容器宽度",
+      "default": 0
+    },{
+      "type": "number",
+      "id": "desc_width",
+      "label": "副文本容器宽度",
+      "default": 0
+    },{
+      "type": "header",
+      "content": "图片"
+    },{
+      "type": "image_picker",
+      "id": "img",
+      "label": "pc端展示图片"
+    },{
+      "type": "image_picker",
+      "id": "img_mb",
+      "label": "移动端展示图片"
+    },{
+      "type": "header",
+      "content": "开发设置"
+    },{
+      "type": "text",
+      "id": "id",
+      "label": "id"
+    },{
+      "type": "text",
+      "id": "custom_class",
+      "label": "自定义类名"
+    }]
+  }]
+}
+{% endschema %}

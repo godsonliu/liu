@@ -1,0 +1,113 @@
+// reset
+#shopify-section-header__icon-bar {
+  border-top: 0 !important;
+}
+
+// top bar
+.v2_top_bar_section {
+  position: relative;
+  z-index: 10;
+  background-color: #fff;
+}
+
+.v2_top_bar_box {
+  display: flex;
+  justify-content: space-between;
+  transition: opacity .25s;
+  border-top: 1px solid #e5e5e5;
+
+  &.fixed {
+    overflow: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    z-index: 99;
+    transition: transform .3s, opacity .25s;
+    will-change: transform;
+    visibility: visible;
+    opacity: 1;
+  }
+
+  @media (max-width: 768px) {
+    justify-content: flex-start;
+    position: fixed;
+    top: 0;
+    left: 0;
+    // padding: 0 0 12px;
+    width: 100%;
+    visibility: hidden;
+    opacity: 0;
+    overflow: auto;
+  }
+
+  .top_bar_title {
+    padding: 24px 10px 24px 76px;
+    font-size: 16px;
+    font-weight: bold;
+
+    @media (max-width: 1200px) {
+      padding: 24px 10px 24px 24px;
+    }
+
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+
+  .top_bar_page_nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5.2% 0 4.2%;
+    min-width: 37.5%;
+
+    @media (max-width: 1440px) {
+      padding: 0 5.2% 0 6%;
+      min-width: 50%;
+    }
+
+    @media (max-width: 768px) {
+      width: 100%;
+      min-width: auto;
+    }
+  }
+
+  .tb_page_nav_item {
+    position: relative;
+    padding: 24px 0;
+    font-size: 16px;
+    margin: 0 14px;
+    color: #000;
+
+    @media (max-width: 768px) {
+      padding: 10px 0;
+      margin: 0 6px;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: #21D2C5;
+      transition: .2s;
+      transform: scale(0);
+      will-change: transform;
+    }
+
+    &.active {
+      font-weight: bold;
+      color: #21D2C5;
+
+      &::after {
+        transform: scale(1);
+      }
+    }
+  }
+}

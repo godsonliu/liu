@@ -1,0 +1,115 @@
+<style>
+@media(max-width: 769px) {
+  .showPc {
+    display: none;
+  } 
+}
+@media(min-width: 769px) {
+  .showMobile {
+    display: none;
+  } 
+}
+.mach_history_div {
+  background: #EBEBEB;
+  padding: 80px 30px;
+}
+.mach_history {
+  margin: 0 auto;
+  width: 62.5vw;
+  max-width: 1200px;
+  text-align: center;
+}
+.history-title {
+  font-weight: 500;
+  font-size: 4.6875vw;
+  line-height: 5.36vw;
+  color: #000000;
+}
+
+.history-content {
+  padding: 30px 0;
+  position: relative;
+  margin-top: 20px;
+}
+.history-content video {
+  width: 100%;
+  border-radius: 10px;
+}
+
+@media(max-width: 769px) {
+  .mach_history {
+    width: 100%;
+  }
+  .mach_history_div {
+    padding: 30px 24px;
+  }
+ .history-title {
+    font-size: 48px;
+    line-height: 48px;
+ } 
+}
+</style>
+<div class="mach_history_div" id="mach_history">
+  <div class="mach_history">
+    <div class="history-title">{{ section.settings.title }}</div> 
+    <div class="history-content">
+      <video 
+        class="showPc lazyload" 
+        width="850" 
+        height="450" 
+        autoplay 
+        loop 
+        muted 
+        webkit-playsinline="true"
+        playsinline="true"
+        x5-video-player-type="h5"
+        x5-video-player-fullscreen="true"
+        x5-video-orientation="portraint"
+        data-src="{{ section.settings.video_src }}"
+      ></video>
+      <video 
+        class="showMobile lazyload" 
+        width="342" 
+        height="460" 
+        autoplay 
+        loop 
+        muted 
+        webkit-playsinline="true"
+        playsinline="true"
+        x5-video-player-type="h5"
+        x5-video-player-fullscreen="true"
+        x5-video-orientation="portraint"
+        data-src="{{ section.settings.m_video_src }}"
+      ></video>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Mach History",
+    "presets": [
+      {
+        "name": "Mach History"
+      }
+    ],
+    "settings": [
+      {
+        "type": "html",
+        "id": "title",
+        "label": "标题",
+        "default": "The Clean Solution<br/> Evolution"
+      },
+      {
+        "type": "html",
+        "id": "video_src",
+        "label": "视频Url"
+      },
+      {
+        "type": "html",
+        "id": "m_video_src",
+        "label": "Mobile端视频Url"
+      }
+    ]
+  }
+{% endschema %}

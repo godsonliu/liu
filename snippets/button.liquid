@@ -1,0 +1,50 @@
+{% comment %}
+Required values
+label: <string>
+______________
+Optional values
+href: <string>
+type: <string>
+style: <string>
+class: <string>
+attribute: <string>
+select_product: <Product>
+select_product_sku: <string>
+quantity: <number>
+{% endcomment %}
+
+{% if shop.metafields['global']['storefront_key'].value %}
+  {% assign authorization = shop.metafields['global']['storefront_key'].value %}
+{% else %}
+  {% assign authorization = shop.metafields['global']['storefront_key'] %}
+{% endif %}
+
+{% if select_product != blank %}
+  {% assign oProduct = select_product %}
+  {% assign variants = oProduct.variants %}
+  {% assign oProduct_variant = oProduct.selected_or_first_available_variant %}
+  {% for child_variant in variants  %} 
+    {% if child_variant.sku == select_product_sku %}
+    {% assign oProduct_variant = child_variant %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+{% if label != blank %}
+  {% if type == "link" %}
+    <a
+      {% if href != blank %}href="{{ href }}"{% else %}href="javascript:void(0)"{% endif %}
+      {% if oProduct_variant != blank %} data-authorization="{{authorization}}" data-currency="{{ shop.currency }}" data-variant_id="{{oProduct_variant.id}}" data-quantity="{{ quantity }}" {% endif %}
+      class="{% if style == 'custom' %}{{ class }}{% else %}button {{ style }} {{ class }} brandButtonText{% endif %}"
+      {% if id != blank %}id="{{ id }}"{% endif %}
+      {{ attribute }}
+    >{{ label }}</a>
+  {% else %}
+    <button
+      type="{{ type }}"
+      class="button {{ style }} {{ class }} brandButtonText"
+      {% if id != blank %}id="{{ id }}"{% endif %}
+      {{ attribute }}
+    >{{ label }}</button>
+  {% endif %}
+{% endif %}

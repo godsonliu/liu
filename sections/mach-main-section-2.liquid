@@ -1,0 +1,143 @@
+<section class="ps-ret txt-center bg-grey over-hide mach-main-section mach-main-section-2" id="overview">
+  <div class="cloud-wrap">
+    {% render 'lazyload_image',  
+      src: '//cdn.shopify.com/s/files/1/0521/9411/5753/files/steam-01_2.png?v=1675738884',
+      alt: '',
+      width: 841,
+      height: 919,
+      additional_classes: 'cloud-1'
+    %}
+    {% render 'lazyload_image',  
+      src: '//cdn.shopify.com/s/files/1/0521/9411/5753/files/steam-02_2.png?v=1675738884',
+      alt: '',
+      width: 919,
+      height: 919,
+      additional_classes: 'cloud-2'
+    %}
+  </div>
+  <div class="cleaning-wrap">
+    <div class="info-box">
+      <p class="large-title">{{ section.settings.title }}</p>
+      <p class="large-md-title">{{ section.settings.subtitle }}</p>
+      <p class="light-grey sub-text">{{ section.settings.desc }}</p>
+    </div>
+    <div class="ps-ret cleaning-swiper-wrap">
+      <div id="swiper-{{ section.id }}" class="cleaning-swiper swiper-container">
+        <ul class="swiper-wrapper">
+          {% for block in section.blocks %}
+            <li class="swiper-slide">
+              <div class="swiper-content">
+                {% if block.settings.img_pc != blank %}
+                  <div class="media-image-wrap is-hidden-mobile-only">
+                    {% render 'lazyload_image',  
+                      src: block.settings.img_pc,
+                      alt: block.settings.img_pc.alt,
+                      width: block.settings.img_pc.width,
+                      aspect_ratio: block.settings.img_pc.aspect_ratio,
+                      additional_classes: 'banner-bg-img',
+                      isSchemaData: true
+                    %}
+                  </div>
+                {% elsif block.settings.img_mb == blank %}
+                  <div class="media-image-wrap">
+                    {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
+                  </div>
+                {% endif %}
+                {% if block.settings.img_mb != blank %}
+                  <div class="media-image-wrap is-hidden-desktop-only">
+                    {% render 'lazyload_image',  
+                      src: block.settings.img_mb,
+                      alt: block.settings.img_mb.alt,
+                      width: block.settings.img_mb.width,
+                      aspect_ratio: block.settings.img_mb.aspect_ratio,
+                      additional_classes: 'banner-bg-img',
+                      isSchemaData: true
+                    %}
+                  </div>
+                {% endif %}
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="swiper-tab">
+        <p class="swiper-tab-font swiper-tab-title">{{ section.settings.messes }}</p>
+        <div class="swiper-tab-box">
+          <ul class="swiper-tab-list">
+            {% for block in section.blocks %}
+              <li class="swiper-tab-item{% if forloop.index == 1 %} actived{% endif %}">
+                <div class="swiper-tab-item-img">
+                  {% render 'lazyload_image',  
+                    src: block.settings.messes_img,
+                    alt: block.settings.messes_img.alt,
+                    width: block.settings.messes_img.width,
+                    aspect_ratio: block.settings.messes_img.aspect_ratio,
+                    isSchemaData: true
+                  %}
+                </div>
+                <p class="swiper-tab-font swiper-tab-name">{{ block.settings.messes_type }}</p>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Mach Main Section 2",
+  "presets": [{
+      "category": "Mach Main Section 2",
+      "name": "Mach Main Section 2"
+  }],
+  "settings": [{
+    "type": "header",
+    "content": "内容"
+  },{
+    "type": "textarea",
+    "id": "title",
+    "label": "标题"
+  },{
+    "type": "textarea",
+    "id": "subtitle",
+    "label": "副标题"
+  },{
+    "type": "textarea",
+    "id": "desc",
+    "label": "描述"
+  },{
+    "type": "textarea",
+    "id": "messes",
+    "label": "污渍类型"
+  }],
+  "blocks": [{
+    "type": "image",
+    "name": "image",
+    "settings": [{
+      "type": "header",
+      "content": "内容"
+    },{
+      "type": "text",
+      "id": "messes_type",
+      "label": "污渍名称"
+    },{
+      "type": "image_picker",
+      "id": "messes_img",
+      "label": "污渍图片"
+    },{
+      "type": "header",
+      "content": "图片"
+    },{
+      "type": "image_picker",
+      "id": "img_pc",
+      "label": "桌面端污渍清洁展示图"
+    },{
+      "type": "image_picker",
+      "id": "img_mb",
+      "label": "移动端污渍清洁展示图"
+    }]
+  }]
+}
+{% endschema %}

@@ -1,0 +1,165 @@
+#new_listing {
+  .product-main {
+    width: 100%;
+    // max-width: 1200px;
+    //height: 3000px;
+    justify-content: flex-start;
+    align-items: stretch;
+    //margin: 0 auto;
+    .product-container {
+      width: 62.5%;
+      //border: 1px solid red;
+      @media (max-width: 768px) {
+        width: 100%;
+      }
+      .indexBox {
+        position: absolute;
+        background: rgba(0, 0, 0, 0.4);
+        color: #fff;
+        border-radius: 5px;
+        padding: 2px 7px;
+        font-size: 12px;
+        z-index: 9;
+        font-weight: 500;
+        right: 2.5rem;
+        top: 7.5px;
+        //display: none;
+        letter-spacing: -1px;
+      }
+      .btn_group {
+        width: 100%;
+        display: flex;
+        bottom: 37px;
+        position: absolute;
+        justify-content: center;
+        align-items: center;
+        @media (max-width: 768px) {
+          bottom: 25px;
+        }
+        button {
+          margin-left: 12px;
+          background: #989b9e;
+          //height: 32px;
+          padding: 6.5px 26.5px;
+          //line-height: 32px;
+          border-radius: 54px;
+          font-size: 14px;
+          font-weight: 400;
+          color: #fff;
+          cursor: pointer;
+          border: 1px solid #989b9e;
+          z-index: 16;
+          @media (max-width: 768px) {
+            font-size: 12px;
+            padding: 1.5px 8px;
+            margin-left: 4px;
+          }
+          &:hover {
+            color: #989b9e;
+            background: transparent;
+          }
+        }
+      }
+      .product__images {
+        position: sticky;
+        position: -webkit-sticky;
+        top: 0;
+      }
+      //height: 2000px;
+    }
+    .info-container {
+      width: 30%;
+      //border: 1px solid red;
+      height: 2000px;
+      margin-left: 5%;
+      @media (max-width: 768px) {
+        width: 100%;
+        margin-left: 0;
+        padding: 14px 16px;
+      }
+      .info_Box {
+        padding: 10px 0;
+        border-bottom: 1px solid #e5e5e5;
+        display: flex;
+        //justify-content: space-around;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: unset;
+        @media (max-width: 768px) {
+          flex-direction: column;
+        }
+        .info_title {
+          //width:32%;
+          font-weight: 700;
+          font-size: 16px;
+          min-width: 120px;
+          color: #000;
+          @media (max-width: 768px) {
+            width: 100%;
+          }
+        }
+        .minWidth {
+          //min-width: 405px;
+          @media (max-width: 768px) {
+            margin-top: 5px;
+          }
+        }
+
+        .info_iconList {
+          //width: 74%;
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          @media (max-width: 768px) {
+            width: 100%;
+          }
+          .half_box,
+          .openTxtModal {
+            width: 50%;
+            @media (max-width: 768px) {
+              width: 100%;
+            }
+          }
+          .icon_item {
+            display: flex;
+            margin: 12px 2px;
+            @media (max-width: 768px) {
+              margin: 5px 0px;
+            }
+            .text {
+              font-size: 12px;
+              font-weight: 400;
+              height: 25px;
+              line-height: 25px;
+              margin-left: 5px;
+            }
+            .iconfont {
+              background: #ebebeb;
+              width: 25px;
+              height: 25px;
+              border-radius: 4px;
+              text-align: center;
+            }
+            &:hover {
+              color: #21d2c5;
+              cursor: pointer;
+            }
+          }
+          .footer__aside-item {
+            width: 80%;
+            @media (max-width: 768px) {
+              width: 100%;
+            }
+          }
+        }
+        .flex_end {
+          justify-content: end;
+          @media (max-width: 768px) {
+            justify-content: start;
+            margin-top: 10px;
+          }
+        }
+      }
+    }
+  }
+}

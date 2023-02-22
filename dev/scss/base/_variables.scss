@@ -1,0 +1,363 @@
+/* # Variables */
+
+$site-max-width: 1200px;
+$site-width: 95%;
+$transition-default: all 0.3s ease;
+
+$gutter: 20px;
+$half-gutter: 10px;
+
+// Responsiveness
+
+$grid-small: 480px;
+$grid-medium: 798px;
+$grid-large: 1024px;
+$grid-widescreen: 1400px;
+
+$small: 'small';
+$small-down: 'small-down';
+$small-up: 'small-up';
+$medium: 'medium';
+$medium-down: 'medium-down';
+$medium-up: 'medium-up';
+$large: 'large';
+$large-down: 'large-down';
+$large-up: 'large-up';
+$widescreen-up: 'widescreen-up';
+$widescreen-down: 'widescreen-down';
+
+// The `$breakpoints` list is used to build our media queries.
+// You can use these in the media-query mixin.
+$breakpoints: (
+  $small-down '(max-width: #{$grid-small})',
+  $small '(min-width: #{$grid-small + 1}) and (max-width: #{$grid-medium})',
+  $small-up '(min-width: #{$grid-small + 1})',
+  $medium-down '(max-width: #{$grid-medium})',
+  $medium '(min-width: #{$grid-medium + 1}) and (max-width: #{$grid-large})',
+  $medium-up '(min-width: #{$grid-medium + 1})',
+  $large-down '(max-width: #{$grid-large})',
+  $large '(min-width: #{$grid-large + 1}) and (max-width: #{$grid-widescreen})',
+  $large-up '(min-width: #{$grid-large + 1})',
+  $widescreen-down '(max-width: #{$grid-widescreen})',
+  $widescreen-up '(min-width: #{$grid-widescreen + 1})'
+);
+
+// Fonts
+
+$headline-font-size: 30;
+$nav-font-size: 14px;
+$footer-font-size: 14;
+
+$family-sans-serif: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif !default;
+$family-monospace: monospace !default;
+$render-mode: optimizeLegibility !default;
+
+$family-primary: $family-sans-serif !default;
+$family-secondary: $family-sans-serif !default;
+$family-code: $family-monospace !default;
+
+$size-1: 3rem !default;
+$size-2: 2.5rem !default;
+$size-3: 2rem !default;
+$size-4: 1.5rem !default;
+$size-5: 1.25rem !default;
+$size-6: 1rem !default;
+$size-7: 0.75rem !default;
+$size-8: 0.5rem !default;
+
+$size-very-small: $size-8 !default;
+$size-small: $size-7 !default;
+$size-normal: $size-6 !default;
+$size-medium: $size-5 !default;
+$size-large: $size-4 !default;
+
+$weight-light: 300 !default;
+$weight-normal: 400 !default;
+$weight-medium: 500 !default;
+$weight-semibold: 600 !default;
+$weight-bold: 700 !default;
+
+$sizes: $size-1 $size-2 $size-3 $size-4 $size-5 $size-6 $size-7 !default;
+
+// Colors
+
+$black: hsl(0, 0%, 4%) !default;
+$black-bis: hsl(0, 0%, 7%) !default;
+$black-ter: hsl(0, 0%, 14%) !default;
+
+$grey-darker: hsl(0, 0%, 21%) !default;
+$grey-dark: hsl(0, 0%, 29%) !default;
+$grey: hsl(0, 0%, 48%) !default;
+$grey-light: hsl(0, 0%, 71%) !default;
+$grey-lighter: hsl(0, 0%, 86%) !default;
+
+$white-ter: hsl(0, 0%, 96%) !default;
+$white-bis: hsl(0, 0%, 98%) !default;
+$white: hsl(0, 0%, 100%) !default;
+
+$orange: hsl(14, 100%, 53%) !default;
+$yellow: hsl(48, 100%, 67%) !default;
+$green: hsl(141, 71%, 48%) !default;
+$turquoise: hsl(171, 100%, 41%) !default;
+$cyan: hsl(204, 86%, 53%) !default;
+$blue: hsl(217, 71%, 53%) !default;
+$purple: hsl(271, 100%, 71%) !default;
+$red: hsl(348, 100%, 61%) !default;
+
+// General colors
+
+$background: #ffffff;
+
+$border: #f1f1f1 !default;
+$border-hover: lighten(#94d976, 0.5) !default;
+
+// Text colors
+
+$text: #000 !default;
+$text-light-opacity: rgba(0, 0, 0, .3);
+$text-light: $grey !default;
+$text-strong: $grey-darker !default;
+
+// Code colors
+
+$code: $red !default;
+$code-background: $background !default;
+
+$pre: $text !default;
+$pre-background: $background !default;
+
+// Link colors
+
+$link: #000 !default;
+$link-invert: #000 !default;
+$link-visited: #000 !default;
+
+$link-hover: #21d2c5 !default;
+$link-hover-border: #21d2c5 !default;
+
+$link-focus: #21d2c5 !default;
+$link-focus-border: #21d2c5 !default;
+
+$link-active: #21d2c5 !default;
+$link-active-border: #21d2c5 !default;
+
+$tag-solid-light: rgba(0, 0, 0, .1) !default;
+$tag-solid-dark: #000 !default;
+
+// Header colors
+
+$header-logo-text-color: #fff;
+$header-link: #000;
+$header-link-hover: #21d2c5;
+$header-background: #fff;
+
+// Thumbnails
+
+$sale-sticker-color: #ed844a;
+$new-sticker-color: #efa0bb;
+$bestseller-sticker-color: #f6c876;
+$comingsoon-sticker-color: #44b6a1;
+$staffpick-sticker-color: #21d2c5;
+$preorder-sticker-color: #99c97d;
+$thumbnail-text-alignment: center;
+
+// Transition effect variables
+
+$transition-speed: 0.3s;
+$transition-zoom: scale(1.1);
+
+// Miscellaneous
+
+$easing: ease-out !default;
+$radius-small: 2px !default;
+$radius: 4px !default;
+$radius-large: 6px !default;
+$radius-rounded: 290486px !default;
+$speed: 86ms !default;
+$truncation-fade: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1));
+
+// Box Shadows
+$overlay-box-shadow: 0 0 0 999em rgba(0,0,0,0.8);
+
+//Menu dropdowns
+
+$drop-down-menu-heading-font-size: 16px !default;
+$drop-down-menu-font-size: 12px !default;
+$drop-down-menu-font-style: 'none' !default;
+$drop-down-menu-hover-color: #21d2c5 !default;
+$drop-down-menu-active-color: #000 !default;
+$drop-down-menu-letter-spacing: 0px !default;
+
+
+$body-background-color: #fff !default;
+$body-size: 14px !default;
+$body-rendering: optimizeLegibility !default;
+$body-family: "Open Sans", sans-serif !default;
+$body-color: $text !default;
+$body-weight: $weight-normal !default;
+$body-line-height: 1.5 !default;
+
+$code-family: $family-code !default;
+$code-padding: 0.25em 0.5em 0.25em !default;
+$code-weight: normal !default;
+$code-size: 0.875em !default;
+
+$hr-background-color: $background !default;
+$hr-height: 2px !default;
+$hr-margin: 1.5rem 0 !default;
+
+$strong-color: $text-strong !default;
+$strong-weight: $weight-bold !default;
+
+$table-striped-row-even-background-color: $white-bis !default;
+
+
+$footer_text_color: #fff;
+$footer_background_color: #989b9e;
+$footer_font_size: 14px;
+$footer_heading_font: "Open Sans", sans-serif;;
+$footer_heading_font_size: 16px;
+$footer_link_color: #fff;
+$footer_link_hover_color: #21d2c5;
+$link_color: #000;
+$link_hover_color: #21d2c5;
+$regular_color: #000;
+$footer_border: 0;
+$shop_bg_color: #fff;
+
+$control-radius: $radius !default;
+$control-radius-small: $radius-small !default;
+
+$control-border-width: 1px !default;
+
+$control-height: 2.25em !default;
+$control-line-height: 1.5 !default;
+
+$control-padding-vertical: calc(0.375em - #{$control-border-width}) !default;
+$control-padding-horizontal: calc(0.625em - #{$control-border-width}) !default;
+
+// Gray Variables
+$extraLightBg: #edf6fb;
+$grayBgdark: #242424;
+$gray: #323232;
+$grayLight: #343436;
+$grayTxtdark: #333;
+$greyBg: #5b5b5b; // footer bg
+$borderGery: #707070;
+$bannerDescColor: #808080;
+$grayColor: #999;
+$borderAshgrey: #9f9f9f;
+$grayTxtlight1: #6b6b6b;
+$grayTxtlight2: #CFCFCF;
+$inputBorderColor: #e0e0e0;
+$lightgrey: #E9E9E9; // footer bg
+$lighterGrey: #EDEDED; // footer bg
+$grayBglight: #F2F2F2; // products,Category,Search 背景色
+$lightgreyBg: #f4f4f4;
+$extraLightgrey: #f9f9f9; // grey bg
+$discountColor: #ff6200;
+
+// Social Color Variables
+$amazonColor: #F9951D;
+$paypalColor: #ffcf00;
+$sofortColor: #fa82a0;
+$facebookColor: #4267b2;
+$twitterColor: #00B9F0;
+$instagramColor: #000;
+$pinterestColor: #bd081c;
+$youtubeColor: #E6231A;
+$googleplusColor: #db4437;
+$periscopeColor: #75aadb;
+$linkedinColor: #0073b1;
+$vkColor: #2a5885;
+$lineColor: #0BC011;
+$hatenaColor: #00A4DE;
+$pocketColor: #EF3E56;
+
+// Brands Color Variables
+$roavColor: #f4840b;
+$eufyColor: #21CCBF;
+$zoloColor: #34302e;
+$jouzColor: #00a6d6;
+$ankerColor: #00a7e1;
+$nebulaColor: #e42d46;
+$soundcoreColor: #00A9DF;
+$communityColor: #00a8e1;
+
+// Color variables
+$flagRed: #EE3749;
+$starColor: #FEC93B;
+$couponGradient: linear-gradient(to right, #fa8325, #f9b725); // linear-gradient(to right, #000, #fff);
+$couponGradientHover: linear-gradient(to right, #fb8f2a, #fbbf2a); // linear-gradient(to right, #000, #fff);
+
+// 变量作为基础大小单位，使用px单位，方便对标设计图
+$buttonHeight: 36px;
+$inputHeight: 36px;
+$inputRadius: $inputHeight * 0.5;
+$slimHeight: 24px;
+$normalHeight: 38px;
+$headerHeight: 70px;
+$mobHeaderHeight: 70px;
+$barHeight: 30px;
+$mobBarHeight: 80px;
+$mobBarHeightbeta: auto;
+$modLineWidthMob: 70px;
+$modLineWidth: 70px;
+$modLineHeightMob: 3px;
+$modLineHeight: 3px;
+
+// Media Query variables
+$contentWidth: 1200px; // Page Content max 1200px
+$maxImageWidth: 1920px; // Page Content max 1200px
+$maxPhoneWidth: 767px; // Phone Size (iphone se/6,7,8,x/plus)
+$maxPadWidth: 1024px; // Pad Size (ipad pro)
+$maxLaptopWidth: 1440px; // large Laptop Size (Chrome
+$minPadWidth: 768px; // Pad Size (ipad)
+$minLaptopWidth: 992px; // medium laptop
+$minDesktopWidth: 1200px; // large desktop
+$minRetinaWidth: 2560px; // Retina 1440p
+$minRetina15Width: 2880px; // 15" Retina
+$minUHDWidth: 3840px; // UHD
+$min4KWidth: 4096px; // 4K
+$min5KWidth: 5120; // 5K
+$min8KWidth: 8192px; // 8K
+
+// Custom Size
+$lineHeight: 1.5;
+
+// Color variables
+$color: $eufyColor;
+$colorLight: lighten($color, 10%);
+$colorDark: darken($color, 10%);
+$colorLighter: lighten($color, 20%);
+$colorDarker: darken($color, 20%);
+$logoColor: #989B9E;
+$reviewBg: #f4f4f4;
+
+// eufy Variables
+$gradientBg: linear-gradient(to right, #4391e5, #03d7c7); // linear-gradient(to right, #000, #fff);
+$gradientBgHover: linear-gradient(to right, #fff, #fff); // linear-gradient(to right, #fff, #000);
+$btnHoverColor: #21CCBF;
+$btnBorder: 1px solid transparent;
+$btnBorderHover: 1px solid $btnHoverColor;
+$footerBg: $eufyColor;
+
+// 变量作为基础大小单位，使用px单位，方便对标设计图
+$commentFontSize: 12px;
+$fontSize: 14px;
+$subTitleSize: 16px;
+$titleSize: 18px;
+$pageTitleSize: 20px;
+$smallTitleSize: 24px;
+$bigTitleSize: 26px;
+$mobileBigSize: 30px;
+$smallBannerSize: 46px;
+$middleFontSize: 50px;
+$bannerFontSize: 60px;
+$bannerTextWidth: 500px;
+$biggestFontSize: 64px;
+$largeFontSize: 90px;
+$variantTitleSize: 40px; // 60px,120px
+$bannerBgSize: 400px;
+$bannerFontSizeCustom: 75px; // 75/60
+$bannerFontWeight: 500; // 700

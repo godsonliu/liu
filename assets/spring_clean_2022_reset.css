@@ -1,0 +1,97 @@
+@media (min-width: 769px) {
+  .showMobile {
+    display: none;
+  }
+}
+
+@media (max-width: 769px) {
+  .showPc {
+    display: none;
+  }
+}
+
+#spring_clean_2022 {
+  width: 100%;
+  background-image: url("https://cdn.shopify.com/s/files/1/0521/9411/5753/files/PC_7fbca552-0728-454d-91fa-73c146ec8db1.jpg?v=1665279887");
+  background-repeat: repeat;
+  background-position: center 46vw;
+  background-size: 100%;
+  margin-top: -64px;
+}
+.listing_ytb_video {
+  background: transparent !important;
+}
+.slick-slide .image > img {
+  border-radius: 26px !important;
+}
+
+.hallowmas_share .share_text {
+  display: none !important;
+}
+.hallowmas_share .share_btn {
+  display: none !important;
+}
+.hallowmas_share .share .ktv {
+  margin: 20px auto !important;
+  position: static !important;
+  transform: translate(0, 0);
+}
+.text-with-button {
+  padding: 0 !important;
+}
+.tb-button-box {
+  margin: 0 !important;
+}
+.tb-box-button {
+  background: #fe9603 !important;
+  border: 0 !important;
+}
+.tb-box-button:hover {
+  color: #fff;
+}
+
+.listing_ytb_video .rotate_content .title {
+  color: #fff;
+  font-size: 60px;
+}
+
+.question-text {
+  color: #fe9603 !important;
+}
+.spring-clean-2022-withEufy .box-container .product-card .info-content a {
+  background: #fe9603 !important;
+  margin-top: 20px !important;
+}
+.spring-clean-2022-withEufy .box-container .product-card .info-content .desc {
+  color: #626262;
+}
+.spring-clean-2022-withEufy .box-container .product-card .info-content {
+  background-image: url("https://cdn.shopify.com/s/files/1/0521/9411/5753/files/banner-PC2.jpg?v=1665384311");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.spring-clean-2022-withEufy .box-container .product-card .img-content img {
+  object-fit: cover;
+}
+
+@media (min-width: 1024px) {
+  .spring-clean-2022-withEufy .box-container .product-card .info-content .desc {
+    line-height: 35px;
+  }
+}
+@media (max-width: 769px) {
+  #spring_clean_2022 {
+    margin-top: -52px;
+  }
+  .spring-clean-2022-withEufy .box-container .product-card .info-content {
+    background-image: url("https://cdn.shopify.com/s/files/1/0521/9411/5753/files/Bundle-mo2.jpg?v=1665384311");
+  }
+  .hallowmas_share .share .ktv {
+    width: 80vw !important;
+  }
+  .listing_ytb_video .rotate_content .title {
+    font-size: 24px;
+  }
+}

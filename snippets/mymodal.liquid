@@ -1,0 +1,97 @@
+<div id="myModal" class="mymodal">
+  <div class="dialogModal">
+    <div class="modalContent">
+      <button
+        id="modal_close" type="button" class="modalClose"
+        onclick="closeModal()"
+      >
+        <i class="iconfont">&#xe723;</i>
+      </button>
+      <div id="modal_con"></div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .mymodal {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 10000002;
+    display: none;
+  }
+  .mymodal .dialogModal {
+    position: absolute;
+    left: 50%;
+    width: 99%;
+    max-width: 600px;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 1;
+    transition: 400ms;
+    display: block;
+    overflow-y: auto;
+    max-height: 96%;
+    text-align: center;
+  }
+  .mymodal .modalContent {
+    display: inline-block;
+    max-width: 100%;
+    position: relative;
+    background: white;
+    border-radius: 0.5rem;
+    text-align: left;
+    padding: 2rem;
+    box-sizing: border-box;
+  }
+  .mymodal .modalClose {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: #323232;
+    transition: 400ms;
+    background: transparent;
+    border: none;
+    padding: 3px;
+    z-index: 1;
+    cursor: pointer;
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  .mymodal #modal_con {
+    padding: 1rem;
+    font-size: 14px;
+    color: #6b6b6b;
+  }
+  .mymodal #modal_con .title {
+    font-size: 16px;
+    color: #333;
+    margin: 0 1rem;
+  }
+  .mymodal #modal_con .item {
+    display: inline-block;
+    width: 300px;
+    margin: 10px;
+  }
+  .mymodal #modal_con a {
+    display: block;
+    font-size: 16px;
+    border: 1px solid #21CCBF;
+    padding: 5px;
+    border-radius: 5px;
+    text-align: center;
+  }
+</style>
+
+<script>
+  function closeModal() {
+    $('#myModal').css("display", "none");
+  }
+  function openModal(con) {
+    $('#myModal').css("display", "block");
+    $('#modal_con').html(`${con}`);
+  }
+</script>

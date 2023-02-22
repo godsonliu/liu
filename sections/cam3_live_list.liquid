@@ -1,0 +1,369 @@
+<style>
+.cam3_live_list {
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-top: 10px;
+  background: #0F0F0F;
+  padding: 0 10px 50px 10px;
+}
+.cam3_live_list .component-nav {
+  padding: 0 !important;
+}
+.cam3_live_list  .component-nav-item-light {
+  font-weight: 700 !important;
+}
+@media(min-width: 769px) {
+  .showPc {
+    display: block;
+  }
+  .showMobile {
+    display: none;
+  }
+}
+@media(max-width: 769px) {
+  .cam3_live_list  .component-nav-item {
+    margin-right: 15px;
+  }
+  .showPc {
+    display: none;
+  }
+  .showMobile {
+    display: block;
+  }
+}
+</style>
+<section class="cam3_live_list">
+  <div class="showMobile">
+    {% render 'component_nav_v2' %}
+  </div>
+  <div class="tab-item" id="cam3_live_system">
+    {% render 'cam3_live_system' %}
+  </div>
+  <div class="tab-item" id="cam3_live_standout">  
+    {% render 'cam3_live_standout' %}
+  </div>
+  <div class="tab-item" id="cam3_live_invite_friends">  
+    {% render 'cam3_live_invite_friends' %}
+  </div>
+</section>
+
+
+
+{% schema %}
+  {
+    "name": "Cam3 Live List",
+    "presets": [
+      {
+        "name": "Cam3 Live List",
+        "blocks": [
+          {
+            "type": "cam3_live_system_item",
+            "settings": {
+              "system_list_title": "eufyCam 3",
+              "system_list_desc": "See More Details at 7:00 pm ET",
+              "system_list_link": "",
+              "system_list_default_img": "",
+              "system_list_default_mobile_img": "",
+              "system_list_img": "",
+              "system_list_mobile_img": "",
+              "button_txt": "Learn More"
+            }
+          },
+          {
+            "type": "cam3_live_system_item",
+            "settings": {
+              "system_list_title": "Edge Security System",
+              "system_list_desc": "See More Details at 7:00 pm ET ",
+              "system_list_link": "",
+              "system_list_default_img": "",
+              "system_list_default_mobile_img": "",
+              "system_list_img": "",
+              "system_list_mobile_img": "",
+              "button_txt": "Learn More"
+            }
+          },
+          {
+            "type": "cam3_live_standout_item",
+            "settings": {
+              "standout_list_title": "How Many Devices Can Edge Security System Empower?",
+              "new_standout_list_title": "Centralized Security Management",
+              "standout_list_desc": "HomeBase 3 unifies your entire security network",
+              "standout_list_default_img": "",
+              "standout_list_default_mobile_img": "",
+              "standout_list_img": "",
+              "standout_list_mobile_img": ""
+            }
+          },
+          {
+            "type": "cam3_live_standout_item",
+            "settings": {
+              "standout_list_title": "Just How Smart is Edge Security? ",
+              "new_standout_list_title": "BionicMind™",
+              "standout_list_desc": "Our AI  can tell if someone is known or<br/> a stranger with 99.9% accuracy.",
+              "standout_list_default_img": "",
+              "standout_list_default_mobile_img": "",
+              "standout_list_img": "",
+              "standout_list_mobile_img": ""
+            }
+          },
+          {
+            "type": "cam3_live_standout_item",
+            "settings": {
+              "standout_list_title": "How Long Can Edge Security<br/> Store Your Local Recordings? ",
+              "new_standout_list_title": "Expandable Local Storage",
+              "standout_list_desc": "By adding storage, <br/>you can keep videos saved for years.",
+              "standout_list_default_img": "",
+              "standout_list_default_mobile_img": "",
+              "standout_list_img": "",
+              "standout_list_mobile_img": ""
+            }
+          },
+          {
+            "type": "cam3_live_standout_item",
+            "settings": {
+              "standout_list_title": "How Long Can the Power Last? ",
+              "new_standout_list_title": "Forever Power",
+              "standout_list_desc": "2 hours of daily sun keeps the battery<br/> full, so you can rest easy.",
+              "standout_list_default_img": "",
+              "standout_list_default_mobile_img": "",
+              "standout_list_img": "",
+              "standout_list_mobile_img": ""
+            }
+          },
+          {
+            "type": "cam3_live_standout_item",
+            "settings": {
+              "standout_list_title": "How Clear Can a Security Camera Be? ",
+              "new_standout_list_title": "4K Ultra HD",
+              "standout_list_desc": "See more details with unbelievably<br/> sharp 4K in amazing color.",
+              "standout_list_default_img": "",
+              "standout_list_default_mobile_img": "",
+              "standout_list_img": "",
+              "standout_list_mobile_img": ""
+            }
+          },
+          {
+            "type": "nav_item",
+            "settings": {
+              "item_txt": "New Launch",
+              "item_id": "cam3_live_system"
+            }
+          },
+          {
+            "type": "nav_item",
+            "settings": {
+              "item_txt": "Features",
+              "item_id": "cam3_live_standout"
+            }
+          },
+          {
+            "type": "nav_item",
+            "settings": {
+              "item_txt": "Invite Friends",
+              "item_id": "cam3_live_invite_friends"
+            }
+          }
+        ]
+      }
+    ],
+    "settings": [
+      {
+        "type": "header",
+        "content": "tab切换栏"
+      },
+      {
+        "type": "color",
+        "id": "box_bg",
+        "label": "section背景色",
+        "default": "#0F0F0F"
+      },
+      {
+        "type": "color",
+        "id": "light_item_border_color",
+        "label": "高亮时的边框颜色色",
+        "default": "#FFFFFF"
+      },
+      {
+        "type": "header",
+        "content": "内容区"
+      },
+      {
+        "type": "text",
+        "id": "pd_time",
+        "label": "直播时间点",
+        "info": "请以标准时间为参考,例如。假如活动是北京时间2022/09/18 08:00开始,那么填写的时间为 2022-09-18T08:00:00.000+08:00。格式：（YYYY-MM-DDThh:mmTZD）。T是用来指示时间元素的开始字符，日期和时间合并表示时，要在时间前面加大写字母T。TZD表示时区指示符：Z或+hh:mm或-hh:mm，+或-表示时区距离UTC(世界标准时间)时区多远"
+      },
+      {
+        "type": "header",
+        "content": "Cam3 Live System"
+      },
+      {
+        "type": "html",
+        "id": "cam3_live_system_title",
+        "label": "Cam3 Live System Title",
+        "default": "eufyCam 3<br class='showMobile'/> with Edge Security System"
+      },
+      {
+        "type": "header",
+        "content": "Cam3 Live Standout"
+      },
+      {
+        "type": "html",
+        "id": "cam3_live_standout_title",
+        "label": "Cam3 Live Standout Title",
+        "default": "What Makes<br class='showMobile'/> eufyCam 3 Standout?"
+      },
+      {
+        "type": "header",
+        "content": "Invite Friends"
+      },
+      {
+        "type": "image_picker",
+        "id": "cam3_invite_friends_bg",
+        "label": "cam3_invite_friends 背景色"
+      },
+      {
+        "type": "html",
+        "id": "cam3_invite_friends_title",
+        "label": "Cam3 Live Invite Friends Title",
+        "default": "Invite Friends"
+      },
+      {
+        "type": "html",
+        "id": "referral_bonus",
+        "label": "Referral Bonus",
+        "default": "Referral Bonus"
+      },
+      {
+        "type": "html",
+        "id": "cash_back",
+        "label": "描述信息",
+        "default": "Refer a friend for $60 cash back."
+      },
+      {
+        "type": "text",
+        "id": "button_txt",
+        "label": "按钮文案",
+        "default": "Refer Now"
+      },
+      {
+        "type": "text",
+        "id": "cam3_live_ga",
+        "label": "活动名",
+        "default": "Cam3 Live"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "cam3_live_system_item",
+        "name": "cam3_live_system_item",
+        "settings": [
+          {
+            "type": "html",
+            "id": "system_list_title",
+            "label": "System List 标题 "
+          },
+          {
+            "type": "html",
+            "id": "system_list_desc",
+            "label": "System List 描述"
+          },
+          {
+            "type": "url",
+            "id": "system_list_link",
+            "label": "System List 链接",
+            "info": "默认不展示链接，但必须配置"
+          },
+          {
+            "type": "text",
+            "id": "button_txt",
+            "label": "按钮文案",
+            "default": "Learn More"
+          },
+          {
+            "type": "image_picker",
+            "id": "system_list_default_img",
+            "label": "System List 默认图片"
+          },
+          {
+            "type": "image_picker",
+            "id": "system_list_default_mobile_img",
+            "label": "System List Mobile 默认图片"
+          },
+          {
+            "type": "image_picker",
+            "id": "system_list_img",
+            "label": "System List 产品图片",
+            "info": "到设置的时间点后才显示，但必须配置"
+          },
+          {
+            "type": "image_picker",
+            "id": "system_list_mobile_img",
+            "label": "System List Mobile产品图片",
+            "info": "到设置的时间点后才显示，但必须配置"
+          }
+        ]
+      },
+      {
+        "type": "cam3_live_standout_item",
+        "name": "cam3_live_standout_item",
+        "settings": [
+          {
+            "type": "html",
+            "id": "standout_list_title",
+            "label": "默认Standout List 标题 "
+          },
+          {
+            "type": "html",
+            "id": "new_standout_list_title",
+            "label": "到点后的标题"
+          },
+          {
+            "type": "html",
+            "id": "standout_list_desc",
+            "label": "到点后的描述"
+          },
+          {
+            "type": "image_picker",
+            "id": "standout_list_default_img",
+            "label": "Standout List 默认图片"
+          },
+          {
+            "type": "image_picker",
+            "id": "standout_list_default_mobile_img",
+            "label": "Standout List Mobile端默认图片"
+          },
+          {
+            "type": "image_picker",
+            "id": "standout_list_img",
+            "label": "Standout List 产品图片",
+            "info": "到设置的时间点后才显示，但必须配置"
+          },
+          {
+            "type": "image_picker",
+            "id": "standout_list_mobile_img",
+            "label": "Standout List Mobile产品图片",
+            "info": "到设置的时间点后才显示，但必须配置"
+          }
+        ]
+      },
+      {
+        "name": "nav_item",
+        "type": "nav_item",
+        "settings": [
+          {
+            "type": "text",
+            "id": "item_txt",
+            "label": "导航栏文案"
+          },
+          {
+            "type": "text",
+            "id": "item_id",
+            "label": "锚点id",
+            "info": "对应跳转的锚点id，这个可以通过审查元素找到对应的section的id"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

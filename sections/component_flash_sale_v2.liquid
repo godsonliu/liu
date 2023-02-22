@@ -1,0 +1,448 @@
+
+<style>
+.component_flash_sale_v2_{{section.id}} {
+	padding: 20px 10px;
+	{% if section.settings.box_bg != blank %}
+	background: {{section.settings.box_bg}};
+	{% else %}
+	background: linear-gradient(180deg, #FFFFFF 0%, #F5F5F7 12.9%, #F5F5F7 88.68%, #FFFFFF 100%)
+	{% endif %}
+}
+</style>
+<section class="component_flash_sale_v2_{{section.id}} {{section.settings.custom_class}}">
+	{% render 'component_flash_sale_v2' %}
+</section>
+
+
+
+{% schema %}
+{
+	"name": "component_flash_sale_v2",
+	"presets": [
+		{
+			"name": "component_flash_sale_v2",
+			"settings": {
+				"icon_default": "{% render 'component_flash_sale_icon' %}"
+			}
+		}
+	],
+	"settings": [
+		{
+			"type": "header",
+			"content": "Section结构"
+		},
+		{
+			"type": "select",
+			"id": "box_max_width",
+			"label": "PC端排列方式",
+			"options": [
+				{
+					"label": "卡片纵向排列，一行展示4个",
+					"value": "1200px-4-2-1"
+				},
+				{
+					"label": "卡片纵向排列，一行展示3个",
+					"value": "1200px-3-2-2"
+				},
+				{
+					"label": "卡片横向排列，一行展示2个",
+					"value": "1200px-2-1-2"
+				}
+			],
+			"info": "（开发参考）格式规则： 第一个参数：代表最大宽度  第二个参数：代表展示多少个 第三个参数代表卡片排列方式：1 为横向  2 为纵向  第四个代表按钮排列方式：1为纵向  2为横向",
+			"default": "1200px-4-2-1"
+		},
+		{
+			"type": "select",
+			"id": "box_mobile_max_width",
+			"label": "Mobile端排列方式",
+			"options": [
+				{
+					"label": "卡片纵向排列，一行展示2个",
+					"value": "100%-2-2-1"
+				},
+				{
+					"label": "卡片横向排列，一行展示1个",
+					"value": "100%-1-1-2"
+				}
+			],
+			"default": "100%-2-2-1"
+		},
+		{
+			"type": "color",
+			"id": "box_bg",
+			"label": "section背景色"
+		},
+		{
+			"type": "header",
+			"content": "产品卡片配置区"
+		},
+		{
+			"type": "text",
+			"id": "limited_items_radius",
+			"label": "卡片圆角",
+			"default": "16px"
+		},
+		{
+			"type": "color",
+			"id": "limited_items_border_color",
+			"label": "卡片边框颜色",
+			"info": "如果不需要边框，请设置为透明色"
+		},
+		{
+			"type": "color",
+			"id": "card_bg",
+			"label": "产品卡片的背景色",
+			"default": "#ffffff"
+		},
+		{
+			"type": "select",
+			"id": "content_text_align",
+			"label": "产品信息区域水平位置",
+			"options": [
+				{
+					"value": "flex-start",
+					"label": "居左"
+				},
+				{
+					"value": "center",
+					"label": "居中"
+				},
+				{
+					"value": "flex-end",
+					"label": "居右"
+				}
+			],
+			"default": "flex-start"
+		},
+		{
+			"type": "color",
+			"id": "product_title_color",
+			"label": "产品标题颜色",
+			"default": "#000000"
+		},
+		{
+			"type": "color",
+			"id": "product_desc_color",
+			"label": "产品描述颜色",
+			"default": "#333333"
+		},
+		{
+			"type": "color",
+			"id": "price_color",
+			"label": "价格颜色",
+			"default": "#000000"
+		},
+		{
+			"type": "color",
+			"id": "compare_at_price_color",
+			"label": "原价格颜色",
+			"default": "#999999"
+		},
+		{
+			"type": "text",
+			"id": "code_text",
+			"label": "Code文案",
+			"default": "CODE"
+		},
+		{
+			"type": "color",
+			"id": "code_text_color",
+			"label": "Code文案颜色",
+			"default": "#999999"
+		},
+		{
+			"type": "text",
+			"id": "copy_text",
+			"label": "Copy文案",
+			"default": "Copy"
+		},
+		{
+			"type": "text",
+			"id": "copying_text",
+			"label": "拷贝中的文案",
+			"default": "COPIED"
+		},
+		{
+			"type": "color",
+			"id": "copy_text_color",
+			"label": "Code文案颜色"
+		},
+		{
+			"type": "header",
+			"content": "操作按钮区"
+		},
+		{
+			"type": "text",
+			"id": "button_radius",
+			"label": "按钮圆角",
+			"default": "70px"
+		},
+		{
+			"type": "text",
+			"id": "button_txt",
+			"label": "按钮1文案",
+			"default": "Buy Now"
+		},
+		{
+			"type": "text",
+			"id": "learn_more",
+			"label": "按钮2文案",
+			"default": "Learn More"
+		},
+		{
+			"type": "header",
+			"content": "按钮1正常状态区"
+		},
+		{
+			"type": "color",
+			"id": "button_bg",
+			"label": "按钮背景色"
+		},
+		{
+			"type": "color",
+			"id": "button_border_color",
+			"label": "按钮边框颜色"
+		},
+		{
+			"type": "color",
+			"id": "button_txt_color",
+			"label": "按钮文案颜色"
+		},
+		{
+			"type": "header",
+			"content": "按钮hover状态区"
+		},
+		{
+			"type": "color",
+			"id": "button_hover_bg",
+			"label": "按钮hover时背景色"
+		},
+		{
+			"type": "color",
+			"id": "button_hover_border_color",
+			"label": "按钮hover时边框颜色"
+		},
+		{
+			"type": "color",
+			"id": "button_hover_txt_color",
+			"label": "按钮hover时文案颜色",
+			"default": "#ffffff"
+		},
+		{
+			"type": "header",
+			"content": "按钮2正常状态区"
+		},
+		{
+			"type": "color",
+			"id": "button2_bg",
+			"label": "按钮背景色"
+		},
+		{
+			"type": "color",
+			"id": "button2_border_color",
+			"label": "按钮边框颜色",
+			"default": "#333333"
+		},
+		{
+			"type": "color",
+			"id": "button2_txt_color",
+			"label": "按钮文案颜色",
+			"default": "#333333"
+		},
+		{
+			"type": "header",
+			"content": "按钮2 hover状态区"
+		},
+		{
+			"type": "color",
+			"id": "button2_hover_bg",
+			"label": "按钮hover时背景色"
+		},
+		{
+			"type": "color",
+			"id": "button2_hover_border_color",
+			"label": "按钮hover时边框颜色"
+		},
+		{
+			"type": "color",
+			"id": "button2_hover_txt_color",
+			"label": "按钮hover时文案颜色",
+			"default": "#ffffff"
+		},
+		{
+			"type": "header",
+			"content": "View More区域"
+		},
+		{
+			"type": "text",
+			"id": "view_more_text",
+			"label": "view More",
+			"default": "View More" 
+		},
+		{
+			"type": "color",
+			"id": "view_more_bg",
+			"label": "view more 背景色",
+			"default": "#fff"
+		},
+		{
+			"type": "number",
+			"id": "view_more_number",
+			"label": "首屏展示的个数",
+			"default": 4,
+			"info": "不需要view more，将其设置为0"
+		},
+		{
+			"type": "header",
+			"content": "折扣icon相关"
+		},
+		{
+			"type": "image_picker",
+			"id": "icon_bg",
+			"label": "icon的背景图片"
+		},
+		{
+			"type": "liquid",
+			"id": "icon_default",
+			"label": "icon的默认值"
+		},
+		{
+			"type": "html",
+			"id": "icon_txt",
+			"label": "icon的文案",
+			"default": "<br/>Off"
+		},
+		{
+			"type": "color",
+			"id": "icon_txt_color",
+			"label": "icon的文案颜色",
+			"default": "#ffffff"
+		},
+		{
+			"type": "header",
+			"content": "某些字段控制是否显示区域"
+		},
+		{
+			"type": "checkbox",
+			"id": "has_show_discount",
+			"label": "是否显示折扣",
+			"default": true
+		},
+		{
+			"type": "checkbox",
+			"id": "has_show_reviews",
+			"label": "是否显示评分",
+			"default": true
+		},
+		{
+			"type": "checkbox",
+			"id": "has_show_price",
+			"label": "是否显示价格",
+			"default": true
+		},
+				{
+			"type": "header",
+			"content": "埋点相关"
+		},
+		{
+			"type": "text",
+			"id": "eventAction",
+			"label": "Ga3：Copy动作 eventAction字段",
+			"default": "pd_live"
+		},
+		{
+			"type": "text",
+			"id": "img_source",
+			"label": "GA3埋点图片的Ref",
+			"default": "pd_live_img"
+		},
+		{
+			"type": "text",
+			"id": "ga4_img_source",
+			"label": "GA4图片点击埋点：action",
+			"default": "img_"
+		},
+		{
+			"type": "text",
+			"id": "button_source",
+			"label": "GA3埋点字段Learn More的Ref",
+			"default": "pd_live_button"
+		},
+		{
+			"type": "text",
+			"id": "ga4_button_source",
+			"label": "GA4 Learn More 按钮入口埋点字段前缀",
+			"default": "learn More_"
+		},
+		{
+			"type": "text",
+			"id": "ga4_page_group",
+			"label": "Ga4埋点：类目",
+			"default": "Live Streaming Page"
+		},
+		{
+			"type": "header",
+			"content": "开发相关"
+		},
+		{
+			"type": "text",
+			"id": "custom_class",
+			"label": "自定义类名"
+		}
+	],
+	"blocks": [
+		{
+			"type": "limited_item",
+			"name": "limited_item",
+			"settings": [
+				{
+					"type": "header",
+					"content": "产品内容区"
+				},
+				{
+					"type": "image_picker",
+					"id": "product_image",
+					"label": "自定义产品图",
+					"info": "尽量使用透明底图片"
+				},
+				{
+					"type": "product",
+					"id": "product_info",
+					"label": "产品",
+					"info": "用于获取产品信息"
+				},
+				{
+					"type": "text",
+					"id": "variant_sku",
+					"label": "variant_sku",
+					"info": "提供给自定义展示不同商品的variant，如果不填写，默认就展示第一个可用的variant"
+				},
+				{
+					"type": "text",
+					"id": "product_title",
+					"label": "产品标题",
+					"info": "产品标题可自定义"
+				},
+				{
+					"type": "text",
+					"id": "product_desc",
+					"label": "产品描述",
+					"info": "自定义的产品描述"
+				},
+				{
+					"type": "header",
+					"content": "赠品区域"
+				},
+				{
+					"type": "text",
+					"label": "赠品metabuf对应的字段",
+					"id": "metabuf_fields",
+					"default": "global.custom_purchase_buttons.variant_arr"
+				}
+			]
+		}
+	]
+}
+
+{% endschema %}

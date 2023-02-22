@@ -1,0 +1,1479 @@
+{% assign variant = product.selected_or_first_available_variant %}
+{% assign id = section.id %}
+
+{% if product.metafields.global.custom_css.value %}
+  {% assign custom_css = product.metafields.global.custom_css.value %}
+{% else %}
+  {% assign custom_css = section.settings.custom_css %}
+{% endif %}
+
+{% if shop.metafields.global.productListing.value %}
+  {% assign shopCommon = shop.metafields.global.productListing.value %}
+{% else %}
+  {% assign shopCommon = shop.metafields.global.productListing %}
+{% endif %}
+
+{% if product.metafields.global.slickContainer.value %}
+  {% assign slickContainer = product.metafields.global.slickContainer.value %}
+{% else %}
+  {% assign slickContainer = product.metafields.global.slickContainer %}
+{% endif %}
+
+{% if product.metafields.global.limitOffer.value %}
+  {% assign limitOffer = product.metafields.global.limitOffer.value %}
+{% else %}
+  {% assign limitOffer = product.metafields.global.limitOffer %}
+{% endif %}
+
+{% if product.metafields['global']['custom_variants'].value %}
+  {% assign custom_variants = product.metafields['global']['custom_variants'].value %}
+{% else %}
+  {% assign custom_variants = product.metafields['global']['custom_variants'] %}
+{% endif %}
+
+
+{% if shop.metafields.global.common.value %}
+  {% assign common = shop.metafields.global.common.value %}
+{% else %}
+  {% assign common = shop.metafields.global.common %}
+{% endif %}
+
+{% if shop.metafields.global.discounts.value %}
+  {% assign discounts = shop.metafields.global.discounts.value %}
+{% else %}
+  {% assign discounts = shop.metafields.global.discounts %}
+{% endif %}
+
+{% if variant.metafields.global.product_Giveaway.value %}
+  {% assign product_Giveaway = variant.metafields.global.product_Giveaway.value %}
+{% else %}
+  {% assign product_Giveaway = variant.metafields.global.product_Giveaway %}
+{% endif %}
+
+{% if variant.metafields.global.custom_purchase_buttons.value %}
+  {% assign custom_purchase_buttons = variant.metafields.global.custom_purchase_buttons.value %}
+{% else %}
+  {% assign custom_purchase_buttons = variant.metafields.global.custom_purchase_buttons %}
+{% endif %}
+
+{% if item.metafields.global.bundle.value %}
+  {% assign bundle = item.metafields.global.bundle.value %}
+{% else %}
+  {% assign bundle = item.metafields.global.bundle %}
+{% endif %}
+
+{% if shop.metafields.global.country.value %}
+  {% assign country = shop.metafields.global.country.value %}
+{% else %}
+  {% assign country = shop.metafields.global.country %}
+{% endif %}
+
+{% if shop.metafields.global.storefront_key.value %}
+  {% assign storefront_key = shop.metafields.global.storefront_key.value %}
+{% else %}
+  {% assign storefront_key = shop.metafields.global.storefront_key %}
+{% endif %}
+
+{% assign myregistry = shop.metafields.global.myregistry.value %}
+
+{% if myregistry.show_list != blank %}
+  {% for sku in myregistry.show_list %}
+    {% if sku == 'all' or sku == variant.sku %}
+      {% assign myregistry_show = true %}
+      {% break %}
+    {% else %}
+      {% assign myregistry_show = false %}
+    {% endif %}
+  {% endfor %}
+{% else %}
+  {% assign myregistry_show = true %}
+{% endif %}
+
+{% assign productData = product.metafields.product.data.value %}
+
+{{ 'listing_product.scss.css' | asset_url | stylesheet_tag }}
+
+{% style %}
+  {%- if custom_css != blank -%} {{ custom_css }} {% endif %}
+{% endstyle %}
+
+<section id="purchase" class="listing_product" data-cookies-discount="{{ product.metafields.global.isCookiesDiscount.value }}">
+  <div class="product-{{ product.id }}">
+    <div class="product_section js-product_section product-main" data-rv-handle="{{ product.handle }}">
+
+      {% comment %} product images {% endcomment %}
+      <div class="product_images">
+        <div class="product_images_box">
+          <div class="indexBox">
+            <span class="index_num">0</span>
+            <span> / </span>
+            <span class="total_num">0</span>
+          </div>
+          <div class="btn_box">
+            <div class="btn_group">
+              <button class="toggleImage">{{ shopCommon.ImagesText | default: "Images" }}</button>
+              <button class="toggleVideo">{{ shopCommon.ImagesVideo | default: "Video" }}</button>
+            </div>
+          </div>
+          {%- if slickContainer != blank -%}
+            <div class="slickContainer">
+              <div class="MultiList">
+                <ul class="MultiList_list">
+                  {% for item in slickContainer.list %}
+                    <li class="item">
+                      <div class="itembox">
+                        <div class="imgbox">
+                          {%- if item.pc_img != blank -%}
+                          {% render 'lazyload_image',  
+                            src: item.pc_img,
+                            additional_classes: "is-hidden-mobile-only"
+                            style: "opacity: 0;"
+                            max_width: 1600,
+                            alt: "" %}
+                          {% render 'lazyload_image',
+                            src: item.mob_img,
+                            additional_classes: "is-hidden-desktop-only",
+                            style: "opacity: 0;"
+                            max_width: 800,
+                            alt: "" %}
+                            <!-- <img class="is-hidden-mobile-only  lazyload" data-src="{{ item.pc_img }}" alt="">
+                            <img class="is-hidden-desktop-only lazyload" data-src="{{ item.mob_img }}" alt=""> -->
+                          {%- else -%}
+                            <video class="is-hidden-mobile-only lazyload" data-src="{{item.pc_video}}"  muted autoplay playsinline controls></video>
+                            <video class="is-hidden-desktop-only lazyload" data-src="{{item.mob_video}}"  muted autoplay playsinline controls></video>
+                          {%- endif -%}
+                        </div>
+                      </div>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+      
+
+      {% comment %} product information {% endcomment %}
+      <div class="product_information">
+
+        <div class="product_details line_background">
+          <div class="borderB">
+            <div class="product_tag">
+              {% for item in product.tags %}
+                {% if item contains 'ListingTag' %}
+                  {% assign iTag = item | split: ":" %}
+                  <span class="{{ iTag[1] }}">{{ iTag[2] }}</span>
+                {% endif %}
+              {% endfor %}
+            </div>
+            <h1 class="product_name">{{ product.title }}</h1>
+
+            <div class="product_price">
+        
+              {% comment %} Sold out {% endcomment %}
+              <span class="sold_out">{% if variant.available == false %}{{ 'products.product.sold_out' | t }}{% endif %}</span>
+        
+              {% comment %} Current price {% endcomment %}
+              <span class="{% if variant.compare_at_price > variant.price %}sale{% endif %}">
+                <span class="current_price {% if product.available == false %}hidden{% endif %}">
+                  {% if variant.price > 0 %}
+                    <span class="money">
+                      {% render 'price-element', price: variant.price %}
+                    </span>
+                    {% if common.price_tax %}
+                      <span class="price_txt">{{ common.price_tax }}</span>
+                    {% endif %}
+                  {% endif %}
+                </span>
+              </span>
+        
+              {% comment %} Compare at (original) price {% endcomment %}
+              {% comment %} <span class="was-price">
+                {% if variant.price < variant.compare_at_price and variant.available %}
+                  <span class="money">
+                    {% render 'price-element', price: variant.compare_at_price %}
+                  </span>
+                {% endif %}
+              </span> {% endcomment %}
+            </div>
+
+            <div class="product_klarna"></div>
+
+            {% if productData.payment.add2cart == 'tryNow' %}
+              <div class="tn-info"> 
+                <span class="tn-info-text">{{ productData.payment.tryNow.description | default: "Try free for 30 days." }}</span> 
+                <img class="tn-info-logo" src="https://components.trynow.net/images/trynow_logo.svg" alt="tryNow Logo" />
+                <span class="tn-model-trigger">
+                  <a class="tn-info-icon-trigger" aria-label="Learn more about tryNow (opens in modal)">{{ shop.metafields.global.common.value.learn_more }}</a>
+                  <span class="tn-info-icon"></span>
+                </span>
+              </div>
+            {% else %}
+              <div class="affirm-as-low-as" data-page-type="product" data-amount="{{variant.price}}"></div>
+            {% endif %}
+          </div>
+
+          {% if product.description != blank %}
+            <div class="product_description description content borderB">
+              {{ product.description | split: '<!-- split -->' | first }}
+            </div>
+          {% endif %}
+          
+          {% if section.settings.product_reviews == true %}
+            <div class="product_reviews borderB">
+              {% render 'include_overview_reviews', product: product %}
+            </div>
+          {% endif %}
+        </div>
+
+        {%- if limitOffer != blank -%}
+          <div class="limitOffer borderB line_background" id="limitOffer">
+            <p class="txt">{{ limitOffer.title }}</p>
+            {% if limitOffer.data != blank %}
+              <div class="flexBox">
+                {% for item in limitOffer.data %}
+                  <div class="flexItem">
+                    <img class="lazyload" data-src="{{ item.icon }}" alt="">
+                    <p class="desc {{ shop.currency }}">{{ item.title }}</p>
+                    <p class="content">{{ item.content }}</p>
+                  </div>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+        {%- endif -%}
+
+        <div class="limitOffer borderB line_background" id="freeGitfBar" {%- if productData.freeGift == blank -%}style="display:none;"{%endif%}>
+          <p class="txt js-free-gift-title">{{ productData.freeGift.title }}</p>
+          <p class="subtxt js-free-gift-desc">{{ productData.freeGift.description }}</p>
+            <div class="flexBox js-free-gift-box">
+              {% for item in productData.freeGift.list %}
+                <div class="flexItem">
+                  <img class="lazyload" data-src="{{ item.icon }}" alt="">
+                  <p class="desc {{ shop.currency }}">{{ item.title }}</p>
+                  <p class="content">{{ item.content }}</p>
+                </div>
+              {% endfor %}
+            </div>
+        </div>
+      
+        <div class="product_discounts">
+          {% if discounts.show_discounts %}
+            {% render 'product__Coupon', product: product %}
+          {% endif %}
+        </div>
+        {% if section.settings.product_friendbuy == true %}
+          <div class="product_friendbuy line_background borderB" id="product_friendbuy">
+            <p class="txt">
+              <i class="iconfont">&#xe7c7;</i>
+              <span>{{ shopCommon.friendbuy_txt }}</span>
+            <p>
+            <i class="iconfont">&#xe6bc;</i>
+          </div>
+        {% endif %}
+      
+        <div class="product_purchase js-product_section line_background">
+          <div class="product-form-container">
+            <div class="product_form init {% if product.variants.size > 1 or product.options.size > 1 %}product_form_options{% endif %} product_form--{{ settings.product_form_style }}"
+              id="product-form-{{ product.id }}"
+              data-product-form
+              data-money-format="{{ shop.money_format | strip_html }}"
+              data-shop-currency="{{ shop.currency }}"
+              data-select-id="product-select-{{ product.id }}{{ product-form }}{{ object.id }}{{ block.id }}"
+              data-enable-state="{% if template contains 'product' %}true{% else %}false{% endif %}"
+              data-product="{{ product | json | escape }}"
+              {% if settings.limit_quantity or settings.display_inventory_left %}
+                data-variant-inventory='[{%- for v in product.variants -%}{"id":{{v.id}},"inventory_quantity":{{v.inventory_quantity}},"inventory_management":"{{v.inventory_management}}","inventory_policy":"{{v.inventory_policy}}"}{% if forloop.last == false %},{% endif %}{%- endfor -%}]'
+              {% endif %}
+              data-product-id="{{ product.id }}"
+            >
+      
+              {% form 'product', product %}
+      
+                {% comment %} color {% endcomment %}
+                {% if product.variants.size > 1 %}
+                  {% if product.options.size > 1 %}
+                    <div class="select-container">
+                      <select id="product-select-{{ product.id }}{{ product-form }}{{ object.id }}{{ block.id }}" name="id" class="multi_select" data-variant-selector>
+                        {% for v in product.variants %}
+                          <option {% if v == variant %}selected="selected"{% endif %} value="{{ v.id }}" data-image-id="{{ v.featured_media.id }}" data-sku="{{ v.sku }}">{{ v.title }}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                  {% elsif product.options.size == 1 and product.variants.size > 1 or product.options.size == 1 and product.options[0] != "Title" %}
+                    <div class="select-container">
+                      <label class="label">{{ product.options[0] }}</label>
+                      <div>
+                      <select id="product-select-{{ product.id }}{{ product-form }}{{ object.id }}{{ block.id }}" name="id" data-variant-selector>
+                        {% for v in product.variants %}
+                          <option {% if v == variant %}selected="selected"{% endif %} value="{{ v.id }}" data-image-id="{{ v.featured_media.id }}" data-sku="{{ v.sku }}">{{ v.title }}</option>
+                        {% endfor %}
+                      </select>
+                      </div>
+                    </div>
+                  {% endif %}
+                {% else %}
+                  <input type="hidden" name="id" value="{{ variant.id }}" />
+                {% endif %}
+                {% if product.variants.size > 1 %}
+                  <div class="product_swatch swatch_options collection_swatches borderB">
+                    {% for option in product.options %}
+                      {% render 'product__swatch', product: product, option: option, listingV2: true %}
+                    {% endfor %}
+                  </div>
+                {% endif %}
+                {% if product_Giveaway.products != blank and product_Giveaway.products.size > 0 %}
+                  <div class="product_Giveaway borderB swap--visible">
+                    <p class="giveaway_title">
+                      <span class="txt">{{ product_Giveaway.title }}</span>
+                      （
+                      <span class="num">0</span>
+                      /
+                      <span class="total"></span>
+                      ）
+                    </p>
+                    <div class="giveaway_value">
+                      {% for item in product_Giveaway.products %}
+                        {% assign GiveawayProduct = all_products[item.handle] %}
+                        {% if item.sale_price %}
+                          {% assign sale_price = item.sale_price | times: 100 %}
+                        {% else %}
+                          {% assign sale_price = false %}
+                        {% endif %}
+                        {% for v in GiveawayProduct.variants %}
+                          {% if v.sku == item.sku %}
+                            {% assign GiveawayVariant = v %}
+                          {% endif %}
+                        {% endfor %}
+                        <div class="item {% if GiveawayVariant.available == false or GiveawayVariant.price == 999999999 %}soldout{% endif %}" data-handle="{{ item.handle }}" {% if item.policy_required %}data-policy="true"{% endif %}>
+                          <div class="protxt">
+                            <div class="pro">
+                              {% if item.show_image == true %}
+                                <img src="{{GiveawayVariant.image | image_url}}"></img>
+                              {% endif %}
+                              <div class="title_txt">
+                                <p class="name">{{ GiveawayProduct.title }}</p>
+                                <p class="priceBox">
+                                  {% if GiveawayVariant.available == true and GiveawayVariant.price != 999999999 %}
+                                    <span class="sale_price">
+                                      {% if sale_price and sale_price == 0 %}
+                                        {{ common.free }}
+                                      {% elsif sale_price == false or GiveawayVariant.price <= sale_price  %}
+                                        {{ GiveawayVariant.price | money }}
+                                      {% else %}
+                                        {{ sale_price | money }}
+                                      {% endif %}
+                                    </span>
+                                    {% if sale_price and GiveawayVariant.price > sale_price %}
+                                      <span class="del_price">{{ GiveawayVariant.price | money }}</span>
+                                    {% endif %}
+                                  {% else %}
+                                    <span class="soldout">{{ 'products.product.sold_out' | t }}</span>
+                                  {% endif %}
+                                </p>
+    
+                              </div>
+                            </div>
+                            <div class="discount_txt">
+                              {% if sale_price and GiveawayVariant.price > sale_price %}
+                                <span>{{ discounts.save }} {{ GiveawayVariant.price | minus: sale_price | money }} {{ discounts.save_de }}</span>
+                              {% endif %}
+                            </div>
+                          </div>
+                          <div class="tips swap--visible">{{ item.tips }}</div>
+                        </div>
+                      {% endfor %}
+                    </div>
+                  </div>
+                {% endif %}
+
+                <div class="custom_variants borderB swap--visible"></div>
+      
+                {% comment %} purchase details {% endcomment %}
+                <div class="purchase-details borderB">
+      
+                  {% if product.available %}
+                    {% comment %} Quantity {% endcomment %}
+                    <div class="product_quantity purchase-details__quantity product-quantity-box">
+                      {% render 'quantity-box', listingV2: true %}
+                    </div>
+                    <div class="GiveawayTips swap--visible">
+                      <label>
+                        <span class="inputBox"><input type="checkbox" name="policy"></span>
+                        <span>{{ product_Giveaway.policy_txt }}</span>
+                      </label>
+                    </div>
+      
+                    {% comment %} purchase buttons {% endcomment %}
+                    <div class="product_purchase_details purchase-details__buttons">
+                      <div class="product_purchase_details_box">
+      
+                        {% comment %} details buttons {% endcomment %}
+                        <div class="product_price">
+                          <span class="{% if variant.compare_at_price > variant.price %}sale{% endif %}">
+                            <span class="current_price {% if product.available == false %}hidden{% endif %}">
+                              {% if variant.price > 0 %}
+                                <span class="money">
+                                  {% render 'price-element', price: variant.price %}
+                                </span>
+                              {% endif %}
+                            </span>
+                          </span>
+                          <p class="price_discount"></p>
+                        </div>
+      
+                        {% comment %} buy button {% endcomment %}
+                        <div class="product_purchase_buttons product_Giveaway_purchase swap--visible">
+                          <span class="product_soldout product-thumbnail__sold-out {% if variant.available and variant.price != 999999999 %}swap--visible{% endif %}">
+                            {{ 'products.product.sold_out' | t }}
+                          </span>
+                          {% if product_Giveaway.addcart_txt and product_Giveaway.addcart_txt != 'false' %}
+                            <button class="product_addcart giveaway_button_addtocart {% if variant.available == false or variant.price == 999999999 %}swap--visible{% endif %}">
+                              {{ product_Giveaway.addcart_txt }}
+                            </button>
+                          {% elsif product_Giveaway.addcart_txt == blank %}
+                            <button class="product_addcart giveaway_button_addtocart {% if variant.available == false or variant.price == 999999999 %}swap--visible{% endif %}">
+                              {{ common.addToCart }}
+                            </button>
+                          {% endif %}
+                          {% if product_Giveaway.buynow_txt and product_Giveaway.buynow_txt != 'false' %}
+                            <button class="product_buynow giveaway_button_buynow {% if variant.available == false or variant.price == 999999999 %}swap--visible{% endif %}">
+                              {{ product_Giveaway.buynow_txt }}
+                            </button>
+                          {% elsif product_Giveaway.buynow_txt == blank %}
+                            <button class="product_buynow giveaway_button_buynow {% if variant.available == false or variant.price == 999999999 %}swap--visible{% endif %}">
+                              {{ common.buy_now }}
+                            </button>
+                          {% endif %}
+                        </div>
+                        {% if custom_purchase_buttons != blank %}
+                          <div class="product_purchase_buttons">
+                            {% render 'custom_purchase_buttons',
+                              addcart_txt: custom_purchase_buttons.addcart_txt,
+                              buynow_txt: custom_purchase_buttons.buynow_txt,
+                              variant_arr: custom_purchase_buttons.variant_arr
+                            %}
+                          </div>
+                        {% else %}
+                          {% capture add_to_cart_label %}{{ 'products.product.add_to_cart' | t }}{% endcapture %}
+                          <div class="product_purchase_buttons">
+                            {% if productData.payment.add2cart == 'tryNow' %}
+                              <button type="button" class="shopify-payment-button__button shopify-payment-button__button--unbranded line-button" style="width: 50%;max-width: 50%; margin-right:6px" data-js-buynow >{{ shop.metafields.global.common.value.buy_now }}</button>
+                              <div style="width: 50%;">
+                                <input type="hidden" name="properties[tn_enabled]" value="" id="trynow-property">
+                                <button type="button" id="tn-pdp-btn" onclick="handleTryNowBtn()" class="shopify-payment-button__button shopify-payment-button__button--unbranded" style="width: 100%;border-width: 0;max-width: 100%;"><span>{{ productData.payment.tryNow.btnText | default: "Try Now" }}</span></button>
+                              </div>
+                            {% elsif productData.payment.add2cart == 'freeGiftAdd' %}
+                              <button type="button" name="add" class="button product_addcart action_button button--add-to-cart" data-label={{ add_to_cart_label | json }} data-gift-add-to-cart>
+                                <span class="text">{{ add_to_cart_label }}</span>
+                                <svg x="0px" y="0px" width="32px" height="32px" viewBox="0 0 32 32" class="checkmark">
+                                  <path fill="none" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M9,17l3.9,3.9c0.1,0.1,0.2,0.1,0.3,0L23,11"/>
+                                </svg>
+                              </button>
+                              <button type="button" class="shopify-payment-button__button shopify-payment-button__button--unbranded" style="width: 50%;max-width: 50%;border-width: 0; margin-left:6px" data-js-buynow >{{ shop.metafields.global.common.value.buy_now }}</button>
+                            {% else %}
+                              <button type="button" name="add" class="button product_addcart ajax-submit action_button button--add-to-cart" data-label={{ add_to_cart_label | json }} data-add-to-cart-trigger>
+                                <span class="text">{{ add_to_cart_label }}</span>
+                                <svg x="0px" y="0px" width="32px" height="32px" viewBox="0 0 32 32" class="checkmark">
+                                  <path fill="none" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M9,17l3.9,3.9c0.1,0.1,0.2,0.1,0.3,0L23,11"/>
+                                </svg>
+                              </button>
+                              <button type="button" class="shopify-payment-button__button shopify-payment-button__button--unbranded" style="width: 50%;max-width: 50%;border-width: 0; margin-left:6px" data-js-buynow >{{ shop.metafields.global.common.value.buy_now }}</button>
+                            {% endif %}
+                          </div>
+                        {% endif %}
+                        
+                      </div>
+
+                      {% render 'amzn-buy', product: product %}
+                    </div>
+                  {% endif %}
+                </div>
+              {% endform %}
+            </div>
+      
+            <div class="out-stock-notify swap--visible">
+              <div class="product_purchase_details purchase-details__buttons">
+                <div class="product_purchase_details_box">
+                  {% render 'out-stock-notify', listingV2: true %}
+                </div>
+              </div>
+            </div>
+      
+          </div>
+        </div>
+
+        {% if section.settings.product_livechat == true %}
+          <div class="product_livechat line_background borderB">
+            <i class="iconfont">&#xe614;</i>
+            <p class="txt">{{ shopCommon.livechat_txt }}</p>
+          </div>
+        {% endif %}
+
+        {% if myregistry != blank and myregistry_show == true %}
+          <div class="product_myregistry line_background borderB">
+            <span class="icon">
+              <svg t="1669704944051" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2851" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200">
+                <path d="M880 310H732.4c13.6-21.4 21.6-46.8 21.6-74 0-76.1-61.9-138-138-138-41.4 0-78.7 18.4-104 47.4-25.3-29-62.6-47.4-104-47.4-76.1 0-138 61.9-138 138 0 27.2 7.9 52.6 21.6 74H144c-17.7 0-32 14.3-32 32v200c0 4.4 3.6 8 8 8h40v344c0 17.7 14.3 32 32 32h640c17.7 0 32-14.3 32-32V550h40c4.4 0 8-3.6 8-8V342c0-17.7-14.3-32-32-32z m-334-74c0-38.6 31.4-70 70-70s70 31.4 70 70-31.4 70-70 70h-70v-70z m-138-70c38.6 0 70 31.4 70 70v70h-70c-38.6 0-70-31.4-70-70s31.4-70 70-70zM180 482V378h298v104H180z m48 68h250v308H228V550z m568 308H546V550h250v308z m48-376H546V378h298v104z" p-id="2852"></path>
+              </svg>
+            </span>
+            <p class="txt">{{ shopCommon.myregistry_txt }}</p>
+          </div>
+        {% endif %}
+
+        <div class="info-container line_background">
+          {% if shopCommon.store_iconBar != blank %}
+            <div id="eufy_store" class="info_Box borderB">
+              <div class="info_title">{{ shopCommon.store_iconBar.title }}</div>
+              <div class="info_iconList minWidth">
+                {% for block in shopCommon.store_iconBar.data %}
+                  {% assign icon = block.icon | downcase %}
+                  {% if block.link != blank %}
+                    <a href="{{ block.link }}" class="half_box">
+                  {% else %}
+                    <div
+                      {% if block.txtModal != blank %} data-key="{{ forloop.index0 }}" {% endif %}
+                      class="openTxtModal"
+                    >
+                  {% endif %}
+                    <div class="icon_item">
+                      {% if icon != blank %}
+                        <i class="iconfont">{{ block.icon }}</i>
+                      {% endif %}
+                      {% if block.text != blank %}
+                        <p class="text">{{ block.text }}</p>
+                      {% endif %}
+                    </div>
+                  {% if block.link != blank %}
+                    </a>
+                  {% else %}
+                    </div>
+                  {% endif %}
+                {% endfor %}
+              </div>
+            </div>
+          {% endif %}
+          {% if shopCommon.store_payWithEase!= blank %}
+            <div id="store_payWithEase" class="info_Box borderB">
+              <div class="info_title">{{ shopCommon.store_payWithEase.title }}</div>
+              <div class="info_iconList flex_end">
+                <div class="footer__aside-item footer__aside-item--payment">
+                  <div class="payment-list">
+                    {% for type in shop.enabled_payment_types %}
+                      {{ type | payment_type_svg_tag: class: 'payment-list__item' }}
+                    {% endfor %}
+                    {% if productData.payment.add2cart == 'tryNow' %}
+                      <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 68.02 19.99'><defs><style>.cls-1{fill:#363230;}</style></defs><g id='Layer_2' data-name='Layer 2'><path class='cls-1' d='M34.11,19.09H0V0H34.11ZM.47,18.62H33.64V.47H.47Z'/><polygon class='cls-1' points='0.79 19.99 0.79 19.09 34.1 19.09 34.1 0.52 35 0.52 35 19.99 0.79 19.99'/><path class='cls-1' d='M5.08,5.91h5.28V7.13h-2V13H7.06V7.13h-2Z'/><path class='cls-1' d='M18,9.85,20,13H18.54L16.62,10h-.69V13H14.6V5.91h2.6a1.94,1.94,0,0,1,2.17,2A1.85,1.85,0,0,1,18,9.85Zm0-1.91a.74.74,0,0,0-.84-.81H15.93V8.74h1.28A.74.74,0,0,0,18.05,7.94Z'/><path class='cls-1' d='M24.33,5.91l1.29,2.77,1.3-2.77h1.42L26.29,10v3H25V10L22.9,5.91Z'/><path class='cls-1' d='M45.33,5.91V13H43.94L41.32,8.33V13H40V5.91h1.4L44,10.62V5.91Z'/><path class='cls-1' d='M55.94,9.47c0,2.48-1.56,3.65-3.36,3.65S49.22,12,49.22,9.47s1.56-3.64,3.36-3.64S55.94,7,55.94,9.47Zm-5.38,0c0,1.7.95,2.43,2,2.43s2-.73,2-2.43-1-2.42-2-2.42S50.56,7.78,50.56,9.47Z'/><path class='cls-1' d='M68,5.91,66.16,13H64.81l-1.29-4.2L62.22,13H60.88L59,5.91h1.41l1.19,5.25L63,6.66h1.14l1.33,4.5,1.2-5.25Z'/></g></svg>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+          {% if shopCommon.store_Trusted != blank %}
+            <div id="store_Trusted" class="info_Box borderB">
+              <div class="info_title">{{ shopCommon.store_Trusted.title }}</div>
+              <div class="info_iconList flex_end">
+                {{ shopCommon.store_Trusted.iconList }}
+              </div>
+            </div>
+          {% endif %}
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+<script
+  type="application/json"
+  data-section-id="{{ section.id }}"
+  data-section-data
+>
+  {
+    "gallery_arrows": {{ section.settings.gallery_arrows | json }},
+    "thumbnail_arrows": {{ section.settings.gallery_arrows | json }},
+    "enable_zoom": {{ section.settings.enable_zoom | json }},
+    "enable_product_lightbox": {{ section.settings.enable_product_lightbox | json }},
+    "enable_thumbnail_slider": {{ section.settings.enable_thumbnail_slider | json }},
+    "slideshow_speed": {{ section.settings.slideshow_speed | json }},
+    "slideshow_transition": {{ section.settings.slideshow_transition | json }},
+    "thumbnails_enabled": {{ section.settings.display_thumbnails | json }},
+    "thumbnail_position": {{ section.settings.thumbnail_position | json }},
+    "product_media_amount": {{ product.media.size }},
+    "template": "classic"
+  }
+</script>
+<script src="{{ 'z__jsProduct.js' | asset_url }}"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+
+<script>
+  const freeGift = []
+  const matchUrlFreeGift = []
+  const matchUrlParams = '{{ productData.matchUrlFreeGift.urlParams }}';
+  const matchUrlInfo = '{{ productData.matchUrlFreeGift.urlMatchInfo | json }}';
+  {% if productData.freeGift != blank %}
+    {% for item in productData.freeGift.list %}
+      {% assign gift = all_products[item.handle] %}
+      {% for v in gift.variants %}
+        {% if v.sku == item.sku %}
+          freeGift.push({
+            variant_id: +'{{ v.id }}',
+            ...{{ item | json}}
+          })
+        {% endif %}
+      {% endfor %}
+    {% endfor %}
+  {% endif %}
+
+  {% if productData.matchUrlFreeGift != blank %}
+    {% for item in productData.matchUrlFreeGift.list %}
+      {% assign gift = all_products[item.handle] %}
+      {% for v in gift.variants %}
+        {% if v.sku == item.sku %}
+          matchUrlFreeGift.push({
+            variant_id: +'{{ v.id }}',
+            ...{{ item | json}}
+          })
+        {% endif %}
+      {% endfor %}
+    {% endfor %}
+  {% endif %}
+</script>
+
+<script>
+   function getUrlParams(name, url){
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+    results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+  };
+
+  function switchUrlFreeGift() {
+    const urlParams = getUrlParams(matchUrlParams)
+    let dom = ''
+
+    if(matchUrlFreeGift.length && urlParams){
+      matchUrlFreeGift.map(item => {
+        if(item.urlVal.includes(urlParams)) {
+          dom += `
+          <div class="flexItem">
+            <img class="lazyload" data-src="${ item.icon }" alt="">
+            <p class="desc {{ shop.currency }}">${ item.title }</p>
+            ${ item.content ? `<p class="content">${item.content}</p>` : '' }
+          </div>
+          `
+        }
+      })
+      if(dom){
+        const info = matchUrlInfo && matchUrlInfo !== 'null' ? JSON.parse(matchUrlInfo) : {}
+        const title = info[urlParams] ? info[urlParams].title : '{{ productData.matchUrlFreeGift.title }}'
+        const desc = info[urlParams] ? info[urlParams].description : '{{ productData.matchUrlFreeGift.description }}'
+
+        $('#freeGitfBar').find('.js-free-gift-box').html(dom)
+        $('#freeGitfBar').find('.js-free-gift-title').text(title)
+        $('#freeGitfBar').find('.js-free-gift-desc').text(desc)
+        $('#freeGitfBar').show()
+      }
+    } 
+  }
+  
+  switchUrlFreeGift()
+
+  const toggleTrynowProperty = (value) => {
+    const tryNowProperty = document.querySelector("#trynow-property"); 
+    tryNowProperty && tryNowProperty.setAttribute("value", value); 
+  }
+
+  const handleTryNowBtn = () => { 
+    toggleTrynowProperty('true')
+
+    productBuyNow({
+      extend: {
+        properties:  { tn_enabled: "true" }
+      }
+    })
+
+    // ga3
+    window.dataLayer.push({
+      'event': 'eeEvent',
+      'eventCategory': 'EnhancedEcommerce',
+      'eventAction': 'BuyNow_try_first', 
+      'eventLabel': '{{ variant.sku }}',
+      'ecommerce': {
+        'currencyCode': '{{ shop.currency }}',
+        'add': {
+          'products': [{
+            'name':'{{ variant.name }}',
+            'id': '{{ variant.sku }}',
+            'category': '',
+            'categoryName': '{{ product.type }}',
+            'brand': '{{ shop.name }}',
+            'variant': '{{ variant.title }}',
+            'price': +'{{ variant.price | divided_by: 100 }}',
+            'quantity': Number($(".purchase-details input").val())
+          }]
+        }
+      }
+    })
+
+    //ga4
+    window.dataLayer.push({ "event_parameters": null });
+    window.dataLayer.push({
+      "event": "ga4Event",
+      "event_name": "begin_checkout",
+      "event_parameters": {
+        "page_group": "Product Detail Page_" + '{{ variant.sku }}',
+        "position": "Product Detail Page_Checkout_try_first",
+        "currency": '{{ shop.currency }}',
+        "value": +'{{ variant.price | divided_by: 100 }}',
+        "items": [{
+          "item_id": '{{ variant.sku }}',
+          "item_name":  '{{ variant.name }}',
+          "item_brand": '{{ shop.name }}',
+          "item_category": '',
+          "item_variant": '{{ variant.title }}',
+          "price": +'{{ variant.price | divided_by: 100 }}',
+          "quantity": Number($(".purchase-details input").val())
+        }]
+      }
+    });
+  };
+
+  function productBuyNow({
+    extend = {}
+  } = {}) {
+
+    const quantity = +$(".purchase-details input").val()
+    const line_items = [{
+      variant_id: +'{{ variant.id }}',
+      quantity,
+      ...extend
+    }]
+    const cookieDiscount = $('#purchase').data('cookies-discount') ?  Cookies.get('discount_code') : ''
+    const discount = cookieDiscount || getUrlParams('discount') || $('#couponCode').text() || ''
+    const urlParams = getUrlParams(matchUrlParams)
+
+    // macth url-gift and add it
+    if(matchUrlFreeGift.length && urlParams){
+      matchUrlFreeGift.map(item => {
+        if(item.urlVal.includes(urlParams)) {
+          line_items.push({ 
+            variant_id: item.variant_id,
+            quantity: item.quantity * quantity,
+            ...extend
+          })
+        }
+      })
+    } 
+
+    // if macth url-gift fail, add normal free-gift
+    if(freeGift.length && line_items.length === 1) {
+      freeGift.map(item => {
+        line_items.push({ 
+          variant_id: item.variant_id,
+          quantity: item.quantity * quantity,
+          ...extend
+        })
+      })
+    }
+
+    Shopify.theme.bundleBuynow({
+      authorization: "{{ storefront_key }}",
+      checkout: {
+        line_items,
+        presentment_currency: "{{ shop.currency }}",
+        is_upstream_button: true,
+        page_type: "product",
+        secret: true,
+        discount,
+        wallet_name: "Checkout"
+      },
+      onSuccess: () => {},
+      onError: err => $.dialog({ title: err.message, content: err.description, type: 'red' })
+    });
+  }
+
+  $(document).ready(function () {
+    referralTrack('variants', '{{ variant.sku }}', 'page');
+
+    $('[data-gift-add-to-cart]').on('click', function() {
+      const extend = {}
+      const quantity = +$(".purchase-details input").val()
+      const line_items = [{
+        id: +'{{ variant.id }}',
+        quantity,
+        ...extend
+      }]
+      const urlParams = getUrlParams(matchUrlParams)
+
+      // macth url-gift and add it
+      if(matchUrlFreeGift.length && urlParams){
+        matchUrlFreeGift.map(item => {
+          if(item.urlVal.includes(urlParams)) {
+            line_items.push({ 
+              id: item.variant_id,
+              quantity: item.quantity * quantity,
+              ...extend
+            })
+          }
+        })
+      } 
+
+      // if macth url-gift fail, add normal free-gift
+      if(freeGift.length && line_items.length == 1) {
+        freeGift.map(item => {
+          line_items.push({ 
+            id: item.variant_id,
+            quantity: item.quantity * quantity,
+            ...extend
+          })
+        })
+      }
+      console.log(line_items)
+      if(line_items.length){
+        Shopify.theme.addItemsToCart(line_items, {
+          onError: err => $.dialog({ title: err.message, content: err.description, type: 'red' })
+        })
+      }
+    })
+
+    $('.tn-info-icon').eq(0).on('click', (e) => {
+      e.preventDefault()
+      
+      // ga3 
+      dataLayer.push({
+        "event": "uaEvent", 
+        "eventCategory": "Product Detail Page_" + '{{ variant.sku }}',
+        "eventAction":'try_first_how',
+        "eventLabel": "", 
+      })
+
+      // ga4
+      window.dataLayer.push({ "event_parameters": null });
+      window.dataLayer.push({
+        "event": "ga4Event",
+        "event_name": "listing_button",
+        "event_parameters": {
+          "page_group": "Product Detail Page_" + '{{ variant.sku }}',
+          "position":"",
+          "button_name": "try_first_how",  
+        }
+      })
+    })
+
+    $('.product_livechat').on('click', function() {
+      window.dataLayer.push({
+        "event": "uaEvent",
+        "eventCategory": 'click',
+        "eventAction": 'chat_with_us',
+        "eventLabel": '{{ variant.sku }}', // SKU
+        "eventValue": "undefined",
+      });
+      $('.helpButton') && $('.helpButton').click();
+      $('.helpButtonEnabled') && $('.helpButtonEnabled').click();
+    })
+
+    $('.product_friendbuy').on('click', function() {
+      window.dataLayer.push({
+        "event": "uaEvent",
+        "eventCategory": 'click',
+        "eventAction": 'get_referral',
+        "eventLabel": '{{ variant.sku }}', // SKU
+        "eventValue": "undefined",
+      });
+      $('.Friendbuy-ribbon-transition') && $('.Friendbuy-ribbon-transition').click()
+    })
+
+    const headerH = $('.z-header').height();
+    $('.product_images_box').css('top', headerH);
+    //轮播
+    $('.MultiList_list').on('init', function (event, slick, currentSlide, nextSlide) {
+      $('.index_num').text(1);
+      $('.total_num').text(slick.slideCount);
+      $('.toggleImage').addClass('toggleActive');
+      $('.toggleImage').siblings().removeClass('toggleActive');
+    });
+    $('.listing_product .MultiList_list').slick({
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        centerPadding: 0,
+        arrows: true,
+        lazyLoad: 'ondemand',
+        autoplay: '{{ section.settings.slideshow_speed }}' != 0,
+        autoplaySpeed:'{{ section.settings.slideshow_speed | times: 1000 }}',
+        easing: 'linear',
+        dots: false,
+        centerMode: true,
+        fade: {{ section.settings.is_fade }}
+    });
+    var slickContainer_data = JSON.parse('{{ slickContainer | json }}') || { "list":[] };
+    var img_list = [];
+    var video_list = [];
+    if (slickContainer_data.list.length > 0) {
+      slickContainer_data.list.forEach((ele, index) => {
+        if (ele.pc_img) {
+          img_list.push(index);
+        } else {
+          video_list.push(index);
+        }
+      });
+      if (video_list.length > 0) {
+        $('.btn_box').show();
+        $(".btn_group .toggleImage").on('click', function () {
+          $('.listing_product .MultiList_list').slick('slickGoTo',img_list[0]);
+          $(this).addClass('toggleActive');
+          $(this).siblings().removeClass('toggleActive');
+        })
+          
+        $(".btn_group .toggleVideo").on('click', function () {
+          $('.listing_product .MultiList_list').slick('slickGoTo', video_list[0]);
+          $(this).addClass('toggleActive');
+          $(this).siblings().removeClass('toggleActive');
+        });
+      }
+    };
+    $('.listing_product .MultiList_list').on('afterChange', function (event, slick, currentSlide, nextSlide) {
+      $('.index_num').text(currentSlide + 1);
+      $('.total_num').text(slick.slideCount);
+      if (video_list.length > 0) {
+        //判断属于那种类型
+        if(video_list.includes(currentSlide)){
+          //视频
+          $('.toggleVideo').addClass('toggleActive');
+          $('.toggleVideo').siblings().removeClass('toggleActive');
+        }else{
+          //图片
+          $('.toggleImage').addClass('toggleActive');
+          $('.toggleImage').siblings().removeClass('toggleActive');
+        }
+      }
+      var src = "";
+      $(".slickContainer .slick-current img").each(function(i, item) {
+        if ($(item).is(":visible")) {
+          src = $(item).attr("src");
+        }
+      });
+      window.dataLayer.push({ "event_parameters": null });
+      window.dataLayer.push({
+        "event": "ga4Event",
+        "event_name": "small_carousel_switch",
+        "event_parameters": {
+          "page_group": "Product Detail Page_{{variant.sku}}",
+        "image": (currentSlide + 1) + "_" + src //position表示图片的排位1, 2, 3...; imageURL表示图片的链接
+        }
+      });
+    });
+    //埋点
+    $('.listing_product .MultiList_list .slick-arrow').on('click',function(){
+      window.dataLayer.push({
+          "event": "uaEvent",
+          "eventCategory": 'click',
+          "eventAction": 'image_box',
+          "eventLabel": '{{ variant.sku }}', // PN号
+          "eventValue": "undefined",
+      })
+    })
+    // 多支装功能
+    {% for option in product.options %}
+      {% assign downcased_option = option | downcase %}
+      {% if downcased_option contains 'select product' %}
+        {% assign is_multipack = true %}
+      {% endif %}
+    {% endfor %}
+
+    {% if is_multipack %}
+      const multipackProduct = {
+        changePrice: function changePrice(option1) {
+          $('.product_pack .swatch-element').each(function() {
+            const option2 = $(this).data('value');
+            {% for item in product.variants %}
+              var options = {{ item.options | json }};
+              if (options && options.indexOf(option1) > -1 && options.indexOf(option2) > -1) {
+                {% if item.available and item.price != 999999999 %}
+                  $(this).find('label .priceBox').html("<span class='sale_price'>{{ item.price | money }}</span><span class='del_price'>{{ item.compare_at_price | money }}</span>")
+                  {% if item.compare_at_price %} $(this).find('label .discount_txt').html('{{ discounts.save }} {{ item.compare_at_price | minus: item.price | money }} {{ discounts.save_de }}') {% endif %}
+                  {% if bundle.tag %} $(this).find('label .discount .tag').show() {% else %} $(this).find('label .discount .tag').hide() {% endif %}
+                {% else %}
+                  $(this).find('label .priceBox').html("<span class='soldout'>{{ 'products.product.sold_out' | t }}</span>");
+                  $(this).find('label .discount_txt').html("");
+                  $(this).find('label .discount .tag').hide();
+                {% endif %}
+              }
+            {% endfor %}
+          });
+        }
+      }
+
+      let option1;
+      const options = {{ variant.options | json }};
+      $('.product-form-container .product_color .swatch-element').each(function() {
+        if (options && options.indexOf($(this).data("value")) > -1) option1 = $(this).data("value")
+      })
+      multipackProduct.changePrice(option1);
+      
+      $('.product-form-container .product_color .swatch-element').on('click', function() {
+        option1 = $(this).data('value');
+        multipackProduct.changePrice(option1);
+      })
+    {% endif %}
+
+    // 赠品功能
+      // 初始化
+    {% if product_Giveaway.is_show %}
+      $('.product_purchase_buttons').addClass('swap--visible')
+      $('.product_Giveaway, .product_Giveaway_purchase').removeClass('swap--visible')
+    {% else %}
+      $('.product_purchase_buttons').removeClass('swap--visible')
+      $('.product_Giveaway, .product_Giveaway_purchase').addClass('swap--visible')
+    {% endif %}
+
+    let giveawayArr = []
+    let Giveaway_policy = false
+    $('.GiveawayTips .inputBox input').attr('checked', false)
+
+    $('.product_Giveaway .giveaway_title .total').html(`${$('.giveaway_value .item').length}`)
+    $('body').on('click', '.product_Giveaway .giveaway_value .item', function () {
+      if ($(this).hasClass('soldout')) return;
+      if ($(this).hasClass('active')) {
+        $(this).removeClass('active')
+        $(this).find('.tips').addClass('swap--visible')
+        if ($(this).data('policy')) {
+          $('.GiveawayTips').addClass('swap--visible')
+          if(!Giveaway_policy) {
+            $('.giveaway_button_addtocart').removeClass('prohibit')
+            $('.giveaway_button_buynow').removeClass('prohibit')
+            $('.product_purchase_details_box').css('cursor','auto')
+          }
+        }
+        giveawayArr.map((g, i) => {
+          g === $(this).attr('data-handle') && giveawayArr.splice(i, 1)
+        })
+      } else {
+        $(this).addClass('active')
+        $(this).find('.tips').removeClass('swap--visible')
+        giveawayArr.push($(this).attr('data-handle'))
+        if ($(this).data('policy')) {
+          $('.GiveawayTips').removeClass('swap--visible')
+          if(!Giveaway_policy) {
+            $('.giveaway_button_addtocart').addClass('prohibit')
+            $('.giveaway_button_buynow').addClass('prohibit')
+            $('.product_purchase_details_box').css('cursor','not-allowed')
+          }
+        }
+      }
+      $('.product_Giveaway .giveaway_title .num').html(`${giveawayArr.length}`)
+    })
+    $('body').on('click', '.GiveawayTips input', function () {
+      if (!Giveaway_policy) {
+        Giveaway_policy = true
+        $('.GiveawayTips .inputBox input').attr('checked', true)
+        $('.giveaway_button_addtocart, .giveaway_button_buynow').removeClass('prohibit')
+      } else {
+        Giveaway_policy = false
+        $('.GiveawayTips .inputBox input').attr('checked', false)
+        $('.giveaway_button_addtocart, .giveaway_button_buynow').addClass('prohibit')
+      }
+    })
+
+    {% assign curVariant = variant %}
+    $('.product_color .swatch-element').on('click', function () {
+      // 数据初始化
+      giveawayArr = []
+      Giveaway_policy = false
+      $('.GiveawayTips').addClass('swap--visible')
+      $('.product_Giveaway .giveaway_title .num').html(0)
+      $('.giveaway_button_addtocart').removeClass('prohibit')
+      $('.giveaway_button_buynow').removeClass('prohibit')
+      $('.product_purchase_details_box').css('cursor','auto')
+
+      const sku = $(this).data('sku')
+      {% for v in product.variants %}
+        if (sku == '{{ v.sku }}') {
+          {% assign curVariant = v %}
+          giveaway_purchase.currentVariantId = '{{ curVariant.id }}'
+          {% if curVproduct_Giveaway.is_show %}
+            $('.product_Giveaway').removeClass('swap--visible')
+            var itemDom = ''
+            var GiveawayTotal
+            {% for p in curVproduct_Giveaway.products %}
+              {% assign curGiveawayProduct = all_products[p.handle] %}
+              GiveawayTotal = {{ forloop.length }}
+              {% for cv in curGiveawayProduct.variants %}
+                {% if cv.sku == p.sku %}
+                  {% assign curGiveawayVariant = cv %}
+                  {% if p.sale_price %}
+                    {% assign cur_sale_price = p.sale_price | times: 100 %}
+                  {% else %}
+                    {% assign cur_sale_price = false %}
+                  {% endif %}
+                  itemDom = `${itemDom}` + `<div class="item {% if curGiveawayVariant.available == false or curGiveawayVariant.price == 999999999 %}soldout{% endif %}" data-handle="{{p.handle}}" {% if p.policy_required %}data-policy="true"{% endif %}>
+                    <div class="protxt">
+                      <div class="pro">
+                        <p class="name">{{ curGiveawayProduct.title }}</p>
+                        <p class="priceBox">
+                          {% if curGiveawayVariant.available == true and curGiveawayVariant.price != 999999999 %}
+                            <span class="sale_price">
+                              {% if cur_sale_price and cur_sale_price == 0 %}
+                                {{ common.free }}
+                              {% elsif cur_sale_price == false or GiveawayVariant.price <= cur_sale_price  %}
+                                {{ curGiveawayVariant.price | money }}
+                              {% else %}
+                                {{ cur_sale_price | money }}
+                              {% endif %}
+                            </span>
+                            {% if cur_sale_price and curGiveawayVariant.price > cur_sale_price %}
+                              <span class="del_price">{{ curGiveawayVariant.price | money }}</span>
+                            {% endif %}
+                          {% else %}
+                            <span class="soldout">{{ 'products.product.sold_out' | t }}</span>
+                          {% endif %}
+                        </p>
+                      </div>
+                      <div class="discount_txt">
+                        {% if cur_sale_price and curGiveawayVariant.price > cur_sale_price %}
+                          <span>{{ discounts.save }} {{ curGiveawayVariant.price | minus: cur_sale_price | money }} {{ discounts.save_de }}</span>
+                        {% endif %}
+                      </div>
+                    </div>
+                    <div class="tips swap--visible">{{ p.tips }}.</div>
+                  </div>`
+                {% endif %}
+              {% endfor %}
+            {% endfor %}
+            $('.product_Giveaway .giveaway_title .total').html(GiveawayTotal)
+            $('.product_Giveaway .giveaway_title .txt').html("{{ curVproduct_Giveaway.title }}")
+            $('.GiveawayTips label').html("<span class='inputBox'><input type='checkbox' name='policy'></span><span>{{ curVproduct_Giveaway.policy_txt }}</span>")
+            $('.product_Giveaway .giveaway_value').html(itemDom)
+            // 处理购买按钮
+            $('.product_purchase_buttons').addClass('swap--visible')
+            $('.product_Giveaway_purchase').removeClass('swap--visible')
+            {% if curVariant.available and curVariant.price != 999999999 %}
+              $('.product_Giveaway_purchase .product_addcart, .product_Giveaway_purchase .product_buynow').removeClass('swap--visible')
+              $('.product_Giveaway_purchase .product_soldout').addClass('swap--visible')
+            {% else %}
+              $('.product_Giveaway_purchase .product_addcart, .product_Giveaway_purchase .product_buynow').addClass('swap--visible')
+              $('.product_Giveaway_purchase .product_soldout').removeClass('swap--visible')
+            {% endif %}
+          {% else %}
+            $('.product_purchase_buttons').removeClass('swap--visible')
+            $('.product_Giveaway, .product_Giveaway_purchase').addClass('swap--visible')
+          {% endif %}
+        }
+      {% endfor %}
+
+      // Affirm
+      {% if country.affirm_key %}
+        var affirm_price = curVariant.price;
+        $('.product__information .affirm-as-low-as').attr('data-amount', affirm_price);
+        affirm.ui.refresh();
+      {% endif %}
+    })
+
+    let giveaway_purchase = {
+      currentVariantId: "{{ variant.id }}",
+      line_item: function line_item(variants, product) {
+        let line_item = {};
+        variants.map(item => {
+          if(item.sku === product.sku) line_item.variant_id = item.id
+        });
+        line_item.quantity = Number($(".purchase-details input").val());
+        return line_item;
+      },
+      variantArr: function variantArr(variants, product) {
+        let variantArr = {};
+        variants.map(item => {
+          if(item.sku === product.sku) variantArr.id = item.id
+        });
+        variantArr.quantity = Number($(".purchase-details input").val());
+        return variantArr;
+      }
+    };
+    $('.giveaway_button_addtocart').click(e => {
+      e.preventDefault()
+      try{
+        versaTagObj.onready(function(){ versaTagObj.generateRequest("https://www.eufylife.com/sizmek/add_to_cat"); }); 
+      } catch(e) {}
+      let variantsArr = []
+      variantsArr.push({ "id": giveaway_purchase.currentVariantId, "quantity": Number($('.purchase-details input').val()) })
+      if (giveawayArr && giveawayArr[0]) {
+        {% for item in product_Giveaway.products %}
+          giveawayArr.map(g => {
+            if (g === "{{ item.handle }}") {
+              {% assign oProduct = all_products[item.handle] %}
+              variantsArr.push(giveaway_purchase.variantArr({{ oProduct.variants | json }}, {{ item | json }}))
+            }
+          })
+        {% endfor %}
+      }
+      Shopify.theme.addItemsToCart(variantsArr, {
+        onError: err => $.dialog({ title: err.message, content: err.description, type: 'red' })
+      })
+    })
+
+    
+
+    $('.giveaway_button_buynow').click(e => {
+      e.preventDefault();
+      let line_items = [];
+      const cookieDiscount = $('#purchase').data('cookies-discount') ?  Cookies.get('discount_code') : ''
+      const discount = cookieDiscount || Shopify.theme.getURLParams('discount') || $('#couponCode').text() || ''
+
+      line_items.push({ "variant_id": giveaway_purchase.currentVariantId, "quantity": Number($('.purchase-details input').val()) })
+      if (giveawayArr && giveawayArr[0]) {
+        {% for item in product_Giveaway.products %}
+          giveawayArr.map(g => {
+            if (g === "{{ item.handle }}") {
+              {% assign oProduct = all_products[item.handle] %}
+              line_items.push(giveaway_purchase.line_item({{ oProduct.variants | json }}, {{ item | json }}));
+            }
+          })
+        {% endfor %}
+      }
+      Shopify.theme.bundleBuynow({
+        authorization: "{{ storefront_key }}",
+        checkout: {
+          line_items: line_items,
+          presentment_currency: "{{ shop.currency }}",
+          is_upstream_button: true,
+          page_type: "product",
+          secret: true,
+          discount,
+          wallet_name: "Checkout"
+        },
+        onSuccess: () => {},
+        onError: err => $.dialog({ title: err.message, content: err.description, type: 'red' })
+      });
+  
+      // 数据上报
+      let productsList = [];
+      const jsVariant = {{ variant | json }}
+      let skus = jsVariant.sku;
+      productsList.push({
+        'name': jsVariant.name,
+        'id': jsVariant.sku,
+        'category': '',
+        'categoryName': "{{ product.type }}",
+        'brand': "{{ shop.name }}",
+        'variant': jsVariant.title,
+        'price': jsVariant.price / 100,
+        'quantity': Number($(".purchase-details input").val())
+      });
+
+      {% for item in product_Giveaway.products %}
+        {% assign itemPro = all_products[item.handle] %}
+        var oProduct = {{ itemPro | json }};
+        var oVariant = oProduct.variants.find(o => o.sku === '{{ item.sku }}');
+        giveawayArr.map(g => {
+          if(g === '{{ item.handle }}') {
+            productsList.push({
+              'name': oVariant.name,
+              'id': oVariant.sku,
+              'category': '',
+              'categoryName': oProduct.type,
+              'brand': "{{ shop.name }}",
+              'variant': oVariant.title,
+              'price': oVariant.price / 100,
+              'quantity': Number($(".purchase-details input").val())
+            });
+            skus = skus ? skus + ',' + oVariant.sku : oVariant.sku;
+          }
+        })
+      {% endfor %}
+      window.dataLayer.push({
+        'event': 'eeEvent',
+        'eventCategory': 'EnhancedEcommerce',
+        'eventAction': 'BuyNow', 
+        'eventLabel': skus,
+        'ecommerce': {
+          'currencyCode': '{{ shop.currency }}', // 填写对应货币 USD EUR...
+          'add': {
+            'products': productsList
+          }
+        }
+      })
+    })
+
+    // 埋点
+
+    $('body').on('click', '.product_color .swatch-element', function () {
+      dataLayer.push({
+        "event": "uaEvent",
+        "eventCategory": 'select',
+        "eventAction": 'color',
+        "eventLabel": $(this).data('value'),
+        "eventValue": "undefined",
+      })
+    })
+
+    $('[data-js-buynow]').on('click', function(e) {
+      e.preventDefault();
+
+      toggleTrynowProperty && toggleTrynowProperty('false')
+
+      productBuyNow()
+
+      // ga4
+      window.dataLayer.push({
+        'event': 'eeEvent',
+        'eventCategory': 'EnhancedEcommerce',
+        'eventAction': 'BuyNow', 
+        'eventLabel': '{{ variant.sku }}',
+        'ecommerce': {
+          'currencyCode': '{{ shop.currency }}', // 填写对应货币 USD EUR...
+          'add': {
+            'products': [{
+              'name':'{{ variant.name }}',
+              'id': '{{ variant.sku }}',
+              'category': '',
+              'categoryName': '{{ product.type }}',
+              'brand': '{{ shop.name }}',
+              'variant': '{{ variant.title }}',
+              'price': +'{{ variant.price | divided_by: 100 }}',
+              'quantity': Number($(".purchase-details input").val())
+            }]
+          }
+        }
+      })
+    })
+
+    $('.product_myregistry').on('click', function(e) {
+      e.preventDefault()
+      if($('.myregistry').length){
+        window.currentMrWidgetObj.ShowPopup($('.myregistry')[0])
+      }
+    })
+  })
+</script>
+
+{% if custom_variants %}
+  <script>
+    $(function() {
+      const custom_variants = JSON.parse('{{ custom_variants | json }}');
+      // product variant init
+      let sku = "";
+      {%- for variant in product.variants -%}
+        {% if forloop.first == true %}
+          sku = "{{ variant.sku }}"
+        {% endif %}
+      {% endfor %}
+      var this_target = '';
+      const dom = custom_variants.sku.map((v, i) => {
+        const act = sku === v ? 'current' : '';
+        if (sku === v) this_target = v;
+        return `<div class="color ${act} toggleSku" data-sku="${v}">
+          <a href="JavaScript:void(0)">
+            ${custom_variants.background_img
+              ? `<img class="dot" src="${custom_variants.background_img && custom_variants.background_img[i]}" />`
+              : `<div class="dot" style="background: ${custom_variants.background[i]}"></div>`
+            }
+            <span class="txt"> ${custom_variants.color_txt[i]}</span>
+          </a>
+        </div>`;
+      }).join('');
+      if (custom_variants.sku.indexOf(sku) > -1) {
+        $('.custom_variants').html(`{% if custom_variants.option_title != blank %}<div class="option-title">{{ custom_variants.option_title }}</div>{% endif %}<div class="option-value">${dom}</div>`);
+        $('.custom_variants').removeClass('swap--visible');
+      };
+      $('.toggleSku').on("click", function () { 
+        var index = $(this).index()
+        var next_target_url = Array.isArray(custom_variants.url) ? custom_variants.url[index] : null
+        var next_target = $(this).attr('data-sku');
+        const search = location.search
+
+        if (this_target === next_target) {
+          //重复点击不重载
+          return false;
+        }
+
+        window.dataLayer.push({
+          "event": "uaEvent",
+          "eventCategory": 'switch_product',
+          "eventAction": this_target, // 这里填写当前的SKU
+          "eventLabel": next_target, // 这里填写切换后的SKU
+          "eventValue": "undefined",
+        });
+        $(this).find('a').attr('href', (next_target_url || '/products/'+ next_target) + search);
+      });
+
+  // 增加商品ga4埋点
+  var productDetail = {{product | json}};
+  $('.purchase-details__quantity .quantity-plus').click(function () {
+    window.dataLayer.push({
+     "event": "change_quantity",
+      "page_group": "Product Detail Page_" + "{{ variant.sku }}",
+      "action": "Plus"
+    });
+  })
+
+  // 减少商品ga4埋点
+  $('.purchase-details__quantity .quantity-minus').click(function() {
+    window.dataLayer.push({
+      "event": "change_quantity",
+      "page_group": "Product Detail Page_" + "{{ variant.sku }}",
+      "action": "Minus"
+    });
+  })
+})
+</script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "listing_product",
+  "class": "product-template product-main has-sidebar-option jsProduct",
+  "presets": [
+    {
+      "category": "Custom Dynamic Sections",
+      "name": "listing product"
+    }
+  ],
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "product_friendbuy",
+      "label": "Product Friendbuy",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "product_livechat",
+      "label": "Product Livechat",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "product_reviews",
+      "label": "Product Reviews",
+      "default": true
+    },
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Custom CSS"
+    },
+    {
+      "type": "range",
+      "id": "slideshow_speed",
+      "label": "轮播图切换间隔（秒）",
+      "min": 0,
+      "max": 10,
+      "unit": "sec",
+      "default": 0,
+      "info": "Set to 0 to disable autoplay."
+    },
+    {
+      "type": "checkbox",
+      "id": "is_fade",
+      "label": "开启渐隐渐现",
+      "default": false
+    }
+  ]
+}
+{% endschema %}

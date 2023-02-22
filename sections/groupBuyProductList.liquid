@@ -1,0 +1,173 @@
+{% if shop.metafields['global']['storefront_key'].value %}
+  {% assign authorization = shop.metafields['global']['storefront_key'].value %}
+{% else %}
+  {% assign authorization = shop.metafields['global']['storefront_key'] %}
+{% endif %}
+
+{% if page.metafields.global.data.value %}
+  {% assign bundles = page.metafields.global.data.value.products %}
+{% else %}
+  {% assign bundles = page.metafields.global.data.products %}
+{% endif %}
+
+{% if page.metafields.global.copy.value %}
+  {% assign copy = page.metafields.global.copy.value %}
+{% else %}
+  {% assign copy = page.metafields.global.copy %}
+{% endif %}
+
+{% if page.metafields.global.page_ref.value %}
+  {% assign ref = page.metafields.global.page_ref.value %}
+{% else %}
+  {% assign ref = page.metafields.global.page_ref %}
+{% endif %}
+
+{% if page.metafields.global.discountProperties.value %}
+  {% assign discountProperties = page.metafields.global.discountProperties.value %}
+{% else %}
+  {% assign discountProperties = page.metafields.global.discountProperties %}
+{% endif %}
+
+{% capture properties %}
+{% if discountProperties %}{{ discountProperties }}{% else %}{_eufysecuritybundlepromo: 'eufysecuritybundlepromo'}{% endif %}
+{% endcapture %}
+
+<div class='productList'>
+	{% for bundle in bundles %}
+		{% assign showFlag = true %}
+		{% assign hasVariant = false %}
+		{% assign sold_out = false %}
+		{% assign sumPrice = 0 %}
+    {% capture variants %}[
+			{%- for product in bundle.bundles -%}
+				{% assign prod = all_products[product.sku] %}
+				{% if prod.id == empty %}
+					{%assign str = product.sku | truncate: 5, ""  %}
+					{%assign prod = all_products[str] %}
+				{% endif %}
+				{% if prod.variants %}
+					{% assign equreVariant = false %}
+					{%- for variant in prod.variants -%}
+						{% if variant.sku == product.sku %}
+							{% if hasVariant %} ,{% endif %}{ variant_id: '{{ variant.id }}', quantity: {{ product.num }},properties:{{ properties }} }
+							{% assign hasVariant = true %}
+							{% assign equreVariant = true %}
+							{% if prod.available == false or prod.price == 999999999 %}
+      					{% assign sold_out = true %}
+    					{% endif %}
+						{% endif %}
+					{%- endfor -%}
+					{% unless equreVariant %}
+						{% assign showFlag = false %}
+					{% endunless %}
+				{% endif %}
+			{%- endfor -%}
+    ]{% endcapture %}
+			{% if showFlag %}
+				<div class='flexBox'>
+					<div class='pic'> 
+						{% if bundle.bundles.size == 1 %}
+							<a class="product_a product_a-{{ forloop.index }}" data-sku="{{ bundle.bundles[0].sku }}" href="/products/{{ bundle.bundles[0].handle }}?ref={{ ref }}" target="_blank" rel="noopener noreferrer">
+								<img data-src="{{ bundle.thumb }}" class='img lazyload' alt=""> 
+							</a>
+						{% else %}
+							<img data-src="{{ bundle.thumb }}" class='img lazyload' alt=""> 
+						{% endif %}
+					</div>
+					<div class='textBox'>
+						{% if bundle.bundles.size == 1 %}
+							<a class="product_a product_a-{{ forloop.index }}" data-sku="{{ bundle.bundles[0].sku }}" href="/products/{{ bundle.bundles[0].handle }}?ref={{ ref }}" target="_blank" rel="noopener noreferrer">
+								<p class='name'>{{ bundle.bundles[0].name }}</p>
+							</a>
+						{% else %}
+							<p class='name'>{{ bundle.name }}</p>
+						{% endif %}
+						
+						<ul class='ul_Box'>
+							{%- for product in bundle.bundles -%}
+								{% assign prod = all_products[product.sku] %}
+								{% if prod.id == empty %}
+									{% assign str = product.sku | truncate: 5, ""  %}
+									{% assign prod = all_products[str] %}
+								{% endif %}
+								{% if prod %}
+									{%- for variant in prod.variants -%}
+										{% if variant.sku == product.sku %}
+											{% assign singleTotal = variant.price | times: product.num %}
+											{% assign sumPrice = sumPrice | plus: singleTotal %}
+											<li>{{ product.name }} x {{ product.num }}</li>
+										{% endif %}
+									{%- endfor -%}
+								{% endif %}
+							{%- endfor -%}
+						</ul>
+						<div class='price_line'>
+							<span class='text1'>
+								{{ sumPrice | money }}
+							</span> 
+							<span class='text2'>
+							{{ bundle.sale_price | times: 100 | money }}
+							</span>
+							<div class='discountBox'> 
+								<span class='rectbox'>
+									{% if bundle.discount_type == 'percent'  %} 	
+										{% assign discount = bundle.sale_price | times: 100 | divided_by: sumPrice| minus: 1| abs | times : 100 | floor  %}
+										{{ discount }}% 
+									{% else %}
+										{% assign amount = sumPrice | times: 0.01 | minus: bundle.sale_price | times:100 | money %}
+										{{ amount }}
+									{% endif %}
+									{% if bundle.currency == 'USD'  %} 	
+										OFF
+									{% elsif bundle.currency == 'EUR' %}
+										Rabatt
+									{% else %}
+										OFF
+									{% endif %}
+								</span>
+							</div>
+						</div>
+					</div>
+				
+					<div class='buttonBox'> 
+						{% if sold_out %}
+								<button class="button button-normal soldOut_groupbuy" disabled>
+									{{copy.sold_out}}
+								</button>
+						{% else %}
+								<button class="button button-normal buynow"  onclick="bundleBuynow({{ variants | strip_newlines }})">
+									{{ copy.buynow }}
+								</button>
+						{% endif %}
+					</div>
+					
+				</div>
+			{% endif %}
+	{%- endfor -%}
+</div>
+
+<script>
+	function bundleBuynow(line_items) {
+		const spinner = $(".productList");
+    spinner.addClass('active');
+		Shopify.theme.bundleBuynow({
+      authorization: "{{ authorization }}",
+      checkout: {
+        line_items,
+        presentment_currency: "{{ shop.currency }}",
+        is_upstream_button: true,
+        page_type: "product",
+        secret: true,
+        wallet_name: "Checkout"
+      },
+      onSuccess: () => {
+        spinner.removeClass('active');
+      },
+      onError: err => {
+        $.dialog({ title: err.message, content: err.description, type: 'red' });
+        spinner.removeClass('active');
+      }
+    });
+  }	
+	
+</script>

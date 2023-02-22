@@ -1,0 +1,43 @@
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+<style>
+.image .image-element__wrap img {
+  opacity: 1 !important;
+}
+</style>
+<section class="home_media home_slick {{ section.settings.arrows_color }}">
+  <div class="wrap">
+    {% if section.settings.media_title != blank %}
+      <div class="title"><h4>{{ section.settings.media_title }}</h4></div>
+    {% endif %}
+    <div class="media-slick-slider">
+      {% for block in section.blocks %}
+        {% if block.type == 'media_txt' %}
+        <div class="item">
+          <div class="image">
+            {% render 'image-element', image: block.settings.img %}
+          </div>
+          <div class="text">
+            <p class="detail">{{ block.settings.detail }}</p>
+          </div>
+        </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<script>
+  $(document).ready(function(){
+    // 滑动模块
+    const w = document.body.offsetWidth;
+    const num = w > 767 ? 3 : 1;
+    $('.media-slick-slider').slick({
+      infinite: true,
+      speed: 500,
+      slidesToShow: num,
+      easing: 'linear'
+    });
+  })
+</script>

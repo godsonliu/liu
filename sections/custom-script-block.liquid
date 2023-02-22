@@ -1,0 +1,27 @@
+{% assign blocks = section.blocks %}
+
+{% for item in blocks %}
+    {% assign scriptName = item.settings.scriptName %}
+    <script  src="{{ scriptName | asset_url }}"></script>
+{% endfor %}
+
+{% schema %}
+{
+    "name": "Custom Script Block",
+    "presets": [{
+        "category": "Custom Script Block Sections",
+        "name": "Custom Script Block"
+    }],
+    "blocks":[
+    {
+      "name":"Script",
+      "type":"Script",
+      "settings":[
+      {
+        "type": "text",
+        "id": "scriptName",
+        "label": "私有脚本名称"
+      }]
+    }]
+}
+{% endschema %}

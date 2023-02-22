@@ -1,0 +1,127 @@
+<div class="wlc-fun">
+  <h3>{{ section.settings.title }}</h3>
+  <p>{{ section.settings.subtitle }}</p>
+  <div class="fun-card">
+    <div class="fun-img">
+      <div class="img-wrap">
+        {% render 'lazyload_image',  
+          src: section.settings.img,
+          alt: section.settings.img.alt,
+          width: section.settings.img.width,
+          aspect_ratio: section.settings.img.aspect_ratio,
+          isSchemaData: true,
+          additional_classes: "is-hidden-mobile-only"
+        %}
+        {% render 'lazyload_image',  
+          src: section.settings.img_mob,
+          alt: section.settings.img_mob.alt,
+          width: section.settings.img_mob.width,
+          aspect_ratio: section.settings.img_mob.aspect_ratio,
+          isSchemaData: true,
+          additional_classes: "is-hidden-desktop-only"
+        %}
+        <div class="card-tit is-hidden-desktop-only">{{section.settings.card_tit}}</div>
+      </div>
+      <div class="text-container">
+        <div class="card-tit">{{section.settings.card_tit}}</div>
+        <div class="card-desc">{{section.settings.card_desc}}</div>
+      </div>
+    </div>
+    <div class="fun-video">
+      {% if section.settings.video %}
+        <video class="is-hidden-mobile-only" src="{{section.settings.video}}" {% if section.settings.poster %}poster="{{section.settings.poster | img_url}}"{% endif %} width="{{section.settings.video_width}}" height="{{section.settings.video_height}}" autoplay playsinline muted loop></video>
+      {% else %}
+        {% render 'lazyload_image',  
+          src: section.settings.poster,
+          alt: section.settings.poster.alt,
+          width: section.settings.poster.width,
+          aspect_ratio: section.settings.poster.aspect_ratio,
+          isSchemaData: true,
+          additional_classes: "is-hidden-mobile-only"
+        %}
+      {% endif %}
+      {% if section.settings.video_mob %}
+        <video class="is-hidden-desktop-only" src="{{section.settings.video_mob}}" {% if section.settings.poster_mob %}poster="{{section.settings.poster_mob | img_url}}"{% endif %} width="{{section.settings.video_mob_width}}" height="{{section.settings.video_mob_height}}" autoplay playsinline muted loop></video>
+      {% else %}
+        {% render 'lazyload_image',  
+          src: section.settings.poster_mob,
+          alt: section.settings.poster_mob.alt,
+          width: section.settings.poster_mob.width,
+          aspect_ratio: section.settings.poster_mob.aspect_ratio,
+          isSchemaData: true,
+          additional_classes: "is-hidden-desktop-only"
+        %}
+      {% endif %}
+      {% comment %} <video class="is-hidden-mobile-only" src="{{section.settings.video}}" poster="{{section.settings.poster | image_url}}" playsinline></video>
+      <video class="is-hidden-desktop-only" src="{{section.settings.video_mob}}" poster="{{section.settings.poster_mob | image_url}}" playsinline></video>
+      <i class="play"></i> {% endcomment %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "wlc feature 4",
+  "settings": [{
+    "type": "textarea",
+    "id": "title",
+    "label": "标题"
+  }, {
+    "type": "textarea",
+    "id": "subtitle",
+    "label": "副标题"
+  }, {
+    "type": "image_picker",
+    "id": "img",
+    "label": "卡片图片"
+  }, {
+    "type": "image_picker",
+    "id": "img_mob",
+    "label": "移动端卡片图片"
+  }, {
+    "type": "textarea",
+    "id": "card_tit",
+    "label": "卡片标题"
+  }, {
+    "type": "textarea",
+    "id": "card_desc",
+    "label": "卡片副标题"
+  }, {
+    "type": "url",
+    "id": "video",
+    "label": "卡片视频链接"
+  },{
+    "type": "text",
+    "id": "video_width",
+    "label": "卡片视频宽度",
+    "default": "711"
+  },{
+    "type": "text",
+    "id": "video_height",
+    "label": "卡片视频高度",
+    "default": "500"
+  }, {
+    "type": "image_picker",
+    "id": "poster",
+    "label": "卡片poster"
+  }, {
+    "type": "url",
+    "id": "video_mob",
+    "label": "移动端卡片视频链接"
+  },{
+    "type": "text",
+    "id": "video_mob_width",
+    "label": "卡片视频宽度",
+    "default": "372"
+  },{
+    "type": "text",
+    "id": "video_mob_height",
+    "label": "卡片视频高度",
+    "default": "372"
+  }, {
+    "type": "image_picker",
+    "id": "poster_mob",
+    "label": "移动端卡片poster"
+  }]
+}
+{% endschema %}

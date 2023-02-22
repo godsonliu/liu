@@ -1,0 +1,516 @@
+{% if shop.metafields.global.country.value %}
+  {% assign country = shop.metafields.global.country.value %}
+{% else %}
+  {% assign country = shop.metafields.global.country %}
+{% endif %}
+
+{% assign section_id = 'shopify-section-' | append: section.id %}
+<style>
+@media(min-width: 769px) {
+  .showMobile {
+    display: none !important;
+  }
+}
+@media(max-width: 769px) {
+  .showPc {
+    display: none !important;
+  }
+}
+#{{section_id}} .page_scene_subscribe_div {
+  width: 100%;
+  background: {{ section.settings.section_bg }};
+  padding: 50px 10px;
+}
+#{{section_id}} .page_scene_subscribe {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-radius: 15px;
+  position: relative;
+}
+#{{section_id}} .page_scene_subscribe_form {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 3.9vw;
+}
+#{{section_id}} .subscribe_form_title {
+  font-weight: 600;
+  font-size: 35px;
+  color: {{ section.settings.subscribe_title_color }};
+}
+#{{section_id}} .subscribe_form_subtitle {
+  line-height: 1.2;
+  margin: 0 0 10px 0;
+  font-size: 20px;
+  color: #000000;
+}
+#{{section_id}} .subscribe_form_desc {
+  font-size: 16px;
+  color: #595757;
+}
+
+#{{section_id}} .subscribe_input_button {
+  display: flex;
+  align-items: center;
+}
+
+#{{section_id}} .subscribe_input {
+  width: 300px;
+  height: 33px;
+  border: 1px solid #09b0f2;
+  border-radius: 20px 0 0 20px;
+  font-size: 15px;
+  color: #333;
+  transform: translateX(20px);
+  outline: none;
+  padding: 0 10px;
+}
+
+#{{section_id}} .subscribe_button {
+  height: 33px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  color: {{ section.settings.subscribe_button_color }};
+  background: {{ section.settings.subscribe_button_bg }};
+  outline: none;
+  border: none;
+  border-radius: 20px;
+  position: relative;
+  z-index: 2;
+  cursor: pointer;
+  white-space: nowrap;
+}
+#{{section_id}} .subscribe_button[disabled] {
+  background: #ccc;
+  color: #fff;
+  pointer-events: none;
+	cursor: not-allowed;
+}
+
+#{{section_id}} .policyBox {
+	margin-top: 15px;
+	text-align: center;
+	font-size: 14px;
+	color: #000;
+}
+#{{section_id}} .policyBox input[type="checkbox"] {
+	vertical-align: middle;
+}
+#{{section_id}} .policyBox span, .policyBox a {
+	font-size: 14px;
+	color: #000;
+}
+#{{section_id}} .policyBox a {
+	text-decoration: underline;
+}
+
+#{{section_id}} .error-info {
+	height: 40px;
+	text-align: center;
+}
+#{{section_id}} .info_tips {
+	font-size: 13px;
+	color: #ee3749;
+	display: none;
+	margin-top: 10px;
+}
+#{{section_id}} .info_success {
+	color: #fc9403;
+}
+
+#{{ section_id }} .coupon_content {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 12px;
+  padding: 30px 15px;
+}
+#{{ section_id }} .coupon_content .coupon_content_title {
+  font-size: 30px;
+  color: #000;
+  font-weight: 500;
+  text-align: center;
+}
+#{{ section_id }} .coupon_content .coupon_content_code {
+  font-size: 30px;
+  color: #000;
+  text-align: center;
+}
+
+#{{ section_id }} .coupon_content .coupon_content_desc {
+  font-size: 20px;
+  color: #595757;
+  text-align: center;
+}
+
+#{{ section_id }} .page_scene_popup {
+  max-width: 600px;
+}
+#{{ section_id }} .page_scene_popup_list {
+  height: auto;
+}
+
+
+@media(max-width: 769px) {
+  #{{section_id}} .page_scene_subscribe_div {
+    padding: 30px 20px;
+  }
+  #{{section_id}} .subscribe_form_txt {
+    text-align: center;
+  }
+  #{{section_id}} .page_scene_subscribe_form {
+    flex-direction: column;
+    padding: 30px 0;
+  }
+  #{{section_id}} .subscribe_input_button {
+    margin-left: -10px;
+  }
+  #{{section_id}} .subscribe_input {
+    width: 240px;
+  }
+  #{{section_id}} .subscribe_button {
+    font-size: 12px;
+    padding: 0 8px;
+  }
+}
+@media(max-width: 376px) {
+  #{{section_id}} .subscribe_input {
+    width: 210px;
+  }
+}
+
+</style>
+<div class="page_scene_subscribe_div">
+  <section class="page_scene_subscribe">
+    <div class="page_scene_subscribe_form">
+      <div class="subscribe_form_txt">
+        <div class="subscribe_form_title">{{ section.settings.subscribe_title }}</div>
+        <div class="subscribe_form_subtitle">{{ section.settings.subscribe_subtitle }}</div>
+        <div class="subscribe_form_desc">{{ section.settings.subscribe_desc }}</div>
+      </div>
+      <div class="subscribe_form_input">
+        <div class="subscribe_input_button">
+          <input class="subscribe_input" placeholder="{{ section.settings.input_placeholder }}" />
+          <button class="subscribe_button">{{ section.settings.button_txt }}</button>
+        </div>
+        <div class="policyBox">
+          <label>
+            <span>
+              <input type="checkbox" class="policy-checkbox" />
+            </span>
+            <span>{{ section.settings.policy_text }}</span>
+          </label>
+        </div>
+        <div class="error-info">
+          <div class="info_tips info_success">{{ section.settings.info_success }}</div>
+          <div class="info_tips info_fill_email">{{ section.settings.info_fill_email }}</div>
+          <div class="info_tips info_err_email">{{ section.settings.info_err_email }}</div>
+          <div class="info_tips info_select_policy">{{ section.settings.info_select_policy }}</div>
+        </div>
+      </div>
+    </div>
+    <img class="page_scene_subscribe_img showPc lazyload" width="{{section.settings.subscribe_image.width}}" height="{{section.settings.subscribe_image.height}}"  data-src="{{ section.settings.subscribe_image | image_url }}" />
+    <img class="page_scene_subscribe_img showMobile lazyload" width="{{section.settings.mobile_subscribe_image.width}}" height="{{section.settings.mobile_subscribe_image.height}}"  data-src="{{ section.settings.mobile_subscribe_image | image_url }}" />
+  </section>
+  <div class="tigger_page_scene_popup"></div>
+</div>
+
+{%
+  render 'page_scene_popup',
+  section_id: section_id, 
+  popup_title: section.settings.popup_title,
+  popup_desc: section.settings.popup_desc,
+  className: '.page_scene_subscribe_div .tigger_page_scene_popup',
+  slot_content: "<div id='slot_content'></div>"
+%}
+
+
+<script>
+$(function() {
+  function pushErrorDataLayer() {
+		window.dataLayer.push({
+			"event": "bottom_function",
+			"page_group": "{{ template }}",
+			"action": "Email Sign Up Error"
+		})
+	}
+
+	function pushSuccDataLayer(data) {
+    dataLayer.push({
+      "event": "uaEvent", // Trigger
+      "eventCategory": 'subscribe',
+      "eventAction": '{{ section.settings.deals_type }}',
+      "eventLabel": "{{section.settings.ga4_page_group}}" 
+    })
+
+		window.dataLayer.push({ "event_parameters": null });
+		window.dataLayer.push({
+			"event": "ga4Event",
+			"event_name": "subscribe",
+			"event_parameters": {
+				"page_group": "{{section.settings.ga4_page_group}}"
+			}
+		})
+	}
+  const subscribe_private = {
+		timer: null,
+		regExp: {
+			email: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+		},
+		isEmail: val => subscribe_private.regExp.email.test(val),
+		tip_info: (clas, val) => {
+			$('#{{section_id}} .subscribe_button').prop("disabled", false);
+			$('#{{section_id}} .info_tips').hide()
+			$(`#{{section_id}} .${clas}`).show()
+			if (subscribe_private.timer) clearTimeout(subscribe_private.timer);
+			subscribe_private.timer = setTimeout(() => { 
+				$(`#{{section_id}} .${clas}`).hide();
+			}, 8000);
+		}
+	};
+
+  $('#{{section_id}} .subscribe_button').on('click', function(e) {
+		e.stopPropagation();
+		e.preventDefault();
+		$(this).prop("disabled", true);
+		const email_val = $('#{{section_id}} .subscribe_input').val().trim()
+		const check_val = $('#{{section_id}} .policy-checkbox').prop('checked')
+		if(!email_val) {
+			subscribe_private.tip_info('info_fill_email');
+			pushErrorDataLayer(); 
+			return
+		}
+		if(email_val && !subscribe_private.isEmail(email_val)) {
+			subscribe_private.tip_info('info_err_email');
+			pushErrorDataLayer()
+			return
+		}
+		if(!check_val) {
+			subscribe_private.tip_info('info_select_policy');
+      pushErrorDataLayer()
+			return
+		}
+		const data = {
+			email: email_val,
+			brand: '{{section.settings.brand_name}}'
+		}
+		let subscribe_name = 'subscribe_emails'
+		{% if section.settings.deals_type != blank %}
+		data.phone_number = null;
+		data.genre = '{{ section.settings.deals_type  }}';
+		data.single_brand_subscribe = false;
+		data.shopify_domain = "{{ shop.permanent_domain }}";
+		data.country_code = "{{ country.code }}";
+		data.trigger_subscribe = true
+		subscribe_name = 'subscribe_activities_emails'
+		{% endif %}
+		Shopify.contentCreator.pastApi[subscribe_name]({
+			params: data,
+			fn: (body) => {
+        let coupon = body.coupon;
+        let coupon_content = `
+          <div class='coupon_content'>
+            <div class='coupon_content_title'>{{ section.settings.slot_content_title }}</div>
+            <div class='coupon_content_code'>${ coupon?.code }</div>
+            <div class='coupon_content_desc'>{{ section.settings.slot_content_desc }}</div>
+          </div>
+        `
+        $('#{{ section_id }} #slot_content').html(coupon_content);
+        $('.page_scene_subscribe_div .tigger_page_scene_popup').trigger('click')
+				pushSuccDataLayer(body)
+				subscribe_private.tip_info('info_success');
+				$('#{{section_id}} .sign_up_input').val('');
+				$('#{{section_id}} .policy-checkbox').prop("checked", false);
+				setTimeout(function() {
+					$('#{{section_id}} .info_tips').hide()
+				}, 2500)
+			},
+			error: (err) => {
+				const { responseJSON } = err || {};
+				if (responseJSON) {
+					subscribe_private.tip_info('info_error', responseJSON.error || responseJSON.err);
+				} else {
+					subscribe_private.tip_info('info_err_email');
+				}
+			}
+		});
+	})
+})
+</script>
+
+{% schema %}
+  {
+    "name": "Page Scene Subscribe",
+    "presets": [
+      {
+        "name": "Page Scene Subscribe"
+      }
+    ],
+    "settings": [
+      {
+        "type": "color",
+        "id": "section_bg",
+        "label": "Section背景色",
+        "default": "#f7f8f8"
+      },
+      {
+				"type": "text",
+				"id": "brand_name",
+				"label": "注册的来源，一般为品牌名",
+				"default": "anker"
+			},
+      {
+				"type": "text",
+				"id": "deals_type",
+				"label": "订阅类型",
+				"info": "不填写代表普通订阅（不需要导出数据的订阅，页脚那种），如果是活动订阅，请填写相关标识"
+			},
+      {
+				"type": "header",
+				"content": "埋点相关"
+			},
+			{
+				"type": "text",
+				"id": "ga4_page_group",
+				"label": "Ga3/Ga4的埋点字段: 类目",
+				"default": "Live Streaming Page"
+			},
+      {
+        "type": "image_picker",
+        "id": "subscribe_image",
+        "label": "背景图"
+      },
+      {
+        "type": "image_picker",
+        "id": "mobile_subscribe_image",
+        "label": "Mobile端背景图"
+      },
+      {
+        "type": "html",
+        "id": "subscribe_title",
+        "label": "标题",
+        "default": "SIGNUP NOW"
+      },
+      {
+        "type": "color",
+        "id": "subscribe_title_color",
+        "label": "标题颜色",
+        "default": "#025c85"
+      },
+      {
+        "type": "html",
+        "id": "subscribe_subtitle",
+        "label": "副标题",
+        "default": "Subscribe Get 10% Off"
+      },
+      {
+        "type": "html",
+        "id": "subscribe_desc",
+        "label": "描述",
+        "default": "NOV. xx - NOV. xx"
+      },
+      {
+        "type": "header",
+        "content": "表单部分"
+      },
+      {
+				"type": "text",
+				"id": "input_placeholder",
+				"label": "输入框提示",
+				"default": "Enter your e-mail"
+			},
+      {
+        "type": "html",
+        "id": "button_txt",
+        "label": "按钮文案",
+        "default": "Get 10% Off"
+      },
+      {
+        "type": "color",
+        "id": "subscribe_button_bg",
+        "label": "按钮背景色",
+        "default": "#025c85"
+      },
+      {
+        "type": "color",
+        "id": "subscribe_button_color",
+        "label": "按钮文案颜色",
+        "default": "#ffffff"
+      },
+      {
+				"type": "html",
+				"id": "policy_text",
+				"label": "协议文案",
+				"default": "I agree to the <a href='/policies/terms-of-service' target='_blank' rel='noopener noreferrer'>Terms of Use</a> and <a href='/policies/privacy-policy' target='_blank' rel='noopener noreferrer'>Privacy Policy</a>."
+			},
+      {
+        "type": "text",
+        "id": "info_success",
+        "label": "info_success Text",
+        "default": "Welcome to Anker!"
+			},
+			{
+				"type": "text",
+				"id": "info_fill_email",
+				"label": "info_fill_email Text",
+				"default": "Please enter your email address."
+			},
+			{
+				"type": "text",
+				"id": "info_err_email",
+				"label": "info_err_email Text",
+				"default": "Please enter a valid email address (Example: name@domain.com)."
+			},
+			{
+				"type": "text",
+				"id": "info_select_policy",
+				"label": "info_agree_policy Text",
+				"default": "Please agree to the Terms of Use and Privacy Policy."
+			},
+      {
+        "type": "header",
+        "content": "订阅成功后弹窗内容"
+      },
+      {
+        "type": "html",
+        "id": "popup_title",
+        "label": "弹窗标题",
+        "default": "Congratulations"
+      },
+      {
+        "type": "html",
+        "id": "popup_desc",
+        "label": "弹窗描述",
+        "default": "When  the user subscribe successfully, <br/>a pop-up shows up and gets an email about code information."
+      },
+      {
+        "type": "header",
+        "content": "弹窗内嵌内容部分"
+      },
+      {
+        "type": "html",
+        "id": "slot_content_title",
+        "label": "内嵌内容标题",
+        "default": "Here Is Your Code: "
+      },
+      {
+        "type": "html",
+        "id": "slot_content_desc",
+        "label": "内嵌内容描述",
+        "default": "Code valid until October xxth<br/> *Discounts apply to all Eufy products except accessories."
+      }
+    ]
+  }
+{% endschema %}

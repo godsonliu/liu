@@ -1,0 +1,120 @@
+{% if template contains 'page' %}
+  {% if page.metafields['global']['images'].value %}
+    {% assign lang = page.metafields['global']['images'].value %}
+    {% assign images = page.metafields['global']['images'].value %}
+  {% else %}
+    {% assign lang = page.metafields['global']['images'] %}
+    {% assign images = page.metafields['global']['images'] %}
+  {% endif %}
+{% else %}
+  {% if product.metafields['global']['images'].value %}
+    {% assign lang = product.metafields['global']['images'].value %}
+  {% else %}
+    {% assign lang = product.metafields['global']['images'] %}
+  {% endif %}
+{% endif %}
+
+{{ 'T8213_images.scss.css' | asset_url | stylesheet_tag }}
+
+
+<div  id="images"></div>
+<section class="t8213_images">
+  <div class="rotate_content pc_show">
+      <button class="slick-prev slick-prev-pc slick-arrow" aria-label="Previous" type="button">
+        <div class="img-box">
+          <img class="lazyload left_arrow active" data-src="{{ lang.left_arrow }}" alt="Previous Arrow">
+          <img class="lazyload left_arrow_active" data-src="{{ lang.left_arrow_active }}" alt="Next Arrow">
+        </div>
+      </button>
+      <div class="rotate_images rotate_images_pc">
+        {% for image in images.imagesListPc %}
+          <div class="lb_all">
+            <div class="lb_img">
+              {% render 'lazyload_image',  
+                src: image.image,
+                style: "opacity: 0;"
+                alt: "" %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      <button class="slick-next slick-next-pc slick-arrow" aria-label="Next" type="button">
+        <div class="img-box">
+          <img class="lazyload right_arrow active" data-src="{{ lang.right_arrow }}" alt="Next Arrow">
+          <img class="lazyload right_arrow_active" data-src="{{ lang.right_arrow_active }}" alt="Next Arrow">
+        </div>
+      </button>
+  </div>
+  <div class="rotate_content mob_show">
+      <button class="slick-prev slick-prev-mob slick-arrow" aria-label="Previous" type="button">
+        <div class="img-box">
+          <img class="lazyload left_arrow active" data-src="{{ lang.left_arrow }}" alt="Previous Arrow">
+          <img class="lazyload left_arrow_active" data-src="{{ lang.left_arrow_active }}" alt="Previous Arrow">
+        </div>
+      </button>
+      <div class="rotate_images rotate_images_mob mob_show">
+        {% for image in images.imagesListMobile %}
+          <div class="lb_all">
+            <div class="lb_img">
+              {% render 'lazyload_image',  
+                src: image.image,
+                style: "opacity: 0;"
+                alt: "" %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      <button class="slick-next slick-next-mob slick-arrow" aria-label="Next" type="button">
+        <div class="img-box">
+          <img class="lazyload right_arrow active" data-src="{{ lang.right_arrow }}" alt="Next Arrow">
+          <img class="lazyload right_arrow_active" data-src="{{ lang.right_arrow_active }}" alt="Previous Arrow">
+        </div>
+      </button>
+  </div>
+</section>
+
+<script>
+  $(function() {
+    $(".rotate_images_pc").slick({
+      dots: true,
+      autoplay:true,
+      infinite: true,
+      slidesToShow:1,
+      prevArrow: $('.slick-prev-pc'),
+      nextArrow: $('.slick-next-pc'),
+    });
+    $(".rotate_images_mob").slick({
+      dots: true,
+      autoplay:true,
+      infinite: true,
+      slidesToShow:1,
+      prevArrow: $('.slick-prev-mob'),
+      nextArrow: $('.slick-next-mob'),
+    });
+  })
+  const width = window.innerWidth;
+  if (width > 769){
+    $('.slick-prev').hover(
+    function(){
+      $(".left_arrow_active").addClass("active")
+      $(".left_arrow").removeClass("active")
+    },
+    function(){
+      $(".left_arrow").addClass("active")
+      $(".left_arrow_active").removeClass("active")
+    }
+  );
+
+  $('.slick-next').hover(
+    function(){
+      $(".right_arrow_active").addClass("active")
+      $(".right_arrow").removeClass("active")
+    },
+    function(){
+      $(".right_arrow").addClass("active")
+      $(".right_arrow_active").removeClass("active")
+    }
+  );
+}
+
+</script>

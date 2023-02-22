@@ -1,0 +1,134 @@
+{% if template contains 'page' %}
+  {% if page.metafields['global']['4g_camera_nowifi'].value %}
+    {% assign lang = page.metafields['global']['4g_camera_nowifi'].value %}
+  {% else %}
+    {% assign lang = page.metafields['global']['4g_camera_nowifi'] %}
+  {% endif %}
+
+  {% if page.metafields['global']['4g_camera_nopower'].value %}
+    {% assign nopower = page.metafields['global']['4g_camera_nopower'].value %}
+  {% else %}
+    {% assign nopower = page.metafields['global']['4g_camera_nopower'] %}
+  {% endif %}
+
+  {% if page.metafields['global']['4g_camera_badWeather'].value %}
+    {% assign badWeather = page.metafields['global']['4g_camera_badWeather'].value %}
+  {% else %}
+    {% assign badWeather = page.metafields['global']['4g_camera_badWeather'] %}
+  {% endif %}
+{% else %}
+  {% if product.metafields['global']['4g_camera_nowifi'].value %}
+    {% assign lang = product.metafields['global']['4g_camera_nowifi'].value %}
+  {% else %}
+    {% assign lang = product.metafields['global']['4g_camera_nowifi'] %}
+  {% endif %}
+
+  {% if product.metafields['global']['4g_camera_nopower'].value %}
+    {% assign nopower = product.metafields['global']['4g_camera_nopower'].value %}
+  {% else %}
+    {% assign nopower = product.metafields['global']['4g_camera_nopower'] %}
+  {% endif %}
+
+  {% if product.metafields['global']['4g_camera_badWeather'].value %}
+    {% assign badWeather = product.metafields['global']['4g_camera_badWeather'].value %}
+  {% else %}
+    {% assign badWeather = product.metafields['global']['4g_camera_badWeather'] %}
+  {% endif %}
+{% endif %}
+
+<section id="{{lang.id | default: 'camera-4g-nowifi'}}" class="camera-4g-nowifi">
+  <div class="box-container">
+    <div class="img_block">
+      {% render 'lazyload_image',  
+        src: lang.img_pc,
+        additional_classes: "is-hidden-mobile-only"
+        style: "opacity: 0;"
+        alt: {{ lang.desc }} %}
+      {% render 'lazyload_image',
+        src: lang.img_mob,
+        additional_classes: "is-hidden-desktop-only",
+        style: "opacity: 0;"
+        alt: {{ lang.desc }} %}
+    </div>
+    <div class="box-content">
+      <h2 class="title">{{ lang.title }}</h2>
+      <p class="desc">{{ lang.desc }}</p>
+    </div>
+  </div>
+</section> 
+<section id="{{nopower.id | default: 'camera-4g-nopower'}}" class="camera-4g-nopower">
+  <div class="box-container">
+    <div class="box-content">
+      <h2 class="title">{{ nopower.title }}</h2>
+      <p class="desc">{{ nopower.desc }}</p>
+    </div>
+    {% if nopower.blocks and nopower.blocks.size > 0 %}
+      <div class="box-blocks">
+        {% for item in nopower.blocks%}
+        <div class="box-block">
+          {% if item.block_icon and item.block_icon != '' %}
+            <div class="block-icon">
+              <img class="lazyload" src="{{ item.block_icon }}" alt="" aria-hidden="true"/>
+            </div>
+          {% endif %}
+          <div class="block-title">{{item.block_title}}</div>
+          <div class="block-desc">{{item.block_desc}}</div>
+        </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+    <div class="img_block">
+      {% render 'lazyload_image',  
+        src: nopower.img_pc,
+        additional_classes: "is-hidden-mobile-only"
+        style: "opacity: 0;"
+        alt: {{ nopower.desc }} %}
+      {% render 'lazyload_image',
+        src: nopower.img_mob,
+        additional_classes: "is-hidden-desktop-only",
+        style: "opacity: 0;"
+        alt: {{ nopower.desc }} %}
+    </div>
+    {% if nopower.remark and nopower.remark != '' %}
+      <div class="remark">{{ nopower.remark }}</div>
+    {% endif %}
+  </div>
+</section> 
+<section id="{{badWeather.id | default: 'camera-4g-badWeather'}}" class="camera-4g-badWeather">
+  <div class="box-container">
+    <div class="box-content">
+      <h2 class="title">{{ badWeather.title }}</h2>
+      <p class="desc">{{ badWeather.desc }}</p>
+    </div>
+    {% if badWeather.blocks and badWeather.blocks.size > 0 %}
+      <div class="box-blocks">
+        {% for item in badWeather.blocks%}
+        <div class="box-block">
+          {% if item.block_icon and item.block_icon != '' %}
+            <div class="block-icon">
+              <img class="lazyload" src="{{ item.block_icon }}" alt="" aria-hidden="true"/>
+            </div>
+          {% endif %}
+          <div class="block-title">{{item.block_title}}</div>
+          <div class="block-desc">{{item.block_desc}}</div>
+        </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+    <div class="img_block">
+      {% render 'lazyload_image',  
+        src: badWeather.img_pc,
+        additional_classes: "is-hidden-mobile-only"
+        style: "opacity: 0;"
+        alt: {{ badWeather.desc }} %}
+      {% render 'lazyload_image',
+        src: badWeather.img_mob,
+        additional_classes: "is-hidden-desktop-only",
+        style: "opacity: 0;"
+        alt: {{ badWeather.desc }} %}
+    </div>
+    {% if badWeather.remark and badWeather.remark != '' %}
+    <div class="remark">{{ badWeather.remark }}</div>
+  {% endif %}
+  </div>
+</section> 

@@ -1,0 +1,146 @@
+#shopify-section-header-classic {
+  z-index: 50;
+
+  .z-header {
+    z-index: 50;
+  }
+}
+
+.header {
+  background-color: $header-background;
+  transition: background-color 0.3s linear, height 0.2s linear;
+}
+
+.header_nav {
+  position: absolute;
+  top: 10px;
+  right: 0;
+  transform: translateX(80%);
+  font-size: 0;
+
+  .header_nav_txt {
+    padding: 1px 2px;
+    font-weight: 600;
+    font-size: 10px;
+    line-height: 14px;
+    color: #fff;
+    background-color: #FC8800;
+    display: inline-block;
+    border-radius: 2px;
+  }
+}
+
+.header__brand {
+  @include flex(0 0 auto);
+  @include flexbox();
+  @include align-items(center);
+  padding: 1rem 0.75rem;
+  margin-left: 5%;
+
+  @media (min-width: 1600px) {
+    margin-left: 10%;
+  }
+}
+
+.header__icons {
+  margin-right: 5%;
+
+  @media (min-width: 1600px) {
+    margin-right: 10%;
+  }
+}
+
+.mega-menu {
+  border-top: 1px solid #dedede;
+
+  .container {
+    max-width: 1200px;
+  }
+
+  .menu__heading {
+    font-weight: 600;
+    color: #3f3f3f;
+  }
+
+  .menu__heading a {
+    font-weight: 600;
+    color: #3f3f3f;
+  }
+
+  .mega-menu__linklist-link {
+    color: #6b6b6b;
+  }
+
+  .has-no-side-gutter-mega .mega-menu__block {
+    padding: 10px !important;
+
+    @media (max-width: 480px) {
+      width: 50%;
+    }
+  }
+}
+
+.primary-logo {
+  transition: all 0.1s linear;
+
+  +.header__logo-text {
+    display: none;
+  }
+}
+
+.header__logo {
+  transition: $transition-default;
+}
+
+.header__menu {
+  @include flex(1 1 auto);
+  @include flexbox();
+  @include flex-wrap(wrap);
+  justify-content: center;
+
+  .navbar-item {
+    margin: 0 5px;
+  }
+}
+
+.action-area__link.has-cart-count {
+  padding-right: 0.8em;
+}
+
+[data-enable_overlay="false"] .overlay-logo {
+  display: none;
+}
+
+[data-enable_overlay="true"] {
+  position: absolute;
+  width: 100%;
+
+  .header {
+    position: absolute;
+    top: 0px;
+    width: 100%;
+    z-index: 10;
+  }
+
+  .overlay-logo {
+    display: block;
+  }
+
+  .overlay-logo+.primary-logo {
+    display: none;
+  }
+
+  .overlay-logo+.header__logo-text {
+    display: none;
+  }
+
+}
+
+[data-enable_sticky="true"] .header {
+  z-index: 50;
+}
+
+.has-overlaid-header {
+  position: absolute;
+  width: 100%;
+}

@@ -1,0 +1,257 @@
+
+{% assign section_id = 'shopify-section-' | append: section.id %}
+{% if section.settings.custom_style != blank %}
+{% assign custom_style = section.settings.custom_style %}
+{% else %}
+{% assign custom_style = '2' %}
+{% endif %}
+
+{% if section.settings.item_text_align != blank %}
+{% assign item_text_align = section.settings.item_text_align %}
+{% else %}
+{% assign item_text_align = 'center' %}
+{% endif %}
+
+<style>
+#{{section_id}} .custom-page-nav-contianer {
+  position: relative;
+  z-index: 10;
+}
+#{{section_id}} .component_nav_{{section.id}} {
+  width: 100%;
+  text-align: {{ item_text_align }};
+  margin: 0 auto;
+  overflow-x: auto;
+  white-space: nowrap;
+  background: {% if section.settings.box_bg != blank %} {{ section.settings.box_bg }} {% else %} #fff {% endif %};
+  max-width: {{section.settings.box_width}};
+}
+#{{section_id}} .component_nav_{{section.id}}.fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 99;
+  transition: transform .3s, opacity .25s;
+  will-change: transform;
+  visibility: visible;
+  opacity: 1;
+}
+#{{section_id}} .component_nav_{{section.id}} .component-nav-item {
+  display: inline-block;
+  font-weight: 500;
+  font-size: 16px;
+  margin-right: 60px;
+  outline: none;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+	-webkit-tap-highlight-color: transparent;
+  color: {% if section.settings.text_color != blank %}{{section.settings.text_color}}{% else %}#fff{% endif %};
+  background: {{section.settings.item_bg}};
+}
+#{{section_id}} .component_nav_{{section.id}} .component-nav-item:last-child {
+  margin-right: 0;
+}
+
+
+{% if custom_style == '1' %}
+#{{section_id}} .component_nav_{{section.id}} {
+  padding: 15px 20px;
+}
+#{{section_id}} .component_nav_{{section.id}} .component-nav-item {
+  border: 1px solid {{ section.settings.item_border_color }};
+  padding: 10px 24px;
+  border-radius: {% if section.settings.item_radius != blank %} {{section.settings.item_radius}} {% else %} var(--button_border_radius) {% endif %};
+}
+#{{section_id}} .component_nav_{{section.id}} .component-nav-item-light,#{{section_id}} .component_nav_{{section.id}} .component-nav-item:hover {
+  font-weight: 700;
+  color: {% if section.settings.light_text_color != blank %}{{section.settings.light_text_color}} {% else %} #fff {% endif %};
+  border-color: {% if section.settings.light_item_border_color != blank %} {{section.settings.light_item_border_color}} {% else %} var(--light_color) {% endif %};
+  background: {% if section.settings.light_item_bg != blank  %} {{section.settings.light_item_bg}} {% else %} var(--light_color) {% endif %};
+}
+@media(max-width: 769px) {
+  #{{section_id}} .component_nav_{{section.id}} {
+    padding: 7px 10px;
+  }
+  #{{section_id}} .component_nav_{{section.id}} .component-nav-item {
+    margin-right: 20px;
+    padding: 8px 16px;
+  }
+}
+{% endif %}
+
+
+
+{% if custom_style == '2' %}
+#{{section_id}} .component_nav_{{section.id}} {
+  padding: 0 10px;
+}
+#{{section_id}} .component_nav_{{section.id}} .component-nav-item {
+  border-bottom: 2px solid transparent;
+  padding: 26px 0;
+}
+#{{section_id}} .component_nav_{{section.id}} .component-nav-item-light, #{{section_id}} .component_nav_{{section.id}} .component-nav-item:hover {
+  color: {% if section.settings.light_text_color != blank %}{{section.settings.light_text_color}} {% else %} #fff {% endif %};
+  border-color: {% if section.settings.light_item_border_color != blank %} {{section.settings.light_item_border_color}} {% else %} var(--light_color) {% endif %};;
+}
+@media(max-width: 769px) {
+  #{{section_id}} .component_nav_{{section.id}} {
+    padding: 0 10px;
+  }
+  #{{section_id}} .component_nav_{{section.id}} .component-nav-item {
+    margin-right: 20px;
+    padding: 15px 0;
+  }
+}
+{% endif %}
+
+</style>
+
+<div class="custom-page-nav-contianer">
+  <div class="component-nav component_nav_{{section.id}} custom-page-nav-box">
+    {% for block in section.blocks %}
+    {% if block.type == 'nav_item' %}
+    <a  class="component-nav-item custom-page-nav-item">{{ block.settings.item_txt }}</a>
+    {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+
+<script>
+
+  {% capture navlist %}
+  {% if section.blocks %}
+    {% for block in section.blocks %}
+      {% if block.type == 'nav_item' %}
+      {"label":"{{ block.settings.item_txt }}","id":"{{  block.settings.item_id }}"}
+      {% if forloop.last == false %},{% endif %}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+  {% endcapture %}
+
+$(function () {
+    let navlist = JSON.parse(`[{{navlist | strip | strip_newlines }}]`)
+    let w = $(window).width()
+    let pageNavH = $('#{{section_id}} .custom-page-nav-box').height()
+    let scrollPoint = []
+    let siteNavH = 0
+    let isNavClick = true
+    let offset = 200
+    let index
+    let scrollAction = {
+      x: 'undefined', 
+      y: 'undefined'
+    }
+
+    init()
+
+    function init() {
+      dataInit()
+      event()
+      scroll()
+    }
+
+    function dataInit() {
+      navlist.map(item => {
+        scrollPoint.push(item.id)
+      })
+    }
+
+
+    function getScrollOffset() {
+      let arr = []
+      
+      scrollPoint.map(item => {
+        arr.push($(`#${item}`)[0] && $(`#${item}`)[0].offsetTop - offset)
+      })
+      return arr
+    }
+
+    function event() {
+      $('#{{section_id}} .custom-page-nav-item').on('click', function() {
+        const idx = $(this).index()
+        const arr = getScrollOffset()
+        isNavClick = false
+        index = idx
+        $(this).addClass('active').siblings().removeClass('active')
+        $('html,body').animate({
+          scrollTop: arr[idx]
+        }, 500, 'swing', function () {
+        })
+      })
+    }
+
+    function navAct(idx) {
+      $('#{{section_id}} .custom-page-nav-item').eq(idx).addClass('component-nav-item-light').siblings().removeClass('component-nav-item-light')
+    }
+
+    function scroll() {
+      let timer
+      let flag = false
+
+      w = $(window).width()
+      siteNavH = w > 768 ? $('#header').height() : $('#mobile-header').height() 
+
+      $('#{{section_id}} .custom-page-nav-contianer').height(pageNavH)
+
+      document.addEventListener('scroll', function() {
+        const offsetTop = $('#{{section_id}} .custom-page-nav-contianer')[0].offsetTop
+        const scrollTop = $(window).scrollTop()
+        const stArr = getScrollOffset()
+        siteNavH = w > 768 ? $('#header').height() : $('#mobile-header').height() 
+        siteNavH = siteNavH + ($('#shopify-section-header__icon-bar').length && $('#shopify-section-header__icon-bar').height())
+        timer && clearTimeout(timer) 
+        const $navBox = $('#{{section_id}} .custom-page-nav-box')
+        if(scrollTop > offsetTop) {
+          if( w > 768) {
+            $navBox.addClass('fixed').css('transform', 'translateY('+ siteNavH +'px)')
+          } else {
+            $navBox.addClass('fixed')
+            if(getScrollDir() === 'up') {
+              $navBox.css('transform', 'translateY('+ siteNavH +'px)')
+              if(!flag) timer = setTimeout(() => {
+                $('#{{section_id}} .custom-page-nav-contianer').css('z-index', '10')
+                flag = true
+              }, 300)
+            }else {
+              $navBox.css('transform', 'none').parents('.custom-page-nav-contianer').css('z-index', '50')
+              flag = false
+            }
+          }
+        } else {
+          $navBox.removeClass('fixed').css('transform', 'none').parents('.custom-page-nav-contianer').css('z-index', '10')
+        }
+
+        if (scrollTop>=stArr[index]) {
+          isNavClick = true
+        }
+
+        if(isNavClick) {
+          stArr.forEach(function(item,i_dex) {
+            if( scrollTop >= item && (stArr[i_dex+1] ? scrollTop < stArr[i_dex+1] : true) ) {
+              navAct(i_dex)
+            }
+          })
+        }
+      })
+    }
+
+    function getScrollDir() {
+      let dir = ''
+      if (typeof scrollAction.x == 'undefined') {
+        scrollAction.y = window.pageYOffset
+      }
+      const diffY = scrollAction.y - window.pageYOffset
+      if (diffY < 0) {
+        dir = 'down'
+      } else if (diffY > 0) {
+        dir = 'up'
+      }
+      scrollAction.y = window.pageYOffset
+      return dir
+    }
+
+  })
+</script>

@@ -1,0 +1,51 @@
+#build_sys .questionBox .question .optionBox .option a:hover {
+  color: #ae0303;
+}
+
+#build_sys .questionBox .question .optionBox .option .active {
+  border-color: #ae0303;
+}
+
+#sys_product .detailBox .actionBox .color .colorBack.active {
+  border-color: #ae0303;
+}
+
+#sys_cart .cartTotalBox .priceTotalBox .priceTotal .buttonFlag .flagText span {
+  color: #ae0303;
+}
+
+#buffettypes .navBox .typeBox .type.active p {
+  color: #ae0303;
+}
+#sys_cart .cartTotalBox .actionBox .copyBox .copybtn button {
+  background: #ae0303;
+}
+#sys_cart .cartTotalBox .actionBox .act_buynow {
+  background: #ae0303;
+}
+#sys_cart .cartTotalBox .priceTotalBox .priceTotal .buttonFlag .iconfont {
+  color: #ae0303;
+}
+
+.button-normal.submit:hover:after {
+  border-color: #ae0303;
+}
+
+#build_sys .component_title_v2 {
+  font-weight: 700;
+}
+
+#build_sys .title-box .title h1 {
+  color: #ae0303;
+  font-weight: 700;
+}
+
+#build_sys .main-box .navbar .bar.active {
+  border-color: #ae0303;
+  color: #ae0303;
+}
+
+.tb-box-button {
+  background: #ae0303 !important;
+  border: 0 !important;
+}

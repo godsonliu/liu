@@ -1,0 +1,91 @@
+{% if product.metafields['global']['custom_variants'].value %}
+  {% assign custom_variants = product.metafields['global']['custom_variants'].value %}
+{% else %}
+  {% assign custom_variants = product.metafields['global']['custom_variants'] %}
+{% endif %}
+
+{% if product.metafields.global.hide_trustpilot.value %}
+  {% assign product_hide_trustpilot = product.metafields.global.hide_trustpilot.value %}
+{% else %}
+  {% assign product_hide_trustpilot = product.metafields.global.hide_trustpilot %}
+{% endif %}
+
+{% if shop.metafields.yotpo.yotpo_offload_content.value %}
+  {% assign yotpo_offload_content = shop.metafields.yotpo.yotpo_offload_content.value %}
+{% else %}
+  {% assign yotpo_offload_content = shop.metafields.yotpo.yotpo_offload_content %}
+{% endif %}
+
+{% if shop.metafields.yotpo.yotpo_live.value %}
+  {% assign yotpo_live_time = shop.metafields.yotpo.yotpo_live.value %}
+{% else %}
+  {% assign yotpo_live_time = shop.metafields.yotpo.yotpo_live %}
+{% endif %}
+
+{% if product.metafields.yotpo.bottomline_update_time.value %}
+  {% assign yotpo_bottomline_last_updated = product.metafields.yotpo.bottomline_update_time.value %}
+{% else %}
+  {% assign yotpo_bottomline_last_updated = product.metafields.yotpo.bottomline_update_time %}
+{% endif %}
+
+{% if shop.metafields['reviews']['yotpo'].value %}
+  {% assign yotpo = shop.metafields['reviews']['yotpo'].value %}
+{% else %}
+  {% assign yotpo = shop.metafields['reviews']['yotpo'] %}
+{% endif %}
+
+{% if variant.metafields['global']['hide_reviews'].value %}
+  {% assign hide_reviews = variant.metafields['global']['hide_reviews'].value %}
+{% else %}
+  {% assign hide_reviews = variant.metafields['global']['hide_reviews'] %}
+{% endif %}
+
+{% if product.metafields.yotpo.bottomline.value %}
+  {% assign bottomline = product.metafields.yotpo.bottomline.value %}
+{% else %}
+  {% assign bottomline = product.metafields.yotpo.bottomline %}
+{% endif %}
+
+
+{% assign skus = "" %}
+
+{% if custom_variants %}
+  {% assign skus = custom_variants.sku | join: ',' %}
+{% else %}
+  {% for item in product.variants %}
+    {% assign skus = skus | prepend: "," | prepend: item.sku %}
+  {% endfor %}
+{% endif %}
+
+{% comment %} trustpilot {% endcomment %}
+{%- if settings.show_trustpilot and product_hide_trustpilot == blank -%}
+  <div class="product_trustpilot">
+    <a class="to_prodReviews" href="#prodReviews">
+      {% render 'trustpilot', name: "overview", sku: skus %}
+    </a>
+  </div>
+{% endif %}
+
+{% comment %} judgeme {% endcomment %}
+{% render 'judgeme_widgets', widget_type: 'judgeme_preview_badge', jm_style: '', concierge_install: true, product: product %}
+
+{% comment %} yotpo {% endcomment %}
+{%- if yotpo and yotpo.show_yotpo_reviews == 'true' and hide_reviews != 'true' -%}
+  <a href="{{ product.url | within: collection }}#yotpoReviews_anchor_point">
+    <div class="yotpoReviews prodYotpoReviews"> 
+      <div class="yotpo bottomLine" data-product-id="{{ product.id }}">
+        {%- assign time_now = 'now' | date: '%s' %}
+        {%- assign diff_seconds_from_live = time_now | minus: yotpo_live_time %}
+        {%- assign diff_seconds_from_last_bottomline_update = time_now | minus: yotpo_bottomline_last_updated %}
+        {%- if yotpo_live_time and diff_seconds_from_live < 86400 and yotpo_bottomline_last_updated and diff_seconds_from_last_bottomline_update < 86400 -%}
+          {%- assign yotpo_bottomline_obsolete = false %}
+        {%- else %}
+          {%- assign yotpo_bottomline_obsolete = true %}
+        {%- endif %}
+        {%- if yotpo_offload_content == 'yes' and yotpo_bottomline_obsolete != true -%}
+          {{ bottomline }}
+        {%- endif %}
+      </div>
+    </div>
+  </a>
+{% endif %}

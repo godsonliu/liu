@@ -1,0 +1,90 @@
+<style>
+@media(min-width: 769px) {
+  .showPc {
+    display: block;
+  }
+  .showMobile {
+    display: none;
+  }
+}
+@media(max-width: 769px) {
+  .showPc {
+    display: none;
+  }
+  .showMobile {
+    display: block;
+  }
+}
+.cam3_live_title {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 90px 20px;
+  text-align: center;
+}
+.cam3_live_title .live_title {
+  font-size: 3.125vw;
+  font-weight: 700;
+  color: {{ section.settings.live_title_color }};
+}
+.cam3_live_title .live_desc {
+  margin-top: 15px;
+  font-size: 20px;
+  font-weight: 400;
+  color: {{ section.settings.live_desc_color }};
+}
+@media(max-width: 769px) {
+  .cam3_live_title {
+    padding: 70px 20px 20px 20px;
+  }
+  .cam3_live_title .live_title {
+    font-size: 30px;
+    line-height: 1.2;
+  }
+  .cam3_live_title .live_desc {
+    font-size: 15px;
+  }
+}
+</style>
+<section class="cam3_live_title">
+  <div class="live_title">{{ section.settings.live_title }}</div>
+  <div class="live_desc">{{ section.settings.live_desc }}</div>
+</section>
+
+{% schema %}
+  {
+    "name": "cam3_live_title",
+    "presets": [
+      {
+        "name": "cam3_live_title"
+      }
+    ],
+    "settings": [
+      {
+        "type": "html",
+        "id": "live_title",
+        "label": "标题",
+        "default": "Next-Gen<br class='showMobile'/> Security with Edge"
+      },
+      {
+        "type": "color",
+        "id": "live_title_color",
+        "label": "标题颜色",
+        "default": "#fff"
+      },
+      {
+        "type": "html",
+        "id": "live_desc",
+        "label": "描述",
+        "default": "September 29th 7:00 PM ET"
+      },
+      {
+        "type": "color",
+        "id": "live_desc_color",
+        "label": "描述颜色",
+        "default": "#fff"
+      }
+    ]
+  }
+{% endschema %}

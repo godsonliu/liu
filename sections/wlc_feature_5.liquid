@@ -1,0 +1,32 @@
+<div class="wlc-protection">
+  <h3>{{ section.settings.title }}</h3>
+  <p class="tit">{{ section.settings.subtitle }}</p>
+  <div class="video-wrap">
+    <iframe width="560" height="315" class="lazyload" src="{{section.settings.video}}"
+      title="YouTube video player" playsinline="1" rel="0" showinfo="0" modestbranding="0" frameborder="0"
+      allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen></iframe>
+    {% comment %} <video class="is-hidden-mobile-only" src="{{section.settings.video}}" poster="{{section.settings.poster | image_url}}" playsinline></video>
+    <video class="is-hidden-desktop-only" src="{{section.settings.video_mob}}" poster="{{section.settings.poster_mob | image_url}}" playsinline></video>
+      <i class="play"></i> {% endcomment %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "wlc feature 5",
+  "settings": [{
+    "type": "textarea",
+    "id": "title",
+    "label": "标题"
+  },{
+    "type": "textarea",
+    "id": "subtitle",
+    "label": "副标题"
+  }, {
+    "type": "url",
+    "id": "video",
+    "label": "youtube视频链接"
+  }]
+}
+{% endschema %}

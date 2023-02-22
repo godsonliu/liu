@@ -1,0 +1,83 @@
+{% if template contains 'page' %}
+  {% if page.metafields['global']['feature'].value %}
+    {% assign lang = page.metafields['global']['feature'].value %}
+  {% else %}
+    {% assign lang = page.metafields['global']['feature'] %}
+  {% endif %}
+{% else %}
+  {% if product.metafields['global']['feature'].value %}
+    {% assign lang = product.metafields['global']['feature'].value %}
+  {% else %}
+    {% assign lang = product.metafields['global']['feature'] %}
+  {% endif %}
+{% endif %}
+{% assign decide = lang.t8213-feature_decide %}
+
+<section id="t8213-feature_4" class="t8213-feature_4">
+  <div class="t8213-feature-container">
+    <div class="decide-desc">
+      <h2 class="title">{{ decide.title }}</h2>
+      <p class="desc">{{ decide.desc }}</p>
+      <div class="btns is-hidden-mobile-only">
+        <div class="btn">
+          <button class="decide-btn_top" aria-label="" type="button">
+            <img class="lazyload icon_top" data-src="{{ decide.icon_top_pc }}" alt="">
+            <img class="lazyload icon_top_active active" data-src="{{ decide.icon_top_pc_active }}" alt="">
+          </button>
+          <span class="icon_top_text active">{{decide.icon_top_text}}</span>
+        </div>
+        <div class="btn">
+          <button class="decide-btn_bottom" aria-label="" type="button">
+            <img class="lazyload icon_bottom active" data-src="{{ decide.icon_bottom_pc }}" alt="">
+            <img class="lazyload icon_bottom_active" data-src="{{ decide.icon_bottom_pc_active }}" alt="">
+          </button>
+          <span class="icon_bottom_text">{{decide.icon_bottom_text}}</span>
+        </div>
+      </div>
+      <div class="btns is-hidden-desktop-only">
+        <div class="btn">
+          <button class="decide-btn_top" aria-label="" type="button">
+            <img class="lazyload icon_top" data-src="{{ decide.icon_top_mob }}" alt="">
+            <img class="lazyload icon_top_active active" data-src="{{ decide.icon_top_mob_active }}" alt="">
+          </button>
+          <span class="icon_top_text active">{{decide.icon_top_text}}</span>
+        </div>
+        <div class="btn">
+          <button class="decide-btn_bottom" aria-label="" type="button">
+            <img class="lazyload icon_bottom active" data-src="{{ decide.icon_bottom_mob }}" alt="">
+            <img class="lazyload icon_bottom_active" data-src="{{ decide.icon_bottom_mob_active }}" alt="">
+          </button>
+          <span class="icon_bottom_text">{{decide.icon_bottom_text}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="decide-img is-hidden-mobile-only">
+      <!-- <img class="lazyload active top-img" data-src="{{ decide.img_pc1 }}" alt=""/>
+      <img class="lazyload bottom-img" data-src="{{ decide.img_pc2 }}" alt=""/> -->
+      {% render 'lazyload_image',  
+        src: decide.img_pc1,
+        additional_classes: "active top-img"
+        style: "opacity: 0;"
+        alt: "" %}
+      {% render 'lazyload_image',
+        src: decide.img_pc2,
+        additional_classes: "bottom-img",
+        style: "opacity: 0;"
+        alt: "" %}
+    </div>
+    <div class="decide-img is-hidden-desktop-only">
+      <!-- <img class="lazyload active top-img" data-src="{{ decide.img_mob1 }}" alt=""/>
+      <img class="lazyload bottom-img" data-src="{{ decide.img_mob2 }}" alt=""/> -->
+      {% render 'lazyload_image',  
+        src: decide.img_mob1,
+        additional_classes: "active top-img"
+        style: "opacity: 0;"
+        alt: "" %}
+      {% render 'lazyload_image',
+        src: decide.img_mob2,
+        additional_classes: "bottom-img",
+        style: "opacity: 0;"
+        alt: "" %}
+    </div>
+  </div>
+</section>

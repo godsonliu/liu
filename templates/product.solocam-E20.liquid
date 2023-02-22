@@ -1,0 +1,163 @@
+{% assign lang = product.metafields.global %}
+
+{% if lang.solocam.value %}
+  {% assign solocam = lang.solocam.value %}
+{% else %}
+  {% assign solocam = lang.solocam %}
+{% endif %}
+
+{% if product.metafields.global.layout.value %}
+  {% assign layout = product.metafields.global.layout.value %}
+{% else %}
+  {% assign layout = product.metafields.global.layout %}
+{% endif %}
+
+{% if shop.metafields['reviews']['yotpo'].value %}
+  {% assign yotpo = shop.metafields['reviews']['yotpo'].value %}
+{% else %}
+  {% assign yotpo = shop.metafields['reviews']['yotpo'] %}
+{% endif %}
+
+{% comment %}
+  Scrolling images product template
+{% endcomment %}
+<link rel="stylesheet" href="{{ 'solo_cam_spotlight.scss.css' | asset_url }}">
+<div class="dh_fd">
+    <div class="dh_all">
+        <a class="dh_1 dh_a pc_show" href="{{ solocam.dh_1_href }}">{{ solocam.dh_1 }}</a>
+        <a class="dh_2 dh_a pc_show" href="{{ solocam.dh_2_href }}">{{ solocam.dh_2 }}</a>
+        
+        <a class="dh_3 dh_a pc_show" href="{{ solocam.dh_3_href }}">{{ solocam.dh_3 }}</a>
+        <a class="dh_4 dh_a pc_show" href="{{ solocam.dh_4_href }}">{{ solocam.dh_4 }}</a>
+        <a class="dh_5 dh_a active" href="{{ solocam.dh_5_href }}">{{ solocam.dh_5 }}</a>
+        <div class="dh_6_btn">
+          <a class="dh_6 button--primary" href="{{ solocam.dh_6_href }}">{{ solocam.dh_6 }}</a>
+        </div>
+    </div>
+  </div>
+<div id="template-{{ template | replace: '.', '-' | handle }}" class="shopify-section product-page section__wrapper">
+    {% comment %} Breadcrumbs and navigation {% endcomment %}
+    <section class="section
+                    is-width-standard
+                    has-padding-top
+                    has-padding-bottom
+                    ">
+      <div class="container">
+        <div class="one-whole column is-flex is-justify-space-between is-flex-column-reverse-mobile is-align-center">
+
+          <div class="breadcrumb__container">
+            {% render 'breadcrumb', context: 'product' %}
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    {% comment %} Product wrapper {% endcomment %}
+    <section class="section
+                    section--has-sidebar-option">
+      <div class="container">
+        {% section 'product__sidebar' %}
+        {% section 'product__main' %}
+        
+        {% section 'solocam_E20' %}
+        
+        {% comment %} {% section 'product__recommendations' %} {% endcomment %}
+      </div>
+    </section>
+</div>
+
+{% comment %} product.metafields.global.subtitle # snippets/product-info.liquid {% endcomment %}
+{% assign sorting = "highlights|reviews|compare|faqs|specs|downloads" | split: '|' %}
+{% if layout.sort != blank %}
+  {% assign sorting = layout.sort | split: '|' %}
+{% endif %}
+{% for key in sorting %}
+  {% case key %}
+    {% when 'highlights' %}
+      {% comment %} product.metafields.global.highlights {% endcomment %}
+      {% section 'product-meta-highlights' %}
+    {% when 'reviews' %}
+      {% section 'product-meta-reviews' %}
+    {% when 'compare' %}
+      {% comment %} product.metafields.global.compare {% endcomment %}
+      {% section 'product-meta-compare' %}
+    {% when 'faqs' %}
+      {% comment %} product.metafields.global.faqs {% endcomment %}
+      {% section 'product-meta-faqs' %}
+    {% when 'specs' %}
+      {% comment %} product.metafields.global.specs {% endcomment %}
+      {% section 'product-meta-specs' %}
+    {% when 'downloads' %}
+      {% comment %} product.metafields.global.downloads {% endcomment %}
+      {% section 'product-meta-downloads' %}
+  {% endcase %}
+{% endfor %}
+
+<div class="container">
+  {% section 'product__recommendations' %}
+</div>
+
+{%- if yotpo and yotpo.show_yotpo_reviews == 'true' -%}
+  <div class="yotpoReviews wrap"> 
+    <div class="yotpo yotpo-main-widget" data-product-id="{{ product.id }}" data-name="{{ product.title | escape }}" data-url="{{ shop.url }}{{ product.url }}" data-image-url="{{ product.featured_image | product_img_url: "large" |replace: '?', '%3F' | replace: '&','%26'}}" data-description="{{ product.description | escape }}"></div>
+  </div>
+{% endif %}
+<script type="text/javascript">		
+
+    $('.dh_a').click(function() {
+        for (var i = 0; i < $('.dh_a').length; i++) {
+            $('.dh_a').eq(i).css({
+                'background': '',
+            });
+        }
+        $(this).css({
+            'background': '#474747',
+        }).siblings().removeClass('active');
+    });
+    
+</script> 
+<script>
+    const width = window.innerWidth;   
+    
+      $(window).scroll(function(){
+      
+        const top = $(window).scrollTop(); 
+        if($('.dh_fd').length > 0){
+            const dh_fd = $('.dh_fd').offset().top;
+            const dh_div = $('.dh_fd').height();
+            const skia = top - dh_div; 
+            if (skia > 0 ) {
+            $(`.dh_fd`).css('position', `fixed`);
+            $(`.dh_fd`).css('top', $(window).width() < 769 ? '78px' : '111px');
+            } else {
+            $(`.dh_fd`).css('position', `relative`);
+            $(`.dh_fd`).css('top', `0px`);
+            }
+        }
+    })
+</script>
+
+<script type="text/javascript">		
+  
+  $(document).ready(function() {
+    $(".prodCompare table td:nth-child(5)").css('background', '#F5F5F7');
+    $(".prodCompare table td:nth-child(2)").css('background', '#fff');
+  });
+  
+</script> 
+
+<script type="text/javascript">		
+  
+  $(document).ready(function() {
+    var width = window.innerWidth;
+    var dh_name = document.getElementsByClassName("dh_5")[0];
+    if(width < 769){
+      dh_name.innerHTML='{{ solocam.dh_5_mob }}';
+    }
+  });
+  
+</script>
+  
+
+

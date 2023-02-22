@@ -1,0 +1,480 @@
+{% if shop.metafields['global']['coutriesSwitch'].value %}
+  {% assign coutriesSwitch = shop.metafields['global']['coutriesSwitch'].value %}
+{% else %}
+  {% assign coutriesSwitch = shop.metafields['global']['coutriesSwitch'] %}
+{% endif %}
+
+{% if shop.metafields['global']['footer_links'].value %}
+  {% assign footerLinks = shop.metafields['global']['footer_links'].value %}
+{% else %}
+  {% assign footerLinks = shop.metafields['global']['footer_links'] %}
+{% endif %}
+
+{% if shop.metafields['global']['app-download'].value %}
+  {% assign appDownload = shop.metafields['global']['app-download'].value %}
+{% else %}
+  {% assign appDownload = shop.metafields['global']['app-download'] %}
+{% endif %}
+
+
+{{ 'footer.scss.css' | asset_url | stylesheet_tag }}
+
+<div class="footer-container">
+  <div class="footer-content">
+    <section class="footer-contact">
+      <div class="footer-title">{{ section.settings.contact_title }}</div>
+      <ul>
+        {% if section.settings.contact_phone != blank %}
+        <li>
+          <i class="icon icon-phone"></i>
+          {{ section.settings.contact_phone }}
+        </li>
+        {% endif %}
+        {% if section.settings.contact_mail != blank %}
+        <li>
+          <i class="icon icon-mail"></i>
+          {{ section.settings.contact_mail }}
+        </li>
+        {% endif %}
+        <li class="live-chat-btn" onclick="startChat()">
+          {% if section.settings.contact_chat != blank %}
+            <i class="icon icon-chat"></i>
+            {{ section.settings.contact_chat }}
+          {% endif %}
+        </li>
+      </ul>
+    </section>
+    <!-- <section class="footer-advantage">
+      <div class="footer-title">{{ section.settings.advantage_title }}</div>
+      <ul>
+        <li>
+          <i class="icon icon-shipping"></i>
+          {{ section.settings.advantage_first }}
+        </li>
+        <li>
+          <i class="icon icon-money"></i>
+          {{ section.settings.advantage_second }}
+        </li>
+        <li>
+          <i class="icon icon-warranty"></i>
+          {{ section.settings.advantage_third }}
+        </li>
+        <li>
+          <i class="icon icon-support"></i>
+          {{ section.settings.advantage_fourth }}
+        </li>
+      </ul>
+    </section> -->
+    <section class="footer-maps">
+      <ul class="category">
+        {% for footerLink in footerLinks %}
+          <li>
+            <div class="footer-title">{{ footerLink.title }}<i class="fold"></i></div>
+            <ul {% if footerLink.style %}style="{{ footerLink.style }}"{% endif %}>
+              {% for link in footerLink.links %}
+                <li><a href="{{ link.link }}" {% if link.openNew != blank %}target="_blank" rel="noopener noreferrer"{% endif %}>{{ link.name }}</a></li>
+              {% endfor %}
+            </ul>
+            {% if footerLink.showSocialShare %}
+              <ul class="social">
+                <li><a href="{{ section.settings.link_instagram }}" target="_blank" rel="noopener noreferrer" aria-label="instagram logo"><i class="icon icon-instagram"></i></a></li>
+                <li><a href="{{ section.settings.link_facebook }}" target="_blank" rel="noopener noreferrer" aria-label="facebook logo"><i class="icon icon-facebook"></i></a></li>
+                <li><a href="{{ section.settings.link_twitter }}" target="_blank" rel="noopener noreferrer" aria-label="twitter logo"><i class="icon icon-twitter"></i></a></li>
+                <!-- <li><a href="{{ section.settings.link_linkedin }}" target="_blank" rel="noopener noreferrer"><i class="icon icon-linkedin"></i></a></li> -->
+              </ul>
+            {% endif %}
+            {% if footerLink.showCountrySwitch %}
+              <div class="country-switch">
+                {% for item in coutriesSwitch %}
+                  <img
+                    class="lazyload current_country {{ item.shop }} swap--visible"
+                    src="{{ item.img }}"
+                    alt=""
+                  />
+                  <span class="{{ item.shop }} txt swap--visible">{{ item.shop | upcase }} / {{ shop.currency | strip_html }}</span>
+                {% endfor %}
+                <div class="coutriesSwitch swap--visible">
+                  <ul>
+                    {% for item in coutriesSwitch %}
+                      <li>
+                        <a href="{{ item.link }}"
+                          ><img
+                            class="lazyload"
+                            src="{{ item.img }}"
+                            alt="{{ item.txt }}"
+                          /><span>{{ item.txt }}</span></a
+                        >
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+                <div class="mask swap--visible"></div>
+              </div>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+      {% if appDownload.appIsShow %}
+      <div class="app-download">
+        <div class="download-title">{{ appDownload.title }}</div>
+        <div class="divide-line"></div>
+        <div class="download-types app-wrappers">
+          {% for type in appDownload.appTypeList %}
+          <div class="app-wrapper appliances-wrapper">
+            <figure class="img-icon">
+              <img class="lazyload" data-src="{{ type.icon }}" alt="">
+            </figure>
+              <p>{{ type.title }}</p>
+              <div class="app-box">
+                <ul class="appliances-content app-is-visible">
+                  {% for app in type.apps%}
+                  <li>
+                    <a href="{{ app.app_link }}" target="_blank" rel="noopener noreferrer">
+                      <figure class="app-img">
+                        {% render 'lazyload_image',  
+                          src: app.app_img,
+                          additional_classes: "",
+                          style: "opacity: 0;",
+                          alt: "",
+                          width: 130,
+                          aspect_ratio: 36  %}
+                      </figure>
+                    </a>
+                  </li>
+                  {% endfor %}
+                  <div class="popper__arrow"></div>
+                </ul>  
+              </div>             
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+      <div class="payment-list">
+        {% for type in shop.enabled_payment_types %}
+          {{ type | payment_type_svg_tag: class: 'payment-list__item' }}
+        {% endfor %}
+      </div>
+    </section>
+    <section class="footer-brands">
+      <div class="media-share">
+        <ul class="social">
+          <li><a href="{{ section.settings.link_instagram }}" target="_blank" rel="noopener noreferrer" aria-label="instagram logo"><i class="icon icon-instagram"></i></a></li>
+          <li><a href="{{ section.settings.link_facebook }}" target="_blank" rel="noopener noreferrer"  aria-label="facebook logo"><i class="icon icon-facebook"></i></a></li>
+          <li><a href="{{ section.settings.link_twitter }}" target="_blank" rel="noopener noreferrer" aria-label="twitter logo"><i class="icon icon-twitter"></i></a></li>
+          <!-- <li><a href="{{ section.settings.link_linkedin }}" target="_blank" rel="noopener noreferrer"><i class="icon icon-linkedin"></i></a></li> -->
+        </ul>
+        <!-- {% if footerLink.showAppDownload %}
+        <div class="app-download">
+          <h6><span>{{ section.settings.eufy_app }}</span></h6>
+          <div class="app"><a href="{{ section.settings.link_googleplay }}" target="_blank" rel="noopener noreferrer"><i class="icon icon-googleplay"></i></a></div>
+          <div class="app"><a href="{{ section.settings.link_appstore }}" target="_blank" rel="noopener noreferrer"><i class="icon icon-appstore"></i></a></div>
+        </div>
+        {% endif %} -->
+      </div>
+
+      {% if appDownload.appIsShow %}
+      <div class="app-download">
+        <div class="download-title">
+          <div class="divide-line"></div>
+          <p>{{ appDownload.title }}</p>
+          <div class="divide-line"></div>
+        </div>
+        <div class="download-types app-wrappers">
+          {% for type in appDownload.appTypeList %}
+          <div class="app-wrapper appliances-wrapper">
+            <figure class="img-icon">
+              <img class="lazyload" data-src="{{ type.icon }}" alt="">
+            </figure>
+              <p>{{ type.title }}</p>
+              <div class="app-box">
+                <ul class="appliances-content app-is-visible">
+                  {% for app in type.apps%}
+                  <li>
+                    <a href="{{ app.app_link }}" target="_blank" rel="noopener noreferrer">
+                      <figure class="app-img">
+                        {% render 'lazyload_image',  
+                          src: app.app_img,
+                          additional_classes: "",
+                          style: "opacity: 0;",
+                          alt: "",
+                          width: 130,
+                          aspect_ratio: 36  %}
+                      </figure>
+                    </a>
+                  </li>
+                  {% endfor %}
+                  <div class="popper__arrow"></div>
+                </ul> 
+              </div>            
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+      <div class="country-switch">
+        {% for item in coutriesSwitch %}
+          <img
+            class="lazyload current_country {{ item.shop }} swap--visible"
+            src="{{ item.img }}"
+            alt=""
+          />
+          <span class="{{ item.shop }} txt swap--visible">{{ item.shop | upcase }} / {{ shop.currency | strip_html }}</span>
+        {% endfor %}
+        <div class="coutriesSwitch swap--visible">
+          <ul>
+            {% for item in coutriesSwitch %}
+              <li>
+                <a href="{{ item.link }}"
+                  ><img
+                    class="lazyload"
+                    src="{{ item.img }}"
+                    alt="{{ item.txt }}"
+                  /><span>{{ item.txt }}</span></a
+                >
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="mask swap--visible"></div>
+      </div>
+      <ul class="brands-logo">
+        <li><a href="{{ section.settings.link_ankerin }}" target="_blank" rel="noopener noreferrer" aria-label="anker innovations"><i class="icon icon-anker_in"></i></a></li>
+        <li><a href="{{ section.settings.link_anker }}" target="_blank" rel="noopener noreferrer"  aria-label="anker"><i class="icon icon-anker"></i></a></li>
+        <li><a href="{{ section.settings.link_soundcore }}" target="_blank" rel="noopener noreferrer"  aria-label="soundcore"><i class="icon icon-soundcore"></i></a></li>
+        <li><a href="{{ section.settings.link_eufy }}" target="_blank" rel="noopener noreferrer"  aria-label="eufy"><i class="icon icon-eufy"></i></a></li>
+        <li><a href="{{ section.settings.link_nebula }}" target="_blank" rel="noopener noreferrer"  aria-label="nebula"><i class="icon icon-nebula"></i></a></li>
+      </ul>
+      <div class="copyright">{{ section.settings.copyright }}</div>
+    </section>
+  </div>
+</div>
+
+<script>
+  // 点击文字，触发helpButtonEnabled的点击事件，调出livechart弹窗
+  function startChat() {
+    const opened = $('.embeddedServiceSidebarMinimizedDefaultUI').length
+    if(opened)  {
+      $('.embeddedServiceSidebarMinimizedDefaultUI').trigger("click");
+    } else {
+      $('.helpButtonEnabled').trigger("click");
+    }
+  }
+  $(function() {
+    $(".footer-container a").each((i, item) => {
+      var href = $(item).attr("href") || "";
+      if (href.indexOf("?") > -1) {
+        if (href.indexOf("ref=") == -1) {
+          $(item).attr("href", href + "&ref=footer");
+        }
+      } else {
+        $(item).attr("href", href + "?ref=footer");
+      }
+    });
+
+    const host = window.location.host;
+    const current = host ? host.split(".") : [''];
+    const cur = current[0].split("-");
+    current[0] = cur[cur.length - 1];
+
+    $(`.country-switch .${current[0]}`).removeClass('swap--visible');
+    $('.country-switch .current_country').on('click', function() {
+      var $parent = $(this).parent(".country-switch");
+      $parent.find('.coutriesSwitch').removeClass('swap--visible');
+      $parent.find('.mask').removeClass('swap--visible');
+    });
+    $('.country-switch .txt').on('click', function() {
+      var $parent = $(this).parent(".country-switch");
+      $parent.find('.coutriesSwitch').removeClass('swap--visible');
+      $parent.find('.mask').removeClass('swap--visible');
+    });
+    $('.country-switch .mask').on('click', function() {
+      var $parent = $(this).parent(".country-switch");
+      $parent.find('.coutriesSwitch').addClass('swap--visible');
+      $parent.find('.mask').addClass('swap--visible');
+    });
+
+    $(".category > li").on("click", function() {
+      var win_width = $(window).width();
+      if (win_width >= 1280) return;
+      if ($(this).hasClass("active")) {
+        $(this).removeClass("active");
+        $(this).find("ul").slideUp();
+        return;
+      }
+      $(this).addClass("active").siblings("li").removeClass("active");
+      $(this).siblings("li").find("ul").hide();
+      $(this).find("ul").slideDown();
+    });
+
+    {% if shop.metafields.global.country.show_webgains  %}
+      (function(w,e,b,g,a,i,n,s){w['ITCLKOBJ']=a;w[a]=w[a]||function(){(w[a].q=w[a].q||[]).push(arguments)},w[a].l=1*new Date();i=e.createElement(b),n=e.getElementsByTagName(b)[0];i.async=1;i.src=g;n.parentNode.insertBefore(i,n)})(window,document,'script','https://analytics.webgains.io/clk.min.js','ITCLKQ');
+      ITCLKQ('set', 'internal.cookie', true);
+      ITCLKQ('set', 'internal.api', true);
+      ITCLKQ('click');
+    {% endif %}
+  });
+  </script>
+
+  {% schema %}
+  {
+    "name": "footer-v2",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Contact"
+      },
+      {
+        "type": "text",
+        "id": "contact_title",
+        "label": "title",
+        "default": "Contact us"
+      },
+      {
+        "type": "richtext",
+        "id": "contact_phone",
+        "label": "phone",
+        "default": "<p>USA: <a href='tel:1-800-988-7973'>1-800-988-7973</a><br>Monday to Saturday 6:15 AM to 6:45 PM<br>Sunday 6:15 AM to 5:45 PM (PT)<br>International Markets</p>"
+      },
+      {
+        "type": "richtext",
+        "id": "contact_mail",
+        "label": "email",
+        "default": "<p><a href='mailto:Support@Soundcore.com'>Support@Soundcore.com</a></p>"
+      },
+      {
+        "type": "richtext",
+        "id": "contact_chat",
+        "label": "chat",
+        "default": "<p>Website Live Chat<br>Mon-Fri 9AM-5PM (PT)</p>"
+      },
+      {
+        "type": "header",
+        "content": "Advantage"
+      },
+      {
+        "type": "text",
+        "id": "advantage_title",
+        "label": "title",
+        "default": "Buy on the Eufy Store"
+      },
+      {
+        "type": "richtext",
+        "id": "advantage_first",
+        "label": "first",
+        "default": "<p><a href='/policies/shipping-policy'>Fast, Free Shipping</a></p>"
+      },
+      {
+        "type": "richtext",
+        "id": "advantage_second",
+        "label": "second",
+        "default": "<p><a href='/policies/refund-policy'>30-Day Money-Back Guarantee</a></p>"
+      },
+      {
+        "type": "richtext",
+        "id": "advantage_third",
+        "label": "third",
+        "default": "<p><a href='/pages/exchange'>Hassle-Free Warranty</a></p>"
+      },
+      {
+        "type": "richtext",
+        "id": "advantage_fourth",
+        "label": "fourth",
+        "default": "<p><a href='/pages/contact-us'>Lifetime Customer Support</a></p>"
+      },
+      {
+        "type": "header",
+        "content": "link"
+      },
+      {
+        "type": "text",
+        "id": "link_instagram",
+        "label": "instagram link"
+      },
+      {
+        "type": "text",
+        "id": "link_facebook",
+        "label": "facebook link"
+      },
+      {
+        "type": "text",
+        "id": "link_twitter",
+        "label": "twitter link"
+      },
+      {
+        "type": "text",
+        "id": "link_linkedin",
+        "label": "linkedin link"
+      },
+      {
+        "type": "text",
+        "id": "eufy_app",
+        "label": "Eufy App",
+        "default": "Eufy App"
+      },
+      {
+        "type": "text",
+        "id": "security_downloadlink",
+        "label": "Security App Txt",
+        "default": "Security"
+      },
+      {
+        "type": "text",
+        "id": "link_download_security",
+        "label": "download security link"
+      },
+      {
+        "type": "text",
+        "id": "Appliances_links",
+        "label": "Appliances Txt",
+        "default": "Appliances"
+      },
+      {
+        "type": "text",
+        "id": "link_googleplay",
+        "label": "googleplay link"
+      },
+      {
+        "type": "text",
+        "id": "link_appstore",
+        "label": "appstore link"
+      },
+      {
+        "type": "text",
+        "id": "link_webportal",
+        "label": "webportal link"
+      },
+      {
+        "type": "text",
+        "id": "link_ankerin",
+        "label": "ankerin link"
+      },
+      {
+        "type": "text",
+        "id": "link_anker",
+        "label": "anker link"
+      },
+      {
+        "type": "text",
+        "id": "link_soundcore",
+        "label": "soundcore link"
+      },
+      {
+        "type": "text",
+        "id": "link_eufy",
+        "label": "eufy link"
+      },
+      {
+        "type": "text",
+        "id": "link_nebula",
+        "label": "nebula link"
+      },
+      {
+        "type": "richtext",
+        "id": "copyright",
+        "label": "copyright",
+        "default": "<p>© Fantasia Trading LLC 2022 200923810277&nbsp;&nbsp;&nbsp;&nbsp;<a href='/pages/our-story-2020-12-09-16-30-9'>About Us</a>&nbsp;&nbsp;<a href='/policies/shipping-policy'>Shipping policy</a>&nbsp;&nbsp;<a href='/policies/refund-policy'>Refund policy</a>&nbsp;&nbsp;<a href='/policies/privacy-policy'>Privacy policy</a>&nbsp;&nbsp;<a href='/policies/terms-of-service'>Terms of service</a>&nbsp;&nbsp;<a href='/pages/intellectual-property-rights'>Intellectual Property Rights</a></p>"
+      }
+    ]
+  }
+  {% endschema %}

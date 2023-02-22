@@ -1,0 +1,38 @@
+{% if template contains 'page' %}
+  {% if page.metafields['global']['dataAnalysis'].value %}
+    {% assign dataAnalysis = page.metafields['global']['dataAnalysis'].value %}
+  {% else %}
+    {% assign dataAnalysis = page.metafields['global']['dataAnalysis'] %}
+  {% endif %}
+{% else %}
+  {% if product.metafields['global']['dataAnalysis'].value %}
+    {% assign dataAnalysis = product.metafields['global']['dataAnalysis'].value %}
+  {% else %}
+    {% assign dataAnalysis = product.metafields['global']['dataAnalysis'] %}
+  {% endif %}
+{% endif %}
+
+<section class="smartScale-4">
+  <div class="box-container">
+    <h class="title">{{ dataAnalysis.title }}</h>
+    <p class="desc">{{ dataAnalysis.desc }}</p>
+    <div class="video-box">
+      <div class="bg">
+        <img class="lazyload is-hidden-mobile-only" data-src="{{ dataAnalysis.img_pc }}" alt=""/>
+        <img class="lazyload is-hidden-desktop-only" data-src="{{ dataAnalysis.img_mob }}" alt=""/>
+      </div>
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "SmartScaleP2Pro Analysis",
+  "presets": [
+    {
+      "category": "SmartScaleP2Pro Analysis Sections",
+      "name": "SmartScaleP2Pro Analysis"
+    }
+  ],
+  "settings": []
+}
+{% endschema %}

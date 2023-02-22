@@ -1,0 +1,240 @@
+
+<div class="mach-lp-btn bg-{{ color | default: 'white' }} gasp-mach-btn gasp-mach-btn_{{ idx }}" data-idx="{{ idx }}">
+  <div class="mach-lp-btn-inner">
+    <p class="mach-lp-btn-txt">{{ section.settings.pop_txt | default: txt }}</p>
+    <a class="mach-lp-btn-icon">
+      <svg width="30" height="25" viewBox="0 0 30 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M18.2305 1.66113L28.9997 12.4304L18.2305 23.1996" stroke="inherit" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M27.6 12L1 12" stroke="inherit" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </a>
+  </div>
+</div>
+
+{% if data != blank %}
+<div class="mach-lp-pop-wrap bg-{{ color | default: 'white' }}" id="machLpPop_{{ idx }}">
+  <div class="pop-mask"></div>
+  <div class="mach-lp-pop">
+    <a class="mach-lp-pop-btn js-pop-close-btn">
+      <svg width="30" height="25" viewBox="0 0 30 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M11.7695 1.66211L1.00028 12.4314L11.7695 23.2006" stroke="inherit" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M2.4 12.002L29 12.002" stroke="inherit" stroke-width="2" stroke-linecap="round"/>
+      </svg>      
+    </a>
+    <div class="swiper-process mach-pop-content-process mach-pop-content-process_{{ idx }}">
+      <i class="swiper-process-inner"></i>
+    </div>
+    <div class="swiper-container mach-lp-pop-contain mach-lp-pop-contain_{{ idx }}">
+      <div class="swiper-wrapper mach-lp-pop-content">
+        {% for item in data %}
+          <div class="swiper-slide vertical-align-{{ item.vertical_align | default: 'top' }} mach-lpc-item mach-lpc-item-{{idx}}-{{ forloop.index }} {{ item.custom_class }}">
+            {% style %}
+            @media (max-width: 768px) {
+              .mach-lpc-item-{{idx}}-{{ forloop.index }}{
+                width: {{ item.mob_width | divided_by: 3.9 }}vw;
+              }
+
+              {% if item.img_mob != blank %}
+              .mach-lpc-item-{{idx}}-{{ forloop.index }} .mach-lpc-mob-img{
+                width: {{ item.img_mob.width | divided_by: 3.9 }}vw;
+                height: auto;
+              }
+              {% endif %}
+
+              {% if item.video_mob != blank %}
+              .mach-lpc-item-{{idx}}-{{ forloop.index }} .mach-lpc-mob-video{
+                width: {{ item.video_mob.width | divided_by: 3.9 }}vw;
+                height: auto;
+              }
+              {% endif %}
+            }
+
+            @media (min-width: 769px) {
+              .mach-lpc-item-{{idx}}-{{ forloop.index }}{
+                width: {{ item.pc_width | divided_by: 19.2 }}vw;
+              }
+
+              {% if item.img_pc != blank %}
+              .mach-lpc-item-{{idx}}-{{ forloop.index }} .mach-lpc-pc-img{
+                width: {{ item.img_pc.width | divided_by: 19.2 }}vw;
+                height: auto;
+              }
+              {% endif %}
+
+              {% if item.video_pc != blank %}
+              .mach-lpc-item-{{idx}}-{{ forloop.index }} .mach-lpc-pc-video{
+                width: {{ item.video_pc.width | divided_by: 19.2 }}vw;
+                height: auto;
+              }
+              {% endif %}
+            }
+          {% endstyle %}
+            <div class="mach-lpc-item-inner">
+            {% if item.title != blank %}
+              <p class="mach-lpc-title">{{ item.title }}</p>
+            {% endif %}
+
+            {% if item.desc != blank %}
+              <p class="mach-lpc-desc">{{ item.desc }}</p>
+            {% endif %}
+
+            {% if item.img_pc != blank %}
+              <div class="media-image-wrap is-hidden-mobile-only">
+                <img 
+                  class="lazyload mach-lpc-pc-img" 
+                  data-src="{{ item.img_pc.src }}"
+                  alt="{{ item.img_pc.alt }}"
+                  width="{{ item.img_pc.width }}"
+                  height="{{ item.img_pc.height }}"
+                >
+              </div>
+            {% endif %}
+            {% if item.img_mob != blank %}
+              <div class="media-image-wrap is-hidden-desktop-only">
+                <img 
+                  class="lazyload mach-lpc-mob-img" 
+                  data-src="{{ item.img_mob.src }}"
+                  alt="{{ item.img_mob.alt }}"
+                  width="{{ item.img_mob.width }}"
+                  height="{{ item.img_mob.height }}"
+                >
+              </div>
+            {% endif %}
+
+            {% if item.video_pc != blank %}
+              <div class="media-image-wrap is-hidden-mobile-only">
+                <video 
+                  class="mach-lpc-pc-video" 
+                  data-src="{{ item.video_pc.src }}"
+                  autoplay
+                  loop
+                  muted
+                  playsinline
+                ></video>
+              </div>
+            {% endif %}
+
+            {% if item.video_mob != blank %}
+              <div class="media-image-wrap is-hidden-desktop-only">
+                <video 
+                  class="mach-lpc-mob-video" 
+                  data-src="{{ item.video_mob.src }}"
+                  autoplay
+                  loop
+                  muted
+                  playsinline
+                ></video>
+              </div>
+            {% endif %}
+
+            {% if item.subtxt != blank %}
+              <p class="mach-lpc-subtxt">{{ item.subtxt }}</p>
+            {% endif %}
+
+            {% if item.img_with_text != blank %}
+              {% style %}
+                @media (max-width: 768px) {
+                  {% if item.img_with_text.img_mob != blank %}
+                  .mach-lpc-item-{{idx}}-{{ forloop.index }} .mach-lpc-mob-img{
+                    width: {{ item.img_with_text.img_mob.width | divided_by: 3.9 }}vw;
+                    height: auto;
+                  }
+                  {% endif %}
+
+                  {% if item.img_with_text.video_mob != blank %}
+                  .mach-lpc-item-{{idx}}-{{ forloop.index }} .mach-lpc-mob-video{
+                    width: {{ item.img_with_text.video_mob.width | divided_by: 3.9 }}vw;
+                    height: auto;
+                  }
+                  {% endif %}
+                }
+
+                @media (min-width: 769px) {
+                  {% if item.img_with_text.img_pc != blank %}
+                  .mach-lpc-item-{{idx}}-{{ forloop.index }} .mach-lpc-pc-img{
+                    width: {{ item.img_with_text.img_pc.width | divided_by: 19.2 }}vw;
+                    height: auto;
+                  }
+                  {% endif %}
+
+                  {% if item.img_with_text.video_pc != blank %}
+                  .mach-lpc-item-{{idx}}-{{ forloop.index }} .mach-lpc-pc-video{
+                    width: {{ item.img_with_text.video_pc.width | divided_by: 19.2 }}vw;
+                    height: auto;
+                  }
+                  {% endif %}
+                }
+              {% endstyle %}
+              <div class="mach-lpc-iwt">
+                <p class="mach-lpc-title is-hidden-desktop-only">{{ item.img_with_text.title }}</p>
+                <div class="mach-lpc-iwt-info is-hidden-mobile-only">
+                  <p class="mach-lpc-title ">{{ item.img_with_text.title }}</p>
+                  <p class="mach-lpc-desc">{{ item.img_with_text.desc }}</p>
+                  <p class="mach-lpc-subtxt">{{ item.img_with_text.subtxt }}</p>
+                </div>
+                <div class="mach-lpc-iwt-img">
+                  {% if item.img_with_text.img_pc != blank %}
+                    <div class="media-image-wrap is-hidden-mobile-only">
+                      <img 
+                        class="lazyload mach-lpc-pc-img" 
+                        data-src="{{ item.img_with_text.img_pc.src }}"
+                        alt="{{ item.img_with_text.img_pc.alt }}"
+                        width="{{ item.img_with_text.img_pc.width }}"
+                        height="{{ item.img_with_text.img_pc.height }}"
+                      >
+                    </div>
+                  {% endif %}
+
+                  {% if item.img_with_text.img_mob != blank %}
+                    <div class="media-image-wrap is-hidden-desktop-only">
+                      <img 
+                        class="lazyload mach-lpc-mob-img" 
+                        data-src="{{ item.img_with_text.img_mob.src }}"
+                        alt="{{ item.img_with_text.img_mob.alt }}"
+                        width="{{ item.img_with_text.img_mob.width }}"
+                        height="{{ item.img_with_text.img_mob.height }}"
+                      >
+                    </div>
+                  {% endif %}
+
+                  {% if item.img_with_text.video_pc != blank %}
+                    <div class="media-image-wrap is-hidden-mobile-only">
+                      <video 
+                        class="mach-lpc-pc-video" 
+                        data-src="{{ item.img_with_text.video_pc.src }}"
+                        autoplay
+                        loop
+                        muted
+                        playsinline
+                      ></video>
+                    </div>
+                  {% endif %}
+
+                  {% if item.img_with_text.video_mob != blank %}
+                    <div class="media-image-wrap is-hidden-desktop-only">
+                      <video 
+                        class="mach-lpc-mob-video" 
+                        data-src="{{ item.img_with_text.video_mob.src }}"
+                        autoplay
+                        loop
+                        muted
+                        playsinline
+                      ></video>
+                    </div>
+                  {% endif %}
+
+                  <div class="mach-lpc-iwt-txt is-hidden-desktop-only">
+                    <p class="mach-lpc-desc">{{ item.img_with_text.desc }}</p>
+                    <p class="mach-lpc-subtxt">{{ item.img_with_text.subtxt }}</p>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}

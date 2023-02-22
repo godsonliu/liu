@@ -1,0 +1,92 @@
+<div class="wlc-ces">
+  <h3>{{ section.settings.title }}</h3>
+  {% comment %} <div class="nums">
+    <div class="item">
+      <h5>{{ section.settings.num1 }}</h5>
+      <p>{{ section.settings.txt1 }}</p>
+    </div>
+    <div class="item">
+      <h5>{{ section.settings.num2 }}</h5>
+      <p>{{ section.settings.txt2 }}</p>
+    </div>
+    <div class="item">
+      <h5>{{ section.settings.num3 }}</h5>
+      <p>{{ section.settings.txt3 }}</p>
+    </div>
+  </div> {% endcomment %}
+  <div class="swiper-card">
+    <div class="swiper-container">
+      <div class="swiper-wrapper">
+        {% for block in section.blocks %}
+          <div class="swiper-slide">
+            <div class="swiper-inner">
+              <div class="card-title">{{ block.settings.tit }}</div>
+              <p class="card-desc">{{ block.settings.desc }}</p>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(function() {
+    new Swiper('.swiper-container', {
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      }
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "wlc feature 2",
+  "settings": [{
+    "type": "textarea",
+    "id": "title",
+    "label": "标题"
+  }, {
+    "type": "text",
+    "id": "num1",
+    "label": "数字1"
+  }, {
+    "type": "text",
+    "id": "txt1",
+    "label": "文案1"
+  }, {
+    "type": "text",
+    "id": "num2",
+    "label": "数字2"
+  }, {
+    "type": "text",
+    "id": "txt2",
+    "label": "文案2"
+  }, {
+    "type": "text",
+    "id": "num3",
+    "label": "数字3"
+  }, {
+    "type": "text",
+    "id": "txt3",
+    "label": "文案3"
+  }],
+  "blocks": [{
+     "type": "card",
+     "name": "card",
+     "settings": [{
+       "type": "textarea",
+       "id": "tit",
+       "label": "标题"
+      },{
+       "type": "textarea",
+       "id": "desc",
+       "label": "副标题"
+      }]
+   }]
+ }
+{% endschema %}

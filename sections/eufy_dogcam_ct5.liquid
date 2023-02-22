@@ -1,0 +1,41 @@
+{% assign lang = product.metafields.global %}
+
+{% if lang.dogcam.value %}
+  {% assign dogcam = lang.dogcam.value %}
+{% else %}
+  {% assign dogcam = lang.dogcam %}
+{% endif %}
+
+<link rel="stylesheet" href="{{ 'eufy_dogcam_ct.scss.css' | asset_url }}">
+<script src="{{ 'eufy_dogcam_ct.js' | asset_url }}" defer="defer"></script>
+
+
+<div class="eufy_dogcam_5">
+  <div class="banner_5">
+    <div class="banner_5_a">
+      <div class="banner_5_a_p pc_show">
+        <p class="banner_5_a_p1">{{ dogcam.banner_5_a_p1 }}</p>
+        <p class="banner_5_a_p2">{{ dogcam.banner_5_a_p2 }}</p>
+      </div>
+      <div class="banner_5_a_img">
+        <img class="pc_show lazyload" data-src="{{ dogcam.banner_5_img1 }}" alt="">
+        <img class="mob_show lazyload" data-src="{{ dogcam.banner_5_img1_mob }}" alt="">
+      </div>
+      <div class="banner_5_a_p mob_show">
+        <p class="banner_5_a_p1">{{ dogcam.banner_5_a_p1 }}</p>
+        <p class="banner_5_a_p2">{{ dogcam.banner_5_a_p2 }}</p>
+      </div>
+    </div>
+    <div class="banner_5_b">
+      <div class="banner_5_b_img">
+        <img class="lazyload" data-src="{{ dogcam.banner_5_img2 }}" alt="">
+      </div>
+      <div class="banner_5_b_p">
+        <p class="banner_5_b_p1">{{ dogcam.banner_5_b_p1 }}</p>
+        <p class="banner_5_b_p2">{{ dogcam.banner_5_b_p2 }}</p>
+        <div class="banner_5_img3"><img class="lazyload" data-src="{{ dogcam.banner_5_img3 }}" alt=""></div>
+      </div>
+    </div>
+    
+  </div>
+</div>

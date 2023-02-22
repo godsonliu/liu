@@ -1,0 +1,39 @@
+{% assign lang = product.metafields.global %}
+
+{% if lang.dogcam.value %}
+  {% assign dogcam = lang.dogcam.value %}
+{% else %}
+  {% assign dogcam = lang.dogcam %}
+{% endif %}
+
+<link rel="stylesheet" href="{{ 'eufy_dogcam_ct.scss.css' | asset_url }}">
+<script src="{{ 'eufy_dogcam_ct.js' | asset_url }}" defer="defer"></script>
+
+
+<div class="eufy_dogcam_2_2 mob_show">
+  <div class="banner_2_2">
+    <img class="lazyload" data-src="{{ dogcam.bg2_img_gif }}" alt="">
+    <div class="bg2_content">
+      <div class="bg_player_three">
+        <div class="bg_player_three_1">
+          <div class="bg_player_three_1_img">
+            <img class="lazyload" data-src="{{ dogcam.bg_player_three_1_img }}" alt="">
+          </div>
+          <p class="bg_player_three_1_p">{{ dogcam.bg_player_three_1_p1 }}</p>
+        </div>
+        <div class="bg_player_three_2">
+          <div class="bg_player_three_2_img">
+            <img class="lazyload" data-src="{{ dogcam.bg_player_three_2_img }}" alt="">
+          </div>
+          <p class="bg_player_three_2_p">{{ dogcam.bg_player_three_2_p1 }}</p>
+        </div>
+        <div class="bg_player_three_3">
+          <div class="bg_player_three_3_img">
+            <img class="lazyload" data-src="{{ dogcam.bg_player_three_3_img }}" alt="">
+          </div>
+          <p class="bg_player_three_3_p">{{ dogcam.bg_player_three_3_p1 }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

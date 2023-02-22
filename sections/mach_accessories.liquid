@@ -1,0 +1,439 @@
+{% assign section_id = 'shopify-section-' | append: section.id %}
+<style>
+@media(max-width: 769px) {
+  .showPc {
+    display: none;
+  } 
+}
+@media(min-width: 769px) {
+  .showMobile {
+    display: none;
+  } 
+}
+.mach_accessories_div {
+  background: #000000;
+  padding: 40px 30px 30px;
+}
+.mach_accessories {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+.accessories-title {
+  color: #fff;
+  font-size: 2.5vw;
+  line-height: 3vw;
+  text-align: center;
+  font-weight: 500;
+}
+.accessories-title-number {
+  font-size: 10vw;
+  line-height: 10vw;
+  font-weight: 500;
+}
+.accessories-subtitle {
+  color: #fff;
+  font-size: 1.25vw;
+  line-height: 1.46vw;
+  margin: 20px 0;
+}
+.mach_hotline,.accessories-time-txt {
+  color: #86868b;
+  font-weight: 400;
+  font-size: 1.25vw;
+  line-height: 1.46vw;
+}
+.mach_hotline svg {
+  display: inline-block;
+  vertical-align: middle;
+}
+.mach_hotline path {
+  stroke: #86868b;
+}
+.mach_hotline_tips {
+  font-size: 1.2vw;
+  line-height: 14px;
+  color: #86868b;
+  margin: 10px 0 15px 0;
+}
+.check_policy {
+  font-size: 0.9375vw;
+  line-height: 1vw;
+  text-decoration-line: underline;
+  cursor: pointer;
+  opacity: 0.6;
+  color: #fff;
+}
+.extra-benifit {
+  font-weight: 500;
+  font-size: 4.6875vw;
+  line-height: 5.36vw;
+  color: #fff;
+}
+.gift-item {
+  max-width: 400px;
+  margin: 0 40px;
+  border-radius: 10px;
+}
+.gift-list {
+  display: flex;
+  justify-content: center;
+  margin: 40px 0;
+}
+.gift-img {
+  max-width: 200px;
+  border-radius: 10px;
+}
+
+.gift-title {
+  font-size: 2.1vw;
+  line-height: 2.4vw;
+  font-weight: 500;
+  text-align: center;
+  color: #fff;
+  letter-spacing: -1px;
+}
+
+.gift-subtitle {
+  font-size: 1vw;
+  line-height: 1.25vw;
+  text-align: center;
+  margin: 15px 0 10px 0;
+  color: #CECECE;
+}
+
+.gift-desc {
+  font-size: 12px;
+  text-align: center;
+  color: #6E6E73;
+}
+.gift-desc span {
+  line-height: 1;
+  display: inline-block;
+  vertical-align: bottom;
+  margin-right: 3px;
+}
+.gift-desc svg, .gift-desc img {
+  display: inline-block;
+  vertical-align: bottom;
+}
+#{{section_id}} .mach_dialog {
+  text-align: left;
+}
+.black-section {
+  background: #000;
+}
+@media(min-width: 770px) {
+  .gift-list-value {
+    margin: 90px 0 100px;
+  }
+  .gift-list-value .gift-item {
+    min-width: 400px;
+    max-width: 27vw;
+    padding: 10px 15px;
+    border: 1px solid #86868B;
+    margin: 0 15px;
+  }
+  .gift-list-value .gift-item .gift-img {
+    margin-top: -20%;
+  }
+}
+@media(max-width: 769px) {
+  .mach_accessories_div {
+    padding: 30px 20px;
+    margin-top: -1px;
+  }
+  .accessories-title {
+    font-size: 48px;
+    line-height: 48px;
+  }
+  .accessories-title-number {
+    font-size: 23vw;
+    line-height: 103px;
+  }
+  .accessories-subtitle {
+    font-size: 18px;
+    line-height: 24px;
+  }
+  .check_policy {
+    font-size: 12px;
+    line-height: 20px;
+  }
+  .mach_hotline,.accessories-time-txt {
+    font-size: 14px;
+    line-height: 20px;
+  }
+  .mach_hotline_tips {
+    font-size: 12px;
+    line-height: 14px;
+  }
+  .extra-benifit {
+    font-size: 48px;
+    line-height: 48px;
+  }
+  .gift-list {
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 30px 0;
+  }
+  .gift-item {
+    width: 100%;
+    max-width: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 14px auto;
+  }
+  .gift-list-extra-benifit .gift-item {
+    width: 90%;
+  }
+  .gift-list-value .gift-item {
+    height: 94px;
+    border: 1px solid #86868B;
+    border-radius: 10px;
+    padding: 12px 0;
+    position: relative;
+    justify-content: flex-end;
+  }
+  .gift-list-value .gift-subtitle {
+    font-size: 12px;
+    line-height: 12px;
+  }
+  .gift-list-value .gift-img {
+    width: 120px;
+    position: absolute;
+    left: 0;
+    top: -10px;
+  }
+  .gift-list-value .gift-img-2 {
+    width: 150px;
+    left: -20px;
+    top: -25px
+  }
+  .gift-list-value .gift-info {
+    width: 68%;
+    padding-right: 5px;
+  }
+  .gift-img {
+    width: 100px;
+    max-width: none;
+  }
+  .gift-info {
+    width: 80%;
+    max-width: none;
+    margin-left: 10px;
+  }
+  .gift-title {
+    font-size: 18px;
+    line-height: 21px;
+    text-align: left;
+  }
+
+  .gift-subtitle {
+    font-size: 14px;
+    line-height: 20px;
+    text-align: left;
+    margin: 5px 0;
+  }
+
+  .gift-desc {
+    font-size: 10px;
+    line-height: 20px;
+    text-align: left;
+  }
+}
+</style>
+<div class="mach_accessories_div {{ section.settings.custom_class }}" id="mach_accessories">
+  <div class="mach_accessories">
+    <div class="accessories-title">{{ section.settings.title }}</div>
+    <div class="accessories-subtitle">{{ section.settings.subtitle }}</div>
+    <div class="check_policy">{{ section.settings.check_policy }}</div>
+    <div class="gift-list gift-list-value">
+      {% for block in section.blocks %}
+      {% if block.type == 'gift_value' %}
+      <div class="gift-item">
+        <img class="gift-img gift-img-{{forloop.index}}" src="{{ block.settings.item_bg | image_url }}" />
+        <div class="gift-info">
+          {% if block.settings.item_title != blank %}
+          <div class="gift-title">{{ block.settings.item_title }}</div>
+          {% endif %}
+          {% if block.settings.item_subtitle != blank %}
+          <div class="gift-subtitle">{{ block.settings.item_subtitle }}</div>
+          {% endif %}
+          {% if block.settings.item_desc != blank %}
+          <div class="gift-desc">{{ block.settings.item_desc }}</div>
+          {% endif %}
+        </div>
+      </div>
+      {% endif %}
+      {% endfor %}
+    </div>
+    <div class="extra-benifit">{{ section.settings.extra_benifit }}</div>
+    <div class="gift-list gift-list-extra-benifit">
+      {% for block in section.blocks %}
+      {% if block.type == 'extra_benifit' %}
+      <div class="gift-item">
+        <img class="gift-img" src="{{ block.settings.item_bg | image_url }}" />
+        <div class="gift-info">
+          {% if block.settings.item_title != blank %}
+          <div class="gift-title">{{ block.settings.item_title }}</div>
+          {% endif %}
+          {% if block.settings.item_subtitle != blank %}
+          <div class="gift-subtitle">{{ block.settings.item_subtitle }}</div>
+          {% endif %}
+          {% if block.settings.item_desc != blank %}
+          <div class="gift-desc">{{ block.settings.item_desc }}</div>
+          {% endif %}
+        </div>
+      </div>
+      {% endif %}
+      {% endfor %}
+    </div>
+    <div class="mach_hotline">{{ section.settings.mach_hotline }}</div>
+    <div class="mach_hotline_tips">{{ section.settings.mach_hotline_tips }}</div>
+    <div class="accessories-time-txt">{{ section.settings.time_txt }}</div>
+  </div>
+</div>
+
+{% render 'mach_dialog', 
+  title: section.settings.popup_title, 
+  desc: section.settings.popup_desc,
+  hasClose: true
+%}
+
+<script>
+$(function() {
+  $('#{{section_id}} .check_policy').click(function() {
+    $('#{{section_id}} .mach_dialog_div').show()
+  })
+})
+</script>
+
+
+{% schema %}
+  {
+    "name": "Mach Accessories",
+    "presets": [
+      {
+        "name": "Mach Accessories"
+      }
+    ],
+    "settings": [
+      {
+        "type": "html",
+        "id": "title",
+        "label": "标题",
+        "default": "PrizesWorth Up to $145 Awaits!"
+      },
+      {
+        "type": "html",
+        "id": "subtitle",
+        "label": "副标题",
+        "default": "More surprise gifts await! Check out your list of amazing prizes."
+      },
+      {
+        "type": "html",
+        "id": "extra_benifit",
+        "label": "Extra Benifit",
+        "default": "Extra Benifit"
+      },
+      {
+        "type": "html",
+        "id": "mach_hotline",
+        "label": "Mach Hotline"
+      },
+      {
+        "type": "html",
+        "id": "mach_hotline_tips",
+        "label": "Mach Hotline Tips"
+      },
+      {
+        "type": "html",
+        "id": "time_txt",
+        "label": "活动时间文案说明",
+        "default": "Offer valid from 2023.2.15 (00:00)-2023.3.15 (23:59)"
+      },
+      {
+        "type": "html",
+        "id": "check_policy",
+        "label": "Check Policy",
+        "default": "Check Policy"
+      },
+      {
+        "type": "header",
+        "content": "弹窗部分"
+      },
+      {
+        "type": "html",
+        "id": "popup_title",
+        "label": "弹窗标题",
+        "default": "Event Rules"
+      },
+      {
+        "type": "html",
+        "id": "popup_desc",
+        "label": "弹窗描述",
+        "default": "popup_desc"
+      },
+      {
+        "type": "text",
+        "id": "custom_class",
+        "label": "自定义类名"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "gift_value",
+        "name": "gift_value",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "item_bg",
+            "label": "图片"
+          },
+          {
+            "type": "html",
+            "id": "item_title",
+            "label": "标题"
+          },
+          {
+            "type": "html",
+            "id": "item_subtitle",
+            "label": "副标题"
+          },
+          {
+            "type": "html",
+            "id": "item_desc",
+            "label": "描述"
+          }
+        ]
+      },
+      {
+        "type": "extra_benifit",
+        "name": "extra_benifit",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "item_bg",
+            "label": "图片"
+          },
+          {
+            "type": "html",
+            "id": "item_title",
+            "label": "标题"
+          },
+          {
+            "type": "html",
+            "id": "item_subtitle",
+            "label": "副标题"
+          },
+          {
+            "type": "html",
+            "id": "item_desc",
+            "label": "描述"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

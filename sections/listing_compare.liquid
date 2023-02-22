@@ -1,0 +1,94 @@
+{% if product.metafields.global.listing_compare.value %}
+  {% assign listing_compare = product.metafields.global.listing_compare.value %}
+{% else %}
+  {% assign listing_compare = product.metafields.global.listing_compare %}
+{% endif %}
+
+{{ 'listing_compare.scss.css' | asset_url | stylesheet_tag }}
+
+{% assign variant = product.selected_or_first_available_variant %}
+
+{%- if listing_compare != blank -%}
+  <section id="compare" class="listing_v2_section"> 
+    <div class="listing_compare">
+      <h2 class="listing_compare_title">{{ listing_compare.title }}</h2>
+      <div class="flexBox">
+        {% for item in listing_compare.data %}
+          <div class="item">
+            {% render 'lazyload_image',  
+              src: item.img,
+              width: 300,
+              height: 300,
+              max_width: 300,
+              alt: product.title
+            %}
+            <p class="name">{{ item.product_name }}</p>
+            <p class="price">{{ item.price }}</p>
+            <a class="js-learn-link" href="{{ item.learn_more_link }}?ref=listing_compare_{{ variant.sku }}" data-sku="{{ item.sku }}">{{ item.learn_more_text }}</a>
+            <div class="info">
+              {% for info in item.info %} <p>{{ info }}</p> {% endfor %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  <script>
+    $(function(){
+      const lineHeightArr = []
+      $('.js-learn-link').on('click', function(){
+        const herf = $(this).attr('href')
+        const sku = $(this).data('sku')
+        const targetSku = sku ? sku : (herf ? herf.replaceAll(`${location.origin}/products/`, '') : '')
+
+        dataLayer.push({
+          "event": "uaEvent", 
+          "eventCategory": "Product Detail Page_" + "{{ variant.sku }}", 
+          "eventAction": "compare",
+          "eventLabel": targetSku //读取跳转产品的sku
+        })
+
+        window.dataLayer.push({ "event_parameters": null });
+        window.dataLayer.push({
+          "event": "ga4Event",
+          "event_name": "lp_button",
+          "event_parameters": {
+            "page_group": "Product Detail Page_" + "{{ variant.sku }}",
+            "button_name": targetSku, //读取跳转产品的sku
+            "position": "compare"
+          }
+        })
+      })
+
+      $('.info').each(function() {
+        $(this).find('p').each(function(idx) {
+          const h = $(this).height()
+          lineHeightArr[idx] = lineHeightArr[idx] ? Math.max(h, lineHeightArr[idx]) : h
+        })
+      })
+
+      lineHeightArr.map((item,idx) => {
+        $('.info').each(function() {
+          const p = $(this).find('p').eq(idx)
+          p && p.height(item)
+        })
+      })
+    })
+  </script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Listing Compare",
+  "presets": [
+    {
+      "category": "Listing Compare Sections",
+      "name": "Listing Compare"
+    }
+  ],
+  "settings": [
+  ]
+}
+{% endschema %}
+
+

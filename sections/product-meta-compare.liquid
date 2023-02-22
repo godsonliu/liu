@@ -1,0 +1,146 @@
+{% assign settings = section.settings %}
+
+{% if template contains "product" %}
+  {% if product.metafields.global.layout.value %}
+    {% assign layout = product.metafields.global.layout.value %}
+  {% else %}
+    {% assign layout = product.metafields.global.layout %}
+  {% endif %}
+
+  {% if product.metafields.global.compare.value %}
+    {% assign compare = product.metafields.global.compare.value %}
+  {% else %}
+    {% assign compare = product.metafields.global.compare %}
+  {% endif %}
+{% else %}
+  {% if page.metafields.global.layout.value %}
+    {% assign layout = page.metafields.global.layout.value %}
+  {% else %}
+    {% assign layout = page.metafields.global.layout %}
+  {% endif %}
+
+  {% if page.metafields.global.compare.value %}
+    {% assign compare = page.metafields.global.compare.value %}
+  {% else %}
+    {% assign compare = page.metafields.global.compare %}
+  {% endif %}
+{% endif %}
+
+{%- if settings.show_product_compare and compare and compare.size > 0 -%}
+{% assign fields = compare | first %}
+{% comment %} {% for col in fields %}<p><b>{{ col[0] }}</b> => <s>{{ col[1] }}</s></p>{% endfor %} {% endcomment %}
+{% assign showAsTable = true %}
+<section class="grid-item{% if settings.class != blank %} {{settings.class}}{% endif %}" data-section-id="{{ section.id }}">
+  <div class="prodCompare" id="compare">
+    <div class="wrap">
+      <h3 class="prodTitle">
+        <span>
+          {% if layout.compare.title != blank %}
+            {{ layout.compare.title  }}
+          {% else %}
+            {{ settings.heading }}
+          {% endif %}
+        </span>
+      </h3>
+      {% if showAsTable %}
+        <div class="box">
+          <div class="fixedtable">
+            <table>
+              {% tablerow col in fields %}
+                <span>{{ col[0] }}</span>
+                {% comment %} {{ col[0] | strip_html }} {% endcomment %}
+              {% endtablerow %}
+              {% for item in compare %}
+                {% tablerow v in item %}
+                  <span>{{ v[1] }}</span>
+                {% endtablerow %}
+              {% endfor %}
+            </table>
+          </div>
+        </div>
+      {% else %}
+        <div class="box">
+          <div class="itself">
+            <ul class="list">
+              <li class="item tit">
+                <span>{{ fields | first | slice: 0, 1 }}</span>
+              </li>
+              {% for item in compare %}
+                <li class="item">
+                  <span>
+                  {% comment %} {% assign first = item | first %}{{ first[1] }} {% endcomment %}
+                  {{ item | first | slice: 1, 1 }}
+                  </span>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+          <div class="other">
+            {% for col in fields offset: 1 %}
+              {% comment %} {% assign position = forloop.index0 %} {% endcomment %}
+              {% comment %} <p>{{ position }}, {{ col }}</p> {% endcomment %}
+              <ul class="list">
+                <li class="item tit">
+                  <span>
+                    {{ col[0] }}
+                    {% comment %} {{ col[0] | strip_html }} {% endcomment %}
+                  </span>
+                </li>
+                {% for item in compare %}
+                  <li class="item">
+                    <span>
+                      {{ item[col[0]] }}
+                    </span>
+                  </li>
+                {% endfor %}
+              </ul>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
+
+{% schema %}
+{
+  "name": "Product compare",
+  "presets": [
+    {
+      "category": "SmartScale P2 Pro Banner3 Sections",
+      "name": "Product compare"
+    }
+  ],
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "[AnkerFields: products](/admin/apps/betametafields/products), compare"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_product_compare",
+      "label": "Show compare",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "eventCategory",
+      "label": "addtoCart event Category"
+    },
+    {
+      "type": "text",
+      "id": "class",
+      "label": "CSS Class",
+      "default": "compare"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Product/Features"
+    }
+  ]
+}
+{% endschema %}

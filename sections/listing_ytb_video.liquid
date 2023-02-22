@@ -1,0 +1,116 @@
+{% assign section_id = 'shopify-section-' | append: section.id %}
+{% if section.settings.MetabufKey != blank %}
+{% assign MetabufKey = section.settings.MetabufKey %}
+{% else %}
+{% assign MetabufKey = 'ProductYtbVideo' %}
+{% endif %}
+{% if template contains "product" %}
+  {% if product.metafields.global[MetabufKey].value %}
+    {% assign ProductYtbVideo = product.metafields.global[MetabufKey].value %}
+  {% else %}
+    {% assign ProductYtbVideo = product.metafields.global[MetabufKey] %}
+  {% endif %}
+{% else %}
+  {% if page.metafields.global[MetabufKey].value %}
+    {% assign ProductYtbVideo = page.metafields.global[MetabufKey].value %}
+  {% else %}
+    {% assign ProductYtbVideo = page.metafields.global[MetabufKey] %}
+  {% endif %}
+{% endif %}
+
+{% if ProductYtbVideo and ProductYtbVideo.size > 0 %}
+
+    <section class="listing_ytb_video videos_rotate">
+      <div class="rotate_content">
+        <p class="title">{{ ProductYtbVideo.title }}</p>
+        {% if ProductYtbVideo.subtitle != blank %}
+          <span class="subtitle">{{ ProductYtbVideo.subtitle }}</span>
+        {% endif %}
+        <div class="videos_rotate_slick">
+          {% for item in ProductYtbVideo.list %}
+            <div class="item">
+              <div class="image">
+                <img class="lazyload" data-src="{{ item.img }}" alt="{{ item.title }}" />
+                {% if item.hide_playIcon == blank %}
+                  <div class="play-icon-img" data-name="{{ item.name }}" data-url="{{ item.video_url }}">
+                    <img class="lazyload" data-src="{{ ProductYtbVideo.play_icon }}" alt="{{ item.title }} play icon" />
+                  </div>
+                {% endif %}
+              </div>
+              <div class="extra-text">
+                <span class="tips">{{ item.tips }}</span>
+                <span class="name">{{ item.name }}</span>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+
+    <div class="VideoCoverYouTube">
+      <div class="box">
+        <iframe width="100%" class="lazyload" height="100%" data-src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <a class="closeVideo"><i class="iconfont">&#xe723;</i></a>
+    </div>
+
+{% endif %}
+
+<script>
+
+  $(document).ready(function(){
+
+    // videos_rotate
+    $('#{{section_id}} .listing_ytb_video .videos_rotate_slick').slick({
+      slidesToShow: 3,
+      slidesToScroll: 1,
+      responsive: [
+        {
+          breakpoint: 768,
+          settings: {
+            centerPadding: '1px',
+            slidesToShow: 1
+          }
+        }
+      ]
+    });
+    $('#{{section_id}} .listing_ytb_video .play-icon-img').on('click', function () {
+      let url = $(this).attr('data-url');
+      if (url) {
+        $('#{{section_id}} .VideoCoverYouTube').css({ display: "block" }).find('iframe').attr('src', url)
+        dataLayer.push({
+          "event": "uaEvent",
+          "eventCategory": 'click_video',
+          "eventAction": "{{ product.handle }}",
+          "eventLabel": $(this).attr('data-name')
+        })
+      }
+    });
+    $('#{{section_id}} .VideoCoverYouTube .closeVideo').click(() => {
+      $('#{{section_id}} .VideoCoverYouTube iframe').attr('src', '')
+      $('#{{section_id}} .VideoCoverYouTube').css({ display: "none" })
+    });
+
+  })
+</script>
+
+
+{% schema %}
+{
+  "name": "Product ytb video",
+  "presets": [
+    {
+      "name": "listing_ytb_video"
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "MetabufKey",
+      "label": "MetaBuf取值字段",
+      "info": "同一页面多个相同section，需要保持该字段取值不一样。默认为：ProductYtbVideo",
+      "default": "ProductYtbVideo"
+    }
+  ]
+}
+{% endschema %}

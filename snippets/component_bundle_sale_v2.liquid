@@ -1,0 +1,568 @@
+{% if shop.metafields['global']['storefront_key'].value %}
+  {% assign authorization = shop.metafields['global']['storefront_key'].value %}
+{% else %}
+  {% assign authorization = shop.metafields['global']['storefront_key'] %}
+{% endif %}
+
+{% assign section_id = 'shopify-section-' | append: section.id %}
+{% for block in  section.blocks %}
+{% assign bundle_product_num = forloop.length %}
+{% endfor %}
+{% assign bundle_product_max_num = 2 %}
+<style>
+#{{section_id}} .component_bundle_sale {
+  width: 100%;
+  display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#{{section_id}} .bundle-item-div {
+	width: 100%;
+  max-width: 1200px;
+	display: flex;
+	align-items: center;
+  flex-wrap: wrap;
+	padding: 25px 3.125vw;
+	background: {{section.settings.bundle_item_div_bg }};
+	border-radius: {{section.settings.bundle_border_radius}};
+}
+#{{section_id}} .bundle-item-box {
+  max-width: 100%;
+  display: flex;
+	align-items: center;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+#{{section_id}} .bundle-item-box .bundle-item, #{{section_id}} .bundle-item-box .bundle-item-operator {
+  flex-shrink: 0;
+}
+#{{section_id}} .bundle-item {
+  width: 15.2vw;
+  max-width: 290px;
+  min-width: 240px;
+  padding: 24px;
+  border-radius: {% if section.settings.item_border_radius != blank %} {{ section.settings.item_border_radius }} {% else %} var(--item_border_radius) {% endif %};
+  border: 1px solid {{ section.settings.item_border_color }};
+}
+#{{section_id}} .product_img {
+	width: 100%;
+	height: 240px;
+  padding-bottom: 24px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#{{section_id}} .product_img .items_img {
+	height: 100%;
+	border: none;
+	outline:none; 
+	-webkit-tap-highlight-color: transparent; 
+	-webkit-appearance: none;
+}
+#{{section_id}} .product-info {
+	width: 100%;
+  height: 110px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+  text-align: {{ section.settings.content_text_align }}
+}
+#{{section_id}} .product-title {
+	display: block;
+	width: 100%;
+	line-height: 1.5;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	word-break: break-word;;
+  color: {{section.settings.product_title_color}};
+  font-size: 18px;
+  font-weight: 500;
+}
+#{{section_id}} .product-info .price-div {
+  color: {{section.settings.product_price_color}};
+  font-size: 20px;
+  font-weight: 600;
+}
+#{{section_id}} .bundle-item-operator {
+	width: 2.14vw;
+  height: 2.14vw;
+  margin: 0 1.2vw;
+}
+#{{section_id}} .bundle-item-operator svg {
+  width: 100%;
+  height: 100%;
+}
+
+#{{section_id}} .price-total {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+  align-items: flex-start;
+}
+{% if bundle_product_num > bundle_product_max_num %}
+#{{section_id}} .price-total {
+  width: 100%;
+  align-items: center;
+  justify-content: flex-end;
+  flex-direction: row;
+  margin-top: 30px;
+  padding-top: 30px;
+  border-top: 1px solid #DDDDDD; 
+}
+#{{ section_id }} .limited_items_content_price {
+  margin-right: 8px;
+  text-align: right;
+}
+{% endif %}
+
+#{{section_id}} .price-total .price-div {
+  color: {{section.settings.price_color}};
+  font-size: 2.1vw;
+  font-weight: 600;
+}
+#{{section_id}} .price-total .compare-at-price {
+  color: {{section.settings.compare_at_price_color}};
+  font-size: 1.25vw;
+  font-weight: 400;
+  margin-bottom: 10px;
+}
+#{{section_id}} .price-total .compare-at-price-num {
+  text-decoration: line-through;
+}
+#{{section_id}} .save-price {
+  font-size: 14px;
+  color: {% if section.settings.save_price_color != blank %} {{section.settings.save_price_color}} {% else %} var(--light_color) {% endif %};
+  padding: 4px 8px;
+  border-radius: 3px;
+  border: 1px solid {% if section.settings.save_price_color != blank %} {{section.settings.save_price_color}} {% else %} var(--light_color) {% endif %};
+  margin-left: 8px;
+  display: inline-block;
+  vertical-align: middle;
+}
+#{{section_id}} .limited_items_content_button {
+	outline: none;
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+	-webkit-tap-highlight-color: transparent;
+  height: 40px;
+  font-size: 16px;
+  padding: 12px 32px;
+  border: 1px solid;
+  flex-shrink: 0;
+	border-radius: {% if section.settings.button_border_radius != blank %} {{section.settings.button_border_radius}} {% else %} var(--button_border_radius) {% endif %};
+  border-color: {% if section.settings.button_border_color != blank %} {{section.settings.button_border_color}} {% else %} var(--light_color) {% endif %};
+  color: {{section.settings.button_txt_color}};
+  background: {% if section.settings.button_bg != blank %} {{section.settings.button_bg}} {% else %} var(--light_color) {% endif %};
+
+}
+#{{section_id}} .limited_items_content_button:hover {
+	background: {% if section.settings.button_hover_bg != blank %} {{section.settings.button_hover_bg}} {% else %} var(--light_color) {% endif %} !important;
+	border-color: {% if section.settings.button_hover_border_color != blank %} {{section.settings.button_hover_border_color}} {% else %} var(--light_color) {% endif %} !important;
+	color: {{section.settings.button_hover_txt_color}} !important;
+}
+#{{section_id}} .limited_items_content_button-disabled {
+	background-color: var(--button_disabled_color) !important;
+	color: var(--button_disabled_text_color) !important;
+	border-color: var(--button_disabled_color) !important;
+	pointer-events: none;
+	cursor: not-allowed;
+}
+
+#{{section_id}} .include-overview-reviews {
+	display: inline-block;
+}
+#{{section_id}} .prodYotpoReviews {
+	margin: 0;
+}
+#{{section_id}} .prodYotpoReviews .text-m {
+	display: none;
+}
+@media (max-width: 1440px) {
+  #{{section_id}} .price-total .price-div {
+    font-size: 30px;
+  }
+  #{{section_id}} .price-total .compare-at-price {
+    font-size: 18px;
+  }
+}
+@media(max-width: 767px) {
+	#{{section_id}} .bundle-item-div {
+		padding: 12px;
+	}
+  #{{section_id}} .bundle-item {
+    width: 145px;
+    min-width: auto;
+    padding: 12px;
+    border: none;
+  }
+  #{{section_id}} .product_img {
+    height: 120px;
+    padding-bottom: 0;
+  }
+  #{{section_id}} .product-title {
+    font-size: 14px;
+  }
+  #{{section_id}} .product-info {
+    height: 80px;
+  }
+  #{{section_id}} .product-info .price-div {
+    font-size: 16px;
+  }
+  #{{section_id}} .bundle-item-operator-equal {
+    display: none;
+  }
+  #{{section_id}} .bundle-item-operator {
+    width: 21px;
+    height: 21px;
+  }
+
+  #{{section_id}} .price-total {
+    width: 100%;
+    align-items: center;
+    justify-content: flex-end;
+    flex-direction: row;
+    margin-top: 30px;
+    padding-top: 30px;
+    border-top: 1px solid #DDDDDD; 
+  }
+  #{{ section_id }} .limited_items_content_price {
+    margin-right: 8px;
+    text-align: right;
+  }
+
+  #{{section_id}} .price-total .price-div {
+    font-size: 18px;
+  }
+  #{{section_id}} .price-total .compare-at-price {
+    font-size: 14px;
+  }
+  #{{section_id}} .price-total .save-price {
+    padding: 2px 6px;
+  }
+  #{{section_id}} .price-total .limited_items_content_button {
+    font-size: 14px;
+  }
+
+  {% if bundle_product_num > bundle_product_max_num %}
+  #{{section_id}} .bundle-item-box {
+    width: 100%;
+    flex-direction: column;
+  }
+  #{{section_id}} .bundle-item-box .bundle-item {
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+  #{{section_id}} .bundle-item-box .bundle-item-operator {
+    margin: 0;
+    position: relative;
+    left: 20%;
+    align-self: flex-start;
+  }
+  #{{section_id}} .bundle-item-box .bundle-item::after {
+    content: "";
+    width: 60%;
+    height: 1px;
+    background: #ddd;
+    position: absolute;
+    right: 0;
+    bottom: -11px;
+  }
+  {% endif %}
+  
+}
+</style>
+
+
+<div class="component_bundle_sale">
+	<div class="bundle-item-div">
+    <div class="bundle-item-box">
+      {% for block in  section.blocks %}
+        {% if block.type == 'bundle_item' %}
+          {% assign oProduct = block.settings.product_info %}
+          {% assign variants = oProduct.variants %}
+          {% assign oProduct_variant = oProduct.selected_or_first_available_variant %}
+          {% for child_variant in variants  %} 
+            {% if child_variant.sku == block.settings.variant_sku %}
+            {% assign oProduct_variant = child_variant %}
+            {% endif %}
+          {% endfor %}
+          <div data-forloop_index="{{forloop.index}}" class="bundle-item">
+            <a 
+              href="{{oProduct_variant.url}}&ref={{section.settings.img_source}}"
+              data-source="{{section.settings.ga4_img_source}}"
+              data-ga4-index="{{forloop.index}}"
+              class="product_img ga4-btn"
+            >
+							{% if block.settings.product_image != blank %}
+							<img class="items_img lazyload"  data-src="{{ block.settings.product_image | image_url }}"/>
+							{% else %}
+							<img class="items_img lazyload"  data-src="
+								{% if oProduct_variant.image != blank %}
+								{{ oProduct_variant.image | image_url}}
+								{% else %}
+								{{ oProduct.featured_image | image_url}}
+								{% endif %}
+							"/>
+							{% endif %}
+            </a>
+            <div 
+              class="product-info"
+            >
+              <div>
+                <a
+                  data-source="{{section.settings.ga4_img_source}}"
+                  data-ga4-index="{{forloop.index}}"
+                  href="{{oProduct_variant.url}}&ref={{section.settings.img_source}}" 
+                  class="product-title ga4-btn"
+                >
+                  {{ oProduct.title }}
+                </a>
+                {% if section.settings.has_reviews %}
+                <div class="include-overview-reviews">
+                  {% render 'include_overview_reviews', product: oProduct %}
+                </div>
+                {% endif %}
+              </div>  
+              <div 
+                class="price-div"
+              >
+								{% if block.settings.product_origin_price != blank %}
+								{% render 'price-element', price: block.settings.product_origin_price %}
+								{% else %}
+                {% render 'price-element', price: oProduct_variant.price %}
+								{% endif %}
+              </div>
+            </div>
+          </div>
+          {% if forloop.last == false %}
+          <div class="bundle-item-operator">
+            {% render 'component_bundle_sale_add' %}
+          </div>
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+
+    </div>
+    
+    {% if bundle_product_num <= bundle_product_max_num %}
+    <div class="bundle-item-operator bundle-item-operator-equal">
+      {% render 'component_bundle_sale_equal' %}
+    </div>
+    {% endif %}
+		<div 
+			class="price-total"
+    >
+			<div class="limited_items_content_price">
+				<span 
+					class="price-div"
+        >
+					{% assign save_total_price = 0 %}
+					{% for block in  section.blocks %}
+						{% assign save_total_price = save_total_price | plus: block.settings.product_bundle_price %}
+						{% if forloop.last == true %}
+							{% render 'price-element', price: save_total_price  %}
+						{% endif %}
+					{% endfor %}
+				</span>
+				<div
+					class="compare-at-price"
+				>
+					{% assign save_total_compare_at_price = 0 %}
+					{% for block in  section.blocks %}
+						{% assign oProduct = block.settings.product_info %}
+						{% assign variants = oProduct.variants %}
+						{% assign oProduct_variant = oProduct.selected_or_first_available_variant %}
+						{% for child_variant in variants  %} 
+							{% if child_variant.sku == block.settings.variant_sku %}
+							{% assign oProduct_variant = child_variant %}
+							{% endif %}
+						{% endfor %}
+						{% if block.settings.product_origin_price != blank %}
+						{% assign save_total_compare_at_price = save_total_compare_at_price | plus: block.settings.product_origin_price %}
+						{% else %}
+						{% assign save_total_compare_at_price = save_total_compare_at_price | plus: oProduct_variant.price %}
+						{% endif %}
+						{% if forloop.last == true %}
+							<span class="compare-at-price-num">
+                {% render 'price-element', price: save_total_compare_at_price %}
+              </span>
+						{% endif %}
+					{% endfor %}
+          			             
+          {% if section.settings.save_price_text != blank %}
+            <span 
+              class="save-price"
+            >
+              {{section.settings.save_price_text}}
+              {% assign diff_price = save_total_compare_at_price | minus: save_total_price  %}
+              {% render 'price-element', price: diff_price %}
+            </span>
+			    {% endif %}
+				</div>
+			</div>
+			{% if section.settings.button_txt %}
+			{% assign has_sold_out = false %}
+			{% for block in  section.blocks %}
+				{% assign oProduct = block.settings.product_info %}
+				{% assign variants = oProduct.variants %}
+				{% assign oProduct_variant = oProduct.selected_or_first_available_variant %}
+				{% for child_variant in variants  %} 
+					{% if child_variant.sku == block.settings.variant_sku %}
+					{% assign oProduct_variant = child_variant %}
+					{% endif %}
+				{% endfor %}
+				{% if oProduct_variant.available == false or oProduct_variant.price == 999999999 %}
+				{% assign has_sold_out = true %}
+				{% endif %}
+			{% endfor %}
+			<button 
+				class="
+					{% if has_sold_out == true %}
+					limited_items_content_button-disabled
+					{% endif %}
+					limited_items_content_button
+				">
+					{% if has_sold_out == false %}
+					{{section.settings.button_txt}}
+					{% else %}
+					{{ 'products.product.sold_out' | t }}
+					{% endif %}
+			</button>
+			{% endif %}
+		</div>
+	</div>
+</div>
+
+<script>
+$(function() {
+	$('#{{section_id}} .limited_items_content_button').on('click', function() {
+		var line_items = []
+		{% for block in  section.blocks %}
+		{% assign oProduct = block.settings.product_info %}
+		{% assign variants = oProduct.variants %}
+		{% assign oProduct_variant = oProduct.selected_or_first_available_variant %}
+		{% for child_variant in variants  %} 
+			{% if child_variant.sku == block.settings.variant_sku %}
+			{% assign oProduct_variant = child_variant %}
+			{% endif %}
+		{% endfor %}
+		// # _bundle_up: 加密参数, = (42 * variant_id[后三位] * _bundle_price * _bundle_quantity * _bundle_size) 的前3位. 只取3位的原因是太长容易变成科学计数,导致不准
+			line_items.push({
+				variant_id: '{{oProduct_variant.id}}',
+				properties: {
+					"_bundle_name": "BUNDLE_SALE",
+					"_bundle_price": "{{block.settings.product_bundle_price}}",
+					"_bundle_quantity": 1,
+					"_bundle_size": "{{forloop.length}}",
+					"_bundle_up": "{{ oProduct_variant.id | slice: -3, 3 | times: 42 | times: block.settings.product_bundle_price | times: 1 | times: forloop.length | slice: 0, 3 }}"
+				}
+			})
+		{% endfor %}
+		Shopify.theme.bundleBuynow_BF({
+			authorization: "{{ authorization }}",
+			checkout: {
+				line_items: line_items,
+				presentment_currency: "{{ shop.currency }}",
+				is_upstream_button: true,
+				page_type: "product",
+				secret: true,
+				wallet_name: "Checkout",
+				page_group: "{{section.settings.ga4_page_group}}",
+				page_position: "{{section.settings.ga4_page_group}}_Checkout"
+			},
+			onSuccess: () => {},
+			onError: err => {
+				console.log(err)
+				$.dialog({ title: err.message, content: err.description, type: 'red' });
+			}
+		});
+	})
+	let allProducts = []
+	window.dataLayer.push({ "event_parameters": null });
+	{% for block in section.blocks %}
+		{% assign oProduct = block.settings.product_info %}
+		{% assign variants = oProduct.variants %}
+		{% assign oProduct_variant = oProduct.selected_or_first_available_variant %}
+		{% for child_variant in variants  %} 
+			{% if child_variant.sku == block.settings.variant_sku %}
+			{% assign oProduct_variant = child_variant %}
+			{% endif %}
+		{% endfor %}
+			var item = {
+				"event": "ga4Event",
+				"event_name": "view_item_list",
+				"event_parameters": {
+					"page_group": "{{section.settings.ga4_page_group}}",
+					"currency": "{{shop.currency}}",
+					"position": (function(){
+						let bundle_sale_list = Array.from(document.querySelectorAll('#{{section_id}} .component_bundle_sale')).map(item => item.id)
+						let index = bundle_sale_list.indexOf('{{section.id}}')
+						if(index > -1) {
+							index++;
+							return 'bundle' + index 
+						}
+					})(),
+					"items": [{
+						"item_id": "{{oProduct_variant.sku}}",
+						"item_name": "{{oProduct.title | replace: '<br/>', '' | replace: '<br>', '' }}",
+						"item_brand": "{{shop.name}}",
+						"item_category": "{{oProduct_variant.type}}",
+						"item_variant": "{{oProduct_variant.title}}",
+						"price": "{{oProduct_variant.price | divided_by: 100}}",
+						"index": "{{forloop.index}}",
+						"item_list_id": "{{section.id}}",
+						"item_list_name": "{{section.id}}"
+					}]
+				}
+			}
+			allProducts.push(item)
+	{% endfor %}
+
+	let io = new IntersectionObserver((entries) => {
+    entries.forEach(item => {
+			let el = item.target
+      if (item.isIntersecting) {
+				let index = el.getAttribute('data-forloop_index') || 1;
+				index--;
+				window.dataLayer.push(allProducts[index])
+        io.unobserve(item.target)
+      }
+    })
+  })
+
+	const limited_items_list = document.querySelectorAll('#{{section_id}} .bundle-item')
+
+	limited_items_list.forEach((el) => {
+		io.observe(el)
+	})
+
+	$('#{{section_id}} .ga4-btn').on('click', function() {
+		let index = $(this).data("ga4-index");
+		let source = $(this).data("source");
+		index--;
+		let position = allProducts[index].event_parameters.position;
+		let items = allProducts[index].event_parameters.items;
+		window.dataLayer.push({ "event_parameters": null });
+		window.dataLayer.push({
+			"event": "ga4Event",
+			"event_name": "select_item",
+			"event_parameters": {
+				"page_group": "{{section.settings.ga4_page_group}}",
+				"position": position,
+				"action": source + items[0].item_name,
+				"currency": "{{shop.currency}}",
+				"items": items
+			}
+		});
+	})
+})
+</script>

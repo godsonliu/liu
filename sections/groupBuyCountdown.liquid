@@ -1,0 +1,174 @@
+{% if page.metafields.banner.desktop.value %}
+  {% assign banner_desktop = page.metafields.banner.desktop.value %}
+{% else %}
+  {% assign banner_desktop = page.metafields.banner.desktop %}
+{% endif %}
+
+{% if page.metafields.banner.mobile.value %}
+  {% assign banner_mobile = page.metafields.banner.mobile.value %}
+{% else %}
+  {% assign banner_mobile = page.metafields.banner.mobile %}
+{% endif %}
+
+{% if page.metafields.banner.groupBuyTheme.value %}
+  {% assign theme_title = page.metafields.banner.groupBuyTheme.value %}
+{% else %}
+  {% assign theme_title = page.metafields.banner.groupBuyTheme %}
+{% endif %}
+
+{% if page.metafields.image.groupBuyTheme.value %}
+  {% assign social_img = page.metafields.image.groupBuyTheme.value %}
+{% else %}
+  {% assign social_img = page.metafields.image.groupBuyTheme %}
+{% endif %}
+
+{% if page.metafields.global.copy.value %}
+  {% assign copy = page.metafields.global.copy.value %}
+{% else %}
+  {% assign copy = page.metafields.global.copy %}
+{% endif %}
+
+{% if page.metafields.global.data.value %}
+  {% assign lang = page.metafields.global.data.value.lang %}
+{% else %}
+  {% assign lang = page.metafields.global.data.lang %}
+{% endif %}
+
+{{ 'groupBuy.scss.css' | asset_url | stylesheet_tag }}
+{% assign custom_css = section.settings.custom_css %}
+
+<style>
+  {%- if custom_css != blank -%}
+    {{ custom_css }}
+  {% endif %}
+
+  .themes {
+    margin-top: -2vw;
+  }
+  .timer {
+    position: absolute;
+    top: 4vw;
+  }
+
+  .timer div p:nth-child(2) {
+    color: #fff;
+  }
+  
+  @media (max-width: 768px) {
+    .timer{
+      top: 13vw;
+    }
+    .themes{
+      margin-top: 0;
+    }
+  }
+</style>
+
+<div class='header_groupBuy'>
+    <div class='float_top'>
+      <div class="themes">
+        <img class='themesPic lazyload' data-src="{{ lang.web_banner }}" alt="" /> 
+      </div>
+      <div class="timer">
+        <div>
+          <p>00</p>
+          <p>{{ copy.days }}</p>
+        </div>
+        <div>
+          <p>00</p>
+          <p>{{ copy.hours }}</p>
+        </div>
+        <div>
+          <p>00</p>
+          <p>{{ copy.minutes }}</p>
+        </div>
+        <div>
+          <p>00</p>
+          <p>{{ copy.seconds }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="banner">
+      <div class="desktop" style="">
+        <img class='desktop lazyload' data-src="{{ lang.web_combine_scene_img }}" alt="" /> 
+      </div>
+      <div class="mobile" style="">
+        <img class='mobile lazyload' data-src="{{ lang.mobile_combine_scene_img}}" alt="" /> 
+      </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+      referralTrack('groupbuy',`{{lang.period}}` ,'page');
+      var _ordertimer = null;
+      var date1 = new Date();
+      var time = '{{ lang.end_time }}' || ''
+      var formatTime = time.replace(' ','T')+ '+08:00'
+      var date2 = new Date(formatTime);
+
+      if (date2 < date1) {
+         $.confirm({
+          title: '',
+          content: `{{ copy.endText }}`,
+          buttons: {
+            ok: {
+              text: `{{ copy.endConfirmOK }}`,
+              btnClass: 'btn-primary',
+              keys: ['enter'],
+              action: function () {
+                window.location.href = '/collections/security?ref=groupbuy'
+              }
+            },
+          }
+        });
+        return;//设置的时间小于现在时间退出
+      }
+      _ordertimer = setInterval(function () { leftTimer(date2) }, 1000);
+      function leftTimer(enddate) {
+        var leftTime = (new Date(enddate)) - new Date(); //计算剩余的毫秒数
+        var days = parseInt(leftTime / 1000 / 60 / 60 / 24, 10); //计算剩余的天数
+        var hours = parseInt(leftTime / 1000 / 60 / 60 % 24, 10); //计算剩余的小时
+        var minutes = parseInt(leftTime / 1000 / 60 % 60, 10);//计算剩余的分钟
+        var seconds = parseInt(leftTime / 1000 % 60, 10);//计算剩余的秒数
+        days = checkTime(days);
+        hours = checkTime(hours);
+        minutes = checkTime(minutes);
+        seconds = checkTime(seconds);
+        if (days >= 0 || hours >= 0 || minutes >= 0 || seconds >= 0) {
+          $('.timer p:even').eq(0).text(days)
+          $('.timer p:even').eq(1).text(hours)
+          $('.timer p:even').eq(2).text(minutes)
+          $('.timer p:even').eq(3).text(seconds)
+        }
+        if (days <= 0 && hours <= 0 && minutes <= 0 && seconds <= 0) {
+          window.clearInterval(_ordertimer);
+          _ordertimer = null;
+        }
+      }
+
+      function checkTime(i) { //将0-9的数字前面加上0，例1变为01
+        if (i < 10) {
+          i = "0" + i;
+        }
+        return i;
+      }
+      
+    })
+</script> 
+
+{% schema %}
+
+{
+  "name": "团购首屏",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Custom CSS",
+      "info": "自定义样式（注意：请按照标准的css语法添加样式）"
+    }
+  ]
+}
+
+{% endschema %}

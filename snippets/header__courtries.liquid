@@ -1,0 +1,123 @@
+{% if shop.metafields['global']['coutriesSwitch'].value %}
+  {% assign coutriesSwitch = shop.metafields['global']['coutriesSwitch'].value %}
+{% else %}
+  {% assign coutriesSwitch = shop.metafields['global']['coutriesSwitch'] %}
+{% endif %}
+
+{% comment %} Required values name:
+{% endcomment %}
+
+
+<style>
+  .header_countries img {
+    width: 20px;
+  }
+  .header_countries .txt {
+    display: none;
+  }
+  .header_countries {
+    display: inline-block;
+    position: relative;
+    line-height: 1;
+  }
+  
+  .coutriesSwitch {
+    position: absolute;
+    top: 30px;
+    right: 0;
+    z-index: 30;
+    width: 200px;
+    padding: 1rem;
+    background: #fff;
+    box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.3);
+  }
+  .coutriesSwitch li {
+    display: flex;
+    padding: 4px 0;
+  }
+  .coutriesSwitch img {
+    width: 20px;
+    margin-right: 10px;
+  }
+  .mask {
+    position: fixed;
+    top: 0;left: 0;right: 0;bottom: 0;
+    z-index: 1;
+  }
+  @media (max-width: 769px) {
+    .header_countries {
+      display: block;
+      padding: 20px 0;
+      text-align: center;
+      border-top: 1px solid #ddeedd;
+    }
+
+    .coutriesSwitch {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      z-index: 30;
+      transform: translateX(-50%);
+      padding: 1rem;
+      background: #fff;
+    }
+    
+    .header_countries .txt {
+      display: inline-block;
+    }
+  }
+</style>
+<script>
+$(function() {
+  const host = window.location.host;
+  const current = host ? host.split(".") : [''];
+  $(`.header_countries .${current[0]}`).removeClass('swap--visible');
+  $('.header_countries .current_country').on('click', function() {
+    $('.header_countries .coutriesSwitch').removeClass('swap--visible');
+    $('.header_countries .mask').removeClass('swap--visible');
+  })
+  $(`.header_countries`).on('keypress', function(e) {
+    if(e.keyCode==13){
+      $('.header_countries .coutriesSwitch').removeClass('swap--visible');
+      $('.header_countries .mask').removeClass('swap--visible');
+    }
+  });
+  $('.header_countries .txt').on('click', function() {
+    $('.header_countries .coutriesSwitch').removeClass('swap--visible');
+    $('.header_countries .mask').removeClass('swap--visible');
+  });
+  $('.header_countries .mask').on('click', function() {
+    $('.header_countries .coutriesSwitch').addClass('swap--visible');
+    $('.header_countries .mask').addClass('swap--visible');
+  });
+})
+</script>
+
+<div tabindex="0" class="header_countries">
+  {% for item in coutriesSwitch %}
+    <img
+      class="current_country lazyload {{ item.shop }} swap--visible"
+      data-src="{{ item.img }}"
+      alt="{{ item.txt }}"
+    />
+    <span class="{{ item.shop }} txt swap--visible">{{ item.txt }}</span>
+  {% endfor %}
+  
+  <div class="coutriesSwitch swap--visible">
+    <ul>
+      {% for item in coutriesSwitch %}
+        <li>
+          <a href="{{ item.link }}"
+            ><img 
+              class="lazyload"
+              data-src="{{ item.img }}"
+              alt="{{ item.txt }}"
+            /><span>{{ item.txt }}</span></a
+          >
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="mask swap--visible"></div>
+</div>
+

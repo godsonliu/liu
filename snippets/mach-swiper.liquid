@@ -1,0 +1,41 @@
+<div class="mach-swiper-snippets-wrap">
+  <div class="swiper-container mach-swiper-snippets">
+    <ul class="swiper-wrapper">
+      {% for item in data %}
+      <li class="swiper-slide">
+        <div class="swiper-content">
+          <div class="img-sec-wrap is-hidden-mobile-only">
+            {% render 'lazyload_image',  
+              src: item.img.src,
+              alt: item.img.alt,
+              width: item.img.width,
+              height: item.img.height
+            %}
+          </div>
+          <div class="img-sec-wrap is-hidden-desktop-only">
+            {% render 'lazyload_image',  
+              src: item.img_mb.src,
+              alt: item.img_mb.alt,
+              width: item.img_mb.width,
+              height: item.img_mb.height
+            %}
+          </div>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="swiper-pagination mach-snippets-swiper-pagination"></div>
+  <a class="mach-snippets-btn mach-snippets-prev-btn">
+    <svg width="20" height="17" viewBox="0 0 20 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M8.02051 15.5723L1.23386 8.78562L8.02051 1.99898" stroke="#6E6E73" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M2.11593 9.05664H18.8789" stroke="#6E6E73" stroke-width="2" stroke-linecap="round"/>
+    </svg>      
+  </a>
+  <a class="mach-snippets-btn mach-snippets-next-btn">
+    <svg width="20" height="17" viewBox="0 0 20 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12.0928 1.54102L18.8794 8.32766L12.0928 15.1143" stroke="#6E6E73" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M17.9973 8.05664L1.23438 8.05664" stroke="#6E6E73" stroke-width="2" stroke-linecap="round"/>
+    </svg>      
+  </a>
+</div>

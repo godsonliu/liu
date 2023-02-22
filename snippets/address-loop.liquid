@@ -1,0 +1,287 @@
+{% if shop.metafields.global.order.value %}
+  {% assign order = shop.metafields.global.order.value %}
+{% else %}
+  {% assign order = shop.metafields.global.order %}
+{% endif %}
+
+
+
+{% for address in customer.addresses %}
+
+  {% if address-loop contains 'default' %}
+    {% if address == customer.default_address %}
+      <div class="address_table one-third column" data-id="{{ address.id }}">
+        <div id="view_address_{{address.id}}" class="customer_address customer_address_show">
+          <h4 class="address_title">
+            {{ address.first_name | capitalize }} {{address.last_name | capitalize }}
+          </h4>
+          <p class="view_address">
+            {{ address.street }}<br>
+            {{ address.city | capitalize }}{% if address.province_code %}, {{ address.province_code | upcase }}{% endif %} {{ address.zip | upcase }}<br>
+            {{ address.country }}<br>
+            {{ address.phone }}
+          </p>
+    
+          <p class="address_actions {% if address == customer.default_address %}default_address{% endif %}">
+            {% if address == customer.default_address %}
+              <span class="default_txt">{{ order.default_address }}</span>
+            {% endif %}
+            <span class="action_edit is-hidden-mobile-only" data-id="{{ address.id }}">{{ 'customer.addresses.edit' | t | edit_customer_address_link: address.id }}</span>
+            <span class="mob is-hidden-desktop-only">
+              <span class="action_edit" data-id="{{ address.id }}">{{ 'customer.addresses.edit' | t }}</span>
+              <span class="action_delete">{{ 'customer.addresses.delete' | t | delete_customer_address_link: address.id }}</span>
+            </span>
+          </p>
+    
+        </div>
+    
+        <div id="edit_address_{{address.id}}" class="customer_address edit_address" style="display:none;">
+          {% form 'customer_address', address %}
+            <div class="formBox">
+    
+              <div class="fieldBox">
+    
+                <h4 class="title is-hidden-mobile-only">{{ 'customer.addresses.edit_address' | t }}<span>{{ order.field_field }}</span></h4>
+    
+                <div class="field country">
+                  <label for="address_country_{{form.id}}">{{ order.country }}<span>*</span></label>
+                  <div class="select control">
+                    <select id="address_country_{{form.id}}" name="address[country]" data-default="{{form.country}}">{{ country_option_tags }}</select>
+                    <p class="error swap--visible">{{ order.field_country }}</p>
+                  </div>
+                </div>
+    
+                <div class="field name">
+                  <div class="first_name">
+                    <label for="address_first_name_{{form.id}}">{{ 'customer.addresses.first_name' | t }}<span>*</span></label>
+                    <div class="control">
+                      <input type="text" id="address_first_name_{{form.id}}" class="address_form input" name="address[first_name]" value="{{form.first_name}}" autocapitalize="words">
+                      <p class="error swap--visible">{{ order.field_first_name }}</p>
+                    </div>
+                  </div>
+    
+                  <div class="last_name">
+                    <label for="address_last_name_{{form.id}}">{{ 'customer.addresses.last_name' | t }}<span>*</span></label>
+                    <div class="control">
+                      <input type="text" id="address_last_name_{{form.id}}" class="address_form input" name="address[last_name]" value="{{form.last_name}}" autocapitalize="words">
+                      <p class="error swap--visible">{{ order.field_last_name }}</p>
+                    </div>
+                  </div>
+                </div>
+    
+                <div class="field address1">
+                  <label for="address_address1_{{form.id}}">{{ 'customer.addresses.address1' | t }}<span>*</span></label>
+                  <div class="control">
+                    <input type="text" id="address_address1_{{form.id}}" class="address_form input" name="address[address1]" value="{{form.address1}}" autocapitalize="words">
+                    <p class="error swap--visible">{{ order.field_address }}</p>
+                  </div>
+                </div>
+    
+                <div class="field address2">
+                  <label for="address_address2_{{form.id}}">{{ 'customer.addresses.address2' | t }}</label>
+                  <div class="control">
+                    <input type="text" id="address_address2_{{form.id}}" class="address_form input" name="address[address2]" value="{{form.address2}}" autocapitalize="words">
+                  </div>
+                </div>
+    
+                <div class="field cityBox">
+                  <div class="city">
+                    <label class="label" for="address_city_{{form.id}}">{{ 'customer.addresses.city' | t }}<span>*</span></label>
+                    <div class="control">
+                      <input type="text" id="address_city_{{form.id}}" class="address_form input" name="address[city]" value="{{form.city}}" autocapitalize="words">
+                      <p class="error swap--visible">{{ order.field_city }}</p>
+                    </div>
+                  </div>
+                  <div class="field province">
+                    <label class="label" for="address_province_{{form.id}}">{{ order.state }}<span>*</span></label>
+                    <div class="select control" id="address_province_container_{{form.id}}" style="display:none">
+                      <select id="address_province_{{form.id}}" class="address_form" name="address[province]" data-default="{{form.province}}"></select>
+                    </div>
+                  </div>
+                  <div class="zip">
+                    <label class="label" for="address_zip_{{form.id}}">{{ order.zip }}<span>*</span></label>
+                    <div class="control">
+                      <input type="text" id="address_zip_{{form.id}}" class="address_form input" name="address[zip]" value="{{form.zip}}" autocapitalize="characters">
+                      <p class="error swap--visible">{{ order.field_postcode }}</p>
+                    </div>
+                  </div>
+                </div>
+    
+                <div class="field phone">
+                  <label for="address_phone_{{form.id}}">{{ 'customer.addresses.phone' | t }}<span>*</span></label>
+                  <div class="control">
+                    <input type="tel" id="address_phone_{{form.id}}" class="address_form input" name="address[phone]" value="{{form.phone}}" placeholder="555-555-1234">
+                    <p class="error swap--visible">{{ order.field_phone }}</p>
+                  </div>
+                </div>
+    
+                <p style="cursor: pointer;">
+                  {{ form.set_as_default_checkbox }}
+                  <label for="address_default_address_new" class="inline">{{ 'customer.addresses.set_default' | t }}</label>
+                </p>
+                
+              </div>
+    
+              <p class="action_bottom is-flex is-align-center has-padding-top has-padding-bottom">
+                <a class="button action_button button--secondary">{{ 'customer.addresses.update' | t }}</a>
+              </p>
+    
+              <span class="cancel is-hidden-mobile-only">
+                <a href="#"  onclick="Shopify.CustomerAddress.toggleForm({{form.id}}); return false;"><i class="iconfont">&#xe723;</i></a>
+              </span>
+    
+            </div>
+          {% endform %}
+        </div>
+    
+        {% if address == customer.default_address %}
+          <div class="default_address_img">
+            <img src="https://cdn.shopify.com/s/files/1/0517/6767/3016/files/Frame_24696_1.svg?v=1656470395" alt="" />
+          </div>
+        {% endif %}
+    
+        <span class="action_delete delete_icon is-hidden-mobile-only">
+          {{ '<i class="iconfont">&#xe694;</i>' | delete_customer_address_link: address.id }}
+        </span>
+      </div>
+    {% endif %}
+  {% else %}
+    {% unless address == customer.default_address %}
+      <div class="address_table one-third column" data-id="{{ address.id }}">
+        <div id="view_address_{{address.id}}" class="customer_address customer_address_show">
+          <h4 class="address_title">
+            {{ address.first_name | capitalize }} {{address.last_name | capitalize }}
+          </h4>
+          <p class="view_address">
+            {{ address.street }}<br>
+            {{ address.city | capitalize }}{% if address.province_code %}, {{ address.province_code | upcase }}{% endif %} {{ address.zip | upcase }}<br>
+            {{ address.country }}<br>
+            {{ address.phone }}
+          </p>
+    
+          <p class="address_actions {% if address == customer.default_address %}default_address{% endif %}">
+            {% if address == customer.default_address %}
+              <span class="default_txt">{{ order.default_address }}</span>
+            {% endif %}
+            <span class="action_edit is-hidden-mobile-only" data-id="{{ address.id }}">{{ 'customer.addresses.edit' | t | edit_customer_address_link: address.id }}</span>
+            <span class="mob is-hidden-desktop-only">
+              <span class="action_edit" data-id="{{ address.id }}">{{ 'customer.addresses.edit' | t }}</span>
+              <span class="action_delete">{{ 'customer.addresses.delete' | t | delete_customer_address_link: address.id }}</span>
+            </span>
+          </p>
+    
+        </div>
+    
+        <div id="edit_address_{{address.id}}" class="customer_address edit_address" style="display:none;">
+          {% form 'customer_address', address %}
+            <div class="formBox">
+    
+              <div class="fieldBox">
+    
+                <h4 class="title is-hidden-mobile-only">{{ 'customer.addresses.edit_address' | t }}<span>{{ order.field_field }}</span></h4>
+    
+                <div class="field country">
+                  <label for="address_country_{{form.id}}">{{ order.country }}<span>*</span></label>
+                  <div class="select control">
+                    <select id="address_country_{{form.id}}" name="address[country]" data-default="{{form.country}}">{{ country_option_tags }}</select>
+                    <p class="error swap--visible">{{ order.field_country }}</p>
+                  </div>
+                </div>
+    
+                <div class="field name">
+                  <div class="first_name">
+                    <label for="address_first_name_{{form.id}}">{{ 'customer.addresses.first_name' | t }}<span>*</span></label>
+                    <div class="control">
+                      <input type="text" id="address_first_name_{{form.id}}" class="address_form input" name="address[first_name]" value="{{form.first_name}}" autocapitalize="words">
+                      <p class="error swap--visible">{{ order.field_first_name }}</p>
+                    </div>
+                  </div>
+    
+                  <div class="last_name">
+                    <label for="address_last_name_{{form.id}}">{{ 'customer.addresses.last_name' | t }}<span>*</span></label>
+                    <div class="control">
+                      <input type="text" id="address_last_name_{{form.id}}" class="address_form input" name="address[last_name]" value="{{form.last_name}}" autocapitalize="words">
+                      <p class="error swap--visible">{{ order.field_last_name }}</p>
+                    </div>
+                  </div>
+                </div>
+    
+                <div class="field address1">
+                  <label for="address_address1_{{form.id}}">{{ 'customer.addresses.address1' | t }}<span>*</span></label>
+                  <div class="control">
+                    <input type="text" id="address_address1_{{form.id}}" class="address_form input" name="address[address1]" value="{{form.address1}}" autocapitalize="words">
+                    <p class="error swap--visible">{{ order.field_address }}</p>
+                  </div>
+                </div>
+    
+                <div class="field address2">
+                  <label for="address_address2_{{form.id}}">{{ 'customer.addresses.address2' | t }}</label>
+                  <div class="control">
+                    <input type="text" id="address_address2_{{form.id}}" class="address_form input" name="address[address2]" value="{{form.address2}}" autocapitalize="words">
+                  </div>
+                </div>
+    
+                <div class="field cityBox">
+                  <div class="city">
+                    <label class="label" for="address_city_{{form.id}}">{{ 'customer.addresses.city' | t }}<span>*</span></label>
+                    <div class="control">
+                      <input type="text" id="address_city_{{form.id}}" class="address_form input" name="address[city]" value="{{form.city}}" autocapitalize="words">
+                      <p class="error swap--visible">{{ order.field_city }}</p>
+                    </div>
+                  </div>
+                  <div class="field province">
+                    <label class="label" for="address_province_{{form.id}}">{{ order.state }}<span>*</span></label>
+                    <div class="select control" id="address_province_container_{{form.id}}" style="display:none">
+                      <select id="address_province_{{form.id}}" class="address_form" name="address[province]" data-default="{{form.province}}"></select>
+                    </div>
+                  </div>
+                  <div class="zip">
+                    <label class="label" for="address_zip_{{form.id}}">{{ order.zip }}<span>*</span></label>
+                    <div class="control">
+                      <input type="text" id="address_zip_{{form.id}}" class="address_form input" name="address[zip]" value="{{form.zip}}" autocapitalize="characters">
+                      <p class="error swap--visible">{{ order.field_postcode }}</p>
+                    </div>
+                  </div>
+                </div>
+    
+                <div class="field phone">
+                  <label for="address_phone_{{form.id}}">{{ 'customer.addresses.phone' | t }}<span>*</span></label>
+                  <div class="control">
+                    <input type="tel" id="address_phone_{{form.id}}" class="address_form input" name="address[phone]" value="{{form.phone}}" placeholder="555-555-1234">
+                    <p class="error swap--visible">{{ order.field_phone }}</p>
+                  </div>
+                </div>
+    
+                <p style="cursor: pointer;">
+                  {{ form.set_as_default_checkbox }}
+                  <label for="address_default_address_new" class="inline">{{ 'customer.addresses.set_default' | t }}</label>
+                </p>
+                
+              </div>
+    
+              <p class="action_bottom is-flex is-align-center has-padding-top has-padding-bottom">
+                <a class="button action_button button--secondary">{{ 'customer.addresses.update' | t }}</a>
+              </p>
+    
+              <span class="cancel is-hidden-mobile-only">
+                <a href="#"  onclick="Shopify.CustomerAddress.toggleForm({{form.id}}); return false;"><i class="iconfont">&#xe723;</i></a>
+              </span>
+    
+            </div>
+          {% endform %}
+        </div>
+    
+        {% if address == customer.default_address %}
+          <div class="default_address_img">
+            <img src="https://cdn.shopify.com/s/files/1/0517/6767/3016/files/Frame_24696_1.svg?v=1656470395" alt="" />
+          </div>
+        {% endif %}
+    
+        <span class="action_delete delete_icon is-hidden-mobile-only">
+          {{ '<i class="iconfont">&#xe694;</i>' | delete_customer_address_link: address.id }}
+        </span>
+      </div>
+    {% endunless %}
+  {% endif %}
+
+{% endfor %}

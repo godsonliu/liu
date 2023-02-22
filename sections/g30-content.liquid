@@ -1,0 +1,211 @@
+{% assign lang = product.metafields['global'] %}
+
+{% if lang.banner3.value %}
+  {% assign banner3 = lang.banner3.value %}
+{% else %}
+  {% assign banner3 = lang.banner3 %}
+{% endif %}
+
+{% if lang.banner1.value %}
+  {% assign banner1 = lang.banner1.value %}
+{% else %}
+  {% assign banner1 = lang.banner1 %}
+{% endif %}
+
+{% if lang.banner2.value %}
+  {% assign banner2 = lang.banner2.value %}
+{% else %}
+  {% assign banner2 = lang.banner2 %}
+{% endif %}
+
+{% if lang.banner4.value %}
+  {% assign banner4 = lang.banner4.value %}
+{% else %}
+  {% assign banner4 = lang.banner4 %}
+{% endif %}
+
+{% if lang.carousel.value %}
+  {% assign carousel = lang.carousel.value %}
+{% else %}
+  {% assign carousel = lang.carousel %}
+{% endif %}
+
+{% if lang.banner5.value %}
+  {% assign banner5 = lang.banner5.value %}
+{% else %}
+  {% assign banner5 = lang.banner5 %}
+{% endif %}
+
+{% if lang.banner5.value %}
+  {% assign banner5 = lang.banner5.value %}
+{% else %}
+  {% assign banner5 = lang.banner5 %}
+{% endif %}
+
+{% if lang.banner6.value %}
+  {% assign banner6 = lang.banner6.value %}
+{% else %}
+  {% assign banner6 = lang.banner6 %}
+{% endif %}
+
+{% if lang.banner6.value %}
+  {% assign banner6 = lang.banner6.value %}
+{% else %}
+  {% assign banner6 = lang.banner6 %}
+{% endif %}
+
+{% if product.metafields['global']['product_id'].value %}
+  {% assign product_id = product.metafields['global']['product_id'].value %}
+{% else %}
+  {% assign product_id = product.metafields['global']['product_id'] %}
+{% endif %}
+
+{% comment %} {{banner3 | json  }}-------- {% endcomment %}
+<div class="g30_main">
+{% if banner1 %}
+    <div class="g30-banner banner-1 {{banner1.type}}">
+        <div class="banner-info">
+            <img class="pc_show lazyload" data-src="{{ banner1.img_url }}">
+            <img class="mob_show lazyload" data-src="{{ banner1.img_mob_url }}">
+            <div class="banner-text banner1-text">
+              <span class="title">{{ banner1.title }}</span>
+              <span class="desc">{{ banner1.desc }}</span>
+              <div class="flags flex">
+                  {% for flag in banner1.flag_imgs %}
+                    <div class="flag">
+                      <img data-src="{{ flag.img_url }}" class="lazyload">
+                    </div>
+                  {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+{% if banner2 %}
+    <div class="g30-banner banner-2 {{banner1.type}}">
+        <div class="banner-info">
+            <img class="pc_show lazyload" data-src="{{ banner2.img_url }}">
+            <img class="mob_show lazyload" data-src="{{ banner2.img_mob_url }}">
+            <div class="banner-text banner2-text">
+              <span class="title">{{ banner2.title }}</span>
+              <span class="desc">{{ banner2.desc }}</span>
+              <div class="flags-wrap">
+                <div class="flags">
+                  {% for flag in banner2.flag_imgs %}
+                    <div class="flag">
+                      <img data-src="{{ flag.img_url }}" class="lazyload">
+                      <span class="flag-desc">{{ flag.desc }}</span>
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+{% if banner3 %}
+    <div class="g30-banner banner-3 {{banner1.type}}">
+    {% for banner in banner3 %}
+        <div class="banner-info">
+            <img class="pc_show lazyload radius" data-src="{{ banner.img_url }}">
+            <img class="mob_show lazyload radius" data-src="{{ banner.img_mob_url }}">
+            <div class="banner-text banner3-text">
+              <span class="title">{{ banner.title }}</span>
+              <span class="desc">{{ banner.desc }}</span>
+            </div>
+        </div>
+      {% endfor %}
+    </div>
+{% endif %}
+
+{% if banner4 %}
+    <div class="g30-banner banner-4 {{banner1.type}}">
+        <div class="banner-info ">
+            <img class="pc_show lazyload" data-src="{{ banner4.img_url }}">
+            <img class="mob_show lazyload" data-src="{{ banner4.img_mob_url }}">
+            <div class="banner-text banner4-text">
+              <span class="title">{{ banner4.title }}</span>
+              <span class="desc">{{ banner4.desc }}</span>
+              {% if banner4.flag_img %}
+                <img class="pc_show lazyload" data-src="{{ banner4.flag_img }}">
+                <img class="mob_show lazyload" data-src="{{ banner4.flag_mob_img }}">
+              {% endif %}
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+{% if banner5 %}
+    <div class="g30-banner banner-5 {{banner1.type}}">
+    {% for banner in banner5 %}
+        <div class="banner-info">
+            <div>
+              <img data-src="{{ banner.img_url }}" class="lazyload pc_show radius" alt={{banner.title}}>
+              <img data-src="{{ banner.img_mob_url }}" class="lazyload mob_show radius" alt={{banner.title}}>
+            </div>
+            <div class="banner-text banner5-text flex">
+              <span class="title">{{ banner.title }}</span>
+              <span class="desc">{{ banner.desc }}</span>
+            </div>
+        </div>
+      {% endfor %}
+    </div>
+{% endif %}
+
+{% if banner6 %}
+    <div class="g30-banner banner-6 {{banner1.type}}">
+    {% for banner in banner6 %}
+        <div class="banner-info">
+            <div class="banner-img">
+              <img data-src="{{ banner.img_url }}" class="lazyload pc_show" alt={{banner.title}}>
+              <img data-src="{{ banner.img_mob_url }}" class="lazyload mob_show" alt={{banner.title}}>
+            </div>
+            <div class="banner-text banner6-text flex">
+              <span class="title">{{ banner.title }}</span>
+              <span class="desc">{{ banner.desc }}</span>
+            </div>
+        </div>
+      {% endfor %}
+    </div>
+{% endif %}
+
+{% if carousel %}
+    <div class="carousel {{banner1.type}}">
+      <div class="carousel-title">
+        <div class="title">{{carousel.title}}</div>
+      </div>
+      <div class="carousel-wrap home_slick">
+        {% for item in carousel.list %}
+          <div class="carousel-item">
+            <div class="pc_show">
+              <div class="carousel-img">
+                <img class="carousel-image lazyload" data-src="{{ item.img_url }}" alt="image">
+              </div>
+            </div>
+            <div class="mob_show">
+              <div class="carousel-img">
+                <img class="carousel-image lazyload" data-src="{{ item.img_mob_url }}" alt="image">
+              </div>
+            </div>
+            <div class="carousel-text flex column">
+              <span class="sub-title">{{ item.title }}</span>
+              <span class="sub-desc">{{ item.desc }}</span>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+{% endif %}
+</div>
+
+
+<script defer async type="text/javascript">
+  $(document).ready(function(){
+    
+    $('.carousel-wrap').slick()
+
+
+  })
+</script>

@@ -1,0 +1,881 @@
+// public css
+$color: #21CCBF;
+$gradientBg: linear-gradient(to right, #4391e5, #03d7c7);
+$maxPhoneWidth: 767px;
+$maxPadWidth: 1024px;
+$maxLaptopWidth: 1440px;
+$minLaptopWidth: 992px;
+$minPadWidth: 768px;
+$slickBtnSize: 65px;
+$mobBtnSize: 40px;
+$minDesktopWidth: 1200px; // large desktop
+$minRetinaWidth: 2560px; // Retina 1440p
+
+#shopify-section-header__icon-bar {
+  position: relative !important;
+  top: 0 !important;
+}
+#header {
+  position: relative !important;
+  top: 0 !important;
+}
+#mobile-header {
+  position: relative !important;
+  top: 0 !important;
+}
+
+#build_sys {
+  h1, h2, p {
+    color: #323232;
+  }
+  .hidden {
+    display: none !important;
+  }
+  .banner {
+    position: relative;
+    width: 100%;
+    .imgback {
+      width: auto;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      @media (max-width: 767px) {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 80%;
+      }
+    }
+    .content {
+      position: relative;
+      z-index: 2;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 8% 0;
+      overflow: hidden;
+      @media (max-width: 767px) {
+        padding: 8rem 0;
+      }
+    }
+    h1 {
+      width: 100%;
+      color: #fff;
+      font-size: 36px;
+      font-weight: 600;
+      text-align: center;
+      margin: 0 0 30px;
+      @media (max-width: 767px) {
+        font-size: 20px;
+      }
+    }
+    p {
+      font-size: 16px;
+      color: #fff;
+      text-align: center;
+      margin-bottom: 6px;
+      @media (max-width: 767px) {
+        font-size: 14px;
+      }
+    }
+  }
+  .title-box {
+    max-width: 1200px;
+    padding: 20px 0;
+    margin: 0 auto;
+    overflow: hidden;
+    .title {
+      position: relative;
+      margin: 20px;
+      text-align: center;
+      h1 {
+        display: inline-block;
+        width: auto;
+        color: #636363;
+        font-size: 28px;
+        text-align: center;
+        line-height: 40px;
+        padding: 0 30px;
+        margin: 0;
+        position: relative;
+        z-index: 2;
+        background-color: #fff;
+        @media (max-width: 767px) {
+          font-size: 24px;
+        }
+      }
+      .line {
+        width: 100%;
+        border: 1px solid #b5b5b5;
+        position: absolute;
+        top: 50%;
+        left: 0;
+      }
+    }
+    p {
+      color: #636363;
+      font-size: 15px;
+      text-align: center;
+      margin: 20px;
+      @media (max-width: 767px) {
+        font-size: 13px;
+        margin: 10px;
+      }
+    }
+  }
+  .main-box {
+    position: relative;
+    max-width: 1200px;
+    min-height: 5rem;
+    height: 100%;
+    padding: 20px 0;
+    margin: 0 auto;
+    .navbar {
+      display: flex;
+      margin-bottom: 1rem;
+      background: #f6f6f6;
+      .bar {
+        width: 50%;
+        font-size: 20px;
+        text-align: center;
+        padding: 10px;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+        cursor: pointer;
+        @media (max-width: 767px) {
+          font-size: 18px;
+        }
+        &.active {
+          color: #fff;
+          background: linear-gradient(90deg,#00d0fa,#4cfbc4)!important;
+        }
+      }
+    }
+  }
+  .questionBox {
+    display: block;
+    padding-bottom: 20px;
+    margin-bottom: 1rem;
+    background: #f6f6f6;
+    .question {
+      margin: 0 15px;
+      padding: 15px 0;
+      border-bottom: 1px solid #bfbfbf;
+      h2 {
+        position: relative;
+        font-size: 16px;
+        font-weight: 400;
+        margin: 1rem 0;
+        cursor: pointer;
+        @media (max-width: 767px) {
+          font-size: 14px;
+          span:first-child {
+            width: 82%;
+            display: inline-block;
+          }
+        }
+        .selected {
+          position: absolute;
+          top: 0;
+          right: 0;
+          text-decoration: underline;
+          span {
+            display: inline;
+          }
+        }
+      }
+      .optionBox {
+        display: flex;
+        flex-wrap: wrap;
+        height: 0;
+        overflow: hidden;
+        padding: 0 15px;
+        transition: all .3s;
+        &.done {
+          height: 60px;
+          @media (max-width: 767px) {
+            height: auto;
+          }
+        }
+        .option {
+          width: 25%;
+          min-width: 180px;
+          padding: 10px 0;
+          a {
+            width: 160px;
+            display: block;
+            font-size: 14px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            background-color: #fff;
+            border: 1px solid #bfbfbf;
+            cursor: pointer;
+          }
+          .active {
+            border: 2px solid #21ccbf;
+          }
+        }
+        .selectOp {
+          box-sizing: border-box;
+          position: relative;
+          width: 100px;
+          height: 40px;
+          margin: 10px 10px 10px 0;
+          background-color: #fff;
+          border: 1px solid #bfbfbf;
+          border-radius: 20px;
+          select {
+            width: 100%;
+            height: 40px;
+            color: #323232;
+            font-size: 14px;
+            padding-left: 40px;
+            position: relative;
+            z-index: 3;
+            border: 0;
+            background: transparent;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+          }
+          &:after {
+            content: "";
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+            z-index: 2;
+            border: 6px solid transparent;
+            border-top-color: #323232;
+          }
+        }
+        .doors {
+          display: inline-block;
+          font-size: 16px;
+          line-height: 40px;
+          margin: 10px 0;
+        }
+      }
+    }
+  }
+  .quantitybox {
+    .actNum {
+      display: inline-block;
+      width: 120px;
+      vertical-align: bottom;
+      margin-left: 10px;
+      background: #eee;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+    .act {
+      display: flex;
+      line-height: 28px;
+      a {
+        width: 30px;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 26px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 300ms;
+        &:hover {
+          color: #fff!important;
+          background: linear-gradient(90deg, #00d0fa,#4cfbc4)!important;
+        }
+      }
+      .num {
+        line-height: 26px;
+        text-align: center;
+        width: 60px;
+      }
+    }
+  }
+}
+
+#sys_product {
+  position: relative;
+  padding: 3rem 10px;
+  h1 {
+    font-size: 26px;
+    text-align: left;
+    margin-bottom: 1.5rem;
+    @media (max-width: 767px) {
+      font-size: 20px;
+      text-align: center;
+    }
+  }
+  .productLine {
+    position: relative;
+    border: 2px solid #bfbfbf;
+    overflow: hidden;
+    margin-bottom: 15px;
+    &.selected {
+      border: 2px solid #38b0c4;
+    }
+  }
+  .imgbox {
+    width: 30%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: 10px;
+    @media (max-width: 767px) {
+      width: 100%;
+      position: relative;
+    }
+    .img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      @media (max-width: 767px) {
+        width: 70%;
+        margin: 0 auto;
+      }
+    }
+  }
+  .detailBox {
+    width: 100%;
+    padding: 3rem 3rem 3rem 30%;
+    @media (max-width: 767px) {
+      padding: 1rem;
+    }
+    h2 {
+      font-size: 24px;
+      margin: 0 0 5px;
+    }
+    h3 {
+      font-size: 14px;
+      margin: 0 0 2rem;
+    }
+    .actionBox {
+      margin-top: 1.5rem;
+      .flex {
+        display: flex;
+        @media (max-width: 767px) {
+          display: block;
+          margin-bottom: 1rem;
+        }
+      }
+      .prices {
+        min-width: 120px;
+        font-size: 20px;
+        font-weight: 600;
+        color: #026085;
+        margin-right: 40px;
+        sub {
+          display: inline-block;
+          color: #323232;
+          font-size: 16px;
+          font-weight: 400;
+          margin-left: 8px;
+          transform: translateY(-5px);
+        }
+      }
+      .color {
+        line-height: 30px;
+        display: inline-block;
+        vertical-align: middle;
+        .option {
+          display: block;
+          height: 30px;
+          margin: 0;
+          font-size: 13px;
+          text-align: center;
+          white-space: nowrap;
+          text-transform: uppercase;
+          cursor: pointer;
+          padding: 0 10px;
+          border-radius: 3px;
+          border: #e2e2e2 thin solid;
+          &.active {
+            border-color: #21ccbf;
+          }
+        }
+        .colorBack {
+          position: relative;
+          display: inline-block;
+          width: 2rem;
+          height: 2rem;
+          overflow: hidden;
+          margin: 5px;
+          padding: 2px;
+          -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+          border-radius: 50%;
+          border: 2px solid #e5e5e5;
+          vertical-align: middle;
+          &.active {
+            border-color: #21ccbf;
+          }
+        }
+        .dot {
+          display: block;
+          width: 100%; height: 100%;
+          border-radius: 50%;
+        }
+      }
+      .quantity {
+        line-height: 28px;
+        margin-left: 40px;
+        @media (max-width: 767px) {
+          margin-left: 0;
+        }
+      }
+      .outOfStack {
+        color: #f9951d;
+        font-weight: 600;
+        line-height: 28px;
+        margin-left: 30px;
+        @media (max-width: 767px) {
+          margin-left: 0;
+        }
+      }
+    }
+  }
+}
+
+#sys_cart {
+  background: #f6f6f6;
+  padding: 3rem 15px;
+  margin-bottom: 5rem;
+  .section {
+    overflow: visible;
+    h1 {
+      font-size: 22px;
+      width: 100%;
+      color: #323232;
+      font-weight: 600;
+      text-align: left;
+      margin: 0;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #bfbfbf;
+    }
+  }
+  ul {
+    margin: 0;
+    padding: 0;
+    li {
+      padding: 12px 0;
+      border-bottom: 1px solid #bfbfbf;
+    }
+    h2 {
+      font-size: 18px;
+      word-break: break-word;
+      margin: 0;
+    }
+    .pro_varient {
+      list-style: none;
+      display: flex;
+    }
+    .color {
+      flex: 2;
+      p {
+        font-size: 14px;
+        line-height: 30px;
+        color: #666;
+        margin: 0;
+        margin-top: 5px;
+      }
+    }
+    .quantitybox {
+      flex: 1;
+      box-sizing: border-box;
+      max-width: 200px;
+      padding: 6px 5px 0;
+    }
+    .price {
+      flex: 1;
+      box-sizing: border-box;
+      max-width: 100px;
+      padding: 0 5px;
+      text-align: center;
+      P {
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 40px;
+      }
+    }
+  }
+  .cartTotalBox {
+    padding-top: 4rem;
+    text-align: center;
+    .priceTotalBox {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      text-align: center;
+      .priceTotal {
+        display: inline-block;
+        position: relative;
+        .num {
+          color: #026085;
+          font-size: 36px;
+          font-weight: 600;
+          @media (max-width: 767px) {
+            font-size: 28px;
+          }
+          b {
+            font-size: 30px;
+            @media (max-width: 767px) {
+              font-size: 22px;
+            }
+          }
+          sub {
+            display: inline-block;
+            color: #999;
+            font-size: 18px;
+            line-height: 0;
+            position: relative;
+            vertical-align: baseline;
+            text-decoration: line-through;
+            transform: translateY(-5px);
+            bottom: -.25em;
+            @media (max-width: 767px) {
+              font-size: 16px;
+            }
+          }
+        }
+        .buttonFlag {
+          position: absolute;
+          right: -8px;
+          top: -8px;
+          transform: translate(100%);
+          padding: 1px 6px;
+          color: #21ccbf;
+          font-size: 12px;
+          float: right;
+          @media (max-width: 767px) {
+            right: 30px;
+            top: -30px;
+            transform: translate(50%);
+          }
+          &:hover {
+            .flagDialog {
+              display: block;
+            }
+          }
+          .flagText {
+            font-size: 14px;
+            color: #21ccbf;
+            padding-bottom: 10px;
+            word-break: keep-all;
+            white-space: nowrap;
+            cursor: pointer;
+            span {
+              text-decoration: underline;
+              margin-left: 5px;
+              font-size: 14px;
+              color: #21ccbf;
+              padding-bottom: 10px;
+              word-break: keep-all;
+              white-space: nowrap;
+              cursor: pointer;
+            }
+          }
+          .iconfont {
+            color: #21ccbf;
+            line-height: 1em;
+            padding-bottom: 10px;
+            word-break: keep-all;
+            white-space: nowrap;
+            cursor: pointer;
+          }
+          .flagDialog {
+            position: absolute;
+            margin-top: 5px;
+            color: #000;
+            z-index: 6;
+            font-size: 12px;
+            line-height: 1.1;
+            border-radius: 10px;
+            width: auto;
+            padding: 15px;
+            top: 92%;
+            right: -40px;
+            background: #fff;
+            border: 1px solid #ccc;
+            cursor: auto;
+            display: none;
+            @media (max-width: 767px) {
+              right: 0;
+              padding: 10px;
+            }
+            &:after {
+              content: "";
+              width: 10px;
+              height: 10px;
+              background: #fff;
+              border: 1px solid #ccc;
+              border-right: none;
+              border-bottom: none;
+              position: absolute;
+              top: -8px;
+              right: 50%;
+              transform: rotate(45deg) translate(50%,-2px);  
+              @media (max-width: 767px) {
+                right: 20%;
+              }
+            }
+            h4 {
+              font-size: 20px;
+              white-space: nowrap;
+              text-align: left;
+              margin: 10px 0;
+            }
+            p {
+              color: #727171;
+              text-align: left;
+              font-size: 14px;
+              margin: 10px 0 15px;
+            }
+            table {
+              color: #595757;
+              width: 100%;
+              font-size: 14px;
+              border-collapse: collapse;
+              border: 1px solid #a0a0a0;
+              th, td {
+                text-align: left;
+                padding: 5px 0 5px 5px;
+                border: 1px solid #a0a0a0;
+              }
+            }
+          }
+        }
+      }
+    }
+    .actionBox {
+      position: relative;
+      min-height: 5rem;
+      height: 100%;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      box-sizing: border-box;
+      .action {
+        text-align: center;
+        margin: 20px 0;
+      }
+      .copyBox {
+        display: inline-block;
+        margin-right: 15px;
+        vertical-align: top;
+        @media (max-width: 767px) {
+          margin-right: 0;
+          margin-bottom: 1rem;
+        }
+        .copyAct {
+          display: table;
+          border: 1px solid #d4d4d4;
+          color: #969696;
+          background: #fff;
+          min-width: 200px;
+          border-radius: 20px;
+          font-size: 14px;
+          box-sizing: border-box;
+        }
+        .codeformat {
+          display: table-cell;
+          vertical-align: middle;
+          padding: 0 10px;
+          line-height: 1.2;
+        }
+        .codeTxt {
+          display: table-cell;
+          vertical-align: middle;
+          padding-right: 10px;
+        }
+        .copybtn {
+          display: table-cell;
+          vertical-align: middle;
+          text-align: right;
+          cursor: pointer;
+          button {
+            background: linear-gradient(
+              90deg
+              ,#3b9ae1,#0bcfca);
+            border: none;
+            color: #fff;
+            font-size: 12px;
+            line-height: 33px;
+            border-radius: 20px;
+            padding: 0 20px;
+            appearance: none;
+            cursor: pointer;
+          }
+        }
+      }
+      .act_buynow {
+        position: relative;
+        display: inline-block;
+        color: #fff;
+        font-size: 18px;
+        width: 200px;
+        height: 35px;
+        line-height: 35px;
+        padding: 0 30px;
+        border-radius: 20px;
+        cursor: pointer;
+        box-sizing: border-box;        
+        vertical-align: middle;
+        transition: .2s;
+        background: linear-gradient(90deg ,#3b9ae1,#0bcfca);
+        &:disabled {
+          cursor: not-allowed;
+        }
+      }
+    }
+    .toKit {
+      color: #999;
+      text-decoration: underline;
+      @media (max-width: 767px) {
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+#buffettypes {
+  overflow: hidden;
+  position: -webkit-sticky;
+  position: sticky;
+  top: -66px;
+  z-index: 2;
+  padding-bottom: 10px;
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  transition: all .3s;
+  @media (max-width: 767px) {
+    top: -80px;
+  }
+  .navBox {
+    max-width: 1200px;
+    margin: 0 auto;
+    overflow: hidden;
+    background: #fff;
+    @media (max-width: 767px) {
+      margin-top: 1rem;
+    }
+    h1 {
+      width: 100%;
+      color: #323232;
+      font-size: 28px;
+      font-weight: 600;
+      line-height: 70px;
+      text-align: center;
+      margin: 0;
+      @media (max-width: 767px) {
+        font-size: 20px;
+        line-height: 30px;
+      }
+    }
+    .navT {
+      height: 136px;
+      min-height: 136px;
+      margin-top: 10px;
+      position: relative;
+      transition: all .3s;
+      @media (min-width: 767px) {
+        &:hover {
+          height: auto;
+        }
+      }
+      &.active {
+        height: auto;
+      }
+    }
+    .typeBox {
+      display: flex;
+      padding-right: 30px;
+      flex-wrap: wrap;
+      justify-content: center;
+      .type {
+        flex: 1;
+        position: relative;
+        box-sizing: border-box;
+        color: #8d8d8d;
+        min-width: 146px;
+        max-width: 168px;
+        padding: 8px 5px;
+        margin-bottom: 10px;
+        cursor: pointer;
+        @media (max-width: 767px) {
+          width: 33.3%;
+          min-width: 100px;
+        }
+        &.active {
+          p {
+            color: #21ccbf;
+            text-decoration: underline;
+          }
+        }
+        img {
+          height: 80px;
+          max-width: 100%;
+          display: block;
+          margin: 0 auto;
+          pointer-events:none;
+        }
+        p {
+          font-size: 14px;
+          text-align: center;
+          margin: 5px 0 0;
+          pointer-events:none;
+        }
+        .collect_num {
+          width: 40px;
+          position: absolute;
+          top: -6%;
+          left: 70%;
+          margin-left: 0;
+          background: #f9bc29;
+          color: #fff;
+          border-radius: .4em;
+          line-height: 1.6;
+          font-size: 12px;
+          text-align: center;
+          &:after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 10px;
+            width: 0;
+            height: 0;
+            border: 7px solid transparent;
+            border-top-color: #f9bc29;
+            border-bottom: 0;
+            border-left: 0;
+            margin-bottom: -7px;
+          }
+        }
+      }
+      .dropact {
+        position: absolute;
+        top: 45%;
+        right: 8px;
+        width: 12px;
+        height: 12px;
+        border-bottom: 2px solid #bfbfbf;
+        border-left: 2px solid #bfbfbf;
+        cursor: pointer;
+        transform: rotate(-45deg );
+        transition: all .3s;
+        display: none;
+        &:hover {
+          border-bottom: 2px solid #21ccbf;
+          border-left: 2px solid #21ccbf;
+        }
+        &.active {
+          transform: rotate(135deg) translate(40%,-40%);
+        }
+        @media (max-width: 767px) {
+          display: block;
+        }
+      }
+    }
+  }
+}

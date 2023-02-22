@@ -1,0 +1,667 @@
+$maxPhoneWidth: 767px;
+$maxPadWidth: 1024px; 
+$theme_color: #203066;
+$theme_blue: #00A9E0;
+$color: #272727;
+$titleSize:2.5vw;
+$descSize:0.95vw;
+
+.section--has-sidebar-option.has-sidebar-disabled{max-width:none;}
+
+#shopify-section-g30-content{
+  color: $color;
+  .flex{
+    display: flex;
+  }
+  .column {
+    flex-direction: column;
+  }
+  img{
+    vertical-align: top;
+  }
+  .pc_show {
+      display: block !important;
+      @media (max-width: $maxPhoneWidth) {
+        display: none !important;
+      }
+  }
+  .mob_show {
+      display: none !important;
+      @media (max-width: $maxPhoneWidth) {
+        display: block !important;
+      }
+  }
+  .g30-banner{
+    width:100%;
+    position:relative;
+    .title{
+      font-weight: bold;
+    }
+    @media (max-width: $maxPhoneWidth){
+      .banner-info{
+        .banner-text {
+          .title{
+            font-size: 8vw;
+          }
+          .desc{
+            font-size: 3.4vw;
+          }
+        }
+        .radius{
+          border-radius: 2vw;
+        }
+      }
+    }
+  }
+  .banner-1{
+      .banner-info{
+          width:100%;
+          img{
+              width:100%;
+          }
+      }
+      
+      .banner1-text{
+          position:absolute;
+          color: #fff;
+          top:19vw;
+          margin-left: 20vw;
+          opacity: 1;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          .title{
+            font-size: 3.125vw;
+            color: #fff;
+            margin-bottom: 0.5vw;
+          }
+          .desc{
+            font-size: 1.25vw;
+          }
+          .flag{
+            margin: 3vw 1vw;
+          }
+          img{
+            width: 5.4vw;
+          }
+          @media (max-width: $maxPhoneWidth){
+              top:103vw;
+              width: 100%;
+              margin: 0 auto;
+              .banner-info{
+                .title{
+                  font-size: 9.6vw;
+                  margin-bottom: 1vw;
+                }
+                .desc{
+                  font-size: 3.4vw;
+                }
+              }
+              .flag{
+                margin: 7vw 3vw;
+                img{
+                  width: 19vw;
+                  height: 19vw;
+                }
+              }
+          }
+      }
+  }
+  .banner-2{
+    .banner-info{
+        width:100%;
+        img{
+            width:100%;
+        }
+    }
+    .banner2-text{
+        position:absolute;
+        color: $color;
+        left:57vw;
+        top:12.7vw;
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+        text-align: left;
+        .title{
+          font-size: 2.3vw;
+          color: $color;
+          width: 35vw;
+        }
+        .desc{
+          font-size: $descSize;
+          width: 27vw;
+        }
+        .flags-wrap{
+          width: 27vw;
+          display: flex;
+        }
+        .flags{
+          display: flex;
+          justify-content: center;
+          margin-top: 2vw;
+          .flag{
+            display: flex;
+            align-items: center;
+            &:last-child{
+              .flag-desc{
+                width: 12vw;
+              }
+            }
+          }
+          img{
+            width: 2.7vw;
+            height: 2.7vw;
+          }
+          .flag-desc{
+            font-size: 1vw;
+            margin-left: 0.52vw;
+            line-height: 1.25vw;
+            width: 7vw;
+          }
+        }
+        @media (max-width: $maxPhoneWidth){
+            left:8vw;
+            top:9.3vw;
+            .title{
+              width: 60vw;
+              margin-bottom: 3.94vw;
+            }
+            .desc{
+              width: 67vw;
+              margin-bottom: 4.57vw;
+            }
+            .flags-wrap{
+              width: 45vw;
+            }
+            .flags{
+              flex-direction: column;
+              width: 45vw;
+              margin-top: 0;
+              .flag{
+                margin-bottom: 3.9vw;
+                &:last-child{
+                  .flag-desc{
+                    width: 42vw;
+                  }
+                }
+              }
+              img{
+                width: 8vw;
+                height: 8vw;
+              }
+              .flag-desc{
+                font-size: 3.4vw;
+                font-weight: 600;
+                margin-left: 2.26vw;
+                width: 27vw;
+                line-height: 1.2;
+              }
+            }
+        }
+    }
+  }
+  .banner-3{
+    display: flex;
+    background-color: #777777;
+    justify-content: space-evenly;
+    padding: 5.8vw 0;
+    color: #fff;
+    .banner-info {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      &:last-child {
+        .banner3-text .title {
+          width:25vw;
+        }
+      }
+    }
+    img {
+      width: 24vw;
+      height: 24vw;
+      border-radius: 1.7vw;
+    }
+    .banner3-text {
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      align-items: center;
+      .title {
+        margin-top: 2.08vw;
+        margin-bottom: 1.56vw;
+        font-size: $titleSize;
+        color: #fff;
+        width: 20vw;
+      }
+      .desc {
+        font-size: .95vw;
+        width: 25vw;
+      }
+    }
+
+    @media (max-width: $maxPhoneWidth){
+      flex-direction: column;
+      align-items: center;
+      padding: 12vw 0;
+      padding-bottom: 0;
+      .banner-info{
+        width: 100%;
+        margin-bottom: 12vw;
+        img{
+          width: 80vw;
+          height: 80vw;
+        }
+        .banner3-text{
+          .title{
+            width: 83vw !important;
+            margin-top: 4.66vw;
+            margin-bottom: 4vw;
+          }
+          .desc{
+            width: 80vw;
+          }
+        }
+      }
+    }
+    
+  }
+
+  .banner-4 {
+    .banner-info{
+      img{
+        width: 100%;
+      }
+    }
+    .banner4-text {
+      position:absolute;
+      right:15.14vw;
+      top:12.5vw;
+      display: flex;
+      flex-direction: column;
+      width: 29vw;
+      img {
+        width: 21.19vw;
+        height: 6.46vw;
+      }
+      .title {
+        font-size: $titleSize;
+        color: $color;
+        margin-bottom: 1.04vw;
+      }
+      .desc {
+        margin-bottom: 2.6vw;
+        color: $color;
+        font-size: $descSize;
+      }
+    }
+    @media (max-width: $maxPhoneWidth){
+      .banner4-text{
+        width: 100%;
+        right: 0;
+        top: 96.93vw;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        .title{
+          margin-bottom: 4vw;
+        }
+        .desc{
+          margin-top: 0;
+          width: 84vw;
+          margin-bottom: 6.66vw;
+        }
+        img{
+          width: 65vw;
+          height: 20vw;
+        }
+      }
+    }
+
+  }
+
+  .t2251{
+    .banner1-text{
+      top: 25.6vw;
+      margin-left: 15.23vw;
+      @media (max-width: $maxPhoneWidth){
+        top:103vw;
+        margin: 0 auto;
+      }
+    }
+    .banner2-text{
+      top:28.7vw;
+      @media (max-width: $maxPhoneWidth){
+        top:6.7vw;
+        .desc{
+          width: 76vw;
+        }
+      }
+    }
+    .banner4-text {
+      right:15.14vw;
+      @media (max-width: $maxPhoneWidth){
+        right: 0;
+        padding-right: 1vw;
+      }
+    }
+  }
+  .t2253{
+    .banner1-text{
+      margin-left: -20vw;
+      width: 40vw;
+      left: 50%;
+      top: 29vw;
+      @media (max-width: $maxPhoneWidth){
+        width: 100%;
+        top:103vw;
+        left: 0;
+        margin: 0 auto;
+      }
+    }
+    .banner2-text{
+      top:28.7vw;
+      @media (max-width: $maxPhoneWidth){
+        top:6.7vw;
+        .desc{
+          width: 76vw;
+        }
+      }
+    }
+    .banner4-text {
+      top: 19vw;
+      @media (max-width: $maxPhoneWidth){
+        .title{
+          width: 80vw;
+          color: #fff;
+        }
+        .desc{
+          color: #fff;
+        }
+      }
+    }
+  }
+  .banner-5{
+    display: flex;
+    flex-direction: column;
+    padding: 6.25vw 0;
+    width: 91.5%;
+    margin: 0 auto;
+    .banner-info{
+      display: flex;
+      text-align: center;
+      justify-content: space-around;
+      padding: 0 8vw;
+      img{
+        width: 30vw;
+        height: 35vw;
+        border-radius: 1.7vw;
+      }
+      div{
+        display: flex;
+        justify-content: center;
+        text-align: left;
+        width: 50%;
+      }
+      .banner5-text{
+        flex-direction: column;
+        align-items: center;
+      }
+      .title{
+        font-size: $titleSize;
+        width: 28vw;
+        margin-bottom: 1.56vw;
+        text-align: left;
+      }
+      .desc{
+        font-size: $descSize;
+        width: 28vw;
+        text-align: left;
+      }
+      &:nth-child(odd)
+      {
+        flex-direction: row-reverse;
+      }
+      &:nth-child(even)
+      {
+        flex-direction: row;
+      }
+    }
+    
+    @media (max-width: $maxPhoneWidth){
+      flex-direction: column;
+      padding: 12vw 10vw 0 10vw;
+      align-items: center;
+      .banner-info{
+        margin-bottom: 8vw;
+        flex-direction: column !important;
+        padding: 0;
+        div{
+          width: 100%;
+          img{
+            width: 80vw;
+            height: 100vw;
+          }
+        }
+        .banner5-text{
+          text-align: center;
+          .title{
+            width: 77vw !important;
+            margin-top: 4.66vw;
+            margin-bottom: 4vw;
+            text-align: center;
+          }
+          .desc{
+            width: 81vw;
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+  
+  .banner-6{
+    display: flex;
+    flex-direction: column;
+    padding: 6.25vw 0;
+    background-color: #ECECEC;
+    .banner-info{
+      display: flex;
+      text-align: center;
+      margin: 0 16vw 1.5vw 16vw;
+      background-color: #808080;
+      border-radius: 1.7vw;
+      color: #fff;
+      &:last-child{
+        margin-bottom: 0;
+      }
+      img {
+        height: 25vw;
+      }
+      div{
+        display: flex;
+        justify-content: center;
+        text-align: left;
+        flex-direction: column;
+      }
+      .banner6-text{
+        width: 37%;
+        padding-left: 3.5vw;
+      }
+      .title{
+        width: 18vw;
+        color: #fff;
+        font-size: $titleSize;
+        margin-bottom: 1.56vw;
+      }
+      .desc{
+        font-size: $descSize;
+        width: 19vw;
+      }
+      &:nth-child(odd)
+      {
+        flex-direction: row-reverse;
+      }
+      &:nth-child(even)
+      {
+        flex-direction: row;
+      }
+    }
+    @media (max-width: $maxPhoneWidth){
+      flex-direction: column;
+      padding: 12vw 0;
+      align-items: center;
+      .banner-info{
+        width: 80vw;
+        margin-bottom: 8vw;
+        flex-direction: column !important;
+        border-radius: 6vw;
+        div{
+          width: 80vw;
+          align-items: center;
+          img{
+            width: 80vw;
+            height: 65.8vw;
+          }
+        }
+        .banner6-text{
+          width: 100%;
+          text-align: center;
+          align-items: center;
+          padding-left: 0;
+          .title{
+            width: 76vw !important;
+            margin-top: 4.66vw;
+            margin-bottom: 4vw;
+          }
+          .desc{
+            width: 70vw;
+            margin-bottom: 8vw;
+          }
+        }
+      }
+    }
+  }
+
+  .carousel {
+    .carousel-title{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      text-align: center;
+    }
+    .title{
+      margin-top: 5.2vw;
+      margin-bottom: 3.75vw;
+      font-size: $titleSize;
+      text-align: center;
+      font-weight: 700;
+    }
+    .home_slick {
+      .carousel-img {
+        img{
+          width: 100%;
+        }
+      }
+      .slick-prev:before{
+        content: '<';
+      }
+      .slick-next:before{
+        content: '>';
+      }
+      .slick-prev:before,.slick-next:before{
+        font-family: 'Open Sans';
+        color: #808080;
+        font-size: $titleSize;
+      }
+      .slick-dots {
+        bottom: -40px;
+      }
+      .slick-prev {
+        left: 11%;
+      }
+      .slick-next{
+        right: 11%;
+      }
+      .slick-prev,.slick-next {
+        z-index: 10;
+        width: 3.2vw;
+        height: 3.2vw;
+        top: 41%;
+        border-radius: 100%;
+        border: 1px solid #808080;
+      }
+    }
+    .carousel-item{
+      position: relative;
+    }
+    .carousel-text{
+      position: absolute;
+      top: 13vw;
+      left: 20vw;
+      width: 24vw;
+    }
+    .sub-title{
+      font-size: 1.56vw;
+      font-weight: 700;
+      margin-bottom: 1.56vw;
+    }
+    .sub-desc{
+      font-size: $descSize;
+      font-weight:400;  
+    }
+    @media (max-width: $maxPhoneWidth){
+      .title{
+        margin: 10vw 0;
+        width: 65vw;
+        font-size: 7.8vw;
+        font-weight: 700;
+      }
+      .carousel-text{
+        position: relative;
+        top: 0;
+        left: 0;    
+        width: 100%;
+        align-items: center;
+        margin: 0;
+      }
+      .home_slick{
+        .carousel-img {
+          display: flex;
+          justify-content: center;
+          img{
+            width: 80vw;
+          }
+        }
+        .slick-prev,.slick-next {
+          width: 6vw;
+          height: 6vw;
+          top: 40%;
+        }
+        .slick-prev{
+          left: 2.5%;
+        }
+        .slick-next {
+          right: 2.5%;
+        }
+        .slick-prev:before,.slick-next:before{
+          font-size: 4vw;
+        }
+      }
+      .sub-title{
+        font-size: 4.2vw;
+        margin-top: 3.6vw;
+        margin-bottom: 1vw;
+        width: 73vw;
+        text-align: center;     
+      }
+      .sub-desc{
+        font-size: 3.4vw;  
+        width: 73vw;
+        text-align: center;
+      }
+    }
+  }
+  
+}

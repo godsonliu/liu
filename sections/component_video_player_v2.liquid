@@ -1,0 +1,175 @@
+
+
+<style>
+.component_video_player_v2 {
+  width: 100%;
+  background: {{ section.settings.videoPlayer_bgColor }};
+}
+</style>
+<div class="component_video_player_v2 {{section.settings.custom_class}}">
+  {% render 'component_video_player_v2' %}
+</div>
+
+{% schema %}
+{
+  "name": "component_video_player_v2",
+  "presets": [
+    {
+      "name": "component_video_player_v2"
+    }
+  ],
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section结构区"
+    },
+		{
+			"type": "color",
+			"id": "videoPlayer_bgColor",
+			"label": "外层盒子背景色",
+			"info": "当视频区域设置最大宽度时，可自定义设置最外层的背景色"
+		},
+    {
+			"type": "text",
+			"id": "max_width",
+			"label": "视频内容区最大宽度",
+			"info": "示例：1200px 或者  80%"
+		},
+    {
+      "type": "header",
+      "content": "文案区"
+    },
+    {
+      "type": "html",
+      "id": "title",
+      "label": "视频标题",
+			"default": "Anker 641 USB-C to Lightning Cable"
+    },
+		{
+			"type": "color",
+			"id": "title_color",
+			"label": "视频标题字体颜色"
+		},
+		{
+			"type": "html",
+			"id": "subtitle",
+			"label": "副标题",
+			"default": "The Surprisingly-Soft Ultra-Strong Cable"
+		},
+		{
+			"type": "color",
+			"id": "subtitle_color",
+			"label": "副标题字体颜色",
+			"default": "#ffffff"
+		},
+    {
+      "type": "text",
+			"id": "short_videoUrl",
+			"label": "短视频URL",
+			"info": "视频时长比较短，文件比较小，简短描述的视频，用于首屏渲染时快速加载，推荐尺寸：1920 * 1080",
+			"default": "https://cdn.shopify.com/s/files/1/0516/0098/2167/files/warm_up_short_video.mp4"
+    },
+		{
+			"type": "text",
+			"id": "video_width_px",
+			"label": "Video Source Width",
+			"info": "该视频的分辨率，用于在渲染短视频时，填充video标签的width属性，利于web性能的cls",
+			"default": "1920"
+		},
+		{
+			"type": "text",
+			"id": "video_height_px",
+			"label": "Video Source Height",
+			"info": "作用同上",
+			"default": "1080"
+		},
+		{
+      "type": "text",
+			"id": "video_url",
+			"label": "Video Url",
+			"info": "点击弹窗展示的长视频，对上面短视频的补充，这种视频一般体积比较大，也可以充分去描述产品内容，目前可支持放到vimeo和Youtube两个平台",
+			"default": "https://player.vimeo.com/video/700388576?autoplay=true&controls=true"
+    },
+		{
+      "type": "text",
+			"id": "mobile_short_videoUrl",
+			"label": "Mobile Short Video Url",
+			"info": "这是移动端的短视频，因为分辨率和PC端不一样，所以重新定义。推荐尺寸：750 * 1100",
+			"default": "https://cdn.shopify.com/s/files/1/0516/0098/2167/files/warm_up_short_moble_video.mp4"
+    },
+		{
+			"type": "text",
+			"id": "mobile_video_width_px",
+			"info": "与PC端同义",
+			"label": "Mobile Video Source Width",
+			"default": "750"
+		},
+		{
+			"type": "text",
+			"id": "mobile_video_height_px",
+			"info": "与PC端同义",
+			"label": "Mobile Video Source Height",
+			"default": "1100"
+		},
+		{
+      "type": "text",
+			"id": "mobile_video_url",
+			"info": "与PC端同义",
+			"label": "Mobile Video Url",
+			"default": "https://player.vimeo.com/video/700388185?autoplay=true&controls=true" 
+    },
+		{
+			"type": "text",
+			"id": "video_posterUrl",
+			"info": "PC端视频的海报图，用于在网络非常慢的时候，会优先加载海报图，不至于出现白屏的情况，图片分辨率要与PC端的视频保持一致",
+			"label": "Video Poster Url",
+			"default": "https://cdn.shopify.com/s/files/1/0516/0098/2167/files/warm-up-video-poster.jpg"
+		},
+		{
+			"type": "text",
+			"id": "mobile_video_posterUrl",
+			"info": "移动端视频的海报图，用于在网络非常慢的时候，会优先加载海报图，不至于出现白屏的情况，图片分辨率要与移动端的视频保持一致",
+			"label": "Mobile Video Poster Url",
+			"default": "https://cdn.shopify.com/s/files/1/0516/0098/2167/files/warm-up-mobile-video-poster.jpg"
+		},
+		{
+			"type": "text",
+			"id": "play_button_text",
+			"label": "Play Button Text",
+			"info": "触发弹窗点击的按钮文案",
+			"default": "Watch Video"
+		},
+		{
+			"type": "color",
+			"id": "play_button_text_color",
+			"label": "触发按钮文案颜色"
+		},
+		{
+			"type": "text",
+			"id": "play_button_text_font_size",
+			"label": "触发按钮文案大小"
+		},
+		{
+			"type": "image_picker",
+			"id": "button_icon",
+			"label": "按钮的icon"
+		},
+		{
+			"type": "text",
+			"id": "eventLabel",
+			"label": "eventLabel",
+			"info": "用于GA数据上报，指明上报的来源",
+			"default": "laser_warm_up"
+		},
+		{
+			"type": "header",
+			"content": "开发相关"
+		},
+		{
+			"type": "text",
+			"id": "custom_class",
+			"label": "自定义类名"
+		}
+  ]
+}
+{% endschema %}

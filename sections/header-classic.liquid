@@ -1,0 +1,578 @@
+{% if shop.metafields['new_nav']['menu_icon'].value %}
+  {% assign menuIcon = shop.metafields['new_nav']['menu_icon'].value %}
+{% else %}
+  {% assign menuIcon = shop.metafields['new_nav']['menu_icon'] %}
+{% endif %}
+
+{% if shop.metafields['new_nav']['colors'].value %}
+  {% assign colors = shop.metafields['new_nav']['colors'].value %}
+{% else %}
+  {% assign colors = shop.metafields['new_nav']['colors'] %}
+{% endif %}
+
+{% if shop.metafields.global.main_menu.value %}
+  {% assign main_menu = shop.metafields.global.main_menu.value %}
+{% else %}
+  {% assign main_menu = shop.metafields.global.main_menu %}
+{% endif %}
+
+{% comment %}
+** Header 1 Classic - static **
+- Static section
+{% endcomment %}
+
+{% assign id = section.id %}
+{% assign logo = section.settings.logo %}
+{% assign overlay_logo = section.settings.overlay_logo %}
+{% assign mobile_logo = section.settings.mobile_logo %}
+{% comment %} Advanced {% endcomment %}
+{% assign width = section.settings.width %}
+{% assign css_class = section.settings.css_class %}
+{% assign custom_css = section.settings.custom_css %}
+
+{% comment %} Is the color set to transparent? {% endcomment %}
+{% assign header_alpha = settings.header_background | color_extract: 'alpha' %}
+{% assign overlay_alpha = section.settings.overlay_background | color_extract: 'alpha' %}
+{% assign overlay_link_alpha = section.settings.overlay_link_color | color_extract: 'alpha' %}
+{% assign overlay_link_hover_alpha = section.settings.overlay_link_hover_color | color_extract: 'alpha' %}
+
+{% comment %} Opacity level {% endcomment %}
+{% if header_alpha != 0 %}
+  {% assign sticky_background_alpha = section.settings.sticky_background_opacity | divided_by: 100.00 %}
+  {% assign overlay_background_alpha = section.settings.overlay_background_opacity | divided_by: 100.00 %}
+{% endif %}
+
+{% comment %} Section specific CSS {% endcomment %}
+{% capture section_css -%}
+  .header__logo,
+  .logo__content {
+    width: {{ section.settings.logo_width }}px;
+  }
+
+  .is-sticky .header__logo {
+    width: {{ section.settings.scroll_logo_width }}px;
+  }
+
+  {%- if section.settings.enable_overlay -%}
+    [data-enable_overlay="true"] .header {
+      background-color: {%- if overlay_alpha != 0 -%}{{ section.settings.overlay_background | color_modify: 'alpha', overlay_background_alpha }}{%- else -%}{{ settings.header_background | color_modify: 'alpha', overlay_background_alpha }}{%- endif -%};
+    }
+
+    [data-enable_overlay="true"] .header__logo,
+    .overlay-logo__content {
+      width: {{ section.settings.overlay_logo_width }}px;
+    }
+
+    [data-enable_overlay="true"] .header__link,
+    [data-enable_overlay="true"] .select select {
+      color: {%- if overlay_link_alpha != 0 -%}{{ section.settings.overlay_link_color }}{%- endif -%};
+      fill: {%- if overlay_link_alpha != 0 -%}{{ section.settings.overlay_link_color }}{%- endif -%};
+      {% if section.settings.show_text_shadow %}
+        text-shadow: 0 1px 1px rgba(0, 0, 0, .4);
+      {% endif %}
+    }
+
+    [data-enable_overlay="true"] .header__link:hover,
+    [data-enable_overlay="true"] .header__link.is-active,
+    [data-enable_overlay="true"] .select select:hover {
+      color: {%- if overlay_link_hover_alpha != 0 -%}{{ section.settings.overlay_link_hover_color }}{%- endif -%};
+      fill: {%- if overlay_link_hover_alpha != 0 -%}{{ section.settings.overlay_link_hover_color }}{%- endif -%};
+    }
+  {%- endif -%}
+  {%- if section.settings.enable_sticky -%}
+    .header-sticky-wrapper.is-sticky .header {
+      background-color: {{ settings.header_background | color_modify: 'alpha', sticky_background_alpha }};
+      box-shadow: 0px 4px 16px rgb(0 0 0 / 4%);
+    }
+
+    #mobile-header-sticky-wrapper.is-sticky .mobile-header {
+      background-color: {{ settings.header_background | color_modify: 'alpha', sticky_background_alpha }};
+    }
+
+    .mobile-menu--opened #mobile-header-sticky-wrapper.is-sticky .mobile-header {
+      background-color: {{ settings.header_background }};
+    }
+  {%- endif -%}
+{%- endcapture -%}
+
+{% assign main_menu = linklists[section.settings.main_linklist] %}
+
+
+{% style %}
+  #shopify-section-{{ id }} {
+    {% if padding_top != blank %}
+    padding-top: {{ padding_top }}px;
+    {% endif %}
+    {% if padding_bottom != blank %}
+    padding-bottom: {{ padding_bottom }}px;
+    {% endif %}
+    {% if width == 'wide' %}
+      width: 100%;
+    {% endif %}
+  }
+  {% if settings.new_nav_style %}
+  #mobile-header-sticky-wrapper {
+    height: 49px !important;
+  }
+  #shopify-section-{{ id }} .navbar-link {
+    height: 100%;
+    padding: 1rem 0 !important;
+    color: #000;
+  }
+  #shopify-section-{{ id }} .navbar-link {
+    margin: 0 0.75rem !important;
+  }
+  #shopify-section-{{ id }} .navbar-link::after {
+    content: '';
+  }
+
+  {% for link in main_menu.links %}
+    #shopify-section-{{ id }} .navbar-link-{{ link.title | handleize }}:hover .navbar-link {
+      {% assign key = link.title %}
+      color: {{ colors[key] }} !important;
+      border-bottom: 1px solid {{ colors[key] }} !important;
+    }
+  {% endfor%}
+
+  {% endif %}
+
+{% endstyle %}
+  {% render 'css-loop',
+          css: section_css,
+          id: id
+  %}
+  {% render 'css-loop',
+          css: custom_css,
+          id: id
+  %}
+
+{% render 'header__structured-data' %}
+
+{% comment %} HTML markup {% endcomment %}
+<div class="z-header is-relative {{ css_class }}" data-enable_overlay="{{ section.settings.enable_overlay }}" data-enable_sticky="{{ section.settings.enable_sticky }}">
+  <header id="header" class="header{% if settings.new_nav_style %} header-v2 {% endif %} dropdown-style-{{ settings.dropdown_style }} box-shadow-{{ settings.show_dropdown_shadow }}">
+    <section class="section
+                    is-width-{{ width }}">
+      <div class="container">
+        <div class="navbar dropdown-click--{{ section.settings.dropdown_click }} is-align-center is-justify-space-between vertical-alignment-{{ section.settings.vertical_alignment }} one-whole column">
+          <div class="header__brand">
+            {% if section.settings.enable_overlay and section.settings.overlay_logo != blank %}
+              {% if template contains 'index' %}
+                <div class="visuallyhidden">{{ shop.name }}</div>
+              {% endif %}
+              <div class="overlay-logo__content">
+                <a class="header__logo header__link overlay-logo" href="{{ shop.url }}?ref=logo" title="{{ shop.name }}">
+                  {% render 'image-element',
+                          image: section.settings.overlay_logo,
+                          alt: section.settings.overlay_logo.alt,
+                          additional_classes: 'overlay-logo',
+                          back_to_basics: true
+                  %}
+                </a>
+              </div>
+              <div class="logo__content">
+                {% if section.settings.logo != blank %}
+                  <div class="visuallyhidden">{{ shop.name }}</div>
+                  <a class="header__logo header__link primary-logo" href="{{ shop.url }}?ref=logo" title="{{ shop.name }}">
+                    {{section.settings.logo.alt}}
+                    {% render 'image-element',
+                            image: section.settings.logo,
+                            alt: section.settings.logo.alt,
+                            additional_classes: 'primary-logo'
+                    %}
+                  </a>
+                {% else %}
+                  <h1 class="header__logo-text">
+                    <a href="{{ shop.url }}?ref=logo" class="header__link primary-brand">
+                      {{ shop.name }}
+                    </a>
+                  </h1>
+                {% endif %}
+              </div>
+            {% elsif section.settings.logo_icon != blank %}
+              <a href="{{ shop.url }}?ref=logo"><i class="iconfont">{{ section.settings.logo_icon }}</i></a>
+            {% elsif section.settings.logo != blank %}
+              {% if template contains 'index' %}
+                <div class="visuallyhidden">{{ shop.name }}</div>
+              {% endif %}
+              <a class="header__logo header__link primary-logo" href="{{ shop.url }}?ref=logo" title="{{ shop.name }}">
+                {% render 'image-element',
+                        image: section.settings.logo,
+                        alt: section.settings.logo.alt,
+                        additional_classes: 'primary-logo'
+                %}
+              </a>
+            {% else %}
+              {% if template contains 'index' %}
+                <h1 class="header__logo-text">
+                  <a href="{{ shop.url }}?ref=logo" class="header__link primary-brand">
+                    {{ shop.name }}
+                  </a>
+                </h1>
+              {% else %}
+                <a href="{{ shop.url }}?ref=logo" class="header__logo-text header__link primary-brand">
+                  {{ shop.name }}
+                </a>
+              {% endif %}
+            {% endif %}
+          </div>
+          <div class="header__menu is-justify-{{ section.settings.menu_alignment }}">
+            <nav class="header__menu-items is-flex is-flex-wrap is-justify-{{ section.settings.menu_alignment }} header__dropdown--{{ settings.dropdown_position }}" role="menu" aria-label="main navigation">
+              {% comment %} {% assign main_menu = linklists[section.settings.main_linklist] %} {% endcomment %}
+              {% for link in main_menu.links %}
+                {% assign newMenu = null %}
+                {% comment %} 这里是控制隐藏某个菜单，暂时把 Security 对应的 hideBox类名去掉 {% endcomment %}
+                {%for menu in main_menu %}
+                  {% if menu.title == link.title%}
+                    {% assign newMenu = menu %}
+                  {% endif %}
+                {%endfor%}
+                {% if link.links == blank %}
+                  <div role="menuitem" id="{{newMenu.id}}" style="{{newMenu.style}}" class="navbar-link-{{ link.title | handleize }} navbar-item header__item {{newMenu.class}}  {% if link.active or link.child_active %}is-active{% endif %}" data-navlink-handle="{{ link.title | handleize }}">
+                    <a {% if shop.metafields['new_nav'][link.title] == nil %}href="{{ link.url }}"{% else %} href="javascript:void(0);" {% endif %} class="navbar-link header__link is-arrowless" {% if newMenu.Blank == true %} target="_blank" rel="noopener noreferrer" {%endif%}>
+                      {{ link.title }}
+                      {% if menuIcon %}
+                        {% for item in menuIcon %}
+                          {% assign itemTitle = item.title | downcase | replace: ' ', '' %}
+                          {% assign linkTitle = link.title | downcase | replace: ' ', '' %}
+                          {% if itemTitle == linkTitle %}
+                            <div class="header_nav">
+                              <span class="header_nav_txt" class="" style="color: {{ item.color }}; background-color: {{ item.background }}">{{ item.text }}</span>
+                            </div>
+                          {% endif %}
+                        {% endfor %}
+                      {% endif %} 
+                    </a>
+                  </div>
+                {% else %}
+                  <div role="menuitem" id="{{newMenu.id}}" style="{{newMenu.style}}" class="navbar-link-{{ link.title | handleize }} navbar-item header__item has-dropdown {{newMenu.class}} has-dropdown--{{ settings.dropdown_style }} is-hoverable {% if link.active or link.child_active %}is-active{% endif %}" aria-haspopup="true" aria-expanded="false" data-navlink-handle="{{ link.title | handleize }}">
+                    <a {% if newMenu.Blank == true %} target="_blank" rel="noopener noreferrer"{%endif%} {% if shop.metafields['new_nav'][link.title] == nil %}href="{{ link.url }}"{% endif %} class="header__link" aria-label="{{ link.title }}">
+                      {{ link.title }}
+                      {% if menuIcon %}
+                        {% for item in menuIcon %}
+                            {% assign itemTitle = item.title | downcase | replace: ' ', '' %}
+                            {% assign linkTitle = link.title | downcase | replace: ' ', '' %}
+                            {% if itemTitle == linkTitle %}
+                            <div class="header_nav">
+                              <span class="header_nav_txt" class="" style="color: {{ item.color }}; background-color: {{ item.background }}">{{ item.text }}</span>
+                            </div>
+                          {% endif %}
+                        {% endfor %}
+                      {% endif %} 
+                    </a>
+                    {% render 'header__dropdown-menu',
+                            link: link,
+                            index: forloop.index
+                    %}
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </nav>
+          </div>
+          {% if settings.new_nav_style %}
+          {% render 'header__action-icons-new',
+                  display_search: section.settings.display_search,
+                  icon_style: section.settings.icon_style
+          %}
+          {% else %}
+          {% render 'header__action-icons',
+                  display_search: section.settings.display_search,
+                  icon_style: section.settings.icon_style
+          %}
+          {% endif %}
+        </div>
+      </div>
+    </section>
+  </header>
+  {% if settings.new_nav_style %}
+    {% render 'mobile-header-new' %}
+  {% else %}
+    {% render 'mobile-header' %}
+  {% endif %}
+
+  {% if settings.search_display_style == 'overlay' %}
+    {% render 'search-overlay' %}
+  {% endif %}
+
+</div>
+
+{% comment %}JavaScript{% endcomment %}
+<script
+  type="application/json"
+  data-section-id="{{ section.id }}"
+  data-section-data
+>
+  {
+    "enable_overlay": {{ section.settings.enable_overlay | json }},
+    "enable_sticky": {{ section.settings.enable_sticky | json }},
+    "header_layout": {{ settings.header_layout | json }},
+    "dropdown_click": {{ section.settings.dropdown_click | json }}
+  }
+  
+</script>
+<script>
+  $('[data-enable_sticky=true] .header nav').hover(function() {
+    $('[data-enable_sticky=true] .header').addClass('is-hover')
+  },function(){
+    if(!$('.search-overlay').hasClass('is-opened')){
+      $('[data-enable_sticky=true] .header').removeClass('is-hover')
+    }
+  })
+</script>
+<script src="{{ 'z__jsHeader.js' | asset_url }}"></script>
+{% comment %}Schema{% endcomment %}
+{% schema %}
+
+{
+  "name": "Header",
+  "class": "header--classic jsHeader header-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Logo"
+    },
+    {
+      "type": "text",
+      "id": "logo_icon",
+      "label": "logo_icon"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo",
+      "info": "600 x 200px recommended"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "label": "Width",
+      "step": 5,
+      "min": 0,
+      "max": 300,
+      "default": 60,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Navigation"
+    },
+    {
+      "type": "link_list",
+      "id": "main_linklist",
+      "label": "Main menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "select",
+      "id": "menu_alignment",
+      "label": "Menu alignment",
+      "options": [
+        {
+          "value": "start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "end",
+          "label": "Right"
+        }
+      ],
+      "default": "start"
+    },
+    {
+      "type": "checkbox",
+      "id": "dropdown_click",
+      "label": "Open dropdowns on click instead of hover",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Search"
+    },
+    {
+      "type": "checkbox",
+      "id": "display_search",
+      "label": "Show search",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Icons"
+    },
+    {
+      "type": "select",
+      "id": "icon_style",
+      "label": "Style",
+      "options": [
+        {
+          "value": "icons",
+          "label": "Icons only"
+        },
+        {
+          "value": "text",
+          "label": "Text only"
+        },
+        {
+          "value": "icons_text",
+          "label": "Icons and text"
+        }
+      ],
+      "default": "icons"
+    },
+    {
+      "type": "header",
+      "content": "Overlay"
+    },
+    {
+      "type": "paragraph",
+      "content": "Header is overlaid directly on images. [Learn more](https://help.outofthesandbox.com/hc/en-us/articles/360022225073/#header-overlay)"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_overlay",
+      "label": "Enable overlay"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_text_shadow",
+      "label": "Show text shadow",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "overlay_link_color",
+      "label": "Links",
+      "default": "rgba(0,0,0,0)"
+    },
+    {
+      "type": "color",
+      "id": "overlay_link_hover_color",
+      "label": "Links hover",
+      "default": "rgba(0,0,0,0)"
+    },
+    {
+      "type": "color",
+      "id": "overlay_background",
+      "label": "Background",
+      "default": "rgba(0,0,0,0)"
+    },
+    {
+      "type": "range",
+      "id": "overlay_background_opacity",
+      "label": "Background opacity",
+      "min": 0,
+      "max": 80,
+      "step": 10,
+      "default": 0,
+      "unit": "%"
+    },
+    {
+      "type": "image_picker",
+      "id": "overlay_logo",
+      "label": "Overlay logo",
+      "info": "600 x 200px recommended"
+    },
+    {
+      "type": "range",
+      "id": "overlay_logo_width",
+      "label": "Overlay logo width",
+      "step": 5,
+      "min": 30,
+      "max": 300,
+      "default": 80,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Sticky header"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sticky",
+      "label": "Enable sticky on scroll"
+    },
+    {
+      "type": "range",
+      "id": "sticky_background_opacity",
+      "label": "Background opacity",
+      "min": 10,
+      "max": 100,
+      "step": 10,
+      "default": 50,
+      "unit": "%"
+    },
+    {
+      "type": "range",
+      "id": "scroll_logo_width",
+      "label": "Logo width",
+      "step": 5,
+      "min": 30,
+      "max": 300,
+      "default": 80,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "width",
+      "label": "Width",
+      "default": "standard",
+      "options": [
+        {
+          "value": "standard",
+          "label": "Standard"
+        },
+        {
+          "value": "wide",
+          "label": "Wide"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "vertical_alignment",
+      "label": "Vertical alignment",
+      "default": "center",
+      "options": [
+        {
+          "value": "top",
+          "label": "Top"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Advanced"
+    },
+    {
+      "type": "paragraph",
+      "content": "[Learn more](https://help.outofthesandbox.com/hc/en-us/articles/360022329373)"
+    },
+    {
+      "type": "text",
+      "id": "css_class",
+      "label": "CSS Class"
+    },
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Custom CSS"
+    }
+  ]
+}
+
+{% endschema %}

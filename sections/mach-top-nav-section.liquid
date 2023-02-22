@@ -1,0 +1,252 @@
+{% if shop.metafields.global.common.value %}
+{% assign shop_common = shop.metafields.global.common.value %}
+{% else %}
+{% assign shop_common = shop.metafields.global.common %}
+{% endif %}
+
+<link rel="stylesheet" href="{{ 'page-top-nav-section.scss.css' | asset_url }}">
+
+{% style %}
+{% if section.settings.custom_css != blank %}
+{{ section.settings.custom_css }}
+{% endif %}
+{% endstyle %}
+
+<section class="v2_top_bar_section {{ section.settings.custom_class }}">
+  <div class="v2_top_bar_box">
+    <div class="v2_top_bar_inner">
+      <p class="top_bar_title">
+        <a><b>{{ section.settings.title }}</b></a>
+      </p>
+      <div class="top_mb_part mb-show">
+        <p class="top_bar_mb_title">
+          <a><b>{{ section.settings.title }}</b></a>
+        </p>
+        <div class="top_bar_button top_bar_mb_button">
+          <div class="box">
+            <a href="{{ section.settings.product_url }}{{ section.settings.params }}" {% if section.settings.open_new %}target="_blank" rel="noopener noreferrer" {% endif %}>{{ section.settings.buy_now | default: shop_common.buy_now }}</a>
+          </div>
+        </div>
+      </div>
+      <div class="right-part">
+        <nav class="top_bar_page_nav">
+          {% for item in section.blocks %}
+            {% case item.type %}
+              {% when 'anchor' %}
+              <a class="tb_page_nav_item js-anchor {{ item.settings.custom_class }}" data-type="anchor" data-id="{{ item.settings.id }}">{{ item.settings.label }}</a>
+
+              {% when 'link' %} 
+              <a class="tb_page_nav_item {{ item.settings.custom_class }}" data-type="link"{% if item.settings.link != blank %} href="{{ item.settings.link }}"{% endif %} {% if item.settings.open_new %}target="_blank" rel="noopener noreferrer" {% endif %}>{{ item.settings.label }}</a>   
+            {% endcase %}
+          {% endfor %}
+        </nav>
+        <div class="top_bar_button pc-show">
+          <div class="box">
+            <a href="{{ section.settings.product_url }}{{ section.settings.params }}" {% if section.settings.open_new %}target="_blank" rel="noopener noreferrer" {% endif %}>{{ section.settings.buy_now | default: shop_common.buy_now }}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% if section.settings.custom_liquid != blank %}
+{{ section.settings.custom_liquid }}
+{% endif %}
+
+<script>
+  $(function () {
+    let w = $(window).width()
+    let isPc = w >= 769
+    let pageNavH = isPc ? $('.v2_top_bar_box').height() : $('.top_mb_part').height()
+    let siteNavH = 0
+    let offset = 100
+
+    let scrollAction = {
+      x: 'undefined',
+      y: 'undefined'
+    }
+
+    init()
+
+    function init() {
+      event()
+      resize()
+      scroll()
+    }
+
+    function event() {
+      $('.js-anchor').on('click', function () {
+        const id = $(this).data('id')
+        const target = $(`#${id}`)
+        console.log(target.parents('.shopify-section')[0].offsetTop - offset + $(window).height() * 2)
+        if(target.length) window.scrollTo(0, target.parents('.shopify-section')[0].offsetTop - offset + $(window).height() * 2)
+      })
+    }
+
+    function resize() {
+      window.addEventListener('resize', function () {
+        w = $(window).width()
+        pageNavH = isPc ? $('.v2_top_bar_box').height() : $('.top_mb_part').height()
+        siteNavH = isPc ? $('#header').height() : $('.mobile-header').height()
+
+        $('.v2_top_bar_section').height(pageNavH)
+
+        if (isPc) $('.right-part').css('transform', 'none')
+      })
+    }
+
+    function scroll() {
+      const offsetTop =  isPc ? $('.v2_top_bar_section')[0].offsetTop : 900
+      let timer
+      let flag = false
+
+      w = $(window).width()
+      siteNavH = isPc ? $('#header').height() : $('.mobile-header').height()
+
+      $('.v2_top_bar_section').height(pageNavH)
+
+      if (isPc) window.scrollTo(0, siteNavH)
+
+      document.addEventListener('scroll', function () {
+        const scrollTop = $(window).scrollTop()
+        const diff = scrollTop - offsetTop
+
+        siteNavH = isPc ? $('#header').height() : $('.mobile-header').height()
+        timer && clearTimeout(timer)
+
+        if (scrollTop > offsetTop) {
+          if (isPc) {
+            $('.v2_top_bar_box').addClass('fixed')
+            if (getScrollDir() === 'up') {
+              $('.v2_top_bar_box').css('transform', 'translateY(' + siteNavH + 'px)')
+              if (!flag) timer = setTimeout(() => {
+                $('.v2_top_bar_section').css('z-index', '10')
+                flag = true
+              }, 300)
+            } else {
+              $('.v2_top_bar_box').css('transform', 'none').parents('.v2_top_bar_section').css('z-index', '50')
+              flag = false
+            }
+          } else {
+            $('.v2_top_bar_section').addClass('actived').css('z-index', '50')
+            // if (diff >= 0) {
+            //   const num = diff >= 100 ? 104 : diff
+            //   $('.right-part').css('transform', 'translateY('+ num +'%)')
+            // }
+          }
+        } else {
+          if(isPc){
+            $('.v2_top_bar_box').removeClass('fixed').css('transform', 'none').parents('.v2_top_bar_section').css('z-index', '10')
+          } else {
+            // $('.right-part').css('transform', 'none')
+            $('.v2_top_bar_section').removeClass('actived')
+          }
+        }
+      })
+    }
+
+    function getScrollDir() {
+      let dir = ''
+
+      if (typeof scrollAction.x == 'undefined') {
+        scrollAction.y = window.pageYOffset
+      }
+
+      const diffY = scrollAction.y - window.pageYOffset
+
+      if (diffY < 0) {
+        dir = 'down'
+      } else if (diffY > 0) {
+        dir = 'up'
+      }
+
+      scrollAction.y = window.pageYOffset
+
+      return dir
+    }
+  })
+</script>
+
+
+{% schema %}
+{
+  "name": "mach top nav section",
+  "presets": [{
+    "name": "mach top nav section"
+  }],
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "标题"
+    },{
+      "type": "text",
+      "id": "product_url",
+      "label": "商品购买链接"
+    },{
+      "type": "text",
+      "id": "params",
+      "label": "URL参数"
+    }, {
+      "type": "checkbox",
+      "id": "open_new",
+      "label": "是否新标签页打开"
+    }, {
+      "type": "text",
+      "id": "buy_now",
+      "label": "Buy Now",
+      "info": "此处填写会覆盖metafields的shop_common.buy_now"
+    }, {
+      "type": "text",
+      "id": "custom_class",
+      "label": "自定义容器类名"
+    }, {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "自定义样式内容"
+    }, {
+      "type": "liquid",
+      "id": "custom_liquid",
+      "label": "自定义拓展liquid"
+    }
+  ],
+  "blocks": [{
+    "type": "anchor",
+    "name": "anchor",
+    "settings": [{
+      "type": "text",
+      "id": "label",
+      "label": "锚点名称"
+    },{
+      "type": "text",
+      "id": "id",
+      "label": "锚点ID"
+    },{
+      "type": "text",
+      "id": "custom_class",
+      "label": "自定义容器类名"
+    }]
+  },{
+    "type": "link",
+    "name": "link",
+    "settings": [{
+      "type": "text",
+      "id": "label",
+      "label": "链接名称"
+    },{
+      "type": "text",
+      "id": "link",
+      "label": "链接URL"
+    },{
+      "type": "checkbox",
+      "id": "open_new",
+      "label": "是否新标签页打开"
+    },{
+      "type": "text",
+      "id": "custom_class",
+      "label": "自定义容器类名"
+    }]
+  }]
+}
+{% endschema %}

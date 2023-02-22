@@ -1,0 +1,159 @@
+/* General */
+.tn-hidden {
+  display: none !important; }
+
+/* PDP */
+.tn-info {
+  margin: 0.5rem 0;
+  display: flex;
+  align-items: center;
+  font-family: "AkkuratLL", "IBM Plex Sans";
+  font-size: 12px;
+  color: black; }
+
+.tn-info-img {
+  height: 20px;
+  width: 36px;
+  object-fit: cover;
+  object-position: left; }
+
+.tn-info-text {
+  margin: 0 0.5em;
+  font-family: "Assistant", sans-serif;
+  line-height: normal; }
+
+.tn-info-icon {
+  height: 12px;
+  width: 12px; }
+
+.tn-before-try-logo {
+  margin-left: 0; }
+
+/* Cart */
+.tn-cartwidget-container {
+  display: flex;
+  align-items: center; }
+  .tn-cartwidget-container .tn-cartwidget {
+    flex: 1;
+    padding-right: 6rem;
+    text-align: right; }
+    .tn-cartwidget-container .tn-cartwidget a {
+      font-weight: bold;
+      text-decoration: underline; }
+
+.tn-flex-d {
+  align-items: baseline;
+  flex-wrap: wrap;
+  padding-bottom: 30px; }
+
+.tn-cart__total {
+  flex-direction: column;
+  align-items: end;
+  justify-content: end; }
+  .tn-cart__total .tn-total-container {
+    display: flex;
+    justify-content: end;
+    align-items: center; }
+    .tn-cart__total .tn-total-container .cart__total-sum {
+      font-weight: bold;
+      color: black; }
+  .tn-cart__total .tn-info {
+    flex-direction: column;
+    align-items: end; }
+    .tn-cart__total .tn-info .tn-info-main-text {
+      display: flex;
+      align-items: center;
+      margin: 0.5rem 0; }
+
+.tn-product {
+  font-weight: bold;
+  margin-top: 1rem;
+  color: black; }
+
+/* Popup */
+.tn-popupmodal-outer-container {
+  overflow: auto; }
+
+/* Responsive Cart */
+@media (max-width: 1020px) {
+  .tn-cartwidget-container .tn-cartwidget {
+    padding-right: 4rem; } }
+@media (max-width: 825px) {
+  .tn-cartwidget-container .tn-cartwidget {
+    padding-right: 1rem; } }
+@media (max-width: 750px) {
+  .tn-cartwidget-container {
+    display: block;
+    margin: 1rem 0; }
+    .tn-cartwidget-container .tn-cartwidget {
+      width: 100%;
+      padding: 0;
+      text-align: center;
+      margin-bottom: 1rem !important; } }
+@media (max-width: 749px) {
+  .tn-cart__total {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center; }
+    .tn-cart__total .tn-total-container {
+      display: block; }
+    .tn-cart__total .tn-info {
+      align-items: center; }
+
+  .tn-flex-d {
+    align-items: center; } }
+/* Checkout */
+.tn-due-total {
+  font-weight: 500; }
+
+.tn-autorize-text {
+  margin-top: 1rem;
+  font-size: 0.67rem; }
+
+.tn-made-possible-text {
+  font-size: 0.67rem; }
+
+.tn-made-possible-text > img {
+  width: 42px;
+  vertical-align: text-bottom; }
+
+/* Side Cart */
+.tn-cart-widget {
+  font-size: 12px;
+  font-family: "AkkuratLL", "IBM Plex Sans"; }
+  .tn-cart-widget a {
+    font-weight: bold;
+    text-decoration: underline; }
+
+.tn-disclaimer {
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "AkkuratLL", "IBM Plex Sans";
+  font-size: 10px;
+  color: black; }
+  .tn-disclaimer .tn-info-img {
+    height: 15px;
+    width: 26px;
+    margin-right: 5px; }
+
+.tn-restocking-fee {
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "AkkuratLL", "IBM Plex Sans";
+  font-size: 10px;
+  text-align: center; }
+
+.tn-restocking-fee-cart {
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "AkkuratLL", "IBM Plex Sans";
+  font-size: 12px;
+  text-align: center;
+  width: 100%;
+  margin-bottom: -17px; }

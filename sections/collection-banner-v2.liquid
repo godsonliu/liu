@@ -1,0 +1,47 @@
+{% if collection.metafields.global.banner.value %}
+  {% assign banner = collection.metafields.global.banner.value %}
+{% else %}
+  {% assign banner = collection.metafields.global.banner %}
+{% endif %}
+
+
+<div class="collection-banner-v2">
+  <div class="collection-banner-v2-inner">
+    <div class="collection-banner-v2-box">
+      <div class="collection-banner-img-wrapper">
+        {% render 'lazyload_image',  
+          src: collection.image,
+          alt: collection.image.alt,
+          width: collection.image.width,
+          aspect_ratio: collection.image.aspect_ratio,
+          additional_classes: 'is-hidden-mobile-only',
+          isSchemaData: true
+        %}
+
+        {% if banner.mbimage != blank %}
+          {% render 'lazyload_image',  
+            src: banner.mbimage,
+            alt: collection.image.alt,
+            width: 352,
+            height: 300,
+            additional_classes: 'is-hidden-desktop-only'
+          %}
+        {% endif %}
+      </div>
+      <div class="collection-banner-wrapper">
+        <p class="collection-title" {% if banner.color != blank %}style="color: {{ banner.color }}"{% endif %}>{{ collection.title }}</p>
+        <div class="collection-description" {% if banner.color != blank %}style="color: {{ banner.color }}"{% endif %}>{{ collection.description }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "collection banner",
+  "presets": [{
+    "name": "collection banner"
+  }]
+}
+{% endschema %}
+

@@ -1,0 +1,80 @@
+{% if product.metafields.global.product_Recommend.value %}
+  {% assign product_Recommend = product.metafields.global.product_Recommend.value %}
+{% else %}
+  {% assign product_Recommend = product.metafields.global.product_Recommend %}
+{% endif %}
+
+{% if shop.metafields.global.common.value %}
+  {% assign common = shop.metafields.global.common.value %}
+{% else %}
+  {% assign common = shop.metafields.global.common %}
+{% endif %}
+
+
+<div class="product_Recommend">
+  <h4>{{ product_Recommend.title }}</h4>
+  <p>{{ product_Recommend.desc }}</p>
+  <div class="con">
+    {% for item in product_Recommend.products %}
+      {% assign RecommendProduct = all_products[item.handle] %}
+      {% for v in RecommendProduct.variants %}
+        {% if item.sku == v.sku %}
+          {% assign RecommendVariant = v %}
+        {% endif %}
+      {% endfor %}
+      <a class="item" href="/products/{{ item.handle }}" target="_blank" rel="noopener noreferrer">
+        <img src="{{ RecommendVariant.featured_image | img_url: '60x' }}" alt="" />
+        <div class="txt">
+          <h4 class="name">{{ RecommendProduct.title }}</h4>
+          {% if RecommendVariant.available == false or RecommendVariant.price == 999999999 %}
+            <p class="price">{{ 'products.product.sold_out' | t }}</p>
+          {% else %}
+            <p class="price">{{ common.free }} <span class="del_price">{{ RecommendVariant.price | money }}</span></p>
+          {% endif %}
+        </div>
+      </a>
+    {% endfor %}
+  </div>
+</div>
+
+<style>
+  .product_Recommend {
+    margin: 2rem 0;
+  }
+  .product_Recommend .con .item {
+    padding: 12px;
+    border: 1px solid #c8c8c8;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1rem;
+  }
+  .product_Recommend .con .item:hover { color: #000; }
+  .product_Recommend .con .txt {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+  }
+  .product_Recommend .con .txt {
+    width: 84%;
+  }
+  .product_Recommend .con .name {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0;
+  }
+  .product_Recommend .con .price, .product_Recommend .con .del_price {
+    font-size: 16px;
+  }
+  .product_Recommend .con .del_price {
+    text-decoration: line-through;
+    color: #989B9E;
+  }
+  @media (max-width: 767px) {
+    .product_Recommend .con .txt {
+      display: block;
+    }
+  }
+</style>

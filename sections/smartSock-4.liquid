@@ -1,0 +1,155 @@
+<section class="smartSock-4" id="{{section.settings.id}}">
+  <div class="banner">
+    {% render 'image-element', 
+      image: section.settings.banner,
+      alt: section.settings.banner.alt,
+      additional_classes: "pc-show"
+    %}
+    {% render 'image-element', 
+      image: section.settings.banner_mob,
+      alt: section.settings.banner_mob.alt,
+      additional_classes: "mob-show"
+    %}
+  </div>
+  <div class="toggle-section">
+    <div class="day-section">
+      {% render 'image-element', 
+        image: section.settings.day,
+        alt: section.settings.day.alt,
+        additional_classes: "pc-show"
+      %}
+      {% render 'image-element', 
+        image: section.settings.day_mob,
+        alt: section.settings.day_mob.alt,
+        additional_classes: "mob-show"
+      %}
+      <div class="content">
+        <h2>{{ section.settings.dayTitle }}</h2>
+        <p>{{ section.settings.daySubtitle }}</p>
+        <img class="lazyload" data-src="{{section.settings.dayImg | image_url}}">
+      </div>
+    </div>
+    <div class="mask-section"></div>
+    <div class="night-section">
+      {% render 'image-element', 
+        image: section.settings.night,
+        alt: section.settings.night.alt,
+        additional_classes: "pc-show"
+      %}
+      {% render 'image-element', 
+        image: section.settings.night_mob,
+        alt: section.settings.night_mob.alt,
+        additional_classes: "mob-show"
+      %}
+      <div class="content">
+        <h2>{{ section.settings.nightTitle }}</h2>
+        <p>{{ section.settings.nightSubtitle }}</p>
+        <img class="lazyload" data-src="{{section.settings.nightImg | image_url}}">
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  $(function() {
+    var height = $(".smartSock-nav").height();
+    var tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: ".toggle-section",
+        start: `top top+=${height}`,
+        end: "+=200%",
+        pin: true,
+        scrub: true
+      }
+    });
+    tl.to(".mask-section", {
+      opacity: 0.3
+    });
+    tl.to(".night-section", {
+      clipPath: "inset(0% 0 0 0)" 
+    });
+  });  
+</script>
+
+{% schema %}
+{
+  "name": "Smart Sock P4",
+  "presets": [
+    {
+      "name": "Smart Sock P4"
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "id",
+      "label": "模块id",
+      "default": "section-camera"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner",
+      "label": "banner图"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_mob",
+      "label": "移动端banner图"
+    },
+    {
+      "type": "image_picker",
+      "id": "day",
+      "label": "白天背景图"
+    },
+    {
+      "type": "image_picker",
+      "id": "day_mob",
+      "label": "移动端白天背景图"
+    },
+    {
+      "type": "text",
+      "id": "dayTitle",
+      "label": "白天标题",
+      "default": "Picture-Perfect Quality"
+    },
+    {
+      "type": "textarea",
+      "id": "daySubtitle",
+      "label": "白天副标题",
+      "default": "Thanks to the 2K high-resolution camera with 330° pan, 110° tilt, and 4x zoom features, our industry-leading camera will put you right there so you can see every detail."
+    },
+    {
+      "type": "image_picker",
+      "id": "dayImg",
+      "label": "白天monitor图"
+    },
+    {
+      "type": "image_picker",
+      "id": "night",
+      "label": "晚上背景图"
+    },
+    {
+      "type": "image_picker",
+      "id": "night_mob",
+      "label": "移动端晚上背景图"
+    },
+    {
+      "type": "text",
+      "id": "nightTitle",
+      "label": "晚上标题",
+      "default": "Night Vison"
+    },
+    {
+      "type": "textarea",
+      "id": "nightSubtitle",
+      "label": "晚上副标题",
+      "default": "The non-invasive infrared night vision lets you see your baby clearly even at night."
+    },
+    {
+      "type": "image_picker",
+      "id": "nightImg",
+      "label": "晚上monitor图"
+    }
+  ]
+}
+{% endschema %}

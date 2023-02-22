@@ -1,0 +1,26 @@
+<section class="aplus aplus-image">
+  <div class="aplus-image__image">
+    {% if videoUrl != blank %}
+      {% render 'aplus-video-player'
+        id: id,
+        videoUrl: videoUrl,
+        imageUrl: coverUrl
+        thirdPartyVideo: thirdPartyVideo,
+        isSchemaData: isSchemaData
+      %}
+    {% elsif imageUrl != blank %}
+      {% render 'lazyload_image'
+        src: imageUrl,
+        isSchemaData: isSchemaData
+      %}
+    {% endif %}
+  </div>
+  <div class="aplus-image__text">
+    {% render 'aplus-text-card'
+      title: title,
+      subtitle: subtitle,
+      description: description
+    %}
+  </div>
+</section>
+  

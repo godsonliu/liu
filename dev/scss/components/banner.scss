@@ -1,0 +1,101 @@
+
+.banner__wrapper {
+    overflow: hidden;
+    position: relative;
+    max-height: 100vh;
+  
+    img {
+      @include object-fit(cover);
+      height: 100%;
+    }
+  
+    &.is-small {
+  
+      .image-element__wrap {
+        height: 30vh;
+  
+        @include respond-to('medium-down') {
+          height: auto;
+        }
+      }
+    }
+  
+    &.is-medium {
+  
+      .image-element__wrap {
+        height: 60vh;
+  
+        @include respond-to('medium-down') {
+          height: auto;
+        }
+      }
+    }
+  
+    &.is-large {
+      .image-element__wrap {
+        height: 90vh;
+  
+        @include respond-to('medium-down') {
+          height: auto;
+        }
+      }
+    }
+  }
+  
+  .banner__content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    @include prefix(transform, translate(-50%, -50%), ms webkit spec);
+    margin: auto;
+    z-index: 3;
+    width: 100%;
+  }
+  
+  .banner__text {
+    margin: auto;
+    max-width: 900px;
+    p { color: #fff; }
+  }
+  
+  .banner__heading {
+    font-family:  "Open Sans", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 30px;
+    text-transform: none;
+    color: #fff;
+  
+    @include respond-to('large-down') {
+      font-size: 2.5em;
+    }
+  
+    @include respond-to('small-down') {
+      font-size: 2em;
+    }
+  }
+  
+  .banner__subheading {
+    font-family: "Open Sans", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 20px;
+    letter-spacing: 0px;
+    color: #ffffff;
+  }
+  
+  .dark-overlay-true {
+    position: relative;
+  
+    &:after {
+      content: '';
+      position: absolute;
+      z-index: 2;
+      background: rgba(0, 0, 0, 0.5);
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+  }
+  

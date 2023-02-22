@@ -1,0 +1,260 @@
+{% if shop.metafields['global']['common'].value %}
+  {% assign policy_text = shop.metafields['global']['common'].value %}
+{% else %}
+  {% assign policy_text = shop.metafields['global']['common'] %}
+{% endif %}
+
+{% if shop.metafields['global']['common'].value %}
+  {% assign info_seccess = shop.metafields['global']['common'].value %}
+{% else %}
+  {% assign info_seccess = shop.metafields['global']['common'] %}
+{% endif %}
+
+{% if shop.metafields['global']['common'].value %}
+  {% assign info_fill_email = shop.metafields['global']['common'].value %}
+{% else %}
+  {% assign info_fill_email = shop.metafields['global']['common'] %}
+{% endif %}
+
+{% if shop.metafields['global']['common'].value %}
+  {% assign info_err_email = shop.metafields['global']['common'].value %}
+{% else %}
+  {% assign info_err_email = shop.metafields['global']['common'] %}
+{% endif %}
+
+{% if shop.metafields['global']['common'].value %}
+  {% assign info_select_policy = shop.metafields['global']['common'].value %}
+{% else %}
+  {% assign info_select_policy = shop.metafields['global']['common'] %}
+{% endif %}
+
+{% if shop.metafields['global']['common'].value %}
+  {% assign use_placeholders = shop.metafields['global']['common'].value %}
+{% else %}
+  {% assign use_placeholders = shop.metafields['global']['common'] %}
+{% endif %}
+
+{% if shop.metafields.global.country.value %}
+  {% assign country = shop.metafields.global.country.value %}
+{% else %}
+  {% assign country = shop.metafields.global.country %}
+{% endif %}
+
+{% comment %} 
+  配置项：
+    submit_position: right 提交按钮位置在右侧
+    text_position: left 文字居左对齐
+    heading_text: xxx 标题文案
+    subheading_text: xxx 副标题文案
+    subscribe_tips: xxx 提示文案
+    openSuccessBox: true 成功文案弹框显示
+{% endcomment %}
+
+{%- if submit_btn_txt -%}
+  {% assign submit_btn_txt = submit_btn_txt %}
+{%- else %}
+  {% assign submit_btn_txt = section.settings.submit_btn_txt %}
+{% endif %}
+{%- if policy_text -%}
+  {% assign policy_text = policy_text %}
+{%- else %}
+{% endif %}
+{%- if info_seccess -%}
+  {% assign info_seccess = info_seccess %}
+{%- else %}
+{% endif %}
+{%- if info_fill_email -%}
+  {% assign info_fill_email = info_fill_email %}
+{%- else %}
+{% endif %}
+{%- if info_err_email -%}
+  {% assign info_err_email = info_err_email %}
+{%- else %}
+{% endif %}
+{%- if info_select_policy -%}
+  {% assign info_select_policy = info_select_policy %}
+{%- else %}
+{% endif %}
+{%- if use_placeholders -%}
+  {% assign use_placeholders = use_placeholders %}
+{%- else %}
+{% endif %}
+
+{% comment %} HTML markup {% endcomment %}
+<div class="subscribe-deals-form button_{{submit_position}} text_{{text_position}}">
+  <div class="txt">
+    <h3 class="title">{{ heading_text }}</h3>
+    {% if line_flag %}<div class="line"></div>{% endif %}
+    <p class="desc">{{ subheading_text }}</p>
+  </div>
+  <div class="Spin Spin_{{snippets_id}}">
+    <div class="content cnt">
+      <form method="post" accept-charset="UTF-8" id="subscribe_deals_form" class="{{snippets_id}} subscribe_deals_form_box">
+        {% comment %} 输入框 {% endcomment %}
+        <div class="form_input">
+          <input
+            class="{% if show_email_icon %}hasIcon{% endif %}"
+            type="email" name="contact[email]" maxlength="200" placeholder="{{ use_placeholders }}"
+          />
+          {% if show_email_icon %}{% render 'icon', name: 'email' %}{% endif %}
+        </div>
+        {% comment %} 按钮 {% endcomment %}
+        {% if submit_position != 'bottom' %}<button type="submit" class="form_button brandButtonText">{{ submit_btn_txt }}</button>{% endif %}
+        {% comment %} 提示文案 {% endcomment %}
+        {% if subscribe_tips %}<div class="subscribe_tips">{{ subscribe_tips }}</div>{% endif %}
+        {% comment %} policy {% endcomment %}
+        <div class="policyBox">
+          <label>
+            <span><input type="checkbox" name="policy" value="yes" class="policy_checkbox"  /></span>
+            <span class="policy_text">{{ policy_text }}</span>
+          </label>
+        </div>
+        {% comment %} 反馈文案 {% endcomment %}
+        <div class="form_feedback_box">
+          <div class="form_feedback_box_txt swap--visible info_error">
+            <p class="form_feedback"></p>
+          </div>
+          <div class="form_feedback_box_txt swap--visible info_seccess">
+            <p class="form_feedback">{{ info_seccess }}</p>
+          </div>
+          <div class="form_feedback_box_txt swap--visible info_fill_email">
+            <p class="form_feedback">{{ info_fill_email }}</p>
+          </div>
+          <div class="form_feedback_box_txt swap--visible info_err_email">
+            <p class="form_feedback">{{ info_err_email }}</p>
+          </div>
+          <div class="form_feedback_box_txt swap--visible info_select_policy">
+            <p class="form_feedback">{{ info_select_policy }}</p>
+          </div>
+        </div>
+        {% comment %} 按钮 {% endcomment %}
+        {% if submit_position == 'bottom' %}<button type="submit" class="form_button brandButtonText">{{ submit_btn_txt }}</button>{% endif %}
+      </form>
+    </div>
+    <div class="mask"></div>
+    <div class="spinner">
+      <i class="iconfont">&#xe6c0;</i>
+      <div class="focus"><i class="iconfont">&#xe6c0;</i></div>
+    </div>
+  </div>
+</div>
+
+<script src="{{ 'md5.js' | asset_url }}"></script>
+
+<script>
+  function subscribeValueChange() {
+    const event = window.event;
+    const { name, value } = event.target;
+  }
+
+  function pushErrorDataLayer() {
+    window.dataLayer.push({
+      "event": "bottom_function",
+      "page_group": "{{ template }}",
+      "action": "Email Sign Up Error"
+    })
+  }
+
+  function pushSuccDataLayer() {
+    window.dataLayer.push({
+      "event": "bottom_function",
+      "page_group": "{{ template }}",
+      "action": "Email Sign Up Success"
+    })
+  }
+
+  $(document).ready(function () {
+    const subscribe_private = {
+      timer: null,
+      regExp: {
+        email: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      },
+      isEmail: val => subscribe_private.regExp.email.test(val),
+      tip_info: (clas, val) => {
+        $('#subscribe_deals_form.{{snippets_id}} button[type="submit"]').prop("disabled", false);
+        $('#subscribe_deals_form.{{snippets_id}} .form_feedback_box_txt').addClass('swap--visible');
+        $(`#subscribe_deals_form.{{snippets_id}} .${clas}`).removeClass('swap--visible');
+        if (val) $(`#subscribe_deals_form.{{snippets_id}} .${clas} .form__error`).html(val);
+        if (subscribe_private.timer) clearTimeout(subscribe_private.timer);
+        subscribe_private.timer = setTimeout(() => { 
+          $(`#subscribe_deals_form.{{snippets_id}} .${clas}`).addClass('swap--visible');
+        }, 8000);
+      }
+    };
+    $('#subscribe_deals_form.{{ snippets_id }} button[type="submit"]').on('click', function (e) {
+      e.stopPropagation();
+      e.preventDefault();
+      $(this).prop("disabled", true);
+      let value = $('#subscribe_deals_form.{{snippets_id}}').serializeArray();
+      const email = value.filter(v => v.name === "contact[email]")[0].value;
+      const policy = value.filter(v => v.name === "policy")[0];
+      if (!email) {
+        subscribe_private.tip_info('info_fill_email');
+        {% if bottom_subscribe %} pushErrorDataLayer(); {% endif %}
+      } else
+      if (!policy || policy.value !== 'yes') {
+        subscribe_private.tip_info('info_select_policy');
+        {% if bottom_subscribe %} pushErrorDataLayer(); {% endif %}
+      } else
+      if (email && !subscribe_private.isEmail(email)) {
+        subscribe_private.tip_info('info_err_email');
+        {% if bottom_subscribe %} pushErrorDataLayer(); {% endif %}
+      } else {
+        const data = {
+          email, genre: "{{ snippets_id }}",
+          shopify_domain: "{{ shop.permanent_domain }}",
+          country_code: "{{ country.code }}",
+          single_brand_subscribe: false
+        };
+        if($(`.Spin_{{ snippets_id }}`)) $('.Spin_{{ snippets_id }}').addClass('active');
+        Shopify.contentCreator.pastApi.subscribe_activities_emails({
+          params: data,
+          fn: (body) => {
+            var md5Email = md5(email);
+            {% if bottom_subscribe %} pushSuccDataLayer(); {% endif %}
+            if($('.Spin_{{ snippets_id }}')) $('.Spin_{{ snippets_id }}').removeClass('active');
+            {% if openSuccessBox %}
+              Shopify.contentCreator.activities.openSuccessBox('{{ info_seccess }}');
+              $('#subscribe_deals_form.{{snippets_id}} button[type="submit"]').prop("disabled", false);
+            {% else %}
+              subscribe_private.tip_info('info_seccess');
+            {% endif %}
+            $('#subscribe_deals_form.{{snippets_id}} input[name="contact[email]"]').val('');
+            $('#subscribe_deals_form.{{snippets_id}} input[name="policy"]').prop("checked", false);
+            window.dataLayer.push({
+              'event': '{{ snippets_id }}',
+              'country_code': '{{ shop.name }}',
+              'user_id': '{{ customer.id }}',
+              'email': md5Email
+            });
+            window.dataLayer.push({
+              "event": "uaEvent",
+              "eventCategory": 'subscribe',
+              "eventAction": "{{ snippets_id }}",
+              "eventLabel": 'undefined',
+              "eventValue": 'undefined',
+            });
+            fbq('track', 'CompleteRegistration');
+          }, 
+          error: (err) => {
+            if($('.Spin_{{ snippets_id }}')) $('.Spin_{{ snippets_id }}').removeClass('active');
+            {% if bottom_subscribe %} pushErrorDataLayer(); {% endif %}
+            const { responseJSON } = err || {};
+            if (err.status === 409) {
+              {% if openSuccessBox %}
+                Shopify.contentCreator.activities.openSuccessBox('{{ info_seccess }}');
+                $('#subscribe_deals_form.{{snippets_id}} button[type="submit"]').prop("disabled", false);
+              {% else %}
+                subscribe_private.tip_info('info_seccess');
+              {% endif %}
+              $('#subscribe_deals_form.{{snippets_id}} input[name="contact[email]"]').val('');
+              $('#subscribe_deals_form.{{snippets_id}} input[name="policy"]').prop("checked", false);
+            } else if (responseJSON) {
+              subscribe_private.tip_info('info_error', responseJSON.error || responseJSON.err);
+            }
+          }
+        });
+      }
+    });
+  })
+</script>

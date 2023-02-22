@@ -1,0 +1,57 @@
+{% capture moduleId %}{{ id }}-mobile{% endcapture %}
+
+{% if textAlign != blank %}
+  {% assign textAlignValue = textAlign %}
+{% else %}
+  {% assign textAlignValue = 'text-center' %}
+{% endif %}
+
+{% if textBgBlack %}
+  {% assign textColor = 'white-text' %}
+{% else %}
+  {% assign textColor = 'black-text' %}
+{% endif %}
+
+<div id="{{ moduleId }}" class="aplus-mobile-carousel aplus-mobile-carousel-2">
+  <div class="swiper-container {% if noPagination %} no-pagination {% endif %}">
+    <div class="swiper-wrapper">
+      {% for item in items %}
+        {% if item.mobileImageUrl != blank %}
+          {% assign imageUrl = item.mobileImageUrl %}
+        {% else %}
+          {% assign imageUrl = item.imageUrl %}
+        {% endif %}
+        <div class="swiper-slide" data-headline="{{ item.headline }}">
+          {% render 'lazyload_image'
+            isSchemaData: isSchemaData,
+            src: imageUrl
+          %}
+        </div>
+      {% endfor %}
+    </div>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+  </div>
+  <div class="aplus-mobile-carousel__text" aria-controls="{{ moduleId }}">
+    {% for item in items %}
+      <div data-index="{{ forloop.index0 }}" class="{% unless forloop.index0 != 0 %} active {% endunless %}" data-navigation="{{ item.navigation }}">
+        {% render 'aplus-text-card'
+          title: item.headline,
+          description: item.body,
+          textAlign: textAlignValue,
+          textColor: textColor
+        %}
+      </div>
+    {% endfor %}
+  </div>
+  {% unless noPagination %}
+    <div class="swiper-pagination"></div>
+  {% endunless %}
+  
+</div>
+{% render 'aplus-carousel-script'
+  swiperMode: swiperMode,
+  moduleId: moduleId,
+  items: items,
+  noPagination: noPagination
+%}

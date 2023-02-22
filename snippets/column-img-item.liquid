@@ -1,0 +1,58 @@
+{% comment %}
+Required values
+img: <image>
+title: <string>
+title: <desc>
+______________
+Optional values
+mobimg: <image>
+
+{% endcomment %}
+
+<div class="image-column-img-content">
+  <div class="image-column-img-wrap">
+    {% if mobimg != blank %}
+      {% assign imgCls = 'is-hidden-mobile-only image-column-img' %}  
+    {% else %}
+      {% assign imgCls = 'image-column-img' %}  
+    {% endif %}
+    {% if vimeo != blank %}
+      {% render 'lazyload_video',
+        video_id: vimeo,
+        ratio: ratio,
+        quality: 'auto'
+      %}
+    {% else %}
+      {% if img != blank %}
+        {% render 'lazyload_image',  
+          src: img,
+          alt: img.alt,
+          width: img.width,
+          additional_classes: imgCls,
+          aspect_ratio: img.aspect_ratio,
+          isSchemaData: true
+        %}
+        {% if mobimg != blank %}
+          {% render 'lazyload_image',  
+            src: mobimg,
+            alt: mobimg.alt,
+            width: mobimg.width,
+            additional_classes: 'is-hidden-desktop-only image-column-img',
+            aspect_ratio: mobimg.aspect_ratio,
+            isSchemaData: true
+          %}
+        {% endif %}
+      {% else %}
+        {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+      {% endif %}
+    {% endif%}
+  </div>
+  <div class="image-column-info-wrap">
+    {% if title != blank %}
+      <p class="image-column-title">{{ title }}</p>
+    {% endif %}
+    {% if desc != blank %}
+      <p class="image-column-desc">{{ desc }}</p>
+    {% endif %}
+  </div>
+</div>

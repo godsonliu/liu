@@ -1,0 +1,72 @@
+<style>
+.component_title_{{section.id}} {
+  text-align: center;
+  line-height: 1.2;
+  width: 100%;
+  background: {{section.settings.div_bg}};
+  padding: {{ section.settings.div_padding }};
+  font-size: 32px;
+  color: {{section.settings.title_color}};
+  font-weight: 600;
+}
+@media(max-width: 769px) {
+  .component_title_{{section.id}} {
+    font-size: 20px;
+    padding: {{ section.settings.div_mobile_padding }};
+  }
+}
+
+</style>
+
+<div id="{{ section.settings.custom_class }}" class="component_title_v2 component_title_{{section.id}} {{ section.settings.custom_class }}">{{section.settings.title}}</div>
+
+{% schema %}
+  {
+    "name": "component_title_v2",
+    "presets": [
+      {
+        "name": "component_title_v2"
+      }
+    ],
+    "settings": [
+			{
+				"type": "color",
+				"id": "div_bg",
+				"label": "外层盒子的背景色"
+			},
+      {
+        "type": "text",
+        "id": "div_padding",
+        "label": "标题间距",
+        "default": "10px 15px"
+      },
+      {
+        "type": "text",
+        "id": "div_mobile_padding",
+        "label": "Mobile标题间距",
+        "default": "10px 15px"
+      },
+      {
+        "type": "html",
+        "id": "title",
+        "label": "标题文案",
+        "default": "Title"
+      },
+      {
+        "type": "color",
+        "id": "title_color",
+        "label": "标题颜色",
+        "default": "#333333"
+      },
+      {
+        "type": "header",
+        "content": "开发使用"
+      },
+      {
+        "type": "text",
+        "id": "custom_class",
+        "label": "自定义类名"
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,126 @@
+<section class="mach-compare-page1">
+  <div class="component-title-v2">{{ section.settings.title }}</div>
+  <div class="mach-compare-page-line"></div>
+  <div class="mach-compare-page1-content">
+    <div class="page1-content-left">
+      <div class="left-title">{{ section.settings.left_title }}</div>
+      <div class="left-desc">{{ section.settings.left_desc }}</div>
+      <div class="content-bundle">
+
+        <div class="bundle-item">
+          <img class="bundle-img" src="{{ section.settings.left_img1 | image_url }}" />
+          <div class="bundle-name">{{ section.settings.left_img1_name }}</div>
+          <div class="bundle-price">{{ section.settings.left_img1_price }}</div>
+        </div>
+
+        <div class="bundle-svg">
+          <svg width="44" height="41" viewBox="0 0 44 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M26.523 24.617V41H17.3014V24.617H0V16.9772H17.3014V0H26.523V16.9772H44V24.617H26.523Z" fill="#6E6E73"/>
+          </svg>
+        </div>
+        
+        <div class="bundle-item">
+          <img class="bundle-img" src="{{ section.settings.left_img2 | image_url }}" />
+          <div class="bundle-name">{{ section.settings.left_img2_name }}</div>
+          <div class="bundle-price">{{ section.settings.left_img2_price }}</div>
+        </div>
+
+      </div>
+    </div>
+    <div class="page1-content-right">
+      <img class="content-right-image showPc" src="{{ section.settings.right_bg | image_url }}" />
+      <img class="content-right-image showMobile" src="{{ section.settings.mb_right_bg | image_url }}" />
+      <div class="content-text">
+        <div class="right-title">{{ section.settings.right_title }}</div>
+        <div class="right-subtitle">{{ section.settings.right_subtitle }}</div>
+        {% comment %} <div class="right-desc">{{ section.settings.right_desc }}</div> {% endcomment %}
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{% schema %}
+  {
+    "name": "Mach Compare Page 1",
+    "presets": [{
+        "category": "Mach Compare Page 1",
+        "name": "Mach Compare Page 1"
+    }],
+    "settings": [
+      {
+        "type": "html",
+        "id": "title",
+        "label": "标题"
+      },
+      {
+        "type": "header",
+        "content": "左边部分"
+      },
+      {
+        "type": "html",
+        "id": "left_title",
+        "label": "左边标题"
+      },
+      {
+        "type": "html",
+        "id": "left_desc",
+        "label": "左边描述"
+      },
+      {
+        "type": "image_picker",
+        "id": "left_img1",
+        "label": "左边图片1"
+      },
+      {
+        "type": "html",
+        "id": "left_img1_name",
+        "label": "左边图片1名称"
+      },
+      {
+        "type": "html",
+        "id": "left_img1_price",
+        "label": "左边图片1价格"
+      },
+      {
+        "type": "image_picker",
+        "id": "left_img2",
+        "label": "左边图片2"
+      },
+      {
+        "type": "html",
+        "id": "left_img2_name",
+        "label": "左边图片2名称"
+      },
+      {
+        "type": "html",
+        "id": "left_img2_price",
+        "label": "左边图片2价格"
+      },
+      {
+        "type": "header",
+        "content": "右边部分"
+      },
+      {
+        "type": "image_picker",
+        "id": "right_bg",
+        "label": "右边部分背景图"
+      },
+      {
+        "type": "image_picker",
+        "id": "mb_right_bg",
+        "label": "右边部分Mobile背景图"
+      },
+      {
+        "type": "html",
+        "id": "right_title",
+        "label": "Right标题"
+      },
+      {
+        "type": "html",
+        "id": "right_subtitle",
+        "label": "Right副标题"
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,850 @@
+{% assign DataId = section.id %}
+{% assign swipe_blocks = section.blocks %}
+{% assign vertical_position = '4.479vw' %}
+{% assign mobile_vertical_position = '50px' %}
+<style>
+  #{{DataId}} h2,#{{DataId}} h1{
+    font-weight: 600;
+  }
+  #{{DataId}} .image-element__wrap{
+    max-width: none !important;
+  }
+  #{{DataId}} { 
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    {% if section.settings.box_margin != blank %}
+    margin: {{ section.settings.box_margin }};
+    {% else %}
+    margin: 0 auto;
+    {% endif %}
+    max-width: {{section.settings.max_width}}; 
+  }
+  #{{DataId}} .slick-arrow svg {
+    width: 100%;
+    height: 100%;
+  }
+  #{{DataId}} .slick-next img, #{{DataId}} .slick-prev img{
+    opacity: .8;
+  }
+  #{{DataId}} .slick-next,#{{DataId}} .slick-prev{
+    height: 60px;
+    width: 60px;
+    z-index: 1;
+  }
+  #{{DataId}} .slick-next::before, #{{DataId}} .slick-prev::before{
+    display: none;
+  }
+  #{{DataId}} .slick-next img:hover, #{{DataId}} .slick-prev img:hover{
+    opacity: 1;
+  }
+  #{{DataId}} .slick-next {
+    right: 2.3vw;
+  }
+  #{{DataId}} .slick-prev{
+    left: 2.3vw;
+  }
+
+  #{{DataId}} .swiper_title_text {
+    color: {{ section.settings.swipe_title_color }};
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1;
+  }
+  #{{DataId}} .swiper_banner_text {
+    color:{{ section.settings.banner_text_color }};
+    font-size: 28px;
+    line-height: 1;
+    margin-top: 15px;
+  }
+
+  #{{DataId}} .swiper_banner_desc {
+    color:{{ section.settings.banner_desc_color }};
+    font-size: 1.04vw;
+    line-height: 1;
+    margin-top: 10px;
+  }
+
+  #{{DataId}} .component_count_timer_div {
+    display: inline-block;
+    margin-bottom: 30px;
+  }
+  #{{DataId}} .slick-dotted.slick-slider{
+    margin-bottom: 0;
+  }
+  #{{DataId}} .bottomdots{
+    position: absolute; 
+    width: 100%; 
+    bottom: 20px;
+    display: flex;
+    justify-content: center;
+  }
+  #{{DataId}} .{{DataId}}dots {
+    cursor: pointer; 
+    height: 10px;
+    display: flex;
+    align-items: center;
+  }
+  #{{DataId}} .{{DataId}}dots span{
+    display: block;
+    margin-right: 5px; 
+    width: 50px;
+    height: 4px;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255,.5);
+    transition: all .5s;
+    cursor: pointer;
+  }
+
+  #{{DataId}} .bottomdots-2 .{{DataId}}dots span {
+    display: block;
+    margin-right: 10px; 
+    width: 10px;
+    height: 10px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255,.5);
+    transition: all .5s;
+    cursor: pointer;
+  }
+  #{{DataId}} .swipe_banner li {
+    position: relative;
+    width: 100%;
+  }
+  #{{DataId}} .bottomdots .active{
+    background-color:rgba(255, 255, 255,1);
+    width: 70px;
+  }
+  #{{DataId}} .bottomdots-2 .{{DataId}}dots .active {
+    background-color:rgba(255, 255, 255,1);
+  }
+
+
+  #{{DataId}} .swipe_banner .swipe_banner_content .watch_btn,
+  #{{DataId}} .swipe_banner .swipe_banner_content .dataA {
+    padding: 12px 38px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 32px;
+    color: {{ section.settings.banner_quiz_btn_text_color }};
+    border: 1px solid {{ section.settings.banner_quiz_btn_border_color }};
+    border-radius: {% if section.settings.banner_quiz_btn_border_radius != blank %} {{ section.settings.banner_quiz_btn_border_radius }} {% else %} var(--button_border_radius) {% endif %};
+    background: {{section.settings.banner_quiz_btn_bg}};
+  }
+  #{{DataId}} .swipe_banner .swipe_banner_content .watch_btn {
+    cursor: normal;
+  }
+
+  #{{DataId}} .swipe_banner .swipe_banner_content .watch_btn:hover,
+  #{{DataId}} .swipe_banner .swipe_banner_content .dataA:hover {
+    background: {% if section.settings.banner_quiz_btn_hover_bg != blank %} {{section.settings.banner_quiz_btn_hover_bg}} {% else %} var(--light_color) {% endif %} !important;
+    border: 1px solid {% if section.settings.hover_border_color != blank %} {{section.settings.hover_border_color}} {% else %} var(--light_color) {% endif %} !important;
+    color: {{section.settings.banner_quiz_btn_hover_txt_color}} !important;
+  }
+
+  #{{DataId}} .no-pointer {
+    cursor: auto;
+  }
+
+
+  #{{DataId}} .swipe_banner .swipe_banner_content{
+    width: 100%; 
+    max-width: 1208px; 
+    display: flex;
+    flex-direction: column;   
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;  
+    color: #333;
+  }
+  @media(max-width: 1208px) {
+    #{{DataId}} .swipe_banner .swipe_banner_content {
+      padding: 0 18.54vw;
+    }
+  }
+  @media (max-width:1919px) {
+
+    #{{DataId}} .{{DataId}}dots{
+      height: 10px;
+    }
+    #{{DataId}} .{{DataId}}dots span{ 
+      width: 4vw;
+      height: 4px;
+      border-radius: .5vw;
+    }
+    #{{DataId}} .bottomdots .active{
+      width: 6vw;
+    }
+    #{{DataId}} .{{DataId}}dots .bottomdots-2 span {
+      width: 10px;
+      height: 10px;
+      border-radius: 10px;
+    }
+    #{{DataId}} .bottomdots-2 .active{
+      width: 10px;
+    }
+  }
+  @media(min-width: 769px) {
+    #{{DataId}} .swipe_banner li .top_left {
+      top: {{vertical_position}};
+      align-items: flex-start;
+      text-align: left;
+    }
+    #{{DataId}} .swipe_banner li .top_middle {
+      top: {{vertical_position}};
+      align-items: center;
+      text-align: center;
+    }
+    #{{DataId}} .swipe_banner li .top_right {
+      top: {{vertical_position}};
+      align-items: flex-end;
+      text-align: right;
+    }
+    #{{DataId}} .swipe_banner li .center_left {
+      align-items: flex-start;
+      text-align: left;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+    #{{DataId}} .swipe_banner li .center_middle {
+      align-items: center;
+      text-align: center;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+    #{{DataId}} .swipe_banner li .center_right {
+      align-items: flex-end;
+      text-align: right;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+    #{{DataId}} .swipe_banner li .bottom_left {
+      align-items: flex-start;
+      text-align: left;
+      bottom: {{vertical_position}};
+    }
+    #{{DataId}} .swipe_banner li .bottom_middle {
+      align-items: center;
+      text-align: center;
+      bottom: {{vertical_position}};
+    }
+    #{{DataId}} .swipe_banner li .bottom_right {
+      align-items: flex-end;
+      text-align: right;
+      bottom: {{vertical_position}};
+    }
+  }
+  @media (max-width:768px) {
+    #{{DataId}} { 
+      {% if section.settings.mobile_box_margin != blank %}
+      margin: {{ section.settings.mobile_box_margin }};
+      {% else %}
+      margin: 0 auto;
+      {% endif %} 
+    } 
+    #{{DataId}} .{{DataId}}dots{
+      height: 10px;
+    }
+    #{{DataId}} .{{DataId}}dots span{ 
+      width: 30px;
+      height: 5px;
+      border-radius: 2.5px;
+    }
+    #{{DataId}} .{{DataId}}dots .bottomdots-2 span{ 
+      width: 10px;
+      height: 10px;
+      border-radius: 10px;
+    }
+    #{{DataId}} .bottomdots .active{
+      width: 40px;
+    }
+    #{{DataId}} .bottomdots-2 .active{
+      width: 10px;
+    }
+    #{{DataId}} .slick-next,
+    #{{DataId}} .slick-prev{
+      display: none !important;
+    }
+    #{{DataId}} .component_count_timer_div {
+      margin-bottom: 20px;
+    }
+    #{{DataId}} .swipe_banner .swipe_banner_content{ 
+      width: 100%;
+      align-items: center !important;
+      text-align: center !important;
+      padding: 0 10px;
+    }
+    #{{DataId}} .swipe_banner .mobile_top_middle {
+      top: {{ mobile_vertical_position }};
+    }
+    #{{DataId}} .swipe_banner  .mobile_center_middle {
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+    #{{DataId}} .swipe_banner .mobile_bottom_middle {
+      bottom: {{ mobile_vertical_position }};
+    }
+    #{{DataId}} .swipe_banner .swipe_banner_content .swiper_title_text{
+      font-size: 24px;
+    }
+    #{{DataId}} .swipe_banner .swipe_banner_content  .swiper_banner_text {
+      font-size: 16px;
+      margin-top: 10px;
+    }
+    #{{DataId}} .swipe_banner .swipe_banner_content  .swiper_banner_desc {
+      font-size: 14px;
+      margin-top: 8px;
+    }
+    #{{DataId}} .swipe_banner .swipe_banner_content .watch_btn,
+    #{{DataId}} .swipe_banner .swipe_banner_content .dataA {
+      padding: 5px 14px;
+      font-size: 14px;
+      margin-top: 20px;
+    }
+  }
+</style>
+<section id="{{ DataId }}" class="component_banner {{ section.settings.custom_class }}">
+  <button type="button" data-role="none" class="slick-arrow slick-prev" data-reactid="561">
+    {% if section.settings.swipe_left != blank %}
+      <img class="lazyload" data-src="{{ section.settings.swipe_left | img_url: '' }}" alt="">
+    {% else %}
+      {% render 'component_left_arrow' %}
+    {% endif %}
+  </button>
+
+  <ul class="swipe_banner">
+    {% for item in swipe_blocks %}
+      <li class="swipe_banner_li_{{forloop.index}}">
+        <a 
+          id="masterBanner{{forloop.index}}" 
+          {% if item.settings.banner_quiz_btn != blank or item.settings.link == blank %}
+          href="javascript:void(0)"
+          class="no-pointer" 
+          {% else %} 
+          data-href="{{item.settings.link}}" 
+          href="{{item.settings.link}}" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          {% endif %}
+        >
+          <script defer async>
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+              'masterBanner{{forloop.index}}': {
+                id: 'masterBanner{{forloop.index}}', // banner ID, case sensitive
+                name: '{{item.settings.promotionName}}', {% comment %} // for example: 200531banner, <update date>+<image info>(less than 3 word) {% endcomment %}
+                creative: '', // space blank
+                position: '{{item.settings.position}}', // static/dynamic, static: picture, dynamic: video/gif
+              }
+            });
+          </script>
+          <div class="swipe_banner_content {{ section.settings.banner_direction }} {{ section.settings.mobile_banner_direction }}" >
+            {% if item.settings.has_count_timer %}
+              <div class="component_count_timer_div">
+                {% render 'component_count_timer_v2',
+                  index: forloop.index,
+                  startTime: item.settings.startTime,
+                  endTime: item.settings.endTime
+                %}
+              </div>
+            {% endif %}
+
+            {% if item.settings.swipe_title != blank %}
+              <h1 class="swiper_title_text">
+                {{ item.settings.swipe_title }}
+              </h1>
+            {% endif %}
+
+            {% if item.settings.banner_text != blank %}
+              <div class="swiper_banner_text">
+                {{ item.settings.banner_text }}
+              </div>
+            {% endif %}
+
+            {% if item.settings.banner_desc != blank %}
+              <p  class="swiper_banner_desc">
+                {{ item.settings.banner_desc }}
+              </p>
+            {% endif %}
+
+            {% if item.settings.banner_quiz_btn != blank %}
+              <a 
+                class="
+                  {% if item.settings.link != blank %}
+                    dataA 
+                  {% else %}
+                    watch_btn 
+                  {% endif %}" 
+                {% if item.settings.link != blank %} 
+                  data-href="{{item.settings.link}}" 
+                  href="{{item.settings.link}}" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                {% else %}
+                href="javascript:void(0)" 
+                {% endif %} 
+                data-promotionName="{{item.settings.promotionName}}" 
+                data-index="{{forloop.index}}" 
+                data-creative="{{item.settings.creative}}" 
+                data-position="{{item.settings.position}}" 
+              >
+                {{ item.settings.banner_quiz_btn }}
+              </a>
+            {% endif %}
+          </div>
+          <picture>
+            <source
+              media="(min-width: 769px)"
+              alt="{{ item.settings.swipe_src_pc.alt }}"
+              srcset="{{ item.settings.swipe_src_pc | img_url: '3840x' }}"
+              width="{{ 3840 }}"
+              {% if item.settings.swipe_src_pc.aspect_ratio != blank %}
+                height="{{ 3840 | divided_by: item.settings.swipe_src_pc.aspect_ratio }}"
+              {% endif %}
+            />
+            <img
+              class=""
+              src="{{ item.settings.swipe_src_mob | img_url: '750x' }}"
+              alt="{{ item.settings.swipe_src_mob.alt }}"
+              width="{{ 750 }}"
+              {% if item.settings.swipe_src_mob.aspect_ratio != blank %}
+                height="{{ 750 | divided_by: item.settings.swipe_src_mob.aspect_ratio }}"
+              {% endif %}
+            />
+          </picture>
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+
+  <button type="button" data-role="none" class="slick-arrow slick-next" data-reactid="561">
+    {% if section.settings.swipe_right != blank %}
+    <img data-src="{{section.settings.swipe_right | img_url: ''}}" alt="" class="lazyload">
+    {% else %}
+    {% render 'component_right_arrow' %}
+    {% endif %}
+  </button>
+
+
+  {% if section.settings.dotsshow == true %}
+  {% if  swipe_blocks.size > 1%}
+    <div class="bottomdots {% if section.settings.dot_style == '2' %}bottomdots-2{% endif %}">
+      {% for item in swipe_blocks%}
+        <div class="{{DataId}}dots">
+          <span></span>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+  {% endif %}
+</section>
+<script>
+  $(document).ready(function(){
+
+    // 定时器  index: 代表第几个 sold_txt: 按钮售罄的文案, flag: 代表是否为超出时间范围
+    window["component_count_timer_{{'shopify-section-' | append: section.id}}"] = function(index,sold_txt,flag) {
+      $(`#{{DataId}} .swipe_banner_li_${index} .component_count_timer_div`).hide()
+    }
+    $('#{{DataId}} .dataA, #{{DataId}} .dataB').click(function(e){
+      e.stopPropagation()
+      window.dataLayer.push({
+        "event": "eeEvent",
+        "eventCategory": "promotion",
+        'eventAction': 'click',
+        "eventLabel": 'masterBanner'+$(this).attr('data-index'),
+        "nonInteraction": false,
+        "ecommerce": {
+          "promoClick": {
+            "promotions": [{
+              "id": 'masterBanner'+$(this).attr('data-index'),
+              "name": $(this).attr('data-promotionName'),
+              "creative": $(this).attr('data-creative'),
+              "position": $(this).attr('data-position')
+            }]
+          }
+        }
+      });
+    });
+
+    // 滑动模块
+    $("#{{DataId}} .swipe_banner").slick({
+      autoplay: true,
+      speed: 1000,
+      autoplaySpeed: 5000,
+      dots:true,
+      pauseOnHover:false,
+      appendDots:"{{DataId}}dots",
+      arrows:true,
+      prevArrow: $('#{{DataId}} .slick-prev'),
+      nextArrow: $('#{{DataId}} .slick-next'),
+    });
+
+
+
+    $('.{{DataId}}dots').eq(0).find('span').addClass('active')
+    
+    $("#{{DataId}} .swipe_banner").on('beforeChange', function(event, slick, currentSlide, nextSlide){
+      $('.{{DataId}}dots span').removeClass('active')
+      $('.{{DataId}}dots').eq(nextSlide).find('span').addClass('active')
+    });
+  
+    $('.{{DataId}}dots').on('click',function(e){
+      e.stopPropagation()
+      $('#{{DataId}} .swipe_banner').slick('slickGoTo',$(this).index());
+    })
+  
+  });
+</script>
+{% schema %}
+{
+  "name": "component_banner_v2",
+  "presets": [
+    {
+      "name": "component_banner_v2"
+    }
+  ],
+  "settings": [
+    {
+      "type": "header",
+      "content": "Banner区域参数"
+    },
+		{
+			"type": "text",
+			"id": "max_width",
+			"label": "Banner盒子最大宽度",
+			"info": "可以是百分比可以是固定的像素，内容区域会默认居中",
+			"default": "100%"
+		},
+    {
+      "type": "text",
+      "id": "box_margin",
+      "label": "Banner的边距"
+    },
+    {
+      "type": "text",
+      "id": "mobile_box_margin",
+      "label": "Mobile端Banner的边距"
+    },
+    {
+      "type": "header",
+      "content": "全局控制是否显示区域"
+    },
+    {
+      "type": "checkbox",
+      "id": "dotsshow",
+      "label": "banner分页器是否显示",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "切换器/分页器样式"
+    },
+		{
+      "type": "image_picker",
+      "id": "swipe_left",
+      "label": "轮播图左箭头",
+      "info": "有默认值，并支持自定义上传"
+    },
+    {
+      "type":"image_picker",
+      "id":"swipe_right",
+      "label": "轮播图右箭头",
+      "info": "有默认值，并支持自定义上传"
+    },
+		{
+			"type": "select",
+			"id": "dot_style",
+			"label": "分页器样式",
+			"options": [
+				{
+					"label": "1",
+					"value": "1"
+				},
+				{
+					"label": "2",
+					"value": "2"
+				}
+			],
+			"default": "1"
+		},
+    {
+      "type": "header",
+      "content": "Banner内容区"
+    },
+    {
+      "type":"select",
+      "id":"banner_direction",
+      "label": "内容区域垂直水平位置",
+      "options":[
+        {
+          "value":"top_left",
+          "label":"上左"
+        },
+        {
+          "value":"top_middle",
+          "label":"上中"
+        },
+        {
+          "value":"top_right",
+          "label":"上右"
+        },
+        {
+          "value":"center_left",
+          "label":"中左"
+        },
+        {
+          "value":"center_middle",
+          "label":"居中"
+        },
+        {
+          "value":"center_right",
+          "label":"中右"
+        },
+        {
+          "value":"bottom_left",
+          "label":"下左"
+        },
+        {
+          "value":"bottom_middle",
+          "label":"下中"
+        },
+        {
+          "value":"bottom_right",
+          "label":"下右"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "mobile_banner_direction",
+      "label": "Mobile端内容区域垂直位置",
+      "options":[
+        {
+          "value":"mobile_top_middle",
+          "label":"上"
+        },
+        {
+          "value":"mobile_center_middle",
+          "label":"中"
+        },
+        {
+          "value":"mobile_bottom_middle",
+          "label":"下"
+        }
+      ],
+      "default": "mobile_top_middle"
+    },
+    {
+      "type": "color",
+      "id": "swipe_title_color",
+      "label": "Banner标题颜色",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "banner_text_color",
+      "label": "Banner副标题颜色",
+      "default": "#ffffff"
+    },
+    {
+      "type":"color",
+      "id":"banner_desc_color",
+      "label": "Banner描述颜色",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "按钮区域"
+    },
+    {
+      "type": "color",
+      "id": "banner_quiz_btn_text_color",
+      "label": "quiz(页面跳转)按钮文案颜色",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "banner_quiz_btn_border_color",
+      "label": "quiz(页面跳转)按钮边框颜色",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "banner_quiz_btn_bg",
+      "label": "quiz(页面跳转)按钮背景色"
+    },
+    {
+      "type": "text",
+      "id": "banner_quiz_btn_border_radius",
+      "label": "quiz(页面跳转)按钮边框圆角",
+      "default": "70px"
+    },
+    {
+      "type": "color",
+      "id": "banner_quiz_btn_hover_bg",
+      "label": "hover时按钮的高亮色"
+    },
+    {
+      "type": "color",
+      "id": "hover_border_color",
+      "label": "hover时按钮边框颜色"
+    },
+    {
+      "type": "color",
+      "id": "banner_quiz_btn_hover_txt_color",
+      "label": "hover时按钮文案颜色",
+      "default": "#fff"
+    },
+    {
+      "type": "header",
+      "content": "倒计时部分"
+    },
+    {
+      "type": "color",
+      "id": "timer_bg",
+      "label": "倒计时背景色",
+      "default": "#fff"
+    },
+    {
+      "type": "color",
+      "id": "timer_color",
+      "label": "倒计时文案的颜色",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "timer_txt_color",
+      "label": "年月日文案颜色",
+      "default": "#000000"
+    }, 
+    {
+      "type": "color",
+      "id": "dot_color",
+      "label": "时间分隔符背景色",
+      "default": "#ffffff"
+    },
+    {
+      "type": "text",
+      "id": "days",
+      "label": "Days的描述文案",
+      "default": "Days"
+    },
+    {
+      "type": "text",
+      "id": "hours",
+      "label": "Hours的描述文案",
+      "default": "Hours"
+    },
+    {
+      "type": "text",
+      "id": "minutes",
+      "label": "Minutes的描述文案",
+      "default": "Minutes"
+    },
+    {
+      "type": "text",
+      "id": "seconds",
+      "label": "Seconds的描述文案",
+      "default": "Seconds"
+    },
+    {
+      "type": "header",
+      "content": "开发相关"
+    },
+    {
+      "type": "text",
+      "id": "custom_class",
+      "label": "自定义类名"
+    }
+  ],
+  "blocks":[
+    {
+      "name":"swipe_link",
+      "type":"swipe_link",
+      "settings":[
+        {
+          "type": "header",
+          "content": "产品信息区"
+        },
+        {
+          "type":"image_picker",
+          "id":"swipe_src_pc",
+          "label": "轮播图pc图片",
+          "info": "1920 * 720"
+        },
+        {
+          "type":"image_picker",
+          "id":"swipe_src_mob",
+          "label": "轮播图移动端图片"
+        },
+        {
+          "type":"url",
+          "id":"link",
+          "label": "页面跳转链接"
+        },
+        {
+          "type":"html",
+          "id":"swipe_title",
+          "label": "Banner标题"
+        },
+        {
+          "type":"html",
+          "id":"banner_text",
+          "label": "Banner副标题"
+        },
+        {
+          "type":"html",
+          "id":"banner_desc",
+          "label": "Banner描述"
+        },
+        {
+          "type":"text",
+          "id":"banner_quiz_btn",
+          "label": "quiz(页面跳转)按钮文案"
+        },
+        {
+          "type": "header",
+          "content": "倒计时部分"
+        },
+        {
+          "type": "checkbox",
+          "id": "has_count_timer",
+          "label": "是否需要倒计时",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "startTime",
+          "label": "开始时间",
+          "info": "YYYY/MM/DD"
+        },
+        {
+          "type": "text",
+          "id": "endTime",
+          "label": "结束时间",
+          "info": "YYYY/MM/DD"
+        },
+        {
+          "type": "header",
+          "content": "埋点相关"
+        },
+        {
+          "type":"text",
+          "id":"promotionName",
+          "label": "promotionName"
+        },
+        {
+          "type":"text",
+          "id":"creative",
+          "label": "creative"
+        },
+        {
+          "type":"text",
+          "id":"position",
+          "label": "position"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

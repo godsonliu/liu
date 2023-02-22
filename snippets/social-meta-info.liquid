@@ -1,0 +1,254 @@
+{% if shop.metafields['global']['referrals'].value %}
+  {% assign referrals = shop.metafields['global']['referrals'].value %}
+{% else %}
+  {% assign referrals = shop.metafields['global']['referrals'] %}
+{% endif %}
+
+{% if template contains "product" %}
+  {% if product.metafields.meta.ogimage.value %}
+    {% assign ogimage = product.metafields.meta.ogimage.value %}
+  {% else %}
+    {% assign ogimage = product.metafields.meta.ogimage %}
+  {% endif %}
+
+  {% if product.metafields.meta.ogimageWidth.value %}
+    {% assign ogimageWidth = product.metafields.meta.ogimageWidth.value %}
+  {% else %}
+    {% assign ogimageWidth = product.metafields.meta.ogimageWidth %}
+  {% endif %}
+
+  {% if product.metafields.meta.ogimageHeight.value %}
+    {% assign ogimageHeight = product.metafields.meta.ogimageHeight.value %}
+  {% else %}
+    {% assign ogimageHeight = product.metafields.meta.ogimageHeight %}
+  {% endif %}
+{% elsif template contains "collection" %}
+  {% if collection.metafields.meta.ogimage.value %}
+    {% assign ogimage = collection.metafields.meta.ogimage.value %}
+  {% else %}
+    {% assign ogimage = collection.metafields.meta.ogimage %}
+  {% endif %}
+
+  {% if collection.metafields.meta.ogimageWidth.value %}
+    {% assign ogimageWidth = collection.metafields.meta.ogimageWidth.value %}
+  {% else %}
+    {% assign ogimageWidth = collection.metafields.meta.ogimageWidth %}
+  {% endif %}
+
+  {% if collection.metafields.meta.ogimageHeight.value %}
+    {% assign ogimageHeight = collection.metafields.meta.ogimageHeight.value %}
+  {% else %}
+    {% assign ogimageHeight = collection.metafields.meta.ogimageHeight %}
+  {% endif %}
+{% elsif template contains "article" %}
+  {% if article.metafields.meta.ogimage.value %}
+    {% assign ogimage = article.metafields.meta.ogimage.value %}
+  {% else %}
+    {% assign ogimage = article.metafields.meta.ogimage %}
+  {% endif %}
+
+  {% if article.metafields.meta.ogimageWidth.value %}
+    {% assign ogimageWidth = article.metafields.meta.ogimageWidth.value %}
+  {% else %}
+    {% assign ogimageWidth = article.metafields.meta.ogimageWidth %}
+  {% endif %}
+
+  {% if article.metafields.meta.ogimageHeight.value %}
+    {% assign ogimageHeight = article.metafields.meta.ogimageHeight.value %}
+  {% else %}
+    {% assign ogimageHeight = article.metafields.meta.ogimageHeight %}
+  {% endif %}
+{% elsif template contains "blog" %}
+  {% if blog.metafields.meta.ogimage.value %}
+    {% assign ogimage = blog.metafields.meta.ogimage.value %}
+  {% else %}
+    {% assign ogimage = blog.metafields.meta.ogimage %}
+  {% endif %}
+
+  {% if blog.metafields.meta.ogimageWidth.value %}
+    {% assign ogimageWidth = blog.metafields.meta.ogimageWidth.value %}
+  {% else %}
+    {% assign ogimageWidth = blog.metafields.meta.ogimageWidth %}
+  {% endif %}
+
+  {% if blog.metafields.meta.ogimageHeight.value %}
+    {% assign ogimageHeight = blog.metafields.meta.ogimageHeight.value %}
+  {% else %}
+    {% assign ogimageHeight = blog.metafields.meta.ogimageHeight %}
+  {% endif %}
+{% elsif template contains "page" %}
+  {% if page.metafields.meta.ogimage.value %}
+    {% assign ogimage = page.metafields.meta.ogimage.value %}
+  {% else %}
+    {% assign ogimage = page.metafields.meta.ogimage %}
+  {% endif %}
+
+  {% if page.metafields.meta.ogimageWidth.value %}
+    {% assign ogimageWidth = page.metafields.meta.ogimageWidth.value %}
+  {% else %}
+    {% assign ogimageWidth = page.metafields.meta.ogimageWidth %}
+  {% endif %}
+
+  {% if page.metafields.meta.ogimageHeight.value %}
+    {% assign ogimageHeight = page.metafields.meta.ogimageHeight.value %}
+  {% else %}
+    {% assign ogimageHeight = page.metafields.meta.ogimageHeight %}
+  {% endif %}
+{% endif %}
+{% comment %}
+  Facebook Open Graph meta tags
+{% endcomment %}
+
+<meta name="author" content="{{ shop.name }}">
+<meta property="og:url" content="{{ canonical_url }}">
+<meta property="og:site_name" content="{{ shop.name }}">
+<meta property="fb:page_id" content="{{ referrals.facebook_appId }}" />
+
+{%- capture page_image -%}
+  <meta property="og:image" content="https:{{ page_image | img_url: '600x600' }}">
+  <meta property="og:image:secure_url" content="https:{{ page_image | img_url: '600x600' }}">
+  <meta property="og:image:width" content="{{ page_image.width }}">
+  <meta property="og:image:height" content="{{ page_image.height }}">
+{%- endcapture -%}
+
+{%- if template contains 'product' -%}
+  <meta property="og:type" content="product">
+  <meta property="og:title" content="{{ product.title | strip_html | escape }}">
+  <meta property="og:price:amount" content="{{ product.price | money_without_currency | strip_html | escape }}">
+  <meta property="og:price:currency" content="{{ cart.currency.iso_code }}">
+  {%- if product.featured_image.size > 0 -%}
+    {%- for image in product.images limit: 3 -%}
+      <meta property="og:image" content="http:{{ image.src | product_img_url: '600x' }}">
+      <meta property="og:image:secure_url" content="https:{{ image.src | product_img_url: '600x' }}">
+      {%- if image.alt contains 'youtube' or image.alt contains 'vimeo' -%}
+        {% assign src = image.alt | split: 'src="' %}
+        {% assign src = src[1] | split: '"' | first %}
+        <meta property="og:video" content="{{ src }}">
+      {%- endif -%}
+    {%- endfor -%}
+  {%- elsif product.metafields.meta -%}
+    <meta property="og:image" content="{{ ogimage }}">
+    <meta property="og:image:secure_url" content="{{ ogimage }}">
+    <meta property="og:image:width" content="{{ ogimageWidth }}">
+    <meta property="og:image:height" content="{{ ogimageHeight }}">
+  {%- else -%}
+    {{ page_image }}
+  {%- endif -%}
+{%- elsif template contains 'collection' -%}
+  <meta property="og:type" content="product.group">
+  <meta property="og:title" content="{{ collection.title | strip_html | escape }}">
+  {%- if collection.products_count > 0 -%}
+    {% assign image = collection.products.first.featured_image %}
+    <meta property="og:image" content="http:{{ image.src | product_img_url: '600x' }}">
+    <meta property="og:image:secure_url" content="https:{{ image.src | product_img_url: '600x' }}">
+  {%- elsif collection.metafields.meta -%}
+    <meta property="og:image" content="{{ ogimage }}">
+    <meta property="og:image:secure_url" content="{{ ogimage }}">
+    <meta property="og:image:width" content="{{ ogimageWidth }}">
+    <meta property="og:image:height" content="{{ ogimageHeight }}">
+  {%- else -%}
+    {{ page_image }}
+  {%- endif -%}
+{%- elsif template contains 'article' -%}
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="{{ article.title | strip_html | escape }}">
+  {% assign img_tag = '<' | append: 'img' %}
+  {%- if article.image -%}
+    <meta property="og:image" content="http:{{ article.image | img_url: '600x' }}">
+    <meta property="og:image:secure_url" content="https:{{ article.image | img_url: '600x' }}">
+  {%- elsif article.content contains img_tag -%}
+    {% assign src = article.content | split: 'src="' %}
+    {% assign src = src[1] | split: '"' | first | remove: 'https:' | remove: 'http:' %}
+    {%- if src -%}
+      <meta property="og:image" content="http:{{ src }}">
+      <meta property="og:image:secure_url" content="https:{{ src }}">
+    {%- endif -%}
+  {%- elsif article.metafields.meta -%}
+    <meta property="og:image" content="{{ ogimage }}">
+    <meta property="og:image:secure_url" content="{{ ogimage }}">
+    <meta property="og:image:width" content="{{ ogimageWidth }}">
+    <meta property="og:image:height" content="{{ ogimageHeight }}">
+  {%- else -%}
+    {{ page_image }}
+  {%- endif -%}
+{%- elsif template contains 'blog' -%}
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="{{ blog.title | strip_html | escape }}">
+  {%- if blog.articles_count > 0 -%}
+    {% assign article = blog.articles.first %}
+    {% assign img_tag = '<' | append: 'img' %}
+    {%- if article.image -%}
+      <meta property="og:image" content="http:{{ article.image | img_url: '600x' }}">
+      <meta property="og:image:secure_url" content="https:{{ article.image | img_url: '600x' }}">
+    {%- elsif article.content contains img_tag -%}
+      {% assign src = article.content | split: 'src="' %}
+      {% assign src = src[1] | split: '"' | first | remove: 'https:' | remove: 'http:' %}
+      {%- if src -%}
+        <meta property="og:image" content="http:{{ src }}">
+        <meta property="og:image:secure_url" content="https:{{ src }}">
+      {%- endif -%}
+    {%- elsif blog.metafields.meta -%}
+      <meta property="og:image" content="{{ ogimage }}">
+      <meta property="og:image:secure_url" content="{{ ogimage }}">
+      <meta property="og:image:width" content="{{ ogimageWidth }}">
+      <meta property="og:image:height" content="{{ ogimageHeight }}">
+    {%- else -%}
+      {{ page_image }}
+    {%- endif -%}
+  {%- endif -%}
+{%- elsif template contains 'page' -%}
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="{{ page.title | strip_html | escape }}">
+  {% assign img_tag = '<' | append: 'img' %}
+  {%- if page.content contains img_tag -%}
+    {% assign src = page.content | split: 'src="' %}
+    {% assign src = src[1] | split: '"' | first | remove: 'https:' | remove: 'http:' %}
+    {%- if src -%}
+      <meta property="og:image" content="http:{{ src }}">
+      <meta property="og:image:secure_url" content="https:{{ src }}">
+    {%- endif -%}
+  {%- elsif page.metafields.meta -%}
+    <meta property="og:image" content="{{ ogimage }}">
+    <meta property="og:image:secure_url" content="{{ ogimage }}">
+    <meta property="og:image:width" content="{{ ogimageWidth }}">
+    <meta property="og:image:height" content="{{ ogimageHeight }}">
+  {%- else -%}
+    {{ page_image }}
+  {%- endif -%}
+{%- else -%}
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{{ page_title | escape }}">
+{%- endif -%}
+{%- if template contains 'index' -%}
+  {{ page_image }}
+{%- endif -%}
+{%- if page_description -%}
+  <meta property="og:description" content="{{ page_description | escape }}">
+{%- endif -%}
+
+{% comment %}
+  Twitter user name of the site, based on theme settings
+{% endcomment %}
+{%- if settings.twitter_link != blank -%}
+  <meta name="twitter:site" content="{{ settings.twitter_link | split: 'twitter.com/' | last | prepend: '@' }}">
+{%- endif -%}
+<meta name="twitter:card" content="summary_large_image">
+{%- if template contains 'product' -%}
+  <meta name="twitter:title" content="{{ product.title }}">
+  <meta name="twitter:description" content="{{ product.description | strip_html | truncatewords: 140, '' | escape }}">
+  <meta name="twitter:image" content="https:{{ product.featured_image.src | img_url: '240x' }}">
+  <meta name="twitter:image:width" content="240">
+  <meta name="twitter:image:height" content="240">
+{%- elsif template contains 'article' -%}
+  <meta name="twitter:title" content="{{ article.title }}">
+  <meta name="twitter:description" content="{{ article.excerpt_or_content | strip_html | truncatewords: 140, '' | escape }}">
+  {%- if article.image -%}
+    <meta property="twitter:image" content="http:{{ article.image | img_url: '600x' }}">
+  {%- elsif article.content contains "<img" -%}
+    {% assign src = article.content | split: 'src="' %}
+    {% assign src = src[1] | split: '"' | first | replace: '//cdn', 'http://cdn' | replace: 'http:http://', 'http://' | remove: 'https:' %}
+    {%- if src -%}
+      <meta property="twitter:image" content="{{ src }}">
+    {%- endif -%}
+  {%- endif -%}
+{%- endif -%}

@@ -1,0 +1,621 @@
+{% if shop.metafields.global.PixelId.value %}
+  {% assign PixelId = shop.metafields.global.PixelId.value %}
+{% else %}
+  {% assign PixelId = shop.metafields.global.PixelId %}
+{% endif %}
+
+{% if shop.metafields['global']['country'].value %}
+  {% assign country = shop.metafields['global']['country'].value %}
+{% else %}
+  {% assign country = shop.metafields['global']['country'] %}
+{% endif %}
+
+{% if shop.metafields.global.currency.value %}
+  {% assign currency = shop.metafields.global.currency.value %}
+{% else %}
+  {% assign currency = shop.metafields.global.currency %}
+{% endif %}
+
+{% for item in PixelId %}
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    window.fbq && fbq('init', '{{ item }}');
+    window.fbq && fbq('track', 'PageView');
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id={{ item }}&ev=PageView&noscript=1" /></noscript>
+{% endfor %}
+
+<script>
+  $(document).ready(function(){
+    let contents = []
+    let quantityAllNum = 0
+    document.body.addEventListener('blur', function(e) {
+
+      // de/address1 中不允许出现 packstation
+      {% if country.address1_error_tips != blank %}
+        // 转化成小写
+        const inp = $('#checkout_shipping_address_address1').val();
+        const inputVal = inp ? inp.toLocaleLowerCase() : '';
+        if ((e.target.getAttribute('id') === 'checkout_shipping_address_address1'
+        || e.target.getAttribute('id') === 'checkout_shipping_address_country')
+        && $('#checkout_shipping_address_country').find('option:selected').val() == 'Germany'
+        && inputVal.includes('packstation')) {
+          openModal("{{ country.address1_error_tips }}");
+        }
+      {% endif %}
+
+    }, true)
+
+
+    function getCookie(name) {
+      let nameEQ = name + "=";
+      let ca = document.cookie.split(';');
+      for(let i=0;i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+      }
+      return null;
+    }
+
+    // GA4 datalayer
+    $('body').on('click', '#checkout_reduction_code', function () {
+      window.dataLayer.push({
+        "event": "discount_apply",
+        "page_group": "Concat Information Page",
+        "action": "Discount Code Input"
+      });
+    });
+
+    // code 按钮点击
+    $('body').on('click', '#order-summary .field__input-btn', function () {
+      window.dataLayer.push({
+        "event": "discount_apply",
+        "page_group": "Concat Information Page",
+        "action": "Discount Code Apply"
+      });
+    });
+    let variant_ids = []
+    let quantityNum = 0
+    // 地址填写次数
+    $('body').on('click', '.section--shipping-address input, .section--shipping-address select', function () {
+      {% for line_item in checkout.line_items %}
+        variant_ids.push({{ line_item.variant_id }})
+        quantityNum = {{ line_item.quantity }}
+      {% endfor %}
+        window.fbq && fbq('track', 'InitiateCheckout',
+          {
+            value: {{ checkout.total_price }}/100,
+            num_items: quantityNum,
+            currency:  "{{ currency }}",
+            content_type: 'product_group', 
+            content_ids: variant_ids, // 产品的varaint id
+          }
+        );
+
+      var name = $(this).attr('name');
+      window.dataLayer.push({
+        "event": "input_shipping_address",
+        "page_group": "Concat Information Page",
+        "content_type": name
+      });
+    });
+
+    // 支付信息点击
+    $('body').on('click', '.section--payment-method div[id^=payment-gateway-subfields] .fieldset input', function () {
+      window.dataLayer.push({
+        "event": "fill_in_payment_information",
+        "page_group": "Payment Page"
+      });
+    });
+
+    // 支付方式点击
+    $('body').on('click', '.section--payment-method input[id^=checkout_payment_gateway], .section--billing-address label[for^=checkout_payment_gateway]', function () {
+      var type = '';
+      var id = $(this).attr('id')
+      if (id) {
+        type = $(`label[for=${id}]`).text();
+      } else {
+        type = $(this).text();
+      }
+      window.dataLayer.push({
+        "event": "change_payment_method",
+        "page_group": "Payment Page",
+        "payment_type": type.replace("\n", "").trim()
+      });
+    });
+
+    // billing 地址选择 same or diff
+    $('body').on('click', '.section--billing-address input[id^=checkout_different_billing_address], .section--billing-address label[for^=checkout_different_billing_address]', function () {
+      var diff = false;
+      var forv = $(this).attr('for')
+      if (forv) {
+        diff = $(`#${forv}`).val();
+      } else {
+        diff = $(this).val();
+      }
+      window.dataLayer.push({
+        "event": "select_billing_address",
+        "page_group": "Payment Page",
+        "button_name": diff ? 'differrent' : 'same'
+      });
+    });
+
+    // billing 地址填写次数
+    $('body').on('click', '#section--billing-address__different .field__input-wrapper input, #section--billing-address__different .field__input-wrapper select', function (e) {
+      e.preventDefault();
+      var name = $(this).attr('name');
+      window.dataLayer.push({
+        "event": "input_billing_address",
+        "page_group": "Concat Information Page",
+        "content_type": name
+      });
+    });
+
+    var GA4__CheckoutData = {
+      "ItemsArr": [],
+      "payment_method": $('[data-gateway-name]').first().attr('data-gateway-name'),
+      "shipping_method": $('[data-shipping-method]').first().attr('data-shipping-method'),
+      "ecommerce": {
+        "transaction_id": '{{checkout.order_name}}',
+        "currency": "{{ shop.currency }}",
+        "value": {{checkout.total_price | money_without_currency | remove: "," | remove:"." | append: ".00" | divided_by: 100 }},
+        "tax": {{checkout.tax_price | money_without_currency | remove: "," | remove:"." | append: ".00" | divided_by: 100 }},
+        "shipping": {{checkout.shipping_price | money_without_currency | remove: "," | remove:"." | append: ".00" | divided_by: 100}},
+        {% for item in checkout.discount_applications %}
+          "coupon": '{{ item.title }}',
+        {% endfor %}
+      }
+    };
+
+    var ga_products_data = []
+    
+    $('[data-gateway-name] .input-radio').click(e => {
+      let $Box = e.target.closest('[data-gateway-name]');
+      GA4__CheckoutData.payment_method = $Box.getAttribute('data-gateway-name');
+    })
+    $('[data-shipping-method] .input-radio').click(e => {
+      let $Box = e.target.closest('[data-shipping-method]');
+      GA4__CheckoutData.shipping_method = $Box.getAttribute('data-shipping-method');
+    })
+
+    {% for line_item in checkout.line_items %}
+      GA4__CheckoutData.ItemsArr.push({
+        'item_id': '{{ line_item.sku }}',
+        'item_name': '{{ line_item.product.title }}',
+        'item_brand': '{{ shop.name }}',
+        'item_category': '{{ line_item.product.type }}',
+        'item_variant': '{{ line_item.variant.title }}',
+        'price': {{ line_item.price | money_without_currency | remove: "," | remove:"." | append: ".00" | divided_by: 100 }},
+        'quantity': {{ line_item.quantity }},
+        {% for item in line_item.line_level_discount_allocations %}
+          "coupon": '{{ item.discount_application.title }}',
+          "discount": {{ item.amount }} / 100,
+        {% endfor %}
+      });
+
+      ga_products_data.push({
+        "id": '{{ line_item.sku }}',
+        "name": '{{ line_item.product.title }}',
+        "price": {{ line_item.price | money_without_currency | remove: "," | remove:"." | append: ".00" | divided_by: 100 }},
+        "quantity": {{ line_item.quantity }},
+        "variant": '{{ line_item.variant.title }}',
+        // "position": $productPosition,
+        "brand": '{{ shop.name }}',
+        "category": '{{ line_item.product.type }}'
+      });
+    {% endfor %}
+    if (Shopify.Checkout.page == "thank_you") {
+      {% if first_time_accessed %}
+        try{
+          versaTagObj.onready(function(){ versaTagObj.generateRequest("https://www.eufylife.com/sizmek/add_to_cat"); });
+        } catch(e) {}
+      {% endif %}
+      {% for line_item in order.line_items %}
+        quantityAllNum+={{line_item.quantity}}
+        contents.push({id:{{ line_item.variant_id }}, quantity:{{ line_item.quantity }} })
+      {% endfor %}
+      window.fbq && fbq('track', 'Purchase',
+        {
+          value: {{ checkout.total_price }}/100,
+          num_items: quantityAllNum,
+          currency: "{{ shop.currency }}",
+          content_type: 'product_group', 
+          contents: contents, // 产品的varaint id
+        },
+        {
+          event_id: 'R123456789'
+        }
+      );
+      window.dataLayer.push({
+        "event": "purchase",
+        "page_group": "Successful Page",
+        "ecommerce": {
+          "transaction_id": '{{checkout.order_name}}',
+          "currency": "{{ shop.currency }}",
+          "value": {{checkout.total_price | money_without_currency | remove: "," | remove:"." | append: ".00" | divided_by: 100 }},
+          "tax": {{checkout.tax_price | money_without_currency | remove: "," | remove:"." | append: ".00" | divided_by: 100 }},
+          "shipping": {{checkout.shipping_price | money_without_currency | remove: "," | remove:"." | append: ".00" | divided_by: 100}},
+          "items": GA4__CheckoutData.ItemsArr,
+          {% for item in checkout.discount_applications %}
+            "coupon": '{{ item.title }}',
+          {% endfor %}
+        }
+      });
+    }
+    if (Shopify.Checkout && Shopify.Checkout.step) {
+      $(document).on('click', '.step__footer__continue-btn', function () {
+
+       if(Shopify.Checkout.step === "contact_information") {
+        window.sessionStorage.setItem('checkout_buyer', document.getElementById('checkout_buyer_accepts_marketing').checked)
+       } 
+       else if (Shopify.Checkout.step === "shipping_method") {
+          window.dataLayer.push({
+            "event": "add_shipping_info",
+            "page_group": "Shipping Page",
+            "ecommerce": {
+              "currency": "{{ shop.currency }}",
+              "shipping_tier": GA4__CheckoutData.shipping_method,
+              "items": GA4__CheckoutData.ItemsArr
+            }
+          })
+        } else if (Shopify.Checkout.step === "payment_method") {
+          window.dataLayer.push({
+            "event": "add_payment_info",
+            "page_group": "Payment Page",
+            "position": "Payment Page",
+            "ecommerce": {
+              "currency": "{{ shop.currency }}",
+              "payment_type": GA4__CheckoutData.payment_method,
+              "items": GA4__CheckoutData.ItemsArr
+            }
+          })
+        }
+      })
+    }
+
+   // step 1: contact infomation page load
+   if(Shopify.Checkout && Shopify.Checkout.step === 'contact_information') {
+      let errorTxt = document.querySelector('.field--error .field__message--error')?.innerText
+      console.log(errorTxt);
+      if(errorTxt) {
+        let checkout_buyer = document.getElementById('checkout_buyer_accepts_marketing').checked;
+        dataLayer.push({
+          "event": "uaEvent", // Trigger
+          "eventCategory": 'continue_to_shipping',
+          "eventAction": checkout_buyer ? 1: 0,//订阅勾选框勾选状态取1，没有勾选取0
+          "eventLabel": errorTxt, //Validation Passed表示校验通过，$errorInfo表示校验不通过
+        })
+        window.dataLayer.push({ "event_parameters": null });
+        window.dataLayer.push({
+          "event": "ga4Event",
+          "event_name": "continue_to_shipping",
+          "event_parameters": {
+            "page_group": "Concat Information Page",
+            "subscribe_box": checkout_buyer ? 1: 0,//订阅勾选框勾选状态取1，没有勾选取0
+            "info": errorTxt //Validation Passed表示校验通过，$errorInfo表示校验不通过
+          }
+        })
+      }
+     
+      window.dataLayer.push({
+        "event": "eeEvent",
+        "eventCategory": "EnhancedEcommerce",
+        "eventAction": "Started Order",
+        "nonInteraction": false,
+        "ecommerce": {
+          "checkout": {
+            "actionField": {
+              "step": 1
+            },
+            "products": ga_products_data
+          }
+        }
+      })
+    }
+
+    if(Shopify.Checkout && Shopify.Checkout.step === "shipping_method") {
+      let checkout_buyer = window.sessionStorage.getItem('checkout_buyer') === 'true' ? 1 : 0;
+      dataLayer.push({
+        "event": "uaEvent", // Trigger
+        "eventCategory": 'continue_to_shipping',
+        "eventAction": checkout_buyer,//订阅勾选框勾选状态取1，没有勾选取0
+        "eventLabel": 'Passed', //Validation Passed表示校验通过，$errorInfo表示校验不通过
+      })
+      window.dataLayer.push({ "event_parameters": null });
+      window.dataLayer.push({
+        "event": "ga4Event",
+        "event_name": "continue_to_shipping",
+        "event_parameters": {
+          "page_group": "Concat Information Page",
+          "subscribe_box": checkout_buyer,//订阅勾选框勾选状态取1，没有勾选取0
+          "info": 'Passed' //Validation Passed表示校验通过，$errorInfo表示校验不通过
+        }
+      })
+    }
+
+    // all input click
+    $('body').on('click', '.field__input', function () {
+      var name = $(this).attr('name')
+      window.dataLayer.push({
+        "event": "uaEvent",
+        "eventCategory": "Contact information page",
+        "eventAction": "Input click",
+        "eventLabel": name,
+        "nonInteraction": false
+      })
+    })
+
+    // step 2: fill in contact infomation 
+    $('body').on('blur', '#checkout_email', function () {
+      var val = $(this).val()
+      if(!val) return
+      window.dataLayer.push({
+        "event": "eeEvent",
+        "eventCategory": "EnhancedEcommerce",
+        "eventAction": "Filled In Contact Info",
+        "nonInteraction": false,
+        "ecommerce": {
+          "checkout": {
+            "actionField": {
+              "step": 2
+            },
+            "products": ga_products_data
+          }
+        }
+      })
+    })
+
+    var hasFillAddress = false
+    //  step 3: fill in shipping address
+    $('body').on('blur', '.section--shipping-address .field__input', function () {
+      var addressFieldInput = $('.section--shipping-address .field__input')
+      var inpuValSet = []
+      addressFieldInput.each(function() {
+        var val = $(this).val()
+        val && inpuValSet.push(val)
+      })
+
+      hasFillAddress = (addressFieldInput.length === inpuValSet.length)
+      
+      // 满足当前地址填写栏都有值时
+      if(hasFillAddress) {
+       
+        window.dataLayer.push({
+          "event": "eeEvent",
+          "eventCategory": "EnhancedEcommerce",
+          "eventAction": "Filled In Shipping Address",
+          "nonInteraction": false,
+          "ecommerce": {
+            "checkout": {
+              "actionField": {
+                "step": 3
+              },
+              "products": ga_products_data
+            }
+          }
+        });
+      }
+    })
+
+    // click continue btn
+    $('body').on('click', '.step #continue_button', function () {
+      const currentStep = $('.step').data('step')
+      // step 4: continue to shipping
+      if(currentStep === 'contact_information' && hasFillAddress) {
+        window.dataLayer.push({
+          "event": "eeEvent",
+          "eventCategory": "EnhancedEcommerce",
+          "eventAction": "Continued To Shipping",
+          "nonInteraction": false,
+          "ecommerce": {
+            "checkout": {
+              "actionField": {
+                "step": 4
+              },
+              "products": ga_products_data
+            }
+          }
+        })
+      }
+
+      // step 6: continue to payment
+      if(currentStep === 'shipping_method') {
+        window.dataLayer.push({
+          "event": "eeEvent",
+          "eventCategory": "EnhancedEcommerce",
+          "eventAction": "Continued To Payment",
+          "nonInteraction": false,
+          "ecommerce": {
+            "checkout": {
+              "actionField": {
+                "step": 6
+              },
+              "products": ga_products_data
+            }
+          }
+        })
+      }
+
+      // step 8: pay now
+      if(currentStep === 'review') {
+        window.dataLayer.push({
+          "event": "eeEvent",
+          "eventCategory": "EnhancedEcommerce",
+          "eventAction": "Pay Now",
+          "nonInteraction": false,
+          "ecommerce": {
+            "checkout": {
+              "actionField": {
+                "step": 8
+              },
+              "products": ga_products_data
+            }
+          }
+        })
+      }
+
+    })
+
+    // step 5: choose shipping method : 默认配送方式被锁定时候触发
+    if(Shopify.Checkout && Shopify.Checkout.step === 'shipping_method') {
+      window.dataLayer.push({
+        "event": "eeEvent",
+        "eventCategory": "EnhancedEcommerce",
+        "eventAction": "Choosed Shipping Method",
+        "nonInteraction": false,
+        "ecommerce": {
+          "checkout": {
+            "actionField": {
+              "step": 5
+            },
+            "products": ga_products_data
+          }
+        }
+      })
+    }
+
+    // step 7: set payment info
+    postFillPayInfo()
+    
+    // 由于iframe的隔断机制，通过监听输入框父级类的变化判断当前信用卡信息是否真实填入
+    function postFillPayInfo() {
+      if(Shopify.Checkout && Shopify.Checkout.step === 'payment_method'){
+        let filledSet = new Set()
+        let targetNodesLen = 0
+        const targetNodes = $('[data-credit-card-fields]').find('.field--required')
+        const config = { attributes: true }
+        const observer = new MutationObserver((mutationsList, observer) => {
+          for(let mutation of mutationsList) {
+            if (mutation.type === 'attributes') {
+              const target = $(mutation.target)
+              const name = target.find('iframe').attr('name')
+              if(!target.hasClass('field--active')) {
+                target.hasClass('field--show-floating-label') ? filledSet.add(name) : filledSet.delete(name);
+                
+                if(filledSet.size === targetNodesLen) {
+                  window.dataLayer.push({
+                    "event": "eeEvent",
+                    "eventCategory": "EnhancedEcommerce",
+                    "eventAction": "Set Payment Info",
+                    "nonInteraction": false,
+                    "ecommerce": {
+                      "checkout": {
+                        "actionField": {
+                          "step": 7
+                        },
+                        "products": ga_products_data
+                      }
+                    }
+                  })
+                }
+              }
+            }
+          }
+        })
+
+        targetNodes.each(function () {
+          const unTargetNode = $(this).hasClass('hidden')
+          const targetNode = $(this)[0]
+          if(!unTargetNode) {
+            targetNodesLen += 1
+            observer.observe(targetNode, config)
+          }
+        })
+      }
+    }
+
+    if(Shopify.Checkout && Shopify.Checkout.step === 'thank_you') {
+      // referralTrack 订单支付成功上报
+      let handle = []
+      ga_products_data.map(item => {
+        handle.push(item.id)
+      })
+
+      window.referralTrack && referralTrack('thank_you', handle.join(','), 'page', { 
+        name: 'orderpaid'
+      }, `&user_id=${'{{ checkout.customer.id }}' || Shopify.Checkout.customer_id }&order_id=${'{{ checkout.order_name | upcase }}'}&paied_time=${Date.parse(new Date())}`);
+
+      // order_params 数据上报
+      let reg_source = getCookie('reg_source');
+      let order_id = '{{checkout.order_name}}' || ''; // MACRO;
+      let order_number = '{{checkout.order_id}}' || '';
+      let api_url = '/apps/pp/eufy-home-api/v1/shopping/get_order_params?landing_url=' + encodeURIComponent(reg_source) + '&order_number=' + encodeURIComponent(order_number) + '&order_id=' + encodeURIComponent(order_id);
+
+      if(reg_source){
+        let img = new Image();
+        let xhr = new XMLHttpRequest();
+        let euHost = 'https://security-app-eu.eufylife.com'
+        let usHost = 'https://security-app.eufylife.com'
+        let finalHost = 'GB,UK,EU,DE'.includes(Shopify.country) ? euHost : usHost
+        
+        console.log('get_order_params', api_url)
+        img.src = api_url;
+        xhr.withCredentials = true;
+        xhr.open("GET", api_url);
+        xhr.send();
+
+        $.ajax({
+          url: finalHost + '/v1/shopping/get_order_params?landing_url=' + encodeURIComponent(reg_source) + '&order_number=' + encodeURIComponent(order_number) + '&order_id=' + encodeURIComponent(order_id),
+          type: 'get',
+          headers: {
+            "X-Auth-Token": "565c4233be95a1d606c1b0cdb0200a3a0c2f683d24e17e34"
+          }
+        })
+      } 
+    }
+
+    // radio change
+    $('body').on('change', '.input-radio', function () {
+
+      // step 5: choose shipping method : 用户通过点击切换配送方式时触发
+      if(Shopify.Checkout && Shopify.Checkout.step === 'shipping_method') {
+        window.dataLayer.push({
+          "event": "eeEvent",
+          "eventCategory": "EnhancedEcommerce",
+          "eventAction": "Choosed Shipping Method",
+          "nonInteraction": false,
+          "ecommerce": {
+            "checkout": {
+              "actionField": {
+                "step": 5
+              },
+              "products": ga_products_data
+            }
+          }
+        })
+      }
+      
+      // step 7: change payment method : 用户通过点击切换支付方式
+      if(Shopify.Checkout && Shopify.Checkout.step === 'payment_method') {
+        const name = $(this).parents('.radio-wrapper').data('gateway-name')
+
+        if(name !== 'credit_card') {
+          window.dataLayer.push({
+            "event": "eeEvent",
+            "eventCategory": "EnhancedEcommerce",
+            "eventAction": "Set Payment Info",
+            "nonInteraction": false,
+            "ecommerce": {
+              "checkout": {
+                "actionField": {
+                  "step": 7
+                },
+                "products": ga_products_data
+              }
+            }
+          })
+        }
+      }
+    })
+
+  });
+</script>

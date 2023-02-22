@@ -1,0 +1,184 @@
+{% if section.settings.show_deals_banner %}
+  <section class="index__deals-banner">
+    <div class="bg">
+      {% if section.settings.image != blank %}
+        <div class="img is-hidden-mobile-only">
+          {% render 'image-element',
+            image: section.settings.image,
+            alt: section.settings.image.alt,
+            stretch_width: true
+          %}
+        </div>
+        <div class="img is-hidden-desktop-only">
+          {% render 'image-element',
+            image: section.settings.mobile_image,
+            alt: section.settings.mobile_image.alt,
+            stretch_width: true
+          %}
+        </div>
+      {% endif %}
+      {% if section.settings.video_src != blank %}
+        <video id="DealsVideo_pc" class="lazyload is-hidden-mobile-only" muted aria-hidden="true">
+          <source type="video/mp4" src="{{ section.settings.video_src }}">
+        </video>
+        <video id="DealsVideo_mob" class="lazyload is-hidden-desktop-only" muted playsinline aria-hidden="true">
+          <source type='video/mp4' src='{{ section.settings.mob_video_src }}'>
+        </video>
+      {% endif %}
+    </div>
+    <div class="txt" id="DealsTxt">
+      {% if section.settings.title != blank %}<h3 class="title">{{ section.settings.title }}</h3>{% endif %}
+      <p class="desc">{{ section.settings.desc }}</p>
+      <p id="timeOutTxt">
+        <span id="newDtes"></span>
+        <span class="timeTxt"> {{ section.settings.timeOutTxt }}</span>
+      </p>
+      <p class="tips">{{ section.settings.tips }}</p>
+      <div class="subscribeBox">
+        {% render 'subscribe-form', 
+          type: 'block',
+          show_email_icon: true,
+          snippets_id: section.settings.deals_type
+          deals_type: section.settings.deals_type
+          dataLayer: section.settings.deals_type
+          submit_position: 'top',
+          info_seccess: section.settings.info_seccess
+        %}
+      </div>
+    </div>
+  </section>
+{% endif %}
+
+<script>
+  $(document).ready(function(){
+    {% if section.settings.video_src != blank %}
+      $('#DealsTxt').css("opacity", "0");
+      if (document.body.offsetWidth > 768) {
+        const DealsVideo_pc = document.getElementById("DealsVideo_pc"); 
+        DealsVideo_pc && DealsVideo_pc.play();
+        DealsVideo_pc && DealsVideo_pc.addEventListener("ended", function(){
+          $('#DealsTxt').css("opacity", "1");
+        }, false);
+      } else {
+        const DealsVideo_mob = document.getElementById("DealsVideo_mob");
+        DealsVideo_mob && DealsVideo_mob.play();
+        DealsVideo_mob && DealsVideo_mob.addEventListener("ended", function(){
+          $('#DealsTxt').css("opacity", "1");
+        }, false);
+      }
+    {% endif %}
+
+    {% if section.settings.ends_time %}
+      const endsTime = new Date("{{ section.settings.ends_time }}").valueOf();
+      timeLine = setInterval(function() {
+        let nowTime = new Date().getTime();
+        let distance = endsTime - nowTime;
+        if (distance >= 0) {
+          // 展示倒计时
+          let days = Math.floor(distance / (1000 * 60 * 60 * 24));
+          let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+          let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+          if (days <= 3) {
+            $('#timeOutTxt').css({"opacity": "1", "height": "auto"});
+          }
+          if (days === 0) {
+            $('#timeOutTxt .timeTxt').hide();
+            $('#newDtes').html(`${hours} {{ section.settings.hours }} ${minutes} {{ section.settings.minutes }} ${seconds} {{ section.settings.seconds }}`);
+          } else if (days === 1) {
+            $('#newDtes').html(`${days} {{ section.settings.day }}`);
+          } else if(days <= 3) {
+            $('#newDtes').html(`${days} {{ section.settings.days }}`);
+          } else {
+            $('#timeOutTxt').hide();
+          }
+        }
+      }, 1000);
+    {% endif %}
+  })
+</script>
+
+{% schema %}
+  {
+    "name": "index__deals-banner",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "show_deals_banner",
+        "label": "show deals banner",
+        "default": false
+      }, {
+        "type": "text",
+        "id": "title",
+        "label": "title"
+      }, {
+        "type": "text",
+        "id": "desc",
+        "label": "desc"
+      }, {
+        "type": "text",
+        "id": "tips",
+        "label": "tips"
+      }, {
+        "type": "text",
+        "id": "ends_time",
+        "label": "ends_time"
+      }, {
+        "type": "text",
+        "id": "timeOutTxt",
+        "label": "timeOutTxt"
+      }, {
+        "type": "text",
+        "id": "days",
+        "label": "days",
+        "default": "DAYS"
+      }, {
+        "type": "text",
+        "id": "day",
+        "label": "day",
+        "default": "DAY"
+      }, {
+        "type": "text",
+        "id": "hours",
+        "label": "hours",
+        "default": "hours"
+      }, {
+        "type": "text",
+        "id": "minutes",
+        "label": "minutes",
+        "default": "minutes"
+      }, {
+        "type": "text",
+        "id": "seconds",
+        "label": "seconds",
+        "default": "seconds"
+      }, {
+        "type": "text",
+        "id": "info_seccess",
+        "label": "info_seccess"
+      }, {
+        "type": "text",
+        "id": "deals_type",
+        "label": "deals_type"
+      }, {
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image",
+        "info": "1800 x 900px recommended"
+      }, {
+        "type": "image_picker",
+        "id": "mobile_image",
+        "label": "Mobile Image",
+        "info": "900 x 1800px recommended"
+      }, {
+        "type": "text",
+        "id": "video_src",
+        "label": "video_src"
+      }, {
+        "type": "text",
+        "id": "mob_video_src",
+        "label": "mob_video_src"
+      }
+    ]
+  }
+{% endschema %}

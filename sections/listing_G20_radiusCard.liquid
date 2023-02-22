@@ -1,0 +1,83 @@
+
+{% assign DataId = section.settings.data_id %}
+{% assign custom_css = section.settings.custom_css %}
+{% if product.metafields['global'][DataId].value %}
+  {% assign G20_radiusCard = product.metafields['global'][DataId].value %}
+{% else %}
+  {% assign G20_radiusCard = product.metafields['global'][DataId] %}
+{% endif %}
+
+<!-- 
+  is-hidden-mobile-only  只在移动端隐藏
+  is-hidden-desktop-only 只在PC端隐藏
+-->
+{%- if G20_radiusCard.data != blank -%}
+  <div class="G20_radiusCard" id="{{DataId}}">
+    <div class="flex_box">
+      {%- for item in G20_radiusCard.data -%}
+        <div class="flex_item is-reverse-{{item.reverse}}">
+          <div class="text_container">
+            <p class="main_title">{{ item.main_title }}</p>
+            <p class="sub_title"> {{ item.sub_title }} </p>
+          </div>
+          <div class="img_container">
+            <img class="lazyload is-hidden-mobile-only"  data-src="{{ item.pc_img }}"  alt="">
+            <img class="lazyload is-hidden-desktop-only" data-src="{{ item.mob_img }}" alt="">
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+{%- endif -%}
+
+<style>
+  #{{DataId}}.G20_radiusCard { width: 100%; color: #2C2C2C }
+  #{{DataId}}.G20_radiusCard .flex_box { width: 100%; margin: 0 auto; color: #2C2C2C; display: flex; flex-wrap: wrap; justify-content: center; }
+  #{{DataId}}.G20_radiusCard .flex_box .flex_item { width: 100%; display: flex; align-items: center; flex-wrap: wrap; }
+  #{{DataId}}.G20_radiusCard .flex_box .is-reverse-true { flex-direction: row-reverse; }
+  #{{DataId}}.G20_radiusCard .img_container { width: 50%; }
+  #{{DataId}}.G20_radiusCard .img_container img { width: 100%; display: block; }
+  #{{DataId}}.G20_radiusCard .text_container { width: 50%; }
+  #{{DataId}}.G20_radiusCard .text_container .main_title { font-size: calc(40 / 1920 * 100vw); font-weight:700; margin-left: 32.29%; width: 38%; min-width: 356px; line-height: 1.2; }
+  #{{DataId}}.G20_radiusCard .text_container .sub_title { margin-top: 18px; font-size: calc(18 / 1920 * 100vw); font-weight:600; margin-left: 32.29%; width: 51.87%; }
+  #{{DataId}}.G20_radiusCard .flex_box .is-reverse-true .text_container .main_title { margin-left: 17.7%; width: 37.08%; min-width: 356px; }
+  #{{DataId}}.G20_radiusCard .flex_box .is-reverse-true .text_container .sub_title { margin-left: 17.7%; width: 46.04%; min-width: 442px; }
+
+  @media (max-width: 767px) {
+    #{{DataId}}.G20_radiusCard { padding:0; width: 100%; color: #2C2C2C }
+    #{{DataId}}.G20_radiusCard .section_title { font-size: 30px; font-weight: 700; text-align: center; margin-bottom: 40px; }
+    #{{DataId}}.G20_radiusCard .flex_box { width: 100%; }
+    #{{DataId}}.G20_radiusCard .flex_box .flex_item { width: 100%; flex-direction: column-reverse; }
+    #{{DataId}}.G20_radiusCard .img_container { width: 100%; }
+    #{{DataId}}.G20_radiusCard .text_container { width: 100%; text-align: center; padding:25px 0 40px; }
+    #{{DataId}}.G20_radiusCard .text_container .main_title { font-size: 24px; font-weight:700; width: 100%; min-width: 100vw; margin-left: 0; }
+    #{{DataId}}.G20_radiusCard .text_container .sub_title  { margin-top: 10px; font-size: 13px; width: 100%; min-width: 100vw; margin-left: 0; padding:0 36px; }
+    #{{DataId}}.G20_radiusCard .flex_box .is-reverse-true .text_container .main_title { min-width: 100vw; margin-left: 0; }
+    #{{DataId}}.G20_radiusCard .flex_box .is-reverse-true .text_container .sub_title { min-width: 100vw; margin-left: 0; }
+  }
+
+  {%- if custom_css != blank -%} {{ custom_css }} {% endif %}
+</style>
+
+{% schema %}
+
+{
+  "name": "G20_radiusCard",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Custom CSS",
+      "info": "自定义样式（注意：请按照标准的css语法添加样式）"
+    },
+    {
+      "type": "text",
+      "id": "data_id",
+      "label": "metafields data id",
+      "default": "G20_radiusCard"
+    }
+  ]
+}
+
+{% endschema %}
+

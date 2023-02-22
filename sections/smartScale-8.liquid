@@ -1,0 +1,38 @@
+{% if template contains 'page' %}
+  {% if page.metafields['global']['banner8'].value %}
+    {% assign banner8 = page.metafields['global']['banner8'].value %}
+  {% else %}
+    {% assign banner8 = page.metafields['global']['banner8'] %}
+  {% endif %}
+{% else %}
+  {% if product.metafields['global']['banner8'].value %}
+    {% assign banner8 = product.metafields['global']['banner8'].value %}
+  {% else %}
+    {% assign banner8 = product.metafields['global']['banner8'] %}
+  {% endif %}
+{% endif %}
+
+<section class="smartScale-8">
+  <div class="bg">
+    <img class="lazyload is-hidden-mobile-only" data-src="{{ banner8.img_pc }}" alt=""/>
+    <img class="lazyload is-hidden-desktop-only" data-src="{{ banner8.img_mob }}" alt=""/>
+  </div>
+  <div class="box-container">
+    <div class="box-content">
+      <h class="banner-title is-hidden-mobile-only">{{banner8.title_pc}}</h>
+      <h class="banner-title is-hidden-desktop-only">{{banner8.title_mob}}</h>
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "SmartScale P2 Pro Banner8",
+  "presets": [
+    {
+      "category": "SmartScale P2 Pro Banner8 Sections",
+      "name": "SmartScale P2 Pro Banner8"
+    }
+  ],
+  "settings": []
+}
+{% endschema %}

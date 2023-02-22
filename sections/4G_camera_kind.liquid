@@ -1,0 +1,34 @@
+{% if template contains 'page' %}
+  {% if page.metafields['global']['4g_camera_kind'].value %}
+    {% assign lang = page.metafields['global']['4g_camera_kind'].value %}
+  {% else %}
+    {% assign lang = page.metafields['global']['4g_camera_kind'] %}
+  {% endif %}
+{% else %}
+  {% if product.metafields['global']['4g_camera_kind'].value %}
+    {% assign lang = product.metafields['global']['4g_camera_kind'].value %}
+  {% else %}
+    {% assign lang = product.metafields['global']['4g_camera_kind'] %}
+  {% endif %}
+{% endif %}
+
+<section id="{{lang.id | default: 'camera-4g-kind'}}" class="camera-4g-kind">
+  <div class="box-container">
+    <div class="box-header">
+      <h2 class="header-title">{{ lang.title }}</h2>
+      <p class="header-desc">{{ lang.desc }}</p>
+    </div>
+    <div class="img_block">
+      {% render 'lazyload_image',  
+        src: lang.img_pc,
+        additional_classes: "is-hidden-mobile-only"
+        style: "opacity: 0;"
+        alt: {{ lang.desc }} %}
+      {% render 'lazyload_image',
+        src: lang.img_mob,
+        additional_classes: "is-hidden-desktop-only",
+        style: "opacity: 0;"
+        alt: {{ lang.desc }} %}
+    </div>
+  </div>
+</section>

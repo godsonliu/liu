@@ -1,0 +1,836 @@
+{% if page.metafields['global']['quiz-page'].value %}
+  {% assign quiz = page.metafields['global']['quiz-page'].value %}
+{% else %}
+  {% assign quiz = page.metafields['global']['quiz-page'] %}
+{% endif %}
+
+{% if page.metafields['global']['recommend'].value %}
+  {% assign recommend = page.metafields['global']['recommend'].value %}
+{% else %}
+  {% assign recommend = page.metafields['global']['recommend'] %}
+{% endif %}
+
+{% if page.metafields['global']['quiz-page'].value %}
+  {% assign quiz_page = page.metafields['global']['quiz-page'].value %}
+{% else %}
+  {% assign quiz_page = page.metafields['global']['quiz-page'] %}
+{% endif %}
+
+{% if page.metafields['global']['recommend'].value %}
+  {% assign recommend = page.metafields['global']['recommend'].value %}
+{% else %}
+  {% assign recommend = page.metafields['global']['recommend'] %}
+{% endif %}
+
+{% if shop.metafields['global']['storefront_key'].value %}
+  {% assign storefront_key = shop.metafields['global']['storefront_key'].value %}
+{% else %}
+  {% assign storefront_key = shop.metafields['global']['storefront_key'] %}
+{% endif %}
+
+{% assign x8Products =  collections['ap-x8'].products %}
+{% assign gyroProducts =  collections['ap-gyro-laser'].products %}
+{% assign randomProducts =  collections['ap-bounce'].products %}
+{% assign h11Products =  collections['ap-handheld'].products %}
+{% assign S11Products =  collections['ap-stick'].products %}
+{% assign H30Products =  collections['ap-h30'].products %}
+<link rel="stylesheet" href="{{ 'quiz-page.scss.css' | asset_url }}">
+{% style %}
+  .quiz-banner{
+    background: {{ quiz.css-background_color }};
+  }
+  .quiz-banner .dialog-container {
+    background: {{ quiz.css-background_color }};
+  }
+  .dialog-header .dialog-header-icon{ 
+    background: {{ quiz.css-icon-background_color }};
+    color: {{ quiz.css-icon_color }};
+  }
+  .quiz-progressbar .progress-line {
+    background: {{ quiz.css-progress-line_color }};
+  }
+  .quiz-progressbar .bar{
+    background: {{ quiz.css-progress-bar_color }};
+  }
+  .quiz-content .quiz-question{
+    color: {{ quiz.css-title_color }};
+  }
+  .quiz-content .quiz-cards .card-content p{
+    color: {{ quiz.css-txt_color }};
+  }
+  .quiz-content .quiz-cards-col .quiz-card-col .card-content{
+    border: {{ quiz.css-card_border }};
+    background: {{ quiz.css-card_background_color }};
+  }
+  .quiz-content .quiz-cards-row .quiz-card-row .card-content{
+    border: {{ quiz.css-card_border }};
+    background: {{ quiz.css-card_background_color }};
+  }
+  .quiz-content .quiz-cards-col .quiz-card-col .card-content.active, .quiz-content .quiz-cards-col .quiz-card-col .card-content:focus{
+    border: {{ quiz.css-active-card_border }};
+  }
+  .quiz-content .quiz-cards-row .quiz-card-row .card-content.active, .quiz-content .quiz-cards-row .quiz-card-row .card-content:focus{
+    border: {{ quiz.css-active-card_border }};
+  }
+  .button-next{
+    border: {{ quiz.css-nextBtn_border }};
+    background: {{ quiz.css-nextBtn_background_color }};
+  }
+  .button-next .button-text{
+    color: {{ quiz.css-nextBtn_color }};
+  }
+  .button-next.is-disabled:active,.button-next.is-disabled:focus{
+    background: {{ quiz.css-nextBtn_background_color }};
+  }
+  .button-next.is-disabled:active .button-text,.button-next.is-disabled:focus .button-text{
+    color: {{ quiz.css-nextBtn_color }};
+  }
+  .button-next:active,.button-next:focus{
+    background: {{ quiz.css-nextBtn_color }};
+  }
+  .button-next:active .button-text,.button-next:focus .button-text{
+    color: {{ quiz.css-nextBtn_background_color }};
+  }
+  .button-back{
+    border: {{ quiz.css-preBtn_border }};
+    background: {{ quiz.css-preBtn_background_color }};
+  }
+  .button-back .button-text{
+    color: {{ quiz.css-preBtn_color }};
+  }
+  .button-back:active .button-text, .button-back:hover .button-text, .button-back:focus .button-text{
+    color: {{ quiz.css-preBtn_hover_color }};
+  }
+  .recommend-content .recommend-title{
+    color: {{ recommend.css-title_color }};
+  }
+  .recommend-content .recommend-cards .recommend-main-product .txt .product-thumbnail .product-price .discount_p{
+    color: {{ recommend.css-mian_color }};
+  }
+  .recommend-content .recommend-cards .recommend-main-product .txt .product-thumbnail .product-price .normal_p{
+    color: {{ recommend.css-mian_color }};
+  }
+  .recommend-content .recommend-cards .recommend-main-product .txt .product-thumbnail .copyBox{
+    color: {{ recommend.css-mian_color }};
+  }
+  .recommend-content .recommend-cards .recommend-main-product .txt .product-thumbnail .copyBox .copybtn button {
+    color: {{ recommend.css-mian_color }};
+  }
+  .recommend-content .recommend-cards .recommend-main-product .txt .btn-box .learn_more_btn {
+    color: {{ recommend.css-mian_color }};
+    border: {{ recommend.css-mian_border }};
+  }
+  .recommend-content .recommend-cards .recommend-main-product .txt .btn-box .btn {
+    background: {{ recommend.css-mian_color }};
+  }
+  .recommend-content .recommend-cards .recommend-other-product .recommend-product .recommend-product-desp{
+    border: {{ recommend.css-mian_border }};
+  }
+  .recommend-content .recommend-cards .recommend-other-product .recommend-product .recommend-product-desp a{
+    color: {{ recommend.css-mian_color }};
+  }
+  .recommend-content .recommend-cards .recommend-other-product .quiz-again a:hover{ 
+    background: {{ recommend.css-mian_color }};
+  }
+  @media screen and (max-width: 767px){
+    .quiz-content .quiz-cards-col .quiz-card-col .card-content{
+      background: transparent;
+    }
+    .quiz-content .quiz-cards-row .quiz-card-row .card-content{
+      background: transparent;
+    }
+    .quiz-content .quiz-cards-col .quiz-card-col .card-content.active, .quiz-content .quiz-cards-col .quiz-card-col .card-content:focus{
+      border: 2px solid transparent;
+      box-shadow: none;
+    }
+    .quiz-content .quiz-cards-row .quiz-card-row .card-content.active, .quiz-content .quiz-cards-row .quiz-card-row .card-content:focus {
+      border: 2px solid transparent;
+      box-shadow: none;
+    }
+    .quiz-content .quiz-cards-col .quiz-card-col .card-content .img-container{ 
+      border: {{ quiz.css-img_border }};
+      background:  {{ quiz.css-card_background_color }};
+    }
+    .quiz-content .quiz-cards-col .quiz-card-col .card-content.active .img-container, .quiz-content .quiz-cards-col .quiz-card-col .card-content:focus .img-container{ 
+      border: {{ quiz.css-active-card_border }};
+    }
+    .quiz-content .quiz-cards-row .quiz-card-row .card-content.active .img-container, .quiz-content .quiz-cards-row .quiz-card-row .card-content:focus .img-container{
+      border: {{ quiz.css-active-card_border }};
+    }
+    .dialog-body .quiz-content .quiz-cards .card-content p{
+      color: {{ quiz.css-txt_color }};
+    }
+    .recommend-content .recommend-cards .recommend-main-product .btn-box .learn_more_btn{
+      color: {{ recommend.css-mian_color }};
+      border: {{ recommend.css-mian_border }};
+    }
+    .recommend-content .recommend-cards .recommend-main-product .btn-box .btn {
+      background: {{ recommend.css-mian_color }};
+    }
+  }
+{% endstyle %}
+<section class="quiz-banner" >
+  <div class="dialog-wrapper">
+    <div class="dialog-container">
+      <div class="dialog-header">
+        <span class="dialog-title"></span>
+        <!-- <div class="dialog-header-icon">
+          <i class="iconfont">&#xe723;</i>
+        </div> -->
+      </div>
+      <div class="dialog-body">
+        <div class="quiz-container">
+          <div class="quiz-progressbar">
+            <div class="progress-line">
+              <div class="bar">
+              </div>
+            </div>
+          </div>
+          {% for item in quiz.quiz-question %}
+          {% assign type = item.type %}
+            <div class="quiz-content quiz-content-{{ forloop.index }}">
+              <p class="quiz-question">{{item.question}}</p>
+              {% if item.flex and item.flex == "row" %}
+              <div class="quiz-cards quiz-cards-row">
+                {% for option in item.options %}
+                <div class="quiz-card-row">
+                  <div class="card-content card-content-{{forloop.index}}" onclick="chooseOption('{{ item.questionId }}','{{ forloop.index }}','{{type}}')">
+                    <div class="img-container">
+                      <img class="lazyload is-hidden-mobile-only" data-src="{{ option.img_pc }}" alt=""/>
+                      <img class="lazyload is-hidden-desktop-only" data-src="{{ option.img_mob }}" alt=""/>
+                    </div>
+                    <p>{{option.text}}</p>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+              {% else %}
+              <div class="quiz-cards quiz-cards-col">
+                {% for option in item.options %}
+                <div class="quiz-card-col col-{{forloop.length }}">
+                  <div class="card-content card-content-{{forloop.index}}" onclick="chooseOption('{{ item.questionId }}','{{ forloop.index }}','{{type}}')">
+                    <div class="img-container">
+                      <img class="lazyload is-hidden-mobile-only" data-src="{{ option.img_pc }}" alt=""/>
+                      <img class="lazyload is-hidden-desktop-only" data-src="{{ option.img_mob }}" alt=""/>
+                    </div>
+                    <p>{{option.text}}</p>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+              {% endif %}
+            </div>
+          {% endfor %}
+          <div class="recommend-content">
+            <p class="recommend-title">{{recommend.text}}</p>
+            <div class="recommend-cards">
+              <div class="recommend-main-product">
+                <div class="dicount_txt">
+                  <img class="lazyload" data-src="{{ recommend.off_img_pc }}" alt=""/>
+                  <div class="discount_info">
+                    <span class="off_val"></span>
+                    <span>{{ recommend.off_text }}</span>
+                  </div>
+                </div>
+                <div class="img-container">
+                  <a class="product_a"  href="" target="_blank" rel="noopener noreferrer">
+                    <img class="lazyload" data-src="" src="" alt=""/>
+                  </a>
+                </div>
+                <div class="txt">
+                  <div class="product-thumbnail">
+                    <a class="product_a" href="" target="_blank" rel="noopener noreferrer">
+                      <p class="product-title" title=""></p>
+                    </a>
+                    <div class="product-price">
+                      <span class="discount_p">???.??</span>
+                      <span class="normal_p"></span>
+                      <span class="init_p"></span>
+                    </div>
+                    <div class="product-desc">
+                      <p class="desc" data-handle=""></p>
+                    </div>
+                    <div class="copyBox">
+                      <span class="copyAct">
+                        <span class="codeformat">{{ recommend.codeTxt }}</span>
+                        <span class="codeTxt" data-sku=""></span>
+                        <span class="copybtn">
+                          <button type="button" class="clipboard_btn" data-sku="">{{ recommend.copyTxt }}</button>
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="btn-box is-hidden-mobile-only">
+                    <a class="learn_more_btn product_a" data-sku="" href="" target="_blank" rel="noopener noreferrer">
+                        {{recommend.learn-more-txt}}
+                    </a>
+                    <a class="btn recommend_button_buynow" data-sku="" href="" target="_blank" rel="noopener noreferrer">
+                      {{recommend.btn_txt}}
+                    </a>
+                  </div>
+                </div>
+                <div class="btn-box is-hidden-desktop-only">
+                  <a class="learn_more_btn product_a" data-sku="" href="" target="_blank" rel="noopener noreferrer">
+                      {{recommend.learn-more-txt}}
+                  </a>
+                  <a class="btn recommend_button_buynow" data-sku="" href="" target="_blank" rel="noopener noreferrer">
+                    {{recommend.btn_txt}}
+                  </a>
+                </div>
+              </div>
+              <div class="text is-hidden-desktop-only">
+                <p>{{recommend.alternative-choices-text}}</p>
+              </div>
+              <div class="recommend-other-product">
+                <div class="alternative-choices is-hidden-mobile-only">
+                  <a class="alternative-link"  href="javascript:;">
+                    <i class="iconfont">&#xe6bc;</i>
+                  </a>
+                  <p>{{recommend.alternative-choices-text}}</p>
+                </div>
+                <div class="recommend-products">
+                  <div class="recommend-product recommend-product-1">
+                    <div class="recommend-product-img">
+                      <picture>
+                        <img class="lazyload" src="" alt=""/>
+                      </picture>
+                    </div>
+                    <p class="product-title is-hidden-desktop-only" title=""></p>
+                    <div class="recommend-product-desp">
+                      <p class="product-title is-hidden-mobile-only" title="">3434</p>
+                      <a class="learn_more_btn product_a" data-sku="" href="" target="_blank" rel="noopener noreferrer">
+                        {{recommend.learn-more-txt}}
+                      </a>
+                    </div>
+                  </div>
+                  <div class="recommend-product recommend-product-2">
+                    <div class="recommend-product-img">
+                      <picture>
+                        <img class="lazyload" src="" alt=""/>
+                      </picture>
+                    </div>
+                    <p class="product-title is-hidden-desktop-only" title=""></p>
+                    <div class="recommend-product-desp">
+                      <p class="product-title is-hidden-mobile-only" title="">3434</p>
+                      <a class="learn_more_btn product_a" data-sku="" href="" target="_blank" rel="noopener noreferrer">
+                        {{recommend.learn-more-txt}}
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="quiz-again is-hidden-mobile-only">
+                  <a class="quiz-link"  href="javascript:location.reload();">
+                    <i class="iconfont">&#xe6bc;</i>
+                  </a>
+                  <p>{{recommend.quiz-again-text}}</p>
+                </div>
+              </div>
+              <a class="quiz-again-link is-hidden-desktop-only"  href="javascript:location.reload();">
+                <p>{{recommend.quiz-again-text}}</p>
+                <i class="iconfont">&#xe6bc;</i>
+              </a>
+            </div>
+          </div>
+          <div class="quiz-buttons">
+            <button class="button-back" aria-label="{{quiz.prevText}}" onclick="goBackQues()">
+              <div class="button-text" disabled="disabled">
+                <div class="icon">
+                  <i class="iconfont">&#xe6bd;</i>
+                </div>
+                <span>{{quiz.prevText}}</span>
+              </div>
+            </button>
+            <button type="button" class="button-next" aria-label="{{quiz.nextText}}" onclick="goNextQues()">
+              <div class="button-text" disabled="disabled">
+                <span>{{quiz.nextText}}</span>
+                <div class="icon">
+                  <i class="iconfont">&#xe6bc;</i>
+                </div>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+let quesLength = {{ quiz_page.quiz-question.size }}
+let quizObj = {{ quiz_page.quiz-question | json }}
+let recommendRules = {{ recommend.rule | json }}
+let chooseItem = {}  // 用于存放当前选项
+let chooseQues = []  // 用于存放选中问题信息
+let optionList = []
+let totalScore = 0
+let answers = []
+let x8 = []
+let gyro =[]
+let random = []
+let h11 =[]
+let S11 = []
+let H30 =[]
+let products = []
+let skus = []
+var couponsData ={}
+var recommendedProduct = []
+let isUpFlag = false
+
+var param ={}
+{% for item in x8Products %}
+  param = {{item|json}} 
+  param.short_description = {{item.metafields['global'].short_description|json}}
+  if('{{ item.price }}'== 999999999 || {{item.available}} == false){
+    param.price1 = false
+  }else{
+    param.price1 = '{{item.price | money}}'
+    x8.push(param)
+  }
+{% endfor %}
+{% for item in gyroProducts %}
+  param = {{item|json}} 
+  param.short_description = {{item.metafields['global'].short_description|json}}
+  if('{{item.price }}'== 999999999 || {{item.available}} == false){
+    param.price1 = false
+  }else{
+    param.price1 = '{{item.price | money}}'
+    gyro.push(param)
+  }
+{% endfor %}
+{% for item in randomProducts %}
+  param = {{item|json}} 
+  param.short_description = {{item.metafields['global'].short_description|json}}
+  if('{{item.price }}'== 999999999 || {{item.available}} == false){
+    param.price1 = false
+  }else{
+    param.price1 = '{{item.price | money}}'
+    random.push(param)
+  }
+{% endfor %}
+{% for item in h11Products %}
+  param = {{item|json}} 
+  param.short_description = {{item.metafields['global'].short_description|json}}
+  if('{{item.price }}'== 999999999 || {{item.available}} == false){
+    param.price1 = false
+  }else{
+    param.price1 = '{{item.price | money}}'
+    h11.push(param)
+  }
+{% endfor %}
+{% for item in S11Products %}
+  param = {{item|json}} 
+  param.short_description = {{item.metafields['global'].short_description|json}}
+  if('{{item.price }}'== 999999999 || {{item.available}} == false){
+    param.price1 = false
+  }else{
+    param.price1 = '{{item.price | money}}'
+    S11.push(param)
+  }
+{% endfor %}
+{% for item in H30Products %}
+  param = {{item|json}} 
+  param.short_description = {{item.metafields['global'].short_description|json}}
+  if('{{item.price }}'== 999999999 || {{item.available}} == false){
+    param.price1 = false
+  }else{
+    param.price1 = '{{item.price | money}}'
+    H30.push(param)
+  }
+{% endfor %}
+  // init
+init();
+function init(){
+  barInitWidth = 100 / quesLength
+  chooseItem = {}
+  chooseQues = []
+  optionList = []
+  totalScore = 0
+  answers = []
+  products = []
+  skus = []
+  couponsData ={}
+  recommendedProduct = []
+  isUpFlag = false  // 用于标识第二题是否只选了第一个选项“上”
+  $('.progress-line .bar').animate({width: barInitWidth +'%'});
+  $('.button-back').addClass('hidden')
+  $('.button-next').addClass('is-disabled')
+  $('.button-next').removeClass('hidden')
+  $('.recommend-content').removeClass('active')
+  if(x8.length>0){
+    let value = x8[Math.floor(Math.random()*x8.length)]
+    products.push({id:'x8', value: value}) 
+    skus.push(value.variants[0].sku) 
+  }
+
+  if(gyro.length>0){
+    let value = gyro[Math.floor(Math.random()*gyro.length)]
+    products.push({id:'gyro', value: value}) 
+    skus.push(value.variants[0].sku) 
+  }
+
+  if(random.length>0){
+    let value =random[Math.floor(Math.random()*random.length)]
+    products.push({id:'random', value: value}) 
+    skus.push(value.variants[0].sku) 
+  }
+
+  if(h11.length>0){
+    let value =h11[Math.floor(Math.random()*h11.length)]
+    products.push({id:'h11', value: value}) 
+    skus.push(value.variants[0].sku) 
+  }
+
+  if(S11.length>0){
+    let value = S11[Math.floor(Math.random()*S11.length)]
+    products.push({id:'S11', value: value}) 
+    skus.push(value.variants[0].sku) 
+  }
+
+  if(H30.length>0){
+    let value = H30[Math.floor(Math.random()*H30.length)]
+    products.push({id:'H30', value: value}) 
+    skus.push(value.variants[0].sku) 
+  }
+  
+  getDiscountInfo(skus);
+};
+function  chooseOption(questionId, id,type){
+  let obj = quizObj[questionId-1].options[id-1]
+  if(type =='radio'){
+    optionList = []
+    optionList.push(obj)
+    // 将当前选中的参数放置到chooseItem中
+    chooseItem = {"questionId":questionId, "option": optionList}
+    $('.button-next').removeClass('is-disabled')
+    $('.card-content').removeClass('active')
+    $('.quiz-content-'+ questionId +' .card-content-'+ id ).addClass('active')
+  }else{
+    let flag = false
+    let i = -1
+    optionList.map((item,index)=>{
+      if(item.id == obj.id){
+        flag =  true
+        i = index
+      }
+    })
+    // flag 判断对选是选中还是取消，如存在，则取消当前选中，如false则选中
+    if(flag){
+      optionList.splice(i, 1);
+      $('.quiz-content-'+ questionId +' .card-content-'+ id ).removeClass('active')
+    }else{
+      optionList.push(obj)
+      $('.quiz-content-'+ questionId +' .card-content-'+ id ).addClass('active')
+    }
+    // 判断选中长度，等于0时，重置按钮和chooseItem
+    if(optionList.length){
+      // 将当前选中的参数放置到chooseItem中
+      chooseItem = {"questionId":questionId, "option": optionList}
+      $('.button-next').removeClass('is-disabled')
+    }else{
+      // 将当前选中的参数放置到chooseItem中
+      chooseItem = {}
+      $('.button-next').addClass('is-disabled')
+    }
+  }
+}
+function goNextQues(){
+  let answer = []
+  optionList = []
+  if(JSON.stringify(chooseItem) != '{}'){
+    chooseQues.push(chooseItem)
+    if(chooseItem.questionId == '2' && chooseItem.option[0].id == '1' && chooseItem.option.length == 1){
+      isUpFlag = true
+    }
+    let chooseOption = chooseItem.option
+    chooseOption.forEach((item)=>{
+      totalScore = totalScore + parseInt(item.score)
+      answer.push(item.text)
+    })
+    let answerParam ={
+      'question': quizObj[chooseItem.questionId - 1].question,
+      'answer': answer
+    }
+    answers.push(answerParam)
+    window.dataLayer.push({
+      'event': 'answer_questions',
+      'page_group': 'AP help_me_choose Quiz',
+      'action': 'answer_question_'+ chooseQues.length,
+      'answers': JSON.stringify(answers)
+    });
+    let num = chooseQues.length + 1
+    // 进度条高亮
+    $('.progress-line .bar').animate({width: num*barInitWidth +'%'});
+    // 判断chooseQues数组长度大于1时，重置显示的问题、卡片和next按钮样式
+    if(chooseQues.length >= 1){
+      $('.quiz-content-'+chooseItem.questionId).animate({position:'absolute',left: '-1400px'});
+      $('.card-content').removeClass('active')
+      $('.button-next').addClass('is-disabled')
+    }
+    // 显示当前问题
+    $('.quiz-content-'+ num).animate({position:'relative',left:'0px'});
+    // 判断是否最后一个问题，如果是隐藏返回按钮和next按钮，如果不是显示返回按钮
+    if(chooseQues.length  < quesLength ){
+      $('.button-back').removeClass('hidden')
+    }else{
+      recommendProduct()
+      $('.button-back').addClass('hidden')
+      $('.button-next').addClass('hidden')
+      $('.quiz-content-'+chooseItem.questionId).animate({position:'absolute',left: '-1400px'});
+      $('.quiz-content').css('display', 'none');
+      $('.recommend-content').css('display', 'inline-block');
+      
+    }
+  }
+  // 重置chooseItem
+  chooseItem = {} 
+}
+function goBackQues(){
+  // 重置chooseItem
+  chooseItem = {} 
+
+  let chooseOption = chooseQues[chooseQues.length-1].option
+  if(chooseQues.length == 2){ 
+    isUpFlag = false
+  }
+  chooseOption.forEach((item)=>{
+      totalScore = totalScore - parseInt(item.score)
+  })
+  if(chooseQues.length == 1){
+    $('.button-back').addClass('hidden')
+  }
+  let num = chooseQues.length
+  $('.progress-line .bar').animate({width: num*barInitWidth +'%'});
+  // 判断chooseQues数组长度大于1时，重置显示的问题、卡片和next按钮样式
+  let currentNum = num + 1
+  $('.quiz-content-'+ currentNum).animate({position:'absolute',left:'1400px'});
+  $('.card-content').removeClass('active')
+  $('.quiz-content-'+chooseQues[chooseQues.length-1].questionId).animate({position:'relative',left:'0px'});
+  $('.button-next').addClass('is-disabled')
+  // 去掉数组最后一项
+  answers.pop()
+  chooseQues.pop()
+}
+function recommendProduct(){
+  recommendedProduct = []
+  let channels = []
+  // 根据分数获取相应的品类
+  recommendRules.forEach((item)=>{
+    if(item.minscore <= totalScore && item.maxscore >= totalScore){
+      channels = item.channels 
+    }
+  })
+  // 随机获取系列合集
+  var channel = []
+  if(totalScore < 9 && isUpFlag){
+    channel = channels[0]
+  }else{
+    channel = channels[Math.floor(Math.random()*channels.length)];
+  }
+  channel.forEach((item)=>{
+    products.forEach((i)=>{
+      if(i.id == item){
+        let obj = { "productInfo": i.value, "discountInfo": couponsData[i.value.variants[0].sku] }
+        recommendedProduct.push(obj)
+      }
+    })
+  })
+
+  $(".recommend-main-product .img-container .product_a").attr('href', "/products/"+ recommendedProduct[0].productInfo.handle);
+  $(".recommend-main-product .img-container .product_a img").attr('src', recommendedProduct[0].productInfo.featured_image );
+  $(".recommend-main-product .txt .product-thumbnail .product_a").attr('href', "/products/"+ recommendedProduct[0].productInfo.handle);
+  $(".recommend-main-product .txt .product-thumbnail .product_a p").text(recommendedProduct[0].productInfo.title);
+  $(".recommend-main-product .txt .product-thumbnail .product_a p").attr('title',recommendedProduct[0].productInfo.title);
+  $(".recommend-main-product .product_a").attr('href', "/products/"+ recommendedProduct[0].productInfo.handle);
+  $(".recommend-main-product .product_a p").text(recommendedProduct[0].productInfo.title);
+  $(".recommend-main-product .product_a p").attr('title',recommendedProduct[0].productInfo.title);
+  $(".recommend-main-product .txt .product-thumbnail .product-desc p").text(recommendedProduct[0].productInfo.short_description);
+  $(".recommend-main-product .txt .product-thumbnail .product-price .init_p").text(recommendedProduct[0].productInfo.price1);
+  if(recommendedProduct[0] && recommendedProduct[0].discountInfo && recommendedProduct[0].discountInfo.length > 0){
+    let discountInfo = recommendedProduct[0].discountInfo[0]
+    var discount = discountInfo.value && (parseInt(discountInfo.value.replace('-', '')) * 100);
+    var value_style = discountInfo.value_style && discountInfo.value_style;
+    var discount_text = discountInfo.value_type === 'fixed_amount' ? value_style : `${discount / 100}%`;
+    $(`.recommend-main-product .dicount_txt .off_val`).text(discount_text);
+    $(`.recommend-main-product .dicount_txt`).css('visibility', 'visible');
+    $(`.recommend-main-product .copyBox`).css('display', 'block');
+    $(`.recommend-main-product .codeTxt`).text(discountInfo.title);
+    $(`.recommend-main-product .discount_p`).text(Shopify.formatMoney(parseFloat(discountInfo.variant_price4wscode) * 100, $('body').data('money-format')) );
+    $(`.recommend-main-product .normal_p`).text(Shopify.formatMoney(parseFloat(discountInfo.variant_price) * 100, $('body').data('money-format')) );
+    $(`.recommend-main-product .init_p`).text('');
+  }else{
+    $(`.recommend-main-product .dicount_txt`).css('visibility', 'hidden');
+    $(`.recommend-main-product .copyBox`).css('display', 'bone');
+    $(`.recommend-main-product .codeTxt`).text('');
+    $(`.recommend-main-product .discount_p`).text('');
+    $(`.recommend-main-product .normal_p`).text('');
+  }
+  if(recommendedProduct && recommendedProduct[1] && recommendedProduct[1].productInfo){
+    $(".recommend-product-1").css('display', 'flex');
+    $(".recommend-product-1 .recommend-product-img img").attr('src', recommendedProduct[1].productInfo.featured_image );
+    $(".recommend-product-1  .recommend-product-desp .product_a").attr('href', "/products/"+ recommendedProduct[1].productInfo.handle);
+    $(".recommend-product-1  .recommend-product-desp .product_a").attr('data-sku', recommendedProduct[1].productInfo.variants[0].sku);
+    $(".recommend-product-1 .product-title").text(recommendedProduct[1].productInfo.title);
+    $(".recommend-product-1 .product-title").attr('title',recommendedProduct[1].productInfo.title);
+  }else{
+    $(".recommend-product-1").css('display', 'none');
+  }
+  if(recommendedProduct && recommendedProduct[2] && recommendedProduct[2].productInfo){
+    $(".recommend-product-2").css('display', 'flex');
+    $(".recommend-product-2 .recommend-product-img img").attr('src', recommendedProduct[2].productInfo.featured_image );
+    $(".recommend-product-2  .recommend-product-desp .product_a").attr('href', "/products/"+ recommendedProduct[2].productInfo.handle);
+    $(".recommend-product-2  .recommend-product-desp .product_a").attr('data-sku', recommendedProduct[2].productInfo.variants[0].sku);
+    $(".recommend-product-2 .product-title").text(recommendedProduct[2].productInfo.title);
+    $(".recommend-product-2 .product-title").attr('title',recommendedProduct[2].productInfo.title);
+  }else{
+    $(".recommend-product-2").css('display', 'none');
+  }
+}
+function getDiscountInfo(arr){
+  $.ajax({
+      type: 'GET',
+      url: '/apps/pp/shopifyservices/coupons/by_skus',
+      data: { "skus": arr, "shopify_domain": "{{ shop.permanent_domain }}" },
+      success: function success(body) {
+        couponsData = body;
+      }
+    })
+}
+function execCoy(text) {
+    let input = document.createElement('INPUT');
+    input.style.opacity  = 0;
+    input.style.position = 'absolute';
+    input.style.left = '-100000px';
+    document.body.appendChild(input);
+
+    input.value = text;
+    input.select();
+    input.setSelectionRange(0, text.length);
+    document.execCommand('copy');
+    document.body.removeChild(input);
+    return true;
+}
+
+$(".clipboard_btn").click(e => {
+      e.preventDefault();
+      var txt = $(".recommend-main-product .codeTxt").text();
+      $(`.clipboard_btn`).text('{{ recommend.copyTxt }}');
+      execCoy(txt);
+      $(".clipboard_btn").text('{{ recommend.copiedTxt }}');
+})
+$(".recommend-main-product .product_a").on('click',function(e){
+  window.dataLayer.push({
+    'event': 'answer_questions',
+    'page_group': 'AP help_me_choose Quiz',
+    'action': 'choose_product_learn_more',
+    'ecommerce': {
+      'items': [
+        {
+          'item_id': recommendedProduct[0].productInfo.variants[0].sku
+        }
+      ]
+    }
+  })
+})
+$(".recommend-other-product .recommend-product-1 .product_a").on('click',function(e){
+  window.dataLayer.push({
+    'event': 'answer_questions',
+    'page_group': 'AP help_me_choose Quiz',
+    'action': 'choose_product_learn_more',
+    'ecommerce': {
+      'items': [
+        {
+          'item_id': recommendedProduct[1].productInfo.variants[0].sku
+        }
+      ]
+    }
+  })
+})
+$(".recommend-other-product .recommend-product-2 .product_a").on('click',function(e){
+  window.dataLayer.push({
+    'event': 'answer_questions',
+    'page_group': 'AP help_me_choose Quiz',
+    'action': 'choose_product_learn_more',
+    'ecommerce': {
+      'items': [
+        {
+          'item_id': recommendedProduct[2].productInfo.variants[0].sku
+        }
+      ]
+    }
+  })
+})
+
+$(".recommend_button_buynow").click(e => {
+  e.preventDefault();
+  let variant = recommendedProduct[0].productInfo.variants[0]
+  let line_items = [{variant_id: variant.id, quantity: 1 }];
+  Shopify.theme.bundleBuynow({
+    authorization: "{{ storefront_key }}",
+    checkout: {
+      line_items: line_items,
+      presentment_currency: "{{ shop.currency }}",
+      is_upstream_button: true,
+      page_type: "product",
+      secret: true,
+      wallet_name: "Checkout"
+    },
+    onSuccess: () => {},
+    onError: err => $.dialog({ title: err.message, content: err.description, type: 'red' })
+  });
+  // 数据上报
+  window.dataLayer.push({
+    'event': 'answer_questions',
+    'page_group': 'AP help_me_choose Quiz',
+    'action': 'choose_product_buy_now',
+    'ecommerce': {
+    'items': [{
+      'item_id': variant.sku // 商品SKU
+      }]
+    }
+  })
+})
+$(".quiz-link").click(e => {
+  window.dataLayer.push({
+    'event': 'answer_questions',
+    'page_group': 'AP help_me_choose Quiz',
+    'action': 'choose_product_quiz_again',
+  })
+})
+$(".quiz-again-link").click(e => {
+  window.dataLayer.push({
+    'event': 'answer_questions',
+    'page_group': 'AP help_me_choose Quiz',
+    'action': 'choose_product_quiz_again',
+  })
+})
+let width = window.innerWidth;
+  if (width > 769){
+    $(".recommend-product-1").hover(
+      function(){
+        //当鼠标放上去的时候,程序处理
+        $(".recommend-product-1 .recommend-product-img").animate({marginTop:'-20px'});
+        $(".recommend-product-1 .recommend-product-desp").animate({marginLeft:'-30px',opacity:'1'});
+        // $(".recommend-product-1 .recommend-product-desp").animate({opacity:'1'});
+      },function(){
+        //当鼠标离开的时候,程序处理
+        $(".recommend-product-1 .recommend-product-img").animate({marginTop:'0px'});
+        $(".recommend-product-1 .recommend-product-desp").animate({marginLeft:'-150px',opacity:'0'});
+        // $(".recommend-product-1 .recommend-product-desp").animate({opacity:'0'});
+      }
+    );
+    $(".recommend-product-2").hover(
+      function(){
+        //当鼠标放上去的时候,程序处理
+        $(".recommend-product-2 .recommend-product-img").animate({marginTop:'-20px'});
+        $(".recommend-product-2 .recommend-product-desp").animate({marginLeft:'-30px',opacity:'1'});
+        // $(".recommend-product-2 .recommend-product-desp").animate({opacity:'1'});
+      },function(){
+        //当鼠标离开的时候,程序处理
+        $(".recommend-product-2 .recommend-product-img").animate({marginTop:'0px'});
+        $(".recommend-product-2 .recommend-product-desp").animate({marginLeft:'-150px',opacity:'0'});
+        // $(".recommend-product-2 .recommend-product-desp").animate({opacity:'0'});
+      }
+    );
+  }
+
+
+</script>

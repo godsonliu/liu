@@ -1,0 +1,324 @@
+<section class="ps-ret cam3-main-section cam3-main-section-3">
+  {% for block in section.blocks %}
+    {% case block.type %}
+      {% when 'img_section' %}
+      <div class="ps-ret vh-100 flex-center z-index-1 img-section {{ block.settings.custom_class }}" {% if block.settings.id != blank %}id="{{ block.settings.id }}"{% endif %}>
+        <div class="img-sec-wrap over-hide vh-100 ps-ret">
+          <div class="flex-center img-scene-wrap is-hidden-mobile-only">
+            {% render 'lazyload_image',  
+              src: block.settings.img_scene,
+              alt: block.settings.img_scene.alt,
+              width: block.settings.img_scene.width,
+              additional_classes: 'img-scene js-homebase-scene',
+              aspect_ratio: block.settings.img_scene.aspect_ratio,
+              isSchemaData: true
+            %}
+          </div>
+
+          <div class="flex-center img-scene-wrap is-hidden-desktop-only">
+            {% render 'lazyload_image',  
+              src: block.settings.img_scene_mb,
+              alt: block.settings.img_scene_mb.alt,
+              width: block.settings.img_scene_mb.width,
+              additional_classes: 'img-scene js-homebase-scene',
+              aspect_ratio: block.settings.img_scene_mb.aspect_ratio,
+              isSchemaData: true
+            %}
+          </div>
+
+          <div class="img-homebase3-wrap">
+            <div class="img-homebase3-inner-wrap">
+              {% render 'lazyload_image',  
+                src: block.settings.img,
+                alt: block.settings.img.alt,
+                width: block.settings.img.width,
+                additional_classes: 'img-homebase3 img-homebase3-nocap',
+                aspect_ratio: block.settings.img.aspect_ratio,
+                isSchemaData: true
+              %}
+              {% render 'lazyload_image',  
+                src: block.settings.img_hard_disk,
+                alt: block.settings.img_hard_disk.alt,
+                width: block.settings.img_hard_disk.width,
+                additional_classes: 'img-hard-disk',
+                aspect_ratio: block.settings.img_hard_disk.aspect_ratio,
+                isSchemaData: true
+              %}
+              {% render 'lazyload_image',  
+                src: block.settings.img_mask_1,
+                alt: block.settings.img_mask_1.alt,
+                width: block.settings.img_mask_1.width,
+                additional_classes: 'img-homebase3 img-homebase3-mask-1',
+                aspect_ratio: block.settings.img_mask_1.aspect_ratio,
+                isSchemaData: true
+              %}
+              {% render 'lazyload_image',  
+                src: block.settings.img_cap,
+                alt: block.settings.img_cap.alt,
+                width: block.settings.img_cap.width,
+                additional_classes: 'img-cap',
+                aspect_ratio: block.settings.img_cap.aspect_ratio,
+                isSchemaData: true
+              %}
+              {% render 'lazyload_image',  
+                src: block.settings.img_mask_2,
+                alt: block.settings.img_mask_2.alt,
+                width: block.settings.img_mask_2.width,
+                additional_classes: 'img-homebase3 img-homebase3-mask-2',
+                aspect_ratio: block.settings.img_mask_2.aspect_ratio,
+                isSchemaData: true
+              %}
+              {% render 'lazyload_image',  
+                src: block.settings.img2,
+                alt: block.settings.img2.alt,
+                width: block.settings.img2.width,
+                additional_classes: 'img-homebase3 img-homebase3-main',
+                aspect_ratio: block.settings.img2.aspect_ratio,
+                isSchemaData: true
+              %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {% when 'info_section' %}
+      {% style %}
+        @media screen and (min-width: 769px) {
+          #shopify-section-{{ section.id }} .sec-title-large{
+            {% if block.settings.title_width != 0 %}
+              max-width: {{ block.settings.title_width | divided_by: 19.2 }}vw;
+            {% endif %}
+          }
+
+          #shopify-section-{{ section.id }} .sec-description{
+            {% if block.settings.desc_width != 0 %}
+              max-width: {{ block.settings.desc_width }}px;
+            {% endif %}
+          }
+        }
+      {% endstyle %}
+      <div class="info-section abs-section {{ block.settings.custom_class }}" {% if block.settings.id != blank %}id="{{ block.settings.id }}"{% endif %}>
+        <div class="info-box">
+          <p class="sec-title-large gradient-font">{{ block.settings.title }}</p>
+          <p class="sec-description">{{ block.settings.desc }}</p>
+          <ul class="sec-icon-list">
+            <li class="sec-icon-item">
+              {% render 'column-img-item',  
+                img: block.settings.icon_1,
+                desc: block.settings.icon_desc_1
+              %}
+            </li>
+            <li class="sec-icon-item">
+              {% render 'column-img-item',  
+                img: block.settings.icon_2,
+                desc: block.settings.icon_desc_2
+              %}
+            </li>
+            <li class="sec-icon-item">
+              {% render 'column-img-item',  
+                img: block.settings.icon_3,
+                desc: block.settings.icon_desc_3
+              %}
+            </li>
+          </ul>
+          {% if block.settings.img != blank %}
+            <div class="img-sec-wrap opacity-0 is-hidden-mobile-only">
+              {% render 'lazyload_image',  
+                src: block.settings.img,
+                alt: block.settings.img.alt,
+                width: block.settings.img.width,
+                aspect_ratio: block.settings.img.aspect_ratio,
+                isSchemaData: true
+              %}
+            </div>
+          {% elsif block.settings.img_mb == blank %}
+            <div class="img-sec-wrap">
+              {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
+            </div>
+          {% endif %}
+          {% if block.settings.img_mb != blank %}
+            <div class="img-sec-wrap is-hidden-desktop-only">
+              {% render 'lazyload_image',  
+                src: block.settings.img_mb,
+                alt: block.settings.img_mb.alt,
+                width: block.settings.img_mb.width,
+                aspect_ratio: block.settings.img_mb.aspect_ratio,
+                isSchemaData: true
+              %}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    {% endcase %}
+  {% endfor %}
+</section>
+
+{% schema %}
+{
+  "name": "cam3 main section 3",
+  "presets": [
+    {
+      "category": "cam3 main section 3",
+      "name": "cam3 main section 3"
+    }
+  ],
+  "settings":[],
+  "blocks": [{
+    "type": "img_section",
+    "name": "img section",
+    "settings": [{
+      "type": "header",
+      "content": "通用图片"
+    },{
+      "type": "image_picker",
+      "id": "img",
+      "label": "无盖homebase3主图"
+    },{
+      "type": "image_picker",
+      "id": "img_hard_disk",
+      "label": "硬盘"
+    },{
+      "type": "image_picker",
+      "id": "img_mask_1",
+      "label": "homebase3遮罩图片1"
+    },{
+      "type": "image_picker",
+      "id": "img_cap",
+      "label": "盖子"
+    },{
+      "type": "image_picker",
+      "id": "img_mask_2",
+      "label": "homebase3遮罩图片2"
+    },{
+      "type": "image_picker",
+      "id": "img2",
+      "label": "homebase3主图"
+    },{
+      "type": "header",
+      "content": "桌面端图片"
+    },{
+      "type": "image_picker",
+      "id": "img_scene",
+      "label": "homebase3场景图"
+    },{
+      "type": "header",
+      "content": "移动端图片"
+    },{
+      "type": "image_picker",
+      "id": "img_scene_mb",
+      "label": "homebase3场景图"
+    },{
+      "type": "header",
+      "content": "桌面端设置"
+    },{
+      "type": "number",
+      "id": "padding_y",
+      "label": "上下内边距",
+      "default": 0
+    },{
+      "type": "number",
+      "id": "padding_x",
+      "label": "左右内边距",
+      "default": 0
+    },{
+      "type": "header",
+      "content": "移动端设置"
+    },{
+      "type": "number",
+      "id": "mb_padding_y",
+      "label": "上下内边距",
+      "default": 0
+    },{
+      "type": "number",
+      "id": "mb_padding_x",
+      "label": "左右内边距",
+      "default": 0
+    },{
+      "type": "header",
+      "content": "开发设置"
+    },{
+      "type": "text",
+      "id": "id",
+      "label": "id"
+    },{
+      "type": "text",
+      "id": "custom_class",
+      "label": "自定义类名"
+    }]
+  },{
+    "type": "info_section",
+    "name": "info section",
+    "settings": [{
+      "type": "header",
+      "content": "主内容"
+    },{
+      "type": "text",
+      "id": "title",
+      "label": "标题"
+    },{
+      "type": "textarea",
+      "id": "desc",
+      "label": "副文本"
+    },{
+      "type": "number",
+      "id": "title_width",
+      "label": "标题容器宽度",
+      "default": 0
+    },{
+      "type": "number",
+      "id": "desc_width",
+      "label": "副文本容器宽度",
+      "default": 0
+    },{
+      "type": "header",
+      "content": "图标列表内容"
+    },{
+      "type": "image_picker",
+      "id": "icon_1",
+      "label": "图标1"
+    },{
+      "type": "textarea",
+      "id": "icon_desc_1",
+      "label": "图标副文本1"
+    },{
+      "type": "image_picker",
+      "id": "icon_2",
+      "label": "图标2"
+    },{
+      "type": "textarea",
+      "id": "icon_desc_2",
+      "label": "图片副文本2"
+    },{
+      "type": "image_picker",
+      "id": "icon_3",
+      "label": "图标3"
+    },{
+      "type": "textarea",
+      "id": "icon_desc_3",
+      "label": "图片副文本3"
+    },{
+      "type": "header",
+      "content": "图片"
+    },{
+      "type": "image_picker",
+      "id": "img",
+      "label": "pc端展示图片"
+    },{
+      "type": "image_picker",
+      "id": "img_mb",
+      "label": "移动端展示图片"
+    },{
+      "type": "header",
+      "content": "开发设置"
+    },{
+      "type": "text",
+      "id": "id",
+      "label": "id"
+    },{
+      "type": "text",
+      "id": "custom_class",
+      "label": "自定义类名"
+    }]
+  }]
+}
+{% endschema %}

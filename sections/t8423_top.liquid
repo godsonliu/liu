@@ -1,0 +1,53 @@
+{% assign lang = product.metafields.global %}
+
+{% if lang.feature.value %}
+  {% assign feature = lang.feature.value %}
+{% else %}
+  {% assign feature = lang.feature %}
+{% endif %}
+
+{% if lang.moreFeature.value %}
+  {% assign moreFeature = lang.moreFeature.value %}
+{% else %}
+  {% assign moreFeature = lang.moreFeature %}
+{% endif %}
+
+{% if lang.camSlick.value %}
+  {% assign camSlick = lang.camSlick.value %}
+{% else %}
+  {% assign camSlick = lang.camSlick %}
+{% endif %}
+
+{% if lang.imgTitle.value %}
+  {% assign imgTitle = lang.imgTitle.value %}
+{% else %}
+  {% assign imgTitle = lang.imgTitle %}
+{% endif %}
+
+{% assign videoList = lang.new_t8423Listing.data %}
+{% assign custom_css = section.settings.custom_css %}
+
+{{ 't8423_listing.scss.css' | asset_url | stylesheet_tag }}
+{% style %}
+  {%- if custom_css != blank -%}
+    {{ custom_css }}
+  {% endif %}
+{% endstyle %}
+
+
+<div class="presell-bg-img video_content banner_7 newAdd">
+  <div class="phone-show">
+    <img data-src="{{ videoList.new_1.mob_img }}" class="lazyload">
+    <div class="presell-center-title presell-title1">
+      <p class="fz-50">{{ videoList.new_1.title }}</p>
+      <p class="subTitle">{{ videoList.new_1.subTitle }}</p>
+    </div>
+  </div>
+ <div class="pc-show">
+  <img class="lazyload" data-src="{{ videoList.new_1.pc_img}}" />
+  <div class="pc_text center new1 animate1">
+      <p class="txt_1">{{ videoList.new_1.pc_text1 }}</p>
+      <p class="txt_subTitle">{{ videoList.new_1.pc_text2 }}</p>
+  </div>
+ </div>
+</div>

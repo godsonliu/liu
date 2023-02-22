@@ -1,0 +1,186 @@
+<style>
+#{{section.id}} {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  max-width: {{section.settings.max_width}};
+  padding: {{section.settings.box_padding}};
+  background: {{section.settings.box_bg}};
+}
+#{{section.id}} .component-icons-item {
+  width: 162px;
+  height: 162px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 20px 10px 0;
+  background: {{section.settings.item_bg}};
+  border-radius: 10px;
+  text-align: center;
+  position: relative;
+  padding: 0 5px;
+}
+{% if section.settings.has_break_line %}
+#{{section.id}} .component-icons-item::after {
+  content: '';
+  width: 1px;
+  height: 50%;
+  position: absolute;
+  right: 0;
+  top: 30px;
+  background: {{section.settings.break_line_color}};
+}
+#{{section.id}} .component-icons-item:last-child::after {
+  display: none;
+}
+{% endif %}
+#{{section.id}} .component-icons-item:last-child {
+  margin-right: 0;
+}
+#{{section.id}} .component-icons-image {
+  margin-bottom: 5px;
+}
+#{{section.id}} .component-icons-txt {
+  height: 50px;
+  line-height: 22px;
+  color: {{section.settings.icons_item_txt_color}};
+  font-size: 18px;
+}
+
+@media(max-width: 769px) {
+  #{{section.id}} {
+    padding: {{section.settings.mobile_box_padding}};
+    flex-wrap: wrap;
+  }
+  #{{section.id}} .component-icons-item {
+    width: 150px;
+    height: 150px;
+  }
+  #{{section.id}} .component-icons-item:nth-child(even) {
+    margin-right: 0;
+  }
+  #{{section.id}} .component-icons-item .component-icons-txt  {
+    font-size: 14px;
+  }
+}
+</style>
+
+<div class="component-icons {{section.settings.custom_class}}" id="{{section.id}}">
+  {% for block in section.blocks %}
+  <div class="component-icons-item">
+    <div class="component-icons-image">
+      <img src="{{ block.settings.icons_items_img | image_url: width: 40 }}" />
+    </div>
+    <div class="component-icons-txt">{{block.settings.icons_item_txt}}</div>
+  </div>
+  {% endfor %}
+</div>
+
+{% schema %}
+  {
+    "name": "component_icons_v2",
+    "presets": [
+      {
+        "name": "component_icons_v2"
+      }
+    ],
+    "settings": [
+      {
+        "type": "header",
+        "content": "结构方面"
+      },
+      {
+        "type": "text",
+        "id": "max_width",
+        "label": "section区域最大宽度"
+      },
+      {
+        "type": "text",
+        "id": "box_padding",
+        "label": "Section模块间距",
+        "info": "用于产生间隔",
+        "default": "20px 0"
+      },
+      {
+        "type": "text",
+        "id": "mobile_box_padding",
+        "label": "Mobile端Section模块间距",
+        "info": "用于产生间隔",
+        "default": "10px"
+      },
+      {
+        "type": "color",
+        "id": "box_bg",
+        "label": "section背景色"
+      },
+      {
+        "type": "color",
+        "id": "item_bg",
+        "label": "卡片的背景色",
+        "default": "#f6f6f6"
+      },
+      {
+        "type": "header",
+        "content": "文本区域"
+      },
+      {
+        "type": "color",
+        "id": "icons_item_txt_color",
+        "label": "icon文案颜色",
+        "default": "#555555"      
+      },
+      {
+        "type": "header",
+        "content": "Icon之间的分割线"
+      },
+      {
+        "type": "checkbox",
+        "id": "has_break_line",
+        "label": "是否需要分割线",
+        "default": false
+      },
+      {
+        "type": "color",
+        "id": "break_line_color",
+        "label": "分割线颜色",
+        "default": "#999"
+      },
+      {
+        "type": "header",
+        "content": "开发相关"
+      },
+      {
+        "type": "text",
+        "id": "custom_class",
+        "label": "自定义类名"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "icons_item",
+			  "name": "icons_item",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "icons_items_img",
+            "label": "icon图标"
+          },
+          {
+            "type": "html",
+            "id": "icons_item_txt",
+            "label": "icon文案"
+          },
+          {
+            "type": "url",
+            "id": "icons_url",
+            "label": "icons跳转的链接",
+            "info": "如果不设置，那就不具备跳转功能"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

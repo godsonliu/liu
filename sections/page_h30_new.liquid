@@ -1,0 +1,393 @@
+{% assign lang = page.metafields['global'] %}
+
+{% if lang.video.value %}
+  {% assign video = lang.video.value %}
+{% else %}
+  {% assign video = lang.video %}
+{% endif %}
+
+{% if lang.videoBanner.value %}
+  {% assign videoBanner = lang.videoBanner.value %}
+{% else %}
+  {% assign videoBanner = lang.videoBanner %}
+{% endif %}
+
+{% if lang.power.value %}
+  {% assign power = lang.power.value %}
+{% else %}
+  {% assign power = lang.power %}
+{% endif %}
+
+{% if lang.system.value %}
+  {% assign system = lang.system.value %}
+{% else %}
+  {% assign system = lang.system %}
+{% endif %}
+
+{% if lang.ultra.value %}
+  {% assign ultra = lang.ultra.value %}
+{% else %}
+  {% assign ultra = lang.ultra %}
+{% endif %}
+
+{% if lang.flexibility.value %}
+  {% assign flexibility = lang.flexibility.value %}
+{% else %}
+  {% assign flexibility = lang.flexibility %}
+{% endif %}
+
+{% if lang.extra.value %}
+  {% assign extra = lang.extra.value %}
+{% else %}
+  {% assign extra = lang.extra %}
+{% endif %}
+
+{% if lang.dock.value %}
+  {% assign dock = lang.dock.value %}
+{% else %}
+  {% assign dock = lang.dock %}
+{% endif %}
+
+{% if lang.whatbox.value %}
+  {% assign whatbox = lang.whatbox.value %}
+{% else %}
+  {% assign whatbox = lang.whatbox %}
+{% endif %}
+
+{% if lang.cus_spces.value %}
+  {% assign cus_spces = lang.cus_spces.value %}
+{% else %}
+  {% assign cus_spces = lang.cus_spces %}
+{% endif %}
+
+{% if lang.badges.value %}
+  {% assign badges = lang.badges.value %}
+{% else %}
+  {% assign badges = lang.badges %}
+{% endif %}
+
+{% if lang.badges.value %}
+  {% assign badges = lang.badges.value %}
+{% else %}
+  {% assign badges = lang.badges %}
+{% endif %}
+
+{% if lang.text_image.value %}
+  {% assign text_image = lang.text_image.value %}
+{% else %}
+  {% assign text_image = lang.text_image %}
+{% endif %}
+
+{% if product.metafields['global']['custom_variants'].value %}
+  {% assign custom_variants = product.metafields['global']['custom_variants'].value %}
+{% else %}
+  {% assign custom_variants = product.metafields['global']['custom_variants'] %}
+{% endif %}
+
+
+<section class="h30-content-new">
+  <!-- <div class="badges">
+    <div class="box">
+      <div class="txt">
+        {% for item in badges %}
+          <p class="item">{{ item.txt }}</p>
+        {% endfor %}
+      </div>
+      <div class="logos">
+        {% for item in badges %}
+          <a class="item" onClick="clickLogosIndex({{ forloop.index0 }})"><img src="{{ item.img }}" /></a>
+        {% endfor %}
+      </div>
+    </div>
+  </div> -->
+
+  {% comment %} <div class="video">
+    <div class="cover">
+      <div class="coverBox">
+        <img class="lazyload" data-src="{{ video.cover }}" />
+        <a class="playVideo">
+          <img class="lazyload" data-src="https://cdn.shopify.com/s/files/1/0521/9411/5753/files/banner_2_button.png?v=1634871701" alt="">
+        </a>
+      </div>
+    </div>
+    <div class="video_src">
+      <div class="lazyframe" id="vimeoVideo" data-ratio="16:9"></div>
+    </div>
+    <a class="closeVideo">
+      <img class="lazyload" data-src="https://cdn.shopify.com/s/files/1/0519/5458/1696/files/playing.png?v=1635304296" alt="">
+    </a>
+  </div> {% endcomment %}
+
+  <div class="videoBanner banner">
+    <div class="bg">
+      <video class="bg is-hidden-desktop-only" src="{{videoBanner.mob_bg}}" poster="{{videoBanner.mob_img}}" preload="auto" muted="muted" autoplay="autoplay" loop="loop" playsinline></video>
+      <video class="bg lazyload is-hidden-mobile-only" data-src="{{ videoBanner.bg }}" poster="{{videoBanner.img}}" preload="auto" muted="muted" autoplay="autoplay" loop="loop" playsinline></video>
+    </div>
+    <div class="txt">
+      <h3>{{ videoBanner.title }}</h3>
+      <div class="btn">
+        <a class="watchvideo"><i class="iconfont">&#xe6d8;</i><span>{{ videoBanner.watch_video }}</span></a>
+      </div>
+    </div>
+  </div>
+  {% section 'ActivityVideo' %}
+  <div class="H30_video" style="display: none;">
+    <div class="box">
+      <div class="lazyframe" id="H30_video_url" data-ratio="16:9"></div>
+    </div>
+    <a class="closeVideo"><i class="iconfont">&#xe723;</i></a>
+  </div>
+
+  <div class="banner power">
+    <div class="txt">
+      <h3 class="title">{{ power.title }}</h3>
+      <p class="desc">{{ power.desc }}</p>
+    </div>
+    <div class="img">
+      <img alt="" class="lazyload" data-src="{{ power.img }}" />
+    </div>
+  </div>
+  <div class="banner system">
+    <div class="txt">
+      <h3 class="title">{{ system.title }}</h3>
+      <p class="desc">{{ system.desc }}</p>
+      <p class="tips is-hidden-mobile-only">{{ system.tips }}</p>
+    </div>
+    <div class="img">
+      <span class="txt1">{{ system.txt1 }}</span>
+      <span class="txt2">{{ system.txt2 }}</span>
+      <img alt="" class="lazyload" data-src="{{ system.img }}" />
+      <p class="tips is-hidden-desktop-only">{{ system.tips }}</p>
+    </div>
+  </div>
+  <div class="banner ultra">
+    <div class="img">
+      <img alt="" class="lazyload is-hidden-mobile-only" data-src="{{ ultra.img }}" />
+      <img alt="" class="lazyload is-hidden-desktop-only" data-src="{{ ultra.mob_img }}" />
+    </div>
+    <div class="txt">
+      <p class="tips">
+        <img alt="" class="lazyload" data-src="{{ ultra.icon }}" />
+        <span>{{ ultra.tips }}</span>
+      </p>
+      <h3 class="title">{{ ultra.title }}</h3>
+      <p class="desc">{{ ultra.desc }}</p>
+    </div>
+  </div>
+  <div class="flexibility">
+    <div class="contentBox">
+      <div class="img">
+        {% for item in flexibility.list %}
+          <img alt="" class="lazyload" data-src="{{ item }}" />
+        {% endfor %}
+      </div>
+      <div class="txt">
+        <h3 class="title">{{ flexibility.title }}</h3>
+      </div>
+    </div>
+  </div>
+
+  <div class="text_image">
+    {% for item in text_image %}
+      <div class="item">
+        {% if item.video %}
+          <div class="video">
+            <video  src="{{ item.video }}" playsinline muted="muted" autoplay="autoplay" loop="loop"></video>
+          </div>
+        {% else %}
+          <div class="image">
+            <img class="lazyload" alt="" data-src="{{ item.img }}" />
+          </div>
+        {% endif %}
+        <div class="text {% if item.iconlist %}text_center{% endif %}">
+          <h3 class="title">{{ item.title }}</h3>
+          <p class="desc">{{ item.desc }}</p>
+          <p class="tips">{{ item.tips }}</p>
+          {% if item.iconlist %}
+            <div class="iconlist">
+              {% for i in item.iconlist %}
+                <div class="iconitem">
+                  <img class="lazyload" alt="" data-src="{{ i.icon }}" />
+                  <p>{{ i.txt }}</p>
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <div class="extra">
+    <div class="contentBox">
+      <div class="txt">
+        <p class="tips">{{ extra.tips1 }}</p>
+        <h3 class="title">{{ extra.title }}</h3>
+        <p class="tips">{{ extra.tips2 }}</p>
+        <p class="desc">{{ extra.desc }}</p>
+      </div>
+      <div class="img">
+        <div class="img1">
+          <img class="lazyload" alt="" data-src="{{ extra.img1 }}" />
+        </div>
+        <div class="img2">
+          <img class="lazyload" alt="" data-src="{{ extra.img2 }}" />
+          <img class="lazyload" alt="" data-src="{{ extra.img3 }}" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="banner dock">
+    <div class="img">
+      <img alt="" class="lazyload is-hidden-mobile-only" data-src="{{ dock.img }}" />
+      <img alt="" class="lazyload is-hidden-desktop-only" data-src="{{ dock.mob_img }}" />
+    </div>
+    <div class="txt">
+      <h3 class="title">{{ dock.title }}</h3>
+      <p class="desc">{{ dock.desc }}</p>
+    </div>
+  </div>
+
+  <div class="whatsbox">
+    <div class="bg">
+      <img alt="" class="lazyload" data-src="{{ whatbox.bg }}" />
+    </div>
+    <div class="txt">
+      <h3>{{ whatbox.title }}</h3>
+      <p>{{ whatbox.desc }}</p>
+    </div>
+  </div>
+  <div class="proSpces">
+    <h3 class="proSpcesTitle"><span>{{ cus_spces.title }}</span></h3>
+    <ul>
+      {% for item in cus_spces.list %}
+        <li>
+          <h3 class="title"><span>{{ item.key }}</span><i></i></h3>
+          <div class="txt">
+            <div class="txtBox">{{ item.value }}</div>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+
+
+<script>
+  let logosIndex = 0;
+  let len;
+  let logosIndexInt;
+  let player;
+  $(document).ready(function(){
+
+    // spces
+    $('.proSpces .txt').each((i, ele) => {
+      const h = ele.offsetHeight;
+      ele.style.maxHeight = `${h}px`;
+    });
+    $('.proSpces .txt').addClass('hideTxt');
+    $(document).on('click', '.proSpces .title', function() {
+      const $dom = $(this).parents('li');
+      if ($($('.txt', $dom)).hasClass('showTxt')) {
+        $($('.txt', $dom)).removeClass('showTxt');
+        $(this).removeClass('showTxt');
+        $($('.txt', $dom)).addClass('hideTxt');
+      } else {
+        $('.proSpces .title').removeClass('showTxt');
+        $('.proSpces .txt').removeClass('showTxt');
+        $('.proSpces .txt').addClass('hideTxt');
+        $($('.txt', $dom)).addClass('showTxt');
+        $(this).addClass('showTxt');
+        $($('.txt', $dom)).removeClass('hideTxt');
+      }
+    });
+
+    // custom_variants
+    const custom_variants = JSON.parse('{{ custom_variants | json }}');
+    if (custom_variants) {
+      let sku = "";
+      {%- for variant in product.variants -%}
+        {% if forloop.first == true %}
+          sku = "{{ variant.sku }}"
+        {% endif %}
+      {% endfor %}
+      const dom = custom_variants.sku.map((v, i) => {
+        const act = sku === v ? 'current' : '';
+        return `<li class="color ${act}" data-sku="${v}">
+          <a href="/products/${v}">
+            <div class="dot" style="background: ${custom_variants.background[i]}"></div>
+          </a>
+          <span class="txt"> ${custom_variants.color_txt[i]}</span>
+        </li>`;
+      }).join('');
+      if (custom_variants.sku.indexOf(sku) > -1) {
+        $('.custom_variants').html(`<ul class="options">${dom}</ul>`);
+        $('.custom_variants').removeClass('swap--visible');
+      }
+    }
+
+    // 奖项
+    len = $('.h30-content-new .badges .txt .item').length - 1;
+    setLogosIndex(0);
+    logosIndexInt = setInterval(() => {
+      if (logosIndex < len) {
+        logosIndex += 1;
+      } else {
+        logosIndex = 0;
+      }
+      setLogosIndex(logosIndex);
+    }, 3000);
+
+  })
+
+  $('.watchvideo').on('click', function() {
+    if(!player) {
+      const tag = document.createElement('script');
+      tag.src = "https://www.youtube.com/iframe_api";
+      const firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    } else {
+      $('.H30_video').show();
+      player.playVideo();
+    }
+  })
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('H30_video_url', {
+      height: '100%',
+      width: '100%',
+      videoId: '{{ videoBanner.ytb_id }}',
+      playlist: ['{{ videoBanner.ytb_id }}']
+    });
+    $('.H30_video').show();
+    window.setTimeout(function() {
+      player.playVideo();
+    } , 2000);
+  }
+  $(document).on('click', '.closeVideo', function() {
+    $('.H30_video').hide()
+    player.pauseVideo();
+  })
+
+  function clickLogosIndex(num) {
+    logosIndex = num;
+    setLogosIndex(logosIndex);
+    if(logosIndexInt) clearInterval(logosIndexInt);
+    logosIndexInt = setInterval(() => {
+      if (logosIndex < len) {
+        logosIndex += 1;
+      } else {
+        logosIndex = 0;
+      }
+      setLogosIndex(logosIndex);
+    }, 3000);
+  }
+
+  function setLogosIndex(num) {
+    $('.h30-content-new .badges .txt .item').removeClass('active');
+    $('.h30-content-new .badges .logos .item').removeClass('active');
+    $('.h30-content-new .badges .txt .item').eq(num).addClass('active');
+    $('.h30-content-new .badges .logos .item').eq(num).addClass('active');
+  }
+
+</script>

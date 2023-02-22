@@ -1,0 +1,359 @@
+// public css
+$color: #21CCBF;
+$gradientBg: linear-gradient(to right, #4391e5, #03d7c7);
+$maxPhoneWidth: 767px;
+$maxPadWidth: 1024px;
+$maxLaptopWidth: 1440px;
+$minLaptopWidth: 992px;
+$minPadWidth: 768px;
+$slickBtnSize: 65px;
+$mobBtnSize: 40px;
+$minDesktopWidth: 1200px; // large desktop
+$minRetinaWidth: 2560px; // Retina 1440p
+
+.activities {
+  width: 100%;
+  position: relative;
+  h1,h2,h3,h4,h5,p,div {
+    font-family: 'Open Sans', sans-serif;
+  }
+  .showPc {
+    @media screen and (max-width: $maxPhoneWidth) {
+      display: none;
+    }
+  }
+  .showMobile {
+    display: none;
+    @media screen and (max-width: $maxPhoneWidth) {
+      display: block;
+    }
+  }
+  .section {
+    width: 100%;
+    max-width: 100%;
+    position: relative;
+    margin-bottom: -6px;
+    overflow: hidden;
+    position: relative;
+    .backimg {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .content {
+      opacity: 0;
+      transform: translateY(-40%);
+      transition: all 500ms ease;
+      @media screen and (max-width: $maxPhoneWidth) {
+        width: 100%;
+        transform: none;
+      }
+    }
+  }
+  .content {
+    position: absolute;
+    top: 50%;
+    margin-top: -1.5rem;
+    .title {
+      width: 100%;
+      h1 {
+        color: #fff;
+        font-size: 56px;
+        font-weight: 700;
+        line-height: 1.2;
+        margin-bottom: 1rem;
+        @media screen and (max-width: $maxPhoneWidth) {
+          font-size: 28px;
+          text-align: center;
+        }
+      }
+      p {
+        color: #fff;
+        font-size: 16px;
+        font-weight: normal;
+        line-height: 1.3;
+        @media screen and (max-width: $maxPhoneWidth) {
+          font-size: 13px;
+          text-align: center;
+        }
+      }
+    }
+  }
+  .solois {
+    .backimg {
+      @media screen and (max-width: $maxPhoneWidth) {
+        object-position: 74% 50%;
+      }
+    }
+    .content {
+      max-width: 50%;
+      right: 48%;
+      @media screen and (max-width: $maxPhoneWidth) {
+        max-width: 100%;
+        top: 10%;
+        right: 0;
+        padding: 0 1rem;
+      }
+      &.active {
+        opacity: 1;
+        transform: translateY(-50%);
+        @media screen and (max-width: $maxPhoneWidth) {
+          transform: translateY(-10%);
+        }
+      }
+    }
+    h1 {
+      width: 100%;
+      max-width: 610px;
+    }
+    p {
+      width: 100%;
+      max-width: 480px;
+    }
+  }
+  .gosolo {
+    .prod {
+      position: absolute;
+      width: 68.5%;
+      left: 15%;
+      top: 50%;
+      z-index: 10;
+      transform: translateY(-50%);
+      @media screen and (max-width: $maxPhoneWidth) {
+       width:180%;
+       top: 28%;
+       left: 86%;
+       transform: translate(-50%, -50%);
+      }
+      .light {
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        opacity: 0;
+        transition: all 300ms ease-in 200ms;
+        transform-origin: 31.5% 48%;
+        transform: scale(0.6);
+        &.active { 
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+    }
+    .content {
+      max-width: 600px;
+      left: 40%;
+      @media screen and (max-width: $maxPhoneWidth) {
+        width: 100%;
+        max-width: 100%;
+        left: 0;
+        top: auto;
+        bottom: 180px;
+        transform: none;
+      }
+      &.active {
+        opacity: 1;
+        transform: translateY(-45%);
+        @media screen and (max-width: $maxPhoneWidth) {
+          transform: translateY(-10%);
+        }
+      }
+      h1 {
+        font-size: 56px;
+        @media screen and (max-width: $maxPhoneWidth) {
+          font-size: 28px;
+        }
+      }
+      p {
+        padding-left: 2.5em;
+        @media screen and (max-width: $maxPhoneWidth) {
+          padding-left: 0;
+        }
+      }
+    }
+  }
+  .lightup {
+    .content {
+      left: 50%;
+      transform: translate(-50%, -40%);
+      &.active {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+      }
+      .title {
+        background-image: url(https://dz02g1kgtiysz.cloudfront.net/deals/files/210420_151614_s3txt.jpg);
+        background-size: cover;
+        -webkit-background-clip: text;
+        background-clip: text;
+        color:transparent;
+      }
+      h1 {
+        font-size: 56px;
+        color:transparent;
+        @media screen and (max-width: $maxPhoneWidth) {
+          font-size: 28px;
+        }
+      }
+      p {
+        color:transparent;
+      }
+    }
+  }
+  .forever {
+    .content {
+      left: 50%;
+      transform: translate(-50%, -40%);
+      &.active {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+      }
+      h1 {
+        font-size: 56px;
+        @media screen and (max-width: $maxPhoneWidth) {
+          font-size: 32px;
+        }
+      }
+    }
+  }
+
+  .Launching {
+    position: absolute;
+    top: 0;
+    left: 0; bottom: 0; right: 0;
+    z-index: 19;
+    pointer-events: none;
+    transition: all 500ms ease;
+    
+    .newsletter_form {
+      position: absolute;
+      left: 0; right: 0;
+      bottom: 0;
+      z-index: 2;
+      background: rgba($color: #3f588e, $alpha: .3);
+    }
+    .box {
+      width: 100%;
+      max-width: 575px;
+      margin: 0 auto;
+      padding: 1.5rem 0 1rem;
+      pointer-events:auto;
+      transition: all 300ms ease;
+      @media (max-width: $maxPhoneWidth) {
+        width: 95%;
+        padding-bottom: 5px;
+      }
+    }
+    .title {
+      color: #fff;
+      font-size: 18px;
+      text-align: center;
+      margin-bottom: 10px;
+      @media (max-width: $maxPhoneWidth) {
+        font-size: 13px;
+      }
+    }
+    .field {
+      margin-bottom: 10px;
+      .input {
+        border: none;
+      }
+    }
+    .newsletter-form {
+      @media (max-width: $maxPhoneWidth) {
+        display: block;
+      }
+      .control input {
+        border-radius: 6px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        @media (max-width: $maxPhoneWidth) {
+          height: 26px;
+          line-height: 26px;
+          font-size: 14px !important;
+        }
+      }
+    }
+    .submit button {
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      background: #205c85 !important;
+      @media (max-width: $maxPhoneWidth) {
+        height: 26px;
+        line-height: 26px;
+        font-size: 14px !important;
+      }
+      &:hover {
+        background: #205c85 !important;
+      }
+    }
+    .policyBox {
+      color: #B7B7B7;
+      text-align: center;
+      margin-top: 0;
+      a {
+        color: #B7B7B7;
+        text-decoration: underline;
+      }
+    }
+    .form__error {
+      text-align: center;
+      color: #ee3749;
+      background: #fff;
+    }
+    .newsletter-form {
+      display: flex;
+      @media (max-width: 767px){
+        display: block;
+      }
+    }
+    .newsletter-form .field .control {
+      padding-left: 10px;
+    }
+    .newsletter-form .field .control input {
+      border: none;
+      background: #fff;
+      border-radius: 6px;
+      @media (max-width: $maxPhoneWidth) {
+        font-size: 14px !important;
+      }
+    }
+    .newsletter_form .succssInfo {
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      z-index: 9;
+      transform: translateX(-50%);
+      width: 400px;
+      max-width: 85%;
+      padding: 4rem 0;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.9);
+      pointer-events:auto;
+    }
+    .newsletter_form .succssInfo img {
+      display: block;
+      width: 80px;
+      margin: 0 auto;
+      margin-bottom: 2rem;
+    }
+    .newsletter_form .succssInfo p {
+      font-size: 20px;
+      text-align: center;
+      @media (max-width: 767px){
+        font-size: 14px;
+      }
+    }
+    .clj{width:100%;text-align:center;color:#00a8e1;display:block;margin-top:2vw;
+      a{color:#00a8e1;}
+      @media (max-width: 767px){
+        margin-top:7vw;
+      }
+    }
+  }
+ 
+}

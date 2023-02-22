@@ -1,0 +1,12 @@
+{% if template contains "product" and shop.metafields.global.myregistry.value %}
+<script>
+(function () {
+  var as = document.createElement('script');
+  as.type = 'text/javascript';
+  as.async = true;
+  as.src = 'https://www.myregistry.com/ScriptPlatform/Shopify/AddToMrButton.js?siteKey={{ shop.metafields.global.myregistry.value.siteKey }}&version=' + (new Date().getTime());
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(as, s);
+})();
+</script>
+{% endif %}

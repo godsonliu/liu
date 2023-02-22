@@ -1,0 +1,415 @@
+.swipe_banner .swipe_banner_content .swiper_banner_text {
+  font-size: 22px !important;
+}
+.swipe_banner .swipe_banner_content .swiper_banner_desc {
+  font-size: 16px !important;
+}
+.swipe_banner .swipe_banner_content .dataA {
+  padding: 7px 38px !important;
+}
+.component_title {
+  padding: 25px 15px !important;
+}
+.weekend-svg {
+  display: inline-block !important;
+  vertical-align: middle !important;
+  width: 120px !important;
+}
+/* 
+  数字提取出来的版本 
+  <div class="weekend-div">
+    <img src="https://cdn.shopify.com/s/files/1/0521/9411/5753/files/EN-AP_3.png?v=1663293974" class="weekend-png" alt="">  
+    <div class="weekend-txt">
+      <span class="txt-num">40%</span>
+      <span class="txt-off">Off</span>
+    </div>
+  </div>
+*/
+.weekend-div {
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+  font-size: 0;
+}
+.weekend-txt {
+  width: 100%;
+  height: 100%;
+  color: #000;
+  font-weight: 700;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.txt-num {
+  font-size: 28px;
+}
+.txt-off {
+  font-size: 18px;
+}
+.weekend-png {
+  width: 120px;
+  height: 34px;
+}
+@media (max-width: 769px) {
+  .weekend-png {
+    width: 100px;
+    height: 30px;
+  }
+  .txt-num {
+    font-size: 24px;
+  }
+  .txt-off {
+    font-size: 14px;
+  }
+}
+
+#see_more_products_here {
+  padding-top: 40px !important;
+}
+
+.limited_items_icon_div img{
+  width: 80px!important;
+}
+
+@media (min-width: 769px) {
+  .custom-page-nav-contianer .component-nav-item {
+    padding: 20px 0 !important;
+  }
+}
+@media (max-width: 769px) {
+  .component_title {
+    padding: 15px 15px !important;
+  }
+  .component-title-best-seller {
+    padding: 0 15px !important;
+    padding-top: 50px !important;
+  }
+  .page_scene_subscribe_div .page_scene_subscribe .subscribe_button {
+    padding: 0 8px !important;
+  }
+  .weekend-svg {
+    width: 80px !important;
+    height: 40px !important;
+  }
+  .custom-page-nav-contianer .component-nav-item {
+    font-size: 14px !important;
+  }
+
+  .limited_items_icon_div img{
+    width: 60px!important;
+  }
+}
+.gift-product-card {
+  margin-bottom: 120px;
+  padding-top: 70px;
+}
+
+@media (max-width: 768px) {
+  .gift-product-card {
+    margin-bottom: 60px;
+    padding: 50px 36px 0;
+  }
+}
+
+.gift-product-card .title {
+  text-align: center;
+  font-size: 36px;
+  color: #000;
+}
+
+@media (max-width: 768px) {
+  .gift-product-card .title {
+    font-size: 18px;
+  }
+}
+
+.gift-product-card .card-box {
+  position: relative;
+  display: flex;
+  max-width: 1200px;
+  padding: 60px 70px 60px 90px;
+  margin: 0 auto;
+  margin-top: 80px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.15);
+}
+
+@media (max-width: 768px) {
+  .gift-product-card .card-box {
+    flex-direction: column;
+    padding: 40px 25px;
+    margin-top: 40px;
+  }
+}
+
+.gift-product-card .card-box:after {
+  display: none;
+  content: "";
+  position: absolute;
+  top: 25px;
+  right: 35px;
+  width: 261px;
+  height: 273px;
+  /* background: url(https://cdn.shopify.com/s/files/1/0521/9411/5753/files/gift_bg1.png?v=1669793505) no-repeat; */
+  background-size: 100%;
+}
+
+@media (max-width: 768px) {
+  .gift-product-card .card-box:after {
+    top: auto !important;
+    right: auto !important;
+    left: 50px !important;
+    bottom: 80px !important;
+    width: 276px !important;
+    height: 203px !important;
+    /* background-image: url(https://cdn.shopify.com/s/files/1/0521/9411/5753/files/gift_bg3.png?v=1669797062) !important; */
+  }
+}
+
+.gift-product-card .layout-2:after {
+  width: 444px;
+  height: 252px;
+  /* background-image: url(https://cdn.shopify.com/s/files/1/0521/9411/5753/files/gift_bg2.png?v=1669793516); */
+  top: auto;
+  right: auto;
+  left: 55px;
+  bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .gift-product-card .layout-2:after {
+    width: 252px !important;
+    height: 194px !important;
+    /* background-image: url(https://cdn.shopify.com/s/files/1/0521/9411/5753/files/gift_bg4.png?v=1669797904) !important; */
+  }
+}
+
+.gift-product-card .layout-2 .image-box {
+  order: 1;
+}
+
+.gift-product-card .layout-2 .text-box {
+  padding-left: 0;
+  padding-right: 100px;
+}
+
+@media (max-width: 768px) {
+  .gift-product-card .layout-2 .text-box {
+    order: 2 !important;
+  }
+}
+
+.gift-product-card .layout-2 .tag-box {
+  width: 300px;
+  height: 212px;
+  left: auto;
+  top: -65px;
+  right: -36px;
+  /* background-image: url(https://cdn.shopify.com/s/files/1/0521/9411/5753/files/gift_product_tag2.png?v=1669794887); */
+}
+
+@media (max-width: 768px) {
+  .gift-product-card .layout-2 .tag-box {
+    top: -35px;
+    right: -17px;
+  }
+}
+
+.gift-product-card .layout-2 .tag-box .tag-text {
+  padding-top: 55px;
+}
+
+.gift-product-card .image-box {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 48%;
+}
+
+@media (max-width: 768px) {
+  .gift-product-card .image-box {
+    width: 100%;
+  }
+}
+
+.gift-product-card .image-box img {
+  width: 100%;
+}
+
+.gift-product-card .text-box {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+  padding-left: 70px;
+}
+
+@media (max-width: 768px) {
+  .gift-product-card .text-box {
+    padding: 0 !important;
+  }
+}
+
+.gift-product-card .card-title {
+  font-size: 36px;
+  line-height: 1.38;
+  color: #333;
+}
+
+@media (max-width: 768px) {
+  .gift-product-card .card-title {
+    font-size: 18px;
+    text-align: center;
+    margin-top: 25px;
+  }
+}
+
+.gift-product-card .card-description {
+  font-size: 20px;
+  color: #333;
+  margin-top: 50px;
+}
+
+@media (max-width: 768px) {
+  .gift-product-card .card-description {
+    font-size: 11px;
+    margin-top: 25px;
+  }
+}
+
+.gift-product-card .price-wrap {
+  display: flex;
+  align-items: flex-end;
+  line-height: 1;
+  margin-top: 10px;
+}
+
+.gift-product-card .price-wrap .price {
+  font-size: 24px;
+  font-weight: 700;
+  color: #000;
+}
+
+.gift-product-card .price-wrap .compare_at_price {
+  font-size: 16px;
+  color: #333;
+  text-decoration: line-through;
+  margin-left: 10px;
+}
+
+.gift-product-card .code-wrap {
+  display: flex;
+  font-size: 14px;
+  color: #666;
+  margin-top: 10px;
+}
+
+.gift-product-card .code-wrap a {
+  color: #ff9d04;
+  margin-left: 8px;
+  text-decoration: underline;
+}
+
+.gift-product-card .btn-group {
+  display: flex;
+  margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+  .gift-product-card .btn-group {
+    display: block;
+  }
+}
+
+.gift-product-card .btn-group a {
+  display: block;
+  height: 40px;
+  line-height: 40px;
+  padding: 0 30px;
+  background: #ff9d04;
+  border: 1px solid #ff9d04;
+  color: #fff;
+  font-size: 20px;
+  border-radius: 60px;
+  margin-right: 20px;
+}
+
+.gift-product-card .btn-group a:last-child {
+  margin-right: 0;
+  border: 1px solid #ff9d04;
+  color: #ff9d04;
+  background: transparent;
+}
+
+@media (max-width: 768px) {
+  .gift-product-card .btn-group a {
+    font-size: 14px;
+    font-weight: 600;
+    height: 36px;
+    line-height: 36px;
+    width: 100%;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+}
+
+.gift-product-card .tag-box {
+  position: absolute;
+  top: -68px;
+  left: -56px;
+  width: 250px;
+  height: 199px;
+  /* background: url(https://cdn.shopify.com/s/files/1/0521/9411/5753/files/gift_product_tag.png?v=1669781537) no-repeat; */
+  background-size: 100%;
+  z-index: 2;
+}
+
+@media (max-width: 768px) {
+  .gift-product-card .tag-box {
+    width: 125px !important;
+    height: 99px !important;
+    left: -28px;
+    top: -35px;
+  }
+}
+
+.gift-product-card .tag-box .tag-text {
+  text-align: center;
+  padding-top: 42px;
+  font-size: 0;
+}
+
+@media (max-width: 768px) {
+  .gift-product-card .tag-box .tag-text {
+    padding-top: 21px !important;
+  }
+}
+
+.gift-product-card .tag-box .tag-text span {
+  font-size: 36px;
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  .gift-product-card .tag-box .tag-text span {
+    font-size: 18px;
+  }
+}
+
+.gift-product-card .tag-box .tag-off {
+  margin-right: 12px;
+}
+
+@media (max-width: 768px) {
+  .gift-product-card .tag-box .tag-off {
+    margin-right: 8px;
+  }
+}
+

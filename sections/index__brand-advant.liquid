@@ -1,0 +1,71 @@
+{{ 'index__brand-advant.scss.css' | asset_url | stylesheet_tag }}
+
+<section class="index__brand-advant section-wrapper-middle">
+  <div class="index__brand-advant-box container-wrapper">
+    {% if section.settings.advant_title != blank %}
+    <h2 class="index-title">{{ section.settings.advant_title }}</h2>
+    {% endif %}
+    <ul class="brand-advant-list">
+      {% for block in section.blocks %}
+        <li class="brand-advant-item">
+          {% if block.settings.image %}
+            {% render 'image-element',
+              image: block.settings.image,
+              alt: block.settings.image.alt,
+              stretch_width: true
+            %}
+          {% else %}
+            {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+          {% endif %}
+          <div class="brand-advant-info">
+            {{ block.settings.info }}
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "index brand advantages",
+  "presets": [{
+    "name": "index brand advantages",
+    "blocks": [
+      {
+        "type": "block"
+      },
+      {
+        "type": "block"
+      },
+      {
+        "type": "block"
+      }
+    ]
+  }],
+  "settings": [
+    {
+      "type": "text",
+      "id": "advant_title",
+      "label": "Advantages Title"
+    }
+  ],
+  "blocks": [{
+    "type": "block",
+    "name": "block",
+    "limit": 6,
+    "settings": [{
+      "type": "image_picker",
+      "id": "image",
+      "label": "图片",
+      "info": "图片尺寸为：80 X 80，图片格式推介使用png"
+    },{
+      "type": "richtext",
+      "id": "info",
+      "label": "文案",
+      "default": "<p>Media Info</p>"
+    }]
+  }]
+}
+
+{% endschema %}

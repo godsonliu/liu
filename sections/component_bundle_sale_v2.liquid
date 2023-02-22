@@ -1,0 +1,246 @@
+
+<style>
+.component_bundle_sale_v2_{{section.id}} {
+	padding: 20px 10px;
+  {% if section.settings.box_bg != blank %}
+	background: {{section.settings.box_bg}};
+  {% else %}
+  background: linear-gradient(180deg, #FFFFFF 0%, #F5F5F7 12.9%, #F5F5F7 88.68%, #FFFFFF 100%);
+  {% endif %}
+}
+</style>
+<section class="component_bundle_sale_v2_{{section.id}} {{section.settings.custom_class}}">
+	{% render 'component_bundle_sale_v2' %}
+</section>
+
+{% schema %}
+	{
+		"name": "component_bundle_sale_v2",
+		"presets": [
+			{
+				"name": "component_bundle_sale_v2"
+			}
+		],
+		"settings": [
+			{
+				"type": "header",
+				"content": "Section结构区"
+			},
+      {
+				"type": "color",
+				"id": "box_bg",
+				"label": "Section背景色"
+			},
+			{
+				"type": "color",
+				"id": "bundle_item_div_bg",
+				"label": "bundle区域的背景色",
+        "default": "#ffffff"
+			},
+      {
+        "type": "text",
+        "id": "bundle_border_radius",
+        "label": "bundle的圆角",
+        "default": "16px"
+      },
+      {
+				"type": "header",
+				"content": "产品卡片内容区"
+			},
+			{
+				"type": "select",
+				"id": "content_text_align",
+				"label": "产品描述区文案水平居中方式",
+				"options": [
+					{
+						"value": "left",
+						"label": "居左"
+					},
+					{
+						"value": "center",
+						"label": "居中"
+					},
+					{
+						"value": "right",
+						"label": "居右"
+					}
+				],
+				"default": "left"
+			},
+      {
+        "type": "text",
+        "id": "item_border_radius",
+        "label": "产品卡片圆角",
+        "default": "16px"
+      },
+      {
+        "type": "color",
+        "id": "item_border_color",
+        "label": "产品卡片边框颜色",
+        "default": "#dddddd"
+      },
+			{
+				"type": "color",
+				"id": "product_title_color",
+				"label": "产品标题颜色",
+				"default": "#333333"
+			},
+			{
+				"type": "color",
+				"id": "product_price_color",
+				"label": "价格颜色",
+				"default": "#333333"
+			},
+			{
+				"type": "checkbox",
+				"id": "has_reviews",
+				"label": "是否需要产品的星级评分",
+				"default": true
+			},
+			{
+				"type": "header",
+				"content": "总价格区域"
+			},
+			{
+				"type": "color",
+				"id": "price_color",
+				"label": "价格颜色",
+				"default": "#000000"
+			},
+			{
+				"type": "color",
+				"id": "compare_at_price_color",
+				"label": "原价格颜色",
+				"default": "#999999"
+			},
+			{
+				"type": "color",
+				"id": "save_price_color",
+				"label": "Save高亮色"
+			},
+			{
+				"type": "text",
+				"id": "save_price_text",
+				"label": "节省文案",
+				"default": "Save"
+			},
+      {
+        "type": "header",
+        "content": "按钮区域"
+      },
+      	{
+				"type": "text",
+				"id": "button_txt",
+				"label": "按钮文案",
+				"default": "Buy Now"
+			},
+      {
+        "type": "text",
+        "id": "button_border_radius",
+        "label": "按钮圆角",
+        "default": "70px"
+      },
+			{
+				"type": "color",
+				"id": "button_bg",
+				"label": "按钮背景色"
+			},
+			{
+				"type": "color",
+				"id": "button_border_color",
+				"label": "按钮边框颜色"
+			},
+			{
+				"type": "color",
+				"id": "button_txt_color",
+				"label": "按钮文案颜色",
+				"default": "#ffffff"
+			},
+			{
+				"type": "color",
+				"id": "button_hover_bg",
+				"label": "按钮hover时背景色"
+			},
+			{
+				"type": "color",
+				"id": "button_hover_border_color",
+				"label": "按钮hover时边框颜色"
+			},
+			{
+				"type": "color",
+				"id": "button_hover_txt_color",
+				"label": "按钮hover时文案颜色",
+				"default": "#ffffff"
+			},
+      {
+				"type": "header",
+				"content": "埋点相关"
+			},
+			{
+				"type": "text",
+				"id": "img_source",
+				"label": "GA3埋点字段,图片的Ref",
+				"default": "pd_live_img"
+			},
+			{
+				"type": "text",
+				"id": "ga4_img_source",
+				"label": "GA4图片入口埋点字段前缀",
+				"default": "img_"
+			},
+			{
+				"type": "text",
+				"id": "ga4_page_group",
+				"label": "Ga4的埋点字段",
+				"default": "Live Streaming Page"
+			},
+			{
+				"type": "header",
+				"content": "开发相关"
+			},
+			{
+				"type": "text",
+				"id": "custom_class",
+				"label": "自定义类名"
+			}
+		],
+		"blocks": [
+			{
+				"type": "bundle_item",
+				"name": "bundle_item",
+				"settings": [
+					{
+						"type": "image_picker",
+						"id": "product_image",
+						"label": "自定义产品图",
+						"info": "尽量使用透明底图片"
+					},
+					{
+						"type": "product",
+						"id": "product_info",
+						"label": "选择产品",
+						"info": "用于获取产品信息"
+					},
+					{
+						"type": "number",
+						"id": "product_origin_price",
+						"label": "产品自定义价格",
+						"info": "产品原价支持自定义修改，适用于主商品和赠品的场景，不填写时，产品默认展示产品的自身的价格 填写数字，单位是分"
+					},
+					{
+						"type": "text",
+						"id": "variant_sku",
+						"label": "variant_sku",
+						"info": "提供给自定义展示不同商品的variant，如果不填写，默认就展示第一个可用的variant"
+					},
+					{
+						"type": "number",
+						"id": "product_bundle_price",
+						"label": "捆绑价格",
+						"info": "填写数字，单位是分"
+					}
+				]
+			}
+		]
+	}
+{% endschema %}

@@ -1,0 +1,42 @@
+{% if template contains 'page' %}
+  {% if page.metafields['global']['banner3'].value %}
+    {% assign banner3 = page.metafields['global']['banner3'].value %}
+  {% else %}
+    {% assign banner3 = page.metafields['global']['banner3'] %}
+  {% endif %}
+{% else %}
+  {% if product.metafields['global']['banner3'].value %}
+    {% assign banner3 = product.metafields['global']['banner3'].value %}
+  {% else %}
+    {% assign banner3 = product.metafields['global']['banner3'] %}
+  {% endif %}
+{% endif %}
+
+{% if banner3 != blank %}
+  <section class="smartScale-3">
+    <div class="box-container">
+      <div class="bg">
+        <img class="lazyload is-hidden-mobile-only" data-src="{{ banner3.img_pc }}" alt=""/>
+        <img class="lazyload is-hidden-desktop-only" data-src="{{ banner3.img_mob }}" alt=""/>
+      </div>
+      <div class="banner3-content">
+        <h class="banner-title">{{ banner3.title }}</h>
+        <p class="desc">{{ banner3.desc }}</p>
+        <p class="tips">{{ banner3.tips }}</p>
+      </div>
+    </div>
+  </section>
+{% endif %}
+
+{% schema %}
+{
+  "name": "SmartScale P2 Pro Banner3",
+  "presets": [
+    {
+      "category": "SmartScale P2 Pro Banner3 Sections",
+      "name": "SmartScale P2 Pro Banner3"
+    }
+  ],
+  "settings": []
+}
+{% endschema %}

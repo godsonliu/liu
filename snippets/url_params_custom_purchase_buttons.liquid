@@ -1,0 +1,160 @@
+{% if shop.metafields['global']['storefront_key'].value %}
+  {% assign storefront_key = shop.metafields['global']['storefront_key'].value %}
+{% else %}
+  {% assign storefront_key = shop.metafields['global']['storefront_key'] %}
+{% endif %}
+
+{% if product.available == false %}
+  <span class="product_soldout product-thumbnail__sold-out">{{ 'products.product.sold_out' | t }}</span>
+  <style>.product_price, .purchase-details__quantity { overflow: hidden; display: none; height: 0; margin: 0; }</style>
+{% else %}
+  {% if addcart_txt != blank %}<button class="product_addcart customize_button_addtocart">{{ addcart_txt }}</button>{% endif %}
+  {% if buynow_txt != blank %}<button class="product_buynow customize_button_buynow">{{ buynow_txt }}</button>{% endif %}
+{% endif %}
+<script>
+(function(){
+  const options = JSON.parse(`{{ options | json }}`)
+  let variant_arr = []
+  const product_variants = {}
+  const line_items = []
+  const productInfo = {}
+  let cookieName = ''
+  const in30Minutes = 1/48;
+
+  const getURLParams = function(name, url){
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+    results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+  };
+
+  const custom_purchase = {
+    line_item: function line_item(variants, product) {
+      let line_item = {};
+      variants && variants.map(item => {
+        if(item.sku === product.sku) line_item.variant_id = item.id
+      });
+      line_item.quantity = Number($(".purchase-details input").val());
+      return line_item;
+    },
+    variantArr: function variantArr(variants, product) {
+      let variantArr = {};
+      variants && variants.map(item => {
+        if(item.sku === product.sku) variantArr.id = item.id
+      });
+      variantArr.quantity = Number($(".purchase-details input").val());
+      return variantArr;
+    }
+  }
+
+  init()
+
+  function init() {  
+
+    const discount = getURLParams('discount')
+    if(discount) {
+      Cookies.set('urlParams_discount', discount, { expires:  in30Minutes })
+    }
+
+    line_items.push(custom_purchase.line_item({{ product.variants | json }}, {
+      handle: '{{ product.handle }}',
+      sku: '{{ product.selected_or_first_available_variant.sku }}'
+    }));
+
+    productInfo['{{ product.selected_or_first_available_variant.sku }}'] = {
+      name: '{{ product.selected_or_first_available_variant.name }}',
+      id: '{{ product.selected_or_first_available_variant.sku }}',
+      category: '',
+      categoryName: '{{ product.type }}',
+      brand: "{{ shop.name }}",
+      variant: '{{ product.selected_or_first_available_variant.title }}',
+      price: +'{{ product.selected_or_first_available_variant.price }}' / 100,
+      quantity: Number($(".purchase-details input").val())
+    }
+
+    {% for option in options %}
+      {% assign paramsVal = option.urlParams.value %}
+      product_variants["{{ paramsVal }}"] = []
+      {% for item in option.variant_arr %}
+        {% assign offer_product = all_products[item.handle] %}
+        {% assign offer_variant = offer_product.selected_or_first_available_variant %}
+        productInfo['{{ item.sku }}'] = {
+          name: '{{ offer_variant.name }}',
+          id: '{{ offer_variant.sku }}',
+          category: '',
+          categoryName: '{{ offer_product.type }}',
+          brand: "{{ shop.name }}",
+          variant: '{{ offer_variant.title }}',
+          price: +'{{ offer_variant.price }}' / 100,
+          quantity: Number($(".purchase-details input").val())
+        }
+        product_variants["{{ paramsVal }}"].push(custom_purchase.line_item({{ offer_product.variants | json }}, {{ item | json }}))
+      {% endfor %}
+    {% endfor %}
+
+    options && options.map(item => {
+      if(item.urlParams) {
+        const params = getURLParams(item.urlParams.label) || Cookies.get(item.urlParams.label, item.urlParams.value)
+        if(params && params === item.urlParams.value) {
+          cookieName = item.urlParams.label
+          Cookies.set(item.urlParams.label, item.urlParams.value, { expires:  in30Minutes })
+          variant_arr = item.variant_arr
+          line_items.push(...product_variants[item.urlParams.value])
+        }
+      }
+    })
+  }
+
+
+  
+  $('.customize_button_buynow').click(e => {
+    e.preventDefault();
+    
+    const discount = getURLParams('discount') || Cookies.get('urlParams_discount')
+    Cookies.remove(cookieName)
+    Cookies.remove('urlParams_discount')
+
+    Shopify.theme.bundleBuynow({
+      authorization: "{{ storefront_key }}",
+      checkout: {
+        line_items: line_items,
+        discount,
+        presentment_currency: "{{ shop.currency }}",
+        is_upstream_button: true,
+        page_type: "product",
+        secret: true,
+        wallet_name: "Checkout"
+      },
+      onSuccess: () => {},
+      onError: err => $.dialog({ title: err.message, content: err.description, type: 'red' })
+    });
+
+    // data upload
+    let productsList = [productInfo['{{ product.selected_or_first_available_variant.sku }}']];
+    let skus = ['{{ product.selected_or_first_available_variant.sku }}']
+    variant_arr.map(item => {
+      productsList.push(productInfo[item.sku])
+      skus.push(item.sku)
+    })
+
+    console.log(productsList, skus.join(','))
+
+    window.dataLayer.push({
+      'event': 'eeEvent',
+      'eventCategory': 'EnhancedEcommerce',
+      'eventAction': 'BuyNow', 
+      'eventLabel': skus.join(','),
+      'ecommerce': {
+        'currencyCode': '{{ shop.currency }}', // 填写对应货币 USD EUR...
+        'add': {
+          'products': productsList
+        }
+      }
+    })
+  })
+})()
+</script>
+

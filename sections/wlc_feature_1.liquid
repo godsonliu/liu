@@ -1,0 +1,55 @@
+<div class="wlc-multi-banner">
+  {% for block in section.blocks %}
+    <div class="wlc-multi-item wlc-multi-item{{forloop.index}}">
+      {% if block.settings.img != blank %}
+        {% render 'lazyload_image',  
+          src: block.settings.img,
+          alt: block.settings.img.alt,
+          width: block.settings.img.width,
+          aspect_ratio: block.settings.img.aspect_ratio,
+          isSchemaData: true,
+          additional_classes: "is-hidden-mobile-only"
+        %}
+        {% render 'lazyload_image',  
+          src: block.settings.img_mob,
+          alt: block.settings.img_mob.alt,
+          width: block.settings.img_mob.width,
+          aspect_ratio: block.settings.img_mob.aspect_ratio,
+          isSchemaData: true,
+          additional_classes: "is-hidden-desktop-only"
+        %}
+      {% endif %}
+      <div class="text-container">
+        <div class="wlc-multi-title">{{ block.settings.tit }}</div>
+        <p class="wlc-multi-desc">{{ block.settings.desc }}</p>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+{% schema %}
+{
+ "name": "wlc feature 1",
+ "blocks": [{
+    "type": "image",
+    "name": "image",
+    "settings": [{
+      "type": "image_picker",
+      "id": "img",
+      "label": "背景图"
+    },{
+      "type": "image_picker",
+      "id": "img_mob",
+      "label": "移动端背景图"
+    },{
+      "type": "textarea",
+      "id": "tit",
+      "label": "标题"
+     },{
+      "type": "textarea",
+      "id": "desc",
+      "label": "副标题"
+     }]
+  }]
+}
+{% endschema %}

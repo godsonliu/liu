@@ -1,0 +1,99 @@
+
+{% assign DataId = section.settings.data_id %}
+{% if page.metafields['global'][DataId].value %}
+  {% assign web_faq = page.metafields['global'][DataId].value %}
+{% else %}
+  {% assign web_faq = page.metafields['global'][DataId] %}
+{% endif %}
+
+<style>
+  #{{DataId}}{ padding: 5rem 0; font-family: Whitney,Helvetica,Arial,sans-serif;}
+  #{{DataId}} .web_faq{max-width: 1200px;padding: 0 1rem;margin: auto;}
+  @media (max-width:768px) {
+    #{{DataId}}{ padding: 3rem 0; }
+  }
+  #{{DataId}} h1{font-weight: 700; text-align: center; margin-bottom: 3rem; font-size:{{web_faq.pc_title_size }};}
+  #{{DataId}} .describe .desc{font-size: 16px;color: {{web_faq.question_color}};}
+  #{{DataId}} .describe .icons-list{position: relative;margin-right: 1vw;}
+  #{{DataId}} .describe .icons-list i{font-size: 10px;cursor: pointer;color: {{web_faq.question_color}};}
+  #{{DataId}} .describe .icons-list .open-icon{opacity: 0;position: absolute;left: 0;top: 0;}
+  #{{DataId}} .describe{transition: all .5s; cursor: pointer; display: flex;justify-content: space-between;padding: 23px 0 0;border-top: 1px solid {{web_faq.answer_color}};}
+  #{{DataId}} .item{font-size: 14px;color: {{web_faq.answer_color}};padding: 8px 0 0px;display: none;}
+  #{{DataId}} .item .value{text-overflow: ellipsis;overflow: hidden;max-width: 100%;}
+</style>
+<section style="background-color:{{web_faq.section_background_color}};" id="{{DataId}}" >
+  <div class="web_faq"  style="background-color:{{web_faq.row_background_color}}">
+    <h1 style="color:{{ web_faq.heading_color }}">
+      {{web_faq.heading_text}}
+    </h1>
+    {% for item in web_faq.faqlist %}
+      <div class="describe" data-order="{{ forloop.index0 }}">
+        <span class="desc">
+          {{ item.desc }}
+        </span>
+        <span class="icons-list">
+          <i class="iconfont init-icon">&#xe86b;</i>
+          <i class="iconfont open-icon">&#xe603;</i>
+        </span>
+      </div>
+      <div class="item">
+        <span class="value">{{ item.desc_content }}</span>
+      </div>
+    {% endfor %}
+  </div>
+
+</section>
+<script>
+  $(document).ready(function(){
+    let num=0
+    $('#{{DataId}} .describe').on('click',function(){
+      $(this).next().slideToggle('fast')
+      if ($(this).find('.init-icon').css('opacity')==1) {
+        if ('{{ web_faq.sku }}' && '{{ web_faq.sku }}' !==' ' ) {
+          if ($(this).parent().parent().attr('id')=='specs') {
+            window.dataLayer.push({
+              "event": "uaEvent", // Trigger
+              "eventCategory": 'Specs',
+              "eventAction": `Specs-${parseInt($(this).attr('data-order'))+1}`,
+              "eventLabel": '{{ web_faq.sku }}', 
+            })
+          }else{
+            window.dataLayer.push({
+              "event": "uaEvent", // Trigger
+              "eventCategory": 'FAQ',
+              "eventAction": `FAQ-${parseInt($(this).attr('data-order'))+1}`,
+              "eventLabel": '{{ web_faq.sku }}', 
+            })
+          }
+        }
+        $(this).find('.open-icon').css('opacity',1)
+        $(this).find('.init-icon').css('opacity',0)
+        return
+      }
+      if ($(this).find('.open-icon').css('opacity')==1) {
+        $(this).find('.init-icon').css('opacity',1)
+        $(this).find('.open-icon').css('opacity',0)
+        return
+      }
+    })
+  })
+</script>
+{% schema %}
+{
+  "name": "web_faq",
+  "presets": [
+    {
+      "category": "Custom Dynamic Sections",
+      "name": "web faq"
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "data_id",
+      "label": "metafields data id",
+      "default": "web_faq"
+    }
+  ]
+}
+{% endschema %}

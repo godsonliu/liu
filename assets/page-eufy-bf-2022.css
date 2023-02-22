@@ -1,0 +1,111 @@
+#page-eufy-bf-2022 {
+  margin-top: -64px;
+  background-color: #111111;
+}
+
+#page-eufy-bf-2022 .index_advantage {
+  background: transparent;
+  padding-top: 0;
+}
+#page-eufy-bf-2022 .index_advantage .index-title {
+  color: #fff;
+}
+#page-eufy-bf-2022 .swipe_banner li .swipe_banner_content {
+  align-items: flex-start !important;
+  max-width: 100% !important;
+  padding-left: 16vw !important;
+  bottom: 18% !important;
+}
+
+@media screen and (max-width: 1920px) and (min-width: 1281px) {
+  #page-eufy-bf-2022 .index_advantage {
+    margin-bottom: 0 !important;
+    padding-bottom: 120px;
+  }
+}
+
+#page-eufy-bf-2022 .index_advantage .adv-card {
+  background-color: #252525;
+}
+#page-eufy-bf-2022 .index_advantage .adv-card .txt {
+  color: #fff;
+}
+.index_advantage .adv-card.is-expand .content {
+  opacity: 1;
+}
+#page-eufy-bf-2022 .index_advantage .adv-card .content p {
+  color: #fff;
+}
+#page-eufy-bf-2022
+  .component_flash_sale-div
+  .limited_items_img
+  .items_img_a
+  .items_img {
+  width: 180px;
+  height: 180px;
+  border-radius: 12px;
+  object-fit: cover;
+}
+@media (max-width: 769px) {
+  #page-eufy-bf-2022 {
+    margin-top: -52px;
+  }
+  #page-eufy-bf-2022
+    .component_flash_sale-div
+    .limited_items_img
+    .items_img_a
+    .items_img {
+    width: 120px;
+    height: 120px;
+  }
+  #page-eufy-bf-2022 .swipe_banner .swipe_banner_content .watch_btn {
+    padding: 8px 22px;
+    font-size: 16px;
+  }
+  #page-eufy-bf-2022 .limited_items_content {
+    align-items: center;
+  }
+  #page-eufy-bf-2022 .index_advantage {
+    margin-bottom: 0 !important;
+    padding-bottom: 16vw;
+  }
+  #page-eufy-bf-2022 .title-desc-div {
+    text-align: center;
+  }
+  #page-eufy-bf-2022 .product_tips {
+    text-align: center;
+  }
+  #page-eufy-bf-2022 .swipe_banner li .swipe_banner_content {
+    align-items: center !important;
+    max-width: 100% !important;
+    padding-left: 0 !important;
+    bottom: 8% !important;
+  }
+}
+
+#page-eufy-bf-2022 .page_weekend_deal_more{
+  margin-bottom: 50px;
+}
+
+#page-eufy-bf-2022 .page_weekend_deal_more_title{
+  margin-top: 30px;
+}
+
+@media (min-width: 768px) {
+  #page-eufy-bf-2022 .page_weekend_deal_more{
+    margin-bottom: 100px;
+  }
+
+  #page-eufy-bf-2022 .page_weekend_deal_more_title{
+    margin-top: 50px;
+  }
+
+  #page-eufy-bf-2022 .component_title_v2 {
+    font-size: 50px;
+  }
+}
+
+
+html[lang="de-de"] #page-eufy-bf-2022 .component_count_timer .dot{
+  margin: 10px 15px;
+}

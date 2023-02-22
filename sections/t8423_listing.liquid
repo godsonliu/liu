@@ -1,0 +1,573 @@
+{% assign lang = product.metafields.global %}
+
+{% if lang.solo_cam.value %}
+  {% assign solo_cam = lang.solo_cam.value %}
+{% else %}
+  {% assign solo_cam = lang.solo_cam %}
+{% endif %}
+
+{% if lang.t8423_v.value %}
+  {% assign t8423_v = lang.t8423_v.value %}
+{% else %}
+  {% assign t8423_v = lang.t8423_v %}
+{% endif %}
+
+{% if lang.video.value %}
+  {% assign video = lang.video.value %}
+{% else %}
+  {% assign video = lang.video %}
+{% endif %}
+
+{% if lang.feature.value %}
+  {% assign feature = lang.feature.value %}
+{% else %}
+  {% assign feature = lang.feature %}
+{% endif %}
+
+{% if lang.moreFeature.value %}
+  {% assign moreFeature = lang.moreFeature.value %}
+{% else %}
+  {% assign moreFeature = lang.moreFeature %}
+{% endif %}
+
+{% if lang.camSlick.value %}
+  {% assign camSlick = lang.camSlick.value %}
+{% else %}
+  {% assign camSlick = lang.camSlick %}
+{% endif %}
+
+{% if lang.imgTitle.value %}
+  {% assign imgTitle = lang.imgTitle.value %}
+{% else %}
+  {% assign imgTitle = lang.imgTitle %}
+{% endif %}
+
+{% assign videoList = lang.new_t8423Listing.data %}
+{% assign custom_css = section.settings.custom_css %}
+
+<link rel="stylesheet" href="{{ 't8423listing.scss.css' | asset_url }}">
+<script src="{{ 't8423listing.js' | asset_url }}" defer="defer"></script>
+
+{{ 't8423_listing.scss.css' | asset_url | stylesheet_tag }}
+{% style %}
+  {%- if custom_css != blank -%}
+    {{ custom_css }}
+  {% endif %}
+{% endstyle %}
+
+<div class="page_presell_new8423">
+
+  <div class="signup">
+    <!-- <div>
+      <div class="phone-show">
+        <img data-src="{{ solo_cam.banner_m1_img }}" class="lazyload">
+      </div>
+      <img class="pc-show lazyload" data-src="{{ solo_cam.banner_p1_img }}"/>
+    </div> -->
+    <!-- <div>
+      <div class="phone-show">
+        <img data-src="{{ solo_cam.banner_m2_img }}" class="lazyload">
+      </div>
+      <img class="pc-show lazyload" data-src="{{ solo_cam.banner_p2_img }}" />
+    </div> -->
+
+    <!-- <div class="presell-bg-img video_content banner_7 pc-show">
+      <div class="phone-show">
+        <img data-src="{{ videoList.videoBanner3.img_m }}" class="lazyload">
+      </div>
+      <img class="pc-show lazyload" data-src="{{ videoList.videoBanner3.img }}" />
+      <div class="presell-center-title presell-top-title banner_7_wz1">
+        <p class="fz-50">{{ videoList.videoBanner3.title }}</p>
+      </div>
+      {% if section.settings.button_true == true %}
+        <div class="play-wrap">
+          <img class="subscribe_tips lazyload" data-src="{{ videoList.videoBanner3.play }}">
+        </div>
+      {% endif %}
+      {% if section.settings.video_true == true %}
+        <div id="videoCoverYouTube">
+          <div class="box" id="youtubeVideo"></div>
+          <a class="closeVideo"><i class="iconfont">&#xe723;</i></a>
+        </div>
+      {% endif %}
+    </div> -->
+
+  </div>
+
+  <!-- <div class="signup banner_1 banner_wrap">
+    <div class="banner_1_content">
+      <div class="banner-title-wrap">
+        <div class="banner_1_wz1 title-wrap">
+          <p>{{ videoList.videoBanner4.title }}</p>
+          <p class="subtitle">{{ videoList.videoBanner4.subTitle }}</p>
+        </div>
+      </div>
+      <div class="phone-show">
+        <img data-src="{{ videoList.videoBanner4.img_m }}" class="lazyload" />
+      </div>
+     
+      <img class="pc-show lazyload" data-src="{{ videoList.videoBanner4.img }}" />
+    </div>
+  </div> -->
+
+  <!-- <div class="presell-bg-img video_content banner_7">
+    <div class="phone-show">
+      <img data-src="{{ videoList.videoResolution.gif }}" class="lazyload">
+    </div>
+
+    <img class="pc-show lazyload" data-src="{{ videoList.videoResolution.img }}" />
+    <div class="presell-center-title presell-top-title banner_20_wz1">
+      <p class="fz-50">{{ videoList.videoResolution.title }}</p>
+      <p class="subTitle banner_7_wz2">{{ videoList.videoResolution.subTitle }}</p>
+    </div>
+  </div> -->
+
+  <div class="presell-bg-img video_content banner_7 newAdd">
+    <div class="phone-show">
+      <img data-src="{{ videoList.new_1.mob_img }}" class="lazyload">
+      <div class="presell-center-title presell-title1">
+        <p class="fz-50">{{ videoList.new_1.pc_text1 }}</p>
+        <p class="subTitle">{{ videoList.new_1.pc_text2 }}</p>
+      </div>
+    </div>
+   <div class="pc-show only">
+    <!-- <img class="lazyload" data-src="{{ videoList.new_1.pc_img}}" /> -->
+    <img class="pc_show lazyload" data-src="{{ t8423_v.bg3_img }}" alt="" style="opacity: 0;">
+    <div class="only2">
+      <video class="only3 " src="{{ videoList.new_1.pc-video }}" preload="auto" muted="muted" autoplay="autoplay" loop="loop"></video>
+      <div class="pc_text center new1 animate1">
+          <p class="txt_1">{{ videoList.new_1.pc_text1 }}</p>
+          <p class="txt_subTitle">{{ videoList.new_1.pc_text2 }}</p>
+      </div>
+    </div>
+    
+   </div>
+  </div>
+  <div class="pc-show">
+    <div class="t8423listing_2">
+     <div class="banner_bg2 pc_show">
+        <video class="lazyload" data-src="{{ t8423_v.video_1 }}" preload="auto" muted="muted" autoplay="autoplay" loop="loop" style="width: 100%; height: 100%;"></video>
+        <div class="banner_2_content">
+          <div class="banner_2_btm"></div>
+          <p class="banner_2_p1">{{ t8423_v.banner_2_p1 }}</p>
+          <p class="banner_2_p2">{{ t8423_v.banner_2_p2 }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="t8423listing_3">
+  
+      <div class="banner_bg3 pc_show">
+        <img class="pc_show lazyload" data-src="{{ t8423_v.bg3_img }}" alt="">
+        <div class="bg3_btm">
+          <img class="pc_show lazyload" data-src="{{ t8423_v.bg3_btm_img }}" alt="">
+        </div>
+        <div class="bg3_content">
+          <p class="bg3_p1">{{ t8423_v.bg3_p1 }}</p>
+          <p class="bg3_p2">{{ t8423_v.bg3_p2 }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="t8423listing_4">
+  
+      <div class="banner_bg4 pc_show">
+        <div class="contain">
+          <img class="pc_show lazyload" data-src="{{ t8423_v.bg4_img }}" alt="">
+          <div class="bg4_sticky">
+            <div class="bg4_dh">
+              <img class="pc_show lazyload" data-src="{{ t8423_v.bg4_dh_img }}" alt="">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="t8423listing_5">
+  
+      <div class="banner_bg5 pc_show">
+        <div class="contain">
+          <div class="bg5_a">
+            <div class="bg5_a_content">
+              <p class="bg5_a_p1">{{ videoList.new_5.title }}</p>
+              <p class="bg5_a_p2">{{ videoList.new_5.subTitle }}</p>
+              <div class="bg5_a_lignt">
+                <div class="light_border">
+                  <div class="light_content"></div>
+                </div>
+                <div class="light_pao">
+                  <img class="lazyload" data-src="{{ t8423_v.light_pao_img }}" alt="">
+                </div>
+                
+              </div>
+            </div>
+            <div class="bg5_a1">
+              <img class="pc_show lazyload" data-src="{{ t8423_v.bg5_img1 }}" alt="">
+            </div>
+            <div class="bg5_a2">
+              <img class="pc_show lazyload" data-src="{{ t8423_v.bg5_img2 }}" alt="">
+            </div>
+          </div>
+          <div class="bg5_b">
+            <div class="bg5_b_content">
+              <p class="bg5_b_p1">{{ videoList.new_6.title}}</p>
+              <p class="bg5_b_p2">{{ videoList.new_6.subTitle }}</p>
+              <div class="bg5_b_qh">
+                <div class="qh_yellow">
+                  <div class="qh_yellow_a"></div>
+                </div>
+                <div class="qh_blue">
+                  <div class="qh_blue_a"></div>
+                </div>
+              </div>
+            </div>
+            <div class="bg5_a3">
+              <img class="pc_show lazyload" data-src="{{ t8423_v.bg5_img3 }}" alt="">
+            </div>
+            <div class="bg5_a4">
+              <img class="pc_show lazyload" data-src="{{ t8423_v.bg5_img4 }}" alt="">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="presell-bg-img newAdd">
+    <!-- <div class="banner_8 pc-show">
+      <div class="contain_1" style="">
+          <div class="banner_7_img">
+              <video src="{{ videoList.new_2.videoURL }}" preload="auto" muted="muted" autoplay="autoplay" loop="loop" style="width: 100%; height: 100%;"></video>
+              <div class="banner_7_btm">
+                  <p class="banner_7_p1">{{ videoList.new_2.title}}</p>
+                  <p class="banner_7_p2"> {{ videoList.new_2.subTitle }} </p>
+              </div>
+          </div>
+      </div> 
+    </div> -->
+
+    <div class="phone-show">
+      <img class="lazyload" data-src="{{ videoList.new_2.mob_img }}" />
+      <div class="presell-center-title presell-title2 banner_8_wz1">
+        <p class="fz-58">{{ videoList.new_2.title }}</p>
+        <p class="subTitle banner_8_wz2">{{ videoList.new_2.subTitle }}</p>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="presell-bg-img banner_9 newAdd">
+    <!-- <div class="pc-show">
+      <img class="pc-show lazyload" data-src="{{  videoList.new_3.pc_img1 }}" />
+      <img class="pc-show lazyload" data-src="{{  videoList.new_3.pc_img2 }}" />
+    </div> -->
+    <div class="phone-show hasPadding">
+      <div class="presell-title3">
+        <p class="fz-58">{{ videoList.new_3.title }}</p>
+        <p class="subTitle">{{ videoList.new_3.subTitle }}</p>
+      </div>
+      <img class="phone-show lazyload" data-src="{{ videoList.new_3.mob_img }}" />
+  
+    </div>
+  </div>
+
+  <div class="presell-bg-img banner_9 newAdd hasPadding hasMargin phone-show">
+    <div class="presell-title3">
+      <p class="fz-58">{{ videoList.new_4.title }}</p>
+      <p class="subTitle">{{ videoList.new_4.subTitle }}</p>
+    </div>
+    <img class="pc-show lazyload" data-src="{{  videoList.new_4.pc_img }}" />
+    <img class="phone-show lazyload" data-src="{{ videoList.new_4.mob_img }}" />
+   
+  </div>
+
+<div class="presell-bg-img banner_10 newAdd phone-show">
+      <!-- <img class="pc-show lazyload" data-src="{{  videoList.new_5.pc_img }}" /> -->
+      <img class="phone-show lazyload" data-src="{{ videoList.new_5.mob_img }}" />
+      <div class="presell-center-title presell-title2 banner_10_wz1">
+        <p class="fz-58">{{ videoList.new_5.title }}</p>
+        <p class="subTitle banner_10_wz2">{{ videoList.new_5.subTitle }}</p>
+      </div>
+    </div>
+  
+    <div class="presell-bg-img banner_11 newAdd phone-show">
+      <!-- <img class="pc-show lazyload" data-src="{{  videoList.new_6.pc_img }}" /> -->
+      <img class="phone-show lazyload" data-src="{{ videoList.new_6.mob_img }}" />
+      <div class="presell-center-title presell-title2 banner_11_wz1">
+        <p class="fz-58">{{ videoList.new_6.title }}</p>
+        <p class="subTitle banner_11_wz2">{{ videoList.new_6.subTitle }}</p>
+      </div>
+    </div>
+
+    <div class="moreFeatures hasPadding hasMargin phone-show">
+      <p class="title_more">{{ videoList.moreFeatures.title }}</p>
+      <div class="flexBox">
+        {% for item in videoList.moreFeatures.data %}
+          <div>
+           <img class="phone-show lazyload" data-src="{{ item.img }}">
+           <p>{{item.title}}</p>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="moreFeatures-pc pc-show">
+      <p class="title_more">{{ videoList.moreFeatures.title }}</p>
+      <img class="lazyload" data-src="{{ videoList.moreFeatures.pc_productImg }}">
+      <div class="moreFeatures-pc-padding">
+        <div class="flexBox">
+          {% for item in videoList.moreFeatures.data_pc %}
+            <div class="item">
+              <div class="more-image">
+                <img class="lazyload" data-src="{{ item.img }}">
+              </div>
+              <div class="text">
+                <p class="title1">{{item.title}}</p>
+                <p class="title2">{{item.subTitle}}</p>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <div class="presell-bg-img banner_9 newAdd ">
+      <div class="phone-show hasPadding">
+        <div class="presell-title3">
+          <p class="fz-58">{{ videoList.new_7.title }}</p>
+          <p class="subTitle">{{ videoList.new_7.subTitle }}</p>
+        </div>
+        <img class="lazyload" data-src="{{  videoList.new_7.mob_img }}" />
+      </div>
+      <div class="pc-show">
+        <div class="pc-privacy">
+          <div class="">
+            <p class="fz40">{{ videoList.new_7.title }}</p>
+            <p class="fz20">{{ videoList.new_7.subTitle }}</p>
+          </div>
+          <div class="img-box">
+            <img class="lazyload" data-src="{{  videoList.new_7.pc_img }}" />
+          </div>
+        </div>
+      </div>
+     
+    
+    
+     
+    </div>
+
+
+    <!-- <div class="presell-more-features-wrap persell-time-line banner_9 pc-show">
+      <div class="more-features-title banner_9_wz1">
+        <p class="fz-38">{{ camSlick.title }}</p>
+      </div>
+      <div class="persell-time-line-wrap">
+        <ul class="logos time-horizontal clearfix">
+          {% for item in camSlick.imgList %}
+            <li class="item pass">
+              <p class="item-preIcon" onClick="clickLogosIndex({{ forloop.index0 }})">
+                <img data-src="{{ item.preIcon }}" class="lazyload" />
+              </p>
+              <p class="item-activeIcon" onClick="clickLogosIndex({{ forloop.index0 }})">
+                <img data-src="{{ item.activeIcon }}" class="lazyload" />
+              </p>
+            </li>
+          {% endfor %}
+        </ul>
+        {% for item in camSlick.imgList %}
+          <div class="time-tips-wrap">
+              <p class="fw-600">{{ item.timeTips }}</p>
+              <p class="time-tips">{{ item.timeSubTips }}</p>
+          </div>
+        {% endfor %}
+      </div>
+      
+      <div class="collections-badges presell-slick-wrap">
+        <div class="box">
+          <div class="txt">
+            {% for item in camSlick.imgList %}
+              <p class="item">
+                <img class="pc-show lazyload" data-src="{{ item.img }}" />
+                <img class="phone-show lazyload" data-src="{{ item.phoneImg }}" />
+              </p>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+  <!-- <div class="banner_11">
+      <div class="banner_11_img pc-show">
+          <img data-src="{{ solo_cam.banner_11_img }}" class="lazyload" />
+      </div>
+      <div class="banner_11_img phone-show">
+          <img data-src="{{ solo_cam.banner_11_img_mob }}" class="lazyload" />
+      </div>
+      <div class="banner_11_shou pc-show">
+          <img data-src="{{ solo_cam.banner_11_shou }}" class="lazyload" />
+      </div>
+      <div class="banner_11_shou phone-show">
+          <img data-src="{{ solo_cam.banner_11_shou_mob }}" class="lazyload" />
+      </div>
+      <p class="banner_11_p1">{{ solo_cam.banner_11_p1 }}</p>
+      <p class="banner_11_p2">
+          {{ solo_cam.banner_11_p2 }}
+      </p>
+  </div> -->
+
+  <div class="presell-flex-wrap2 banner_12 hasPadding phone-show">
+    <div>
+      <div class="title_more">{{videoList.Installation.title}}</div>
+      <ul>
+        {% for item in videoList.Installation.data %}
+          <li>
+            <img data-src="{{ item.img }}" alt="{{ item.title }}" class="lazyload" />
+            <div class="hasBackground">
+              <p class="text1">{{ item.title }}</p>
+              <p class="text2">{{ item.subTitle }}</p>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <div class="Installation-pc pc-show">
+    <div class="title_more">{{videoList.Installation.title}}</div>
+    <div class="title_sub">{{videoList.Installation.subtitle}}</div>
+    <div class="box">
+      {% for item in videoList.Installation.data %}
+        <div class="flexBox">
+          <div class="pic">
+            <img data-src="{{ item.img-pc }}" alt="{{ item.title }}" class="lazyload" />
+          </div>
+          <div class="hasBackground-pc">
+            <div class="txt">
+              <p class="text1">{{ item.title }}</p>
+              <p class="text2">{{ item.subTitle }}</p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- <div class="presell-more-features-wrap banner_last">
+    <div class="more-features-title banner_last_wz1">
+      <p>{{ moreFeature.moreFeatureTitle }}<p>
+    </div>
+    <div class="presell-more-features-flex">
+      {% for f in moreFeature.contents %}
+        <div class="more-features-flex-item">
+          <img class="phone-show lazyload" data-src="{{ f.img }}" />
+          <div class="pc-show hover-chang">
+            <img class="show lazyload" data-src="{{ f.img }}" />
+            <img class="hover-show lazyload" data-src="{{ f.gif }}" />
+          </div>
+          <p class="title banner_last_wz2">{{ f.title }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div> -->
+
+  <div class="m-box">
+    <div class="m-box-wrap">
+      <h3 class="prodTitle"> 
+        <span>Specs</span>
+      </h3>
+      {% for item in lang.cust-specs %}
+        <div class="m-list bb-9f9f9f">
+          <span class="specs-title">{{ item.name }}</span>
+          <span class="icon-list">
+            <i class="iconfont init-icon">&#xe86b;</i>
+            <i class="iconfont up-icon">&#xe603;</i>
+          </span>
+        </div>
+        <div class="m-content">
+          {% for child in item.children %}
+            <div class="item">
+              <h6 class="col">{{ child.title }}</h6> 
+              <ul class="col info"> 
+                <li> 
+                  <span class="value">{{ child.des }}</span>
+                </li>
+              </ul>
+            </div>
+          {% endfor %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+  
+</div>
+
+<style>
+  
+</style>
+
+<script>
+  // const tag = document.createElement('script');
+
+  // tag.src = "https://www.youtube.com/iframe_api";
+  // const firstScriptTag = document.getElementsByTagName('script')[0];
+  // firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+  // let presell_0628;
+  // function onYouTubeIframeAPIReady() {
+  //   presell_0628 = new YT.Player('youtubeVideo', {
+  //     height: '100%',
+  //     width: '100%',
+  //     videoId: '{{ video.videoId }}',
+  //   });
+  // } 
+
+  // $('.subscribe_tips').click(() => {
+  //   $('#videoCoverYouTube').css({ display: "block" });
+  //   presell_0628.playVideo();
+  // });
+  // $('#videoCoverYouTube .closeVideo').click(() => {
+  //   $('#videoCoverYouTube').css({ display: "none" });
+  //   presell_0628.stopVideo();
+  // });
+</script>
+
+<script>
+  
+  $(function () {
+      var icon=$('.icon-list');
+      $('.m-list').click(function () {
+          var _active = $(this).hasClass('bb-9f9f9f');
+          _active? $(this).removeClass('bb-9f9f9f'):$(this).addClass('bb-9f9f9f');
+          $(this).next('div').slideToggle();
+          changeIcon($(this).children(icon));
+      });
+  });
+
+
+</script>
+
+{% schema %}
+
+{
+  "name": "presell_0628",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "button_true",
+      "label": "bg3_button",
+      "info": "视频按钮的显示/隐藏",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "video_true",
+      "label": "videoCoverYouTube",
+      "info": "视频的显示/隐藏",
+      "default": true
+    },
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Custom CSS",
+      "info": "自定义样式（注意：请按照标准的css语法添加样式）"
+    }
+  ]
+}
+
+{% endschema %}

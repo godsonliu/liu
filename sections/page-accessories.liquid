@@ -1,0 +1,92 @@
+{% comment %} CSS {% endcomment %}
+ 
+
+<div class="series_model__main {{ css_class }}">
+  <div class="wrapper">
+    <ul class="model__container"></ul>
+  </div>
+</div>
+
+{% capture add_to_cart_label %}{% if collection_handles contains 'pre-order' %}{{ 'collections.general.pre_order' | t }}{% else %}{{ 'products.product.add_to_cart' | t }}{% endif %}{% endcapture %}
+
+<script type="text/template" id="accessories__template">
+  <% for (var i=0; i<products.length; i++){ %>
+    <% var item = products[i]; %>
+    <li>
+      <a class="product" href="/products/<%- item.handle %>" target="_blank" rel="noopener noreferrer"> 
+        <div class="content">
+          <img class="lazyload" data-src="<%- item.image %>" alt="">
+          <p class="title"><%- item.title %></p>
+
+          <% if (item.available == 1) { %>
+            <p class="price"><%- item.price %></p>
+          <% } else { %>
+            <p class="price">{{ 'products.product.sold_out' | t }}</p>
+          <% } %>
+        </div>
+      </a>
+      <% if (item.available == 1) { %>
+        <div class="action">
+          <div class="purchase-details__quantity product-quantity-box quantity-box--box <%- item.handle %>">
+            {% render 'quantity-box' %}
+          </div>
+          <div class="addcart">
+            <button class="action_button button add_cart" data-handle="<%- item.handle %>" data-id="<%- item.variant_id %>"><span class="text">{{ add_to_cart_label }}</span></button>
+          </div>
+        </div>
+      <% } %>
+    </li>
+  <% } %>
+</script>
+
+<script>
+  $(document).ready(function () {
+    $('.series_model__main').on('click', '.action .add_cart', function() {
+      // spinner.addClass('active');
+      const id = $(this).data('id');
+      const handle = $(this).data('handle');
+      const quantity = $(`.series_model__main .action .${handle} input`).val();
+      const variants = [{
+        quantity,
+        id
+      }];
+      Shopify.theme.addItemsToCart(variants, {
+        onSuccess: function() { Shopify.theme.jsAjaxCart.showDrawer() },
+        onError: function() { $.dialog({ title: err.message, content: err.description, type: 'red' }) },
+        // onDone: () => spinner.removeClass('active')
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Collection",
+  "class": "collection-template-classic collection-main has-sidebar-option jsCollection",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Product thumbnails"
+    },
+    {
+      "type": "header",
+      "content": "Advanced"
+    },
+    {
+      "type": "paragraph",
+      "content": "[Learn more](https://help.outofthesandbox.com/hc/en-us/articles/360022329373)"
+    },
+    {
+      "type": "text",
+      "id": "css_class",
+      "label": "CSS Class"
+    },
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Custom CSS"
+    }
+  ]
+}
+
+{% endschema %}

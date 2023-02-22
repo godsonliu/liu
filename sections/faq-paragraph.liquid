@@ -1,0 +1,28 @@
+<div class="faq-paragraph">
+    <div class="faq-inner-paragraph">
+        <h2 class="faq-paragraph-title">{{ section.settings.title }}</h2>
+        <div class="faq-paragraph-content">
+            {{ section.settings.text }}
+        </div>
+    </div>
+</div>
+
+{% schema %}
+{
+    "name": "faq paragraph",
+    "presets": [{
+        "name": "faq paragraph",
+        "category": "Custom faq paragraph Sections"
+    }],
+    "settings": [{
+        "type": "text",
+        "id": "title",
+        "label": "title"
+    }, {
+        "type": "richtext",
+        "id": "text",
+        "label": "Text"
+    }]
+}
+{% endschema %}
+

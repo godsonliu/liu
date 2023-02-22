@@ -1,0 +1,109 @@
+{% assign lang = product.metafields.global %}
+
+{% if lang.G20_video.value %}
+  {% assign G20_video = lang.G20_video.value %}
+{% else %}
+  {% assign G20_video = lang.G20_video %}
+{% endif %}
+
+<link rel="stylesheet" href="{{ 'listing_G20_video.scss.css' | asset_url }}">
+
+{% assign custom_css = section.settings.custom_css %}
+{% assign variant = product.selected_or_first_available_variant %}
+
+{% style %}
+  {%- if custom_css != blank -%}
+    {{ custom_css }}
+  {% endif %}
+{% endstyle %}
+
+
+<div class="G20_video">
+  <div class="G20_video_banner">
+    <img class="pc1_show lazyload" data-src="{{ G20_video.pcImg }}" alt="">
+    <img class="mob1_show lazyload" data-src="{{ G20_video.mobImg }}" alt="">
+    <div class="bg_content">
+      <p class="bg_p1 pc1_show">{{ G20_video.main_title_pc }}</p>
+      <p class="bg_p1 mob1_show">{{ G20_video.main_title_mob }}</p>
+      <p class="bg_p2 {{ shop.currency | strip_html }}">
+          {% if section.settings.button_true == true %}
+          <button id="bg_button">
+            <img class="lazyload" data-src="{{ G20_video.pause_button }}" alt="">
+          </button>
+        {% endif %}
+        <span class="watchVideo">{{ G20_video.sub_title }}</span>
+      </p>
+    </div>
+  
+    {% if section.settings.video_true == true %}
+      <div id="videoCoverYouTube">
+        <div class="box" id="youtubeVideo"></div>
+        <a class="closeVideo"><i class="iconfont">&#xe723;</i></a>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<script>
+  const tag = document.createElement('script');
+
+  tag.src = "https://www.youtube.com/iframe_api";
+  const firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+  let YouTubePlayer;
+  function onYouTubeIframeAPIReady() {
+    YouTubePlayer = new YT.Player('youtubeVideo', {
+      height: '100%',
+      width: '100%',
+      videoId: '{{ G20_video.videoId }}',
+    });
+  } 
+
+  $('#bg_button,.watchVideo').click(() => {
+    window.dataLayer.push({
+      "event": "uaEvent",
+      "eventCategory": 'click',
+      "eventAction": 'TVC',
+      "eventLabel": '{{ variant.sku }}', // 当前产品页SKU
+      "eventValue": "undefined",
+    });
+    $('#videoCoverYouTube').css({ display: "block" });
+    $('.Friendbuy-ribbon-transition').css({ opacity: 0 });
+    YouTubePlayer.playVideo();
+  });
+  $('#videoCoverYouTube .closeVideo').click(() => {
+    $('#videoCoverYouTube').css({ display: "none" });
+    $('.Friendbuy-ribbon-transition').css({ opacity: 0.8 });
+    YouTubePlayer.stopVideo();
+  });
+</script>
+
+{% schema %}
+
+{
+  "name": "nano-pro_bg3",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "button_true",
+      "label": "bg_button",
+      "info": "视频按钮的显示/隐藏",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "video_true",
+      "label": "videoCoverYouTube",
+      "info": "视频的显示/隐藏",
+      "default": true
+    },
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Custom CSS",
+      "info": "自定义样式（注意：请按照标准的css语法添加样式）"
+    }
+  ]
+}
+
+{% endschema %}

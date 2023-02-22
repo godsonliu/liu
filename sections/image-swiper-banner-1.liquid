@@ -1,0 +1,448 @@
+{% style %}
+  {% if section.settings.custom_css != blank %}
+    {{ section.settings.custom_css }}
+  {% endif %}
+
+  {% if section.settings.bg_color != blank %}
+  .section-bg-{{ section.id }} {
+    background-color: {{ section.settings.bg_color }};
+  }
+  {% endif %}
+
+  #shopify-section-{{ section.id }} .media-info-wrap{
+    height: auto;
+    z-index: 2;
+  }
+
+  @media screen and (max-width: 768px) {
+    #shopify-section-{{ section.id }} .media-info-wrap{
+      {% if section.settings.mb_padding_y != 0 %}
+        padding-top: {{ section.settings.mb_padding_y }}px;
+        padding-bottom: {{ section.settings.mb_padding_y }}px;
+      {% endif %}
+
+      {% if section.settings.mb_padding_x != 0 %}
+        padding-left: {{ section.settings.mb_padding_x }}px;
+        padding-right: {{ section.settings.mb_padding_x }}px;
+      {% endif %}
+    }
+
+    #shopify-section-{{ section.id }} .media-inner-wrap{
+      color: {{ section.settings.mb_color }}
+    }
+  }
+
+  @media screen and (min-width: 769px) {
+    #shopify-section-{{ section.id }} .media-info-wrap{
+      {% if section.settings.padding_y != 0 %}
+        padding-top: {{ section.settings.padding_y | divided_by: 19.2 }}vw;
+        padding-bottom: {{ section.settings.padding_y | divided_by: 19.2 }}vw;
+      {% endif %}
+
+      {% if section.settings.padding_x != 0 %}
+        padding-left: {{ section.settings.padding_x }}px;
+        padding-right: {{ section.settings.padding_x }}px;
+      {% endif %}
+    }
+
+    #shopify-section-{{ section.id }} .media-inner-wrap{
+      {% if section.settings.text_width != 0 %}
+        width: {{ section.settings.text_width | divided_by: 19.2 }}vw;
+      {% endif %}
+      color: {{ section.settings.desktop_color }};
+    }
+
+    #imageSwiper-{{ section.id }}.swiper-container{
+      {% if section.settings.pc_swiper_width != 0 %}
+        margin-right: -{{ section.settings.pc_swiper_width | divided_by: 38.4 | plus: 4 }}vw;
+        margin-left: 0;
+        margin-bottom: -8.5vw;
+        max-width: {{ section.settings.pc_swiper_width }}px;
+        width: {{ section.settings.pc_swiper_width | divided_by: 19.2 }}vw;
+      {% endif %}
+    }
+  }
+{% endstyle %}
+
+<section class="image-banner-section image-swiper-section section-bg-{{ section.id }} {{ section.settings.custom_class }}">
+  {% if section.settings.img_pc != blank %}
+    <div class="image-swiper-section-bg media-image-wrap is-hidden-mobile-only">
+      {% render 'lazyload_image',
+        src: section.settings.img_pc,
+        alt: section.settings.img_pc.alt,
+        width: section.settings.img_pc.width,
+        aspect_ratio: section.settings.img_pc.aspect_ratio,
+        additional_classes: 'banner-bg-img',
+        isSchemaData: true
+      %}
+    </div>
+  {% endif %}
+  <div class="media-info-wrap media-info-{{ section.settings.desktop_content_position }} media-info-mb-{{ section.settings.mobile_content_position }} ">
+    <div class="media-inner-wrap media-txt-{{ section.settings.desktop_content_alignment }} media-mb-txt-{{ section.settings.mobile_content_alignment }}">
+      <p class="heading">{{ section.settings.heading }}</p>
+      <div class="text {{ section.settings.text_style }}" style="{{ textstyle | strip_newlines | strip }}">{{ section.settings.text }}</div>
+    </div>
+  </div>
+  <div class="image-swiper-banner-wrap image-swiper-abs-wrap">
+    <div id="imageSwiper-{{ section.id }}" class="image-swiper-banner swiper-container">
+      <ul class="swiper-wrapper">
+        {% for block in section.blocks %}
+          <li class="swiper-slide">
+            {% capture textstyle %}
+              {% if block.settings.text_color != blank %}
+                color: {{ block.settings.text_color }};
+              {%endif%}
+            {% endcapture %}
+            <div class="">
+              {% if block.settings.img_pc != blank %}
+                <div class="media-image-wrap is-hidden-mobile-only">
+                  {% render 'lazyload_image',  
+                    src: block.settings.img_pc,
+                    alt: block.settings.img_pc.alt,
+                    width: block.settings.img_pc.width,
+                    aspect_ratio: block.settings.img_pc.aspect_ratio,
+                    additional_classes: 'banner-bg-img',
+                    isSchemaData: true
+                  %}
+                </div>
+              {% elsif block.settings.img_mb == blank %}
+                <div class="media-image-wrap">
+                  {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
+                </div>
+              {% endif %}
+              {% if block.settings.img_mb != blank %}
+                <div class="media-image-wrap is-hidden-desktop-only">
+                  {% render 'lazyload_image',  
+                    src: block.settings.img_mb,
+                    alt: block.settings.img_mb.alt,
+                    width: block.settings.img_mb.width,
+                    aspect_ratio: block.settings.img_mb.aspect_ratio,
+                    additional_classes: 'banner-bg-img',
+                    isSchemaData: true
+                  %}
+                </div>
+              {% endif %}
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+      <div class="image-swiper-tab-wrap pc-block-tab-wrap">
+        <ul class="image-swiper-tab-list">
+          {% for block in section.blocks %}
+            <li class="image-swiper-tab-item js-swiper-tab-item {% if forloop.first %}actived{%endif%}">{{ block.settings.heading | strip_html }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+$(function() {
+  const swiper = new Swiper('#imageSwiper-{{ section.id }}', {
+    on: {
+      slideChangeTransitionStart(){
+        $('.js-swiper-tab-item').eq(this.activeIndex).addClass('actived').siblings().removeClass('actived')
+      }
+    },
+  })
+
+  $('#imageSwiper-{{ section.id }} .js-swiper-tab-item').on('click', function(){
+    const idx = $(this).index()
+    const txt = $(this).text() || ''
+    $(this).addClass('actived').siblings().removeClass('actived')
+    swiper.slideTo(idx, 1000, false);
+
+    // ga3
+    dataLayer.push({
+      "event": "uaEvent", // Trigger
+      "eventCategory": "Activity Page_" + "{{ page.handle }}",
+      "eventAction": "switch",
+      "eventLabel": txt,
+      "nonInteraction": true, 
+    })
+
+    // ga4
+    window.dataLayer.push({ "event_parameters": null });
+    window.dataLayer.push({
+      "event": "ga4Event",
+      "event_name": "switch",
+      "event_parameters": {
+        "page_group": "Activity Page_" + "{{ page.handle }}",
+        "position":"", 
+        "navigation": txt //取导航栏文字
+      }
+    })
+  })
+})
+</script>
+
+{% schema %}
+{
+  "name": "image swiper banner 1",
+  "presets": [
+    {
+      "category": "image swiper banner 1",
+      "name": "image swiper banner 1",
+      "blocks":[{
+        "type": "slide"
+      },{
+        "type": "slide"
+      }]
+    }
+  ],
+  "settings": [{
+    "type": "header",
+    "content": "背景图片"
+  },{
+    "type": "image_picker",
+    "id": "img_pc",
+    "label": "背景图片"
+  },{
+    "type": "header",
+    "content": "内容"
+  },{
+    "type": "text",
+    "id": "heading",
+    "default": "Image banner",
+    "label": "标题"
+  },{
+    "type": "select",
+    "id": "text_style",
+    "options": [
+      {
+        "value": "paragraph",
+        "label": "正文"
+      },
+      {
+        "value": "subtitle",
+        "label": "副标题"
+      },
+      {
+        "value": "subtext",
+        "label": "副文本"
+      }
+    ],
+    "default": "paragraph",
+    "label": "段落样式类型"
+  },
+  {
+    "type": "header",
+    "content": "桌面端设置"
+  },{
+    "type": "range",
+    "id": "padding_y",
+    "min": 0,
+    "max": 400,
+    "step": 4,
+    "unit": "px",
+    "label": "上下内边距",
+    "default": 0
+  },{
+    "type": "range",
+    "id": "padding_x",
+    "min": 0,
+    "max": 400,
+    "step": 4,
+    "unit": "px",
+    "label": "左右内边距",
+    "default": 0
+  },{
+    "type": "range",
+    "id": "text_width",
+    "min": 0,
+    "max": 1000,
+    "step": 20,
+    "unit": "px",
+    "label": "文本宽度",
+    "default": 0
+  },{
+    "type": "select",
+    "id": "desktop_content_position",
+    "options": [
+      {
+        "value": "top-left",
+        "label": "左上"
+      },
+      {
+        "value": "top-center",
+        "label": "中上"
+      },
+      {
+        "value": "top-right",
+        "label": "右上"
+      },
+      {
+        "value": "middle-left",
+        "label": "中左"
+      },
+      {
+        "value": "middle-center",
+        "label": "中中"
+      },
+      {
+        "value": "middle-right",
+        "label": "中右"
+      },
+      {
+        "value": "bottom-left",
+        "label": "左下"
+      },
+      {
+        "value": "bottom-center",
+        "label": "中下"
+      },
+      {
+        "value": "bottom-right",
+        "label": "右下"
+      }
+    ],
+    "default": "middle-center",
+    "label": "信息对齐位置"
+  },{
+    "type": "select",
+    "id": "desktop_content_alignment",
+    "options": [
+      {
+        "value": "left",
+        "label": "左对齐"
+      },
+      {
+        "value": "center",
+        "label": "居中"
+      },
+      {
+        "value": "right",
+        "label": "右对齐"
+      }
+    ],
+    "default": "center",
+    "label": "文本对齐方式"
+  },{
+    "type": "color",
+    "id": "desktop_color",
+    "label": "文本颜色",
+    "default": "#000"
+  },{
+    "type": "header",
+    "content": "移动端设置"
+  },{
+    "type": "range",
+    "id": "mb_padding_y",
+    "min": 0,
+    "max": 100,
+    "step": 1,
+    "unit": "px",
+    "label": "上下内边距",
+    "default": 0
+  },{
+    "type": "range",
+    "id": "mb_padding_x",
+    "min": 0,
+    "max": 100,
+    "step": 1,
+    "unit": "px",
+    "label": "左右内边距",
+    "default": 0
+  },{
+    "type": "select",
+    "id": "mobile_content_position",
+    "options": [
+      {
+        "value": "top",
+        "label": "上"
+      },
+      {
+        "value": "center",
+        "label": "中"
+      },
+      {
+        "value": "bottom",
+        "label": "下"
+      }
+    ],
+    "default": "top",
+    "label": "信息对齐位置"
+  },{
+    "type": "select",
+    "id": "mobile_content_alignment",
+    "options": [
+      {
+        "value": "left",
+        "label": "左对齐"
+      },
+      {
+        "value": "center",
+        "label": "居中"
+      },
+      {
+        "value": "right",
+        "label": "右对齐"
+      }
+    ],
+    "default": "center",
+    "label": "文本对齐方式"
+  },{
+    "type": "color",
+    "id": "mb_color",
+    "label": "文本颜色",
+    "default": "#000"
+  },{
+    "type": "textarea",
+    "id": "text",
+    "default": "Image banner text",
+    "label": "段落内容"
+  },{
+    "type": "header",
+    "content": "轮播设置"
+  },{
+    "type": "number",
+    "id": "pc_swiper_width",
+    "label": "轮播容器最大宽度",
+    "default": 0
+  },{
+    "type": "header",
+    "content": "开发拓展"
+  },{
+    "type": "text",
+    "id": "custom_class",
+    "label": "自定义容器类名"
+  },{
+    "type": "textarea",
+    "id": "custom_css",
+    "label": "自定义样式内容"
+  }],
+  "blocks": [{
+    "type": "slide",
+    "name": "slide",
+    "settings": [{
+      "type": "header",
+      "content": "背景图片"
+    },{
+      "type": "image_picker",
+      "id": "img_pc",
+      "label": "pc端展示图片"
+    },{
+      "type": "image_picker",
+      "id": "img_mb",
+      "label": "移动端展示图片"
+    },
+    {
+      "type": "header",
+      "content": "内容"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "Image banner",
+      "label": "标题"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "default": "Image banner text",
+      "label": "段落内容"
+    }]
+  }]
+}
+{% endschema %}

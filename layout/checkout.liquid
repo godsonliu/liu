@@ -1,0 +1,480 @@
+{% if shop.metafields.global.PixelId.value %}
+  {% assign PixelId = shop.metafields.global.PixelId.value %}
+{% else %}
+  {% assign PixelId = shop.metafields.global.PixelId %}
+{% endif %}
+
+{% if shop.metafields['global']['country'].value %}
+  {% assign country = shop.metafields['global']['country'].value %}
+{% else %}
+  {% assign country = shop.metafields['global']['country'] %}
+{% endif %}
+
+{% if shop.metafields.global.country.value %}
+  {% assign country = shop.metafields.global.country.value %}
+{% else %}
+  {% assign country = shop.metafields.global.country %}
+{% endif %}
+
+{% if shop.metafields.global.common.value %}
+  {% assign common = shop.metafields.global.common.value %}
+{% else %}
+  {% assign common = shop.metafields.global.common %}
+{% endif %}
+
+{% if shop.metafields['global']['invoice_btn'].value %}
+  {% assign invoice_btn = shop.metafields['global']['invoice_btn'].value %}
+{% else %}
+  {% assign invoice_btn = shop.metafields['global']['invoice_btn'] %}
+{% endif %}
+
+<!DOCTYPE html>
+<html lang="{{ locale }}" dir="{{ direction }}" class="{{ checkout_html_classes }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height, minimum-scale=1.0, user-scalable=0">
+    <meta name="referrer" content="origin">
+
+    <title>{{ page_title }}</title>
+    
+    {{ checkout_stylesheets }}
+
+    <script src="{{ 'jquery.min.js' | asset_url }}"></script>
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+    
+    {{ 'public.scss.css' | asset_url | stylesheet_tag }}
+
+    <style>
+      @media (max-width: 769px) {
+        .section__header .step__footer__continue-btn{
+          margin-top: 1rem;
+        }
+      }
+    </style>
+
+    {% render 'js-variables' %}
+
+    {% render 'google-optimize' %}
+
+    {% render 'google-analytics' %}
+
+    {% render 'facebook-track' %}
+
+    <script src="{{ 'utilities.js' | asset_url }}"></script>
+    <script defer src="{{ 'vendors.js' | asset_url }}"></script>
+
+    {{ content_for_header }}
+    {{ checkout_scripts }}
+
+    {% include 'dataLayer-allPages' %}
+
+    {% include 'dataLayer-checkout' %}
+
+    {% include 'checkout-trynow' %}
+  </head>
+  <body>
+
+    {% render 'mymodal' %}
+    {% render 'txtModal' %}
+
+    {{ skip_to_content_link }}
+
+    <header class="banner" data-header role="banner">
+      <div class="wrap">
+        {{ content_for_logo }}
+      </div>
+    </header>
+
+    {{ order_summary_toggle }}
+    <div class="content" data-content>
+      
+      <div class="wrap">
+        <div class="main">
+          <header class="main__header" role="banner">
+            {{ content_for_logo }}
+            {{ breadcrumb }}
+            {% render 'checkout_notification_box' %}
+            {{ alternative_payment_methods }}
+          </header>
+
+          <main class="main__content" role="main">
+            {{ content_for_layout }}
+
+            {%include 'checkout'%}
+          </main>
+
+          <footer class="main__footer" role="contentinfo">
+            {{ content_for_footer }}
+          </footer>
+
+        </div>
+
+
+        <aside class="sidebar" role="complementary">
+          <div class="sidebar__header">
+            {{ content_for_logo }}
+          </div>
+          <div class="sidebar__content">
+
+            {% if country.code_tips != blank %}
+              <div class="code_tips">
+                <a onclick="openCodeTips()">
+                  <i class="iconfont">&#xe624;</i>
+                  <span>{{ country.code_tips }}</span>
+                </a>
+              </div>
+            {% endif%}
+
+            {{ content_for_order_summary }}
+
+            <div class="why_try_us">
+              <div class="why_try_us-heading">
+                <h3><span>{{settings.why_text}}</span></h3>
+              </div>
+              <div class="check_slider">
+
+                <div class="custom_day_text">
+                  <div class="checkout_li">
+                    <div class="custom_day_text-icon">
+                      <img src="{{settings.day_img |img_url:'large'}}" />
+                    </div>
+                    <div class="custom_day_text-content">
+                      {{settings.days_text}}
+                    </div>
+                  </div>
+                </div>
+
+                <div class="custom_orders_text">
+                  <div class="checkout_li">
+                    <div class="custom_day_text-icon">
+                      <img src="{{settings.shipped_img |img_url:'large'}}" />
+                    </div>
+                    <div class="custom_day_text-content">
+                      {{settings.shipped_text}}
+                    </div>
+                  </div>
+                </div>
+
+                {% if settings.shipped_img3 != blank or settings.shipped_text3 != blank%}
+                  <div class="custom_orders_text">
+                    <div class="checkout_li">
+                      {% if settings.shipped_img3 != blank %}
+                        <div class="custom_day_text-icon">
+                          <img src="{{settings.shipped_img3 |img_url:'large'}}" />
+                        </div>
+                      {% endif %}
+                      <div class="custom_day_text-content">
+                        {{settings.shipped_text3 }}
+                      </div>
+                    </div>
+                  </div>
+                {% endif%}
+
+                <!-- image 4 -->
+                {% if settings.shipped_img4 != blank or settings.shipped_text4 != blank%}
+                  <div class="custom_orders_text">
+                    <div class="checkout_li">
+                      {% if settings.shipped_img4 != blank %}
+                        <div class="custom_day_text-icon">
+                          <img src="{{settings.shipped_img4 |img_url:'large'}}" />
+                        </div>
+                      {% endif %}
+                      <div class="custom_day_text-content">
+                        {{settings.shipped_text4 }}
+                      </div>
+                    </div>
+                  </div>
+                {% endif%}
+
+              </div>
+            </div>
+
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    {{ tracking_code }}
+
+    <style>
+      @font-face {
+      font-family: 'iconfont';  /* Project id 765941 */
+        src: url('{{ "iconfont.woff2" | asset_url }}') format('woff2'),
+            url('{{ "iconfont.woff2" | asset_url }}') format('woff'),
+            url('{{ "iconfont.woff2" | asset_url }}') format('truetype');
+        }
+      .iconfont {
+        font-family: "iconfont" !important;
+        font-size: 16px;
+        vertical-align: inherit;
+        font-style: normal;
+        margin-right: 3px;
+        -webkit-font-smoothing: antialiased;
+        -webkit-text-stroke-width: 0.2px;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      .code_tips { margin-bottom: 1rem; }
+      @media (max-width: 768px){
+        .code_tips { margin: 1rem 0; }
+      }
+      .code_tips a {
+        cursor: pointer;
+        color: #919191;
+      }
+      .code_tips a:hover {
+        color: {{ settings.checkout_accent_color }};
+      }
+      .cancel-order-btn { margin-bottom: 1em; }
+      .cancel-order-btn-box {
+        padding: 24px; color: #545454;
+        border: 1px solid #d9d9d9;
+        border-radius: 6px;
+      }
+      .cancel-order-btn h2 { font-size: 20px; }
+      .cancel-order-btn p { margin-top: 1em; }
+      .step__footer__continue-btn {
+        float: none; margin-top: 1em;
+        padding: 12px 16px;
+        font-size: 16px; font-weight: 600;
+      }
+      .custom_pay_icon{
+        text-align:right;
+      }
+      .custom_pay_icon .custom_pay_icon-container {
+        max-width: 350px;
+        margin-right: 0;
+        margin-left: auto;
+        margin-top: 15px;
+      }
+      .checkout_li {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin: 10px 0px;
+      }
+      .custom_day_text-icon{
+        width: 80px;
+        min-width: 80px;
+        padding-right:15px;
+      }
+      
+      .why_try_us-heading h3{
+        font-size: 17px;
+        text-align:center;
+        position: relative;
+      }
+      .why_try_us-heading h3 span{
+        margin: 0 auto;
+        background: #fafafa;
+        display: inline-block;
+        padding: 0px 15px;
+        position: relative;
+        z-index: 9;
+        max-width: 80%;
+      }
+      
+      .custom_day_text-icon img {
+        width: 80px;
+        height: auto;
+      }
+      
+      .why_try_us-heading h3:after{
+        position: absolute;
+        content: "";
+        width: 100%;
+        height: 1px;
+        background: #e1e1e1;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        top: 50%;}
+      
+      .why_try_us{
+        margin-top:30px;
+      }
+      @media (max-width: 768px){
+        .why_try_us { margin-top:10px; }
+      }
+      
+      .custom_timer {
+        background: #FDF4D2;
+        padding: 15px;
+        border: 2px solid #c4a73a;
+        border-radius: 7px;
+        color: #000;
+        font-weight: 700;
+        margin-top: 15px;
+      }
+      
+      div#clockdiv{ display:inline-block; }
+      
+      @media (min-width: 1000px){
+        .order-summary__sections { height:auto; }
+      }
+      
+      @media (max-width:768px){
+        .checkout_li {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        .custom_day_text-icon {
+          width: auto;
+          min-width: unset;
+          padding-right: 5px;
+        }
+        .custom_day_text-icon img{
+          width: 30px;
+        }
+        .custom_pay_icon .custom_pay_icon-container{
+          margin-right: auto;
+        }
+        .custom_pay_icon {
+          text-align: right;
+        }
+      }
+      .field__additional-info {
+        color: {{ settings.checkout_error_color }};
+      }
+      .button--primary {
+        line-height: 36px;
+        padding: 0 1rem;
+        border-radius: 30px;
+      }
+
+      img[data-hj-suppress]{
+        display: none;
+      }
+    </style>
+
+    <script>
+      // 观察order-summary 的变动，应用一个discourse为0的优惠券时，隐藏.total-line--reduction 的展示
+      var orderSummary = document.getElementById('order-summary');
+      // 观察器的配置（需要观察什么变动）
+      var observer_config = { childList: true, subtree: true };
+      // 当观察到变动时执行的回调函数
+      var discount_callback = function(mutationsList, observer) {
+        // Use traditional 'for loops' for IE 11
+        for(var mutation of mutationsList) {
+          if (mutation.type === 'childList') {
+            var discount = $('#order-summary .total-line--reduction .order-summary__emphasis').data('checkout-discount-amount-target')
+
+            if (parseInt(discount) === 0) {
+              $('#order-summary .total-line--reduction').css('display', 'none');
+            }
+          }
+        }
+      };
+     
+      // 创建一个观察器实例并传入回调函数
+      var observer_code = new MutationObserver(discount_callback);
+      // 以上述配置开始观察目标节点
+      if(orderSummary) observer_code.observe(orderSummary, observer_config);
+
+      $(document).ready(function(){
+        // 按钮AB测试
+        $('button.field__input-btn').addClass('brandButtonText');
+        $('button.step__footer__continue-btn').addClass('brandButtonText');
+
+        {% if country.address1_tip %}
+          if($(".field[data-address-field='address1']")) {
+            $(".field[data-address-field='address1']").after("<span style='margin-left: 8px;'><i class='iconfont'>&#xe647;</i>{{ country.address1_tip }}</span>");
+          }
+        {% endif %}
+
+        if ($(window).width() < 769){
+          $('.check_slider').slick({
+            infinite: true,
+            slidesToShow: 1,
+            autoplay: true,
+            autoplaySpeed: 2000,
+            arrows: false,
+            slidesToScroll: 1
+          });
+        }
+
+        try {
+          // 针对礼品卡隐藏退单faq模块
+          const orderLineItems = {{ order.line_items | json }};
+          const skuMatch = 'GIFTCARD-'
+          setTimeout(() => {
+            orderLineItems && orderLineItems.map(item => {
+              console.log(item.sku, item.sku.includes(skuMatch))
+              if(item.sku.includes(skuMatch)){
+                $('.cancel-order-btn').hide()
+              }
+            })
+          }, 50)
+        } catch(e) {
+          console.warn(e)
+        }
+      });
+          
+      // resize window
+      $(window).on('resize', function() {
+        if($(window).width() > 768) {
+          var target = $('.check_slider');
+          if(target.hasClass('slick-initialized')){
+            $(".check_slider").slick("unslick");
+          }
+        } else {
+          if ($(window).width() < 769) {
+            $('.check_slider').slick({
+              infinite: true,
+              slidesToShow: 1,
+              autoplay: true,
+              autoplaySpeed: 2000,
+              arrows: false,
+              slidesToScroll: 1
+            });
+          }
+        }
+      });
+    </script>
+    <script>
+      $('.step__footer__info a').attr('href', 'mailto:{{ common.contact_email }}')
+      function openCodeTips() {
+        openTxtModal(`{{ country.code_txt }}`);
+      }
+      Shopify = window.Shopify || {}; Shopify.shop = Shopify.shop || Shopify.Checkout.apiHost; (function (doc) { if (window.location.href.indexOf('checkouts') == -1) { return; } var sc, node; sc = doc.createElement("script"); sc.type = "text/javascript"; sc.async = !0; sc.src = '/apps/sap/fe/loader_2.js?shop=' + Shopify.Checkout.apiHost; node = doc.getElementsByTagName("script")[0]; node.parentNode.insertBefore(sc, node); })(document);
+    </script>
+
+    {% if order.fulfillment_status == 'fulfilled' and invoice_btn %}
+      {% render 'invoice-btn', renderBtn: '[data-step="thank_you"] .section__header:first-child' %}
+    {% endif %}
+    
+    {% render 'cancel-order-btn', renderBtn: '[data-step="thank_you"] .section__content:first-child' %}
+
+    {% if country.clarityId != blank %}
+      <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "{{ country.clarityId }}");
+      </script>
+    {% endif %}
+    
+    {% if country.hjid != blank %}
+      <script>
+        if (Shopify.Checkout.page && Shopify.Checkout.page != "thank_you") {
+          (function(h,o,t,j,a,r){
+            h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+            h._hjSettings={hjid:{{ country.hjid }},hjsv:6};
+            a=o.getElementsByTagName('head')[0];
+            r=o.createElement('script');r.async=1;
+            r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+            a.appendChild(r);
+          })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+        }
+      </script>
+    {% endif %}
+
+    {% render 'google-tagmanager' %}
+    {% render 'webgains-analytics' %}
+    {% render 'checkout_form_valid' %}
+    
+  </body>
+</html>

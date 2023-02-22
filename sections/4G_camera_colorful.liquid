@@ -1,0 +1,37 @@
+{% if template contains 'page' %}
+  {% if page.metafields['global']['4g_camera_colorful'].value %}
+    {% assign lang = page.metafields['global']['4g_camera_colorful'].value %}
+  {% else %}
+    {% assign lang = page.metafields['global']['4g_camera_colorful'] %}
+  {% endif %}
+{% else %}
+  {% if product.metafields['global']['4g_camera_colorful'].value %}
+    {% assign lang = product.metafields['global']['4g_camera_colorful'].value %}
+  {% else %}
+    {% assign lang = product.metafields['global']['4g_camera_colorful'] %}
+  {% endif %}
+{% endif %}
+
+
+<section id="{{lang.id | default: 'camera-4g-colorful'}}" class="camera-4g-colorful">
+  <div class="bg">
+    {% render 'lazyload_image',  
+      src: lang.img_pc,
+      additional_classes: "is-hidden-mobile-only"
+      style: "opacity: 0;"
+      alt: {{lang.desc_pc}} %}
+    {% render 'lazyload_image',
+      src: lang.img_mob,
+      additional_classes: "is-hidden-desktop-only",
+      style: "opacity: 0;"
+      alt: {{lang.desc_mob}} %}
+  </div>
+  <div class="box-container is-hidden-mobile-only">
+    <h2 class="title">{{lang.title_pc}}</h2>
+    <p class="desc">{{lang.desc_pc}}</p>
+  </div>
+  <div class="box-container is-hidden-desktop-only">
+    <h2 class="title">{{lang.title_mob}}</h2>
+    <p class="desc">{{lang.desc_mob}}</p>
+  </div>
+</section>

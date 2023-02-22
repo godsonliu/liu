@@ -1,0 +1,92 @@
+<style>
+.invite_friends_title {
+  font-size: 32px;
+  color: #fff;
+  font-weight: 700;
+  text-align: center;
+  padding: 50px 0;
+}
+.invite_friends_list {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 1024px;
+  height: 211px;
+  margin: 0 auto;
+  background-size: cover;
+  border-radius: 20px;
+  background-image: url("{{ section.settings.cam3_invite_friends_bg | image_url }}");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.referral_bonus {
+  font-size: 28px;
+  color: #fff;
+  font-weight: 600;
+}
+.cash_back {
+  font-size: 16px;
+  color: #fff;
+  font-weight: 600;
+  margin: 6px 0 26px 0;
+}
+.refer_now {
+  padding: 12px 32px;
+  color: #000000;
+  font-weight: 600;
+  background: #FFFFFF;
+  border-radius: 50px;
+  border: 0;
+  outline: none;
+  cursor: pointer;
+}
+@media(max-width: 769px) {
+  .invite_friends_title {
+    font-size: 20px;
+  }
+  .referral_bonus {
+    font-size: 16px;
+  }
+  .cash_back {
+    font-size: 14px;
+  }
+  .refer_now {
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+}
+</style>
+
+<div class="cam3_live_invite_friends">
+  <div class="invite_friends_title">{{ section.settings.cam3_invite_friends_title }}</div>
+  <div class="invite_friends_list">
+    <div class="referral_bonus">{{ section.settings.referral_bonus }}</div>
+    <div class="cash_back">{{ section.settings.cash_back }}</div>
+    <button class="refer_now">{{ section.settings.button_txt }}</button>
+  </div>
+</div>
+
+<script>
+$(function() {
+  $('.refer_now').on('click', function() {
+    dataLayer.push({
+      "event": "uaEvent", 
+      "eventCategory": "Activity Page_{{ section.settings.cam3_live_ga }}",
+      "eventAction": "referral_card",
+      "eventLabel": "{{ section.settings.button_txt }}" //取按钮文案
+    })
+    window.dataLayer.push({ "event_parameters": null });
+    window.dataLayer.push({
+      "event": "ga4Event",
+      "event_name": "lp_button",
+      "event_parameters": {
+        "page_group": "Activity Page_{{ section.settings.cam3_live_ga }}",
+        "button_name": "{{ section.settings.button_txt }}", //取按钮文案
+        "position": "referral_card" 
+      }
+    })
+    $('.Friendbuy-ribbon-transition').click()
+  })
+})
+</script>

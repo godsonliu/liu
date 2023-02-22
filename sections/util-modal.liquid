@@ -1,0 +1,23 @@
+
+<section id="util-modal" class="mymodal">
+  <div class="dialogModal">
+    <div class="modalContent">
+      <button type="button" class="modalClose">
+        <i class="iconfont">&#xe723;</i>
+      </button>
+      <div id="modal_con" class="modal_con"></div>
+    </div>
+  </div>
+</section>
+
+<style>
+
+</style>
+
+<script>
+  $(function() {
+    $('#util-modal .modalClose').on('click', function (e) { 
+      Shopify.contentCreator.util.closeModal('#util-modal');
+    })
+  })
+</script>

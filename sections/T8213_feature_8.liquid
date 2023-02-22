@@ -1,0 +1,92 @@
+{% if template contains 'page' %}
+  {% assign sku = lang.t8213-feature_8.sku %}
+  {% if page.metafields['global']['feature'].value %}
+    {% assign lang = page.metafields['global']['feature'].value %}
+  {% else %}
+    {% assign lang = page.metafields['global']['feature'] %}
+  {% endif %}
+{% else %}
+  {% assign sku = product.variants[0].sku %}
+  {% if product.metafields['global']['feature'].value %}
+    {% assign lang = product.metafields['global']['feature'].value %}
+  {% else %}
+    {% assign lang = product.metafields['global']['feature'] %}
+  {% endif %}
+{% endif %}
+
+{% assign feature8 = lang.t8213-feature_8 %}
+
+<section id="t8213-feature_8" class="t8213-feature_8">
+  <div class="banner_8">
+    <div class="contain_8">
+      <div class="left_block contain-block">
+        <div class="block-desc">
+          <h2 class="title">{{ feature8.title }}</h2>
+          <p class="desc">{{ feature8.desc }}</p>
+          {% if feature8.video_url != "" %}
+            <div class="block-desc-icon">
+              <a class="play is-hidden-mobile-only" onclick="playMetaVideo('{{ feature8.video_url }}', '{{ sku }}')">
+                <img class="lazyload play-icon active" data-src="{{ feature8.play-icon_pc }}" alt="">
+                <img class="lazyload play-icon_active" data-src="{{ feature8.play-icon_pc_active }}" alt="">
+              </a>
+              <a class="play is-hidden-desktop-only" onclick="playMetaVideo('{{ feature8.video_url }}', '{{ sku }}')">
+                <img class="lazyload play-icon active" data-src="{{ feature8.play-icon_mob }}" alt="">
+                <img class="lazyload play-icon_active" data-src="{{ feature8.play-icon_mob_active }}" alt="">
+              </a>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+      <div class="right-block contain-block">
+        <img class="is-hidden-mobile-only lazyload" data-src="{{ feature8.img_pc }}" alt="">
+        <img class="is-hidden-desktop-only lazyload" data-src="{{ feature8.img_mob }}" alt="">
+        <div class="banner_finger">
+          <img class="is-hidden-mobile-only lazyload" data-src="{{ feature8.finger-img_pc }}" alt="">
+          <img class="is-hidden-desktop-only lazyload" data-src="{{ feature8.finger-img_mob }}" alt="">
+        </div>
+      </div>
+    </div>
+    <div class="cover_video swap--visible">
+      <div class="video_container">
+        <div class="full_screen" onclick="closeMetaVideoBox()"></div>
+        <div class="video_content">
+          <iframe
+            width="100%"
+            height="100%"
+            data-pagefly-popup="true"
+            allowfullscreen="allowfullscreen"
+            class="lazyload"
+            data-src="{{ feature8.video_url }}"
+          ></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+  function playMetaVideo(url,sku) {
+    window.dataLayer.push({
+      "event": "uaEvent",
+      "eventCategory": 'click',
+      "eventAction": 'product_installation',
+      "eventLabel": sku, // SKU
+      "eventValue": "undefined",
+    })
+    $('.cover_video iframe').attr('src', url);
+    $('.cover_video').removeClass('swap--visible');
+  }
+  function closeMetaVideoBox() {
+    $('.cover_video iframe').attr('src', '');
+    $('.cover_video').addClass('swap--visible');
+  }
+  $('.block-desc-icon').hover(
+    function(){
+      $(".play-icon_active").addClass("active")
+      $(".play-icon").removeClass("active")
+    },
+    function(){
+      $(".play-icon").addClass("active")
+      $(".play-icon_active").removeClass("active")
+    }
+  );
+</script>

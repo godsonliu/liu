@@ -1,0 +1,282 @@
+{% assign lang = product.metafields['global'] %}
+
+{% if lang.banner_0.value %}
+  {% assign banner_0 = lang.banner_0.value %}
+{% else %}
+  {% assign banner_0 = lang.banner_0 %}
+{% endif %}
+
+{% if lang.banner_1.value %}
+  {% assign banner_1 = lang.banner_1.value %}
+{% else %}
+  {% assign banner_1 = lang.banner_1 %}
+{% endif %}
+
+{% if lang.banner_2.value %}
+  {% assign banner_2 = lang.banner_2.value %}
+{% else %}
+  {% assign banner_2 = lang.banner_2 %}
+{% endif %}
+
+{% if lang.banner_3.value %}
+  {% assign banner_3 = lang.banner_3.value %}
+{% else %}
+  {% assign banner_3 = lang.banner_3 %}
+{% endif %}
+
+{% if lang.banner_4.value %}
+  {% assign banner_4 = lang.banner_4.value %}
+{% else %}
+  {% assign banner_4 = lang.banner_4 %}
+{% endif %}
+
+{% if lang.banner_6.value %}
+  {% assign banner_6 = lang.banner_6.value %}
+{% else %}
+  {% assign banner_6 = lang.banner_6 %}
+{% endif %}
+
+{% if lang.banner_7.value %}
+  {% assign banner_7 = lang.banner_7.value %}
+{% else %}
+  {% assign banner_7 = lang.banner_7 %}
+{% endif %}
+
+{% if lang.banner_8.value %}
+  {% assign banner_8 = lang.banner_8.value %}
+{% else %}
+  {% assign banner_8 = lang.banner_8 %}
+{% endif %}
+
+{% if lang.banner_5.value %}
+  {% assign banner_5 = lang.banner_5.value %}
+{% else %}
+  {% assign banner_5 = lang.banner_5 %}
+{% endif %}
+
+
+{{ 't8790.scss.css' | asset_url | stylesheet_tag }}
+
+
+<section class="t8790">
+  <div class="banner-0">
+    <h1>{{ banner_0.title }}</h1>
+    <ul>
+      {% for item in banner_0.list %}
+        <li>
+          <img class="lazyload" data-src="{{ item.image }}" alt="image">
+          <p>{{ item.title }}</p>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="banner-1">
+    <div class="banner-main">
+      <div class="banner-text_wrap">
+        <h1>{{ banner_1.title }}</h1>
+      </div>
+    </div>
+    <img class="lazyload pc_show" data-src="{{ banner_1.image }}" alt="image">
+    <img class="lazyload mob_show" data-src="{{ banner_1.mobile_image }}" alt="image">
+  </div>
+  <div class="banner-2">
+    <div class="banner-main">
+      <div class="banner-text_wrap">
+        <h1>{{ banner_2.title }}</h1>
+        <p>{{ banner_2.subtitle }}</p>
+      </div>
+    </div>
+    <img class="lazyload pc_show" data-src="{{ banner_2.image }}" alt="image">
+    <img class="lazyload mob_show" data-src="{{ banner_2.mobile_image }}" alt="image">
+  </div>
+  <div class="banner-3">
+    <div class="banner-main">
+      <div class="banner-text_wrap">
+        <h1>{{ banner_3.title }}</h1>
+      </div>
+    </div>
+    <img class="lazyload pc_show" data-src="{{ banner_3.image }}" alt="image">
+    <img class="lazyload mob_show" data-src="{{ banner_3.mobile_image }}" alt="image">
+  </div>
+  <div class="banner-4">
+    <h1>{{ banner_4.title }}</h1>
+    <ul class="banner-4_col home_slick">
+      {% for item in banner_4.list %}
+        <li data-video="{{ item.video_url }}">
+          <div class="image-wrap">
+            <img class="lazyload" data-src="{{ item.image }}" alt="image">
+            <img class="lazyload paly" data-src="{{ banner_6.paly_button }}" />
+          </div>
+          <p>{{ item.title }}</p>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="banner-5">
+    <img class="lazyload pc_show" data-src="{{ banner_6.image }}" alt="image">
+    <img class="lazyload pc_show box" src="{{ banner_6.box_image }}" alt="image">
+
+    <img class="lazyload mob_show" data-src="{{ banner_6.mobile_image }}" alt="image">
+  </div>
+  <div class="banner-6">
+    <h1 class="mob_show">{{ banner_6.title }}</h1>
+    <div class="banner-sticky">
+      <div class="banner-off">
+        <div class="banner-image">
+          <img class="lazyload pc_show" data-src="{{ banner_6.bg_image }}" alt="image">
+        </div>
+        <div class="video-off">
+          <h1>{{ banner_6.text_1 }}</h1>
+          <video id="bannerOff" class="lazyload" poster="{{ banner_6.video_poster }}"  data-src="{{ banner_6.video_url }}" preload="auto" loop="loop" muted="muted" playsinline></video>
+          <div class="mob_show">
+            <img class="lazyload" data-src="{{ banner_6.paly_button }}" alt="image">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="banner-6_copy">
+    <div class="banner-6_main">
+      <h1 class="mob_show">{{ banner_6.text_1_mobile }}</h1>
+      {% comment %} <h2>{{ banner_6.text_2 }}</h2> {% endcomment %}
+      <p>{{ banner_6.text_3 }}</p>
+      {% comment %} <h2>{{ banner_6.text_4 }}</h2> {% endcomment %}
+      <p>{{ banner_6.text_5 }}</p>
+    </div>
+  </div>
+  <div class="banner-7">
+    <div class="banner-main">
+      <div class="banner-7_wrap">
+        <h1>{{ banner_7.title }}</h1>
+        <div class="pc_show">
+          <ul>
+            {% for item in banner_7.list %}
+              <li>
+                <img class="lazyload" data-src="{{ item.image }}" alt="image">
+                <p>{{ item.title }}</p>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+    <img class="lazyload pc_show" data-src="{{ banner_7.image }}" alt="image">
+    <img class="lazyload pc_show hanld" data-src="{{ banner_7.hanld_image }}" alt="image">
+    <img class="lazyload mob_show" data-src="{{ banner_7.mobile_image }}" alt="image">
+  </div>
+  <div class="banner-8">
+    {% comment %} <h1>{{ banner_8.title }}</h1> {% endcomment %}
+    <ul class="banner-8_col">
+      {% for item in banner_8.list %}
+        <li>
+          <img class="lazyload" data-src="{{ item.image }}" alt="image">
+          <h2>{{ item.title }}</h2>
+          <p>{{ item.des }}</p>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="banner-9" id="video">
+    <h1>{{ banner_5.title }}</h1>
+    <div class="banner-content">
+      <video poster="{{ banner_5.poster }}" class="lazyload" data-src="{{ banner_5.video_url }}" preload="auto" loop="loop" muted="muted" playsinline></video>
+      <img class="lazyload" data-src="{{ banner_6.paly_button }}" alt="image">
+    </div>
+  </div>
+
+  <div class="mask-close"></div>
+
+  <div id="videoCoverYouTube">
+    <div class="box">
+      <iframe width="100%" class="lazyload" height="100%" data-src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <a class="closeVideo"><i class="iconfont">&#xe723;</i></a>
+  </div>
+
+</section>
+
+<script>
+  $(document).ready(function(){
+    $('.banner-4_col').slick({
+      centerPadding: '50px',
+      slidesToShow: 3,
+      variableWidth: true
+    })
+  
+    $('#videoCoverYouTube .closeVideo').click(() => {
+      $('#videoCoverYouTube iframe').attr('src', '')
+      $('#videoCoverYouTube').css({ display: "none" })
+    })
+
+    $('.banner-4_col li').on('click', function() {
+      const videoUrl = $(this).attr('data-video')
+      $('#videoCoverYouTube').css({ display: "block" }).find('iframe').attr('src', videoUrl)
+    })
+
+    $('.video-off img').on('click', function() {
+      $('#bannerOff').show()
+      $(this).hide()
+      $('video')[0].play()
+    })
+
+    $('.banner-9 img').on('click', function() {
+      $(this).hide()
+      $('.banner-content video').attr('controls', 'controls')
+      $('video')[1].play()
+    })
+
+    const width = $(window).width()
+    const viewPortHeight =  document.documentElement.clientHeight || window.innerHeight || document.body.clientHeight
+    let h = 600
+    h = viewPortHeight - 92
+
+    if (width > 769) {
+      $(window).scroll(function(){
+        $('.banner-6').height(h * 2 + 'px')
+        $('.banner-sticky').height(h + 'px')
+        const top = $(window).scrollTop()
+        const height =  $('.banner-6').offset().top
+        const ski = top - (height + 100)
+        const calculate = Math.floor(100 - ((ski / h) * 100))
+        const value = calculate > 41 ? calculate : 40
+        const display = $('#bannerOff').css('display')
+        if (ski > 0) {
+          $('.banner-off').width(value + '%')
+          if (value == 40 && display == 'none') {
+            $('#bannerOff').show()
+            $('video')[0].play()
+            $('.banner-off h1').show()
+            $('.banner-image').css('opacity', 0)
+          }
+        }
+
+        if (value > 41) {
+          $('.banner-image').css('opacity', 1)
+          $('#bannerOff').hide()
+          $('.banner-off h1').hide()
+          $('video')[0].pause()
+        }
+
+        const handleTop = $('.banner-7').offset().top
+        const handleSpace = top - (handleTop - 300)
+        if (handleSpace > 0) {
+          $('.hanld').addClass('active')
+        }
+        if (handleSpace < 0) {
+          $('.hanld').removeClass('active')
+        }
+
+        const boxTop = $('.banner-5').offset().top
+        const boxSpace = top - (boxTop - 300)
+        if (boxSpace > 0) {
+          $('.box').addClass('active')
+        }
+
+        if (boxSpace <= -100 ) {
+          $('.box').removeClass('active')
+        }
+      })
+    }
+  })
+</script>

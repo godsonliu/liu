@@ -1,0 +1,169 @@
+{% if product.metafields.global.layout.value %}
+  {% assign layout = product.metafields.global.layout.value %}
+{% else %}
+  {% assign layout = product.metafields.global.layout %}
+{% endif %}
+
+{% if product.metafields.global.downloads.value %}
+  {% assign downloads = product.metafields.global.downloads.value %}
+{% else %}
+  {% assign downloads = product.metafields.global.downloads %}
+{% endif %}
+
+{% if product.metafields.global.downloads.value %}
+  {% assign downloads = product.metafields.global.downloads.value %}
+{% else %}
+  {% assign downloads = product.metafields.global.downloads %}
+{% endif %}
+
+{% assign settings = section.settings %}
+{% assign types = section.blocks | where: "type", "types" | map: "settings" %}
+{% comment %} {% assign type = types | where: "key", "app" | last %} {% endcomment %}
+{% comment %} <p>{{ types }}</p><p>{{ type }} </p> {% endcomment %}
+
+
+{%- if settings.show_product_downloads and downloads and downloads.size > 0  -%}
+<section class="grid-item{% if settings.class != blank %} {{settings.class}}{% endif %}" data-section-id="{{ section.id }}">
+  <div class="prodDownloads">
+    <div class="wrap">
+      {%- if settings.heading != blank -%}
+        <h3 class="prodTitle">
+          <span>
+            {% if layout.downloads.title != blank %}
+              {{ layout.downloads.title  }}
+            {% else %}
+              {{ settings.heading }}
+            {% endif %}
+          </span>
+        </h3>
+      {%- endif -%}
+      <div class="content">
+        <ul class="table">
+          {% for item in downloads %}
+            <li>
+              {%- if settings.show_attachment_type -%}
+                <p class="col type">
+                  <span>
+                    {% assign type = types | where: "key", item.type | last %}
+                    {%- if type.title -%}
+                      {{ type.title }}
+                    {%- else -%}
+                      {{ item.type }}
+                    {%- endif -%}
+                  </span>
+                </p>
+              {%- endif -%}
+              {%- if item.title != blank -%}
+                <p class="col name">
+                  <span>{{ item.title | url_decode }}</span>
+                </p>
+              {%- endif -%}
+              <p class="col date">{{ item.uploaded_at }}</p>
+              <p class="col down">
+                <a href={{ item.url }} target="_blank" rel="noopener noreferrer">
+                  <i class="iconfont">&#xe644;</i>
+                </a>
+              </p>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
+
+{% schema %}
+{
+  "name": "Product downloads",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "[AnkerFields: products](/admin/apps/betametafields/products), downloads"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_product_downloads",
+      "label": "Show downloads",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "class",
+      "label": "CSS Class",
+      "default": "downloads"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Documents & Drivers"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_attachment_type",
+      "label": "Show Attachment type",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "types",
+      "name": "Attachment type",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "title"
+        },
+        {
+          "type": "text",
+          "id": "key",
+          "label": "key"
+        }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "Product downloads",
+    "blocks": [
+      {
+        "type": "types",
+        "settings": {
+          "title": "APP",
+          "key": "app"
+        }
+      },
+      {
+        "type": "types",
+        "settings": {
+          "title": "Declaration of Conformity",
+          "key": "declaration_of_conformity"
+        }
+      },
+      {
+        "type": "types",
+        "settings": {
+          "title": "Driver",
+          "key": "driver"
+        }
+      },
+      {
+        "type": "types",
+        "settings": {
+          "title": "Manual",
+          "key": "manual"
+        }
+      },
+      {
+        "type": "types",
+        "settings": {
+          "title": "Software",
+          "key": "software"
+        }
+      }
+    ]
+  }]
+}
+{% endschema %}

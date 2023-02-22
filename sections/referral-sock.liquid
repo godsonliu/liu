@@ -1,0 +1,714 @@
+{%- assign lang = page.metafields['global'] -%}
+
+{% if lang.banner.value %}
+  {% assign banner = lang.banner.value %}
+{% else %}
+  {% assign banner = lang.banner %}
+{% endif %}
+
+{% if lang.menu.value %}
+  {% assign menu = lang.menu.value %}
+{% else %}
+  {% assign menu = lang.menu %}
+{% endif %}
+
+{% if lang.share.value %}
+  {% assign share = lang.share.value %}
+{% else %}
+  {% assign share = lang.share %}
+{% endif %}
+
+{% if lang.ranking.value %}
+  {% assign ranking = lang.ranking.value %}
+{% else %}
+  {% assign ranking = lang.ranking %}
+{% endif %}
+
+{% if lang.hot_to_win.value %}
+  {% assign hot_to_win = lang.hot_to_win.value %}
+{% else %}
+  {% assign hot_to_win = lang.hot_to_win %}
+{% endif %}
+
+{% if lang.dialog_inbox.value %}
+  {% assign dialog_inbox = lang.dialog_inbox.value %}
+{% else %}
+  {% assign dialog_inbox = lang.dialog_inbox %}
+{% endif %}
+
+{% if lang.dialog_get_referral.value %}
+  {% assign dialog_get_referral = lang.dialog_get_referral.value %}
+{% else %}
+  {% assign dialog_get_referral = lang.dialog_get_referral %}
+{% endif %}
+
+{% if lang.rules.value %}
+  {% assign rules = lang.rules.value %}
+{% else %}
+  {% assign rules = lang.rules %}
+{% endif %}
+
+{% if lang.dialog_check.value %}
+  {% assign dialog_check = lang.dialog_check.value %}
+{% else %}
+  {% assign dialog_check = lang.dialog_check %}
+{% endif %}
+
+{% if lang.verify_text.value %}
+  {% assign verify_text = lang.verify_text.value %}
+{% else %}
+  {% assign verify_text = lang.verify_text %}
+{% endif %}
+
+{% if lang.effectList.value %}
+  {% assign effectList = lang.effectList.value %}
+{% else %}
+  {% assign effectList = lang.effectList %}
+{% endif %}
+
+{% if lang.effectList.value %}
+  {% assign effectList = lang.effectList.value %}
+{% else %}
+  {% assign effectList = lang.effectList %}
+{% endif %}
+
+{% if shop.metafields.global.country.value %}
+  {% assign country = shop.metafields.global.country.value %}
+{% else %}
+  {% assign country = shop.metafields.global.country %}
+{% endif %}
+
+
+<div>
+  <section class="banner-wrap">
+    <img class="is-hidden-mobile-only" src="{{ banner.img }}" alt="" aria-hidden="true" />
+    <img class="is-hidden-desktop-only" style="width: 100%;" src="{{ banner.mobImg }}" aria-hidden="true" alt="" />
+
+    {% if banner.sleepGif != "" %}
+    <img class="sleep-gif" src="{{ banner.sleepGif }}" />
+    {% else %}
+    <img class="sleep-icon" src="{{ banner.sleepImg }}" />
+    {% endif %}
+
+    <div class="baner-position">
+      <div class="container">
+        <div>
+          <h1> {{ banner.title }}</h1>
+          <p class="subtitle">{{ banner.subtitle }}</p>
+        </div>
+
+        <div class="container-sign">
+          <div class="heart-rate">
+            <ul class="col">
+              {% for item in effectList %}
+              <li>
+                <img alt="" aria-hidden="true" src="{{ item.img }}">
+                <p>{{ item.title }}</p>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+
+          <div class="sign-wrap Spin">
+            <div class="sign Spin">
+              <img class="lazyload email" data-src="{{ banner.singImg }}" alt="" aria-hidden="true" />
+              <input class="subscriptionInput" placeholder="{{ banner.placeholder }}" />
+              <button class="subscription">{{ banner.btnText }}</button>
+              <div class="mask"></div>
+              <div class="spinner">
+                <i class="iconfont"></i>
+                <div class="focus"><i class="iconfont"></i></div>
+              </div>
+            </div>
+            <label>
+              <input type="checkbox" id="toggle" />
+              {{ banner.checkbox }}
+            </label>
+            <p class="tips"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page-menu">
+    <div class="container">
+      <h1> {{ menu.title }} </h1>
+      <div>
+        <button class="sign-jump">{{ menu.btnText }}</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- <section class="heart-rate">
+    <ul class="col">
+      {% for item in effectList %}
+      <li>
+        <img class="lazyload" alt="" aria-hidden="true"
+          data-src="{{ item.img }}">
+        <p>{{ item.title }}</p>
+      </li>
+      {% endfor %}
+    </ul>
+  </section> -->
+
+  <section class="share-wrap">
+    <h2>{{ share.title }}</h2>
+    <p class="des">{{ share.subtitle }}</p>
+
+    <p class="des" style="width: 40%;">{{ share.des }}</p>
+
+    <div class="btn-wrap Spin">
+      <button class="referral-link">{{ share.getReferral }}</button>
+      <button class="check-referrals">{{ share.checkReferral }}</button>
+      <div class="mask"></div>
+      <div class="spinner">
+        <i class="iconfont">&#xe6c0;</i>
+        <div class="focus"><i class="iconfont">&#xe6c0;</i></div>
+      </div>
+    </div>
+
+    <div class="share-via">
+      <div class="share-link">
+        <p>{{ share.shareVia }}</p>
+        <button class="share-related" data-type="fb">
+          <img class="lazyload" data-src="{{ share.fbImg }}" />
+        </button>
+        <button class="share-related" data-type="tw">
+
+          <img class="lazyload" data-src="{{ share.twImg }}" />
+        </button>
+      </div>
+      <a class="rules">{{ share.rules }}</a>
+    </div>
+  </section>
+
+  <section class="ranking-wrap">
+    <img class="lazyload col is-hidden-mobile-only desktopImg" data-src="{{ ranking.img }}">
+
+    <img class="lazyload is-hidden-desktop-only" data-src="{{ ranking.mobImg }}}" aria-hidden="true" />
+
+    <img class="ranking-img lazyload" data-src="{{ ranking.mbilicalCord }}" />
+  </section>
+
+  <div class="how-to-win">
+    <h1>{{ hot_to_win.title }}</h1>
+    <img class="is-hidden-mobile-only" src="{{ hot_to_win.img }}" />
+    <img class="is-hidden-desktop-only" src="{{ hot_to_win.mobImg }}" />
+  </div>
+
+
+  <div class="referral-mask" onclick="handleClose(0)"></div>
+  <div class="dialog-wrap">
+    <div class="dialog-close" onclick="handleClose(0)"> {% render 'icon', name: 'x' %}</div>
+
+    <div class="verified-container">
+      <div class="is-verified">
+        <img class="lazyload" data-src="{{ dialog_inbox.img }}">
+        <div class="verified-main">
+          <h2>{{ dialog_inbox.title }}</h2>
+          <p class="subtitle">{{ dialog_inbox.subtitle }}</p>
+          <p class="des">{{ dialog_inbox.des }}</p>
+          <div class="Spin">
+            <button class="dialog-inbox">{{ dialog_inbox.btn_text }}</button>
+            <div class="mask"></div>
+            <div class="spinner">
+              <i class="iconfont">&#xe6c0;</i>
+              <div class="focus"><i class="iconfont">&#xe6c0;</i></div>
+            </div>
+          </div>
+          <p class="tips"></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="success-container">
+      <div class="referral-success">
+        <img class="lazyload referral-image" data-src="{{ dialog_get_referral.image_1 }}"
+          alt="{{ dialog_get_referral.image_alt }}">
+        <div class="success-main Spin">
+          <h2 class="success-title">{{ dialog_get_referral.title }}</h2>
+          <h1 class="is-hidden-mobile-only">{{ dialog_get_referral.subtitle }}</h1>
+          <h1 class="is-hidden-desktop-only">{{ dialog_get_referral.combination }}</h1>
+
+          <p class="success-des">{{ dialog_get_referral.des }}</p>
+          <div class="success-submit Spin">
+            <input id="text" type="text" maxlength="200" placeholder="{{ dialog_get_referral.input_placeholder }}">
+            <button class="refer-now">{{ dialog_get_referral.btn_text_1 }}</button>
+            <div class="mask"></div>
+            <div class="spinner">
+              <i class="iconfont">&#xe6c0;</i>
+              <div class="focus"><i class="iconfont">&#xe6c0;</i></div>
+            </div>
+          </div>
+          <p class="not-wrap">{{ dialog_get_referral.not }} <span class="not"></span></p>
+          <p class="tips"></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="rules-container">
+      <h3>{{ rules.title }}</h3>
+      {% for item in rules.list %}
+      <p>
+        {{ item.title }}
+        {% if forloop.last == true %}
+        <span>{{ rules.mail }}</span>
+        {% endif %}
+      </p>
+      {% endfor %}
+      <div style="padding-bottom: 1rem; margin-bottom: 0;"></div>
+    </div>
+
+    <div class="is-check-container">
+      <div class="check-container">
+        <img class="lazyload" data-src="{{ dialog_check.imgPost }}" />
+        <div class="register-wrap">
+          <div class="register">{{ dialog_check.invite_people }} {{ dialog_check.position_number }}</div>
+          <img class="lazyload bonus" data-src="{{ dialog_check.image }}" />
+          <p class="not-wrap">{{ dialog_get_referral.not }} <span class="not"></span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="{{ 'gsap.min.js' | asset_url }}"></script>
+<script src="{{ 'ScrollTrigger.min.js' | asset_url }}"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/jump.js/1.0.2/jump.min.js"
+  integrity="sha512-Q9CUUoQ/LaD+X7jk76kM6swUEc8q0YPGBcH/Lflux+JatH8zIZPkIb0b91NW5ASgy9ENLhTzt2Z/zZ6yyake2w=="
+  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+  var type = 0
+
+  function handleClose(number) {
+    type = number
+    $('#text').val('')
+    $('.not-wrap').hide()
+    $('.success-des').hide()
+    $('.is-position').hide()
+    $('.referral-mask').hide()
+    $('.success-main h1').show()
+    $('.rules-container').hide()
+    $('.is-check-container').hide()
+    $('.verified-container').hide()
+    $('.success-container').hide()
+    $('#text').removeAttr('readonly')
+    $('.check-container ul li img').each(function () {
+      let greySrc = $(this).attr('data-grey')
+      $(this).attr('src', greySrc)
+    })
+    $('.success-title').css('marginBottom', 0)
+    $('.success-title').text('{{ dialog_get_referral.title }}')
+    $('.refer-now').text('{{ dialog_get_referral.btn_text_1 }}')
+    $('.referral-image').attr('src', '{{ dialog_get_referral.image_2 }}')
+    $('.dialog-wrap').hide().removeClass('success-wrap is-rules is-check is-verified-wrap')
+  }
+
+  $(document).ready(function () {
+    $('.sign-jump').on('click', function () {
+      Jump('.banner-wrap', {
+        duration: 600
+      })
+    })
+
+    let navHeight = $('#header').height()
+
+    let mobNavHeight = $('#mobile-header').height()
+
+    $('.share-related').on('click', function () {
+      let type = $(this).data('type')
+      if (type == 'fb') {
+        window.open(
+          `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(document.location.href + '?rf=fb')}`
+          )
+      }
+      if (type == 'tw') {
+        window.open(
+          `https://twitter.com/intent/tweet?&url=${encodeURIComponent(document.location.href + '?rf=tw')}`)
+      }
+    })
+    const width = window.innerWidth;
+    ScrollTrigger.create({
+      trigger: ".heart-rate",
+      start: 'top top+=66',
+      end: '+=0',
+      onEnter: () => {
+        gsap.to(".page-menu", {
+          top: width > 769 ? navHeight : mobNavHeight
+        })
+      },
+      onEnterBack: () => {
+        gsap.to(".page-menu", {
+          top: -200
+        })
+      }
+    })
+
+    ScrollTrigger.create({
+      trigger: '.ranking-wrap',
+      start: 'top center',
+      end: '+=0',
+      // markers: true,
+      onEnter: () => {
+        gsap.to('.ranking-wrap .col', {
+          top: 0
+        })
+      }
+    })
+
+    const reg =
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+    let genre = window.location.pathname
+    genre = genre.substring(genre.lastIndexOf('/') + 1, genre.length)
+
+    const options = {
+      useEasing: true,
+      useGrouping: true,
+      separator: ',',
+      decimal: '.',
+    }
+
+    function activeTips(type, that) {
+      let arr = {{ verify_text | json }};
+      let $node = that.parent().parent().find('.tips')
+      $node.css('opacity', 1).text(arr[type])
+      if ($node.text()) {
+        setTimeout(function () {
+          $node.css('opacity', 0)
+        }, 3000)
+      }
+    }
+
+    function getQueryVariable(variable) {
+      var query = window.location.search.substring(1);
+      var vars = query.split("&");
+      for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split("=");
+        if (pair[0] == variable) return pair[1]
+      }
+      return (false)
+    }
+
+    let ic = getQueryVariable("ic")
+    let vc = getQueryVariable("vc")
+
+    if (vc) {
+      grecaptcha.ready(() => {
+        grecaptcha.execute(ShopMetafields.recaptcha, {
+          action: 'ActivityCreate'
+        }).then((res) => {
+          let params = {
+            genre,
+            verify_code: vc,
+            shopify_domain: '{{ shop.permanent_domain }}'
+          }
+          $.ajax({
+            type: 'PUT',
+            dataType: "json",
+            data: JSON.stringify(params),
+            contentType: "application/json",
+            url: `/apps/pp/rainbowbridge/referrals/verify`,
+            headers: {
+              ...Shopify.contentCreator.pastApi.getHeaders(),
+              recaptcha: res
+            },
+            success: (result) => {
+              $('.not-wrap').show()
+              $('.success-des').show()
+              $('.not').text(result.email + '{{ dialog_get_referral.log_out }}')
+              $('.success-submit input').attr('readonly', true)
+              $('.success-submit input').val(result.invite_link)
+              handleDialog(true)
+            }
+          })
+        })
+      })
+    }
+
+    $('.not-wrap').on('click', function () {
+      handleClose(type)
+      localStorage.removeItem('smart-sock-email')
+      handleDialog()
+    })
+
+    $('.rules').on('click', function () {
+      $('.referral-mask').show()
+      $('.rules-container').show()
+      $('.dialog-wrap').show().addClass('is-rules')
+    })
+
+    function handleDialog(isReferral) {
+      if (isReferral) {
+        $('.refer-now').text('{{ dialog_get_referral.btn_text_2 }}')
+        $('.referral-image').attr('src', '{{ dialog_get_referral.image_1 }}')
+      } else {
+        $('.success-main h1').hide();
+        $('.success-title').css('marginBottom', '2rem')
+        $('.success-title').text('{{ dialog_get_referral.title_2 }}')
+        $('.refer-now').text('{{ dialog_get_referral.btn_text_1 }}')
+        $('.referral-image').attr('data-src', '{{ dialog_get_referral.image_2 }}')
+      }
+      $('.referral-mask').show()
+      $('.success-container').show()
+      $('.dialog-wrap').show().addClass('success-wrap')
+    }
+
+    function handleCheckDialog() {
+      $('.referral-mask').show()
+      $('.is-check-container').show()
+      $('.dialog-wrap').show().addClass('is-check')
+    }
+
+    function toThousands(num) {
+      return (num || 0).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
+    }
+
+    function getGenreReferral(email, that) {
+      that.parent().addClass('active')
+      grecaptcha.ready(() => {
+        grecaptcha.execute(ShopMetafields.recaptcha, {
+          action: 'ActivityCreate'
+        }).then((res) => {
+          let params = {
+            email: encodeURI(email),
+            shopify_domain: '{{ shop.permanent_domain }}'
+          }
+          $.ajax({
+            type: 'GET',
+            dataType: "json",
+            data: params,
+            contentType: "application/json",
+            url: `/apps/pp/rainbowbridge/referrals/${genre}/referral`,
+            headers: {
+              ...Shopify.contentCreator.pastApi.getHeaders(),
+              recaptcha: res
+            },
+            success: (result) => {
+              handleClose(type)
+              that.parent().removeClass('active')
+              localStorage.setItem('smart-sock-email', email)
+              if (!result.is_verified) {
+                if (!that.hasClass('dialog-inbox')) {
+                  dataLayer.push({
+                    "event": "uaEvent",
+                    "eventCategory": type == 1 ? 'get_referral' : 'check_referral',
+                    "eventAction": "E8340133_contest",
+                    "eventLabel": "not_confirm", // 如果成功唤起copy弹窗, 传success; 否则传fail
+                    "eventValue": "undefined",
+                  })
+                }
+                $('.success-title').text('{{ dialog_get_referral.title_2 }}')
+                $('.referral-mask').show()
+                $('.verified-container').show()
+                $('.provided').text(result.email)
+                $('.dialog-wrap').show().addClass('is-verified-wrap')
+                return activeTips(3, that)
+              }
+
+              $('.not-wrap').show()
+              $('.not').text(result.email + '{{ dialog_get_referral.log_out }}')
+              if (type == 1) {
+                dataLayer.push({
+                  "event": "uaEvent",
+                  "eventCategory": "get_referral",
+                  "eventAction": "E8340133_contest",
+                  "eventLabel": "success", // 如果成功唤起copy弹窗, 传success; 否则传fail
+                  "eventValue": "undefined",
+                })
+                $('.success-des').show()
+                $('.success-submit input').attr('readonly', true)
+                $('.success-submit input').val(result.invite_link)
+                handleDialog(true)
+              }
+
+              if (type == 2) {
+                dataLayer.push({
+                  "event": "uaEvent",
+                  "eventCategory": "check_referral",
+                  "eventAction": "E8340133_contest",
+                  "eventLabel": "success", // 如果成功唤起copy弹窗, 传success; 否则传fail
+                  "eventValue": "undefined",
+                })
+                if (result.invited_referral_count > 0 && result.rank_number) {
+                  $('.is-position').show()
+                  $('.position-number').text(result.rank_number > 10000 ? '10,000+' : toThousands(
+                    result.rank_number))
+                }
+                $('.invite-people').text(result.invited_referral_count)
+                $('.check-container ul li img').each(function () {
+                  let number = $(this).attr('data-number')
+                  if (number <= result.invited_referral_count) {
+                    let activeUrl = $(this).attr('data-active')
+                    $(this).attr('src', activeUrl)
+                  }
+                })
+                handleCheckDialog()
+              }
+            },
+            error(err) {
+              that.parent().removeClass('active')
+              if (err.responseJSON.statusCode == 404) {
+                activeTips(4, that)
+              }
+            }
+          })
+        })
+      })
+    }
+
+    $('.dialog-inbox').on('click', function () {
+      const that = $(this)
+      let email = localStorage.getItem('smart-sock-email')
+      if (email) {
+        return getGenreReferral(email, that)
+      }
+    })
+
+    $('.referral-link').on('click', function () {
+      const that = $(this)
+      type = 1
+      let email = localStorage.getItem('smart-sock-email')
+      if (email) {
+        return getGenreReferral(email, that)
+      }
+      dataLayer.push({
+        "event": "uaEvent",
+        "eventCategory": 'get_referral',
+        "eventAction": "E8340133_contest",
+        "eventLabel": "fail", // 如果成功唤起copy弹窗, 传success; 否则传fail
+        "eventValue": "undefined",
+      })
+      handleDialog()
+    })
+
+    $('.check-referrals').on('click', function () {
+      const that = $(this)
+      type = 2
+      let email = localStorage.getItem('smart-sock-email')
+      if (email) {
+        return getGenreReferral(email, that)
+      }
+      dataLayer.push({
+        "event": "uaEvent",
+        "eventCategory": 'check_referral',
+        "eventAction": "E8340133_contest",
+        "eventLabel": "fail", // 如果成功唤起copy弹窗, 传success; 否则传fail
+        "eventValue": "undefined",
+      })
+      handleDialog()
+    })
+
+    $('.refer-now').on('click', function () {
+      const that = $(this)
+      if ($(this).text() == '{{ dialog_get_referral.btn_text_2 }}') {
+        dataLayer.push({
+          "event": "uaEvent",
+          "eventCategory": 'copy',
+          "eventAction": "E8340133_contest",
+          "eventLabel": "undefined",
+          "eventValue": "undefined",
+        })
+        $('#text').select()
+        document.execCommand('{{ dialog_get_referral.btn_text_2 }}')
+        $(this).text('{{ dialog_get_referral.copied }}')
+        that.attr('disabled', true)
+        setTimeout(function () {
+          that.removeAttr('disabled')
+          $('.refer-now').text('{{ dialog_get_referral.btn_text_2 }}')
+        }, 1500)
+        return
+      }
+
+      let inputValue = $('.success-submit input').val().trim()
+
+      if (!inputValue) {
+        return activeTips(0, that)
+      }
+
+      if (!reg.test(inputValue)) {
+        return activeTips(1, that)
+      }
+      getGenreReferral(inputValue, that)
+    })
+
+    $('.subscription').on('click', function () {
+      const that = $(this)
+      let inputValue = $('.subscriptionInput').val().trim()
+
+      if (!inputValue) {
+        return activeTips(0, that)
+      }
+
+      if (!reg.test(inputValue)) {
+        return activeTips(1, that)
+      }
+
+      if (!$('#toggle').prop('checked')) {
+        return activeTips(2, that)
+      }
+
+      if (!window.grecaptcha) return
+      that.attr('disabled', true)
+      that.parent().addClass('active')
+      grecaptcha.ready(() => {
+        grecaptcha.execute(ShopMetafields.recaptcha, {
+          action: 'ActivityCreate'
+        }).then((res) => {
+          let params = {
+            genre,
+            email: inputValue,
+            inviter_code: ic ? ic : '',
+            single_brand_subscribe: true,
+            register_source: window.location.href,
+            shopify_domain: '{{ shop.permanent_domain }}',
+            country_code: "{{ country.code }}"
+          }
+          $.ajax({
+            type: 'POST',
+            dataType: "json",
+            data: JSON.stringify(params),
+            contentType: "application/json",
+            url: `/apps/pp/rainbowbridge/referrals`,
+            headers: {
+              ...Shopify.contentCreator.pastApi.getHeaders(),
+              recaptcha: res
+            },
+            success: (result) => {
+              that.removeAttr('disabled')
+              that.parent().removeClass('active')
+              $('.success-submit input').attr('readonly', true)
+              localStorage.setItem('smart-sock-email', inputValue)
+              dataLayer.push({
+                "event": "uaEvent",
+                "eventCategory": 'subscribe',
+                "eventAction": "E8340133_contest",
+                "eventLabel": result.is_verified ? 'new' :
+                'old', // 新用户传new; 老用户传old, 麻烦到时候给测试用例
+                "eventValue": "undefined",
+              })
+              fbq('track', 'CompleteRegistration')
+              if (result.is_verified) {
+                $('.success-des').show()
+                $('.not-wrap').show()
+                $('.not').text(result.email + '{{ dialog_get_referral.log_out }}')
+                $('.success-submit input').val(result.invite_link)
+                handleDialog(true)
+                return
+              }
+              $('.referral-mask').show()
+              $('.verified-container').show()
+              $('.provided').text(result.email)
+              $('.success-title').text('{{ dialog_get_referral.title_2 }}')
+              $('.dialog-wrap').show().addClass('is-verified-wrap')
+            },
+            error(err) {
+              that.parent().removeClass('active')
+              that.removeAttr('disabled')
+            }
+          })
+        })
+      })
+    })
+  })
+</script>

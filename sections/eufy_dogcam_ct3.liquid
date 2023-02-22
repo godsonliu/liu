@@ -1,0 +1,95 @@
+{% assign lang = product.metafields.global %}
+
+{% if lang.dogcam.value %}
+  {% assign dogcam = lang.dogcam.value %}
+{% else %}
+  {% assign dogcam = lang.dogcam %}
+{% endif %}
+
+<link rel="stylesheet" href="{{ 'eufy_dogcam_ct.scss.css' | asset_url }}">
+<script src="{{ 'eufy_dogcam_ct.js' | asset_url }}" defer="defer"></script>
+
+
+<div class="eufy_dogcam_3">
+  <div class="banner_3 pc_show" id="banner_3">
+    <div class="contain">
+      <div class="banner_3_sticky">
+        
+        <div class="banner_3_content">
+          <div class="aBox">
+            <div class="a1 all">
+              <div class="a1_img">
+                <div class="a1_btm"></div>
+                <img class="lazyload" data-src="{{ dogcam.a1_img }}" alt="">
+              </div>
+              <div class="a1_p">
+                <p class="a1_p1">{{ dogcam.a1_p1 }}</p>
+                <p class="a1_p2">{{ dogcam.a1_p2 }}</p>
+              </div>
+            </div>
+            <div class="a2 all">
+              <div class="a2_p">
+                <p class="a2_p1">{{ dogcam.a2_p1 }}</p>
+                <p class="a2_p2">{{ dogcam.a2_p2 }}</p>
+              </div>
+              <div class="a2_img">
+                <div class="a2_btm"></div>
+                <img class="lazyload" src="{{ dogcam.a2_img }}" alt="">
+              </div>
+            </div>
+            <div class="a3 all">
+              <div class="a3_img">
+                <div class="a3_btm"></div>
+                <img class="lazyload" data-src="{{ dogcam.a3_img }}" alt="">
+              </div>
+              <div class="a3_p">
+                <p class="a3_p1">{{ dogcam.a3_p1 }}</p>
+                <p class="a3_p2">{{ dogcam.a3_p2 }}</p>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+        <div class="banner_3_p1"><p>{{ dogcam.banner_3_p1 }}</p></div>
+      </div>
+      
+    </div>
+    
+  </div>
+  <div class="banner_3_mob mob_show">
+    <div class="banner_3_p1"><p>{{ dogcam.banner_3_p1 }}</p></div>
+    <div class="banner_3_content">
+      <div class="aBox">
+        <div class="a1 all">
+          <div class="a1_img">
+            <img class="lazyload" data-src="{{ dogcam.a1_img_mob }}" alt="">
+          </div>
+          <div class="a1_p">
+            <p class="a1_p1">{{ dogcam.a1_p1 }}</p>
+            <p class="a1_p2">{{ dogcam.a1_p2 }}</p>
+          </div>
+        </div>
+        <div class="a2 all">
+          
+          <div class="a2_img">
+            <img class="lazyload" data-src="{{ dogcam.a2_img_mob }}" alt="">
+          </div>
+          <div class="a2_p">
+            <p class="a2_p1">{{ dogcam.a2_p1 }}</p>
+            <p class="a2_p2">{{ dogcam.a2_p2 }}</p>
+          </div>
+        </div>
+        <div class="a3 all">
+          <div class="a3_img">
+            <img class="lazyload" data-src="{{ dogcam.a3_img_mob }}" alt="">
+          </div>
+          <div class="a3_p">
+            <p class="a3_p1">{{ dogcam.a3_p1 }}</p>
+            <p class="a3_p2">{{ dogcam.a3_p2 }}</p>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>

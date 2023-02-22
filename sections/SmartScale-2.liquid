@@ -1,0 +1,211 @@
+
+{% if template contains 'page' %}
+  {% if page.metafields['global']['health'].value %}
+    {% assign health = page.metafields['global']['health'].value %}
+  {% else %}
+    {% assign health = page.metafields['global']['health'] %}
+  {% endif %}
+{% else %}
+  {% if product.metafields['global']['health'].value %}
+    {% assign health = product.metafields['global']['health'].value %}
+  {% else %}
+    {% assign health = product.metafields['global']['health'] %}
+  {% endif %}
+{% endif %}
+
+<section class="smartScale-2">
+  <div class="box-container">
+    <p class="num">{{ health.num }}</p>
+    <h class="title">{{ health.title }}</h>
+    <p class="desc">{{ health.desc }}</p>
+    <div class="icons-box">
+      {% assign preIcons = health.iconList | slice: 0, 4 %}
+      {% for item in  preIcons%}
+      <div class="icon-box icon-box-pre icon-box-pre-{{ forloop.index }}" data-index="{{ forloop.index }}" onClick="clickPreIcon({{ forloop.index }})">
+        <div class="icon-img">
+          <i class="iconfont">{{ item.icon_pc }}</i>
+        </div>
+        <div class="icon-title">{{ item.title }}</div>
+        <div class="triangle"></div>
+        <div class="icon-desc-mob is-hidden-desktop-only">
+          {{ item.desc }}
+        </div>
+      </div>
+      <div class="icon-desc-pc icon-desc-pre icon-desc-pre-{{forloop.index}} is-hidden-mobile-only" data-index="{{ forloop.index }}">
+        {{ item.desc }}
+      </div>
+      
+      {% endfor %}
+      {% assign length = health.iconList | size %}
+      {% assign lastIcons = health.iconList | slice: 4, length %}
+      {% for item in  lastIcons%}
+      <div class="icon-box icon-box-last icon-box-last-{{ forloop.index }}" data-index="{{ forloop.index }}" onClick="clickLastIcon({{ forloop.index }})">
+        <div class="icon-img"><i class="iconfont">{{ item.icon_pc }}</i></div>
+        <div class="icon-title">{{ item.title }}</div>
+        <div class="triangle"></div>
+        <div class="icon-desc-mob is-hidden-desktop-only">
+          {{ item.desc }}
+        </div>
+      </div>
+      <div class="icon-desc-pc icon-desc-last icon-desc-last-{{forloop.index}} is-hidden-mobile-only" data-index="{{ forloop.index }}">
+        {{ item.desc }}
+      </div>
+      {% endfor %}
+    </div>
+    <div class="load-more is-hidden-desktop-only">
+      <span class="show-more">{{ health.load_more }}</span>
+      <span class="go-back hidden">{{ health.go_back }}</span>
+    </div>
+  </div>
+</section>
+<script>
+  const width = window.innerWidth;
+  gsap.registerPlugin(ScrollTrigger);
+  function resizeBox(){
+    ScrollTrigger.refresh();
+  }
+  if(width > 769){
+    getPcTooltipsPosition();
+  }else{
+    getMobTooltipsPosition();
+  }
+  // getPcTooltipsPosition 获取pc端提示文字位置
+  function getPcTooltipsPosition(){
+    var boxW = $('.smartScale-2 .box-container').outerWidth();
+    var iconBoxH = $('.smartScale-2 .icon-box').outerHeight();
+    var iconBoxW = $('.smartScale-2 .icon-box').outerWidth(true);
+    var boxLeft =  $('.icons-box').offset().left;
+    // 前四个icon
+    {% assign preIcons = health.iconList | slice: 0, 4 %}
+    {% for item in  preIcons%}
+      var descWidth = $(`.smartScale-2 .icon-desc-pc.icon-desc-pre-{{forloop.index}}`).outerWidth(); // 描述框宽度
+      var left =  $(`.icon-box-pre-{{ forloop.index }}`).offset().left ; // icon到左侧距离
+      var w = left- boxLeft // box到边框的宽度
+      var iconTop =  $(`.icon-box-pre-{{ forloop.index }}`).offset().top - $('.icons-box').offset().top  //icon距离.icons-box的距离
+     // 设置icon-desc 距离top值为iconBoxH+iconTop
+      $(`.icon-desc-pc.icon-desc-pre-{{forloop.index}}`).css('top', iconBoxH+iconTop)
+      // 判断是否超出窗口右侧
+      if(descWidth+w<=boxW){
+       // 判断是否超出窗口左侧，如果超过left 为0
+        if(w- iconBoxW < 0){
+          $(`.icon-desc-pc.icon-desc-pre-{{forloop.index}}`).css('left', '0%')
+        }else{
+          $(`.icon-desc-pc.icon-desc-pre-{{ forloop.index }}`).css('left', w - descWidth/2 + 75)
+        }
+      }else{
+        $(`.icon-desc-pc.icon-desc-pre-{{forloop.index}}`).css('right', '0%')
+      }
+    {% endfor %}
+
+    // 除去前四个后面几个icon
+    {% assign lastIcons = health.iconList | slice: 4, length %}
+    {% for item in  lastIcons%}
+    var descWidth = $(`.smartScale-2 .icon-desc-pc.icon-desc-last-{{forloop.index}}`).outerWidth(); // 描述框宽度
+      var left =  $(`.icon-box-last-{{ forloop.index }}`).offset().left ; // div宽度
+      var w = left- boxLeft // box距离边框的宽度
+      var iconTop =  $(`.icon-box-last-{{ forloop.index }}`).offset().top - $('.icons-box').offset().top
+      // 判断是否超出窗口
+
+      $(`.icon-desc-pc.icon-desc-last-{{forloop.index}}`).css('top', iconBoxH+iconTop)
+      if(descWidth+w<=boxW){
+        if(w- iconBoxW < 0){
+          $(`.icon-desc-pc.icon-desc-last-{{forloop.index}}`).css('left', '0%')
+        }else{
+          $(`.icon-desc-pc.icon-desc-last-{{ forloop.index }}`).css('left', w - descWidth/2 + 75)
+        }
+      }else{
+        $(`.icon-desc-pc.icon-desc-last-{{forloop.index}}`).css('right', '0%')
+      }
+    {% endfor %}
+  }
+
+  function getMobTooltipsPosition(){
+    var boxWidth = $('.smartScale-2 .box-container').outerWidth();
+    var descWidth = $('.smartScale-2 .icon-desc-mob').outerWidth();
+    var iconboxWidth = $('.smartScale-2 .icon-box').outerWidth();
+    var boxLeft =  $('.icons-box').offset().left;
+    {% assign preIcons = health.iconList | slice: 0, 4 %}
+    {% for item in  preIcons%}
+      var left =  $(`.icon-box-pre-{{ forloop.index }}`).offset().left ;
+      var w = left- boxLeft // box距离边框的宽度
+      if(descWidth+w<=boxWidth){
+        if(w- iconboxWidth < 0){
+          $(`.icon-box-pre-{{ forloop.index }} .icon-desc-mob`).css('margin-left', '0%')
+        }else{
+          $(`.icon-box-pre-{{ forloop.index }} .icon-desc-mob`).css('margin-left', '-100%')
+        }
+      }else{
+        $(`.icon-box-pre-{{ forloop.index }} .icon-desc-mob`).css('margin-left', boxWidth - descWidth-w)
+      }
+    {% endfor %}
+    {% assign lastIcons = health.iconList | slice: 4, length %}
+    {% for item in  lastIcons%}
+      var left =  $(`.icon-box-last-{{ forloop.index }}`).offset().left;
+      var w = left- boxLeft // box距离边框的宽度
+      if(descWidth+w<=boxWidth){
+        if(w- iconboxWidth < 0){
+          $(`.icon-box-last-{{ forloop.index }} .icon-desc-mob`).css('margin-left', '0%')
+        }else{
+          $(`.icon-box-last-{{ forloop.index }} .icon-desc-mob`).css('margin-left', '-100%')
+        }
+      }else{
+        $(`.icon-box-last-{{ forloop.index }} .icon-desc-mob`).css('margin-left', boxWidth - descWidth-w)
+      }
+    {% endfor %}
+  }
+  function clickPreIcon(id){
+    $(".icon-box .icon-img").css('color', '#333333');
+    $(".icon-box .icon-title").css('color', '#333333');
+    $(".icon-box .triangle").css('visibility', 'hidden');   
+    $(`.icon-box-pre[data-index=${id}] .icon-img`).css('color', '#21D1C4');
+    $(`.icon-box-pre[data-index=${id}] .icon-title`).css('color', '#21D1C4');
+    $(`.icon-box-pre[data-index=${id}] .triangle`).css('visibility', 'visible');
+    if(width > 769){
+      $(".icon-desc-pc").css('visibility', 'hidden');
+      $(`.icon-desc-pc.icon-desc-pre[data-index=${id}]`).css('visibility', 'visible');
+    }else{
+      $(".icon-desc-mob").css('display', 'none');
+      $(`.icon-box-pre[data-index=${id}] .icon-desc-mob`).css('display', 'block');
+    }
+  }
+  function clickLastIcon(id){
+    $(".icon-box .icon-img").css('color', '#333333');
+    $(".icon-box .icon-title").css('color', '#333333');
+    $(".icon-box .triangle").css('visibility', 'hidden');
+    // $(".icon-box .tooltip").css('display', 'none');
+    $(`.icon-box-last[data-index=${id}] .icon-img`).css('color', '#21D1C4');
+    $(`.icon-box-last[data-index=${id}] .icon-title`).css('color', '#21D1C4');
+    $(`.icon-box-last[data-index=${id}] .triangle`).css('visibility', 'visible');
+    if(width > 769){
+      $(".icon-desc-pc").css('visibility', 'hidden');
+      $(`.icon-desc-pc.icon-desc-last[data-index=${id}]`).css('visibility', 'visible');
+    }else{
+      $(".icon-desc-mob").css('display', 'none');
+      $(`.icon-box-last[data-index=${id}] .icon-desc-mob`).css('display', 'block');
+    }
+    // $(`.icon-box-last[data-index=${id}] .tooltip`).css('display', 'block');
+  }
+  $('.show-more').on('click', function (){
+    $('.icon-box-last').css('display','block');
+    $('.show-more').addClass('hidden');
+    $('.go-back').removeClass('hidden');
+    getMobTooltipsPosition();
+  })
+  $('.go-back').on('click', function (){
+    $('.icon-box-last').css('display','none');
+    $('.go-back').addClass('hidden');
+    $('.show-more').removeClass('hidden');
+  })
+</script>
+{% schema %}
+{
+  "name": "Smart Scale P2 Pro Health",
+  "presets": [
+    {
+      "category": "Smart Scale P2 Pro Health Sections",
+      "name": "Smart Scale P2 Pro Health"
+    }
+  ],
+  "settings": []
+}
+{% endschema %}

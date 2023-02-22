@@ -1,0 +1,330 @@
+{% if shop.metafields.global.country.value %}
+  {% assign country = shop.metafields.global.country.value %}
+{% else %}
+  {% assign country = shop.metafields.global.country %}
+{% endif %}
+
+{% assign section_id = 'shopify-section-' | append: section.id %}
+<style>
+
+#{{section_id}} .component-sign-up {
+  width: 100%;
+}
+#{{section_id}} .sign-up-form {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+#{{section_id}} .sign-up-top {
+	text-align: {{ section.settings.sign_up_top_text_align }};
+}
+#{{section_id}} .sign-up-title {
+	line-height: 1.5;
+	word-break: break-all;
+	font-weight: 700;
+	color: {{ section.settings.title_color }};
+	font-size: 2.5vw;
+}
+#{{section_id}} .sign-up-subtitle {
+	line-height: 1.5;
+	word-break: break-all;
+	color: {{ section.settings.subtitle_color }};
+	font-size: 1.46vw
+}
+#{{section_id}} .sign-up-desc {
+	line-height: 1.5;
+	word-break: break-all;
+	color: {{ section.settings.desc_color }};
+	font-size: 1.1vw;
+}
+#{{section_id}} .sign-up-input {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-top: 30px;
+}
+#{{ section_id }} .input_button_area {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	max-width: 610px;
+}
+#{{section_id}} .sign-up-input input[type="text"] {
+  flex: 1;
+	height: 2.92vw;
+  min-height: 49px;
+	padding: 5px 20px;
+	outline: none;
+  border: none;
+	font-size: 18px;
+  border-radius: {% if section.settings.input_radius != blank %} {{ section.settings.input_radius }} {% else %} var(--button_border_radius) {% endif %};
+	color: {{ section.settings.input_color }};
+  background: {{ section.settings.input_bg }};
+}
+#{{section_id}} .sign-up-button {
+  padding: 0 32px;
+	height: 2.92vw; 
+  min-height: 49px;
+	outline: none;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border: none;
+	cursor: pointer;
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+	-webkit-tap-highlight-color: transparent;
+	font-size: 18px;
+	background: {% if section.settings.button_bg != blank %} {{section.settings.button_bg}} {% else %} var(--light_color) {% endif %};
+	color: {{section.settings.button_txt_color}};
+  border-radius: {% if section.settings.input_radius != blank %} {{ section.settings.input_radius }} {% else %} var(--button_border_radius) {% endif %};;
+	margin-left: 12px;
+}
+#{{section_id}} .sign-up-button[disabled] {
+	background-color: {{ section.settings.button_disabled_color }};
+	pointer-events: none;
+	cursor: not-allowed;
+}
+#{{section_id}} .policyBox {
+	margin-top: 25px;
+	text-align: center;
+	font-size: 14px;
+	color: {{section.settings.policy_text_color}};
+}
+#{{section_id}} .policy-checkbox {
+	width: 15px;
+	height: 15px;
+}
+#{{section_id}} .policyBox input[type="checkbox"] {
+	vertical-align: middle;
+}
+#{{section_id}} .policyBox span, .policyBox a {
+	font-size: 14px;
+	color: {{section.settings.policy_text_color}};
+}
+#{{section_id}} .policyBox a {
+	text-decoration: underline;
+}
+#{{section_id}} .policyBox a:hover {
+  color: {{ section.settings.policy_text_hover_color }};
+}
+#{{section_id}} .sign-up-icon {
+	text-align: center;
+}
+#{{section_id}} .icon-item {
+  width: 48px;
+  height: 48px;
+  display: inline-block;
+	margin-right: 21px;
+	font-size: 0;
+}
+#{{section_id}} .icon-item:last-child {
+	margin-right: 0;
+}
+#{{section_id}} .icon-item svg, #{{section_id}} .icon-item img {
+  width: 100%;
+  height: 100%;
+}
+#{{section_id}} .error-info {
+	height: 40px;
+	text-align: center;
+}
+#{{section_id}} .info_tips {
+	font-size: 13px;
+	color: {{section.settings.info_color}};
+	display: none;
+	margin-top: 10px;
+}
+#{{section_id}} .info_success {
+	color: {{section.settings.info_success_color}};
+}
+
+@media(max-width: 769px) {
+	#{{ section_id }} .input_button_area {
+		flex-direction: column;
+	}
+	#{{ section_id }} .sign-up-input input[type="text"] , #{{ section_id }} .sign-up-button {
+		width: 100%;
+	}
+	#{{ section_id }} .sign-up-button {
+		margin: 12px 0 0 0;
+		padding: 0;
+	}
+  #{{section_id}} .icon-item {
+    width: 36px;
+    height: 36px;
+  }
+  #{{section_id}} .component_sign_up_v2 {
+    padding: 30px 15px;
+  }
+  #{{section_id}} .sign-up-title {
+    font-size: 30px;
+  }
+  #{{section_id}} .sign-up-subtitle {
+    font-size: 24px;
+  }
+  #{{section_id}} .sign-up-desc {
+    font-size: 16px;
+  }
+	#{{section_id}} .sign-up-input input[type="text"], #{{section_id}} .sign-up-button {
+		max-width: 325px;
+	}
+}
+</style>
+
+<div class="component-sign-up component-sign-up-{{ section.settings.custom_style}}">
+	<div class="sign-up-form">
+		<div class="sign-up-top">
+			{% if section.settings.sign_up_title != blank %}
+			<h3 class="sign-up-title">{{ section.settings.sign_up_title }}</h3>
+			{% endif %}
+			{% if section.settings.sign_up_subtitle != blank %}
+			<div class="sign-up-subtitle">{{section.settings.sign_up_subtitle}}</div>
+			{% endif %}
+			{% if section.settings.sign_up_desc != blank %}
+			<div class="sign-up-desc">{{ section.settings.sign_up_desc }}</div>
+			{% endif %}
+		</div>
+		{% if section.settings.custom_style == "1" %}
+		<div class="sign-up-input">
+			<div class="input_button_area">
+				<input type="text" class="sign_up_input" placeholder="{{section.settings.input_placeholder}}" />
+				<button class="sign-up-button">{{section.settings.button_txt}}</button>
+			</div>
+			<div class="policyBox">
+				<label>
+					<span>
+						<input type="checkbox" class="policy-checkbox" />
+					</span>
+					<span>{{ section.settings.policy_text }}</span>
+				</label>
+			</div>
+			<div class="error-info">
+				<div class="info_tips info_success">{{ section.settings.info_success }}</div>
+				<div class="info_tips info_fill_email">{{ section.settings.info_fill_email }}</div>
+				<div class="info_tips info_err_email">{{ section.settings.info_err_email }}</div>
+				<div class="info_tips info_select_policy">{{ section.settings.info_select_policy }}</div>
+			</div>
+		</div>
+		{% endif %}
+		<div class="sign-up-icon">
+			{% for block in  section.blocks %}
+				<a href="{{block.settings.icon_href}}" class="icon-item" target="{{  section.settings.icon_target }}">
+          {% if block.settings.icon_bg != blank %}
+					<img src="{{ block.settings.icon_bg | image_url: width: 36 }}" />
+          {% else %}
+          {{ block.settings.icon_default }}
+          {% endif %}
+				</a>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+
+<script>
+$(function() {
+	function pushErrorDataLayer() {
+		window.dataLayer.push({
+			"event": "bottom_function",
+			"page_group": "{{ template }}",
+			"action": "Email Sign Up Error"
+		})
+	}
+
+	function pushSuccDataLayer(data) {
+		window.dataLayer.push({
+			"event": "bottom_function",
+			"page_group": "{{ template }}",
+			"action": "Email Sign Up Success"
+		})
+		window.dataLayer.push({
+			"event": "uaEvent",
+			"eventCategory": 'subscribe',
+			"eventAction": "{{section.settings.eventAction}}",
+			"eventLabel": data && data.is_new_customer ? 'new' : 'old'
+		})
+		window.dataLayer.push({ "event_parameters": null });
+		window.dataLayer.push({
+			"event": "ga4Event",
+			"event_name": "subscribe",
+			"event_parameters": {
+				"page_group": "{{section.settings.ga4_page_group}}"
+			}
+		})
+		typeof fbq === 'function' && fbq('track', 'CompleteRegistration')
+	}
+	const subscribe_private = {
+		timer: null,
+		regExp: {
+			email: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+		},
+		isEmail: val => subscribe_private.regExp.email.test(val),
+		tip_info: (clas, val) => {
+			$('#{{section_id}} .sign-up-button').prop("disabled", false);
+			$('#{{section_id}} .info_tips').hide()
+			$(`#{{section_id}} .${clas}`).show()
+			if (subscribe_private.timer) clearTimeout(subscribe_private.timer);
+			subscribe_private.timer = setTimeout(() => { 
+				$(`#{{section_id}} .${clas}`).hide();
+			}, 8000);
+		}
+	};
+	$('#{{section_id}} .sign-up-button').on('click', function(e) {
+		e.stopPropagation();
+		e.preventDefault();
+		$(this).prop("disabled", true);
+		const email_val = $('#{{section_id}} .sign_up_input').val().trim()
+		const check_val = $('#{{section_id}} .policy-checkbox').prop('checked')
+		if(!email_val) {
+			subscribe_private.tip_info('info_fill_email');
+			pushErrorDataLayer(); 
+			return
+		}
+		if(email_val && !subscribe_private.isEmail(email_val)) {
+			subscribe_private.tip_info('info_err_email');
+			pushErrorDataLayer()
+			return
+		}
+		if(!check_val) {
+			subscribe_private.tip_info('info_select_policy');
+      pushErrorDataLayer()
+			return
+		}
+		const data = {
+			email: email_val,
+			brand: '{{section.settings.brand_name}}'
+		}
+		let subscribe_name = 'subscribe_emails'
+		{% if section.settings.deals_type != blank %}
+		data.phone_number = null;
+		data.genre = '{{ section.settings.deals_type  }}';
+		data.single_brand_subscribe = false;
+		data.shopify_domain = "{{ shop.permanent_domain }}";
+		data.country_code = "{{ country.code }}";
+		data.trigger_subscribe = true
+		subscribe_name = 'subscribe_activities_emails'
+		{% endif %}
+		Shopify.contentCreator.pastApi[subscribe_name]({
+			params: data,
+			fn: (body) => {
+				pushSuccDataLayer(body)
+				subscribe_private.tip_info('info_success');
+				$('#{{section_id}} .sign_up_input').val('');
+				$('#{{section_id}} .policy-checkbox').prop("checked", false);
+				setTimeout(function() {
+					$('#{{section_id}} .info_tips').hide()
+				}, 2500)
+			},
+			error: (err) => {
+				const { responseJSON } = err || {};
+				if (responseJSON) {
+					subscribe_private.tip_info('info_error', responseJSON.error || responseJSON.err);
+				} else {
+					subscribe_private.tip_info('info_err_email');
+				}
+			}
+		});
+	})
+})
+</script>

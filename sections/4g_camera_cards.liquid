@@ -1,0 +1,32 @@
+{% if template contains 'page' %}
+  {% if page.metafields['global']['4g_camera_cards'].value %}
+    {% assign lang = page.metafields['global']['4g_camera_cards'].value %}
+  {% else %}
+    {% assign lang = page.metafields['global']['4g_camera_cards'] %}
+  {% endif %}
+{% else %}
+  {% if product.metafields['global']['4g_camera_cards'].value %}
+    {% assign lang = product.metafields['global']['4g_camera_cards'].value %}
+  {% else %}
+    {% assign lang = product.metafields['global']['4g_camera_cards'] %}
+  {% endif %}
+{% endif %}
+
+
+<section id="{{lang.id | default: 'camera-4g-cards'}}" class="camera-4g-cards">
+  <div class="box-container">
+    {% for item in lang.data %}
+    <div class="card card-{{forloop.index }}">
+      <div class="card-txt">
+        <h2 class="title">{{item.title}}</h2>
+        <p class="desc">{{ item.desc }}</p>
+      </div>
+      <div class="card-img">
+        {% render 'lazyload_image',  
+        src: item.img,
+        alt: {{ item.desc }} %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section> 

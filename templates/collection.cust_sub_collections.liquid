@@ -1,0 +1,126 @@
+{% if collection.metafields['global']['products'].value %}
+  {% assign products = collection.metafields['global']['products'].value %}
+{% else %}
+  {% assign products = collection.metafields['global']['products'] %}
+{% endif %}
+
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+
+{{ 'collection.scss.css' | asset_url | stylesheet_tag }}
+
+{% section 'collection-cust_sub' %}
+
+<script>
+  $(document).ready(function () {
+
+    referralTrack('products', '{{ collection.handle }}', 'page');
+
+    let allProducts = [];
+    {% for item in products %}
+      {% assign oProdList = collections[item.handle].products %}
+      allProducts = allProducts.concat({{ oProdList | json }});
+    {% endfor %}
+
+    let impressionsArr = [];
+    let productItems = [];
+    allProducts.map((item, index) => {
+      var [first_available_variant] = item.variants
+
+      var productPrice;
+      if (!item.available) productPrice = "";
+      else if (item.price === 999999999) productPrice = "";
+      else if (item.price_min > 0) productPrice = item.price_min / 100;
+      else if (item.compare_at_price_max > item.price) productPrice = item.compare_at_price_max / 100;
+      else productPrice = "";
+
+      impressionsArr.push({
+        "brand": "{{ shop.name }}",
+        "list": "{{ collection.title }}",
+        "id": item.id,
+        "name": item.title,
+        "price": productPrice,
+        "variant": "",
+        "position": index,
+        "category": "{{ collection.title }}"
+      });
+      productItems.push({
+        "item_id": first_available_variant.sku,
+        "item_name": item.title,
+        "item_brand": "{{ shop.name }}",
+        "item_category": item.type,
+        "item_variant": first_available_variant.title,
+        "price": item.price,
+        "index": index,
+        "item_list_id": "{{ collection.id }}",
+        "item_list_name": "{{ collection.title }}"
+      });
+      $(`.itemProduct[data-handle=${item.handle}] .pushDatalayer`).click(function(){
+        Shopify.contentCreator.gtm.pushProductDatalayer(
+          false,
+          'Clicked Product List',
+          { 
+            'currencyCode': '{{ shop.currency }}',
+            "click": {
+              "actionField": {
+                "list": "{{ collection.title }}"
+              },
+              "products": [{
+                "id": item.id,
+                "name": item.title,
+                "price": productPrice,
+                "variant": "",
+                "position": index,
+                "brand": "{{ shop.name }}",
+                "category": "{{ collection.title }}"
+              }]
+            }
+          }
+        );
+        pushSelectItemDataLayer(productPrice, item, index)
+
+        // Learn more 点击 ga4 埋点
+        $(`.itemProduct[data-handle=${item.handle}] .btn`).click(function() {
+          pushSelectItemDataLayer(productPrice, item, index)
+        })
+      })
+    });
+
+    Shopify.contentCreator.gtm.pushProductDatalayer(true, "Viewed Product List", { "currencyCode": "{{ shop.currency }}", "impressions": impressionsArr });
+    
+    window.dataLayer.push({
+      "event": "view_item_list",
+      "page_group": "Product List Page_" + "{{ collection.title }}",
+      "ecommerce": {
+        "currency": "{{ shop.currency }}",
+        "items": productItems
+      }
+    });
+    
+  })
+
+  function pushSelectItemDataLayer (productPrice, item, index) {
+    var [first_available_variant] = item.variants
+    window.dataLayer.push({
+      "event": "select_item",
+      "page_group": "Product List Page_" + "{{ collection.title }}",
+      "action": "Img_" + item.title,
+      "ecommerce": {
+        "currency": "{{ shop.currency }}",
+        "items": [{
+          "item_id": first_available_variant.sku,
+          "item_name": item.title,
+          "item_brand": "{{ shop.name }}",
+          "item_category": item.type,
+          "item_variant": first_available_variant.title,
+          "price": item.price,
+          "index": index,
+          "item_list_id": "{{ collection.id }}",
+          "item_list_name": "{{ collection.title }}"
+        }]
+      }
+    });
+}
+</script>
+

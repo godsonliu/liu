@@ -1,0 +1,57 @@
+{% style %}
+@media screen and (max-width: 768px) {
+  #shopify-section-{{ section.id }} .sec-video-wrap_{{ block.id }}{
+    {% if block.settings.video_mb_margin != blank %}
+      margin: {{ block.settings.video_mb_margin }};
+    {% endif %}
+  }
+
+  #shopify-section-{{ section.id }} .video-mb-sec-wrap_{{ block.id }} video{
+    {% if block.settings.video_mb_width != 0 %}
+      width: {{ block.settings.video_mb_width }}px;
+      max-width: none;
+    {% endif %}
+    {% if block.settings.video_mb_height != 0 %}
+      height: {{ block.settings.video_mb_height }}px;
+    {% endif %}
+  }
+}
+@media screen and (min-width: 769px) {
+  #shopify-section-{{ section.id }} .sec-video-wrap_{{ block.id }}{
+    {% if block.settings.video_pc_margin != blank %}
+      margin: {{ block.settings.video_pc_margin }};
+    {% endif %}
+  }
+
+  #shopify-section-{{ section.id }} .video-pc-sec-wrap_{{ block.id }} video{
+    {% if block.settings.video_pc_width != 0 %}
+      width: {{ block.settings.video_pc_width | divided_by: 19.2 }}vw;
+      max-width: none;
+    {% endif %}
+    {% if block.settings.video_pc_height != 0 %}
+      height: {{ block.settings.video_pc_height | divided_by: 19.2 }}vw;
+    {% endif %}
+  }
+}
+{% endstyle %}
+
+<div class="sec-video-wrap sec-video-wrap_{{ block.id }}">
+  {% if block.settings.video_pc != blank %}
+    <div class="video-sec-wrap video-pc-sec-wrap_{{ block.id }} is-hidden-mobile-only">
+      <video class="lazyload" data-src="{{ block.settings.video_pc }}" poster="{{ block.settings.img | img_url: '' }}" playsinline autoplay muted loop ></video>
+    </div>
+  {% elsif block.settings.video_mb == blank %}
+    <div class="video-sec-wrap">
+      {% if imgtag == blank %}
+        {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
+      {% else %}
+        {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+      {% endif %}
+    </div>
+  {% endif %}
+  {% if block.settings.video_mb != blank %}
+    <div class="video-sec-wrap video-mb-sec-wrap_{{ block.id }} is-hidden-desktop-only">
+      <video class="lazyload" data-src="{{ block.settings.video_mb }}" poster="{{ block.settings.img_mb | img_url: '' }}" playsinline autoplay muted loop></video>
+    </div>
+  {% endif %}
+</div>

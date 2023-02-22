@@ -1,0 +1,137 @@
+$bg: #fff;
+$maxPhoneWidth: 767px;
+$maxPadWidth: 1024px;
+$maxLaptopWidth: 1440px;
+$minLaptopWidth: 992px;
+$minPadWidth: 768px;
+$maxAllPhoneWidth: 414px;
+
+.m-box {
+  background-color: $bg;
+  padding: 53px 0;
+  font-family: Whitney, Helvetica, Arial, sans-serif;
+  overflow: hidden;
+  @media screen and (max-width: $minPadWidth) {
+    padding: 12px 16px;
+  }
+  .m-box-wrap {
+    max-width: 1000px;
+    padding: 0 1rem;
+    margin: 0 auto;
+    @media (max-width: 768px) {
+      padding: 0;
+    }
+    .prodTitle {
+      margin-bottom: 14px;
+      color: #000;
+      text-align: center;
+      font-size: 24px;
+      line-height: 1.2;
+      font-weight: 600;
+      @media (max-width: 768px) {
+        text-align: left;
+        font-size: 16px;
+        margin-bottom: 4px;
+        font-weight: 700;
+        span {
+          padding: 0;
+        }
+      }
+    }
+    .bb-9f9f9f {
+      border-bottom: 1px solid #f4f4f4;
+    }
+    .m-list {
+      padding: 16px 0;
+      outline: none;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      @media (max-width: 768px) {
+        padding: 12px 0;
+      }
+      cursor: pointer;
+      &:last-child {
+        border-bottom: none;
+      }
+      .specs-title {
+        font-size: 15px;
+        font-weight: 400;
+        color: #000;
+        margin-bottom: 16px;
+        @media (max-width: 768px) {
+          font-size: 15px;
+          font-weight: 400;
+          margin-bottom: 4px;
+        }
+      }
+    }
+    .icon-list {
+      float: right;
+      cursor: pointer;
+      text-align: right;
+      .iconfont {
+        font-size: 10px;
+      }
+      .init-icon {
+        display: block;
+      }
+      .up-icon {
+        display: none;
+      }
+    }
+    .icon-list.active {
+      .init-icon {
+        display: none;
+      }
+      .up-icon {
+        display: block;
+      }
+    }
+
+    .m-content {
+      display: none;
+      width: 100%;
+      overflow-x: scroll;
+      .b_img { line-height: 0; }
+      .item {
+        box-sizing: border-box;
+        vertical-align: top;
+        padding: 12px 0;
+        display: table;
+        width: 100%;
+        @media (max-width: 768px) {
+          padding: 10px 0;
+        }
+        h6 {
+          font-size: 14px;
+          font-weight: 600;
+          margin: 0;
+          width: 200px;
+          word-break: break-word;
+          @media screen and (max-width: $minPadWidth) {
+            width: 160px;
+          }
+        }
+        .col {
+          display: table-cell;
+          vertical-align: middle;
+          font-size: 12px;
+          font-weight: 600;
+        }
+        .value {
+          font-size: 12px;
+          font-weight: 400;
+        }
+        .info {
+          padding-left: 1.2rem;
+          line-height: 1.4;
+        }
+        &:last-child {
+          border-bottom: 1px solid #f4f4f4;
+        }
+      }
+    }
+    .active {
+      background-image: url("../images/iconfont-unfold.png");
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{% if product.metafields.global.highlights.value %}
+  {% assign highlights = product.metafields.global.highlights.value %}
+{% else %}
+  {% assign highlights = product.metafields.global.highlights %}
+{% endif %}
+
+
+{% if highlights %}
+  <section class="grid-item highlights listing_v2_section" id="overview" data-section-id="product-meta-highlights">
+    {{ highlights }}
+  </section>
+{% endif %}
+
+{% schema %}
+{
+  "name": "listing_highlights"
+}
+{% endschema %}

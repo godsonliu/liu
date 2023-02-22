@@ -1,0 +1,115 @@
+<div id="adv_Modal" class="adv_Modal" role="dialog">
+  <div class="modal_mask" onclick="closeTxtModal()"></div>
+  <div class="dialogModal">
+    <div class="modalContent clearfix">
+      <button
+        id="dialog_close" type="button" class="dialogClose"
+        onclick="closeDialog()"
+        aria-label="close"
+      >
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.01037 4.94971C5.71747 4.65681 5.2426 4.65681 4.94971 4.94971C4.65681 5.2426 4.65681 5.71747 4.94971 6.01037L8.83875 9.89941L4.94971 13.7885C4.65681 14.0814 4.65681 14.5562 4.94971 14.8491C5.2426 15.142 5.71747 15.142 6.01037 14.8491L9.89941 10.9601L13.7885 14.8492C14.0814 15.1421 14.5563 15.1421 14.8492 14.8492C15.1421 14.5563 15.1421 14.0814 14.8492 13.7885L10.9601 9.89941L14.8492 6.01029C15.1421 5.71739 15.1421 5.24252 14.8492 4.94963C14.5563 4.65673 14.0814 4.65673 13.7885 4.94963L9.89941 8.83875L6.01037 4.94971Z" fill="#999999"/>
+      </svg>        
+      </button>
+      <div class="dialog_body">
+        <div class="dialog_header">
+          <figure class="img-icon">
+            <!-- <img class="lazyload" data-src="{{ block.settings.img_icon | image_url }}" alt=""> -->
+          </figure>
+          <p class="txt"></p>
+        </div>
+        <div class="dialog_content"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+  .adv_Modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    visibility: visible;
+    overflow-y: auto;
+    z-index: 10000002;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+  .adv_Modal .modal_mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .adv_Modal .dialogModal {
+    display: block;
+    margin: 0 auto;
+    transform: translateY(50%);
+    width: calc(100% - 32px);
+    transition: 400ms;
+  }
+  .adv_Modal .dialogClose {
+    float: right;
+    padding: 0px;
+    color: #000000;
+    background: transparent;
+    border: none;
+    z-index: 1;
+    cursor: pointer;
+    transition: 400ms;
+  }
+  .adv_Modal .dialogClose i {
+    font-size: 20px;
+  }
+  .adv_Modal .modalContent{
+    display: inline-block;
+    padding: 20px;
+    position: relative;
+    background: #ffffff;
+    text-align: left;
+    border-radius: 16px;
+  }
+  .adv_Modal .dialog_body{
+    margin-top: 24px;
+  }
+  .adv_Modal .dialog_body .dialog_header{
+    display: flex;
+    align-items: center;
+  }
+  .adv_Modal .dialog_body .dialog_header .img-icon{
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+  }
+  .adv_Modal .dialog_body .dialog_header .txt{
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 22px;
+    color: #000000;
+  }
+  .adv_Modal .dialog_body .dialog_content{
+    margin-top: 20px;
+  }
+  .adv_Modal .dialog_body .dialog_content p{
+    margin-bottom: 10px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 19px;
+    color: #666666;
+  }
+</style>
+<script>
+  function closeDialog() {
+    $('.adv_Modal').css("display", "none");
+  }
+  function openDialogModal(img, title,desc) {
+    $('.adv_Modal').css("display", "block");
+    $('.dialog_body .dialog_header .img-icon').html(`${img}`);
+    $('.dialog_body .dialog_header .txt').html(`${title}`);
+    $('.dialog_body .dialog_content').html(`${desc}`);
+  }
+</script>

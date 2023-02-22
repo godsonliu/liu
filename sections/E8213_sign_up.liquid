@@ -1,0 +1,296 @@
+{% if page.metafields['global']['e8213_sign_up'].value %}
+  {% assign lang = page.metafields['global']['e8213_sign_up'].value %}
+{% else %}
+  {% assign lang = page.metafields['global']['e8213_sign_up'] %}
+{% endif %}
+
+
+<div class="page_e8213_sign_up">
+  <div id="e8213_sign_up_bar" class="sign_up_bar">
+    <div class="wrap">
+      <p>{{ lang.sign_up_bar_text }}</p>
+      <a id="e8213_sign_up" href="#subscribeCover">{{ lang.sign_up_bar_btn }}</a>
+    </div>
+  </div>
+  <div id="subscribeCover" class="subscribeCover">
+    <div class="subscribeBox">
+      <div class="bg">
+        {% comment %} <img class="is-hidden-mobile-only" src="{{ lang.img1_pc }}" alt=""/>
+        <img class="is-hidden-desktop-only" src="{{ lang.img1_mobile }}" alt=""/>
+        {% endcomment %}
+        {% render 'lazyload_image',  
+          src: lang.img1_pc,
+          additional_classes: "is-hidden-mobile-only"
+          alt: "" %}
+        {% render 'lazyload_image',
+          src: lang.img1_mobile,
+          additional_classes: "is-hidden-desktop-only"
+          alt="" %}
+      </div>
+      <div class="box">
+        {% render 'subscribe-deals-form',
+          snippets_id: 'e8213_signup',
+          deals_type: 'e8213_signup',
+          submit_btn_txt: lang.sign_up_bar_btn,
+          heading_text: lang.heading_text,
+          subheading_text: lang.subheading_text,
+          use_placeholders: lang.use_placeholders,
+          policy_text: lang.policy_text,
+          submit_position: 'bottom',
+          line_flag: true,
+          show_email_icon: false,
+        %}
+      </div>
+    </div>
+  </div>
+  <div class="banner2 banner">
+    <div class="bg">
+      <img class="lazyload is-hidden-mobile-only" data-src="{{ lang.img2_pc }}" alt=""/>
+      <img class="lazyload is-hidden-desktop-only" data-src="{{ lang.img2_mobile }}" alt=""/>
+    </div>
+    <div class="banner_2_content banner_2_content-pc is-hidden-mobile-only">
+      <div class="content_left">
+        <img class="lazyload cover" data-src="{{ lang.img2_1_pc }}" alt=""/>
+      </div>
+      <div class="content_desc content_left_desc">
+        <div class="content-text left-text">
+          <h>{{ lang.text2_left_h }}</h>
+          <p>{{ lang.text2_left_p }}</p>
+        </div>
+        <div class="left-line">
+          <img class="lazyload line" data-src="{{ lang.line_1 }}" alt="line"/>
+        </div>
+      </div>
+      <div class="desc">
+        <p>{{ lang.text2_desc }}</p>
+      </div>
+      <div class="content_right">
+        <img class="lazyload cover" data-src="{{ lang.img2_2_pc }}" alt=""/>
+      </div>
+      <div class="content_desc content_right_desc">
+        <div class="right-line">
+          <img class="lazyload line" data-src="{{ lang.line_2 }}" alt="line"/>
+        </div>
+        <div class="lazyload content-text right-text">
+          <h>{{ lang.text2_right_h }}</h>
+          <p>{{ lang.text2_right_p }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="banner_2_content banner_2_content-mobile is-hidden-desktop-only">
+      <div class="content_left">
+        <img class="lazyload cover" data-src="{{ lang.img2_1_mobile }}" alt=""/>
+      </div>
+      <div class="content_desc content_left_desc">
+        <div class="lazyload content-text left-text">
+          <h>{{ lang.text2_left_h }}</h>
+          <p>{{ lang.text2_left_p }}</p>
+        </div>
+        <div class="left-line">
+          <img class="lazyload line" data-src="{{ lang.line_3 }}" alt="line"/>
+        </div>
+      </div>
+      <div class="desc">
+        <p>{{ lang.text2_desc }}</p>
+      </div>
+      <div class="content_right">
+        <img class="lazyload cover" data-src="{{ lang.img2_2_mobile }}" alt=""/>
+      </div>
+      <div class="content_desc content_right_desc_mobile">
+        <div class="lazyload content-text right-text">
+          <h>{{ lang.text2_right_h }}</h>
+          <p>{{ lang.text2_right_p }}</p>
+        </div>
+        <div class="right-line">
+          <img class="lazyload line" data-src="{{ lang.line_3 }}" alt="line"/>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="banner3 banner">
+    <div class="bg">
+      <img class="lazyload is-hidden-mobile-only" data-src="{{ lang.img3_pc }}" alt=""/>
+      <img class="lazyload is-hidden-desktop-only" data-src="{{ lang.img3_mobile }}" alt=""/>
+    </div>
+    <div class="banner_content">
+      <div class="lazyload banner_text banner3_text">
+        <h>{{ lang.text3_h }}</h>
+        <p>{{ lang.text3_p }}</p>
+      </div>
+      <div class="banner_video">
+        <div class="bg">
+          <img class="lazyload is-hidden-mobile-only" data-src="{{ lang.video_img_pc }}" alt=""/>
+          <img class="lazyload is-hidden-desktop-only" data-src="{{ lang.video_img_mobile }}" alt=""/>
+          <video id="video_1" class="lazyload video_1" data-src="{{ lang.video_1 }}" preload="auto" muted="muted" autoplay="autoplay" playsinline></video>
+          <video id="video_2" class="lazyload video_2 is-hidden" data-src="{{ lang.video_2 }}" preload="auto" muted="muted" playsinline></video>
+        </div>
+        <div class="video_btn">
+          <div class="check-button-lf check-button-active">
+            <img class="lazyload img-lf" onclick="openVideo('check-button-lf')" data-src="{{ lang.video_btn1_img }}" alt=""/>
+            <span>{{ lang.video_btn1_text }}</span>
+          </div>
+          <div class="check-button-rg">
+            <img class="lazyload img-rg" onclick="openVideo('check-button-rg')" data-src="{{ lang.video_btn2_img }}" alt=""/>
+            <span>{{ lang.video_btn2_text }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="banner4 banner">
+    <div class="bg">
+      <img class="lazyload is-hidden-mobile-only" data-src="{{ lang.img4_pc }}" alt=""/>
+      <img class="lazyload is-hidden-desktop-only" data-src="{{ lang.img4_mobile }}" alt=""/>
+    </div>
+    <div class="banner_content">
+      <div class="lazyload banner_text">
+        <h>{{ lang.text4_h }}</h>
+        <p>{{ lang.text4_p }}</p>
+      </div>
+      <div class="banner_video">
+        <div class="bg">
+          <img class="lazyload is-hidden-mobile-only" data-src="{{ lang.video_img2_pc }}" alt=""/>
+          <img class="lazyload is-hidden-desktop-only" data-src="{{ lang.video_img2_mobile }}" alt=""/>
+          <video class="lazyload" data-src="{{ lang.video_3 }}" preload="auto" muted="muted" autoplay="autoplay" loop="loop" playsinline></video>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="banner5 banner">
+    <div class="bg">
+      <img class="lazyload is-hidden-mobile-only" data-src="{{ lang.img5_pc }}" alt=""/>
+      <img class="lazyload is-hidden-desktop-only" data-src="{{ lang.img5_mobile }}" alt=""/>
+    </div>
+    <div class="lazyload banner5_text">
+      <h>{{ lang.text5_h }}</h>
+      <p>{{ lang.text5_p }}</p>
+    </div>
+  </div>
+</div>
+
+<script src="{{ 'gsap.min.js' | asset_url }}"></script>
+<script src="{{ 'ScrollTrigger.min.js' | asset_url }}"></script>
+
+<script>
+  function openVideo(val) {
+    let $block = $('.'+ val);
+    var isActive = $block.is('.check-button-active');
+    if(!isActive) {
+      if(val === "check-button-lf"){
+        $('.check-button-rg').removeClass('check-button-active');
+        $('.check-button-lf').addClass('check-button-active');
+        $('.video_1').removeClass('is-hidden');
+        $('.video_2').addClass('is-hidden');
+        video_1.play();
+        video2.load();
+      }else{
+        $('.check-button-lf').removeClass('check-button-active');
+        $('.check-button-rg').addClass('check-button-active');
+        $('.video_2').removeClass('is-hidden');
+        $('.video_1').addClass('is-hidden');
+        video2.play();
+        video1.load();
+        
+      }
+    } 
+  }
+
+  $(document).ready(function(){
+    // gsap
+    ScrollTrigger.create({
+      trigger: ".banner_2_content-pc",
+      // start: "top center+=10%",
+      start: "top center+=40%",
+      end: '+=0',
+      //markers: true,
+      onEnter: () => {
+        gsap.to(".banner_2_content-pc .content_left .cover", { bottom:'100%', duration: '0.8' });
+        gsap.to(".banner_2_content-pc .content_right .cover", { bottom:'0', duration: '0.8' });
+        gsap.to('.banner_2_content-pc .desc p', { scale: '1'});
+        gsap.to(".banner_2_content-pc .content_desc .left-line", { opacity: '1', duration: '1', delay: '0.8'  });
+        gsap.to(".banner_2_content-pc .content_desc .right-line", { opacity: '1', duration: '1', delay: '0.8'  });
+        gsap.to(".banner_2_content-pc .content_desc .content-text", { opacity: '1', duration: '1', delay: '0.8' });
+      },
+      onEnterBack: () => {
+        gsap.to(".banner_2_content-pc .content_left .cover", { bottom:'0', duration: '0.8' });
+        gsap.to(".banner_2_content-pc .content_right .cover", { bottom:'100%', duration: '0.8' });
+        gsap.to('.banner_2_content-pc .desc p', { scale: '0.8'});
+        gsap.to(".banner_2_content-pc .content_desc .left-line", { opacity: '0', duration: '0', delay: '0' });
+        gsap.to(".banner_2_content-pc .content_desc .right-line", { opacity: '0', duration: '0', delay: '0' });
+        gsap.to(".banner_2_content-pc .content_desc .content-text", { opacity: '0', duration: '0', delay: '0' });
+      }
+    });
+    ScrollTrigger.create({
+      trigger: ".banner_2_content-mobile",
+      start: "top center+=40%",
+      end: '+=0',
+      //markers: true,
+      onEnter: () => {
+        gsap.to(".banner_2_content-mobile .content_left .cover", { bottom:'100%'});
+        gsap.to(".banner_2_content-mobile .content_right .cover", { bottom:'0' });
+        gsap.to('.banner_2_content-mobile .desc p', { scale: '1'});
+        gsap.to(".banner_2_content-mobile .content_desc .left-line", { opacity: '1', duration: '0.8', delay: '0.6'   });
+        gsap.to(".banner_2_content-mobile .content_desc .right-line", { opacity: '1', duration: '0.8', delay: '0.6'  });
+        gsap.to(".banner_2_content-mobile .content_desc .content-text", { opacity: '1', duration: '0.8', delay: '0.6' });
+      },
+      onEnterBack: () => {
+        gsap.to(".banner_2_content-mobile .content_left .cover", { bottom:'0' });
+        gsap.to(".banner_2_content-mobile .content_right .cover", { bottom:'100%' });
+        gsap.to('.banner_2_content-mobile .desc p', { scale: '0.8'});
+        gsap.to(".banner_2_content-mobile .content_desc .left-line", { opacity: '0', duration: '0', delay: '0' });
+        gsap.to(".banner_2_content-mobile .content_desc .right-line", { opacity: '0', duration: '0', delay: '0' });
+        gsap.to(".banner_2_content-mobile .content_desc .content-text", { opacity: '0', duration: '0', delay: '0' });
+      }
+    });
+    if ($(window).width() < 798 ) {
+      window.addEventListener('scroll', Shopify.contentCreator.util.throttle(isHidden, 200))
+    }else{
+      // hover切换按钮动画
+      $(".check-button-lf").hover(
+      function(){
+        //当鼠标放上去的时候,程序处理
+        $(".check-button-lf").addClass("check-button-hover")
+        $(".check-button-rg").removeClass("check-button-hover")
+        $(".check-button-rg").addClass("check-button-unhover")
+      },function(){
+        //当鼠标离开的时候,程序处理
+        $(".check-button-lf").removeClass("check-button-hover")
+        $(".check-button-rg").removeClass("check-button-unhover")
+      }
+    );
+    $(".check-button-rg").hover(
+      function(){
+        //当鼠标放上去的时候,程序处理
+        $(".check-button-rg").addClass("check-button-hover")
+        $(".check-button-lf").removeClass("check-button-hover")
+        $(".check-button-lf").addClass("check-button-unhover")
+      },function(){
+        //当鼠标离开的时候,程序处理
+        $(".check-button-rg").removeClass("check-button-hover")
+        $(".check-button-lf").removeClass("check-button-unhover")
+      }
+    );
+    }
+  })
+    // 监听视频播放完切换视频
+    var video1 = document.getElementById("video_1");
+    var video2 = document.getElementById("video_2");
+
+    video1.addEventListener("ended", function(){
+      openVideo('check-button-rg')
+    });
+    video2.addEventListener("ended", function(){
+      openVideo('check-button-lf')
+    });
+    
+    function isHidden(){
+      var isSticky = $('div').is('#mobile-header-sticky-wrapper')
+      if(!isSticky){
+        $('#e8213_sign_up_bar').css('opacity', 0);
+      }else{
+        $('#e8213_sign_up_bar').css('opacity', 1);
+      }
+    }
+    
+
+</script>

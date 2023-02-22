@@ -1,0 +1,143 @@
+
+{% assign section_id = 'shopify-section-' | append: section.id %}
+<style>
+#{{ section_id }} .page_weekend_deal_timer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 75px 15px;
+  background: #F5F5F7;
+}
+#{{ section_id }} .page_weekend_deal_timer_title {
+  font-weight: 700;
+  color: #333;
+  font-size: 2.5vw;
+  margin-bottom: 20px;
+}
+#{{ section_id }} .page_weekend_deal_timer_content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#{{ section_id }} .content_title {
+  font-size: 3.33vw;
+  font-weight: 600;
+  color: #333;
+  margin-right: 2.6vw;
+}
+.page_weekend_deal_timer .content_timer {
+  padding: 20px 20px 36px 20px;
+  border-radius: 25px;
+  background: #ecdbc3;
+}
+
+@media(max-width: 769px) {
+  #{{ section_id }} .page_weekend_deal_timer {
+    padding: 20px 10px;
+  }
+  #{{ section_id }} .page_weekend_deal_timer_title {
+    font-size: 18px;
+  }
+  #{{ section_id }} .content_title  {
+    font-size: 24px;
+  }
+}
+</style>
+<section class="page_weekend_deal_timer">
+  <div class="page_weekend_deal_timer_title">{{ section.settings.timer_title }}</div>
+  <div class="page_weekend_deal_timer_content">
+    <div class="content_title">{{ section.settings.end_in }}</div>
+    <div class="content_timer">
+      {% render 'component_count_timer_v2',
+        index: 0,
+        startTime: section.settings.startTime,
+        endTime: section.settings.endTime
+      %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "Page Weekend Timer",
+    "presets": [
+      {
+        "name": "Page Weekend Timer"
+      }
+    ],
+    "settings": [
+      {
+        "type": "text",
+        "id": "timer_title",
+        "label": "标题",
+        "default": "Crazy Weekend Sale"
+      },
+      {
+        "type": "text",
+        "id": "end_in",
+        "label": "End in",
+        "default": "End in"
+      },
+      {
+        "type": "text",
+        "id": "startTime",
+        "label": "开始时间",
+        "info": "YYYY/MM/DD"
+      },
+      {
+        "type": "text",
+        "id": "endTime",
+        "label": "结束时间",
+        "info": "YYYY/MM/DD"
+      },
+      {
+        "type": "color",
+        "id": "timer_bg",
+        "label": "倒计时背景色",
+        "default": "#fff"
+      },
+      {
+        "type": "color",
+        "id": "timer_color",
+        "label": "倒计时文案的颜色",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "id": "timer_txt_color",
+        "label": "年月日文案颜色",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "id": "dot_color",
+        "label": "时间分隔符背景色",
+        "default": "#ffffff"
+      },
+      {
+        "type": "text",
+        "id": "days",
+        "label": "Days的描述文案",
+        "default": "Days"
+      },
+      {
+        "type": "text",
+        "id": "hours",
+        "label": "Hours的描述文案",
+        "default": "Hours"
+      },
+      {
+        "type": "text",
+        "id": "minutes",
+        "label": "Minutes的描述文案",
+        "default": "Minutes"
+      },
+      {
+        "type": "text",
+        "id": "seconds",
+        "label": "Seconds的描述文案",
+        "default": "Seconds"
+      }
+    ]
+  }
+{% endschema %}

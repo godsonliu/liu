@@ -1,0 +1,368 @@
+{% assign lang = page.metafields.global %}
+
+{% if lang.corporate.value %}
+  {% assign corporate = lang.corporate.value %}
+{% else %}
+  {% assign corporate = lang.corporate %}
+{% endif %}
+
+{% if shop.metafields['global']['recaptcha'].value %}
+  {% assign recaptcha = shop.metafields['global']['recaptcha'].value %}
+{% else %}
+  {% assign recaptcha = shop.metafields['global']['recaptcha'] %}
+{% endif %}
+
+{% assign list = corporate.list %}
+{% assign list2 = corporate.list2 %}
+{% assign list3 = corporate.list3 %}
+{% assign list4 = corporate.list4 %}
+{% assign list5 = corporate.list5 %}
+{% assign productList = corporate.productList %}
+
+<link rel="stylesheet" href="https://cdn.shopify.com/s/files/1/0516/0098/2167/files/intlTelInput.css?v=1626753585">
+<script src="https://cdn.shopify.com/s/files/1/0516/0098/2167/files/intlTelInput.js?v=1626750830"></script>
+
+<div class="banner">
+  <a href="#entry">
+    <img class="lazyload pc_show"  data-src="{{ corporate.banner }}">
+  </a>
+  <a href="#entry">
+    <img class="lazyload mob_show"  data-src="{{ corporate.banner_mob }}">
+  </a>
+</div>
+<div class="banner_2">
+  <div class="content_1">
+    <div class="banner_2_p1">{{ corporate.banner_2_p1 }}</div>
+    <div class="banner_2_p2">
+      {{ corporate.banner_2_p2 }}
+    </div>
+    <ul class="banner_2_ul banner_2_ul_top">
+      {% for o in list %}
+        <li>
+          <img class="lazyload" data-src="{{ o.banner_2_ul_p }}">
+          <h6 class="banner-2-h6">{{ o.h6 }}</h6>
+        </li>
+      {% endfor %}
+    </ul>
+    {% if list3.size > 0 %}
+    <ul class="banner_2_ul banner_2_ul_bottom">
+      {% for o in list3 %}
+        <li>
+          <p class="banner_2_ul_p">
+            <img class="lazyload" data-src="{{ o.banner_2_ul_p }}">
+          </p>
+        </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </div>
+</div>
+<div class="banner_3">
+  <div class="content_1">
+    <div class="banner_3_p1">{{ corporate.banner_3_p1 }}</div>
+    <ul class="banner_3_ul">
+      {% for o in list4 %}
+        <li>
+          <p class="banner_3_ul_p">
+            <img class="lazyload" data-src="{{ o.banner_3_ul_p }}">
+          </p>
+          <span>{{ o.h6 }}</span>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+<div class="banner_4" id="entry">
+  <div class="content_1">
+    <div class="banner_4_p1">{{ corporate.banner_4_p1 }}</div>
+    <ul class="banner_4_ul banner_4_ul_top">
+      {% for o in list5 %}
+        <li>
+          <p class="banner_4_ul_p">
+            <img class="lazyload" data-src="{{ o.banner_4_ul_p }}">
+          </p>
+          <span>{{o.circle}}</span>
+          <h6>{{ o.h6 }}</h6>
+        </li>
+      {% endfor %}  
+    </ul>
+    <div class="button_4_a">
+      <a class="button-normal submit" id="banner_4_apply_btn">{{ corporate.button_4_a }}</a>
+    </div>
+    
+    <div class="apply_content" style="display:none;">
+      <div class="form_all">
+        <form id="apply_link_form">
+            <div class="form_name">
+                <div class="form_name_1">
+                    {{ corporate.form_name_1 }}
+                </div>
+                <input id="contact_name" type="text" name="Contact Name" value="">
+            </div>
+            <div class="form_email">
+                <div class="form_email_1">
+                    {{ corporate.form_email_1 }}
+                </div>
+                <input id="contact_email" type="text" name="Contact Email" value="">
+            </div>
+            <div class="form_product">
+              <div class="form_product_1">
+                  {{ corporate.form_product_1 }}
+              </div>
+              <input id="required_product" type="text" name="Required Product" value="" maxlength="200">
+            </div>
+            <div class="form_quantity">
+                <div class="form_quantity_1">
+                    {{ corporate.form_quantity_1 }}
+                </div>
+                <input id="quantity_required" type="text" name="Quantity Required" value="" maxlength="200">
+            </div>
+            <div class="form_reason">
+                <div class="form_reason_1">
+                    {{ corporate.form_reason_1 }}
+                </div>
+                <input id="reason_for_purchase" type="text" name="Reason for Purchase" value="" maxlength="200">
+            </div>
+            <div class="form_address">
+                <div class="form_address_1">
+                    {{ corporate.form_address_1 }}
+                </div>
+                <input id="shipping_address" type="text" name="Shipping Address" value="" maxlength="200">
+            </div>
+            <div class="form_date">
+                <div class="form_date_1">
+                    {{ corporate.form_date_1 }}
+                </div>
+                <input id="desired_delivery_date" type="text" name="Desired Delivery Date" value="" maxlength="200">
+            </div>
+            <div class="form_number">
+                <div class="form_number_1">
+                    {{ corporate.form_number_1 }}
+                </div>
+                <input id="phone_number" type="text" name="Phone Number" value="">
+            </div>
+            <div class="policyBox">
+                <label>
+                    <span>
+                        <input type="checkbox" name="policy" value="yes" onclick="myFunction()">
+                    </span>
+                    <span>{{ corporate.form_policy }}</span>
+                </label>
+            </div>
+            <button disabled type="submit" class="content_btn checkbox-wrapper-disabled" id="content_btn">
+                {{ corporate.form_button }}
+            </button>
+        </form>
+        
+      </div>
+      <div class="tk_bg" id="tk_bg">
+          <div class="tk_btm"></div>
+          <div class="tk_content">
+              <div class="modalContent">
+                  <button id="modal_close_anker" type="button" tabindex="0" class="modalClose"><i class="iconfont"></i></button>
+                  <div class="modal_content" id="modal_content">
+                      
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% if corporate.banner_5%}
+<div class="banner_5">
+  <img class="lazyload pc_show"  data-src="{{ corporate.banner_5 }}">
+  <img class="lazyload mob_show"  data-src="{{ corporate.banner_5_mob }}">
+</div>
+{% endif %}
+{% if productList %}
+<div class="product-list">
+  <div class="content_1">
+    <div class="banner_3_p1">{{ productList.title }}</div>
+    <ul class="banner_3_ul">
+      {% for o in productList.list %}
+        <li>
+          <p class="banner_3_ul_p">
+            <a href="{{o.link}}" target="_blank" rel="noopener noreferrer">
+              <img class="lazyload" data-src="{{ o.image }}" alt="product image">
+            </a>
+          </p>
+          <p class="product-title">{{ o.title }}</span>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+{% endif %}
+<div class="banner_6">
+  <div class="content_2">
+      <div class="banner_6_p1">{{ corporate.banner_6_p1 }}</div>
+      <div class="zk_content" id="father">
+          <div class="textLine open">
+              {% for o in list2 %}
+                  <div class="item" style="cursor:pointer;">
+                      <div class="item_tj">
+                          <div class="actionLine actionLine2">
+                              <span class="tit">{{ o.tit }}</span>
+                              <div class="zk_jt">
+                                <i class="act">
+                                <img src="https://cdn.shopify.com/s/files/1/0521/9411/5753/files/88328b12706fff969f8bb9c3873dd4ba.png?v=1640161070" alt="arrow" class="arrow">
+                              </i></div>
+                          </div>
+                          <div class="textLine_1">{{ o.textLine_1 }}</div>
+                      </div>
+                  
+                  </div>
+              {% endfor %}
+          </div>
+      </div>   
+  </div>
+</div>
+
+<script>
+  $("#phone_number").intlTelInput({
+     nationalMode: false,
+      utilsScript: "https://cdn.shopify.com/s/files/1/0516/0098/2167/files/utils.js?v=1626750869"
+  });
+  
+</script>
+
+<script type="text/javascript">
+  function myFunction(){
+
+    var reg=document.getElementsByName("policy");
+
+    if(reg[0].checked){
+        document.getElementById("content_btn").disabled=false;
+        $(".content_btn").removeClass("checkbox-wrapper-disabled");
+        $(".content_btn").addClass("checkbox-wrapper-checked");
+    }
+    else {
+        document.getElementById("content_btn").disabled=true;
+        $(".content_btn").addClass("checkbox-wrapper-disabled");
+        $(".content_btn").removeClass("checkbox-wrapper-checked");
+    }
+    }
+
+    $("#apply_link_form").submit(function (event){
+    event.preventDefault();
+    if (window.corporateSubmited) return;
+    if (!window.grecaptcha) return;
+    window.corporateSubmited = true;
+    grecaptcha.ready(() => {
+        grecaptcha.execute("{{ recaptcha }}", { action: 'XiaoB' }).then((recaptcha) => {
+            const contact_name = $('#contact_name').val().trim();
+            const contact_email = $('#contact_email').val().trim();
+            const required_product = $('#required_product').val().trim();
+            const quantity_required = $('#quantity_required').val().trim();
+            const reason_for_purchase = $('#reason_for_purchase').val().trim();
+            const shipping_address = $('#shipping_address').val().trim();
+            const desired_delivery_date = $('#desired_delivery_date').val().trim();
+            const phone_number = $('#phone_number').val().trim();
+            const shopify_domain = '{{ shop.permanent_domain }}';
+            const formData = {
+                shopify_domain,
+                contact_name,
+                contact_email,
+                required_product,
+                quantity_required,
+                reason_for_purchase,
+                shipping_address,
+                desired_delivery_date,
+                phone_number
+            };
+            const email = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+            var phones = /^(1)\d{10}$/;
+            var phones_1 = /^((0\d{2,3})-)(\d{7,8})(-(\d{3,}))?$/;
+            const errors = [];
+            if(contact_name == '') errors.push(`{{ corporate.contact_name }}<br/>`);
+            if(contact_email == '') errors.push(`{{ corporate.contact_email }}<br/>`);
+            if(phone_number == '') errors.push(`{{ corporate.phone_number }}<br/>`);
+            if (errors.length) {
+                $("#tk_bg").css("display","block");
+                errors.map((item) => $("#modal_content").append(`${item}`));
+                return;
+            }
+
+            $.ajax({
+                headers: {
+                    ...Shopify.contentCreator.pastApi.getHeaders(),
+                    'recaptcha': recaptcha
+                },
+                url: '/apps/pp/rainbowbridge/business_orders',
+                type: 'POST',
+                contentType: "application/json",
+                dataType:"json",
+                data: JSON.stringify(formData),
+                success: function(data) {
+                    $("#tk_bg").css("display","block");
+                    var html = `<div class="modal_p1">{{ corporate.modal_p1 }}</div><div class="modal_p2">{{ corporate.modal_p2 }}</div><div class="modal_p3"><a class="button-normal submit" href="{{ shop.url }}">{{ corporate.modal_p3 }}</a></div>`
+                    $("#modal_content").append(html);
+                    $("#contact_name").val("");
+                    $("#contact_email").val("");
+                    $("#required_product").val("");
+                    $("#quantity_required").val("");
+                    $("#reason_for_purchase").val("");
+                    $("#shipping_address").val("");
+                    $("#desired_delivery_date").val("");
+                    $("#phone_number").val("");
+                    window.corporateSubmited = false;
+                },
+                error:function(data) {
+                    $("#tk_bg").css("display","block");
+                    var message = data.responseJSON && data.responseJSON.message || [];
+                    if (!Array.isArray(message)) { message = [message]; }
+                    message.map(item => {
+                        if (item.indexOf("phone_number") === 0) {
+                            $("#modal_content").append(`{{ corporate.modal_number }}<br/>`);
+                        } else if (item.indexOf("contact_email") === 0) {
+                            $("#modal_content").append(`{{ corporate.modal_email }}<br/>`);
+                        }else if (item.indexOf("Low recaptcha") === 0) {
+                            $("#modal_content").append(`{{ corporate.low_recaptcha }}<br/>`);
+                        } else {
+                            $("#modal_content").append(`${item}<br/>`);
+                        }
+                    });
+                    
+                },
+                done: function() {
+                }
+            });
+        })
+    })
+  })
+  
+  $(document).ready(function(){
+    
+    $('#banner_4_apply_btn').click(function(){
+        $('.apply_content').css("display","block");
+        $('#banner_4_apply_btn').css("display","none");
+    });
+    $("#modal_close_anker").click(function(){
+        $("#tk_bg").css("display","none");
+        $("#modal_content").empty();
+        window.corporateSubmited = false;
+    });
+  })
+</script>
+<script type="text/javascript">
+  $(document).ready(function(){
+      document.getElementById('father') && document.getElementById('father').addEventListener('click', e => {
+      const DOM = e.target.parentNode;
+      const DOMClass = DOM.getElementsByClassName('act')[0].getAttribute('class');
+      if (DOMClass.indexOf('open') === -1) {
+          DOM.getElementsByClassName('act')[0].classList.add('open');
+          DOM.getElementsByClassName('textLine_1')[0].classList.add('open');
+          DOM.getElementsByClassName('item_tj')[0].classList.add('open');
+          DOM.getElementsByClassName('actionLine2')[0].classList.add('open');
+          $(DOM).find('.arrow').addClass('rotate');
+      } else {
+          DOM.getElementsByClassName('act')[0].classList.remove('open');
+          DOM.getElementsByClassName('textLine_1')[0].classList.remove('open');
+          DOM.getElementsByClassName('item_tj')[0].classList.remove('open');
+          DOM.getElementsByClassName('actionLine2')[0].classList.remove('open');
+          $(DOM).find('.arrow').removeClass('rotate');
+      }
+    });
+  })
+</script>

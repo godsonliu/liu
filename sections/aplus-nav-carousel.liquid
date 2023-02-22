@@ -1,0 +1,63 @@
+{% render 'aplus-nav-carousel-snippet' %}
+
+{% schema %}
+{
+  "name": "Aplus Navigation Carousel",
+  "presets": [
+    {
+      "name": "Aplus Navigation Carousel",
+      "blocks": [
+        {
+          "type": "item"
+        },
+        {
+          "type": "item"
+        }
+      ]
+    }
+  ],
+  "settings": [
+  ],
+  "blocks": [
+    {
+      "name": "item",
+      "type": "item",
+      "limit": 5,
+      "settings": [
+        {
+          "type": "text",
+          "id": "navigation",
+          "label": "navigation"
+        },
+        {
+          "type": "text",
+          "id": "headline",
+          "label": "headline"
+        },
+        {
+          "type": "text",
+          "id": "subheadline",
+          "label": "subheadline"
+        },
+        {
+          "type": "richtext",
+          "id": "body",
+          "label": "body"
+        },
+        {
+          "type": "image_picker",
+          "id": "imageUrl",
+          "label": "image",
+          "info": "1464 x 600 recommended"
+        },
+        {
+          "type": "image_picker",
+          "id": "mobileImageUrl",
+          "label": "image",
+          "info": "600 x 450 recommended"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

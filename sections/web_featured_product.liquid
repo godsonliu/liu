@@ -1,0 +1,530 @@
+{% if shop.metafields.global.discounts.value %}
+  {% assign lang = shop.metafields.global.discounts.value %}
+{% else %}
+  {% assign lang = shop.metafields.global.discounts %}
+{% endif %}
+
+{% if variant.metafields.global.related_variant.value %}
+  {% assign related_variant = variant.metafields.global.related_variant.value %}
+{% else %}
+  {% assign related_variant = variant.metafields.global.related_variant %}
+{% endif %}
+
+{% if variant.metafields.global.review_rating.value %}
+  {% assign review_rating = variant.metafields.global.review_rating.value %}
+{% else %}
+  {% assign review_rating = variant.metafields.global.review_rating %}
+{% endif %}
+
+{% if shop.metafields['global']['common'].value %}
+  {% assign common = shop.metafields['global']['common'].value %}
+{% else %}
+  {% assign common = shop.metafields['global']['common'] %}
+{% endif %}
+
+{% if shop.metafields.global.discounts.value %}
+  {% assign discounts = shop.metafields.global.discounts.value %}
+{% else %}
+  {% assign discounts = shop.metafields.global.discounts %}
+{% endif %}
+
+{% if shop.metafields['global']['storefront_key'].value %}
+  {% assign storefront_key = shop.metafields['global']['storefront_key'].value %}
+{% else %}
+  {% assign storefront_key = shop.metafields['global']['storefront_key'] %}
+{% endif %}
+
+
+{% assign DataId = section.settings.data_id %}
+{% if page.metafields['global'][DataId].value %}
+  {% assign web_featured_product = page.metafields['global'][DataId].value %}
+{% else %}
+  {% assign web_featured_product = page.metafields['global'][DataId] %}
+{% endif %}
+
+
+{% assign custom_css = section.settings.custom_css %}
+  {% render 'css-loop', css: section.settings.custom_css, id: section.id %}
+  {% render 'css-loop', css: section_css, id: id %}
+
+<section class="web_featured_product" id="{{ DataId }}">
+  <div class="featuredBox">
+    <h3 class="title">{{ web_featured_product.heading_text }}</h3>
+    <div class="products">
+      {% for item in web_featured_product.products_list %}
+        {% assign sold_out = false %}
+        {% assign product = all_products[item.handle] %}
+        {% if product.variants == blank %}
+          {% assign sold_out = true %}
+        {% else %}
+          {% for v in product.variants %}
+            {% if v.sku == item.sku %}
+              {% assign variant = v %}
+            {% endif %}
+          {% endfor %}
+          {% if variant.available == false or variant.price == 999999999 %}
+            {% assign sold_out = true %}
+          {% endif %}
+
+          {% assign v_id = variant.id %}
+          {% if related_variant %}
+            {% for i in related_variant %}
+              {% assign thisProduct = all_products[i.handle] %}
+              {% if thisProduct.variants == blank %}
+                {% assign sold_out = true %}
+              {% else %}
+                {% for v in thisProduct.variants %}
+                  {% if v.sku == i.sku %}
+                    {% assign thisvariant = v %}
+                    {% assign v_id = v_id | append: ',' %}
+                    {% assign v_id = v_id | append: thisvariant.id %}
+                  {% endif %}
+                {% endfor %}
+                {% if thisvariant.available == false or thisvariant.price == 999999999 %}
+                  {% assign sold_out = true %}
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+
+          {% assign oPrice = variant.price %}
+        {% endif %}
+
+        <div class="Spin Spin_{{ DataId }} Spin_{{ item.handle }} item" data-handle="{{ item.handle }}">
+          <div class="content cnt">
+            <a href="/products/{{ item.handle }}" target="_blank" rel="noopener noreferrer" class="img">
+              <img class="lazyload" data-src="{{ product.featured_media.preview_image| img_url: '600x' }}" />
+            </a>
+            <div class="txt">
+              <a href="/products/{{ item.handle }}" target="_blank" rel="noopener noreferrer">
+                <h3 class="name">{{ product.title }}</h3>
+              </a>
+              <div class="description">{{ item.description }}</div>
+
+              {% if review_rating %}
+                <div class="review_rating">
+                  <span class="star">★</span>
+                  <span>{{ review_rating }}</span>
+                </div>
+              {% endif %}
+
+              {% if item.learnmore != blank %}
+                <a class="learnmore" href="/products/{{ item.handle }}" target="_blank" rel="noopener noreferrer">{{ item.learnmore }}</a>
+              {% elsif sold_out != true %}
+                <div class="couponWrapper couponWrapper_{{ item.handle }}" style="display: none;">
+                  <div class="percentageOFF">
+                    <div class="PercentPrice DiscountTxt" id="DiscountTxt"></div>
+                    <span>{{ lang.off }}</span>
+                  </div>
+                  <div class="codeWrapper">
+                    <div class="codeTxt">
+                      <h5>
+                        <span>{{ lang.code }}: </span>
+                        <span id="couponCode" class="couponCode"></span>
+                      </h5>
+                      <p class="enddate" onclick="openCouponTips()">
+                        <i class="iconfont">&#xe624;</i>
+                        <span id="timeTxt" class="timeTxt"></span>
+                        <span id="timeOutTxt" class="timeOutTxt">
+                          {{ lang.ends }}
+                          <span id="newDtes" class="newDtes"></span>
+                        </span>
+                      </p>
+                    </div>
+                    <div class="copyImage">
+                      <div class="bgcolor">
+                        <p class="copyText" onclick="copyCouponCode('{{ item.handle }}')">
+                          <button type="button" class="copyCouponCode">{{ lang.copy }}</button>
+                        </p>
+                        <p class="copyTextReplace" style="display:none;">
+                          <button>{{ lang.copied }}</button>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <p class="modal_price">
+                  <span class="salePrice"></span>
+                  <span class="current_price">{{ oPrice | money }}</span>
+                </p>
+                <div class="btn">
+                  <a class="addtocart" data-v_id="{{ v_id }}">{{ common.addToCart }}</a>
+                  <a class="buynow" data-v_id="{{ v_id }}">{{ common.buy_now }}</a>
+                </div>
+              {% else %}
+                <p class="soldOut">{{ common.soldOut }}</p>
+              {% endif %}
+            </div>
+
+            {% if sold_out != true %}
+              <div class='DiscountMark' style="display: none;">
+                <div class='DiscountBox'>
+                  <div class="DiscountTxtbox">
+                    <div id="DiscountMarkTxt" class="DiscountMarkTxt"></div>
+                    <span>{{ discounts.off }}</span>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+            
+          </div>
+          <div class="mask"></div>
+          <div class="spinner">
+            <i class="iconfont"></i>
+            <div class="focus"><i class="iconfont"></i></div>
+          </div>
+        </div>
+
+      {% endfor %}
+    </div>
+  <div>
+</section>
+
+<style>
+  #{{ DataId }}.web_featured_product {
+    padding: 5rem 0; background: {{ web_featured_product.section_background_color }};
+    background-image: url({{ web_featured_product.section_background_image }});
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    background-position: center top;
+  }
+  #{{ DataId }}.web_featured_product .featuredBox { width: 100%; max-width: 1200px; margin: 0 auto; }
+  #{{ DataId }}.web_featured_product .title { font-size: 30px; font-weight: 600; text-align: center; margin-bottom: 3rem; color: {{ web_featured_product.heading_color }}; }
+  #{{ DataId }}.web_featured_product .products { display: flex; flex-wrap: wrap; }
+  #{{ DataId }}.web_featured_product .products .item:nth-of-type(2n) { margin: 0 0 2% 1%; }
+  #{{ DataId }}.web_featured_product .products .item:nth-of-type(2n + 1) { margin: 0 1% 2% 0; }
+  #{{ DataId }}.web_featured_product .products .item { position: relative; width: 49%; padding: 2rem 2rem 4rem; background: {{ web_featured_product.row_background_color }}; }
+  #{{ DataId }}.web_featured_product .products .item .img img { width: 80%; max-width: none; margin: 0 auto; display: block; }
+  #{{ DataId }}.web_featured_product .products .item .txt { position: relative; }
+  #{{ DataId }}.web_featured_product .products .item .name { font-size: 30px; font-weight: 600; color: #333; margin-bottom: 1rem; padding-right: 70px; }
+  #{{ DataId }}.web_featured_product .products .item .modal_price, #{{ DataId }}.web_featured_product .products .item .soldOut { font-size: 30px; font-weight: 600; color: #333; margin-top: 1rem; margin-bottom: 0; }
+  #{{ DataId }}.web_featured_product .products .item .description, #{{ DataId }}.web_featured_product .products .item .soldOut { color: #666; }
+  #{{ DataId }}.web_featured_product .products .item .review_rating {
+    padding: 3px 10px; background: #eff3f4;
+    border-radius: 5px; display: inline-block;
+    position: absolute; right: 0; top: 10px;
+  }
+  #{{ DataId }}.web_featured_product .products .item .review_rating .star { color: #ffc226; margin-right: 5px; }
+  #{{ DataId }}.web_featured_product .products .item .UnderscorePrice { font-size: 20px; color: #666; font-weight: 500; text-decoration: line-through; margin-left: 5px; }
+  #{{ DataId }}.web_featured_product .products .item .btn { display: flex; margin-top: 2rem; }
+  #{{ DataId }}.web_featured_product .products .item .learnmore { margin-top: 2rem; }
+  #{{ DataId }}.web_featured_product .products .item .btn a, #{{ DataId }}.web_featured_product .products .item .learnmore { height: 36px; line-height: 36px; width: 50%; border-radius: 18px; font-size: 14px; text-align: center; display: block; }
+  #{{ DataId }}.web_featured_product .products .item .btn .addtocart, #{{ DataId }}.web_featured_product .products .item .learnmore { font-weight: 700; margin-right: 1rem; color: #333; background: {{ web_featured_product.button_color }}; }
+  #{{ DataId }}.web_featured_product .products .item .btn .buynow { font-weight: 700; border: 1px solid {{ web_featured_product.section_color }}; color: {{ web_featured_product.section_color }}; }
+  #{{ DataId }}.web_featured_product .couponWrapper { display: flex; margin-top: 2rem; }
+  #{{ DataId }}.web_featured_product .couponWrapper .percentageOFF {
+    display: flex; flex-direction: column; justify-content: center;
+    text-align: left; padding: 1rem 2rem; transform: translate(0, 0); position: static; width: 25%; border-radius: 10px; background: {{ web_featured_product.button_color }};
+  }
+  #{{ DataId }}.web_featured_product .couponWrapper .percentageOFF .DiscountTxt { line-height: 1; color: #333; margin: 0; }
+  #{{ DataId }}.web_featured_product .couponWrapper .percentageOFF span { display: block; color: #333; }
+  #{{ DataId }}.web_featured_product .couponWrapper .codeWrapper { padding: 1rem; transform: translate(0, 0); position: static; border-radius: 10px; border: 1px solid {{ web_featured_product.section_color }}; color: {{ web_featured_product.section_color }} }
+  #{{ DataId }}.web_featured_product .couponWrapper .copyText { border: 1px solid {{ web_featured_product.section_color }}; }
+  #{{ DataId }}.web_featured_product .couponWrapper .codeTxt h5 { margin: 0; }
+  #{{ DataId }}.web_featured_product .couponWrapper .codeWrapper .copyImage { width: 25% }
+  #{{ DataId }}.web_featured_product .couponWrapper .copyText button { color: {{ web_featured_product.section_color }} !important; }
+  #{{ DataId }}.web_featured_product .couponWrapper .copyTextReplace { border: 1px solid {{ web_featured_product.section_color }} !important; }
+  #{{ DataId }}.web_featured_product .couponWrapper .copyTextReplace button { color: {{ web_featured_product.section_color }} !important; }
+  #{{ DataId }}.web_featured_product .DiscountMark { position: absolute; top: 0; }
+  #{{ DataId }}.web_featured_product .DiscountBox { position: relative; width: 100%; }
+  #{{ DataId }}.web_featured_product .DiscountMark .DiscountTxtbox {
+    width: 100%;
+    border-radius: 0 0 8px 8px;
+    padding: 1rem 0;
+    background: {{ web_featured_product.button_color }};
+  }
+  #{{ DataId }}.web_featured_product .DiscountMark .DiscountTxtbox .DiscountMarkTxt, #{{ DataId }}.web_featured_product .DiscountMark .DiscountTxtbox span {
+    font-size: 24px; font-weight: 500;
+    color: #333; text-align: center;
+    width: 100%; display: inline-block;
+    line-height: 1.2; margin: 0;
+  }
+  #{{ DataId }}.web_featured_product .DiscountMark .DiscountTxtbox span { font-size: 18px; }
+  @media (max-width: 1200px){
+    #{{ DataId }}.web_featured_product { padding: 3rem 1rem; }
+  }
+  @media (max-width: 767px){
+    #{{ DataId }}.web_featured_product .products .item .btn { display: block; }
+    #{{ DataId }}.web_featured_product .products .item .btn a { width: 100%; margin-bottom: 8px; }
+    #{{ DataId }}.web_featured_product .products { display: block; }
+    #{{ DataId }}.web_featured_product .products .item { width: 100%; padding: 1rem 1rem 2rem; }
+    #{{ DataId }}.web_featured_product .products .item .name { font-size: 21px; }
+    #{{ DataId }}.web_featured_product .products .item .modal_price, #{{ DataId }}.web_featured_product .products .item .soldOut { font-size: 24px; margin: 10px 0; }
+    #{{ DataId }}.web_featured_product .products .item .UnderscorePrice { font-size: 16px; }
+    #{{ DataId }}.web_featured_product .products .item:nth-of-type(2n + 1) { margin: 0; margin-bottom: 1rem; }
+    #{{ DataId }}.web_featured_product .products .item:nth-of-type(2n) { margin: 0; margin-bottom: 1rem; }
+    #{{ DataId }}.web_featured_product .products .item:last-child { margin: 0; }
+    #{{ DataId }}.web_featured_product .products .item .img img { height: auto; width: 100%; }
+    #{{ DataId }}.web_featured_product .couponWrapper .percentageOFF { width: 24%; padding: 1rem; }
+    #{{ DataId }}.web_featured_product .couponWrapper .codeWrapper { flex: 1; display: flex; }
+    #{{ DataId }}.web_featured_product .couponWrapper .codeWrapper .copyImage .bgcolor .copyText, #{{ DataId }}.web_featured_product .couponWrapper .codeWrapper .copyImage .bgcolor .copyTextReplace{ padding: 0; }
+    #{{ DataId }}.web_featured_product .couponWrapper .percentageOFF .PercentPrice { font-size: 23px; }
+    #{{ DataId }}.web_featured_product .DiscountMark { width: 60px; }
+    #{{ DataId }}.web_featured_product .DiscountMark .DiscountTxtbox .DiscountMarkTxt, #{{ DataId }}.web_featured_product .DiscountMark .DiscountTxtbox span { font-size: 18px; }
+    #{{ DataId }}.web_featured_product .DiscountMark .DiscountTxtbox span { font-size: 14px; }
+  }
+</style>
+
+<script>
+  let jsProducts = [];
+  let productsList = [];
+  let metafieldsData = [];
+  var timeLine;
+  var nowTime = new Date().getTime();
+  var skus = [];
+  var copyCodeTxt = {};
+  $(document).ready(function() {
+
+    // 数据准备
+    {% for item in web_featured_product.products_list %}
+
+      {% assign iProduct = all_products[item.handle] %}
+      productsList.push({{ item | json }});
+      jsProducts.push({{ iProduct | json }});
+      skus.push("{{ item.sku }}");
+
+      {% for v in iProduct.variants %}
+        {% if v.metafields.global.related_variant.value %}
+          {% assign related_variant = v.metafields.global.related_variant.value %}
+        {% else %}
+          {% assign related_variant = v.metafields.global.related_variant %}
+        {% endif %}
+
+        {% if related_variant %}
+          var mData = { "sku": "{{ v.sku }}", "variantsList": [] }
+          {% for i in related_variant %}
+            var thisProduct = {{ all_products[i.handle] | json }};
+            var thisVariant = thisProduct.variants.find(o => o.sku === '{{i.sku}}');
+            mData.variantsList.push(thisVariant);
+          {% endfor %}
+          metafieldsData.push(mData);
+        {% endif %}
+      {% endfor %}
+
+    {% endfor %}
+
+    $.ajax({
+      type: 'GET',
+      url: '/apps/pp/shopifyservices/coupons/by_skus',
+      data: { "skus": skus, "shopify_domain": "{{ shop.permanent_domain }}" },
+      success: function success(data) {
+        for (let item in data) {
+          const mData = metafieldsData.find(i => i.sku === data[item][0].sku);
+          let soldOut = false;
+          if (mData) mData.variantsList.map(i => {
+            if(i.available === false || i.price === 999999999) soldOut = true;
+          });
+          let oProduct = productsList.find(p => p.sku === item);
+          if (data[item][0] && !soldOut) ShowCode(data[item][0], oProduct);
+        }
+      }
+    });
+    $(document).on('click', '#{{ DataId }} .addtocart', function(e) {
+      e.preventDefault();
+      const handle = $(this).parents('.item').attr("data-handle");
+      $(`#{{ DataId }} .Spin_${handle}`).addClass('active');
+
+      var v_id = $(this).attr('data-v_id');
+      var idArr = v_id.split(',');
+      var variants = [];
+      idArr.map(item => variants.push({ id: item, quantity: 1 }));
+
+      Shopify.theme.addItemsToCart(variants, {
+        onSuccess: () => $(`#{{ DataId }} .Spin_${handle}`).removeClass('active'),
+        onError: err => {
+          $(`#{{ DataId }} .Spin_${handle}`).removeClass('active');
+          $.dialog({ title: err.message, content: err.description, type: 'red' })
+        }
+      })
+    })
+    $(document).on('click', '#{{ DataId }} .buynow', function(e) {
+      e.preventDefault();
+      const handle = $(this).parents('.item').attr("data-handle");
+      $(`#{{ DataId }} .Spin_${handle}`).addClass('active');
+      const productData = productsList.find(item => item.handle === handle);
+      const product = jsProducts.find(item => item.handle === handle);
+      const jsVariant = product.variants.find(item => item.sku === productData.sku);
+
+      var v_id = $(this).attr('data-v_id');
+      var idArr = v_id.split(',');
+      var line_items = [];
+      idArr.map(item => line_items.push({ variant_id: item, quantity: 1 }));
+
+      Shopify.theme.bundleBuynow({
+        authorization: "{{ storefront_key }}",
+        checkout: {
+          line_items: line_items,
+          presentment_currency: "{{ shop.currency }}",
+          is_upstream_button: true,
+          page_type: "product",
+          secret: true,
+          wallet_name: "Checkout"
+        },
+        onSuccess: () => {
+          $(`#{{ DataId }} .Spin_${handle}`).removeClass('active');
+          window.dataLayer.push({
+            "event": "eeEvent",
+            "eventCategory": "EnhancedEcommerce",
+            "eventAction": "BuyNow",
+            "eventLabel": jsVariant.sku,
+            "ecommerce": {
+              "currency": "{{ shop.currency }}",
+              "add": {
+                "products": [{
+                  'name': jsVariant.title,
+                  'id': jsVariant.sku,
+                  'category': '',
+                  'categoryName': product.type,
+                  'brand': "{{ shop.name }}",
+                  'variant': jsVariant.title,
+                  'price': jsVariant.price / 100,
+                  'quantity': 1
+                }]
+              }
+            }
+          });
+        },
+        onError: err => {
+          $(`#{{ DataId }} .Spin_${handle}`).removeClass('active');
+          $.dialog({ title: err.message, content: err.description, type: 'red' })
+        }
+      });
+    })
+  })
+
+  function ShowCode(data, oProduct) {
+    const handle = oProduct.handle;
+    const product = jsProducts.find(item => item.handle === handle);
+    const jsVariant = product.variants.find(item => item.sku === oProduct.sku);
+    
+    // 展示code文案
+    $(`#{{ DataId }} .item[data-handle=${handle}] .couponCode`).text(data.title);
+    copyCodeTxt[handle] = data.title;
+    
+    // 展示折扣数值
+    let DiscountTxt;
+    let DiscountedPrice;
+    
+    let price = jsVariant.price / 100;
+    if (data.value_type === "fixed_amount") {
+      DiscountTxt = data.value_style;
+      DiscountedPrice = new Intl.NumberFormat('{{ lang.hreflang }}', { style: 'currency', currency: '{{ shop.currency }}' }).format((price + Number(data.value)).toFixed(2));
+    } else if (data.value_type === "percentage") {
+      DiscountTxt = Math.abs(parseInt(data.value)) + "%";
+      DiscountedPrice = new Intl.NumberFormat('{{ lang.hreflang }}', { style: 'currency', currency: '{{ shop.currency }}' }).format((price - price * Math.abs(Number(data.value)) / 100).toFixed(2));
+    };
+    $(`#{{ DataId }} .item[data-handle=${handle}] .DiscountTxt`).text(DiscountTxt);
+    $(`#{{ DataId }} .item[data-handle=${handle}] .DiscountMarkTxt`).text(DiscountTxt);
+    
+    // 失效时间判断
+    let endsTime = data.ends_at ? new Date(data.ends_at).valueOf() : null;
+    if (endsTime) {
+      timeLine = setInterval(function() {
+        nowTime = new Date().getTime();
+        let distance = endsTime - nowTime;
+        if (distance < 0) {
+          clearInterval(timeLine);
+          $(`#{{ DataId }} .item[data-handle=${handle}] .couponWrapper`).hide();
+          $(`#{{ DataId }} .item[data-handle=${handle}] .DiscountMark`).hide();
+          $(`#{{ DataId }} .item[data-handle=${handle}] .modal_price .salePrice`).remove();
+          $(`#{{ DataId }} .item[data-handle=${handle}] .current_price`).removeClass("UnderscorePrice");
+        } else {
+          // 展示折扣模块
+          $(`#{{ DataId }} .item[data-handle=${handle}] .couponWrapper`).show();
+          $(`#{{ DataId }} .item[data-handle=${handle}] .DiscountMark`).show();
+          // 展示划线价
+          $(`#{{ DataId }} .item[data-handle=${handle}] .modal_price .salePrice`).text(DiscountedPrice);
+          $(`#{{ DataId }} .item[data-handle=${handle}] .modal_price .current_price`).addClass("UnderscorePrice");
+          // 展示倒计时
+          let days = Math.floor(distance / (1000 * 60 * 60 * 24));
+          let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+          let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+          if(days >= 7) {
+            $(`#{{ DataId }} .item[data-handle=${handle}] .timeOutTxt`).css('display', 'none');
+            $(`#{{ DataId }} .item[data-handle=${handle}] .timeTxt`).css('display', 'inline-block');
+            $(`#{{ DataId }} .item[data-handle=${handle}] .timeTxt`).html('{{ lang.day_7_txt }}');
+          } else if (days === 1) {
+            $(`#{{ DataId }} .item[data-handle=${handle}] .timeOutTxt`).css('display', 'inline-block');
+            $(`#{{ DataId }} .item[data-handle=${handle}] .timeTxt`).css('display', 'none');
+            $(`#{{ DataId }} .item[data-handle=${handle}] .newDtes`).html(`${days} {{ lang.day }} ${hours}:${minutes}:${seconds}`);
+          } else if (days === 0) {
+            $(`#{{ DataId }} .item[data-handle=${handle}] .timeOutTxt`).css('display', 'inline-block');
+            $(`#{{ DataId }} .item[data-handle=${handle}] .timeTxt`).css('display', 'none');
+            $(`#{{ DataId }} .item[data-handle=${handle}] .newDtes`).html(`{{ lang.today }} ${hours}:${minutes}:${seconds}`);
+          } else {
+            $(`#{{ DataId }} .item[data-handle=${handle}] .timeOutTxt`).css('display', 'inline-block');
+            $(`#{{ DataId }} .item[data-handle=${handle}] .timeTxt`).css('display', 'none');
+            $(`#{{ DataId }} .item[data-handle=${handle}] .newDtes`).html(`${days} {{ lang.days }} ${hours}:${minutes}:${seconds}`);
+          }
+        }
+      }, 1000);
+    } else {
+      // 展示折扣模块
+      $(`#{{ DataId }} .item[data-handle=${handle}] .couponWrapper`).show();
+      $(`#{{ DataId }} .item[data-handle=${handle}] .DiscountMark`).show();
+      // 展示划线价
+      $(`#{{ DataId }} .item[data-handle=${handle}] .modal_price .salePrice`).text(DiscountedPrice);
+      $(`#{{ DataId }} .item[data-handle=${handle}] .modal_price .current_price`).addClass("UnderscorePrice");
+      // 展示倒计时
+      $(`#{{ DataId }} .item[data-handle=${handle}] .timeOutTxt`).css('display', 'none');
+      $(`#{{ DataId }} .item[data-handle=${handle}] .timeTxt`).css('display', 'inline-block');
+      $(`#{{ DataId }} .item[data-handle=${handle}] .timeTxt`).html('{{ lang.day_7_txt }}');
+    }
+  }
+
+  function openCouponTips() {
+    openTxtModal("{{ lang.coupon_txt }}");
+  }
+
+  function copyCouponCode(handle) {
+    execCoy(copyCodeTxt[handle]);
+    $(`#{{ DataId }} .item[data-handle=${handle}] .copyTextReplace`).show();
+    $(`#{{ DataId }} .item[data-handle=${handle}] .copyText`).hide();
+    setInterval(function(){
+      $(`#{{ DataId }} .item[data-handle=${handle}] .copyTextReplace`).hide();
+      $(`#{{ DataId }} .item[data-handle=${handle}] .copyText`).show();
+    }, 3000);
+  }
+
+  function execCoy(text) {
+    const input = document.createElement('INPUT');
+    input.style.opacity  = 0;
+    input.style.position = 'absolute';
+    input.style.left = '-100000px';
+    document.body.appendChild(input);
+
+    input.value = text;
+    input.select();
+    input.setSelectionRange(0, text.length);
+    document.execCommand('copy');
+    document.body.removeChild(input);
+    return true;
+  }
+
+</script>
+
+{% schema %}
+{
+  "name": "web_featured_product",
+  "presets": [
+    {
+      "category": "Custom Dynamic Sections",
+      "name": "web featured product"
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "data_id",
+      "label": "metafields data id",
+      "default": "web_featured_product"
+    },
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Custom CSS"
+    }
+  ]
+}
+{% endschema %}

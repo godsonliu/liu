@@ -1,0 +1,895 @@
+
+{{ 'buildSys.scss.css' | asset_url | stylesheet_tag }}
+{% assign txt_color = section.settings.txt_color %}
+{% if txt_color != blank %}
+<style>
+#build_sys .questionBox .question .optionBox .option a:hover {
+  color: {{ txt_color }} !important;
+}
+
+#build_sys .questionBox .question .optionBox .option .active {
+  border-color: {{ txt_color }} !important;
+}
+
+#sys_product .detailBox .actionBox .color .colorBack.active {
+  border-color: {{ txt_color }} !important;
+}
+
+#sys_cart .cartTotalBox .priceTotalBox .priceTotal .buttonFlag .flagText span {
+  color: {{ txt_color }} !important;
+}
+
+#buffettypes .navBox .typeBox .type.active p {
+  color: {{ txt_color }} !important;
+}
+#sys_cart .cartTotalBox .actionBox .copyBox .copybtn button {
+  background: {{ txt_color }} !important;
+}
+#sys_cart .cartTotalBox .actionBox .act_buynow {
+  background: {{ txt_color }} !important;
+}
+#sys_cart .cartTotalBox .priceTotalBox .priceTotal .buttonFlag .iconfont {
+  color: {{ txt_color }} !important;
+}
+
+.button-normal.submit:hover:after {
+  border-color: {{ txt_color }} !important;
+}
+
+#build_sys .component_title_v2 {
+  font-weight: 700;
+}
+
+#build_sys .title-box .title h1 {
+  color: {{ txt_color }} !important;
+  font-weight: 700;
+}
+
+#build_sys .main-box .navbar .bar.active {
+  border-color: {{ txt_color }} !important;
+  color: {{ txt_color }} !important;
+}
+
+.tb-box-button {
+  background: {{ txt_color }} !important;
+  border: 0 !important;
+}
+</style>
+{% endif %}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.0/knockout-min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js" ></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/jump.js/1.0.2/jump.min.js" integrity="sha512-Q9CUUoQ/LaD+X7jk76kM6swUEc8q0YPGBcH/Lflux+JatH8zIZPkIb0b91NW5ASgy9ENLhTzt2Z/zZ6yyake2w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+{%- assign metafield = page.metafields['global'] -%}
+
+{% if page.metafields['global']['products'].value %}
+  {% assign all_handles = page.metafields['global']['products'].value %}
+{% else %}
+  {% assign all_handles = page.metafields['global']['products'] %}
+{% endif %}
+
+{% if page.metafields['global']['others_writing'].value %}
+  {% assign others_writing = page.metafields['global']['others_writing'].value %}
+{% else %}
+  {% assign others_writing = page.metafields['global']['others_writing'] %}
+{% endif %}
+
+{%- capture data_products -%}
+{
+  {%- for handle in all_handles.handles -%}
+  "{{handle}}":
+  {
+    "slug": "{{all_handles.slug[forloop.index0]}}",
+    "url": "/products/{{handle}}",
+    "id": "{{all_products[handle].id}}",
+    "title": "{{all_products[handle].title | escape}}",
+    "variants": [
+      {%- for variant in all_products[handle].variants -%}
+      {
+        "id": "{{ variant.id }}",
+        "image": "{{ variant.image | img_url: '1024x' }}",
+        "price": "{{ variant.price | money }}",
+        "priceNum": "{{ variant.price }}",
+        "options": {{ variant.options | json }},
+        "option": "{{ variant.options[0] | split: ' ' | last | handle }}",
+        "color": "{{ variant.options[0] }}",
+        "available": {%- if variant.price != 999999999 and variant.available -%}1{%- else -%}0{%- endif -%}
+      }{%- if forloop.last == false -%},{%- endif -%}
+      {%- endfor -%}
+    ],
+    "description": "{{all_products[handle].description | strip_newlines| escape}}",
+    "image": "{{ all_products[handle] | img_url: '1024x' }}",
+    "handle": "{{ handle }}",
+    "tags": "{{ all_products[handle].tags | join: ', ' }}",
+    "price": "{{ all_products[handle].price | money }}"
+  }{%- if forloop.last == false -%},{%- endif -%}
+  {%- endfor -%}
+}
+{%- endcapture -%}
+
+{% comment %} <section class="banner">
+  <img class="imgback" src="{{ others_writing.bannerImg }}" alt="">
+  <div class="content">
+    <h1>{{ others_writing.bannerTitle }}</h1>
+    <div>
+      {% for item in others_writing.bannerContent %}
+        <p>{{ item }}</p>
+      {% endfor %}
+    </div>
+  </div>
+</section> {% endcomment %}
+
+<section class="title-box">
+  <div class="title">
+    <h1>{{ others_writing.chooseTitle }}</h1>
+    <span class="line"></span>
+  </div>
+  <p>
+    {{ others_writing.chooseP }}
+  </p>
+</section>
+
+<section class="main-box">
+  <div class="navbar">
+    <button type="button" class="bar" data-bind="css: { active: barActive() === 1 }, click: clickBar.bind($data, 1)">
+      {{ others_writing.navbar[0] }}
+    </button>
+    <button type="button" class="bar" data-bind="css: { active: barActive() === 2 }, click: clickBar.bind($data, 2)">
+      {{ others_writing.navbar[1] }}
+    </button>
+  </div>
+
+
+
+  {% if page.metafields['global']['questions'].value %}
+    {% assign questions = page.metafields['global']['questions'].value %}
+  {% else %}
+    {%- assign questions = page.metafields['global']['questions'] -%}
+  {% endif %}
+
+  <div data-bind="css: { hidden: barActive() !== 1 }">
+    <div class="questionBox">
+      <div data-bind="if: obQuestions().length > 0">
+        <div class="question question1">
+          <h2 data-bind="click: showOption.bind($data, 0)">
+            <span>{{ questions[0].question }}</span>
+            <span class="selected" data-bind="text: obQuestions()[0].value()"></span>
+          </h2>
+          <div class="optionBox" data-bind="css: { done: obQuestions()[0].show() }">
+            {%- for item in questions[0].options -%}
+              <div class="option">
+                <a data-bind="css: { active: obQuestions()[0].value() === '{{ item }}' }, click: selectOption.bind($data, 0, '{{ item }}')">{{ item }}</a>
+              </div>
+            {%- endfor -%}
+          </div>
+        </div>
+      </div>
+
+      <div data-bind="if: obQuestions().length > 1">
+        <div class="question question2">
+          <h2 data-bind="click: showOption.bind($data, 1)">
+            <span>{{ questions[1].question }} </span>
+            <span class="selected" data-bind="text: obQuestions()[1].value()"></span>
+          </h2>
+          <div class="optionBox" data-bind="css: { done: obQuestions()[1].show() }">
+            {%- for item in questions[1].options -%}
+              <div class="option">
+                <a data-bind="css: { active: obQuestions()[1].value() === '{{ item }}' }, click: selectOption.bind($data, 1, '{{ item }}')">{{ item }}</a>
+              </div>
+            {%- endfor -%}
+          </div>
+        </div>
+      </div>
+
+      <div data-bind="if: obQuestions().length > 2">
+        <div class="question question3">
+          <h2 data-bind="click: showOption.bind($data, 2)">
+            <span>{{ questions[2].question }}</span>
+            <div class="selected" data-bind="visible: !!obQuestions()[2].value()">
+              <span data-bind="text: obQuestions()[2].value()"></span>
+              <span> {{ questions[2].doors }}</span>
+            </div>
+          </h2>
+          <div class="optionBox" data-bind="css: { done: obQuestions()[2].show() }">
+            <div class="selectOp">
+              <select data-bind='value: obQuestions()[2].value, event: { change: doorsChange }'>
+                <option value="">-</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+              </select>
+            </div>
+            <span class="doors"> {{ questions[2].doors }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% if page.metafields['global']['collections'].value %}
+    {% assign collectionsObj = page.metafields['global']['collections'].value %}
+  {% else %}
+    {%- assign collectionsObj = page.metafields['global']['collections'] -%}
+  {% endif %}
+
+  <div id="buffettypes" data-bind="css: { hidden: barActive() !== 2 }">
+    <div class="navBox">
+      <h1>{{ others_writing.collectionTitle }}</h1>
+      <div class="navT" data-bind="css: { active: navTypeActive() }">
+        <div class="typeBox">
+          <div class="dropact" data-bind="css: { active: navTypeActive() }, click: navTypeAct"></div>
+          {% for obj in collectionsObj %}
+            {% paginate collections[obj.handle].products by 999 %}
+              {%- capture collection_products -%}
+              [
+                {%- for product in collections[obj.handle].products -%}
+                {
+                  "slug": "",
+                  "url": "/products/{{product.handle}}",
+                  "id": "{{product.id}}",
+                  "title": "{{product.title | escape}}",
+                  "variants": [
+                    {%- for variant in product.variants -%}
+                    {
+                      "id": "{{ variant.id }}",
+                      "image": "{{ variant.image | img_url: '1024x' }}",
+                      "price": "{{ variant.price | money }}",
+                      "priceNum": "{{ variant.price }}",
+                      "options": {{ variant.options | json }},
+                      "option": "{{ variant.options[0] | split: ' ' | last | handle }}",
+                      "color": "{{ variant.options[0] }}",
+                      "available": {%- if variant.price != 999999999 and variant.available -%}1{%- else -%}0{%- endif -%}
+                    }{%- if forloop.last == false -%},{%- endif -%}
+                    {%- endfor -%}
+                  ],
+                  "description": "{{product.description | strip_newlines| escape}}",
+                  "image": "{{ product | img_url: '1024x' }}",
+                  "handle": "{{ product.handle }}",
+                  "tags": "{{ product.tags | join: ', ' }}",
+                  "price": "{{ product.price | money }}"
+                }{%- if forloop.last == false -%},{%- endif -%}
+                {%- endfor -%}
+              ]
+              {%- endcapture -%}
+            {% endpaginate %}
+            <div class="type" data-index="{{ forloop.index }}" data-bind="css: { active: current_collect() === {{ forloop.index }} }, click: collect"
+              data-products="{{ collection_products | escape }}"
+            >
+              <img class="lazyload" data-src="{{ obj.img }}" alt="">
+              <p>{{ collections[obj.handle].title }}</p>  
+              <!-- ko if: collect_cart_num()[{{ forloop.index0 }}] > 0 -->
+              <span class="collect_num" data-bind="text: collect_cart_num()[{{ forloop.index0 }}]"></span>
+              <!-- /ko -->
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ko if: productList().length > 0 -->
+  <div id="sys_product">
+    <h1>{{ others_writing.chooseList }}</h1>
+    <div class="productsBox" data-bind="foreach: productList">
+      <div class="productLine" data-bind="css: { selected: total().totalNum > 0 }">
+        <div class="imgbox">
+          <a data-bind="attr: { href: url }" target="_blank" rel="noopener noreferrer">
+            <img class="img" data-bind="attr: { src: image() }" alt="">
+          </a>
+        </div>
+        <div class="detailBox">
+          <h2>
+            <a data-bind="text: title, attr: { href: url }" target="_blank" rel="noopener noreferrer"></a>
+          </h2>
+          <h3 data-bind="text: slug"></h3>
+          <div class="desc" data-bind="html: description"></div>
+          <div class="actionBox" data-bind="template: { name: 'sys_variants_template', foreach: variants }"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /ko -->
+
+  <!-- ko if: showcart() -->
+  <div id="sys_cart">
+    <div class="section">
+      <h1 data-bind="style: { border: cartTotal().totalNum > 0 ? '' : 'none' }">{{ others_writing.cartTitle }}</h1>
+      <ul data-bind="foreach: cartList">
+        <!-- ko if: total().totalNum > 0 -->
+        <li>
+          <div class="pro_title">
+            <h2 data-bind="text: title"></h2>
+          </div>
+          <div data-bind="template: { name: 'sys_variants_cart', foreach: variants }"></div>
+        </li>
+        <!-- /ko -->
+      </ul>
+      <div class="cartTotalBox">
+        <div class="priceTotalBox">
+          <div class="priceTotal">
+            <span class="num">
+              <b>{{ others_writing.total }}</b> 
+              <span data-bind="text: cartTotal().priceDiscount"></span>
+              <!-- ko if: cartTotal().totalNum > 0 -->
+              <sub data-bind="text: cartTotal().totalPrice"></sub>
+              <!-- /ko -->
+            </span>
+            <a class="buttonFlag flagRight">
+              <span class="flagText">
+                <i class="iconfont"></i>
+                <span>{{ others_writing.discount }}</span>
+              </span>
+              <div class="flagDialog">
+                {% if page.metafields['global']['flagDialog'].value %}
+                  {{ page.metafields['global']['flagDialog'].value }}
+                {% else %}
+                  {{ page.metafields['global']['flagDialog'] }}
+                {% endif %}
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="actionBox">
+          <div class="action">
+            <div class="copyBox">
+              <span class="copyAct">
+                <span class="codeformat">{{ others_writing.code }}</span>
+                <span class="codeTxt">
+                  {% if page.metafields['global']['code_name'].value %}
+                  {{ page.metafields['global']['code_name'].value }}
+                {% else %}
+                  {{ page.metafields['global']['code_name'] }}
+                {% endif %}                  
+                </span>
+                <span class="copybtn">
+                  <button type="button" class="clipboard_btn" data-clipboard-text="DIYKIT">{{ others_writing.copy }}</button>
+                </span>
+              </span>
+            </div>
+            <button role="button" tabindex="0" id="btn_buynow" class="button-normal submit act_buynow"
+              data-bind="click: sys_buynow, attr: { disabled: isBuynow() || cartTotal().totalNum === 0 }"
+            >{{ others_writing.buynow }}</button>
+          </div>
+          <a class="toKit" target="_blank" rel="noopener noreferrer" href="{{ others_writing.toKit }}">
+            {{ others_writing.toKitTxt }}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /ko -->
+
+</section>
+
+<script type="text/html" id="sys_variants_cart">
+  <!-- ko if: quantity() > 0 -->
+  <div class="pro_varient">
+    <div class="color">
+      <!-- ko ifnot: options_type === 'special' -->
+      <p>{{ others_writing.color }} <span data-bind="text: color"></span></p>
+      <!-- /ko -->
+      <!-- ko if: options_type === 'special' -->
+      <p><span data-bind="text: option"></span></p>
+      <!-- /ko -->
+    </div>
+    <div class="quantitybox">
+      <div class="actNum">
+        <div class="act">
+          <a data-bind="click: $root.colorSubCart.bind($root, $parentContext.$index(), $index())">-</a>
+          <span class="num" data-bind="text: quantity()"></span>
+          <a data-bind="click: $root.colorAddCart.bind($root, $parentContext.$index(), $index())">+</a>
+        </div>
+      </div>
+    </div>
+    <div class="price">
+      <p data-bind="text: price"></p>
+    </div>
+  </div>
+  <!-- /ko -->
+</script> 
+
+<script type="text/html" id="sys_variants_template">
+  <div class="flex">
+    <!-- ko if: priceNum < 999999999 -->
+    <div class="prices">
+      <span data-bind="text: price"></span><sub>{{ others_writing.each }}</sub>
+    </div>
+    <!-- /ko -->
+
+    <!-- ko if: options_type === 'special' -->
+    <div class="color">
+      <a class="option" role="button" data-bind="css: { active: active() === 1 }, click: $root.colorAct.bind($root, $parentContext.$index(), $index())">
+        <span class="txt" data-bind="text: option ">
+      </a>
+    </div>
+    <!-- /ko -->
+
+    <!-- ko ifnot: options_type === 'special' -->
+    <div class="color">
+      {{ others_writing.color }}
+      <a class="colorBack" role="button" data-bind="css: { active: active() === 1 }, click: $root.colorAct.bind($root, $parentContext.$index(), $index())">
+        <span class="dot" data-bind="style: { 'background-color': option }">
+      </a>
+    </div>
+    <!-- /ko -->
+
+    <!-- ko if: available === 1 -->
+    <div class="quantity quantitybox">
+      {{ others_writing.quantity }}
+      <div class="actNum">
+        <div class="act">
+          <a data-bind="click: $root.colorSub.bind($root, $parentContext.$index(), $index())">-</a>
+          <span class="num" data-bind="text: quantity()"></span>
+          <a data-bind="click: $root.colorAdd.bind($root, $parentContext.$index(), $index())">+</a>
+        </div>
+      </div>
+    </div>
+    <!-- /ko -->
+    
+    <!-- ko if: available === 0 -->
+    <div class="outOfStack">{{ others_writing.outstock }}</div>
+    <!-- /ko -->
+  </div>
+</script>
+
+{% if shop.metafields['global']['storefront_key'].value %}
+  {% assign authorization = shop.metafields['global']['storefront_key'].value %}
+{% else %}
+  {%- assign authorization = shop.metafields['global']['storefront_key'] -%}
+{% endif %}
+
+<script>
+  $(document).ready(function () {
+    {% if page.metafields['global']['answer_system'].value %}
+      {% assign answer_system = page.metafields['global']['answer_system'].value %}
+    {% else %}
+      {%- assign answer_system = page.metafields['global']['answer_system'] -%}
+    {% endif %}
+
+    {% if page.metafields['global']['code_rules'].value %}
+      {% assign code_rules = page.metafields['global']['code_rules'].value %}
+    {% else %}
+      {%- assign code_rules = page.metafields['global']['code_rules'] -%}
+    {% endif %}
+
+    var data_products = JSON.parse(`{{ data_products }}`);
+    var metafield = JSON.parse(`{{ answer_system | json }}`);
+    var code_rules = JSON.parse(`{{ code_rules | json }}`);
+    var current_collect_product = []
+    var varient_cart_store = {}
+    var collectLength = $('#buffettypes .type').length;
+
+    var Question = function() {
+      var self = this;
+      self.show = ko.observable(true);
+      self.value = ko.observable();
+    };
+    var ProductObj = function(ele, num, index) {
+      var self = this;
+      self.id = ele.id
+      self.slug = ele.slug
+      self.url = ele.url
+      self.handle = ele.handle
+      self.tags = ele.tags
+      self.price = ele.price
+      self.title = HTMLDecode(ele.title);
+      self.description = HTMLDecode(ele.description);
+      self.variants = ko.observableArray([]);
+      if (ele.variants > 1) {
+        self.image = ko.observable(ele.variants[0].image);
+      } else {
+        self.image = ko.observable(ele.image);
+      }
+      ele.variants.forEach((v, g) => {
+        var option = v.option
+        var options_type = ''
+        if (v.options.length > 1) {
+          option = v.options.join(' / ');
+          options_type = 'special'
+        }
+        if (!!varient_cart_store[v.id]) {
+          var store_num = varient_cart_store[v.id]
+          self.variants.push({
+            ...v,
+            option,
+            options_type,
+            quantity: ko.observable(store_num),
+            active: ko.observable(1)
+          })
+        } else if (g === index) {
+          self.variants.push({
+            ...v,
+            option,
+            options_type,
+            quantity: ko.observable(v.available === 1 ? parseInt(num || 0) : 0),
+            active: ko.observable(1)
+          })
+        } else {
+          self.variants.push({
+            ...v,
+            option,
+            options_type,
+            quantity: ko.observable(0),
+            active: ko.observable(0)
+          });
+        }
+      });
+      self.total = ko.pureComputed(function() {
+        var total = 0;
+        self.variants().forEach(v => {
+          total += parseInt(v.quantity())
+        })
+        return ({ totalNum: total });
+      });
+    };
+    function viewModel() {
+      this.answer = ko.observable()
+      this.barActive = ko.observable(1)
+      this.current_collect = ko.observable(1)
+      this.isBuynow = ko.observable(false)
+      this.navTypeActive = ko.observable(false)
+      this.obQuestions = ko.observableArray([new Question()])
+      this.sysProducts = ko.observableArray([])
+      this.collectionProducts = ko.observableArray([])
+      this.collectionCart = ko.observableArray([])
+      this.collect_cart_num = ko.observableArray(new Array(collectLength).fill(0))
+      this.productList = ko.pureComputed(function () {
+        if (this.barActive() === 1) {
+          return this.sysProducts()
+        }
+        return this.collectionProducts()
+      }, this)
+      this.cartList = ko.pureComputed(function () {
+        if (this.barActive() === 1) {
+          return this.sysProducts()
+        }
+        return this.collectionCart()
+      }, this)
+      this.showcart = ko.pureComputed(function () {
+        if (this.cartTotal().totalNum > 0) {
+          return true
+        }
+        if (this.barActive() === 2) {
+          return true
+        }
+        return false
+      }, this)
+      this.cartTotal = ko.pureComputed(function () {
+        var total = 0;
+        var totalPrice = 0;
+        var priceDiscount = 0;
+        varient_cart_store = {};
+        if (this.cartList().length>0) {
+          this.cartList().forEach(product => {
+            total += parseInt(product.total().totalNum)
+            product.variants().forEach(variant => {
+              if (variant.quantity() > 0) {
+                varient_cart_store[variant.id] = variant.quantity()
+                totalPrice += (parseFloat(variant.priceNum) * variant.quantity())
+              }
+            })
+          })
+
+          // shopify 的价格是去掉小数点的整数型
+          if ((totalPrice / 100) > code_rules.totalPrice[0] && (totalPrice / 100) < code_rules.totalPrice[1]) {
+            this.cartList().forEach(product => {
+              product.variants().forEach(variant => {
+                if (variant.quantity() > 0) {
+                  priceDiscount += (Math.floor(parseFloat(variant.priceNum) * code_rules.discount[0]) * variant.quantity())
+                }
+              })
+            })
+          } else if ((totalPrice / 100) >= code_rules.totalPrice[1] && (totalPrice / 100) < code_rules.totalPrice[2]) {
+            this.cartList().forEach(product => {
+              product.variants().forEach(variant => {
+                if (variant.quantity() > 0) {
+                  priceDiscount += (Math.floor(parseFloat(variant.priceNum) * code_rules.discount[1]) * variant.quantity())
+                }
+              })
+            })
+          } else if ((totalPrice / 100) >= code_rules.totalPrice[2] && (totalPrice / 100) < code_rules.totalPrice[3]) {
+            this.cartList().forEach(product => {
+              product.variants().forEach(variant => {
+                if (variant.quantity() > 0) {
+                  priceDiscount += (Math.floor(parseFloat(variant.priceNum) * code_rules.discount[2]) * variant.quantity())
+                }
+              })
+            })
+          } else if ((totalPrice / 100) >= code_rules.totalPrice[3]) {
+            this.cartList().forEach(product => {
+              product.variants().forEach(variant => {
+                if (variant.quantity() > 0) {
+                  priceDiscount += (Math.floor(parseFloat(variant.priceNum) * code_rules.discount[3]) * variant.quantity())
+                }
+              })
+            })
+          }
+        }
+        return ({ 
+          totalNum: total, 
+          totalPrice: Shopify.formatMoney(totalPrice, $('body').data('money-format')), 
+          priceDiscount: Shopify.formatMoney(priceDiscount, $('body').data('money-format'))  
+        })
+      }, this)
+      this.navTypeAct = function(params1, event) {
+        var cur = this.navTypeActive();
+        this.navTypeActive(!cur)
+      }
+      this.clickBar = function(params1, event) {
+        this.barActive(params1);
+        if (params1 === 2 && this.current_collect() === 1 && this.collectionProducts().length === 0) {
+          current_collect_product = $('#buffettypes .navT .type.active').data('products')
+          current_collect_product.forEach((val, i) => {
+            var available = val.variants.some(v => (v.available === 1))
+            if (available) {
+              this.collectionProducts.push(new ProductObj(val, 0, 0));
+            }
+          });
+          current_collect_product.forEach((val, i) => {
+            var available = val.variants.some(v => (v.available === 1))
+            if (!available) {
+              this.collectionProducts.push(new ProductObj(val, 0, 0));
+            }
+          });
+        }
+      }
+      this.colorSub = function(params1, params2, event) {
+        if (this.barActive() === 1) {
+          var current = this.sysProducts()[params1].variants()[params2].quantity();
+          if (current > 0) {
+            this.sysProducts()[params1].variants()[params2].quantity(current - 1);
+          }
+        } else {
+          var current = this.collectionProducts()[params1].variants()[params2].quantity();
+          if (current > 0) {
+            this.collectionProducts()[params1].variants()[params2].quantity(current - 1);
+
+            this.collectionCart().forEach((v) => {
+              if (v.handle === this.collectionProducts()[params1].handle) {
+                var current = v.variants()[params2].quantity();
+                v.variants()[params2].quantity(current - 1)
+              }
+            })
+              
+            var current_collect = this.current_collect() - 1;
+            var current_collect_num = this.collect_cart_num()[current_collect];
+            this.collect_cart_num.splice(current_collect, 1, current_collect_num - 1);
+          }
+        }
+      }
+      this.colorSubCart = function(params1, params2, event) {
+        if (this.barActive() === 1) {
+          var current = this.sysProducts()[params1].variants()[params2].quantity();
+          if (current > 0) {
+            this.sysProducts()[params1].variants()[params2].quantity(current - 1);
+          }
+        } else {
+          var current = this.collectionCart()[params1].variants()[params2].quantity();
+          if (current > 0) {
+            this.collectionCart()[params1].variants()[params2].quantity(current - 1);
+
+            this.collectionProducts().forEach((v) => {
+              if (v.handle === this.collectionCart()[params1].handle) {
+                var current = v.variants()[params2].quantity();
+                v.variants()[params2].quantity(current - 1)
+              }
+            })
+            var current_collect = this.current_collect() - 1;
+          var current_collect_num = this.collect_cart_num()[current_collect];
+          this.collect_cart_num.splice(current_collect, 1, current_collect_num - 1);
+          }
+        }
+      }
+      this.colorAdd = function(params1, params2, event) {
+        if (this.barActive() === 1) {
+          var current = this.sysProducts()[params1].variants()[params2].quantity();
+          this.sysProducts()[params1].variants()[params2].quantity(current + 1);
+        } else {
+          var current = this.collectionProducts()[params1].variants()[params2].quantity();
+          this.collectionProducts()[params1].variants()[params2].quantity(current + 1);
+
+          var hasCurent = false;
+          this.collectionCart().forEach((v) => { 
+            if (v.handle === this.collectionProducts()[params1].handle) {
+              var current = v.variants()[params2].quantity();
+              v.variants()[params2].quantity(current + 1)
+              hasCurent = true
+            }
+          })
+          if (!hasCurent) {
+            current_collect_product.forEach((val, i) => {
+              if (val.handle === this.collectionProducts()[params1].handle) {
+                this.collectionCart.push(new ProductObj(val, 1, params2));
+              }
+            });
+          }
+          var current_collect = this.current_collect() - 1;
+          var current_collect_num = this.collect_cart_num()[current_collect];
+          this.collect_cart_num.splice(current_collect, 1, current_collect_num + 1);
+        }
+      }
+      this.colorAddCart = function(params1, params2, event) {
+        if (this.barActive() === 1) {
+          var current = this.sysProducts()[params1].variants()[params2].quantity();
+          this.sysProducts()[params1].variants()[params2].quantity(current + 1);
+        } else {
+          var current = this.collectionCart()[params1].variants()[params2].quantity();
+          this.collectionCart()[params1].variants()[params2].quantity(current + 1);
+
+          this.collectionProducts().forEach((v) => { 
+            if (v.handle === this.collectionCart()[params1].handle) {
+              var current = v.variants()[params2].quantity();
+              v.variants()[params2].quantity(current + 1)
+            }
+          })
+          var current_collect = this.current_collect() - 1;
+          var current_collect_num = this.collect_cart_num()[current_collect];
+          this.collect_cart_num.splice(current_collect, 1, current_collect_num + 1);
+        }
+      }
+      this.colorAct = function(params1, params2, event) {
+        this.productList()[params1].variants().forEach((v, i) => {
+          if (i === params2) {
+            v.active(1);
+            if (this.barActive() === 1) {
+              this.sysProducts()[params1].image(v.image);
+            } else {
+              this.collectionProducts()[params1].image(v.image);
+            }
+          } else {
+            v.active(0);
+          }
+        })
+      }
+      this.showOption = function(params1, event) {
+        this.obQuestions()[params1].show(true);
+      }
+      this.selectOption = function(params1, params2, event) {
+        this.obQuestions()[params1].value(params2);
+        this.obQuestions()[params1].show(false);
+        if (params1 === 0 && this.obQuestions().length === 1) {
+          this.obQuestions.push(new Question())
+        }
+        if (params1 === 1 && this.obQuestions().length === 2) {
+          this.obQuestions.push(new Question())
+        }
+        if (this.obQuestions().length > 2 && !!this.obQuestions()[2].value()) {
+          this.buildSys(this.obQuestions()[0].value() + '_' + this.obQuestions()[1].value())
+        }
+      }
+      this.doorsChange = function(data, event) {
+        this.obQuestions()[2].value(data);
+        this.obQuestions()[2].show(false);
+        this.buildSys(this.obQuestions()[0].value() + '_' + this.obQuestions()[1].value())
+      }
+      this.buildSys = function(answer) {
+        if (metafield[answer]) {
+          if (this.sysProducts().length>0) {
+            this.sysProducts.removeAll();
+          }
+          const products = metafield[answer][0];
+          const quantitys = metafield[answer][1];
+          products.forEach((handle, i) => {
+            var ele = data_products[handle];
+            var num = quantitys[i];
+            if (num === '-') {
+              num = this.obQuestions()[2].value();
+            }
+            var available = ele.variants.some(v => (v.available === 1))
+            if (available) {
+              this.sysProducts.push(new ProductObj(ele, num, 0));
+            }
+          });
+          products.forEach((handle, i) => {
+            var ele = data_products[handle];
+            var num = quantitys[i];
+            if (num === '-') {
+              num = this.obQuestions()[2].value();
+            }
+            var available = ele.variants.some(v => (v.available === 1))
+            if (!available) {
+              this.sysProducts.push(new ProductObj(ele, num, 0));
+            }
+          });
+        }
+      }
+      this.collect = function (data, event) {
+        this.current_collect($(event.target).data('index'))
+        current_collect_product = $(event.target).data('products');
+
+        if (this.collectionProducts().length>0) {
+          this.collectionProducts.removeAll();
+        }
+        current_collect_product.forEach((val, i) => {
+          var available = val.variants.some(v => (v.available === 1))
+          if (available) {
+            this.collectionProducts.push(new ProductObj(val, 0, 0));
+          }
+        });
+        current_collect_product.forEach((val, i) => {
+          var available = val.variants.some(v => (v.available === 1))
+          if (!available) {
+            this.collectionProducts.push(new ProductObj(val, 0, 0));
+          }
+        });
+        Jump('#sys_product', {
+          duration: 600,
+          offset: -120
+        })
+      }
+      this.sys_buynow = function() {
+        this.isBuynow(true);
+        var line_items = [];
+        this.cartList().forEach(product => {
+          product.variants().forEach(val => {
+            if (val.quantity() > 0) {
+              line_items.push({
+                variant_id: val.id,
+                quantity: val.quantity()
+              })
+            }
+          })
+        })
+        Shopify.theme.bundleBuynow({
+          authorization: "{{ authorization }}",
+          checkout: {
+            line_items: line_items,
+            presentment_currency: "{{ shop.currency }}",
+            is_upstream_button: true,
+            page_type: "product",
+            secret: true,
+            wallet_name: "Checkout"
+          },
+          onSuccess: () => {},
+          onError: err => {
+            this.isBuynow(false);
+            $.dialog({ title: err.message, content: err.description, type: 'red' });
+          }
+        });
+      }
+    };
+    ko.applyBindings(new viewModel());
+
+    var clipboard = new ClipboardJS('.clipboard_btn');
+    clipboard.on('success', e => {
+      const text = e.trigger.innerText;
+      e.trigger.innerText = 'copied!';
+      setTimeout(() => e.trigger.innerText = text, 3000);
+      e.clearSelection();
+    });
+
+    function HTMLDecode(text) { 
+      var temp = document.createElement("div"); 
+      temp.innerHTML = text; 
+      var output = temp.innerText || temp.textContent; 
+      temp = null; 
+      return output; 
+    }
+  })
+</script>
+
+{% schema %}
+  {
+    "name": "Build Your Own Sys V2",
+    "presets": [
+      {
+        "name": "Build Your Own Sys V2"
+      }
+    ],
+    "settings": [
+      {
+        "type": "color",
+        "label": "整体文案颜色",
+        "id": "txt_color"
+      }
+    ]
+  }
+{% endschema %}

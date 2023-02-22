@@ -1,0 +1,35 @@
+
+{% if template contains 'page' %}
+  {% if page.metafields['global']['4g_camera_banner'].value %}
+    {% assign banner = page.metafields['global']['4g_camera_banner'].value %}
+  {% else %}
+    {% assign banner = page.metafields['global']['4g_camera_banner'] %}
+  {% endif %}
+{% else %}
+  {% if product.metafields['global']['4g_camera_banner'].value %}
+    {% assign banner = product.metafields['global']['4g_camera_banner'].value %}
+  {% else %}
+    {% assign banner = product.metafields['global']['4g_camera_banner'] %}
+  {% endif %}
+{% endif %}
+
+<link rel="stylesheet" href="{{ 'listing_4g_camera.scss.css' | asset_url }}">
+
+<section id="{{banner.id | default: 'camera-4g-banner'}}" class="camera-4g-banner">
+  <div class="bg">
+    {% render 'lazyload_image',  
+      src: banner.img_pc,
+      additional_classes: "is-hidden-mobile-only"
+      style: "opacity: 0;"
+      alt: {{banner.desc}} %}
+    {% render 'lazyload_image',
+      src: banner.img_mob,
+      additional_classes: "is-hidden-desktop-only",
+      style: "opacity: 0;"
+      alt: {{banner.desc}} %}
+  </div>
+  <div class="box-container">
+    <h2 class="title">{{banner.title}}</h2>
+    <p class="desc">{{banner.desc}}</p>
+  </div>
+</section>

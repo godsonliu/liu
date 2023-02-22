@@ -1,0 +1,82 @@
+{% if section.settings %}
+  {% assign config = section.settings %}
+  {% assign isSchemaData = true %}
+  {% assign id = section.id %}
+{% endif %}
+
+{% unless namespace %}
+  {% assign namespace = 'aplus' %}
+{% endunless %}
+
+{% if key %}
+{% if product.metafields[namespace][key].value %}
+  {% assign config = product.metafields[namespace][key].value %}
+{% else %}
+  {% assign config = product.metafields[namespace][key] %}
+{% endif %}
+
+  {% assign isSchemaData = false %}
+  {% assign id = key %}
+{% endif %}
+
+{% if isSchemaData %}
+  {% assign hotspots = section.blocks | map: 'settings' %}
+{% else %}
+  {% assign hotspots = config.blocks %}
+{% endif %}
+
+<section id="{{ id }}" class="aplus aplus-hotspots aplus__pc ">
+  <div class="aplus-hotspots__wrapper">
+    {% render 'lazyload_image'
+      isSchemaData: isSchemaData,
+      src: config.imageUrl
+    %}
+    {% for hotspot in hotspots %}
+      {% capture pointId %}{{ id }}-popover-{{ forloop.index0 }}{% endcapture %}
+      <div
+        class="aplus-hotspots__hover-wrapper"
+        style="top: calc({{ hotspot.top }}% - 18px);left: calc({{ hotspot.left }}% - 18px);"
+      >
+        <div 
+          class="aplus-hotspots__hover-point"
+          aria-expanded="false"
+          aria-controls="{{ pointId }}"
+          data-headline="{{ hotspot.headline }}"
+        ></div>
+        {% assign left = hotspot.left | plus: 0 %}
+        {% if left < 50 %}
+          {% assign align = 'right' %}
+        {% else %}
+          {% assign align = 'left' %}
+        {% endif %}
+        <div id="{{ pointId }}" class="aplus-hotspots__popover {{ align }}" aria-hidden="true">
+          <div class="aplus-hotspots__popover-arrow"></div>
+          <div class="aplus-hotspots__popover-inner">
+            <button class="aplus-hotspots__popover-close flex-center">
+              <img src="{{ 'aplus-close.png' | asset_url }}" alt="close" >
+            </button>
+            <div class="aplus-hotspots__popover-content">
+              <div class="aplus-hotspots__popover-title">{{ hotspot.headline }}</div>
+              <div class="aplus-hotspots__popover-body">
+                {{ hotspot.body }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="aplus aplus__mobile">
+  {% render 
+    'aplus-mobile-carousel-2',
+    id: id,
+    items: hotspots,
+    isSchemaData: isSchemaData
+  %}
+</section>
+
+{% render 'aplus-hotspots-script'
+  id: id
+%}

@@ -1,0 +1,1251 @@
+{% if shop.metafields['global']['storefront_key'].value %}
+  {% assign authorization = shop.metafields['global']['storefront_key'].value %}
+{% else %}
+  {% assign authorization = shop.metafields['global']['storefront_key'] %}
+{% endif %}
+
+<style>
+@media(max-width: 769px) {
+	.showPc {
+		display: none !important;
+	}
+}
+@media(min-width: 769px) {
+	.showMobile {
+		display: none !important;
+	}
+}
+#{{section.id}}.component_limited_deals {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 0 auto;
+	width: {{section.settings.box_width}};
+	height: {{section.settings.box_height}};
+	padding: {{section.settings.box_padding}};
+	background: {{section.settings.box_bg}};
+}
+
+#{{section.id}} .component_limited_deals_slick_{{section.id}} {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 0;
+}
+{% if section.settings.has_slick %}
+.slick-list, .slick-track {
+	height: 100%;
+}
+{% endif %}
+
+#{{section.id}} .limited_items {
+	max-width: 1200px;
+}
+#{{section.id}} .limited_items_img {
+	position: relative;
+	overflow: hidden;
+	font-size: 0;
+	border-radius: 12px 12px 0 0;
+	display: flex;
+	justify-content: center;
+}
+#{{section.id}} .limited_items_img .items_img {
+	width: 100%;
+	border: none;
+	outline:none; 
+	-webkit-tap-highlight-color: transparent; 
+	-webkit-appearance: none;
+}
+#{{section.id}} .limited_items_icon {
+	width: 100%;
+	top: 0;
+	left: 0;
+	position: absolute;
+}
+#{{section.id}} .limited_items_icon_div {
+	display: flex;
+	position: relative;
+	justify-content: center;
+	align-items: center;
+	max-width: 100px;
+}
+#{{section.id}} .limited_items_icon img {
+	width: 100%;
+}
+#{{section.id}} .limited_items_icon .icon_txt {
+	position: absolute;
+	z-index: 2;
+	width: 100%;
+	height: 100%;
+	line-height: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+}
+#{{section.id}} .limited_items_content {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	border-radius: 0 0 12px 12px;
+	padding: 15px 10px 25px 10px;
+}
+#{{section.id}} .d-flex {
+	display: flex;
+}
+#{{section.id}} .d-flex .limited_items_img {
+	border-radius: 12px 0 0 12px;
+	align-items: center;
+}
+#{{section.id}} .d-flex .limited_items_content {
+	border-radius: 0 12px 12px 0;
+	padding: 10px 60px 10px 30px;
+}
+#{{section.id}} .limited_items_content_title {
+	display: block;
+}
+#{{section.id}} .limited_items_content_title, #{{section.id}} .limited_items_content_desc {
+	width: 100%;
+	overflow: hidden;
+	text-overflow:ellipsis;
+	white-space: nowrap;
+	line-height: 1.5;
+}
+#{{section.id}} .limited_items_content_progress {
+	position: relative;
+	border-radius: 13px;
+	margin: 10px 0;
+	overflow: hidden;
+}
+#{{section.id}} .limited_items_content_light_progress {
+	position: absolute;
+	left: 0;
+	top: 0;
+	border-radius: 13px;
+	text-indent: 14px;
+	font-weight: 700;
+}
+#{{section.id}} .limited_items_content_light_progress_text {
+	position: absolute;
+	left: 3px;
+	top: 50%;
+	transform: translateY(-50%);
+}
+#{{section.id}} .limited_items_content_price {
+	/*margin-bottom: 5px;*/
+}
+#{{section.id}} .product_code {
+	display: flex;
+	align-items: center;
+	margin-bottom: 5px;
+}
+#{{section.id}} .copy_code {
+	text-decoration: underline;
+	margin-left: 5px;
+	cursor: pointer;
+}
+#{{section.id}} .limited_items_content_button {
+	width: fit-content;
+	border: 1px solid;
+	max-width: 250px;
+	border-radius: 70px;
+	outline: none;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 5px;
+	cursor: pointer;
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+	-webkit-tap-highlight-color: transparent;
+}
+#{{section.id}} .limited_items_content_button:first-child {
+	margin-top: 0;
+}
+#{{section.id}} .compare-at-price {
+	text-decoration: line-through;
+	margin-left: 8px;
+}
+#{{section.id}} .title-desc-div {
+	width: 100%;
+}
+#{{section.id}} .component_limited_deals-box {
+	position: relative;
+	width: {{section.settings.slick_width}};
+	height: {{section.settings.slick_height}};
+}
+#{{section.id}} .component_limited_deals-box .slick-prev, #{{section.id}} .component_limited_deals-box .slick-next {
+	width: 30px;
+	height: 30px;
+}
+#{{section.id}} .component_limited_deals-box .slick-prev:before, #{{section.id}} .component_limited_deals-box .slick-next:before {
+	display: none;
+}
+#{{section.id}} .component_limited_deals-box .slick-prev {
+	left: -60px;
+}
+#{{section.id}} .component_limited_deals-box .slick-next {
+	right: -60px;
+}
+#{{section.id}}.showMobile .component_limited_deals-box .slick-prev {
+	left: -30px;
+}
+#{{section.id}}.showMobile .component_limited_deals-box .slick-next {
+	right: -30px;
+}
+</style>
+<div class="component_limited_deals {{section.settings.show_device}}" id="{{section.id}}">
+	<div class="component_limited_deals-box">
+		{% if section.settings.has_slick %}
+		<button type="button" data-role="none" class="slick-arrow slick-prev" data-reactid="561">
+			<img src="{{ section.settings.arrow_left | img_url: '' }}" alt="" class="lazyload">
+		</button>
+		<button type="button" data-role="none" class="slick-arrow slick-next" data-reactid="561">
+			<img src="{{section.settings.arrow_right | img_url: ''}}" alt="" class="lazyload">
+		</button>
+		{% endif %}
+		<div class="component_limited_deals_slick_{{section.id}}">
+		{% for block in  section.blocks %}
+		{% assign oProduct = all_products[block.settings.product_handle] %}
+		{% assign variants = oProduct.variants %}
+		{% assign oProduct_variant = oProduct.selected_or_first_available_variant %}
+		{% for child_variant in variants  %} 
+			{% if child_variant.sku == block.settings.variant_sku %}
+			{% assign oProduct_variant = child_variant %}
+			{% endif %}
+		{% endfor %}
+		<div 
+			class="limited_items {% if block.settings.custom_style == '1' %}d-flex{% endif %}" 
+			style="
+				width: {{ block.settings.card_width }}; 
+				height: {{ block.settings.card_height }};
+				{% if block.settings.card_margin %}margin: {{block.settings.card_margin}};{% endif %}
+		">
+			<div class="limited_items_img" style="width: {{ block.settings.img_width }}; height: {{ block.settings.img_height }}; background: {{ block.settings.img_bg }}">
+				
+				<a href="{{oProduct_variant.url}}">
+					<img class="items_img" src="
+					{% if oProduct_variant.image != blank %}
+						{{ oProduct_variant.image | image_url}}
+						{% else %}
+						{{ oProduct.featured_image | image_url}}
+						{% endif %}
+					"/>
+				</a>
+				<div class="limited_items_icon">
+					<div class="limited_items_icon_div limited_items_icon_div_{{forloop.index}}" 
+						style="
+							width: {{block.settings.icon_width}};
+							left: {{block.settings.icon_left}}; 
+							top: {{block.settings.icon_top}}"
+						>
+						<img src="{{ block.settings.icon_bg | image_url }}" />
+						<span 
+							class="icon_txt icon_txt_{{forloop.index}}"
+							style="
+								color: {{ block.settings.icon_txt_color }}; 
+								font-size: {{ block.settings.icon_txt_font_size }}; 
+								font-weight: {{ block.settings.icon_font_weight }}"
+						>
+							{{ block.settings.icon_txt }}
+						</span>
+					</div>
+				</div>
+			</div>
+			<div 
+				class="limited_items_content limited_items_content_{{forloop.index}}" 
+				style="
+					width: {{ block.settings.limited_items_content_width }}; 
+					height: {{ block.settings.limited_items_content_height }};
+					background: {{block.settings.limited_items_content_bg}};  
+					align-items: {{ block.settings.content_text_align }};
+					font-family: {{ block.settings.content_font_family }};
+				">
+				<div class="title-desc-div" 
+					style="
+					{% if block.settings.title_desc_div != blank %} height: {{block.settings.title_desc_div}}; {% endif %}
+					text-align: {% if block.settings.content_text_align == 'flex-end' %}right{% elsif block.settings.content_text_align == 'flex-start' %}left{% else %}center{% endif %};
+					">
+					<a
+						href="{{oProduct_variant.url}}" 
+						class="limited_items_content_title"
+						style="
+						color: {{block.settings.product_title_color}};
+						font-size: {{block.settings.product_title_font_size}};
+						font-weight: {{block.settings.product_title_font_weight}};
+						">
+						{% if block.settings.product_title != blank %}
+						{{block.settings.product_title}}
+						{% else %}
+						{{ oProduct.title }}
+						{% endif %}
+					</a>
+					<div 
+						class="limited_items_content_desc"
+						style="
+							color: {{block.settings.product_desc_color}};
+							font-size: {{block.settings.product_desc_font_size}};
+						"
+					>{{ block.settings.product_desc }}</div>
+				</div>
+
+				<div class="component_count_timer_{{forloop.index}}">
+					{% render 'component_count_timer',
+						id: section.id,
+						fontWeight: block.settings.timer_font_weight,
+						color: block.settings.timer_color,
+						fontSize: block.settings.timer_font_size,
+						fontSmallSize: block.settings.timer_font_small_size,
+						smallColor: block.settings.timer_small_color, 
+						dotMarginY: block.settings.dot_margin_y,
+						startTime: block.settings.startTime, 
+						endTime: block.settings.endTime,
+						days: block.settings.days,
+						hours: block.settings.hours,
+						minutes: block.settings.minutes,
+						seconds: block.settings.seconds,
+						index: forloop.index,
+						sold_txt: block.settings.sold_txt
+					%}
+				</div>
+				<div 
+					class="limited_items_content_progress limited_items_content_progress_{{forloop.index}}"
+					style="
+						width: {{block.settings.content_progress_width}};
+						height: {{block.settings.content_progress_height}};
+						background: {{block.settings.content_progress_bg}};
+					"
+					>
+						<div 
+							class="limited_items_content_light_progress"
+							style="
+								width: {{oProduct_variant.inventory_quantity | times: 100 | divided_by: block.settings.product_total }}%;
+								height: {{block.settings.content_progress_height}};
+								background: {{block.settings.content_progress_light_bg}};
+							"
+						>
+						</div>
+						<div 
+							class="limited_items_content_light_progress_text"
+							style="
+								color: {{ block.settings.content_progress_light_color }};
+								font-size: {{ block.settings.content_progress_light_font_size }};" 
+						>{{oProduct_variant.inventory_quantity}} {{block.settings.content_progress_light_left}}</div>
+				</div>
+
+				<div class="product_code product_code-{{forloop.index}}">
+					<div 
+						class="code_txt"
+						style="
+							color: {{section.settings.code_text_color}};
+							font-size: {{section.settings.code_text_font_size}};		
+						">
+						<span 
+							class="code-text"
+						>{{ section.settings.code_text }}:</span>
+						<span class="code-number code-number-{{forloop.index}}"></span>
+					</div>
+					<div 
+						class="copy_code"
+						data-product_title="{{oProduct.title}}"
+						data-sku="{{oProduct_variant.sku}}"
+						data-copy-text="{{section.settings.copy_text}}"
+						data-copying-text="{{section.settings.copying_text}}"
+						style="
+							color: {{section.settings.copy_text_color}};
+							font-size: {{section.settings.copy_text_font_size}};		
+						">{{section.settings.copy_text}}</div>
+					</div>
+
+				<div class="limited_items_content_price">
+					<span 
+						class="price-div"
+						style="
+							color: {{block.settings.price_color}};
+							font-size: {{block.settings.price_font_size}};
+							font-weight: {{block.settings.price_font_weight}};
+						">
+						{% render 'price-element', price: oProduct_variant.price %}
+					</span>
+					<span
+						class="compare-at-price"
+						style="
+							color: {{block.settings.compare_at_price_color}};
+							font-size: {{block.settings.compare_at_price_font_size}};
+							font-weight: {{block.settings.compare_at_price_font_weight}}
+						"
+					>
+						{% render 'price-element', price: oProduct_variant.compare_at_price %}
+					</span>
+				</div>
+				<style>
+					#{{section.id}} .limited_items_content_button-disabled_{{forloop.index}} {
+						background-color: {{ block.settings.button_disabled_bg }} !important;
+						color: {{block.settings.button_disabled_txt_color}} !important;
+						border-color: {{block.settings.button_disabled_border_color}} !important;
+						pointer-events: none;
+						cursor: not-allowed;
+					}
+					#{{section.id}} .limited_items_content .limited_items_content_button_{{forloop.index}}:hover{ 
+						background: {{block.settings.button_hover_bg}} !important; 
+						border-color: {{block.settings.button_hover_border_color}} !important;
+						color: {{block.settings.button_hover_txt_color}} !important;
+						font-size: {{block.settings.button_txt_font_size}};
+					}
+				</style>
+				<button 
+					class="
+						{% if oProduct_variant.available == false or oProduct_variant.price == 999999999  %}
+						limited_items_content_button-disabled_{{forloop.index}}
+						{% endif %}
+						limited_items_content_button limited_items_content_button_{{forloop.index}}
+					"
+					data-v_id="{{oProduct_variant.id}}"
+					style="
+						{% if block.settings.button_width != blank %}width:{{block.settings.button_width}};{% endif %}
+						{% if block.settings.button_height != blank %}height:{{block.settings.button_height}};{% endif %}
+						border-color: {{block.settings.button_border_color}};
+						color: {{block.settings.button_txt_color}};
+						font-size: {{block.settings.button_txt_font_size}};
+						background: {{block.settings.button_bg}};
+						padding: {{ block.settings.button_padding }};
+					">
+						{% if oProduct_variant.available and oProduct_variant.price != 999999999  %}
+						{{block.settings.button_txt}}
+						{% else %}
+						{{ 'products.product.sold_out' | t }}
+						{% endif %}
+					</button>
+			</div>
+		</div>
+		{% endfor %}
+		</div>
+	</div>
+</div>
+
+<script>
+// 定时器  index: 代表第几个 sold_txt: 按钮售罄的文案, flag: 代表是否为超出时间范围
+window['component_count_timer_{{section.id}}'] = function(index,sold_txt,flag) {
+	if(flag) {
+		$(`#{{section.id}} .limited_items_content_progress_${index} .limited_items_content_light_progress`).hide()
+		$(`#{{section.id}} .limited_items_content_button_${index}`).prop('disabled', true).text(sold_txt)
+	}
+}
+$(function() {
+	$('#{{section.id}} .limited_items_content_button').on('click', function() {
+		var v_id = $(this).data('v_id')
+		var line_items = [{
+			variant_id: v_id,
+			quantity: 1
+		}];
+		Shopify.theme.bundleBuynow_BF({
+			authorization: "{{ authorization }}",
+			checkout: {
+				line_items: line_items,
+				presentment_currency: "{{ shop.currency }}",
+				is_upstream_button: true,
+				page_type: "product",
+				secret: true,
+				wallet_name: "Checkout"
+			},
+			onSuccess: () => {},
+			onError: err => {
+				console.log(err)
+				$.dialog({ title: err.message, content: err.description, type: 'red' });
+			}
+		});
+	})
+	{% for block in  section.blocks %}
+		;(function() {
+			let skus = []
+			let jsVariants;
+			let index = "{{forloop.index}}"
+			{% assign oProduct = all_products[block.settings.product_handle] %}
+			{% assign variants = oProduct.variants %}
+			{% assign oProduct_variant = oProduct.selected_or_first_available_variant %}
+			{% for child_variant in variants  %} 
+				{% if child_variant.sku == block.settings.variant_sku %}
+				{% assign oProduct_variant = child_variant %}
+				{% endif %}
+			{% endfor %}
+			jsVariants = {{ oProduct_variant | json }};
+			{% for item in oProduct.variants %}
+				skus.push("{{ item.sku }}");
+			{% endfor %}
+			let params = { "skus": skus, "shopify_domain": "{{ shop.permanent_domain }}" };
+			$.ajax({
+				type: 'GET',
+				url: '/apps/pp/shopifyservices/coupons/by_skus',
+				data: params,
+				success: function success(data) {
+					if(data[jsVariants.sku] && data[jsVariants.sku][0]) {
+						$(`#{{section.id}} .code-number-${index}`).text(data[jsVariants.sku][0].title)
+						if(data[jsVariants.sku][0].value_type === "fixed_amount") {
+							$(`#{{section.id}} .icon_txt_${index}`).prepend(data[jsVariants.sku][0].value_style)
+						}else if(data[jsVariants.sku][0].value_type === "percentage") {
+							$(`#{{section.id}} .icon_txt_${index}`).prepend(Math.abs(parseInt(data[jsVariants.sku][0].value)) + '%')
+						}
+						window[`loopGetTime_{{section.id}}_${index}`](new Date(data[jsVariants.sku][0].starts_at).getTime(), new Date(data[jsVariants.sku][0].ends_at).getTime())
+						$(`#{{section.id}} .limited_items_content_${index} .price-div`).text(Shopify.formatMoney(parseFloat(data[jsVariants.sku][0].variant_price4wscode) * 100, $('body').data('money-format')))
+						$(`#{{section.id}} .limited_items_content_${index} .compare-at-price`).text( Shopify.formatMoney(parseFloat(data[jsVariants.sku][0].variant_price) * 100, $('body').data('money-format')) )
+					}else {
+						$(`#{{section.id}} .limited_items_icon_div_${index}`).hide()
+						$(`#{{section.id}} .product_code-${index}`).hide()
+					}
+				}
+			})
+		})()
+	{% endfor %}
+	{% if section.settings.has_slick %}
+		$(".component_limited_deals_slick_{{section.id}}").slick({
+      autoplay: true,
+      speed: 1000,
+      autoplaySpeed: 5000,
+			slidesToShow: {{section.settings.slick_number}},
+      dots: true,
+      pauseOnHover: true,
+      arrows: true,
+			arrows:true,
+      prevArrow: $('#{{section.id}} .slick-prev'),
+      nextArrow: $('#{{section.id}} .slick-next')
+    });
+	{% endif %}
+
+	function execCoy(text) {
+    const input = document.createElement('INPUT');
+    input.style.opacity  = 0;
+    input.style.position = 'absolute';
+    input.style.left = '-100000px';
+    document.body.appendChild(input);
+
+    input.value = text;
+    input.select();
+    input.setSelectionRange(0, text.length);
+    document.execCommand('copy');
+    document.body.removeChild(input);
+    return true;
+  }
+
+	$('#{{section.id}} .copy_code').on('click', function() {
+		let copying_text = $(this).data('copying-text')
+		let copy_text = $(this).data('copy-text');
+		let sku = $(this).data('sku');
+		let product_title = $(this).data('product_title')
+		let code_number = $(this).prev('.code_txt').find('.code-number').text()
+		let self = $(this)
+		$(this).text(copying_text)
+		execCoy(code_number)
+		dataLayer.push({
+			"event": "uaEvent",
+			"eventCategory": 'copy',
+			"eventAction": "{{section.settings.eventAction}}",
+			"eventLabel":  code_number + '_' + sku // 由coupon和sku拼接而成
+		})
+		window.dataLayer.push({ "event_parameters": null });
+		window.dataLayer.push({
+			"event": "ga4Event",
+			"event_name": "copy_coupon_code",
+			"event_parameters": {
+				"page_group": "{{section.settings.ga4_page_group}}",
+				"coupon_name": code_number,
+				"info": product_title
+			}
+		});
+		setTimeout(function() {
+			self.text(copy_text)
+		}, 500)
+	})
+})
+</script>
+
+{% schema %}
+{
+	"name": "component_limited_deals",
+	"presets": [
+		{
+			"name": "component_limited_deals"
+		}
+	],
+	"settings": [
+		{
+			"type": "select",
+			"id": "show_device",
+			"label": "展示的设备",
+			"info": "移动端或PC端",
+			"options": [
+				{
+					"value": "showPc",
+					"label": "PC"
+				},
+				{
+					"value": "showMobile",
+					"label": "Mobile"
+				},
+				{
+          "value": "",
+          "label": "两端共用"
+        }
+			],
+			"default": "showPc"
+		},
+		{
+			"type": "text",
+			"id": "box_width",
+			"label": "外层盒子的宽度",
+			"info": "可以是百分比可以是固定的像素，内容区域会默认居中",
+			"default": "80%"
+		},
+		{
+			"type": "text",
+			"id": "box_height",
+			"label": "外层盒子的高度",
+			"info": "可以是百分比可以是固定的像素，内容区域会默认居中",
+			"default": "500px"
+		},
+		{
+			"type": "text",
+			"id": "box_padding",
+			"label": "外层盒子的内边距"
+		},
+		{
+			"type": "color",
+			"id": "box_bg",
+			"label": "外层盒子背景色",
+			"default": "#e5e5e5"
+		},
+		{
+			"type": "checkbox",
+			"id": "has_slick",
+			"label": "是否需要切换",
+			"default": false
+		},
+		{
+			"type": "image_picker",
+			"id": "arrow_left",
+			"label": "左侧箭头",
+			"info": "勾选切换器的时候为必填！！"
+		},
+		{
+			"type": "image_picker",
+			"id": "arrow_right",
+			"label": "右侧箭头",
+			"info": "勾选切换器的时候为必填！！"
+		},
+		{
+			"type": "number",
+			"id": "slick_number",
+			"label": "展示的数量",
+			"default": 1
+		},
+		{
+			"type": "text",
+			"id": "slick_width",
+			"label": "切换器的宽度",
+			"info": "当选择需要切换器的时候，切换器的容器宽度需要自定义，一般每一项的宽度相同",
+			"default": "580px"
+		},
+		{
+			"type": "text",
+			"id": "slick_height",
+			"label": "切换器的高度",
+			"info": "意义同上",
+			"default": "230px"
+		},
+		{
+			"type": "header",
+			"content": "Code区域"
+		},
+		{
+			"type": "text",
+			"id": "code_text",
+			"label": "Code文案",
+			"default": "CODE"
+		},
+		{
+			"type": "color",
+			"id": "code_text_color",
+			"label": "Code文案颜色",
+			"default": "#999999"
+		},
+		{
+			"type": "text",
+			"id": "code_text_font_size",
+			"label": "Code文案大小",
+			"default": "14px"
+		},
+		{
+			"type": "text",
+			"id": "copy_text",
+			"label": "Copy文案",
+			"default": "Copy"
+		},
+		{
+			"type": "text",
+			"id": "copying_text",
+			"label": "拷贝中的文案",
+			"default": "COPIED"
+		},
+		{
+			"type": "color",
+			"id": "copy_text_color",
+			"label": "Code文案颜色",
+			"default": "#00a7e1"
+		},
+		{
+			"type": "text",
+			"id": "copy_text_font_size",
+			"label": "Copy文案大小",
+			"default": "14px"
+		}
+	],
+	"blocks": [
+		{
+			"type": "limited_item",
+			"name": "limited_item",
+			"settings": [
+				{
+					"type": "select",
+					"id": "custom_style",
+					"label": "卡片样式选择",
+					"options": [
+						{
+							"value": "1",
+							"label": "样式1"
+						},
+						{
+							"value": "2",
+							"label": "样式2"
+						}
+					],
+					"default": "1"
+				},
+				{
+					"type": "text",
+					"id": "card_width",
+					"label": "卡片宽度",
+					"default": "100%"
+				},
+				{
+					"type": "text",
+					"id": "card_height",
+					"label": "卡片高度",
+					"info": "样式1的时候需要设置，默认保持100%即可，想要调整高度，请调整切换器高度",
+					"default": "100%"
+				},
+				{
+					"type": "text",
+					"id": "card_margin",
+					"label": "卡片的外边距",
+					"info": "用作处理多个卡片时直接的间距, 0 10px 0 0 代表上右下左"
+				},
+				{
+					"type": "text",
+					"id": "img_width",
+					"label": "产品图片的宽度",
+					"default": "35%"
+				},
+				{
+					"type": "text",
+					"id": "img_height",
+					"label": "产品图片的高度",
+					"info": "样式1的时候一般都是100%，样式2的时候一般设置固定值，例如： 200px",
+					"default": "100%"
+				},
+				{
+					"type": "color",
+					"id": "img_bg",
+					"label": "产品图片的背景色",
+					"default": "#ffffff"
+				},
+				{
+					"type": "text",
+					"id": "product_handle",
+					"label": "产品的handle",
+					"info": "用于获取产品信息"
+				},
+				{
+					"type": "text",
+					"id": "variant_sku",
+					"label": "variant_sku",
+					"info": "提供给自定义展示不同商品的variant，如果不填写，默认就展示第一个可用的variant"
+				},
+				{
+					"type": "image_picker",
+					"id": "icon_bg",
+					"label": "icon的背景图片"
+				},
+				{
+					"type": "html",
+					"id": "icon_txt",
+					"label": "icon的文案",
+					"default": " Off"
+				},
+				{
+					"type": "color",
+					"id": "icon_txt_color",
+					"label": "icon的文案颜色",
+					"default": "#ffffff"
+				},
+				{
+					"type": "text",
+					"id": "icon_txt_font_size",
+					"label": "icon的文案大小",
+					"default": "20px"
+				},
+				{
+					"type": "text",
+					"id": "icon_width",
+					"label": "icon的宽度",
+					"default": "35%"
+				},
+				{
+					"type": "text",
+					"id": "icon_left",
+					"label": "icon的水平位置",
+					"default": "15px"
+				},
+				{
+					"type": "text",
+					"id": "icon_top",
+					"label": "icon的垂直位置",
+					"default": "0"
+				},
+				{
+					"type": "select",
+					"id": "icon_font_weight",
+					"label": "icon文案是否加粗",
+					"options": [
+						{
+							"value": "bold",
+							"label": "bold"
+						},
+						{
+							"value": "normal",
+							"label": "normal"
+						}
+					],
+					"default": "bold"
+				},
+				{
+					"type": "text",
+					"id": "limited_items_content_width",
+					"label": "卡片产品信息宽度",
+					"default": "65%"
+				},
+				{
+					"type": "text",
+					"id": "limited_items_content_height",
+					"label": "卡片产品信息高度",
+					"info": "样式1的时候需要设置",
+					"default": "100%"
+				},
+				{
+					"type": "text",
+					"id": "title_desc_div",
+					"label": "标题和描述组合的高度",
+					"info": "移动端需要设置"
+				},
+				{
+					"type": "select",
+					"id": "content_text_align",
+					"label": "产品信息区域水平位置",
+					"options": [
+						{
+							"value": "flex-start",
+							"label": "居左"
+						},
+						{
+							"value": "center",
+							"label": "居中"
+						},
+						{
+							"value": "flex-end",
+							"label": "居右"
+						}
+					],
+					"default": "flex-end"
+				},
+				{
+					"type": "select",
+					"id": "content_font_family",
+					"label": "内容区字体",
+					"default": "Arial",
+					"info": "这里聚齐了所有品牌站点的字体，请选择该品牌已有的字体",
+					"options": [
+						{
+							"value": "DINNextLT",
+							"label": "DINNextLT"
+						},
+						{
+							"value": "Helvetica",
+							"label": "Helvetica"
+						},
+						{
+							"value": "Arial",
+							"label": "Arial"
+						},
+						{
+							"value": "Avenir Next",
+							"label": "Avenir Next"
+						},
+						{
+							"value": "Helvetica Neue",
+							"label": "Helvetica Neue"
+						},
+						{
+							"value": "",
+							"label": "系统默认字体"
+						}
+					]
+				},
+				{
+					"type": "color",
+					"id": "limited_items_content_bg",
+					"label": "产品内容区域背景色",
+					"default": "#ffffff"
+				},
+				{
+					"type": "text",
+					"id": "product_title",
+					"label": "产品标题",
+					"info": "产品标题可自定义"
+				},
+				{
+					"type": "color",
+					"id": "product_title_color",
+					"label": "产品标题颜色",
+					"default": "#000000"
+				},
+				{
+					"type": "text",
+					"id": "product_title_font_size",
+					"label": "产品标题大小",
+					"default": "30px"
+				},
+				{
+					"type": "select",
+					"id": "product_title_font_weight",
+					"label": "产品标题粗细",
+					"options": [
+						{
+							"value": "bold",
+							"label": "bold"
+						},
+						{
+							"value": "normal",
+							"label": "normal"
+						}
+					],
+					"default": "bold"
+				},
+				{
+					"type": "text",
+					"id": "product_desc",
+					"label": "产品描述",
+					"info": "自定义的产品描述",
+					"default": "product_desc"
+				},
+				{
+					"type": "color",
+					"id": "product_desc_color",
+					"label": "产品描述颜色",
+					"default": "#333333"
+				},
+				{
+					"type": "number",
+					"id": "product_total",
+					"label": "产品总数量",
+					"info": "需要运营手动定义活动时间段产品的总数",
+					"default": 100
+				},
+				{
+					"type": "text",
+					"id": "product_desc_font_size",
+					"label": "产品描述大小",
+					"default": "14px"
+				},
+				{
+					"type": "text",
+					"id": "content_progress_width",
+					"label": "进度条的宽度",
+					"default": "370px"
+				},
+				{
+					"type": "text",
+					"id": "content_progress_height",
+					"label": "进度条的高度",
+					"default": "26px"
+				},
+				{
+					"type": "color",
+					"id": "content_progress_bg",
+					"label": "进度条背景色",
+					"default": "#d2d2d2"
+				},
+				{
+					"type": "color",
+					"id": "content_progress_light_bg",
+					"label": "进度条高亮背景色",
+					"default": "#00a9e1"
+				},
+				{
+					"type": "color",
+					"id": "content_progress_light_color",
+					"label": "进度条文案颜色",
+					"default": "#ffffff"
+				},
+				{
+					"type": "text",
+					"id": "content_progress_light_font_size",
+					"label": "进度条文案大小",
+					"default": "12px"
+				},
+				{
+					"type": "text",
+					"id": "content_progress_light_left",
+					"label": "库存补充说明",
+					"default": "Left"
+				},
+				{
+					"type": "text",
+					"id": "button_txt",
+					"label": "按钮文案",
+					"default": "Buy Now"
+				},
+				{
+					"type": "text",
+					"id": "sold_txt",
+					"label": "售罄文案",
+					"default": "Sold out"
+				},
+				{
+					"type": "text",
+					"id": "button_width",
+					"label": "按钮宽度",
+					"info": "一般情况下是不建议给按钮设置宽度的，通过下方的padding进行设置"
+				},
+				{
+					"type": "text",
+					"id": "button_height",
+					"label": "按钮高度",
+					"info": "一般情况下是不建议给按钮设置宽度的，通过下方的padding进行设置"
+				},
+				{
+					"type": "text",
+					"id": "button_padding",
+					"label": "按钮内边距",
+					"default": "6px 20px"
+				},
+				{
+					"type": "color",
+					"id": "button_bg",
+					"label": "按钮背景色",
+					"default": "#ffffff"
+				},
+				{
+					"type": "color",
+					"id": "button_border_color",
+					"label": "按钮边框颜色",
+					"default": "#333333"
+				},
+				{
+					"type": "color",
+					"id": "button_txt_color",
+					"label": "按钮文案颜色",
+					"default": "#333333"
+				},
+				{
+					"type": "text",
+					"id": "button_txt_font_size",
+					"label": "按钮文案大小",
+					"default": "16px"
+				},
+				{
+					"type": "color",
+					"id": "button_hover_bg",
+					"label": "按钮hover时背景色",
+					"default": "#00a9e1"
+				},
+				{
+					"type": "color",
+					"id": "button_hover_border_color",
+					"label": "按钮hover时边框颜色",
+					"default": "#00a9e1"
+				},
+				{
+					"type": "color",
+					"id": "button_hover_txt_color",
+					"label": "按钮hover时文案颜色",
+					"default": "#ffffff"
+				},
+				{
+					"type": "color",
+					"id": "button_disabled_bg",
+					"label": "按钮禁用时的背景色",
+					"info": "没有库存或产品下架时会禁用",
+					"default": "#666666"
+				},
+				{
+					"type": "color",
+					"id": "button_disabled_border_color",
+					"label": "按钮禁用时的边框颜色",
+					"info": "没有库存或产品下架时会禁用",
+					"default": "#666666"
+				},
+				{
+					"type": "color",
+					"id": "button_disabled_txt_color",
+					"label": "按钮禁用时的文案颜色",
+					"info": "没有库存或产品下架时会禁用",
+					"default": "#ffffff"
+				},
+				{
+					"type": "color",
+					"id": "price_color",
+					"label": "价格颜色",
+					"default": "#000000"
+				},
+				{
+					"type": "text",
+					"id": "price_font_size",
+					"label": "价格大小",
+					"default": "28px"
+				},
+				{
+					"type": "select",
+					"id": "price_font_weight",
+					"label": "价格粗细",
+					"default": "bold",
+					"options": [
+						{
+							"value": "bold",
+							"label": "bold"
+						},
+						{
+							"value": "normal",
+							"label": "normal"
+						}
+					]
+				},
+				{
+					"type": "color",
+					"id": "compare_at_price_color",
+					"label": "原价格颜色",
+					"default": "#333333"
+				},
+				{
+					"type": "text",
+					"id": "compare_at_price_font_size",
+					"label": "原价格大小",
+					"default": "16px"
+				},
+				{
+					"type": "select",
+					"id": "compare_at_price_font_weight",
+					"label": "原价格粗细",
+					"default": "normal",
+					"options": [
+						{
+							"value": "bold",
+							"label": "bold"
+						},
+						{
+							"value": "bolder",
+							"label": "bolder"
+						},
+						{
+							"value": "normal",
+							"label": "normal"
+						}
+					]
+				},
+				{
+					"type": "select",
+					"id": "timer_font_weight",
+					"label": "倒计时的文案粗细",
+					"default": "bold",
+					"options": [
+						{
+							"value": "bold",
+							"label": "bold"
+						},
+						{
+							"value": "normal",
+							"label": "normal"
+						}
+					]
+				},
+				{
+					"type": "color",
+					"id": "timer_color",
+					"label": "倒计时文案的颜色",
+					"default": "#000000"
+				},
+				{
+					"type": "text",
+					"id": "timer_font_size",
+					"label": "倒计时文案大小",
+					"default": "20px"
+				},
+				{
+					"type": "text",
+					"id": "timer_font_small_size",
+					"label": "倒计时辅助文案大小",
+					"default": "14px"
+				},
+				{
+					"type": "color",
+					"id": "timer_small_color",
+					"label": "辅助文案的颜色",
+					"default": "#000000"
+				},
+				{
+					"type": "text",
+					"id": "startTime",
+					"label": "开始时间",
+					"info": "YYYY/MM/DD,该时间与后台的时间需要互斥，即设置了后台活动时间，该选型必须清空，否则就需要填写"
+				},
+				{
+					"type": "text",
+					"id": "endTime",
+					"label": "结束时间",
+					"info": "YYYY/MM/DD,该时间与后台的时间需要互斥，即设置了后台活动时间，该选型必须清空，否则就需要填写"
+				},
+				{
+					"type": "text",
+					"id": "dot_margin_y",
+					"label": "点点的向上边距",
+					"info": "点点是基于基线对齐，故提供为微调入口",
+					"default": "3px"
+				},
+				{
+					"type": "text",
+					"id": "days",
+					"label": "Days的描述文案",
+					"default": "Days"
+				},
+				{
+					"type": "text",
+					"id": "hours",
+					"label": "Hours的描述文案",
+					"default": "Hours"
+				},
+				{
+					"type": "text",
+					"id": "minutes",
+					"label": "Minutes的描述文案",
+					"default": "Minutes"
+				},
+				{
+					"type": "text",
+					"id": "seconds",
+					"label": "Seconds的描述文案",
+					"default": "Seconds"
+				}
+			]
+		}
+	]
+}
+
+{% endschema %}

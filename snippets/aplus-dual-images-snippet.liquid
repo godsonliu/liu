@@ -1,0 +1,44 @@
+{% if section.settings %}
+  {% assign config = section.settings %}
+  {% assign isSchemaData = true %}
+{% endif %}
+
+{% unless namespace %}
+  {% assign namespace = 'aplus' %}
+{% endunless %}
+
+{% if key %}
+{% if product.metafields[namespace][key].value %}
+  {% assign config = product.metafields[namespace][key].value %}
+{% else %}
+  {% assign config = product.metafields[namespace][key] %}
+{% endif %}
+
+  {% assign isSchemaData = false %}
+{% endif %}
+
+{% if isSchemaData %}
+  {% assign cards = section.blocks | map: 'settings' %}
+{% else %}
+  {% assign cards = config.blocks %}
+{% endif %}
+
+<section class="aplus aplus-dual-images">
+  <div class="aplus-dual-images__title">
+    {{ config.headline }}
+  </div>
+  <div class="aplus-dual-images__card-list">
+    {% for card in cards %}
+      <div class="aplus-dual-images__card">
+        <div class="aplus-dual-images__card-image">
+          {% render 'lazyload_image'
+            isSchemaData: isSchemaData,
+            src: card.imageUrl
+          %}
+        </div>
+        <div class="aplus-dual-images__card-title">{{ card.headline }}</div>
+        <div class="aplus-dual-images__card-description">{{ card.body }}</div>    
+      </div>
+    {% endfor %}
+  </div>
+</section>

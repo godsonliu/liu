@@ -1,0 +1,185 @@
+#shopify-section-header__icon-bar{
+    display: none;
+}
+
+// .mb_buy_now_bar{
+//     display: none; 
+
+//     @media (max-width: 768px) {
+//         display: block;
+//     }
+// }
+
+.v2_top_bar_section{
+    z-index: 39;
+    
+    @media (max-width: 768px) {
+        z-index: 39;
+    }
+}
+
+.v2_top_bar_box{
+    justify-content: center;
+
+    @media (max-width: 768px) {
+        // justify-content: flex-start;
+        position: relative;
+        padding: 0;
+        visibility: visible;
+        opacity: 1;
+        overflow: inherit;
+    }
+
+    .top_bar_page_nav{
+        padding: 0;
+
+        @media (max-width: 768px){
+            padding: 0 4%; 
+        }
+    }
+
+    .top_bar_page_nav{
+        padding: 0;
+
+        @media (max-width: 768px){
+            padding: 0 4%; 
+        }
+    }
+
+    .v2_top_bar_inner{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 0 auto;
+        width: 1200px;
+        
+        @media (max-width: 1200px) {
+            display: block;
+            width: 100%;
+        }
+    }
+
+    .top_bar_title{
+        color: #333;
+    }
+
+    .right-part{
+        display: flex;
+        align-items: center;
+        
+
+        @media (max-width: 768px) {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #fff;
+        }
+    }
+
+    .tb_page_nav_item{
+        color: #333;
+
+        &::after{
+            bottom: 16px;
+            background-color: #a47e5e;
+            background-image: linear-gradient( 0deg, rgb(196,163,126) 0%, rgb(129,84,59) 100%);
+
+            @media (max-width: 768px) {
+                bottom: 8px;
+            }    
+        }
+
+        &.active{
+            color: #a47e5e;
+        }
+    }
+    // .top_bar_button {
+    //     display: inline-block;
+    //     margin: 0 0 0 20px;
+    //     padding: 6px 20px;
+    //     font-size: 18px;
+    //     color: #fff;
+    //     border-radius: 100px;
+    //     background-image: linear-gradient( -180deg, rgb(129,84,59) 0%, rgb(195,163,126) 100%);
+    // }
+    .top_bar_button{
+        height: 40px; 
+        line-height: 40px;
+        box-sizing: border-box; 
+        margin-left: 20px;
+        padding: 2px; 
+        border-radius: 20px; 
+        background-image: -webkit-linear-gradient(to right,#c3a37e,#81543b);  
+        background-image: -moz-linear-gradient(to right,#c3a37e,#81543b); 
+        background-image: linear-gradient(to right,#c3a37e,#81543b);
+        .box{
+            // width:100%; 
+            height:100%; 
+            border-radius:20px; 
+            background:#fff; 
+            display: flex;
+            justify-content: center;
+        }
+        a{
+            display: inline-block;
+            padding: 0px 20px;
+            line-height: 36px;
+            background: linear-gradient( -180deg, rgb(129,84,59) 0%, rgb(195,163,126) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color:transparent;
+            border: 1px soild;
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+            white-space:nowrap;
+        }
+        &:hover{
+            .box{
+                background-image: -webkit-linear-gradient(to right,#c3a37e,#81543b);  
+                background-image: -moz-linear-gradient(to right,#c3a37e,#81543b); 
+                background-image: linear-gradient(to right,#c3a37e,#81543b);
+            }
+            a{
+                -webkit-text-fill-color:#fff;
+            }
+        }
+
+    }
+
+    .top_mb_part{
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 1.2rem;
+        z-index: 1;
+        background-color: #fff;
+
+        .top_bar_mb_title{
+            padding: 1.4rem 0;
+            font-size: 1.25rem;
+            color: #333;
+        }
+
+        .top_bar_mb_button{
+            // padding: .6rem 1.4rem;
+            font-size: 1.45rem;
+        }
+    }
+
+    .pc-show{
+        @media (max-width: 768px) {
+            display: none;
+        }
+    }
+
+    .mb-show{
+        display: none;
+
+        @media (max-width: 768px) {
+            display: flex;
+        }
+    }
+}
+

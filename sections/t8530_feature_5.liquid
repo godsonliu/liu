@@ -1,0 +1,56 @@
+<div class="t8530_feature_5">
+  <div class="sec-title-middle">{{ section.settings.title }}</div>
+  <div class="sec-description">{{ section.settings.subtitle }}</div>
+  <div class="box">
+    {% render 'lazyload_image',  
+      src: section.settings.image,
+      alt: section.settings.image.alt,
+      width: section.settings.image.width,
+      aspect_ratio: section.settings.image.aspect_ratio,
+      additional_classes: "is-hidden-mobile-only",
+      isSchemaData: true
+    %}
+
+    {% render 'lazyload_image',  
+      src: section.settings.image_mob,
+      alt: section.settings.image_mob.alt,
+      width: section.settings.image_mob.width,
+      aspect_ratio: section.settings.image_mob.aspect_ratio,
+      additional_classes: "is-hidden-desktop-only",
+      isSchemaData: true
+    %}
+    <i class="c1"></i>
+    <i class="c2"></i>
+    <i class="c3"></i>
+    <i class="c4"></i>
+    <i class="c5"></i>
+  </div>
+</div>
+
+<script>
+  $(function() {
+  })
+</script>
+
+{% schema %}
+{
+  "name": "t8530 feature5",
+  "settings": [{
+    "type": "textarea",
+    "id": "title",
+    "label": "标题"
+  }, {
+    "type": "textarea",
+    "id": "subtitle",
+    "label": "副标题"
+  }, {
+    "type": "image_picker",
+    "id": "image",
+    "label": "图片"
+  }, {
+    "type": "image_picker",
+    "id": "image_mob",
+    "label": "移动端图片"
+  }]
+}
+{% endschema %}

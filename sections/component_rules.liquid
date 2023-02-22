@@ -1,0 +1,195 @@
+<style>
+.component_rules_{{section.id}} {
+  width: 100%;
+  max-width: {{section.settings.box_width}};
+  padding: {{section.settings.box_padding}};
+  background: {{section.settings.box_bg}};
+  font-family: {{section.settings.content_font_family}};
+  text-align: {{section.settings.content_text_align}};
+  margin: 0 auto;
+}
+.component_rules_{{section.id}} .rule-title {
+  font-size: {{section.settings.title_font_size}};
+  color: {{section.settings.title_color}};
+}
+.component_rules_{{section.id}} .rule-desc {
+  margin-top: 40px;
+  line-height: 30px;
+  font-size: {{section.settings.desc_font_size}};
+  color: {{section.settings.desc_color}};
+}
+@media(max-width: 769px) {
+  .component_rules_{{section.id}} {
+    padding: {{section.settings.mobile_box_padding}};
+  }
+  .component_rules_{{section.id}} .rule-title {
+    font-size: {{section.settings.mobile_title_font_size}};
+  }
+  .component_rules_{{section.id}} .rule-desc {
+    margin-top: 20px;
+    font-size: {{section.settings.mobile_desc_font_size}};
+  }
+}
+</style>
+
+<div class="component_rules_{{section.id}}">
+  <div class="rule-title">{{section.settings.title}}</div>
+  <div class="rule-desc">{{section.settings.desc}}</div>
+</div>
+
+{% schema %}
+  {
+    "name": "component_rules",
+    "presets": [
+			{
+				"name": "component_rules"
+			}
+		],
+    "settings": [
+      {
+        "type": "header",
+        "content": "结构方面"
+      },
+      {
+        "type": "text",
+        "id": "box_width",
+        "label": "section区域最大宽度"
+      },
+      {
+        "type": "text",
+        "id": "box_padding",
+        "label": "section的内边距",
+        "info": "用于产生间隔",
+        "default": "20px 0"
+      },
+      {
+        "type": "text",
+        "id": "mobile_box_padding",
+        "label": "Mobile端section的内边距",
+        "info": "用于产生间隔",
+        "default": "10px 0"
+      },
+      {
+        "type": "color",
+        "id": "box_bg",
+        "label": "section背景色"
+      },
+      {
+        "type": "header",
+        "content": "文本内容区"
+      },
+      {
+        "type": "select",
+        "id": "content_font_family",
+        "label": "内容区字体",
+        "default": "Arial",
+        "info": "这里聚齐了所有品牌站点的字体，请选择该品牌已有的字体",
+				"options": [
+					{
+						"value": "DINNextLT",
+						"label": "DINNextLT"
+					},
+					{
+						"value": "Helvetica",
+						"label": "Helvetica"
+					},
+					{
+						"value": "Arial",
+						"label": "Arial"
+					},
+          {
+            "value": "Avenir Next",
+            "label": "Avenir Next"
+          },
+          {
+            "value": "Helvetica Neue",
+            "label": "Helvetica Neue"
+          },
+          {
+            "value": "",
+            "label": "系统默认字体"
+          }
+				]
+      },
+      {
+        "type": "select",
+        "id": "content_text_align",
+        "label": "文案居中方式",
+        "options": [
+          {
+            "label": "居左",
+            "value": "left"
+          },
+          {
+            "label": "居中",
+            "value": "center"
+          },
+          {
+            "label": "居右",
+            "value": "right"
+          }
+        ],
+        "default": "center"
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "标题",
+        "default": "Rules"
+      },
+      {
+        "type": "color",
+        "id": "title_color",
+        "label": "标题颜色",
+        "default": "#ffffff"
+      },
+      {
+        "type": "text",
+        "id": "title_font_size",
+        "label": "标题字体大小"
+      },
+      {
+        "type": "text",
+        "id": "mobile_title_font_size",
+        "label": "Mobile标题字体大小"
+      },
+      {
+        "type": "select",
+        "id": "title_font_weight",
+        "label": "标题粗细",
+        "options": [
+          {
+            "value": "bold",
+            "label": "bold"
+          },
+          {
+            "value": "normal",
+            "label": "normal"
+          }
+        ],
+        "default": "normal"
+      },
+      {
+        "type": "html",
+        "id": "desc",
+        "label": "描述"
+      },
+      {
+        "type": "color",
+        "id": "desc_color",
+        "label": "标题颜色",
+        "default": "#ffffff"
+      },
+      {
+        "type": "text",
+        "id": "desc_font_size",
+        "label": "描述字体大小"
+      },
+      {
+        "type": "text",
+        "id": "mobile_desc_font_size",
+        "label": "Mobile端描述字体大小"
+      }
+    ]
+  }
+{% endschema %}

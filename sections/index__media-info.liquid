@@ -1,0 +1,169 @@
+{{ 'index__media-info.scss.css' | asset_url | stylesheet_tag }}
+
+<section class="index__media-info section-wrapper-middle">
+  <div class="index__media-box container-wrapper">
+    <div class="index__media-info-wrap">
+      <ul class="index__media-info-list">
+        {% for block in section.blocks %}
+          <li class="index__media-info-item js-media-info-item{% if forloop.first %} actived{% endif %}" id="prBanner{{ forloop.index }}" data-name="{{ block.settings.name }}" data-creative="{{ block.settings.creative }}" data-position="{{ block.settings.position }}">
+            <div class="index__media-info-content">{{ block.settings.info }}</div>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="index__media-brand-wrap">
+      <ul class="index__media-brand-list">
+        {% for block in section.blocks %}
+          <li class="index__media-brand-item js-media-brand-item card-radius{% if forloop.first %} actived{% endif %}">
+            {% if block.settings.image %}
+              {% render 'image-element',
+                image: block.settings.image,
+                alt: block.settings.image.alt,
+                stretch_width: true
+              %}
+            {% else %}
+              {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+      <i class="index__media-brand-choose js-media-brand-choose card-radius"></i>
+    </div>
+  </div>
+</section>
+
+<script>
+$(function() {
+
+  $(".index__media-info-content a").each((i, item) => {
+    var href = $(item).attr("href") || "";
+    if (href.indexOf("?") > -1) {
+      if (href.indexOf("ref=") == -1) {
+        $(item).attr("href", href + `&`);
+      }
+    } else {
+      $(item).attr("href", href + `?ref=pr_review${i}`);
+    }
+  });
+
+  const w = $(window).width()
+  if(w > 768){
+    $('.js-media-brand-item').hover(function() {
+      event($(this))
+    })
+  } else {
+    $('.js-media-brand-item').on('click', function(){
+      event($(this))
+    })
+  }
+
+  window.dataLayer = window.dataLayer || [];
+  var dataObj5 = {};
+  {% for block in section.blocks %}
+    dataObj5['prBanner' + {{ forloop.index }}] = {
+      id: 'prBanner' + {{ forloop.index }},
+      name: "{{ block.settings.datename }}",
+      creative: "{{ block.settings.creative }}",
+      position: "{{ block.settings.position }}"
+    }
+  {% endfor %}
+  // window.dataLayer.push(dataObj5);
+  $(".index__media-info .index__media-info-list a").on("click", function() {
+    var $item = $(this).parents(".index__media-info-item");
+    var index = $item.index() + 1;
+    window.dataLayer.push({
+      "event": "eeEvent",
+      "eventCategory": "promotion",
+      "eventAction": "click",
+      "eventLabel": "prBanner" + index,
+      "nonInteraction": false,
+      "ecommerce": {
+        "promoClick": {
+          "promotions": [{
+            "id": "prBanner" + index,
+            "name": $item.data("name"),
+            "creative": $item.data("creative"),
+            "position": $item.data("position")
+          }]
+        }
+      }
+    });
+  });
+
+  function event($this) {
+    const idx = $this.index()
+    $this.addClass('actived').siblings().removeClass('actived')
+    $('.js-media-info-item').eq(idx).addClass('actived').siblings().removeClass('actived')
+    $('.js-media-brand-choose').css('transform', `translate3d(${100 * idx}%,0,0)`)
+  }
+})
+</script>
+
+{% schema %}
+{
+  "name": "index media info",
+  "presets": [{
+    "name": "index media info",
+    "blocks": [
+      {
+        "type": "brand"
+      },
+      {
+        "type": "brand"
+      },
+      {
+        "type": "brand"
+      },
+      {
+        "type": "brand"
+      },
+      {
+        "type": "brand"
+      },
+      {
+        "type": "brand"
+      },
+      {
+        "type": "brand"
+      },
+      {
+        "type": "brand"
+      }
+    ]
+  }],
+  "settings": [],
+  "blocks": [{
+    "type": "brand",
+    "name": "brand",
+    "limit": 8,
+    "settings": [{
+      "type": "image_picker",
+      "id": "image",
+      "label": "媒体背书品牌Logo",
+      "info": "图片尺寸为：170 X 170"
+    },{
+      "type": "richtext",
+      "id": "info",
+      "label": "媒体背书内容",
+      "default": "<p>Media Info</p>",
+      "info": "上限行数3行，上限字符数为170"
+    },{
+      "type": "text",
+      "id": "datename",
+      "label": "修改信息",
+      "info": "埋点：这里给运营留字段补充格式为200531banner内容，表示修改banner的日期和banner的内容（不超过3个单词）"
+    },{
+      "type": "text",
+      "id": "creative",
+      "label": "媒体名称",
+      "info": "埋点：填写媒体的名称:forbes,digital trends..."
+    },{
+      "type": "text",
+      "id": "position",
+      "label": "物料类型",
+      "default": "static",
+      "info": "埋点：这里给运营留字段填写static(静态图片)或者dynamic(视频或者gif)"
+    }]
+  }]
+}
+{% endschema %}

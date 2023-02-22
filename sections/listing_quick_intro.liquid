@@ -1,0 +1,123 @@
+{% if product.metafields.global.quick_intro.value %}
+  {% assign quick_intro = product.metafields.global.quick_intro.value %}
+{% else %}
+  {% assign quick_intro = product.metafields.global.quick_intro %}
+{% endif %}
+
+
+{% if quick_intro %}
+{% comment %}<link rel="stylesheet" href="{{ 'swiper.min.css' | asset_url }}">{% endcomment %}
+<link rel="stylesheet" href="{{ 'listing_quick_intro.scss.css' | asset_url }}">
+
+<section id="overview" class="listing_v2_section v2_quick_intro_section">
+    <div class="listing_v2_box">
+        <h3 class="v2_section_title">{{ quick_intro.title }}</h3>
+        <p>
+            <a class="quick_intro_link" href="{{ quick_intro.link }}">{{ quick_intro.link_txt }}</a>
+        </p>
+        <div class="swiper-container-wrapper">
+            <div class="swiper-container v2_quick_intro_container">
+                <ul class="swiper-wrapper">
+                    {% for item in quick_intro.data %}
+                        <li class="swiper-slide">
+                            <div class="swiper-content">
+                              {% render 'lazyload_image',  
+                                src: item.img,
+                                width: 343,
+                                height: 482,
+                                max_width: 786,
+                                alt: item.alt
+                              %}
+                            </div>
+                        </li> 
+                    {% endfor %} 
+                </ul>
+            </div>
+            <div class="swiper-button-prev">
+                <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M7.48151 0.851738C7.8395 1.20972 7.8395 1.79012 7.48151 2.1481L2.6297 6.99992L7.48152 11.8517C7.8395 12.2097 7.8395 12.7901 7.48152 13.1481C7.12354 13.5061 6.54313 13.5061 6.18515 13.1481L0.685153 7.6481C0.327172 7.29012 0.327172 6.70972 0.685153 6.35174L6.18515 0.851738C6.54313 0.493757 7.12353 0.493757 7.48151 0.851738Z" fill="white"/>
+                </svg>                    
+            </div>
+            <div class="swiper-button-next">
+                <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0.518485 13.1483C0.160505 12.7903 0.160505 12.2099 0.518485 11.8519L5.3703 7.00008L0.518485 2.14826C0.160504 1.79028 0.160504 1.20988 0.518485 0.851898C0.876466 0.493917 1.45687 0.493917 1.81485 0.851898L7.31485 6.3519C7.67283 6.70988 7.67283 7.29028 7.31485 7.64826L1.81485 13.1483C1.45687 13.5062 0.876466 13.5062 0.518485 13.1483Z" fill="white"/>
+                </svg>                    
+            </div>
+        </div>
+    </div>
+</section>
+
+{% comment %}<script src="{{ 'swiper.min.js' | asset_url }}"></script>{% endcomment %}
+<script>
+(function() {
+  $('.quick_intro_link').on('click',function(){
+    window.location.href='{{ quick_intro.link }}'
+    dataLayer.push({
+      "event": "uaEvent", // Trigger
+      "eventCategory": '{{ quick_intro.eventCategory | default: "h30_listing"  }}',
+      "eventAction": "quick_intro",
+      "eventLabel": "learn_more", 
+    })
+  })
+    let setting = {}
+    let swiper = {}
+    const w = document.body.clientWidth || document.body.offsetWidth || document.body.scrollWidth || window.screen.width
+    
+    init()
+
+    function init() {
+        swiperInit()
+    }
+
+    function swiperInit () {
+        setting = {
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            loop: true,
+            on: {
+                slideChangeTransitionStart: function(){
+                    const h = $('.v2_quick_intro_container .swiper-wrapper').height()
+                    $('.v2_quick_intro_container .swiper-content').height(h)
+                }
+            },
+            autoplay: {
+                delay: 3000,
+            } 
+        }
+
+        if(w > 768) {
+            setting = Object.assign(setting, {
+                slidesPerView : 3,
+                slidesPerGroup : 1
+            })
+        } else {
+            setting = Object.assign(setting, {
+                width:  w * 0.94
+            })
+        }
+
+        swiper = new Swiper('.v2_quick_intro_container', setting)
+    }
+})()
+</script>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "listing2.0_quick_intro",
+    "presets": [
+      {
+        "name": "listing2.0_quick_intro"
+      }
+    ],
+    "settings": [
+      {
+        "type": "textarea",
+        "id": "custom_css",
+        "label": "Custom CSS"
+      }
+    ]
+  }
+{% endschema %}

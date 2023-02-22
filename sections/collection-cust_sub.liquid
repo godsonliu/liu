@@ -1,0 +1,275 @@
+{% if collection.metafields['global']['badges'].value %}
+  {% assign badges = collection.metafields['global']['badges'].value %}
+{% else %}
+  {% assign badges = collection.metafields['global']['badges'] %}
+{% endif %}
+
+{% if collection.metafields['global']['banner'].value %}
+  {% assign banner = collection.metafields['global']['banner'].value %}
+{% else %}
+  {% assign banner = collection.metafields['global']['banner'] %}
+{% endif %}
+
+{% if collection.metafields['global']['products'].value %}
+  {% assign meta_products = collection.metafields['global']['products'].value %}
+{% else %}
+  {% assign meta_products = collection.metafields['global']['products'] %}
+{% endif %}
+
+{% if shop.metafields.global.discounts.value %}
+  {% assign discounts = shop.metafields.global.discounts.value %}
+{% else %}
+  {% assign discounts = shop.metafields.global.discounts %}
+{% endif %}
+
+{% if collection.metafields['global']['lang'].value %}
+  {% assign lang = collection.metafields['global']['lang'].value %}
+{% else %}
+  {% assign lang = collection.metafields['global']['lang'] %}
+{% endif %}
+
+{% if shop.metafields['global']['common'].value %}
+  {% assign common = shop.metafields['global']['common'].value %}
+{% else %}
+  {% assign common = shop.metafields['global']['common'] %}
+{% endif %}
+
+{% if collection.metafields['global']['image_text'].value %}
+  {% assign image_text = collection.metafields['global']['image_text'].value %}
+{% else %}
+  {% assign image_text = collection.metafields['global']['image_text'] %}
+{% endif %}
+
+{% if collection.metafields['global']['reviews_img'].value %}
+  {% assign reviews_img = collection.metafields['global']['reviews_img'].value %}
+{% else %}
+  {% assign reviews_img = collection.metafields['global']['reviews_img'] %}
+{% endif %}
+
+<section class="collection-cust_sub">
+
+  <div class="banner">
+    <div class="bg">
+      {% comment %} <img class="is-hidden-mobile-only" alt="" src="{{ banner.bg }}" />
+      <img class="is-hidden-desktop-only" alt="" src="{{ banner.mob_bg }}" /> {% endcomment %}
+      {% render 'lazyload_image',  
+          src: banner.bg,
+          additional_classes: "is-hidden-mobile-only"
+          alt: ""%}
+      {% render 'lazyload_image',
+        src:banner.mob_bg,
+        additional_classes: "is-hidden-desktop-only"
+        alt="" %}
+    </div>
+    <div class="txt">
+      <h3>{{ banner.title }}</h3>
+      <p>{{ banner.desc }}</p>
+    </div>
+  </div>
+
+  <div class="products">
+    {% for item in meta_products %}
+
+      {% if discounts.show_discounts %}
+        {% paginate collections[item.handle].products by 1000 %}
+          {% render 'collection__DiscountMark', products: collections[item.handle].products %}
+        {% endpaginate %}
+      {% endif %}
+      
+      {% assign prodList = collections[item.handle].products %}
+      <div class="itemProds {% if forloop.index0 == 0 %} active {% endif %}" data-handle="{{ item.handle }}">
+        <a class="link" href="/collections/{{ item.handle }}">
+          <i class="iconfont">&#xe637;</i> {{ lang.explore_all }}
+        </a>
+        <div class="prodTitle">
+          <a class="ShowProds is-hidden-mobile-only" onClick="ShowProds('{{ item.handle }}')">{{ item.title }}</a>
+          <a class="ShowProds is-hidden-desktop-only">{{ item.title }}</a>
+        </div>
+        <div class="prodList">
+          <div class="prodListBox {% if prodList[4] %}coll-prods-slick-slider{% endif %} {% if prodList[1] %}mob_coll-prods-slick-slider{% endif %}">
+            {% for product in prodList %}
+              <div class="prod">
+                <div class="box itemProduct" data-handle="{{ product.handle }}">
+                  <a class="prodLink" href="{{ product.url | within: collection }}">
+                    <div class="img image-element__wrap">
+                      <img alt="{{ product.title }}" src="{{ product.featured_media.preview_image | img_url: '1600x' }}">
+                    </div>
+                  </a>
+                  <div class="txt">
+                    {% render 'product-thumbnail__product-info',
+                      product: product,
+                      collection_handles: collection_handles,
+                      show_trustpilot: true
+                    %}
+                    <a class="btn" href="{{ product.url | within: collection }}">{{ common.buy_now }}</a>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <div class="image-text">
+    <h3 class="title">{{ image_text.title }}</h3>
+    {% for item in image_text.data %}
+      <div class="item">
+        <div class="bg">
+          <a class="link" href="{{ item.link }}">
+            <img class="is-hidden-mobile-only lazyload" alt="" data-src="{{ item.img }}" />
+            <img class="is-hidden-desktop-only lazyload" alt="" data-src="{{ item.mob_img }}" />
+          </a>
+        </div>
+        <div class="txt">
+          <h4>{{ item.tit }}</h4>
+          <p>{{ item.desc }}</p>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <div class="reviews_img">
+    <div class="reviews-slick-slider">
+      {% for item in reviews_img.data %}
+        {% assign oProduct = all_products[item.handle] %}
+        <div>
+          <a class="item" href="{{ item.link }}">
+            <div class="bg"><img class="lazyload" alt="" data-src="{{ item.img }}" /></div>
+            <div class="txt">{{ item.txt }}</div>
+            {% comment %} {% if item.handle %}
+              <div class="product">
+                <div class="box" data-handle="{{ item.handle }}">
+                  <div class="productBox">
+                    <div class="img">
+                      <img class="lazyload" alt="" data-src="{{ oProduct.featured_media.preview_image | img_url: '1600x' }}">
+                    </div>
+                    <div class="txt">
+                      {% render 'product-thumbnail__product-info',
+                        product: oProduct,
+                        collection_handles: collection_handles,
+                        show_trustpilot: true
+                      %}
+                      <a class="btn" href="{{ oProduct.url | within: collection }}">{{ common.buy_now }}</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endif %} {% endcomment %}
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="collections-badges">
+    <div class="box">
+      <div class="txt">
+        {% for item in badges %}
+          <p class="item">{{ item.txt }}</p>
+        {% endfor %}
+      </div>
+      <div class="logos">
+        {% for item in badges %}
+          <a class="item" onClick="clickLogosIndex({{ forloop.index0 }})"><img class="lazyload" data-src="{{ item.img }}" /></a>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<script>
+  let logosIndex = 0;
+  let len;
+  let logosIndexInt;
+  let prodsH;
+
+  $(document).ready(function(){
+
+    // 滑动模块
+    if($(window).width() > 1200) {
+      $('.coll-prods-slick-slider').slick({
+        infinite: true,
+        speed: 500,
+        slidesToShow: 4,
+        easing: 'linear'
+      });
+      // 让点击效果更顺滑
+      prodsH = $('.collection-cust_sub .itemProds.active .prodList').outerHeight() + 2.4 * $(window).width() / 100;
+      $('.collection-cust_sub .itemProds.active .prodList').css("height", `${prodsH}`);
+    } else {
+      $('.mob_coll-prods-slick-slider').slick({
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        easing: 'linear',
+        centerMode: true,
+        arrows: false,
+        centerPadding: '250px',
+        responsive: [{
+          breakpoint: 678,
+          settings: {
+            centerPadding: '50px',
+          }
+        }]
+      });
+    };
+
+    // 评论模块滑动
+    $('.reviews-slick-slider').slick({
+      infinite: true,
+      speed: 500,
+      slidesToShow: 3,
+      easing: 'linear',
+      centerMode: true,
+      variableWidth: true,
+    });
+
+    // 奖项
+    len = $('.collections-badges .txt .item').length - 1;
+    setLogosIndex(0);
+    logosIndexInt = setInterval(() => {
+      if (logosIndex < len) {
+        logosIndex += 1;
+      } else {
+        logosIndex = 0;
+      }
+      setLogosIndex(logosIndex);
+    }, 3000);
+
+    $('.product_trustpilot').append("<div class='prohibit_click'></div>");
+
+  })
+
+  function clickLogosIndex(num) {
+    logosIndex = num;
+    setLogosIndex(logosIndex);
+    if(logosIndexInt) clearInterval(logosIndexInt);
+    logosIndexInt = setInterval(() => {
+      if (logosIndex < len) {
+        logosIndex += 1;
+      } else {
+        logosIndex = 0;
+      }
+      setLogosIndex(logosIndex);
+    }, 3000);
+  }
+
+  function setLogosIndex(num) {
+    $('.collections-badges .txt .item').removeClass('active');
+    $('.collections-badges .logos .item').removeClass('active');
+    $('.collections-badges .txt .item').eq(num).addClass('active');
+    $('.collections-badges .logos .item').eq(num).addClass('active');
+  }
+
+  function ShowProds(handle) {
+    $('.collection-cust_sub .itemProds .prodList').css("height", "0");
+    prodsH = $('.collection-cust_sub').find(`.itemProds[data-handle=${handle}] .prodListBox`).outerHeight() + 2.4 * $(window).width() / 100;
+    $('.collection-cust_sub').find(`.itemProds[data-handle=${handle}] .prodList`).css("height", `${prodsH}`);
+    $('.collection-cust_sub .itemProds').removeClass('active');
+    $('.collection-cust_sub').find(`.itemProds[data-handle=${handle}]`).addClass('active');
+  }
+
+</script>

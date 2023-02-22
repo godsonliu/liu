@@ -1,0 +1,766 @@
+{% assign lang = product.metafields.global %}
+
+{% if lang.banner.value %}
+  {% assign banner = lang.banner.value %}
+{% else %}
+  {% assign banner = lang.banner %}
+{% endif %}
+
+{% if lang.saugkraft.value %}
+  {% assign saugkraft = lang.saugkraft.value %}
+{% else %}
+  {% assign saugkraft = lang.saugkraft %}
+{% endif %}
+
+{% if lang.reinigung.value %}
+  {% assign reinigung = lang.reinigung.value %}
+{% else %}
+  {% assign reinigung = lang.reinigung %}
+{% endif %}
+
+{% if lang.beleuchtung.value %}
+  {% assign beleuchtung = lang.beleuchtung.value %}
+{% else %}
+  {% assign beleuchtung = lang.beleuchtung %}
+{% endif %}
+
+{% if lang.smartes.value %}
+  {% assign smartes = lang.smartes.value %}
+{% else %}
+  {% assign smartes = lang.smartes %}
+{% endif %}
+
+{% if lang.reisebeutel.value %}
+  {% assign reisebeutel = lang.reisebeutel.value %}
+{% else %}
+  {% assign reisebeutel = lang.reisebeutel %}
+{% endif %}
+
+{% if lang.kompakt.value %}
+  {% assign kompakt = lang.kompakt.value %}
+{% else %}
+  {% assign kompakt = lang.kompakt %}
+{% endif %}
+
+{% if lang.akkuleistung.value %}
+  {% assign akkuleistung = lang.akkuleistung.value %}
+{% else %}
+  {% assign akkuleistung = lang.akkuleistung %}
+{% endif %}
+
+{% if lang.whatBox.value %}
+  {% assign whatBox = lang.whatBox.value %}
+{% else %}
+  {% assign whatBox = lang.whatBox %}
+{% endif %}
+
+{% if lang.cus_spces.value %}
+  {% assign cus_spces = lang.cus_spces.value %}
+{% else %}
+  {% assign cus_spces = lang.cus_spces %}
+{% endif %}
+
+{% if lang.usage.value %}
+  {% assign usage = lang.usage.value %}
+{% else %}
+  {% assign usage = lang.usage %}
+{% endif %}
+
+<script>
+  var tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/iframe_api";
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+</script>
+<script src="https://unpkg.com/vconsole@latest/dist/vconsole.min.js"></script>
+{{ 'h20_listing.scss.css' | asset_url | stylesheet_tag }}
+<div class="banner" id="overview">
+  {% render 'lazyload_image',  
+    src: banner.img,
+    alt: '',
+    width: 1920,
+    height: 960,
+    additional_classes: 'is-hidden-mobile-only bannerImg'
+  %}
+  {% render 'lazyload_image',  
+    src: banner.img_mob,
+    alt: '',
+    width: 390,
+    height: 510,
+    additional_classes: 'is-hidden-desktop-only'
+  %}
+  <div class="bannerContent {% if banner.text_left_mob != blank %} bannerContent_left {% endif %}">
+    <p class="bannerTxt ">
+      {{ banner.text }}
+    </p>
+    <p class="bannerTitle"> 
+      {{ banner.title }}
+    </p>
+    {% if banner.watch_btn != blank %}
+        <div class="banner_watch_box {% if banner.text_left_mob != blank %} banner_watch_box_left {% endif %}">
+          <div class="banner_watch">
+            <i class="iconfont">&#xe60d;</i>
+          </div>
+          {{ banner.watch_btn }}
+        </div>
+      </div>
+    {% endif %}
+</div>
+<div class="youtube_box">
+  <i class="iconfont closeIframe">&#xe723;</i>
+  <!-- <iframe
+    width="100%"
+    height="100%"
+    class="iframe"
+    data-pagefly-popup="true"
+    allowfullscreen="allowfullscreen"
+  ></iframe> -->
+  <div id="player"></div>
+</div>
+<div class="introduce">
+  <div class="introduce_top">
+    {% for item in lang.introduce.top %}
+        <div class=" introduce_box item-{{forloop.index0}}">
+          {% if item.img != blank %}
+            {% render 'lazyload_image',  
+              src: item.img,
+              alt: '',
+              width: item.img_width,
+              height: item.img_height,
+              additional_classes: 'is-hidden-mobile-only'
+            %}
+          {% endif %}
+          {% render 'lazyload_image',  
+            src: item.img_mob,
+            alt: '',
+            width: item.img_mob_width,
+            height: item.img_mob_height,
+            additional_classes: 'is-hidden-desktop-only'
+          %}
+          <div class="introduce_box_content {% if item.texToptLeft != blank %}introduce_box_content_top_left{% elsif item.textBottomLeft != blank %}introduce_box_content_bottom_left {% endif %} {% if item.mobTextCenter != blank %} introduce_box_content_mob {% endif %}">
+            <p class="introduce_box_content_title">
+              {{ item.title }}
+            </p>
+            <p class="introduce_box_content_text is-hidden-mobile-only">
+              {{ item.text }}
+            </p>
+            <p class="introduce_box_content_text is-hidden-desktop-only">
+              {{ item.textMob }}
+            </p>
+          </div>
+        </div>
+    {% endfor %}
+  </div>
+  <div class="introduce_bottom is-hidden-mobile-only">
+    {% for item in lang.introduce.bottom %}
+    <div class=" introduce_box itemBottom">
+      {% render 'lazyload_image',  
+        src: item.img,
+        alt: '',
+        width: item.img_width,
+        height: item.img_height
+      %}
+      <div class="introduce_box_content {% if item.texToptLeft != blank %}introduce_box_content_top_left{% elsif item.textBottomLeft != blank %}introduce_box_content_bottom_left {% endif %}"">
+        <p class="introduce_box_content_title">
+          {{ item.title }}
+        </p>
+        <p class="introduce_box_content_text">
+          {{ item.text }}
+        </p>
+      </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+<div class="saugkraft is-hidden-desktop-only">
+  <div class="saugkraft_content">
+    <p class="saugkraft_title is-hidden-mobile-only">
+      {{ saugkraft.title }}
+    </p>
+    <p class="saugkraft_title is-hidden-desktop-only">
+      {{ saugkraft.title_mob }}
+    </p>
+    <p class="saugkraft_text">
+      {{ saugkraft.text }}
+    </p>
+  </div>
+  {% render 'lazyload_image',  
+    src: saugkraft.img_mob,
+    alt: '',
+    width: 390,
+    height: 506,
+    additional_classes: 'is-hidden-desktop-only'
+  %}
+</div>
+
+<div class="reinigung is-hidden-mobile-only">
+  <p class="reinigung_title">
+    {{ saugkraft.title }}
+  </p>
+  <p class="reinigung_text is-hidden-mobile-only">
+    {{ saugkraft.text }}
+  </p>
+  <p class="reinigung_text is-hidden-desktop-only">
+    {{ reinigung.text }}
+  </p>
+  {% render 'lazyload_image',
+    src: saugkraft.img,
+    alt: '',
+    width: 1200,
+    height: 557,
+    additional_classes: 'is-hidden-mobile-only reinigung_img'
+  %}
+</div>
+
+<div class="reinigung" id="feature">
+  <p class="reinigung_title">
+    {{ reinigung.title }}
+  </p>
+  <p class="reinigung_text is-hidden-mobile-only">
+    {{ reinigung.text }}
+  </p>
+  <p class="reinigung_text is-hidden-desktop-only">
+    {{ reinigung.text_mob }}
+  </p>
+  {% render 'lazyload_image',  
+    src: reinigung.img,
+    alt: '',
+    width: 1200,
+    height: 562,
+    additional_classes: 'is-hidden-mobile-only reinigung_img'
+  %}
+  <div class="reinigung_slick is-hidden-desktop-only">
+    {% for item in reinigung.img_mob %}
+      {% render 'lazyload_image',  
+        src: item,
+        alt: '',
+        width: 350,
+        height: 350
+      %}
+    {% endfor %}
+  </div>
+</div>
+<div class="saugkraft" id="saugkraft">
+  <div class="saugkraft_content">
+    <p class="saugkraft_title">
+      {{ beleuchtung.title }}
+    </p>
+    <p class="saugkraft_text is-hidden-mobile-only">
+      {{ beleuchtung.text }}
+    </p>
+    <p class="saugkraft_text is-hidden-desktop-only">
+      {{ beleuchtung.text_mob }}
+    </p>
+  </div>
+  <video id="videoPc_saugkraft" class="lazyload videoPc is-hidden-mobile-only" poster="{{ beleuchtung.poster }}" data-src="{{ beleuchtung.video }}" muted  playsinline  ></video>
+  {% render 'lazyload_image',  
+    id: 'videoMob_saugkraf_1',
+    src: beleuchtung.poster_mob,
+    alt: '',
+    width: 390,
+    height: 505,
+    additional_classes: 'is-hidden-desktop-only'
+  %}
+  <!-- <video id="videoMob_saugkraft" class="lazyload videoMob is-hidden-desktop-only"  x5-video-player-type="h5" controlsList="nofullscreen" playsinline  poster="{{ beleuchtung.poster_mob }}" data-src="{{ beleuchtung.videoMob }}" muted   ></video> -->
+</div>
+
+<div class="smartes" id="smartes">
+  <p class="smartes_title">
+    {{ smartes.title }}
+  </p>
+  <video id="videoPc_smartes" class="lazyload videoPc is-hidden-mobile-only" poster="{{ smartes.poster }}" data-src="{{ smartes.video }}" muted webkit-playsinline playsinline  ></video>
+  <div class="smartes_position">
+    <div class="smartes_content smartes_content_left">
+      <p> {{ smartes.smartes_left_text }}</p>
+      {% render 'lazyload_image',  
+        src: smartes.smartes_left_img,
+        alt: '',
+      %}
+      <div class="desc" ></div>
+    </div>
+    <div class="smartes_content smartes_content_right">
+      {% render 'lazyload_image',  
+        src: smartes.smartes_right_img,
+        alt: '',
+      %}
+      <p>{{ smartes.smartes_right_text }} </p>
+      <div class="desc" ></div>
+    </div>
+  </div>
+  
+  <ul class="smartes_slick is-hidden-desktop-only">
+    {% for item in smartes.imgList %}
+    <li>
+      {% render 'lazyload_image',  
+        src: item.img,
+        alt: '',
+        width: 350,
+        height: 350,
+      %}
+      <p class="smartes_slick_text">
+        {{ item.text }}
+      </p>
+    </li>
+  {% endfor %}
+  </ul>
+
+</div>
+
+<div class="reisebeutel_box" id="reisebeutel_box">
+  <div class="reisebeutel">
+    <div class="reisebeutel_content">
+      <p class="saugkraft_title">
+        {{ reisebeutel.title }}
+      </p>
+      <p class="saugkraft_text is-hidden-mobile-only">
+        {{ reisebeutel.text }}
+      </p>
+      <p class="saugkraft_text is-hidden-desktop-only">
+        {{ reisebeutel.text_mob }}
+  
+      </p>
+    </div>
+    {% render 'lazyload_image',  
+      src: reisebeutel.img,
+      alt: '',
+      width: 1920,
+      height: 885,
+      additional_classes: 'is-hidden-mobile-only'
+    %}
+    {% render 'lazyload_image',  
+      src: reisebeutel.img_mob,
+      alt: '',
+      width: 390,
+      height: 505,
+      additional_classes: 'is-hidden-desktop-only'
+    %}
+  </div>
+  
+  <div class="kompakt">
+    <p class="kompakt_title is-hidden-mobile-only">
+     {{ kompakt.title }}
+    </p>
+    <p class="kompakt_title is-hidden-desktop-only">
+     {{ kompakt.title_mob }}
+    </p>
+    {% render 'lazyload_image',  
+      src: kompakt.img,
+      alt: '',
+      width: 1920,
+      height: 885,
+      additional_classes: 'is-hidden-mobile-only'
+    %}
+    {% render 'lazyload_image',  
+      src: kompakt.img_mob,
+      alt: '',
+      width: 390,
+      height: 505,
+      additional_classes: 'is-hidden-desktop-only'
+    %}
+  </div>
+</div>
+
+
+<div class="akkuleistung" id="akkuleistung">
+  <div class="akkuleistung_content">
+    <p class="akkuleistung_title is-hidden-mobile-only">
+      <span>
+        {{ akkuleistung.title }}
+      </span>
+    </p>
+    <p class="akkuleistung_title is-hidden-desktop-only">
+      <span>
+        {{ akkuleistung.title_mob }}
+      </span>
+    </p>
+    <p class="akkuleistung_text is-hidden-mobile-only">
+      <span>
+        {{ akkuleistung.text }}
+      </span>
+    </p>
+    <p class="akkuleistung_text is-hidden-desktop-only">
+      <span>
+        {{ akkuleistung.text_mob }}
+      </span>
+    </p>
+  </div>
+  <video id="videoPc" class="lazyload videoPc is-hidden-mobile-only" poster="{{ akkuleistung.poster }}" data-src="{{ akkuleistung.video }}" muted webkit-playsinline playsinline  ></video>
+  <!-- <video id="videoMob" class="lazyload videoMob is-hidden-desktop-only" poster="{{ akkuleistung.poster_mob }}" data-src="{{ akkuleistung.videoMob }}" muted webkit-playsinline playsinline  ></video> -->
+  {% render 'lazyload_image',  
+    src: akkuleistung.poster_mob,
+    alt: '',
+    width: 390,
+    height: 506,
+    additional_classes: 'is-hidden-desktop-only'
+  %}
+</div>
+
+<div class="usage" id="compare">
+  {% for item in usage %}
+    <div class="usage_content">
+      <div class="usage_content_img">
+        {% for i in item.introduce %}
+          <div class="usage_content_box">
+            {% render 'lazyload_image',  
+              src: i.img_pc,
+              alt: '',
+              width: 595,
+              height: 437,
+              additional_classes: 'is-hidden-mobile-only'
+            %}
+            {% render 'lazyload_image',  
+              src: i.img,
+              alt: '',
+              width: 467,
+              height: 435,
+              additional_classes: 'is-hidden-desktop-only'
+            %}
+            {% if i.text != blank %}
+              <p class="usage_content_text"> {{ i.text }} </p>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+      <div class="usage_content_txt">
+        <div class="usage_content_question">
+          {{ item.question }}
+        </div>
+        <div class="usage_content_answer">
+          {{ item.answer }}
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+<div class="whatBox">
+  {% render 'lazyload_image',  
+    src: whatBox.img,
+    alt: '',
+    width: 1920,
+    height: 658,
+    additional_classes: 'is-hidden-mobile-only'
+  %}
+  {% render 'lazyload_image',  
+    src: whatBox.img_mob,
+    alt: '',
+    width: 390,
+    height: 506,
+    additional_classes: 'is-hidden-desktop-only'
+  %}
+  <div class="whatBox_content is-hidden-mobile-only">
+    <p class="whatBox_title">
+     {{ whatBox.title }}
+    </p>
+    <ul class="whatBox_list ">
+      {% for item in whatBox.textList %}
+        <li class="whatBox_text">
+          {{ item }}
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+<div class="proSpces" id="reviews">
+  <h3 class="proSpcesTitle"><span>{{ cus_spces.title }}</span></h3>
+  <ul>
+    {% for item in cus_spces.list %}
+      <li>
+        <h3 class="title"><span>{{ item.key }}</span><i></i></h3>
+        <div class="txt">
+          <div class="txtBox">{{ item.value }}</div>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+
+<script src="https://www.youtube.com/iframe_api" type="text/javascript"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+<script src="{{ 'gsap.min.js' | asset_url }}"></script>
+<script src="{{ 'ScrollTrigger.min.js' | asset_url }}"></script>
+
+<script>
+  if (document.images) {   
+      img1 = new Image();   
+      img2 = new Image();   
+      img1.src = "  {{ beleuchtung.videoMob }}";   
+      img2.src = "{{ akkuleistung.videoMob }}";   
+  }     
+</script>
+<script>
+  
+  $(window).ready(()=>{
+    let title,duration,onlyOne = true;
+    var playerVideoSrc;
+    var timer;
+    function onPlayerReady(event) {
+      // event.target.playVideo();
+      playerVideoSrc = event.target
+    }
+    let playerVideoB
+    var done = false;
+    function onPlayerStateChange(event) {
+      if (event.data == YT.PlayerState.PLAYING && !done) {
+        done = true;
+        title = playerVideoSrc.getVideoData().title;
+        duration=playerVideoSrc.getDuration();
+       
+        // dataLayer.push({
+        //   "event": "uaEvent", 
+        //   "eventCategory": "Product Detail Page_{{product.variants[0].sku}}",
+        //   "eventAction": "watch_video",
+        //   "eventLabel": title, //取视频title
+        // })
+
+        // window.dataLayer.push({ "event_parameters": null });
+        // window.dataLayer.push({
+        //   "event": "ga4Event",
+        //   "event_name": "video_start",
+        //   "event_parameters": {
+        //     "video_title": title, 
+        //     "page_group":"Product Detail Page_{{product.variants[0].sku}}"
+        //   }
+        // })
+             
+        // window.dataLayer.push({ "event_parameters": null });
+        // window.dataLayer.push({
+        //   "event": "ga4Event",
+        //   "event_name": "video_complete",
+        //   "event_parameters": {
+        //     "video_title": title, 
+        //     "page_group":"Product Detail Page_{{product.variants[0].sku}}"
+        //   }
+        // })
+
+        // setInterval(()=>{
+        //   let percentage = (player.getCurrentTime()/duration).toFixed(2)
+        //   if (0.08<=percentage && percentage<=0.12 && onlyOne) {
+        //     onlyOne=false
+        //     window.dataLayer.push({ "event_parameters": null });
+        //     window.dataLayer.push({
+        //       "event": "ga4Event",
+        //       "event_name": "video_progress",
+        //       "event_parameters": {
+        //         "video_title": title, 
+        //         "page_group":"Product Detail Page_{{product.variants[0].sku}}",
+        //         "video_percent": percentage, //进展10%、25%、50%、75%各触发一次，注意取值是数值，不带百分号%
+        //       }
+        //     })
+        //   }
+
+        //   if(0.23<=percentage && percentage<=0.27 && !onlyOne){
+        //     onlyOne=true
+        //     window.dataLayer.push({ "event_parameters": null });
+        //     window.dataLayer.push({
+        //       "event": "ga4Event",
+        //       "event_name": "video_progress",
+        //       "event_parameters": {
+        //         "video_title": title, 
+        //         "page_group":"Product Detail Page_{{product.variants[0].sku}}",
+        //         "video_percent": percentage, //进展10%、25%、50%、75%各触发一次，注意取值是数值，不带百分号%
+        //       }
+        //     })
+        //   }
+
+        //   if(0.48<=percentage && percentage<=0.52 && onlyOne){
+        //     onlyOne=false
+        //     window.dataLayer.push({ "event_parameters": null });
+        //     window.dataLayer.push({
+        //       "event": "ga4Event",
+        //       "event_name": "video_progress",
+        //       "event_parameters": {
+        //         "video_title": title, 
+        //         "page_group":"Product Detail Page_{{product.variants[0].sku}}",
+        //         "video_percent": percentage, //进展10%、25%、50%、75%各触发一次，注意取值是数值，不带百分号%
+        //       }
+        //     })
+        //   }
+
+        //   if(0.73<=percentage && percentage<=0.77 && !onlyOne){
+        //     onlyOne=true
+        //     window.dataLayer.push({ "event_parameters": null });
+        //     window.dataLayer.push({
+        //       "event": "ga4Event",
+        //       "event_name": "video_progress",
+        //       "event_parameters": {
+        //         "video_title": title, 
+        //         "page_group":"Product Detail Page_{{product.variants[0].sku}}",
+        //         "video_percent": percentage, //进展10%、25%、50%、75%各触发一次，注意取值是数值，不带百分号%
+        //       }
+        //     })
+        //   }
+        //   // console.log((player.getCurrentTime()/duration).toFixed(2));
+        // },200)
+      }
+    }
+
+    function onYouTubeIframeAPIReady() {
+      if (YT && YT.Player) {
+        // if(playerVideoSrc){
+        // } else {
+          playerVideoSrc = new YT.Player('player', {
+            height: '360',
+            width: '640',
+            videoId: '{{ banner.youtubeId }}',
+            events: {
+              'onReady': onPlayerReady,
+              'onStateChange': onPlayerStateChange
+            }
+          });
+          clearTimeout(timer)
+          // onYouTubeIframeAPIReady()
+        } else{
+          // console.log(YT)
+        }
+        // playerVideoB=playerVideoSrc
+      // }else{
+      //   onYouTubeIframeAPIReady()
+      // }
+    }
+    function stopVideo() {
+      // $('#player').attr('src','')
+      if(playerVideoSrc) playerVideoSrc.stopVideo();
+      $('.youtube_box').hide();
+    }
+
+    let logosIndex = 0;
+    let len;
+    let logosIndexInt;
+    $('.banner').on('click',function(){
+      // onYouTubeIframeAPIReady()
+      $('.youtube_box').show()
+      playerVideoSrc.playVideo()
+    })
+    
+    $('.closeIframe').on('click',function(){
+      stopVideo();
+    })
+
+       // spces
+    $('.proSpces .txt').each((i, ele) => {
+      const h = ele.offsetHeight;
+      ele.style.maxHeight = `${h}px`;
+    });
+
+    $('.proSpces .txt').addClass('hideTxt');
+    $(document).on('click', '.proSpces .title', function() {
+      const $dom = $(this).parents('li');
+      if ($($('.txt', $dom)).hasClass('showTxt')) {
+        $($('.txt', $dom)).removeClass('showTxt');
+        $(this).removeClass('showTxt');
+        $($('.txt', $dom)).addClass('hideTxt');
+      } else {
+        $('.proSpces .title').removeClass('showTxt');
+        $('.proSpces .txt').removeClass('showTxt');
+        $('.proSpces .txt').addClass('hideTxt');
+        $($('.txt', $dom)).addClass('showTxt');
+        $(this).addClass('showTxt');
+        $($('.txt', $dom)).removeClass('hideTxt');
+      }
+    });
+
+    const slickSwiper = (el) =>{
+      $(el).slick({
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        easing: 'linear',
+        arrows:true,
+        prevArrow: '<button class="slick-prev" aria-label="Previous" type="button"><i class="iconfont">&#xe6bd;</i></button>',
+        nextArrow: '<button class="slick-next" aria-label="Next" type="button"><i class="iconfont">&#xe6bc;</i></button>',
+      });
+    }
+    slickSwiper('.reinigung_slick')
+    slickSwiper('.smartes_slick')
+
+    const playerVimeo = (el,id) =>{
+      play = new Vimeo.Player(el, {
+        id,
+        controls: false,
+        fullscreen:false,
+        frameborder:false,
+        muted:true,
+        autopause:false,
+        quality:"2k"
+      });
+      play.setVolume(0);
+      return play
+    }
+    let player = true,player1=true,player2=true,player3=true,player4=true,player5=true
+    // let player,player1,player2,player3,player4,playShow=true,playShow1=true,playShow2=true,playShow3=true,playShow4=true
+    const click=()=>{
+
+    }
+    const videoPlay = (id,el2,play,ismob,src) =>{
+      if (document.getElementById(id) && document.getElementById(id).getBoundingClientRect().top<=($(window).height()) && play ) {
+        gsap.registerPlugin(ScrollTrigger);
+        ScrollTrigger.create({
+          trigger:  `#${id}`,
+          start:ismob? 'top top+=66':'top top+=300',
+          end: `+=${$(window).height()/5}`,
+          pin: ismob,
+          scrub: ismob?false:true,
+          onEnter: () => {
+            if (ismob) {
+              $(el2).get(0).play()
+            }else{
+              $(el2).attr('src',src)
+            }
+            play=false
+          },
+          onEnterBack: () => {
+            play=true
+            if (ismob) {
+              $(el2).get(0).play()
+            }else{
+              $(el2).attr('src',src)
+            }
+          }
+        })
+      }
+      return play
+    }
+
+    // videoPlay('videoPc_saugkraft')
+    // let isLoading = true
+    const onScrollLoading =()=>{
+      if ($(window).width()>768) {
+        player2 = videoPlay('smartes','#videoPc_smartes',player2,true)
+        player = videoPlay('saugkraft','#videoPc_saugkraft',player,true)
+        player3 = videoPlay('akkuleistung','#videoPc',player3,true)
+        if(document.getElementById('reisebeutel_box') && document.getElementById('reisebeutel_box').getBoundingClientRect().top<=($(window).height()) && player5){
+          gsap.registerPlugin(ScrollTrigger);
+          var tl = gsap.timeline({
+            scrollTrigger: {
+              trigger: ".reisebeutel_box",
+              start: `top top+=66`,
+              end: `+=${$(window).height()*1.5}`,
+              // markers: true,
+              pin: true,
+              scrub: true
+            },
+          });
+          tl.to(".reisebeutel", { transform:'translateY(-100%)' })
+          player5 = false
+          }
+      }else{
+        player1 = videoPlay('saugkraft','#videoMob_saugkraf_1',player1,false,'{{ beleuchtung.videoMob }}')
+        player4 = videoPlay('akkuleistung','#videoMob_1',player4,false,"{{ akkuleistung.videoMob }}")
+      }
+    //   playShow = videoPlay('videoPc_saugkraft',playShow)
+    //   playShow1 = videoPlay('videoMob_saugkraft',playShow1)
+    //   playShow2 = videoPlay('videoPc_smartes',playShow2)
+    //   playShow3 = videoPlay('videoPc',playShow3)
+      // playShow4 = videoPlay('videoMob')
+    }
+    window.addEventListener('scroll', Shopify.contentCreator.util.throttle(onScrollLoading, 200));
+    timer = setTimeout(function() {
+      onYouTubeIframeAPIReady()
+    }, 500)
+  })
+</script>

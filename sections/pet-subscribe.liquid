@@ -1,0 +1,331 @@
+{% assign id = section.id %}
+
+{% style %}
+  #shopify-section-{{ id }} .pet-subscrbe {
+    position: relative;
+  }
+  #shopify-section-{{ id }} .section-txt {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 50%;
+    height: 100%;
+    z-index: 1;
+    padding-left: 5vw;
+    padding-top: 6vw;
+    padding-right: 18vw;
+  }
+  #shopify-section-{{ id }} h3 {
+    font-size: 2.08vw;
+    color: #333;
+    line-height: 1.2;
+  }
+  #shopify-section-{{ id }} .list {
+    display: flex;
+    text-align: center;
+    margin-top: 2vw;
+  }
+  #shopify-section-{{ id }} .list li {
+    padding: 0 1.8vw;
+  }
+  #shopify-section-{{ id }} .list li img {
+    height: 4.4vw;
+  }
+  #shopify-section-{{ id }} .list li p {
+    font-size: 0.78vw;
+    color: #333;
+  }
+  #shopify-section-{{ id }} .subscribe {
+    margin-top: 2.3vw;
+  }
+  #shopify-section-{{ id }} .subscribe .input-control {
+    position: relative;
+    width: 25.36vw;
+  }
+  #shopify-section-{{ id }} .subscribe .icon-email {
+    position: absolute;
+    left: 0.9vw;
+    top: 50%;
+    transform: translate(0, -50%);
+    width: 1.5vw;
+    height: 1.5vw;
+  }
+  #shopify-section-{{ id }} .subscribe .input-text {
+    width: 100%;
+    height: 2.6vw;
+    border-radius: 50px;
+    border: none;
+    padding-left: 3vw;
+    padding-right: 8.8vw;
+    font-size: 1vw;
+  }
+  #shopify-section-{{ id }} .subscribe-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 8.8vw;
+    height: 2.6vw;
+    line-height: 2.6vw;
+    text-align: center;
+    font-size: 1vw;
+    color: #fff;
+    background: #ffa06a;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+  }
+  #shopify-section-{{ id }} .subscribe-btn[disabled] {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+  #shopify-section-{{ id }} .agreement {
+    margin-top: 1.5vw;
+    font-size: 0.78vw;
+    color: #666;
+  }
+  #shopify-section-{{ id }} .agreement li {
+    margin-bottom: 10px;
+  }
+  #shopify-section-{{ id }} .agreement input[type='checkbox'] {
+    border-radius: 4px;
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+  #shopify-section-{{ id }} .agreement a {
+    color: #666;
+    text-decoration: underline;
+  }
+  #shopify-section-{{ id }} .tip {
+    display: none;
+    padding: 3px 5px;
+    margin-bottom: 1rem;
+    background: #f2893b;
+    color: #fff;
+    font-size: 14px;
+  }
+  @media screen and (max-width: 797px) {
+    #shopify-section-{{ id }} .pet-subscrbe {
+      background-color: #f0ebe2;
+    }
+    #shopify-section-{{ id }} .section-txt {
+      left: 0;
+      width: 100%;
+      padding: 8vw 16vw 0;
+    }
+    #shopify-section-{{ id }} h3 {
+      font-size: 5.3vw;
+      text-align: center;
+    }
+    #shopify-section-{{ id }} .list {
+      margin-top: 6.6vw;
+      justify-content: space-between;
+    }
+    #shopify-section-{{ id }} .list li {
+      padding: 0 3.6vw;
+      padding: 0;
+    }
+    #shopify-section-{{ id }} .list li img {
+      height: 22.6vw;
+    }
+    #shopify-section-{{ id }} .list li p {
+      font-size: 2.6vw;
+    }
+    #shopify-section-{{ id }} .subscribe {
+      margin-top: 7.3vw;
+    }
+    #shopify-section-{{ id }} .subscribe .input-control {
+      width: 100%;
+      margin: 0 auto;
+    }
+    #shopify-section-{{ id }} .subscribe .input-text {
+      width: 100%;
+      height: 36px;
+      padding-left: 9vw;
+      padding-right: 25vw;
+      font-size: 10px;
+    }
+    #shopify-section-{{ id }} .subscribe-btn {
+      width: 25vw;
+      height: 36px;
+      line-height: 36px;
+      font-size: 12px;
+    }
+    #shopify-section-{{ id }} .agreement {
+      font-size: 2.1vw;
+      margin-top: 4vw;
+    }
+    #shopify-section-{{ id }} .subscribe .icon-email {
+      width: 4vw;
+      height: 4vw;
+      left: 3vw;
+    }
+    #shopify-section-{{ id }} .tip {
+      font-size: 10px;
+    }
+  }
+{% endstyle %}
+
+<section class="pet-subscrbe">
+  <div class="section-txt">
+    <h3>{{ section.settings.title }}</h3>
+    <ul class="list">
+      {% for block in section.blocks %}
+        <li>
+          <div class="img-wrap">
+            <img class="lazyload" data-src="{{ block.settings.img | image_url }}" />
+          </div>
+          <p>{{ block.settings.text }}
+        </li>
+      {% endfor %}
+    </ul>
+    <div class="subscribe">
+      <div class="input-control">
+        {% render 'icon', name: 'email', icon_class: 'icon-email' %}
+        <input class="input-text email" type="text" placeholder="Email">
+        <button type="submit" class="subscribe-btn">{{ section.settings.btn }}</button>
+      </div>
+      <ul class="agreement">
+        {{ section.settings.policy }}
+      </ul>
+      <div class="tip"></div>
+    </div>
+  </div>
+  {% render 'image-element', image: section.settings.background, additional_classes: "is-hidden-mobile-only" %}
+  {% render 'image-element', image: section.settings.background_mob, additional_classes: "is-hidden-desktop-only" %}
+</section>
+
+<script>
+  $(function() {
+
+    let timeout;
+    function showError(msg) {
+      $(".tip").text(msg).fadeIn();
+      clearTimeout(timeout);
+      timeout = setTimeout(function() {
+        $(".tip").fadeOut();
+      }, 3000);
+    }
+
+    $("button[type='submit']").on("click", function() {
+      let flag = true;
+      $(".agreement").find("input[type='checkbox']").each((i, item) => {
+        let checked = $(item).prop("checked");
+        if (!checked) {
+          flag = false;
+        }
+      });
+      if (!flag) {
+        showError("{{ section.settings.uncheck_tip }}");
+        return;
+      }
+      const email = $(".subscribe .email").val();
+      if (!email) {
+        showError("{{ section.settings.input_email_tip }}")
+        return;
+      }
+      var reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      if (!reg.test(email)) {
+        showError("{{ section.settings.check_email_tip }}")
+        return;
+      }
+      $("button[type='submit']").prop("disabled", true);
+      const data = {
+        email,
+        brand: 'eufy',
+      };
+      Shopify.contentCreator.pastApi.subscribe_emails({
+        params: data,
+        fn: (body) => {
+          showError("{{ section.settings.success_tip }}");
+          $(".subscribe .email").val("");
+          $(".agreement").find("input[type='checkbox']").each((i, item) => {
+            $(item).prop("checked", false);
+          });
+          $("button[type='submit']").prop("disabled", false);
+        },
+        error: (err) => {
+          const { responseJSON } = err || {};
+          if (responseJSON) {
+           showError(responseJSON.error || responseJSON.err); 
+          }
+          $("button[type='submit']").prop("disabled", false);
+        }
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "pet subscribe",
+  "presets": [{
+    "name": "pet subscribe"
+  }],
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "title"
+    },
+    {
+      "type": "image_picker",
+      "id": "background",
+      "label": "background"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_mob",
+      "label": "background mobile"
+    },
+    {
+      "type": "text",
+      "id": "btn",
+      "label": "button text"
+    },
+    {
+      "type": "html",
+      "id": "policy",
+      "label": "Terms and Policy",
+      "default": "<li><input type='checkbox' />I have read the <a target='_bloank' href='#'>Contest Rules</a>. *</li><li><input type='checkbox' /> I'm 18-years-old or older. *</li>"
+    },
+    {
+      "type": "text",
+      "id": "uncheck_tip",
+      "label": "uncheck checkbox tip"
+    },
+    {
+      "type": "text",
+      "id": "input_email_tip",
+      "label": "empty email tip"
+    },
+    {
+      "type": "text",
+      "id": "check_email_tip",
+      "label": "error email tip"
+    },
+    {
+      "type": "text",
+      "id": "success_tip",
+      "label": "success signup tip"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image_text",
+      "name": "media_text",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "img",
+          "label": "img"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "text"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

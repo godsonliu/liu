@@ -1,0 +1,221 @@
+{% if product.metafields.global.nav_list.value %}
+  {% assign nav_list = product.metafields.global.nav_list.value %}
+{% else %}
+  {% assign nav_list = section.settings.nav_list %}
+{% endif %}
+{% assign variant = product.selected_or_first_available_variant %}
+
+{% assign nav = nav_list | split: "," %}
+
+<link rel="stylesheet" href="{{ 'listing_top_bar.scss.css' | asset_url }}">
+
+<section class="v2_top_bar_section">
+    <div class="v2_top_bar_box">
+        <p class="top_bar_title">{{ product.title }}</p>
+        <nav class="top_bar_page_nav">
+            {% for item in nav %}
+                {% assign arr = item | split: ":" %}
+                {% assign lable = arr | reverse %}
+                <a class="tb_page_nav_item" >{{ lable.first }}</a>
+            {% endfor %}
+        </nav>
+    </div>
+</section>
+
+<script>
+
+$(function() {
+    let navlist = "{{ nav_list }}"
+    let w = $(window).width()
+    let pageNavH = w > 768 ? $('.v2_top_bar_box').height() : 0
+    let scrollPoint = []
+    let siteNavH = 0
+    let isNavClick = true
+    let offset = 100
+    let index
+    let scrollAction = {
+        x: 'undefined', 
+        y: 'undefined'
+    }
+
+    init()
+
+    function init() {
+        dataInit()
+        event()
+        resize()
+        scroll()
+    }
+
+    function dataInit() {
+        const arr = navlist.split(',')
+
+        arr.map(item => {
+            let target = item.split(':')
+            scrollPoint.push(target[0])
+        })
+    }
+
+    function getScrollOffset() {
+        let arr = []
+        
+        scrollPoint.map(item => {
+            arr.push($(`#${item}`)[0] && $(`#${item}`)[0].offsetTop - offset)
+        })
+
+        arr[0] = 0
+
+        return arr
+    }
+
+    function event() {
+        $('.tb_page_nav_item').eq(0).addClass('active')
+
+        $('.tb_page_nav_item').on('click', function() {
+            const idx = $(this).index()
+            const arr = getScrollOffset()
+           
+            isNavClick = false
+            index = idx
+            $(this).addClass('active').siblings().removeClass('active')
+            $('html,body').animate({
+                scrollTop: arr[idx]
+            }, 500, 'swing', function () {
+                // isNavClick = true
+            })
+
+            mbNavScorll(idx)
+  
+            dataLayer.push({
+                "event": "uaEvent",
+                "eventCategory": 'anchor_navi',
+                "eventAction": $(this).text(),
+                "eventLabel": "{{ variant.sku }}",
+                "eventValue": "undefined"
+            })
+
+            window.dataLayer.push({ "event_parameters": null });
+            window.dataLayer.push({
+            "event": "ga4Event",
+            "event_name": "switch_tab",
+            "event_parameters": {
+                "page_group": "Product Detail Page_{{ variant.sku }}",
+                "info": $(this).text() //读取tab文本
+            }
+            });
+        })
+    }
+
+    function navAct(idx) {
+        $('.tb_page_nav_item').eq(idx).addClass('active').siblings().removeClass('active')
+        mbNavScorll(idx)
+    }
+
+    function mbNavScorll(idx) {
+        const offset = idx >= 2 ? 200 : 0
+
+        if(w <= 768) {
+            $('.v2_top_bar_box').scrollLeft(offset)
+        }
+    }
+
+    function resize() {
+        window.addEventListener('resize', function() {
+            w = $(window).width()
+            pageNavH = w > 768 ? $('.v2_top_bar_box').height() : 0
+            siteNavH = w > 768 ? $('#header').height() : $('.mobile-header').height() 
+            
+            $('.v2_top_bar_section').height(pageNavH)
+        })
+    }
+
+    function scroll() {
+        const offsetTop = $('.v2_top_bar_section')[0].offsetTop
+        let timer
+        let flag = false
+
+        w = $(window).width()
+        siteNavH = w > 768 ? $('#header').height() : $('.mobile-header').height() 
+
+        $('.v2_top_bar_section').height(pageNavH)
+
+        document.addEventListener('scroll', function() {
+            const scrollTop = $(window).scrollTop()
+            const stArr = getScrollOffset()
+            siteNavH = w > 768 ? $('#header').height() : $('.mobile-header').height() 
+            timer && clearTimeout(timer) 
+            if(scrollTop > offsetTop) {
+                $('.v2_top_bar_box').addClass('fixed')
+                if(getScrollDir() === 'up') {
+                    $('.v2_top_bar_box').css('transform', 'translateY('+ siteNavH +'px)')
+                    if(!flag) timer = setTimeout(() => {
+                        $('.v2_top_bar_section').css('z-index', '10')
+                        flag = true
+                    }, 300)
+                }else {
+                    $('.v2_top_bar_box').css('transform', 'none').parents('.v2_top_bar_section').css('z-index', '50')
+                    flag = false
+                }
+            } else {
+                $('.v2_top_bar_box').removeClass('fixed').css('transform', 'none').parents('.v2_top_bar_section').css('z-index', '10')
+            }
+
+            if (scrollTop>=stArr[index]) {
+              isNavClick = true
+            }
+            if(isNavClick) {
+                if(scrollTop >= stArr[0] && scrollTop < stArr[1]) {
+                    navAct(0)
+                } else if (scrollTop >= stArr[1] && scrollTop < stArr[2]) {
+                    navAct(1)
+                } else if (scrollTop >= stArr[2] && scrollTop < stArr[3]) {
+                    navAct(2)
+                } else if (scrollTop >= stArr[3] || (stArr[4] && scrollTop < stArr[4])) {
+                    navAct(3)
+                } else if (scrollTop >= stArr[4]) {
+                    navAct(4)
+                }
+            }
+        })
+    }
+
+    function getScrollDir() {
+        let dir = ''
+
+        if (typeof scrollAction.x == 'undefined') {
+            scrollAction.y = window.pageYOffset
+        }
+
+        const diffY = scrollAction.y - window.pageYOffset
+
+        if (diffY < 0) {
+            dir = 'down'
+        } else if (diffY > 0) {
+            dir = 'up'
+        }
+
+        scrollAction.y = window.pageYOffset
+
+        return dir
+    }
+})
+</script>
+
+
+{% schema %}
+{
+  "name": "listing2.0_top_bar",
+  "presets": [
+    {
+      "name": "listing2.0_top_bar"
+    }
+  ],
+  "settings": [{
+    "type": "textarea",
+    "id": "nav_list",
+    "label": "页内导航设置",
+    "default": "purchase:Purchase,overview:Overview,compare:Compare,faqs:Faqs,reviews:Reviews",
+    "info": "格式moudule:name表示模块名称:展示名称，例如purchase:Purchase表示跳转模块名称为purchase，页面导航展示展示名称为Purchase"
+  }]
+}
+{% endschema %}

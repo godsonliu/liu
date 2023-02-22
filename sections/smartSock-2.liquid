@@ -1,0 +1,143 @@
+<section class="smartSock-2" id="{{section.settings.id}}">
+  <div class="main-container">
+    <div class="title">
+      <h2>{{ section.settings.title }}</h2>
+      <p>{{ section.settings.subtitle }}</p>
+    </div>
+    <div class="img-layer">
+      <div class="data-layer">
+        <img class="lazyload p1" data-src="{{section.settings.p1 | image_url}}">
+        <img class="lazyload p2" data-src="{{section.settings.p2 | image_url}}">
+        <img class="lazyload p3" data-src="{{section.settings.p3 | image_url}}">
+        <img class="lazyload p4" data-src="{{section.settings.p4 | image_url}}">
+      </div>
+      <img class="lazyload p5" data-src="{{section.settings.p5 | image_url}}">
+      <img class="lazyload p6" data-src="{{section.settings.p6 | image_url}}">
+    </div>
+  </div>
+</section>
+
+<script>
+  $(function() {
+    ScrollTrigger.create({
+      trigger: ".smartSock-2",
+      start: "top center",
+      toggleClass: "active",
+      {% comment %} onUpdate: function(self) {
+        if ($(window).width() > 768) {
+          gsap.to(".p1", {
+            x: self.progress * -60 + Math.random() * 10,
+            duration: 1
+          });
+          gsap.to(".p3", {
+            x: self.progress * -60 + Math.random() * 10,
+            duration: 1
+          });
+          gsap.to(".p2", {
+            x: self.progress * 60 + Math.random() * 10,
+            duration: 1
+          });
+          gsap.to(".p4", {
+            x: self.progress * 60 + Math.random() * 10,
+            duration: 1
+          });
+        }
+      } {% endcomment %}
+    });
+    {% comment %} var tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: ".smartSock-2",
+        start: "top top+=400",
+        end: "+=400",
+        scrub: true
+      }
+    });
+    tl.from(".smartSock-2 .title h2", {
+      opacity: 0,
+      y: 20
+    }).from(".smartSock-2 .title p", {
+      opacity: 0,
+      y: 20
+    });
+
+    tl.to(".smartSock-2 .p1", {
+      opacity: 1
+    }, "<").to(".smartSock-2 .p2", {
+      opacity: 1
+    }, "<").to(".smartSock-2 .p3", {
+      opacity: 1
+    }, "<").to(".smartSock-2 .p4", {
+      opacity: 1
+    }, "<");
+
+    tl.to(".smartSock-2 .p1", {
+      y: 30
+    }).to(".smartSock-2 .p2", {
+      y: -20
+    }, "<").to(".smartSock-2 .p3", {
+      y: 20
+    }, "<").to(".smartSock-2 .p4", {
+      y: -30
+    }, "<"); {% endcomment %}
+  });  
+</script>
+
+{% schema %}
+{
+  "name": "Smart Sock P2",
+  "presets": [
+    {
+      "name": "Smart Sock P2"
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "id",
+      "label": "模块id"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "标题",
+      "default": "Sleep Analysis and Reports"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "副标题",
+      "default": "The eufy Baby app provides a daily report for you to better understand your baby's sleep patterns—no subscription fee needed."
+    },
+    {
+      "type": "image_picker",
+      "id": "p1",
+      "label": "水平柱图"
+    },
+    {
+      "type": "image_picker",
+      "id": "p2",
+      "label": "垂直柱图"
+    },
+    {
+      "type": "image_picker",
+      "id": "p3",
+      "label": "心跳率图"
+    },
+    {
+      "type": "image_picker",
+      "id": "p4",
+      "label": "睡眠时间图"
+    },
+    {
+      "type": "image_picker",
+      "id": "p5",
+      "label": "手机图"
+    },
+    {
+      "type": "image_picker",
+      "id": "p6",
+      "label": "产品图"
+    }
+  ]
+}
+{% endschema %}

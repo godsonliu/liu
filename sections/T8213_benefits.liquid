@@ -1,0 +1,52 @@
+{% assign lang = page.metafields.global %}
+
+{% if lang.benefits.value %}
+  {% assign benefits = lang.benefits.value %}
+{% else %}
+  {% assign benefits = lang.benefits %}
+{% endif %}
+
+{% assign lang = product.metafields.global %}
+
+
+
+{%- if template contains 'page' -%}
+{%- else %}
+{% endif %}
+{% assign list = benefits.list %}
+
+<div class="t8213_benefits" id="benefits">
+  <div class="banner_benefits">
+    <div class="benefits_head">{{ benefits.benefits_head }}</div>
+    <div class="benefits_text">{{ benefits.benefits_text }}</div>
+    {% if list.size == 3 %}
+      <div class="icon_all_3">
+        {% for o in list %}
+          <div class="icon_content">
+            <div class="icon_img">
+              <img class="lazyload" data-src="{{ o.icon_img }}" alt="">
+            </div>
+            <div class="icon_text">
+              <div class="icon_p1">{{ o.icon_p1 }}</div>
+              <div class="icon_p2">{{ o.icon_p2 }}</div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="icon_all">
+        {% for o in list %}
+          <div class="icon_content">
+            <div class="icon_img">
+              <img class="lazyload" data-src="{{ o.icon_img }}" alt="">
+            </div>
+            <div class="icon_text">
+              <div class="icon_p1">{{ o.icon_p1 }}</div>
+              <div class="icon_p2">{{ o.icon_p2 }}</div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</div>

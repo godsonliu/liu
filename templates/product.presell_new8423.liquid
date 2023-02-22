@@ -1,0 +1,375 @@
+
+{% assign lang = product.metafields.global %}
+
+{% if lang.presellSku.value %}
+  {% assign presellSku = lang.presellSku.value %}
+{% else %}
+  {% assign presellSku = lang.presellSku %}
+{% endif %}
+
+{% if lang.newMobileStyleFlag.value %}
+  {% assign newMobileStyleFlag = lang.newMobileStyleFlag.value %}
+{% else %}
+  {% assign newMobileStyleFlag = lang.newMobileStyleFlag %}
+{% endif %}
+
+{% if lang.customBar.value %}
+  {% assign customBar = lang.customBar.value %}
+{% else %}
+  {% assign customBar = lang.customBar %}
+{% endif %}
+
+{% if lang.newKlarnaFlag.value %}
+  {% assign newKlarnaFlag = lang.newKlarnaFlag.value %}
+{% else %}
+  {% assign newKlarnaFlag = lang.newKlarnaFlag %}
+{% endif %}
+
+{% if product.metafields.global.layout.value %}
+  {% assign layout = product.metafields.global.layout.value %}
+{% else %}
+  {% assign layout = product.metafields.global.layout %}
+{% endif %}
+
+{% if shop.metafields['reviews']['yotpo'].value %}
+  {% assign yotpo = shop.metafields['reviews']['yotpo'].value %}
+{% else %}
+  {% assign yotpo = shop.metafields['reviews']['yotpo'] %}
+{% endif %}
+
+{% if variant.metafields['global']['hide_reviews'].value %}
+  {% assign hide_reviews = variant.metafields['global']['hide_reviews'].value %}
+{% else %}
+  {% assign hide_reviews = variant.metafields['global']['hide_reviews'] %}
+{% endif %}
+
+{% if product.metafields['global']['newMobileStyleFlag'].value %}
+  {% assign newMobileStyleFlag = product.metafields['global']['newMobileStyleFlag'].value %}
+{% else %}
+  {% assign newMobileStyleFlag = product.metafields['global']['newMobileStyleFlag'] %}
+{% endif %}
+
+<script src="{{ 'gsap.min.js' | asset_url }}"></script>
+<script src="{{ 'ScrollTrigger.min.js' | asset_url }}"></script>
+
+{{ 'page-presell_new8423.scss.css' | asset_url | stylesheet_tag }}
+
+{% comment %}
+  Defaults to /sections/product-template.liquid, but default can be changed in Theme Settings > Layout > Product page default template
+{% endcomment %}
+
+{% comment %}
+{%- if template.name == 'product' -%}
+{{ 'product-anker.scss.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'product-anker.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+{% endcomment %}
+{% assign new_t8423_Flag = lang.new_t8423Listing.flag %}
+{% if newMobileStyleFlag == 'true' %}
+  {{ 't8423_mobileExtra.scss.css' | asset_url | stylesheet_tag }}
+{% endif %}
+{% comment %} <div class="sign_up_bar presell_bar">
+  <div class="wrap">
+    <a id="go_sign_up" href="#goBuyNow">{{ presellSku.btnTips }}</a>
+  </div>
+</div> {% endcomment %}
+
+
+
+
+{% if settings.product_layout == 'sections' %}
+{% comment %} Product - sections {% endcomment %}
+  <div id="template-{{ template | replace: '.', '-' | handle }}" class="shopify-section product-page special_8423">
+    <section id="goBuyNow" class="section__wrapper
+                    section
+                    is-width-wide
+                    ">
+      <div class="container TradeIn">
+
+        <div class="section is-width-standard">
+
+          <div class="one-whole column breadcrumb__container is-flex is-justify-space-between is-flex-column-reverse-mobile is-align-center has-padding-bottom">
+
+            <div class="breadcrumb__wrapper">
+              {% render 'breadcrumb', context: 'product' %}
+            </div>
+
+            {% comment %} {% if collection.previous_product or collection.next_product %}
+              <div class="page-navigation-arrows has-padding-top has-padding-bottom is-{{ settings.breadcrumb_capitalization }}">
+                {% if collection.previous_product %}
+                  <a href="{{ collection.previous_product }}" title="{{ 'products.general.previous_product_html' | t }}" class="page-navigation__next">
+                    {{ 'products.general.previous_product_html' | t }}
+                  </a>
+                {% endif %}
+                {% if collection.previous_product and collection.next_product %}
+                  <span class="page-navigation__divider"> | </span>
+                {% endif %}
+                {% if collection.next_product %}
+                  <a href="{{collection.next_product}}" title="{{ 'products.general.next_product_html' | t }}" class="page-navigation__next">
+                    {{ 'products.general.next_product_html' | t }}
+                  </a>
+                {% endif %}
+              </div>
+            {% endif %} {% endcomment %}
+
+          </div>
+
+        </div>
+      </div>
+
+      <div class="container">
+        {% section 'product__sidebar' %}
+        {% section 'product-sections__main' %}
+        {% comment %} {% section 'product__recommendations' %} {% endcomment %}
+      </div>
+
+    </section>
+  </div>
+{% elsif settings.product_layout == 'image_scroll' %}
+{% comment %} Product - image scroll {% endcomment %}
+  <div id="template-{{ template | replace: '.', '-' | handle }}" class="shopify-section product-page">
+    <section class="section
+                    is-width-wide
+                    has-padding-top
+                    ">
+      <div class="container has-padding-left has-padding-right">
+        <div class="one-whole column breadcrumb__container is-flex is-justify-space-between is-flex-column-reverse-mobile is-align-center">
+
+          <div class="breadcrumb__wrapper">
+            {% render 'breadcrumb', context: 'product' %}
+          </div>
+
+          {% comment %} {% if collection.previous_product or collection.next_product %}
+            <div class="page-navigation-arrows has-padding-top has-padding-bottom is-{{ settings.breadcrumb_capitalization }}">
+              {% if collection.previous_product %}
+                <a href="{{ collection.previous_product }}" title="{{ 'products.general.previous_product_html' | t }}" class="page-navigation__next">
+                  {{ 'products.general.previous_product_html' | t }}
+                </a>
+              {% endif %}
+              {% if collection.previous_product and collection.next_product %}
+                <span class="page-navigation__divider"> | </span>
+              {% endif %}
+              {% if collection.next_product %}
+                <a href="{{collection.next_product}}" title="{{ 'products.general.next_product_html' | t }}" class="page-navigation__next">
+                  {{ 'products.general.next_product_html' | t }}
+                </a>
+              {% endif %}
+            </div>
+          {% endif %} {% endcomment %}
+
+        </div>
+      </div>
+      <div class="container">
+        {% section 'product-image-scroll__main' %}
+        {% comment %} {% section 'product__recommendations' %} {% endcomment %}
+      </div>
+    </section>
+  </div>
+{% else %}
+{% comment %} Product - classic (default) {% endcomment %}
+  <div id="template-{{ template | replace: '.', '-' | handle }}" class="shopify-section product-page section__wrapper">
+    {% comment %} Breadcrumbs and navigation {% endcomment %}
+    <section id="goBuyNow" class="section
+                    is-width-standard
+                    has-padding-top
+                    has-padding-bottom
+                    ">
+      <div class="container">
+        <div class="one-whole column is-flex is-justify-space-between is-flex-column-reverse-mobile is-align-center">
+
+          <div class="breadcrumb__container">
+            {% render 'breadcrumb', context: 'product' %}
+          </div>
+        {% comment %} {% if collection.previous_product or collection.next_product %}
+            <div class="page-navigation-arrows has-padding-top has-padding-bottom is-{{ settings.breadcrumb_capitalization }}">
+              {% if collection.previous_product %}
+                <a href="{{ collection.previous_product }}" title="{{ 'products.general.previous_product_html' | t }}" class="page-navigation__next">
+                  {{ 'products.general.previous_product_html' | t }}
+                </a>
+              {% endif %}
+              {% if collection.previous_product and collection.next_product %}
+                <span class="page-navigation__divider"> | </span>
+              {% endif %}
+              {% if collection.next_product %}
+                <a href="{{collection.next_product}}" title="{{ 'products.general.next_product_html' | t }}" class="page-navigation__next">
+                  {{ 'products.general.next_product_html' | t }}
+                </a>
+              {% endif %}
+            </div>
+          {% endif %} {% endcomment %}
+
+        </div>
+      </div>
+    </section>
+
+    {% comment %} Product wrapper {% endcomment %}
+    <section class="section
+                    section--has-sidebar-option">
+      <div class="container TradeIn">
+        {% section 'product__sidebar' %}
+        {% if newMobileStyleFlag == 'true' %}
+          <div class="mob_show"> 
+            <div class="customBar">
+              <div class="flex">
+                <div class="name">{{ product.title }}</div>
+              </div>
+              <div class="buy-now phone-show">
+                <button class="product-buy-now" id='newCart'>{{customBar.add_to_cart}}</button>
+              </div>
+            </div>
+            <div>
+              {% section 'product__8423_mobile' %}
+            </div>
+          </div>
+          <div class="pc_show">
+            {% section 'product__main' %} 
+          </div>
+        {% else %}
+          {% section 'product__main' %} 
+        {% endif %}
+        {% comment %} {% section 'product__recommendations' %} {% endcomment %}
+      </div>
+      
+    </section>
+    {% section 'product-meta-video' %}
+    {% if new_t8423_Flag == 'true' %}
+      {% section 't8423_listing' %}
+    {%else%}
+      {% section 'presell_0628' %}
+    {% endif %}
+   
+  </div>
+{% endif %}
+
+{% comment %}
+- product.sell_point => shopify 后台的富文本
+- product.description => subtitle
+  - valueType: "STRING", description: ""
+- product.content => highlights
+  - valueType: "STRING", description: "{"type":"HTML"}"
+- product.faqs => faqs
+  - valueType: "JSON_STRING", description: "{"type":"JSON_STRING"}"
+- product.product_properties => specs
+  - valueType: "JSON_STRING", description: "{"type":"JSON_STRING"}"
+- product.accessories => downloads
+  - valueType: "JSON_STRING", description: "{"type":"JSON_STRING"}"
+  - 保留字段: title, type, uploaded_at, size, file_name, description
+  - 合并字段: download_url || url => url
+- product.compare
+  - title => layout: {"compare": { "title": product.compare.title }}
+  - compare => 
+    var temp1 = __data.variants.product.compare;
+    var json = temp1.nav.map((o, i) => {
+      var obj = { [temp1.sub_title]: o }
+      temp1.content.map(c => {
+        obj[c.title] = c.info[i]
+      })
+      return obj
+    })
+{% endcomment %}
+
+{% comment %} product.metafields.global.subtitle # snippets/product-info.liquid {% endcomment %}
+
+{% assign sorting = "highlights|reviews|compare|faqs|specs|downloads" | split: '|' %}
+{% assign variant = product.selected_or_first_available_variant %}
+{% if layout.sort != blank %}
+  {% assign sorting = layout.sort | split: '|' %}
+{% endif %}
+{% for key in sorting %}
+  {% case key %}
+   {% when 'highlights' %}
+      {% comment %} product.metafields.global.highlights {% endcomment %}
+      {% section 'product-meta-highlights' %}
+    {% when 'reviews' %} 
+      {% section 'product-meta-reviews' %}
+    {% when 'compare' %}
+      {% comment %} product.metafields.global.compare {% endcomment %}
+      {% section 'product-meta-compare' %}
+    {% when 'faqs' %}
+      {% comment %} product.metafields.global.faqs {% endcomment %}
+      {% section 'product-meta-faqs' %}
+    {% when 'specs' %}
+      {% comment %} product.metafields.global.specs {% endcomment %}
+      {% section 'product-meta-specs' %}
+    {% when 'downloads' %}
+      {% comment %} product.metafields.global.downloads {% endcomment %}
+      {% section 'product-meta-downloads' %}
+  {% endcase %}
+{% endfor %}
+
+<div class="container">
+  {% section 'product__recommendations' %}
+</div>
+
+
+{%- if yotpo and yotpo.show_yotpo_reviews == 'true' and hide_reviews != 'true' -%}
+  <div class="yotpoReviews wrap" id="yotpoReviews_anchor_point"> 
+    <div class="yotpo yotpo-main-widget" data-product-id="{{ product.id }}" data-name="{{ product.title | escape }}" data-url="{{ shop.url }}{{ product.url }}" data-image-url="{{ product.featured_image | product_img_url: "large" |replace: '?', '%3F' | replace: '&','%26'}}" data-description="{{ product.description | escape }}"></div>
+  </div>
+{% endif %}
+
+
+
+<script>
+  $(document).ready(function(){
+    referralTrack('products', '{{ product.handle }}', 'page');
+    // let scrollAction = { x: 'undefined', y: 'undefined' }, scrollDirection;
+    // let offset = 0
+    // if (typeof Shopify.theme.jsAnnouncementBar !== 'undefined' && Shopify.theme.jsAnnouncementBar.enable_sticky) {
+    //   offset = Shopify.theme.jsAnnouncementBar.getAnnouncementHeight()
+    // }
+    function onScrollMenu() {
+      // const showMenu = $('.mobile-menu__toggle-button').attr('data-show-mobile-menu')
+      // if (showMenu == 'true') return
+      let s = document.documentElement.scrollTop || document.body.scrollTop;
+      //scrollFunc();
+      // let $shopify = $('#shopify-section-announcement-bar');
+      // let barHeight = $shopify.height()
+      if(s<=117){
+        $('.customBar').css('top','-100px');
+      }else{
+        $('.customBar').css('top','0px');
+      } 
+    }
+
+    let flag = `{{ newMobileStyleFlag }}` == 'true'
+    if ($(window).width() < 768 && flag ) {
+      //$('#goBuyNow').hide();
+      $('.modal_price').addClass('mobile_8423_special_noBlank');
+      $('.product__information').addClass('mobile_8423_special_addPadding');
+      $('.money').addClass('mobile_8423_special_price');
+      $('.product_name').addClass('mobile_8423_special_size');
+      $('#shopify-section-header__icon-bar').addClass('notFiexd');
+      $('#header').addClass('notFiexd');
+      $('.has-quantity-box').addClass('mobile_8423_special_position')
+      $('#mobile-header').addClass('notFiexd');
+      $('.brandButtonText').addClass('mobile_8423_special_width_half');
+      $('.purchase-details__buttons').addClass('mobile_8423_special_purchase-details__buttons');
+      $('.shopify-payment-button').addClass('mobile_8423_special_width_half').addClass('mobile_8423_special_noBorder ');
+      $('.notify-btn').addClass('mobile_8423_special_notice');
+      $('.product-quantity-box').addClass('mobile_8423_special_addQty');
+      $('.purchase-details__buttons').addClass('mobile_8423_special_top');
+      if('{{newKlarnaFlag}}'=='true'){
+        $('.klarna').addClass('mobile_8423_special_klarna_new');
+      }else{
+        $('.klarna').addClass('mobile_8423_special_klarna');
+      }
+      //$('.flickity-button').hide();
+      window.addEventListener('scroll', Shopify.contentCreator.util.throttle(onScrollMenu, 200));
+    }
+  })
+
+</script>
+<script>
+  $('#newCart').click(e => {
+    e.preventDefault();
+    let variantsArr = [];
+    let obj = JSON.parse('{{ product.variants[0] | json }}');
+
+    Shopify.theme.addItemsToCart([{  quantity: Number($(".purchase-details input").val()), id: obj.id }], {
+      onSuccess: () => {},
+      onError: err => $.dialog({ title: err.message, content: err.description, type: 'red' }),
+      onDone: () => {},
+    })
+  })
+</script>

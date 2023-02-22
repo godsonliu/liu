@@ -1,0 +1,55 @@
+<style>
+</style>
+
+<section class="smartSock-review">
+  {% render 'image-element', 
+    image: section.settings.background,
+    alt: section.settings.background.alt,
+    additional_classes: "pc-show"
+  %}
+  {% render 'image-element', 
+    image: section.settings.background_mob,
+    alt: section.settings.background_mob.alt,
+    additional_classes: "mob-show"
+  %}
+  <div class="text">
+    <h5>{{ section.settings.title }}</h5>
+    <p>{{ section.settings.content }}</p>
+  </div>
+</section>
+
+
+{% schema %}
+{
+  "name": "Smart Sock Review",
+  "presets": [
+    {
+      "name": "Smart Sock Review"
+    }
+  ],
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "background",
+      "label": "banner背景图"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_mob",
+      "label": "banner移动端背景图"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "标题",
+      "default": "S360 Smart Sock"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "副标题",
+      "default": "Never Miss a Tiny Beat"
+    }
+  ]
+}
+{% endschema %}

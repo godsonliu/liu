@@ -1,0 +1,27 @@
+<div class="aplus-text-card {{ textColor }} {{ textAlign }}">
+  {% if subtitle != blank %}
+    <div class="aplus-text-card__subtitle">{{subtitle}}</div>
+  {% endif %}
+  {% if title != blank %}
+    {% if subtitle %}
+      <div class="aplus-text-card__title-2">{{title}}</div>
+    {% else %}
+      <div class="aplus-text-card__title-1">{{title}}</div>
+    {% endif %}
+  {% endif %}
+  {% if description != blank and description != '<p></p>' %}
+    <div class="aplus-text-card__description">
+      {{ description }}
+    </div>
+  {% endif %}
+  {% if learnMoreText != blank and url != blank %}
+    <div class="flex-center">
+      {% if url contains '?' %}
+        {% assign learnMoreUrl = url | append: '&ref=A+listingLearnMore' %}
+      {% else %}
+        {% assign learnMoreUrl = url | append: '?ref=A+listingLearnMore' %}
+      {% endif %}
+      <a class="aplus-text-card__btn-learn-more" tabIndex="0" href="{{ learnMoreUrl }}" >{{ learnMoreText }}</a>
+    </div>
+  {% endif %}
+</div>

@@ -1,0 +1,42 @@
+{% if template contains 'page' %}
+  {% if page.metafields['global']['4g_camera_value'].value %}
+    {% assign lang = page.metafields['global']['4g_camera_value'].value %}
+  {% else %}
+    {% assign lang = page.metafields['global']['4g_camera_value'] %}
+  {% endif %}
+{% else %}
+  {% if product.metafields['global']['4g_camera_value'].value %}
+    {% assign lang = product.metafields['global']['4g_camera_value'].value %}
+  {% else %}
+    {% assign lang = product.metafields['global']['4g_camera_value'] %}
+  {% endif %}
+{% endif %}
+
+<section id="{{lang.id | default: 'camera-4g-value'}}" class="camera-4g-value">
+  <div class="box-container">
+    <div class="box-content">
+      <h2 class="title">{{ lang.title }}</h2>
+      <p class="desc">{{ lang.desc }}</p>
+      <div class="features">
+        <div class="img-icon">
+          <img class="lazyload" src="{{ lang.block_icon }}" alt="" aria-hidden="true"/>
+        </div>
+        {% for item in lang.compare_blocks %}
+        <div class="feature-block block-{{forloop.index }}">{{ item.value }}</div>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="img_block">
+      {% render 'lazyload_image',  
+        src: lang.img_pc,
+        additional_classes: "is-hidden-mobile-only"
+        style: "opacity: 0;"
+        alt: {{ lang.desc }} %}
+      {% render 'lazyload_image',
+        src: lang.img_mob,
+        additional_classes: "is-hidden-desktop-only",
+        style: "opacity: 0;"
+        alt: {{ lang.desc }} %}
+    </div>
+  </div>
+</section> 

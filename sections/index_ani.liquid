@@ -1,0 +1,217 @@
+<section id="index_ani-{{section.id}}" class="index_ani">
+    <h2 class="index-title">{{ section.settings.title }}</h2>
+    {% for block in section.blocks %}
+    <figure id="sceneBanner{{forloop.index }}" class="card-radius container-wrapper image-box image-box-{{forloop.index }}{% if forloop.first %} actived{% endif %} js-switch-box">
+      {% render 'lazyload_image',  
+        src: block.settings.img_pc,
+        additional_classes: "is-hidden-mobile-only",
+        style: "opacity: 0;",
+        alt: block.settings.img_pc.alt,
+        width: block.settings.img_pc.width,
+        aspect_ratio: block.settings.img_pc.aspect_ratio,
+        isSchemaData: true %}
+      {% render 'lazyload_image',
+        src: block.settings.img_mob,
+        additional_classes: "is-hidden-desktop-only",
+        style: "opacity: 0;",
+        alt: block.settings.img_mob.alt,
+        width: block.settings.img_mob.width,
+        aspect_ratio: block.settings.img_mob.aspect_ratio,
+        isSchemaData: true %}
+    </figure>
+    {% endfor %}
+    <div class="select-cards">
+      <ul class="container-wrapper">
+        {% for block in section.blocks %}
+        <li class="select-card select-card-{{ forloop.index }} {% if forloop.first %} actived{% endif %}" onclick="goLearnMore(`{{block.settings.link}}`,`{{ block.settings.datename }}`,`{{ block.settings.position  }}`,`sceneBanner{{forloop.index}}`)">
+          <p class="card-title">{{block.settings.title }}</p>
+          <div class="bottom-box">
+            <span class="go-txt">{{ block.settings.desc }}
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 12.9991H20" stroke="black" stroke-width="1.92063" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M14 6.99936L20 12.9994L14 18.9994" stroke="black" stroke-width="1.92063" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <figure>
+              {% render 'lazyload_image',  
+                src: block.settings.img_icon | image_url,
+                style: "opacity: 0;",
+                alt: block.settings.img_icon.alt,
+                width: block.settings.img_icon.width,
+                aspect_ratio: block.settings.img_icon.aspect_ratio,
+                isSchemaData: true %}
+            </figure>
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+</section>
+<script src="{{ 'gsap.min.js' | asset_url }}"></script>
+<script src="{{ 'ScrollTrigger.min.js' | asset_url }}"></script>
+<script>
+  $(document).ready(function(){
+    let mapflag = true;
+    let obj = {prop: 0};
+    gsap.registerPlugin(ScrollTrigger);
+    var dataObj3 = {};
+    {% for block in section.blocks %}
+    dataObj3['sceneBanner' + {{ forloop.index }}] = {
+        id: 'sceneBanner' + {{ forloop.index }},
+        name: "{{ block.settings.datename }}",
+        creative: "",
+        position: "{{ block.settings.position }}"
+      }
+    {% endfor %}
+    window.dataLayer.push(dataObj3);
+    if(window.innerWidth > 769){
+        gsap.timeline({
+        scrollTrigger: {
+          trigger: `#index_ani-{{section.id}}`,
+          start: 'top top+=66',
+          end: '+=200%',
+          scrub: true,
+          pin: true,
+          // markers: true
+        }
+      })
+      .to(`#index_ani-{{section.id}} .index-title`,  { transform : 'translateY(-250px)',duration: '1.5' })
+      .to(`#index_ani-{{section.id}} .card-radius`,  { borderRadius : '0', duration: '1.5' },'<')
+      .to(`#index_ani-{{section.id}} .image-box`,  { width : '100vw', height : 'calc(100vh - 66px)',top: '0px',duration: '1.5' },'<')
+      .to(`#index_ani-{{section.id}} .image-box`, {duration: '1'})
+      .to(`#index_ani-{{section.id}} .select-cards`,  { transform : 'translateY(-300px)',duration: '0.5' })
+      .to(`#index_ani-{{section.id}} .select-cards`, {duration: '2'})
+    }else{
+      mobGsapInit()
+    }
+    $('.select-card').hover(function() {
+      event($(this))
+    })
+
+    function event($this) {
+      const idx = $this.index()
+      $this.addClass('actived').siblings().removeClass('actived')
+      $('.image-box').eq(idx).addClass('actived').siblings().removeClass('actived')
+      $('.select-card').eq(idx).addClass('actived').siblings().removeClass('actived')
+    }
+
+    function mobGsapInit(len) {
+      const ani_gsap = gsap.timeline({
+        scrollTrigger: {
+          trigger: `#index_ani-{{section.id}}`,
+          start: 'top top',
+          end: '+=200%',
+          scrub: true,
+          pin: true,
+          onUpdate: function(self) {
+            var step = 1 / {{section.blocks.size}};
+            var index = Math.floor(self.progress / step);
+            if (index >= {{section.blocks.size}}) {
+              index = {{section.blocks.size}} - 1;
+            }
+            $(`#index_ani-{{section.id}} .select-card`).css("pointer-events", "none");
+            $(`#index_ani-{{section.id}} .select-card`).eq(index).css("pointer-events", "auto");
+          }
+          // markers: true
+        }
+      })
+
+      ani_gsap
+      .to(`#index_ani-{{section.id}} .index-title`,  { transform : 'translateY(-250px)' })
+      .to(`#index_ani-{{section.id}} .card-radius`,  { borderRadius : '0' },'<')
+      .to(`#index_ani-{{section.id}} .image-box`,  { width : '100vw', height : '100vh',top: '0px' },'<')
+      .to(`#index_ani-{{section.id}} .select-cards`,  { transform : 'translateY(-150px)' },'<')
+      .to(`#index_ani-{{section.id}} .select-card-1`,  { bottom : '0px'},'<=-0.2')
+      .to(`#index_ani-{{section.id}} .image-box-1`,  {})
+
+      {% if section.blocks.size > 1 %}
+      .to(`#index_ani-{{section.id}} .select-card-1`,  { bottom : '50px' , opacity: 0})
+      .to(`#index_ani-{{section.id}} .select-card-2`,  { bottom : '0px', opacity: 1})
+      .to(`#index_ani-{{section.id}} .image-box-1`,  { opacity: 0, duration: 0.01},"<")
+      .to(`#index_ani-{{section.id}} .image-box-2`,  { opacity: 1, duration: 0.01},"<")
+      .to(`#index_ani-{{section.id}} .image-box-2`,  {})
+      {% endif %}
+
+      {% if section.blocks.size > 2 %}
+      .to(`#index_ani-{{section.id}} .select-card-2`,  { bottom : '50px' , opacity: 0})
+      .to(`#index_ani-{{section.id}} .select-card-3`,  { bottom : '0px', opacity: 1})
+      .to(`#index_ani-{{section.id}} .image-box-2`,  { opacity: 0, duration: 0.01},"<")
+      .to(`#index_ani-{{section.id}} .image-box-3`,  { opacity: 1, duration: 0.01},"<")
+      .to(`#index_ani-{{section.id}} .image-box-3`,  {})
+      {% endif %}
+
+      {% if section.blocks.size > 3 %}
+      .to(`#index_ani-{{section.id}} .select-card-3`,  { bottom : '50px' , opacity: 0})
+      .to(`#index_ani-{{section.id}} .select-card-4`,  { bottom : '0px', opacity: 1})
+      .to(`#index_ani-{{section.id}} .image-box-3`,  { opacity: 0, duration: 0.01},"<")
+      .to(`#index_ani-{{section.id}} .image-box-4`,  { opacity: 1, duration: 0.01},"<")
+      .to(`#index_ani-{{section.id}} .image-box-4`,  {})
+      {% endif %}
+    }
+  })
+</script>
+{% schema %}
+{
+  "name": "Index Ani",
+  "presets": [
+    {
+      "category": "Index Ani",
+      "name": "Index Ani"
+    }
+  ],
+  "settings": [{
+    "type": "text",
+    "id": "title",
+    "label": "Title",
+    "default": "We make your home home"
+  }],
+  "blocks": [{
+    "type": "block",
+    "name": "block",
+    "settings": [{
+      "type": "image_picker",
+      "id": "img_pc",
+      "label": "PC端图片",
+      "info": "图片格式推介使用jpg"
+    },{
+      "type": "image_picker",
+      "id": "img_mob",
+      "label": "移动端端图片",
+      "info": "图片格式推介使用jpg"
+    },{
+      "type": "image_picker",
+      "id": "img_icon",
+      "label": "图标",
+      "info": "图片格式推介使用jpg"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "标题",
+      "default": "eufy security let your keys always on hand"
+    },{
+      "type": "text",
+      "id": "desc",
+      "label": "跳转文本描述",
+      "default": "Learn more"
+    },{
+      "type": "text",
+      "id": "link",
+      "label": "跳转链接"
+    },{
+      "type": "text",
+      "id": "datename",
+      "label": "修改信息",
+      "info": "埋点：这里给运营留字段补充格式为200531banner内容，表示修改banner的日期和banner的内容（不超过3个单词）"
+    },{
+      "type": "text",
+      "id": "position",
+      "label": "物料类型",
+      "default": "static",
+      "info": "埋点：这里给运营留字段填写static(静态图片)或者dynamic(视频或者gif)"
+    }
+    ]
+  }]
+
+}
+{% endschema %}

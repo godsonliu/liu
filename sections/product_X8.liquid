@@ -1,0 +1,97 @@
+{% assign lang = product.metafields['global'] %}
+
+{% if lang.cus_spces.value %}
+  {% assign cus_spces = lang.cus_spces.value %}
+{% else %}
+  {% assign cus_spces = lang.cus_spces %}
+{% endif %}
+
+{% if product.metafields['global']['custom_variants'].value %}
+  {% assign custom_variants = product.metafields['global']['custom_variants'].value %}
+{% else %}
+  {% assign custom_variants = product.metafields['global']['custom_variants'] %}
+{% endif %}
+
+{% if product.metafields.global.banner.value %}
+  {% assign banner = product.metafields.global.banner.value %}
+{% else %}
+  {% assign banner = product.metafields.global.banner %}
+{% endif %}
+
+
+
+<div class="proSpces">
+  <h3 class="proSpcesTitle"><span>{{ cus_spces.title }}</span></h3>
+  <ul>
+    {% for item in cus_spces.list %}
+      <li>
+        <h3 class="title"><span>{{ item.key }}</span><i></i></h3>
+        <div class="txt">
+          <div class="txtBox">{{ item.value }}</div>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+
+
+</div>
+
+<script src="{{ 'gsap.min.js' | asset_url }}"></script>
+<script src="{{ 'ScrollTrigger.min.js' | asset_url }}"></script>
+{% comment %} <script src="{{ 'framePlayer.js' | asset_url }}" defer="defer"></script> {% endcomment %}
+
+
+<script>
+  let systemIndex = 1;
+  let systemLen;
+  let systemIndexInt;
+  let longRunIndex = 0;
+  let longRunIndexInt;
+  let color_key = 'black';
+  let color_index = 0;
+  let colorLen;
+  let player;
+  $(document).ready(function(){
+  // youtube
+  let tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/iframe_api";
+  const firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('H30_video_url', {
+      height: '100%',
+      width: '100%',
+      videoId: '{{ banner.ytb_id }}',
+      playlist: ['{{ banner.ytb_id }}']
+    });
+  }
+  function openVideo() {
+    $('.H30_video').show();
+    player.playVideo();
+  }
+
+      // spces
+      $('.proSpces .txt').each((i, ele) => {
+      const h = ele.offsetHeight;
+      ele.style.maxHeight = `${h}px`;
+    });
+    $('.proSpces .txt').addClass('hideTxt');
+    $(document).on('click', '.proSpces .title', function() {
+      const $dom = $(this).parents('li');
+      if ($($('.txt', $dom)).hasClass('showTxt')) {
+        $($('.txt', $dom)).removeClass('showTxt');
+        $(this).removeClass('showTxt');
+        $($('.txt', $dom)).addClass('hideTxt');
+      } else {
+        $('.proSpces .title').removeClass('showTxt');
+        $('.proSpces .txt').removeClass('showTxt');
+        $('.proSpces .txt').addClass('hideTxt');
+        $($('.txt', $dom)).addClass('showTxt');
+        $(this).addClass('showTxt');
+        $($('.txt', $dom)).removeClass('hideTxt');
+      }
+    });
+  })
+
+</script>

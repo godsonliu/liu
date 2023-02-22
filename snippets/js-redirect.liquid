@@ -1,0 +1,20 @@
+{% if shop.metafields['global']['redirectMap'].value %}
+  {% assign redirectMap = shop.metafields['global']['redirectMap'].value %}
+{% else %}
+  {% assign redirectMap = shop.metafields['global']['redirectMap'] %}
+{% endif %}
+
+{% if redirectMap != blank %}
+  <script>
+    try{
+      const map = {{ redirectMap | json }}
+      map.map(item => {
+        if(item.path === location.pathname) {
+          location.href = item.target + location.search
+        }
+      })
+    } catch(e){
+      console.warn(e)
+    }
+  </script>
+{% endif %}

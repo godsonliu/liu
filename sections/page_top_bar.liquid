@@ -1,0 +1,300 @@
+{% if page.metafields.global.nav_list.value %}
+  {% assign nav_list = page.metafields.global.nav_list.value %}
+{% else %}
+  {% assign nav_list = page.metafields.global.nav_list %}
+{% endif %}
+
+{% if page.metafields.global.productListing.value %}
+  {% assign productListing = page.metafields.global.productListing.value %}
+{% else %}
+  {% assign productListing = page.metafields.global.productListing %}
+{% endif %}
+
+{% assign name = productListing.name %}
+
+{% if page.metafields['global']['product_sku'].value %}
+  {% assign product_sku = page.metafields['global']['product_sku'].value %}
+{% else %}
+  {% assign product_sku = page.metafields['global']['product_sku'] %}
+{% endif %}
+
+{% if page.metafields.global.nav_list.value %}
+  {% assign nav_list = page.metafields.global.nav_list.value %}
+{% else %}
+  {% assign nav_list = page.metafields.global.nav_list %}
+{% endif %}
+
+
+{% assign nav = nav_list | split: "," %}
+
+<link rel="stylesheet" href="{{ 'listing_top_bar.scss.css' | asset_url }}">
+<link rel="stylesheet" href="{{ 'T8213_top_bar.scss.css' | asset_url }}">
+
+<section class="v2_top_bar_section">
+  <div class="v2_top_bar_box">
+      <div class="v2_top_bar_inner">
+          <p class="top_bar_title">{{ name }}</p>
+          <div class="top_mb_part mb-show">
+              <p class="top_bar_mb_title">{{ name }}</p>
+              <div class="top_bar_button top_bar_mb_button">
+                  <div class="box">
+                    <div class="box">
+                      {% if productListing.button_txt != blank %}
+                        <a href="{{ productListing.href }}" rel="noopener">{{ productListing.button_txt }}</a>
+                      {% endif %}
+                      {% if productListing.addtocart_txt != blank %}
+                        <div class="Addtocart_btn_top">
+                          <a class="buy_btn" href="javascript:;" >{{ productListing.addtocart_txt }}</a>
+                        </div>
+                      {% endif %}
+                    </div>
+                  </div>
+              </div>
+          </div>
+          <div class="right-part">
+              <nav class="top_bar_page_nav">
+                  {% for item in nav %}
+                      {% assign arr = item | split: ":" %}
+                      {% assign lable = arr | reverse %}
+                      <a class="tb_page_nav_item" >{{ lable.first }}</a>
+                  {% endfor %}
+              </nav>
+              <div class="top_bar_button pc-show">
+                  <div class="box">
+                    {% if productListing.button_txt != blank %}
+                      <a href="{{ productListing.href }}" target="{% if productListing.button_target %}_self{% else %}_blank{% endif%}" rel="noopener">{{ productListing.button_txt }}</a>
+                    {% endif %}
+                    {% if productListing.addtocart_txt != blank %}
+                      <div class="Addtocart_btn_top">
+                        <a class="buy_btn" href="javascript:;" >{{ productListing.addtocart_txt }}</a>
+                      </div>
+                    {% endif %}
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</section>
+{% assign product = all_products[product_sku] %}
+<script>
+$(function() {
+  {% if product != blank %}
+  $('.Addtocart_btn_top').on('click',function(){
+    let variants = [];
+    variants.push({ id: {{ product.variants[0].id }} , quantity: 1 })
+    Shopify.theme.addItemsToCart(variants, {
+      onError: err => $.dialog({ title: err.message, content: err.description, type: 'red' })
+    })
+  })
+  {% endif %}
+
+  $('.top_bar_button').on('click',function(){
+    const label = $(this).find('a').text()
+    dataLayer.push({
+      "event": "uaEvent", // Trigger
+      "eventCategory": "Activity Page_{{ page.handle }}",
+      "eventAction": "navi",
+      "eventLabel": label, //取导航栏文字
+      "nonInteraction": true, 
+    })
+    window.dataLayer.push({ "event_parameters": null });
+    window.dataLayer.push({
+      "event": "ga4Event",
+      "event_name": "lp_navigation",
+      "event_parameters": {
+        "navigation": label, //取导航栏文字
+        "page_group":"Activity Page_{{ page.handle }}"
+      }
+    })
+  })
+ 
+  let navlist = "{{ nav_list }}"
+  let w = $(window).width()
+  let pageNavH = w > 768 ? $('.v2_top_bar_box').height(): $('.top_mb_part').height()
+  let scrollPoint = []
+  let siteNavH = 0
+  let isNavClick = true
+  let offset = 100
+  
+  let scrollAction = {
+      x: 'undefined', 
+      y: 'undefined'
+  }
+
+  init()
+
+  function init() {
+      navlist && dataInit()
+      event()
+      resize()
+      scroll()
+  }
+
+  function dataInit() {
+      const arr = navlist.split(',')
+
+      arr.map(item => {
+          let target = item.split(':')
+          scrollPoint.push(target[0])
+      })
+  }
+
+  function getScrollOffset() {
+      let arr = []
+      
+      scrollPoint.map(item => {
+          arr.push($(`#${item}`)[0].offsetTop - offset)
+      })
+
+      //arr[0] = 0
+
+      return arr
+  }
+  let index  
+  function event() {
+      $('.tb_page_nav_item').eq(0).addClass('active')
+      $('.tb_page_nav_item').on('click', function() {
+        const label = $(this).text()
+        const idx = $(this).index()
+        const arr = getScrollOffset()
+
+        isNavClick = false
+        index = idx
+
+        $(this).addClass('active').siblings().removeClass('active')
+        $('html,body').animate({
+            scrollTop: arr[idx]
+        }, 500, 'swing', function () {
+            // isNavClick = true
+        })
+
+        dataLayer.push({
+          "event": "uaEvent", // Trigger
+          "eventCategory": "Activity Page_{{ page.handle }}",
+          "eventAction": "navi",
+          "eventLabel": label, //取导航栏文字
+          "nonInteraction": true, 
+        })
+        window.dataLayer.push({ "event_parameters": null });
+        window.dataLayer.push({
+          "event": "ga4Event",
+          "event_name": "lp_navigation",
+          "event_parameters": {
+            "navigation": label, //取导航栏文字
+            "page_group":"Activity Page_{{ page.handle }}"
+          }
+        })
+      })
+  }
+
+  function navAct(idx) {
+      $('.tb_page_nav_item').eq(idx).addClass('active').siblings().removeClass('active')
+  }
+
+  function resize() {
+      window.addEventListener('resize', function() {
+          w = $(window).width()
+          pageNavH =  w > 768 ? $('.v2_top_bar_box').height(): $('.top_mb_part').height()
+          siteNavH = w > 768 ? $('#header').height() : $('.mobile-header').height() 
+          $('.v2_top_bar_section').height(pageNavH)
+          if(w > 768) $('.right-part').css('transform', 'none')
+      })
+  }
+
+  function scroll() {
+      const offsetTop = $('.v2_top_bar_section')[0].offsetTop
+      let timer
+      let flag = false
+
+      w = $(window).width()
+      siteNavH = w > 768 ? $('#header').height() : $('.mobile-header').height()
+
+      $('.v2_top_bar_section').height(pageNavH)
+
+      if(w > 768) window.scrollTo(0, siteNavH)
+
+      document.addEventListener('scroll', function() {
+          const scrollTop = $(window).scrollTop()
+          const stArr = getScrollOffset()
+          const diff = scrollTop - offsetTop
+
+          siteNavH = w > 768 ? $('#header').height() : $('.mobile-header').height() 
+          timer && clearTimeout(timer)
+
+          if(scrollTop > offsetTop) {
+              $('.v2_top_bar_box').addClass('fixed')
+              if(w > 768){
+                  if(getScrollDir() === 'up') {
+                      $('.v2_top_bar_box').css('transform', 'translateY('+ siteNavH +'px)')
+                      if(!flag) timer = setTimeout(() => {
+                          $('.v2_top_bar_section').css('z-index', '10')
+                          flag = true
+                      }, 300)
+                  }else {
+                      $('.v2_top_bar_box').css('transform', 'none').parents('.v2_top_bar_section').css('z-index', '50')
+                      flag = false
+                  }
+              } else {
+                  $('.v2_top_bar_section').css('z-index', '50')
+                  if(diff >= 0){
+                      const num = diff >= 100 ? 136 : diff
+                      $('.right-part').css('transform', 'translateY('+ num +'%)')
+                  }
+              }
+          } else {
+              $('.v2_top_bar_box').removeClass('fixed').css('transform', 'none').parents('.v2_top_bar_section').css('z-index', '10')
+              if(w <= 768) {
+                  $('.right-part').css('transform', 'none')
+              }
+          }
+          if (scrollTop>=stArr[index]) {
+            isNavClick = true
+          }
+
+          if(isNavClick) {
+              if(scrollTop >= stArr[0] && scrollTop < stArr[1]) {
+                  navAct(0)
+              } else if (scrollTop >= stArr[1] && scrollTop < stArr[2]) {
+                  navAct(1)
+              } else if (scrollTop >= stArr[2] && scrollTop < stArr[3]) {
+                  navAct(2)
+              } else if (scrollTop >= stArr[3]) {
+                  navAct(3)
+              }
+          }
+      })
+  }
+
+  function getScrollDir() {
+      let dir = ''
+
+      if (typeof scrollAction.x == 'undefined') {
+          scrollAction.y = window.pageYOffset
+      }
+
+      const diffY = scrollAction.y - window.pageYOffset
+
+      if (diffY < 0) {
+          dir = 'down'
+      } else if (diffY > 0) {
+          dir = 'up'
+      }
+
+      scrollAction.y = window.pageYOffset
+
+      return dir
+  }
+})
+</script>
+
+
+{% schema %}
+{
+  "name": "page_top_bar",
+  "presets": [
+    {
+      "name": "page_top_bar"
+    }
+  ]
+}
+{% endschema %}

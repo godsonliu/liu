@@ -1,0 +1,124 @@
+{%- capture size -%}
+  {{ section.blocks.size }}
+{%- endcapture -%}
+
+<section id="index-products-{{ section.id }}" class="index-products section-wrapper">
+  <h2 class="index-title">{{ section.settings.title }}</h2>
+  <!-- Swiper -->
+  <div class="swiper products-swiper container-wrapper">
+    <div class="swiper-wrapper">
+      {% for block in section.blocks %}
+      <div class="swiper-slide">
+        <figure class="product-img" onclick="goLink(`{{ block.settings.link }}`,'homepage_category_{{forloop.index}}')">
+          {% render 'lazyload_image',  
+            src: block.settings.image,
+            additional_classes: "",
+            style: "opacity: 0;",
+            alt: block.settings.title,
+            width: block.settings.image.width,
+            max_width: 120,
+            aspect_ratio: block.settings.image.aspect_ratio,
+            isSchemaData: true  %}
+        </figure>
+        <p class="title" onclick="goLink(`{{ block.settings.link }}`,'homepage_category_{{forloop.index}}')">{{ block.settings.title }}</p>
+        <p class="tag-txt" onclick="goLink(`{{ block.settings.link }}`,'homepage_category_{{forloop.index}}')">{{ block.settings.tag }}</p>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="swiper-button-next is-hidden-mobile-only">
+      <svg viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8.29289 0.292893C8.68342 -0.0976311 9.31658 -0.0976311 9.70711 0.292893L15.7071 6.29289C15.8946 6.48043 16 6.73478 16 7C16 7.26522 15.8946 7.51957 15.7071 7.70711L9.70711 13.7071C9.31658 14.0976 8.68342 14.0976 8.29289 13.7071C7.90237 13.3166 7.90237 12.6834 8.29289 12.2929L12.5858 8L1 8C0.447715 8 0 7.55229 0 7C0 6.44772 0.447715 6 1 6L12.5858 6L8.29289 1.70711C7.90237 1.31658 7.90237 0.683417 8.29289 0.292893Z" fill="#999999"/>
+      </svg> 
+    </div>
+    <div class="swiper-button-prev is-hidden-mobile-only">
+      <svg viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M7.70711 0.292893C7.31658 -0.0976311 6.68342 -0.0976311 6.29289 0.292893L0.292893 6.29289C0.105357 6.48043 0 6.73478 0 7C0 7.26522 0.105357 7.51957 0.292893 7.70711L6.29289 13.7071C6.68342 14.0976 7.31658 14.0976 7.70711 13.7071C8.09763 13.3166 8.09763 12.6834 7.70711 12.2929L3.41421 8L15 8C15.5523 8 16 7.55229 16 7C16 6.44772 15.5523 6 15 6L3.41421 6L7.70711 1.70711C8.09763 1.31658 8.09763 0.683417 7.70711 0.292893Z" fill="#999999"/>
+      </svg> 
+    </div>
+    <div class="swiper-pagination is-hidden-mobile-only"></div>
+  </div>
+</section>
+<script>
+  $(function() {
+    let length = `{{ size }}`
+    let precent = 1/length
+    let num = 0
+    let width = window.innerWidth;
+    let slidesPerView = 7;
+    let freeMode = false;
+    if(width> 768){
+      slidesPerView = 7
+      freeMode = false
+    }else if(width>376){
+      slidesPerView = 'auto'
+      freeMode = true
+    }else{
+      slidesPerView = 'auto'
+      freeMode = true
+    }
+    var productsSwiper = new Swiper(".products-swiper", {
+      slidesPerView: slidesPerView,
+      freeMode: freeMode,
+      mousewheel: true,
+      pagination: {
+        el: ".swiper-pagination",
+        type: "progressbar",
+        renderProgressbar: function () {
+          return '<span class="custom-progressbar-fill" style="transform: scale('+ 7*precent  +',1)"></span>';
+        }
+      },
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
+      on: {
+        slideChangeTransitionStart: function(){
+          $('.index-products .swiper-pagination-progressbar .custom-progressbar-fill').css('left', `${this.realIndex*precent*100}%`) 
+        }
+      }
+    });
+  })
+</script>
+{% schema %}
+{
+  "name": "Index Products",
+  "presets": [
+    {
+      "category": "Index Products",
+      "name": "Index Products"
+    }
+  ],
+  "settings": [{
+    "type": "text",
+    "id": "title",
+    "label": "Title",
+    "default": "The best way to buy the producs you love"
+  }],
+  "blocks": [{
+    "type": "block",
+    "name": "block",
+    "settings": [{
+      "type": "image_picker",
+      "id": "image",
+      "label": "图片"
+    },{
+      "type": "text",
+      "id": "title",
+      "label": "标题"
+    },{
+      "type": "text",
+      "id": "tag",
+      "label": "new标识"
+    },{
+      "type": "text",
+      "id": "link",
+      "label": "跳转链接"
+    },{
+      "type": "text",
+      "id": "dataLayer_tag",
+      "label": "埋点标识"
+    }]
+  }]
+  
+}
+{% endschema %}

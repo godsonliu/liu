@@ -1,0 +1,66 @@
+.mach-pre-hot {
+  font-family: 'Mach'
+}
+
+.mach-pre-hot .mach_accessories_div_b,
+.mach-pre-hot .mach_nav_b{
+  display: none;
+}
+
+.mach-pre-hot-a .mach_accessories_div_b,
+.mach-pre-hot-a .mach_nav_b{
+  display: block;
+}
+
+.mach-pre-hot-a .mach_nav_a,
+.mach-pre-hot-a .mach_accessories_div_a{
+  display: none;
+}
+
+.black-section .sec-title-middle {
+  color: #fff;
+  font-size: 4.6875vw;
+  line-height: 5.36vw;
+  font-weight: 500;
+}
+.black-section .sec-description {
+  color: #CECECE;
+  font-size: 1.25vw;
+  line-height: 1.46vw;
+  margin-bottom: 30px;
+  /* letter-spacing: -1px; */
+}
+.index_advantage {
+  font-family: 'Mach';
+  margin: 0;
+  padding-top: 80px;
+}
+.index__brand-advant {
+  font-family: 'Mach';
+  padding-top: 0px;
+  padding-bottom: 120px;
+  background: #fff !important;
+}
+.index__brand-advant .brand-advant-item {
+  padding: 24px !important;
+}
+
+@media(max-width: 769px) {
+  .black-section {
+    padding: 0 15px;
+  }
+  .black-section .sec-title-middle {
+    font-size: 48px;
+    line-height: 48px;
+  }
+  .black-section .sec-description {
+    font-size: 18px;
+    line-height: 24px;
+    color: #6E6E73;
+  }
+}
+@media(max-width: 375px) {
+  .black-section .sec-description {
+    font-size: 16px;
+  }
+}

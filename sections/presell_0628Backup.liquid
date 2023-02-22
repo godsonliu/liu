@@ -1,0 +1,704 @@
+{% assign lang = product.metafields.global %}
+
+{% if lang.presellSku.value %}
+  {% assign presellSku = lang.presellSku.value %}
+{% else %}
+  {% assign presellSku = lang.presellSku %}
+{% endif %}
+
+{% if lang.solo_cam.value %}
+  {% assign solo_cam = lang.solo_cam.value %}
+{% else %}
+  {% assign solo_cam = lang.solo_cam %}
+{% endif %}
+
+{% if lang.feature.value %}
+  {% assign feature = lang.feature.value %}
+{% else %}
+  {% assign feature = lang.feature %}
+{% endif %}
+
+{% if lang.moreFeature.value %}
+  {% assign moreFeature = lang.moreFeature.value %}
+{% else %}
+  {% assign moreFeature = lang.moreFeature %}
+{% endif %}
+
+{% if lang.camSlick.value %}
+  {% assign camSlick = lang.camSlick.value %}
+{% else %}
+  {% assign camSlick = lang.camSlick %}
+{% endif %}
+
+{% if lang.imgTitle.value %}
+  {% assign imgTitle = lang.imgTitle.value %}
+{% else %}
+  {% assign imgTitle = lang.imgTitle %}
+{% endif %}
+
+{% if lang.videoList.value %}
+  {% assign videoList = lang.videoList.value %}
+{% else %}
+  {% assign videoList = lang.videoList %}
+{% endif %}
+
+
+<div class="page_presell_0628">
+  <div class="sign_up_bar">
+    <div class="wrap">
+      <a id="go_sign_up" href="#goBuyNow">{{ presellSku.btnTips }}</a>
+    </div>
+  </div>
+
+  <div class="signup" id="floodlight_Cam">
+    <div class="sticky_container">
+      <div class="presell-bg-img video_content2 banner_1">
+        <div class="phone-show">
+          <img id="videoBanner2"  class="lazyload" data-src="{{ videoList.videoBanner2.gif }}">
+        </div>
+        <video class="pc-show lazyload" data-src="{{ videoList.videoBanner2.url }}" preload="auto" muted="muted" autoplay="autoplay" id="reloadVideo"></video>
+        <div class="presell-center-title presell-bottom-title tc banner_1_wz1">
+          <p class="subscribe_tips">
+            <img  class="lazyload" data-src="{{ videoList.videoBanner2.img }}" />
+          </p>
+        </div>
+      </div>
+      <div class="video_content1">
+        <div class="phone-show">
+          <img  class="lazyload" data-src="{{ videoList.videoBanner1.gif }}">
+        </div>
+        <video class="pc-show lazyload" data-src="{{ videoList.videoBanner1.url }}" preload="auto" muted="muted" autoplay="autoplay" loop="loop"></video>
+      </div>
+    </div>
+  </div>
+
+  <div class="signup" id="floodlight_vr">
+    <div class="sticky_container sticky_container1">
+      <div class="bg">
+        <div class="tips"></div>
+        <iframe width='100%' height='100%' class="lazyload" data-src='https://roundme.com/embed/PP1rG32nR5jDBcWnMWO4' frameborder='0' webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+        <p class="txt">*This is an illustrative demonstration and actual product experience may differ.</p>
+      </div>
+      <div class="cover"></div>
+      <div class="aniTxt">
+        <div class="txtBox">
+          <p class="txt1">Watch</p>
+          <p class="txt2">In</p>
+          <p class="txt3">Every</p>
+          <p class="txt4">Direction</p>
+        </div>
+      </div>
+
+      <div class="icon">
+        <img  class="lazyload" data-src="https://cdn.shopify.com/s/files/1/0504/1094/6753/files/01.svg?v=1621850386" />
+      </div>
+    </div>
+  </div>
+
+  <div class="presell-bg-img video_content banner_6">
+    <div class="phone-show">
+      <img  class="lazyload" data-src="{{ videoList.videoTracking.gif }}">
+    </div>
+    <video class="pc-show lazyload" data-src="{{ videoList.videoTracking.url }}" preload="auto" muted="muted" autoplay="autoplay" loop="loop"></video>
+    <div class="presell-center-title presell-top-title banner_6_wz1">
+      <p class="fz-50">{{ videoList.videoTracking.title }}</p>
+      <p class="subTitle banner_6_wz2">{{ videoList.videoTracking.subTitle }}</p>
+    </div>
+  </div>
+
+  <div class="presell-bg-img video_content banner_7">
+    <div class="phone-show">
+      <img  class="lazyload" data-src="{{ videoList.videoResolution.gif }}">
+    </div>
+    <video class="pc-show lazyload" data-src="{{ videoList.videoResolution.url }}" preload="auto" muted="muted" autoplay="autoplay" loop="loop"></video>
+    <div class="presell-center-title presell-top-title banner_7_wz1">
+      <p class="fz-50">{{ videoList.videoResolution.title }}</p>
+      <p class="subTitle banner_7_wz2">{{ videoList.videoResolution.subTitle }}</p>
+    </div>
+  </div>
+
+  <div class="presell-bg-img banner_8">
+    <img class="lazyload pc-show"   data-src="{{ imgTitle.imgTitleSmartLight.img }}" />
+    <img class="lazyload phone-show"   data-src="{{ imgTitle.imgTitleSmartLight.phoneImg }}" />
+    <div class="presell-center-title presell-left-title banner_8_wz1">
+      <p class="fz-58">{{ imgTitle.imgTitleSmartLight.title }}</p>
+      <p class="subTitle banner_8_wz2">{{ imgTitle.imgTitleSmartLight.subTitle }}</p>
+    </div>
+  </div>
+
+  <div class="presell-more-features-wrap persell-time-line banner_9">
+    <div class="more-features-title banner_9_wz1">
+      <p class="fz-38">{{ camSlick.title }}</p>
+    </div>
+    <div class="persell-time-line-wrap">
+      <ul class="logos time-horizontal clearfix">
+        {% for item in camSlick.imgList %}
+          <li class="item pass">
+            <p class="item-preIcon" onClick="clickLogosIndex({{ forloop.index0 }})">
+              <img  class="lazyload" data-src="{{ item.preIcon }} /">
+            </p>
+            <p class="item-activeIcon" onClick="clickLogosIndex({{ forloop.index0 }})">
+              <img  class="lazyload" data-src="{{ item.activeIcon }} /">
+            </p>
+          </li>
+        {% endfor %}
+      </ul>
+      {% for item in camSlick.imgList %}
+        <div class="time-tips-wrap">
+            <p class="fw-600">{{ item.timeTips }}</p>
+            <p class="time-tips">{{ item.timeSubTips }}</p>
+        </div>
+      {% endfor %}
+    </div>
+    
+    <div class="collections-badges presell-slick-wrap">
+      <div class="box">
+        <div class="txt">
+          {% for item in camSlick.imgList %}
+            <p class="item">
+              <img class="lazyload pc-show"   data-src="{{ item.img }}" />
+              <img class="lazyload phone-show"   data-src="{{ item.phoneImg }}" />
+            </p>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="clip-path" id="clip-path">
+    <div class="sticky_container banner_10">
+      <div class="presell-bg-img deng1">
+        <img class="lazyload img-fixed pc-1024-show"   data-src="{{ imgTitle.imgTitleTunableLight.img }}" />
+        <img class="lazyload img-fixed phone-1024-show"   data-src="{{ imgTitle.imgTitleTunableLight.phoneImg }}" />
+        <div class="presell-center-title presell-top-title fz-58 banner_10_wz2">
+          <p class="fz-35">{{ imgTitle.imgTitleTunableLight.title }}</p>
+          <p class="fz-35">{{ imgTitle.imgTitleTunableLight.subTitle }}</p>
+        </div>
+      </div>
+
+      <div class="presell-bg-img deng2">
+        <img class="lazyload img-fixed pc-1024-show"   data-src="{{ imgTitle.imgTitle40ft.img }}" />
+        <img class="lazyload img-fixed phone-1024-show"   data-src="{{ imgTitle.imgTitle40ft.phoneImg }}" />
+        <div class="presell-center-title presell-top-title banner_10_wz1 phone-1024-show">
+          <p>{{ imgTitle.imgTitle40ft.des }}</p>
+        </div>
+        <div class="presell-40ft-title">
+          <p class="fz-0">
+            <img id="ftGif"  class="lazyload" data-src="{{ imgTitle.imgTitle40ft.aniGif }}" />
+          </p>
+          <div class="mt-f-20 banner_10_wz1 pc-1024-show">
+            <p class="mrp-7">{{ imgTitle.imgTitle40ft.des }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="banner_11">
+      <div class="banner_11_img pc-show">
+          <img  class="lazyload" data-src="{{ solo_cam.banner_11_img }}">
+      </div>
+      <div class="banner_11_img phone-show">
+          <img  class="lazyload" data-src="{{ solo_cam.banner_11_img_mob }}">
+      </div>
+      <div class="banner_11_shou pc-show">
+          <img  class="lazyload" data-src="{{ solo_cam.banner_11_shou }}">
+      </div>
+      <div class="banner_11_shou phone-show">
+          <img  class="lazyload" data-src="{{ solo_cam.banner_11_shou_mob }}">
+      </div>
+      <p class="banner_11_p1">{{ solo_cam.banner_11_p1 }}</p>
+      <p class="banner_11_p2">
+          {{ solo_cam.banner_11_p2 }}
+      </p>
+  </div>
+
+  <div class="presell-flex-wrap banner_12">
+    <div class="presell-feature-wrap">
+      {% for f in feature %}
+        <div class="{% cycle 'odd', 'even' %} banner_12_wz1_{{forloop.index}}">
+          <div class="presell-flex-title banner_12_wz1">
+            <p class="title">{{ f.title }}</p>
+          </div>
+          <div class="presell-flex-img banner_12_wz2">
+            <img  class="lazyload" data-src="{{ f.img }}" />
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="presell-more-features-wrap banner_last">
+    <div class="more-features-title banner_last_wz1">
+      <p>{{ moreFeature.moreFeatureTitle }}<p>
+    </div>
+    <div class="presell-more-features-flex">
+      {% for f in moreFeature.contents %}
+        <div class="more-features-flex-item">
+          <img class="lazyload phone-show"   data-src="{{ f.img }}" />
+          <div class="pc-show hover-chang">
+            <img class="lazyload show"   data-src="{{ f.img }}" />
+            <img class="lazyload hover-show"   data-src="{{ f.gif }}" />
+          </div>
+          <p class="title banner_last_wz2">{{ f.title }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="m-box">
+    <div class="m-box-wrap">
+      <h3 class="prodTitle"> 
+        <span>Specs</span>
+      </h3>
+      {% for item in lang.cust-specs %}
+        <div class="m-list bb-9f9f9f">
+          <span class="specs-title">{{ item.name }}</span>
+          <span class="icon-list">
+            <i class="iconfont init-icon">&#xe86b;</i>
+            <i class="iconfont up-icon">&#xe603;</i>
+          </span>
+        </div>
+        <div class="m-content">
+          {% for child in item.children %}
+            <div class="item">
+              <h6 class="col">{{ child.title }}</h6> 
+              <ul class="col info"> 
+                <li> 
+                  <span class="value">{{ child.des }}</span>
+                </li>
+              </ul>
+            </div>
+          {% endfor %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+  
+  <div id="videoCoverYouTube">
+    <div class="box">
+      <iframe width="560" height="315" class="lazyload" data-src="https://www.youtube.com/embed/EzGA4FRfNqU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <a class="closeVideo"><i class="iconfont">&#xe723;</i></a>
+  </div>
+</div>
+
+
+<script>
+  let logosIndex = 0;
+  let len;
+  let logosIndexInt;
+  let screenHeight;
+  let show_icon = true;
+
+  document.addEventListener('DOMContentLoaded', function(){
+    if($(window).scrollTop() > 0) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      setTimeout(function(){
+       $('#floodlight_vr .cover').css('opacity', 1);
+       $('#floodlight_vr .icon').css({ display: "none" });
+      }, 200)
+    }
+  });
+
+  function changeIcon(mainNode) {
+      if(mainNode){
+          var _active = mainNode.hasClass('active');
+          _active?mainNode.removeClass('active'):mainNode.addClass('active');
+      }
+  }
+  
+  $(function () {
+      var icon=$('.icon-list');
+      $('.m-list').click(function () {
+          var _active = $(this).hasClass('bb-9f9f9f');
+          _active? $(this).removeClass('bb-9f9f9f'):$(this).addClass('bb-9f9f9f');
+          $(this).next('div').slideToggle();
+          changeIcon($(this).children(icon));
+      });
+  });
+
+  function setScrollTopCam() {
+    const width = window.innerWidth;
+    const viewPortHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+    let h = 600;
+    if (width > 769) {
+      h = viewPortHeight - 92;    
+    } else {
+      h = viewPortHeight - 83;
+    }
+    const top = $(window).scrollTop();
+    const sticky0_position = $('.banner_1').offset().top;
+    const ski0 = top - sticky0_position;
+
+    const screenHeight = window.innerHeight - 100;
+    $('#floodlight_Cam').css("height", `${screenHeight * 2}px`);
+    $('#floodlight_Cam .sticky_container').css("height", `${screenHeight * 1}px`);
+    $('#floodlight_Cam .sticky_container .pc-show').css("height", `${screenHeight * 1}px`);
+    $('#floodlight_Cam .sticky_container .phone-show img').css("height", `${screenHeight * 1}px`);
+    $('#floodlight_Cam .sticky_container .presell-center-title .subscribe_tips').css("margin", `${screenHeight * 0.84}px auto 0`);
+    const cutTop = $('#floodlight_Cam')[0].getBoundingClientRect().top;
+    const cutScrolled = - (cutTop / (screenHeight * 2));
+    if ($(window).width() < 769) {
+      $('#floodlight_Cam').css("height", `${screenHeight * 2}px`);
+    }
+    let video_content1 = $('#floodlight_Cam .video_content1').css('opacity');
+    if (cutScrolled >= 0.1 && cutScrolled < 0.9) {
+      if(video_content1 == 0) return;
+      $('#floodlight_Cam .video_content1').css({ opacity: 0 });
+      if ($(window).width() < 769) {
+        $('#videoBanner2').attr("src", videoBanner2);
+      }
+      document.getElementById("reloadVideo").play();
+      setInterval(() => {
+        $(".banner_1_wz1").addClass("active");
+      }, 1500);
+    }
+    if (cutScrolled < 0.1){
+      document.getElementById("reloadVideo").load();
+      $('#floodlight_Cam .video_content1').css({ opacity: 1 });
+      $(".banner_1_wz1").removeClass("active");
+      if ($(window).width() < 769) {
+        $('#videoBanner2').attr("src", '');
+      }
+    }
+    
+  }
+
+  function vrAnimation() {
+    $('.closeRules').click(() => {
+      $('#floodlight_vr .subscribeCover').css('display', 'none');
+    })
+    $('.openRules').click(() => {
+      openModal('<p class="title">Rule of Activity</p><p><span>&nbsp;&nbsp;1.</span><span>This event is open to residents in the US only.</span></p><p><span>&nbsp;&nbsp;2.</span><span>This event runs from June 2 through June 27, 2021.</span></p><p><span>&nbsp;&nbsp;3.</span><span>Enter your email for a chance to win (you must use a real email address).</span></p><p><span>&nbsp;&nbsp;4.</span><span>No purchase necessary, shipping is free.</span></p><p><span>&nbsp;&nbsp;5.</span><span>By entering your email, you will automatically subscribe to Eufy.com and agree to our Terms of Use and Privacy Policy.</span></p><p><span>&nbsp;&nbsp;6.</span><span>Every week 1 winner will be chosen at random to win a eufy Floodlight Cam 2 Pro.</span></p><p><span>&nbsp;&nbsp;7.</span><span>Those who subscribe but don’t win will receive an invitation letter and notice of release date.</span></p><p><span>&nbsp;&nbsp;8.</span><span>Winners will receive a confirmation email. Please make sure that your delivery address is accurate. If the address is wrong, your prize will not be sent. If you do not receive your prize, please contact our customer service team.</span></p><p><span>&nbsp;&nbsp;9.</span><span>Prizes will start shipping in batches in early August.</span></p><p><span>10.</span><span>Physical prizes cannot be returned or exchanged.</span></p><p><span>11.</span><span>For users who are caught cheating (such as those using machine swiping tickets, etc.) we have the right to cancel your prize and hold you accountable.</span></p><p><span>12.</span><span>Anker reserves the right of final explanation.</span></p>')
+    })
+    $('#floodlight_vr .icon').click(() => {
+      show_icon = false;
+      $('#floodlight_vr .icon').css({ display: "none" });
+    });
+
+    const $vr = document.getElementById('floodlight_vr');
+    const $vrSticky = $vr && $vr.getElementsByClassName('sticky_container1') && $vr.getElementsByClassName('sticky_container1')[0];
+    const $banner = document.getElementById('t8423_banner');
+    const $bannerSticky = $banner && $banner.getElementsByClassName('sticky_container1') && $banner.getElementsByClassName('sticky_container1')[0];
+
+    setScrollTop = () => {
+      const screenHeight = window.innerHeight - 70;
+      if ($vr) $vr.style.height = `${screenHeight * 2.5}px`;
+      if ($vrSticky) $vrSticky.style.height = `${screenHeight}px`;
+      if ($banner) $banner.style.height = `${screenHeight * 2.5}px`;
+      if ($bannerSticky) $bannerSticky.style.height = `${screenHeight}px`;
+      const vrTop = $vr && $vr.getBoundingClientRect().top;
+      vrScrolled = - (vrTop / (screenHeight * 1.5));
+      // 位移
+      if (vrScrolled > -0.2 && vrScrolled < 0.5) {
+        $('#floodlight_vr .aniTxt').css('top', `${30 - (25 * (-0.2 + vrScrolled)) / 0.7}%`);
+      }
+      // 文字显示
+      if (vrScrolled > -0.2 && vrScrolled < 0.5) {
+        $('#floodlight_vr .aniTxt').css('opacity', '1');
+      } else {
+        $('#floodlight_vr .aniTxt').css('opacity', '0');
+      }
+      
+      // 背景显现
+      if (vrScrolled > -0.2 && vrScrolled < 0.5) {
+        $('#floodlight_vr .cover').css('opacity', `${1 - (vrScrolled + 0.2) / 0.7}`);
+        $('#floodlight_vr .icon').css({ display: 'none' });
+        $('#floodlight_vr .tips').css({ display: 'none' });
+      } else if (vrScrolled >= 0.5) {
+        $('#floodlight_vr .cover').css({opacity: '0', pointerEvents: 'none'});
+        if(show_icon) {
+          $('#floodlight_vr .icon').css({ display: 'block' });
+          $('#floodlight_vr .tips').css({ display: 'block' });
+        }
+      }
+    };
+    // 将动画绑定在滚动条上
+    window.addEventListener('scroll', setScrollTop);
+  }
+
+  function clipAnimation() {
+    const width = window.innerWidth;
+    const viewPortHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+    let h = 600;
+    if (width > 769) {
+      h = viewPortHeight - 92;    
+    } else {
+      h = viewPortHeight - 83;
+    }
+    const top = $(window).scrollTop();
+
+    const screenHeight = window.innerHeight - 100;
+    $('#clip-path').css("height", `${screenHeight * 4}px`);
+    $('#clip-path .sticky_container').css("height", `${screenHeight * 1}px`);
+    $('#clip-path .sticky_container .pc-show').css("height", `${screenHeight * 1}px`);
+    $('#clip-path .sticky_container .phone-show').css("height", `${screenHeight * 1}px`);
+    const cutTop = $('#clip-path')[0].getBoundingClientRect().top;
+    const cutScrolled = - (cutTop / (screenHeight * 2));
+    let clipNumber = cutScrolled * 110;
+    if ($(window).width() == 1024 || $(window).width() == 768) {
+      $('#clip-path .sticky_container .presell-40ft-title').css("top", `${screenHeight * 0.9}px`);
+    }
+    if ($(window).width() < 769) {
+      if(cutScrolled > 0.8 && cutScrolled < 1.5){
+        $(".banner_10_wz1").addClass("active");
+      }else{
+        $(".banner_10_wz1").removeClass("active");
+      }
+      if(cutScrolled > 0.2){
+        let temp = $("#ftGif").attr('src');
+        if(!temp){
+          $("#ftGif").attr('src', reloadGifUrl);
+        }
+      }else{
+        $("#ftGif").attr('src', '');
+      }
+      if(cutScrolled > 1.9){
+        $("#ftGif").attr('src', '');
+      }
+    }else{
+      if ($(window).width() > 1024){
+        $('#clip-path .sticky_container .presell-40ft-title').css("marginTop", `${screenHeight * 0.72}px`);
+      }
+      if(cutScrolled > 0.3){
+        $(".banner_10_wz1").addClass("active");
+        let temp = $("#ftGif").attr('src');
+        if(!temp){
+          $("#ftGif").attr('src', reloadGifUrl);
+        }
+      }else{
+        $(".banner_10_wz1").removeClass("active");
+        $("#ftGif").attr('src', '');
+      }
+      if(cutScrolled > 1.8){
+        $(".banner_10_wz1").removeClass("active");
+        $("#ftGif").attr('src', '');
+      }
+    }
+    if (cutScrolled <= 0) {
+      $('#clip-path .deng1').css({ clipPath: `inset(0% 0% ${clipNumber}% 0%)` });
+    } 
+    if (cutScrolled > 0) {
+      $('#clip-path .deng1').css({ clipPath: `inset(0% 0% ${clipNumber}% 0%)` });
+    } 
+  }
+  let reloadGifUrl = ''; 
+  let videoBanner2 = ''; 
+  $(document).ready(function(){
+    reloadGifUrl = $("#ftGif").attr('src');
+    videoBanner2 = $("#videoBanner2").attr('src');
+    window.addEventListener('scroll', clipAnimation);
+    // 初始化样式
+    setScrollTopCam();
+    // 将动画绑定在滚动条上
+    window.addEventListener('scroll', setScrollTopCam);
+    window.addEventListener('scroll', toggleAnimation);
+
+    len = $('.collections-badges .txt .item').length - 1;
+    setLogosIndex(0);
+    logosIndexInt = setInterval(() => {
+      if (logosIndex < len) {
+        logosIndex += 1;
+      } else {
+        logosIndex = 0;
+      }
+      setLogosIndex(logosIndex);
+    }, 3000);
+    
+    vrAnimation();
+    $('.subscribe_tips').click(() => {
+      $('#videoCoverYouTube').css({ display: "block" });
+    });
+    $('#videoCoverYouTube .closeVideo').click(() => {
+      $('#videoCoverYouTube').css({ display: "none" });
+    });
+  });
+
+  function toggleAnimation(){
+    const width = window.innerWidth;
+    const viewPortHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+    let h = 600;
+    if (width > 769) {
+      h = viewPortHeight - 92;    
+    } else {
+      h = viewPortHeight - 83;
+    }
+    const top = $(window).scrollTop();
+    const sticky0_position = $('.banner_1').offset().top;
+    const sticky5_position = $('.banner_6').offset().top;
+    const sticky6_position = $('.banner_7').offset().top;
+    const sticky7_position = $('.banner_8').offset().top;
+    const sticky8_position = $('.banner_9').offset().top;
+    const sticky9_position = $('.banner_10').offset().top;
+    const sticky10_position = $('.banner_11').offset().top;
+    const sticky11_position = $('.banner_12').offset().top;
+    const sticky_last_position = $('.banner_last').offset().top;
+    const ski0 = top - sticky0_position;
+    const ski5 = top - sticky5_position;
+    const ski6 = top - sticky6_position;
+    const ski7 = top - sticky7_position;
+    const ski8 = top - sticky8_position;
+    const ski9 = top - sticky9_position;
+    const ski10 = top - sticky10_position;
+    const ski11 = top - sticky11_position;
+    const skilast = top - sticky_last_position;
+    if (ski5 > -0.8*h){
+        $(".banner_6_wz1").addClass("active");
+    }else{
+        $(".banner_6_wz1").removeClass("active");
+    }
+    if (ski5 > -0.7*h){
+        $(".banner_6_wz2").addClass("active");
+    }else{
+        $(".banner_6_wz2").removeClass("active");
+    }
+
+    if (ski6 > -0.8*h){
+        $(".banner_7_wz1").addClass("active");
+    }else{
+        $(".banner_7_wz1").removeClass("active");
+    }
+    if (ski6 > -0.7*h){
+        $(".banner_7_wz2").addClass("active");
+    }else{
+        $(".banner_7_wz2").removeClass("active");
+    }
+
+    if (ski7 > -0.6*h){
+        $(".banner_8_wz1").addClass("active");
+    }else{
+        $(".banner_8_wz1").removeClass("active");
+    }
+
+    if (ski7 > -0.4*h){
+        $(".banner_8_wz2").addClass("active");
+    }else{
+        $(".banner_8_wz2").removeClass("active");
+    }
+    
+    if (ski8 > -0.6*h){
+        $(".banner_9_wz1").addClass("active");
+    }else{
+        $(".banner_9_wz1").removeClass("active");
+    }
+
+    if (ski9 > -0.8*h){
+        $(".banner_10_wz2").addClass("active");
+    }else{
+        $(".banner_10_wz2").removeClass("active");
+    }
+    
+    if (ski10 > -0.6*h){
+        $(".banner_11_shou").addClass("active");
+    }else{
+        $(".banner_11_shou").removeClass("active");
+    }
+
+    if (ski11 > -0.6*h){
+        $(".banner_12_wz1_1 .banner_12_wz1").addClass("active");
+    }else{
+        $(".banner_12_wz1_1 .banner_12_wz1").removeClass("active");
+    }
+    if (ski11 > -0.54*h){
+        $(".banner_12_wz1_1 .banner_12_wz2").addClass("active");
+    }else{
+        $(".banner_12_wz1_1 .banner_12_wz2").removeClass("active");
+    }
+    
+    if (ski11 > -0.3*h){
+        $(".banner_12_wz1_2 .banner_12_wz1").addClass("active");
+    }else{
+        $(".banner_12_wz1_2 .banner_12_wz1").removeClass("active");
+    }
+    if (ski11 > -0.3*h){
+        $(".banner_12_wz1_2 .banner_12_wz2").addClass("active");
+    }else{
+        $(".banner_12_wz1_2 .banner_12_wz2").removeClass("active");
+    }
+    
+    if (ski11 > 0){
+        $(".banner_12_wz1_3 .banner_12_wz1").addClass("active");
+        $(".banner_12_wz1_3 .banner_12_wz2").addClass("active");
+    }else{
+        $(".banner_12_wz1_3 .banner_12_wz1").removeClass("active");
+        $(".banner_12_wz1_3 .banner_12_wz2").removeClass("active");
+    }
+    
+    if (skilast > -0.6*h){
+        $(".banner_last_wz1").addClass("active");
+    }else{
+        $(".banner_last_wz1").removeClass("active");
+    }
+    if ($(window).width() < 769) {
+      if (skilast > -0.6*h){
+          $(".banner_last_wz2").addClass("active");
+      }else{
+          $(".banner_last_wz2").removeClass("active");
+      }
+      if (skilast > -0.3*h){
+          $(".banner_last_wz3").addClass("active");
+      }else{
+          $(".banner_last_wz3").removeClass("active");
+      }
+    }else{
+      if (skilast > -0.4*h){
+          $(".banner_last_wz2").addClass("active");
+      }else{
+          $(".banner_last_wz2").removeClass("active");
+      }
+      if (skilast > -0.3*h){
+          $(".banner_last_wz3").addClass("active");
+      }else{
+          $(".banner_last_wz3").removeClass("active");
+      }
+    }
+  }
+
+  function clickLogosIndex(num) {
+    logosIndex = num;
+    setLogosIndex(logosIndex);
+    if(logosIndexInt) clearInterval(logosIndexInt);
+    logosIndexInt = setInterval(() => {
+      if (logosIndex < len) {
+        logosIndex += 1;
+      } else {
+        logosIndex = 0;
+      }
+      setLogosIndex(logosIndex);
+    }, 3000);
+  };
+
+  function setLogosIndex(num) {
+    $('.collections-badges .txt .item').removeClass('active');
+    $('.persell-time-line-wrap .logos .item').removeClass('active');
+    $('.collections-badges .txt .item').eq(num).addClass('active');
+    $('.persell-time-line-wrap .logos .item').eq(num).addClass('active');
+    $('.persell-time-line-wrap .time-tips-wrap').css('display','none');
+    $('.persell-time-line-wrap .time-tips-wrap').eq(num).css('display','block');
+  };
+
+  function loadProds(proHandle) {
+    $('.collection-products').find(`.item[data-handle = ${proHandle}] .prod`).css('display','block');
+    $('.collection-products').find(`.item[data-handle = ${proHandle}] .load_more`).css('display','none');
+    // var loadIndex = jsCollections.findIndex(item => item.handle === proHandle);
+    // var loadProds = jsProducts[loadIndex];
+  };
+  
+  //禁止滚动条滚动
+  function unScroll() {
+    var top = $(document).scrollTop();
+    $(document).on('scroll.unable',function (e) {
+      $(document).scrollTop(top);
+    });
+  };
+  //移除禁止滚动条滚动
+  function removeUnScroll() {
+    $(document).unbind("scroll.unable");
+    window.scrollTo({ 
+      top: `${screenHeight * 3.5 + 75}`, 
+      behavior: "smooth"
+    });
+  };
+
+</script>

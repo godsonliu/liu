@@ -1,0 +1,108 @@
+<style>
+  .{{section.settings.class}} .slideshow-classic .flickity-viewport {
+    cursor: default;
+  }
+  .{{section.settings.class}} .slideshow-classic .preorder-btn {
+    cursor: pointer;
+    position: absolute;
+    z-index: 1;
+    border-radius: 30px;
+  }
+</style>
+
+<script>
+  {% if section.settings.product != blank and section.settings.class != blank %}
+    var ele_pc = document.createElement("div");
+    $(ele_pc).attr("class", "preorder-btn");
+    $(".{{section.settings.class}} .desktop-image").prepend(ele_pc);
+    $(ele_pc).css({
+      width: "11.92%",
+      height: "5.3%",
+      top: "74.5%",
+      left: "48%"
+    });
+    {% if section.settings.style %}
+      {% assign style = section.settings.style %}
+      {% assign style = style | remove: "{" %}
+      {% assign style = style | remove: "}" %}
+      $(ele_pc).css({
+        {{ style }}
+      })
+    {% endif %}
+    $(ele_pc).on("click", function() {
+      var id = "{{ section.settings.product.variants[0].id }}";
+      var variants = [{
+        id: id,
+        quantity: 1
+      }];
+      Shopify.theme.addItemsToCart(variants, {
+        onError: err => $.dialog({ title: err.message, content: err.description, type: 'red' })
+      })
+    });
+
+    var ele_h5 = document.createElement("div");
+    $(ele_h5).attr("class", "preorder-btn");
+    $(".{{section.settings.class}} .mobile-image").prepend(ele_h5);
+    $(ele_h5).css({
+      width: "34%",
+      height: "3.64%",
+      top: "51.69%",
+      left: "33.13%"
+    });
+    {% if section.settings.style_mob %}
+      {% assign style_mob = section.settings.style_mob %}
+      {% assign style_mob = style_mob | remove: "{" %}
+      {% assign style_mob = style_mob | remove: "}" %}
+      $(ele_pc).css({
+        {{ style_mob }}
+      })
+    {% endif %}
+    $(ele_h5).on("click", function() {
+      var id = "{{ section.settings.product.variants[0].id }}";
+      var variants = [{
+        id: id,
+        quantity: 1
+      }];
+      Shopify.theme.addItemsToCart(variants, {
+        onError: err => $.dialog({ title: err.message, content: err.description, type: 'red' })
+      })
+    });
+  {% endif %}
+</script>
+
+{% schema %}
+
+{
+  "name": "national pet preorder",
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "选择产品"
+    },
+    {
+      "type": "text",
+      "id": "class",
+      "label": "目标class"
+    },
+    {
+      "type": "textarea",
+      "id": "style",
+      "label": "按钮大小位置",
+      "info": "json格式,按钮位置变动时填写"
+    },
+    {
+      "type": "textarea",
+      "id": "style_mob",
+      "label": "移动端按钮大小位置",
+      "info": "json格式,按钮位置变动时填写"
+    }
+  ],
+  "presets": [{
+    "name": "national pet preorder",
+    "settings": {
+    }
+  }]
+}
+
+{% endschema %}

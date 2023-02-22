@@ -1,0 +1,42 @@
+{% if section.settings %}
+  {% assign config = section.settings %}
+  {% assign isSchemaData = true %}
+  {% assign id = section.id %}
+{% endif %}
+
+{% unless namespace %}
+  {% assign namespace = 'aplus' %}
+{% endunless %}
+
+{% if key %}
+{% if product.metafields[namespace][key].value %}
+  {% assign config = product.metafields[namespace][key].value %}
+{% else %}
+  {% assign config = product.metafields[namespace][key] %}
+{% endif %}
+
+  {% assign isSchemaData = false %}
+  {% assign id = key %}
+{% endif %}
+
+<section class="aplus aplus-full-image">
+  {% if config.headline != blank %}
+    <div class="aplus-full-image__title">
+      {{ config.headline }}
+    </div>
+  {% endif %}
+  <div class="aplus-full-image__image">
+    {% render 'aplus-video-player',
+      id: id,
+      imageUrl: config.coverUrl,
+      videoUrl: config.videoUrl,
+      thirdPartyVideo: config.thirdPartyVideo,
+      isSchemaData: isSchemaData
+    %}
+  </div>
+  {% if config.body != blank %}
+    <div class="aplus-full-image__description">
+      {{ config.body }}
+    </div>
+  {% endif %}
+</section>

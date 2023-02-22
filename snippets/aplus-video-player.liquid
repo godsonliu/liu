@@ -1,0 +1,285 @@
+{% if product.selected_or_first_available_variant != blank %}
+  {% assign sku = product.selected_or_first_available_variant.sku %}
+{% else %}
+  {% assign sku = product.variants[0].sku %}
+{% endif %}
+
+<div data-id="aplus-video-{{ id }}" class="aplus-video-player {{ additionalClasses }}">
+  <div class="aplus-video-placeholder"></div>
+  <div class="cover">
+    {% render 'lazyload_image'
+      src: imageUrl,
+      isSchemaData: isSchemaData,
+      alt: "poster",
+      additional_classes: "cover-image"
+    %}
+    <img class="play-icon" src="{{ 'aplus-play.png' | asset_url }}" />
+  </div>
+  <div class="aplus-video-container" id="aplus-video-{{ id }}-container">
+    {% if thirdPartyVideo %}
+      {% if thirdPartyVideo.type == 'youtube' %}
+        {% assign finalVideoUrl = 'https://www.youtube.com/embed/' | append: thirdPartyVideo.id %}
+        {% assign isYoutuBeVideo = true %}
+      {% elsif thirdPartyVideo.type == 'vimeo' %}
+        {% assign isVimoeVideo = true %}
+        {% assign finalVideoUrl = 'https://player.vimeo.com/video/' | append: thirdPartyVideo.id %}
+        <iframe src="{{ finalVideoUrl }}" allowfullscreen allowtransparency allow="autoplay"></iframe>
+      {% endif %}
+    {% else %}
+      {% if isSchemaData %}
+        <video poster="{{ imageUrl | img_url: '' }}" data-src="{{ videoUrl }}" controls></video>
+      {% else %}
+        <video poster="{{ imageUrl }}" data-src="{{ videoUrl }}" controls></video>
+      {% endif %}
+      {% assign finalVideoUrl = videoUrl %}
+    {% endif %}
+  </div>
+</div>
+
+<script defer>
+  $(document).ready(function(){
+    let youtubePlayer
+    let youtubePlayerStatus
+    let vimeoPlayer
+    let $video
+    const $container = $('[data-id="aplus-video-{{ id }}"]')
+
+    function pause() {
+      {% if thirdPartyVideo %}
+        {% if isYoutuBeVideo %}
+          if (youtubePlayer && youtubePlayer.pauseVideo) {
+            youtubePlayer.pauseVideo()
+          }
+        {% elsif isVimoeVideo %}
+          if (vimeoPlayer && vimeoPlayer.pause) {
+            vimeoPlayer.pause()
+          }
+        {% endif %}
+      {% else %}
+        if ($video.length) {
+          $video.trigger('pause')
+        }
+      {% endif %}
+    }
+
+    function play() {
+      const $coverImage = $container.find('.cover')
+      window.dispatchEvent(new Event('aplusPlayerPause'))
+
+      {% if thirdPartyVideo %}
+        {% if isYoutuBeVideo %}
+          if (youtubePlayer && youtubePlayer.playVideo) {
+            $coverImage.hide()
+            youtubePlayer.playVideo() 
+
+            function youtubeProgress() {
+              if (youtubePlayerStatus === YT.PlayerState.PLAYING) {
+    
+                progress(youtubePlayer.getCurrentTime() / youtubePlayer.getDuration())
+    
+                setTimeout(youtubeProgress, 100)
+              }
+            }
+
+            setTimeout(youtubeProgress, 100)
+          }
+        {% elsif isVimoeVideo %}
+          if (vimeoPlayer && vimeoPlayer.play) {
+            $coverImage.hide()
+            vimeoPlayer.play() 
+          }
+        {% endif %}
+      {% else %}
+        if ($video.length) {
+          $video.trigger('play')
+          $coverImage.hide()
+        }
+      {% endif %}
+
+      window.dataLayer.push({ "event_parameters": null });
+      window.dataLayer.push({
+        "event": "ga4Event",
+        "event_name": "video_start",
+        "event_parameters": {
+          "video_title": "{{ finalVideoUrl }}", 
+          "page_group":"Product Detail Page_{{ sku }}"
+        }
+      })
+    }
+
+    const progressCollectCheck = {
+      10: false,
+      15: false,
+      50: false,
+      75: false
+    }
+    function progress(percent) {
+      let needCollect = false
+      if (percent >= 0.1 && percent < 0.15 && !progressCollectCheck[10]) {
+        progressCollectCheck[10] = true
+        needCollect = true
+      } else if (percent >= 0.15 && percent < 0.5 && !progressCollectCheck[15]) {
+        progressCollectCheck[15] = true
+        needCollect = true
+      } else if (percent >= 0.5 && percent < 0.75 && !progressCollectCheck[50]) {
+        progressCollectCheck[50] = true
+        needCollect = true
+      } else if (percent >= 0.75 && !progressCollectCheck[75]) {
+        progressCollectCheck[75] = true
+        needCollect = true
+      }
+      if (!needCollect) {
+        return
+      }
+      window.dataLayer.push({ "event_parameters": null });
+      window.dataLayer.push({
+        "event": "ga4Event",
+        "event_name": "video_progress",
+        "event_parameters": {
+          "video_title": "{{ finalVideoUrl }}", 
+          "page_group":"Product Detail Page_{{ sku }}",
+          "video_percent": percent.toFixed(2) * 100, //进展10%、25%、50%、75%各触发一次，注意取值是数值，不带百分号%
+        }
+      })
+    }
+
+    function complete() {
+      window.dataLayer.push({ "event_parameters": null });
+      window.dataLayer.push({
+        "event": "ga4Event",
+        "event_name": "video_complete",
+        "event_parameters": {
+          "video_title": "{{ finalVideoUrl }}", 
+          "page_group":"Product Detail Page_{{ sku }}"
+        }
+      })
+    }
+
+    window.addEventListener('aplusPlayerPause', function(event) {
+      if (event.detail) {
+        if (event.detail.type === 'currentId' && '{{ id }}' !== event.detail.id) {
+          pause()
+        } else if (event.detail.type === 'targetContainer' && event.detail.container.parent().find('[data-id="aplus-video-{{ id }}"]').length) {
+          pause()
+        }
+      } else {
+        pause()
+      }
+    })
+    
+    {% if isYoutuBeVideo %}
+
+      if (!window.YT || !$('#aplus-youtube-js').length) {
+        const tag = document.createElement('script');
+        tag.id = 'aplus-youtube-js'
+        tag.src = 'https://www.youtube.com/iframe_api';
+        const scriptTag = document.getElementsByTagName('script')[0];
+        scriptTag.parentNode.insertBefore(tag, scriptTag);
+
+        window.onYouTubeIframeAPIReady = function onYouTubeIframeAPIReady() { 
+          window.dispatchEvent(new Event('youTubeIframeAPIReady'))
+        }
+      }
+
+      window.addEventListener('youTubeIframeAPIReady', function() {
+        youtubePlayer = new YT.Player('aplus-video-{{ id }}-container', {
+          height: '100%',
+          width: '100%',
+          videoId: '{{ thirdPartyVideo.id }}',
+          loop: 0,
+          autoplay: 0,
+          events: {
+            onStateChange(event) {
+              youtubePlayerStatus = event.data
+              if (event.data === YT.PlayerState.PLAYING) {
+                window.dispatchEvent(
+                  new CustomEvent(
+                    'aplusPlayerPause', 
+                    { 
+                      detail: {
+                        type: 'currentId',
+                        id: '{{id}}'
+                      } 
+                    })
+                )
+              }
+            }
+          }
+        })
+      })
+    {% elsif isVimoeVideo %}
+      if (!$('#aplus-vimeo-js').length || !window.Vimeo) {
+        const tag = document.createElement('script');
+        tag.id = 'aplus-vimeo-js'
+        tag.src = 'https://player.vimeo.com/api/player.js';
+        const scriptTag = document.getElementsByTagName('script')[0];
+        scriptTag.parentNode.insertBefore(tag, scriptTag);
+        scriptTag.onload = function() {
+          setTimeout(() => {
+            window.dispatchEvent(new Event('vimeoIframeAPIReady'))
+          })
+        }
+      } else {
+        window.dispatchEvent(new Event('vimeoIframeAPIReady'))
+      }
+
+      window.addEventListener('vimeoIframeAPIReady', function() {
+        vimeoPlayer = new Vimeo.Player($container.find('iframe')[0], {
+          with: 800,
+          height: 600
+        });
+
+        vimeoPlayer.on('play', function() {
+          window.dispatchEvent(
+            new CustomEvent(
+              'aplusPlayerPause', 
+              { 
+                detail: {
+                  type: 'currentId',
+                  id: '{{id}}'
+                } 
+              })
+          )
+        });
+        vimeoPlayer.on('ended', function() {
+          complete()
+        })
+        vimeoPlayer.on('progress', function({ percent }) {
+          progress(percent)
+        })
+      })
+
+    {% else %}
+      $video = $container.find('video')
+      $video
+        .on('play', function() {
+          window.dispatchEvent(
+            new CustomEvent(
+              'aplusPlayerPause', 
+              { 
+                detail: {
+                  type: 'currentId',
+                  id: '{{id}}'
+                } 
+              })
+          )
+        })
+        .on('ended', function() {
+          complete()
+        })
+        .on('timeupdate', function() {
+          progress($video[0].currentTime / $video[0].duration)
+        })
+    {% endif %}
+
+    $container
+      .on('click', '.cover .play-icon', function() {
+        const src = $video.data('src')
+        $video.attr('src', src)
+        play()
+      })
+  })
+</script>
+
+
+

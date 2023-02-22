@@ -1,0 +1,76 @@
+{% render 'aplus-bg-image-snippet' %}
+
+{% schema %}
+{
+  "name": "Aplus Bg Image with Text",
+  "presets": [
+    {
+      "name": "Aplus Bg Image with Text",
+      "settings": {}
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "headline"
+    },
+    {
+      "type": "text",
+      "id": "subheadline",
+      "label": "subheadline"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "body"
+    },
+    {
+      "type": "image_picker",
+      "id": "imageUrl",
+      "label": "background image",
+      "info": "1464 x 600 recommended"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobileImageUrl",
+      "label": "background image in mobile",
+      "info": "600 x 450 recommended"
+    },
+    {
+      "type": "radio",
+      "id": "textAlign",
+      "label": "text algin",
+      "options": [
+        {
+          "value": "left",
+          "label": "left"
+        },
+        {
+          "value": "right",
+          "label": "right"
+        }
+      ],
+      "default": "right"
+    },
+    {
+      "type": "radio",
+      "id": "textColor",
+      "label": "text color",
+      "options": [
+        {
+          "value": "black-text",
+          "label": "black"
+        },
+        {
+          "value": "white-text",
+          "label": "white"
+        }
+      ],
+      "default": "white-text"
+    }
+  ]
+}
+{% endschema %}
+
+  

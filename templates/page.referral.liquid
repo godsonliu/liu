@@ -1,0 +1,9 @@
+{{ 'PageSpecial.scss.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'clipboard.min.js' | asset_url }}" defer></script>
+
+<main
+  id="template-{{ template | replace: '.', '-' | handle }}"
+  class="shopify-section default-page"
+>
+  {% section 'referral-content' %}
+</main>

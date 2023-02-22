@@ -1,0 +1,186 @@
+<section class="reviews2020">
+
+  <div id="reviewsModal" class="reviewsModal">
+    <div class="dialogModal">
+      <div class="modalContent">
+        <button
+          id="modal_close" type="button" class="modalClose"
+          onclick="closeModal()"
+        >
+          <i class="iconfont">&#xe723;</i>
+        </button>
+        <div id="modal_con"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="banner">
+    <div class="img"><img src="{{ section.settings.banner_img }}"></div>
+    <div class="txt">
+      <div class="box">
+        <div class="txtBox">
+          <h1>{{ section.settings.banner_tit }}</h1>
+          <p>{{ section.settings.banner_desc }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="star">
+    <ul class="con">
+      <li>
+        <img class="ico" src="https://dz02g1kgtiysz.cloudfront.net/deals/files/200423_113120_eufy-de-review-page-042203.png">
+        <div class="gap rating">
+          <span class="stars">
+            <span><i class="iconfont"></i><i class="iconfont"></i><i class="iconfont"></i><i class="iconfont"></i><i class="iconfont"></i></span>
+            <span class="mask" style="width: 90%;"><i class="iconfont"></i><i class="iconfont"></i><i class="iconfont"></i><i class="iconfont"></i><i class="iconfont"></i></span>
+          </span>
+        </div>
+        <p class="num">{{ section.settings.num1 }}</p>
+      </li>
+      <li>
+        <img class="ico" src="https://dz02g1kgtiysz.cloudfront.net/deals/files/200423_113124_eufy-de-review-page-042205.png">
+        <div class="rating gap">
+          <span class="stars">
+            <span><i class="iconfont"></i><i class="iconfont"></i><i class="iconfont"></i><i class="iconfont"></i><i class="iconfont"></i></span>
+            <span class="mask" style="width: 90%;"><i class="iconfont"></i><i class="iconfont"></i><i class="iconfont"></i><i class="iconfont"></i><i class="iconfont"></i></span>
+          </span>
+        </div>
+        <p class="num">{{ section.settings.num2 }}</p>
+      </li>
+      <li>
+        <img class="ico" src="https://dz02g1kgtiysz.cloudfront.net/deals/files/200423_113128_eufy-de-review-page-042207.png">
+        <div class="rating gap">
+          <span class="stars">
+            <span><i class="iconfont"></i><i class="iconfont"></i><i class="iconfont"></i><i class="iconfont"></i><i class="iconfont"></i></span>
+            <span class="mask" style="width: 90%;"><i class="iconfont"></i><i class="iconfont"></i><i class="iconfont"></i><i class="iconfont"></i><i class="iconfont"></i></span>
+          </span>
+        </div>
+        <p class="num">{{ section.settings.num3 }}</p>
+      </li>
+    </ul>
+  </div>
+
+  <div class="reviews">
+    <ul class="nav">
+      <li data="appliances" class="active toogle_nav">
+        <div class="img"><img class="lazyload" data-src="https://dz02g1kgtiysz.cloudfront.net/deals/files/200423_180312_eufy-de-review-page-042203.png"></div>
+        <p>{{ section.settings.appliances }}</p>
+      </li>
+      <li data="security" class="toogle_nav">
+        <div class="img"><img class="lazyload" data-src="https://dz02g1kgtiysz.cloudfront.net/deals/files/200427_231200_eufy-de-review-page.jpg"></div>
+        <p>{{ section.settings.security }}</p>
+      </li>
+    </ul>
+
+    <div class="reviews_connect">
+      <div data="appliances" class="connect active">
+        <div class="shop">
+          <p>{{ section.settings.appliances }}</p>
+          <a class="btn button-normal submit" href="{{ section.settings.appliances_link }}">{{ section.settings.shopnow }}</a>
+        </div>
+        <div class="reviews_slider">{{ section.settings.appliances_info }}</div>
+      </div>
+    </div>
+
+    <div class="reviews_connect">
+      <div data="security" class="connect">
+        <div class="shop">
+          <p>{{ section.settings.security }}</p>
+          <a class="btn button-normal submit" href="{{ section.settings.security_link }}">{{ section.settings.shopnow }}</a>
+        </div>
+        <div  class="reviews_slider">{{ section.settings.security_info }}</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="ins oslider">
+    <div class="ins_slider">{{ section.settings.ins_info }}</div>
+  </div>
+
+  <div class="reviews_media oslider">
+    <div class="media_slider">{{ section.settings.media_info }}</div>
+  </div>
+
+  <div class="news">{{ section.settings.news_info }}</div>
+  
+</section>
+
+<script>
+  $(document).ready(function(){
+    const w = document.body.offsetWidth;
+    const num = w > 767 ? 3 : 1;
+    $('.reviews_slider').slick({
+      infinite: true,
+      speed: 500,
+      slidesToShow: num,
+      easing: 'linear',
+      centerMode: true,
+      variableWidth: true,
+    });
+    $('.ins_slider').slick({
+      infinite: true,
+      speed: 500,
+      slidesToShow: w > 767 ? 4 : 1,
+      easing: 'linear'
+    });
+    $('.media_slider').slick({
+      infinite: true,
+      speed: 500,
+      slidesToShow: num,
+      easing: 'linear'
+    });
+  })
+
+  function closeModal() {
+    $('#reviewsModal').css("display", "none");
+  }
+  function openModal(con) {
+    $('#reviewsModal').css("display", "block");
+    $('#reviewsModal #modal_con').html(con);
+  }
+
+  $('.reviews_connect .show_more').click(e => {
+    const dom = e.target.parentNode.parentNode.outerHTML;
+    openModal(dom);
+  })
+  
+  $('.toogle_nav').click(e => {
+    const dom = e.target;
+    const showDom = e.target.parentNode.getElementsByClassName('active')[0];
+    if (!dom.classList.contains('active')) {
+      const data = dom.getAttribute('data');
+      showDom.classList.remove('active');
+      dom.classList.add('active');
+      $('.reviews_connect .active').removeClass('active');
+      $('.reviews_connect').find(`.connect[data=${data}]`).addClass('active')
+    }
+  })
+</script>
+
+{% schema %}
+
+{
+  "name": "reviews info",
+  "settings": [
+    { "type": "text", "id": "banner_img", "label": "banner_img" },
+    { "type": "text", "id": "banner_tit", "label": "banner_tit" },
+    { "type": "text", "id": "banner_desc", "label": "banner_desc" },
+    { "type": "text", "id": "num1", "label": "num1" },
+    { "type": "text", "id": "num2", "label": "num2" },
+    { "type": "text", "id": "num3", "label": "num3" },
+    { "type": "text", "id": "shopnow", "label": "shopnow" },
+    { "type": "text", "id": "appliances", "label": "appliances" },
+    { "type": "text", "id": "appliances_link", "label": "appliances_link" },
+    { "type": "html", "id": "appliances_info", "label": "appliances_info" },
+    { "type": "text", "id": "security", "label": "Security" },
+    { "type": "text", "id": "security_link", "label": "Security_link" },
+    { "type": "html", "id": "security_info", "label": "Security_info" },
+    { "type": "html", "id": "ins_info", "label": "ins_info" },
+    { "type": "html", "id": "media_info", "label": "media_info" },
+    { "type": "html", "id": "news_info", "label": "news_info" }
+  ]
+}
+
+{% endschema %}

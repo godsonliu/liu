@@ -1,0 +1,90 @@
+{% if template contains "product" %}
+  {% if product.metafields.global.quick_intro_b.value %}
+    {% assign quickIntro = product.metafields.global.quick_intro_b.value %}
+  {% else %}
+    {% assign quickIntro = product.metafields.global.quick_intro_b %}
+  {% endif %}
+{% elsif template contains "page" %}
+  {% if page.metafields.global.quick_intro_b.value %}
+    {% assign quickIntro = page.metafields.global.quick_intro_b.value %}
+  {% else %}
+    {% assign quickIntro = page.metafields.global.quick_intro_b %}
+  {% endif %}
+{% endif %}
+
+{{ 'listing_quick_intro_b.scss.css' | asset_url | stylesheet_tag }}
+{% assign custom_css = section.settings.custom_css %}
+
+{% style %}
+  {%- if custom_css != blank -%}
+  {{ custom_css }}
+  {% endif %}
+{% endstyle %}
+
+<section id="{{quickIntro.id | default: 'overview'}}" class="quick_intro_b">
+  <div class="box-container">
+    {% if quickIntro.title %}
+    <div class="header">
+      <h3 class="title">{{ quickIntro.title }}</h3>
+      <p>
+        <a class="quick_intro_link" href="{{ quickIntro.link }}">{{ quickIntro.link_txt }}</a>
+      </p>
+    </div>
+    {% endif %}
+    {% if quickIntro.quick_intro.size %}
+    <div class="text_image text_image1">
+      {% for item in quickIntro.quick_intro %}
+        <div class="item" id="text_image1_{{ forloop.index }}">
+          {% if item.video %}
+            <div class="video">
+              <video  src="{{ item.video }}" playsinline muted="muted" autoplay="autoplay" loop="loop"></video>
+            </div>
+          {% else %}
+            <div class="image">
+              <img class="lazyload" alt="" data-src="{{ item.img }}" />
+            </div>
+          {% endif %}
+          <div class="text {% if item.iconlist %}text_center{% endif %}">
+            <h3 class="title">{{ item.title }}</h3>
+            <p class="desc">{{ item.desc }}</p>
+            {% if item.title2 %}<h3 class="title">{{ item.title2 }}</h3>{% endif %}
+            {% if item.desc2 %}<p class="desc">{{ item.desc2 }}</p>{% endif %}
+            <p class="tips">{{ item.tips }}</p>
+            {% if item.iconlist %}
+              <div class="iconlist">
+                {% for i in item.iconlist %}
+                  <div class="iconitem">
+                    <img class="lazyload" alt="" data-src="{{ i.icon }}" />
+                    <p>{{ i.txt }}</p>
+                  </div>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+{% schema %}
+
+{
+  "name": "quick intro component",
+  "presets": [
+    {
+      "category": "quick intro B Sections",
+      "name": "quick intro B"
+    }
+  ],
+  "settings": [{
+    "type": "textarea",
+    "id": "custom_css",
+    "label": "Custom CSS",
+    "info": "自定义样式（注意：请按照标准的css语法添加样式）"
+    }
+  ]
+}
+
+{% endschema %}

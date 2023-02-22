@@ -1,0 +1,1067 @@
+{% if shop.metafields['global']['storefront_key'].value %}
+  {% assign authorization = shop.metafields['global']['storefront_key'].value %}
+{% else %}
+  {% assign authorization = shop.metafields['global']['storefront_key'] %}
+{% endif %}
+
+<style>
+@media(max-width: 769px) {
+	.showPc {
+		display: none !important;
+	}
+}
+@media(min-width: 769px) {
+	.showMobile {
+		display: none !important;
+	}
+}
+#{{section.id}} pre, #{{section.id}} h1, #{{section.id}} h2, #{{section.id}} h3, #{{section.id}} h4, #{{section.id}} h5, #{{section.id}} h6, #{{section.id}} p, #{{section.id}} span {
+	{% if section.settings.content_font_family %}font-family: {{section.settings.content_font_family}} !important;{% endif %}
+}
+#{{section.id}}.component_bundle_sale {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-family: {{section.settings.content_font_family}} !important;
+	width: {{section.settings.box_width}};
+	height: {{section.settings.box_height}};
+	padding: {{section.settings.box_padding}};
+	background: {{section.settings.box_bg}};
+}
+#{{section.id}} .bundle-item-div {
+	max-width: 90%;
+	overflow-x: auto;
+	display: flex;
+	{% if section.settings.bundle_style == '3' %}
+	flex-direction: column;
+	align-items: center;
+	{% endif %}
+	{% if section.settings.bundle_style == '2' %}
+	flex-wrap: wrap;
+	{% endif %}
+	padding: {{section.settings.bundle_item_div_padding}};
+	background: {{section.settings.bundle_item_div_bg }};
+	border-radius: 12px;
+}
+#{{section.id}} .product_img {
+	width: 100%;
+	height: 150px;
+	border-radius: 12px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+@media(max-width: 769px) {
+	#{{section.id}} .bundle-item-div {
+		max-width: 100%;
+	}
+	#{{section.id}} .product_img {
+		height: 110px;
+	}
+	{% if section.settings.custom_style == '1' %}
+	#{{section.id}} .bundle-item-operator {
+		transform: translateY(-36px);
+	}
+	{% endif %}
+}
+#{{section.id}} .product_img .items_img {
+	width: 100%;
+	border: none;
+	outline:none; 
+	-webkit-tap-highlight-color: transparent; 
+	-webkit-appearance: none;
+}
+#{{section.id}} .product-info {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	margin: 10px 0 0 0;
+}
+#{{section.id}} .product-title {
+	display: block;
+	width: 100%;
+	line-height: 1.5;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	word-break: break-word;;
+}
+#{{section.id}} .bundle-item-operator {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	{% if section.settings.custom_style == '1' %}
+	transform: translateY(-46px);
+	{% endif %}
+}
+#{{section.id}} .compare-at-price {
+	text-decoration: line-through;
+	margin-left: 8px;
+}
+#{{section.id}} .save-price {
+	margin: {{section.settings.save_price_margin}};
+}
+#{{section.id}} .limited_items_content_button {
+	width: fit-content;
+	border: 1px solid;
+	max-width: 250px;
+	border-radius: 70px;
+	outline: none;
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+	-webkit-tap-highlight-color: transparent;
+	font-family: {{section.settings.content_font_family}} !important;
+}
+#{{section.id}} .limited_items_content_button:hover {
+	background: {{section.settings.button_hover_bg}} !important;
+	border-color: {{section.settings.button_hover_border_color}} !important;
+	color: {{section.settings.button_hover_txt_color}} !important;
+}
+#{{section.id}} .limited_items_content_button-disabled {
+	background-color: {{ section.settings.button_disabled_bg }} !important;
+	color: {{section.settings.button_disabled_txt_color}} !important;
+	border-color: {{section.settings.button_disabled_border_color}} !important;
+	pointer-events: none;
+	cursor: not-allowed;
+}
+#{{section.id}} .bundle-item.d-flex {
+	display: flex;
+	align-items: center;
+}
+#{{section.id}} .d-flex .product_img {
+	width: 30%;
+}
+#{{section.id}} .d-flex .product-info {
+	width: 70%;
+	margin: 0;
+	padding-left: 20px;
+}
+#{{section.id}} .price-total {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding: 0 0 0 20px;
+	margin: 0 0 0 20px;
+	border-left: 1px solid;
+}
+#{{section.id}} .bundle-item-div-bundle-style .price-total  {
+	{% if section.settings.bundle_style == '3' %}
+	width: 100%;
+	{% else %}
+	width: 80%;
+	{% endif %}
+	padding: 20px 0;
+	margin: 20px 0 0 0;
+	border: 0;
+	border-top: 1px solid;
+}
+#{{section.id}} .include-overview-reviews {
+	display: inline-block;
+}
+#{{section.id}} .prodYotpoReviews {
+	margin: 0;
+}
+#{{section.id}} .prodYotpoReviews .text-m {
+	display: none;
+}
+</style>
+
+
+<div class="component_bundle_sale {{section.settings.show_device}}" id="{{section.id}}">
+	<div class="bundle-item-div {% if section.settings.bundle_style == '2' or section.settings.bundle_style == '3' %}bundle-item-div-bundle-style{% endif %}">
+		{% for block in  section.blocks %}
+		{% assign oProduct = block.settings.product_info %}
+		{% assign variants = oProduct.variants %}
+		{% assign oProduct_variant = oProduct.selected_or_first_available_variant %}
+		{% for child_variant in variants  %} 
+			{% if child_variant.sku == block.settings.variant_sku %}
+			{% assign oProduct_variant = child_variant %}
+			{% endif %}
+		{% endfor %}
+		<div 
+			data-forloop_index="{{forloop.index}}" 
+			class="bundle-item {% if section.settings.custom_style == '2' %}d-flex{% endif %}"
+			style=" width: {{ section.settings.card_width }}"
+		>
+			<a 
+				href="{{oProduct_variant.url}}&ref={{section.settings.img_source}}"
+				data-source="{{section.settings.ga4_img_source}}"
+				data-ga4-index="{{forloop.index}}"
+				class="product_img ga4-btn"
+				style="background: {{ section.settings.img_bg }}">
+					<img class="items_img" src="
+						{% if oProduct_variant.image != blank %}
+						{{ oProduct_variant.image | image_url}}
+						{% else %}
+						{{ oProduct.featured_image | image_url}}
+						{% endif %}
+					"/>
+			</a>
+			<div 
+				style=" text-align: {{ section.settings.content_text_align }}"
+				class="product-info"
+			>
+				<a
+					data-source="{{section.settings.ga4_img_source}}"
+					data-ga4-index="{{forloop.index}}"
+					href="{{oProduct_variant.url}}&ref={{section.settings.img_source}}" 
+					class="product-title ga4-btn"
+					style="
+					color: {{section.settings.product_title_color}};
+					font-size: {{section.settings.product_title_font_size}};
+					font-weight: {{section.settings.product_title_font_weight}};
+					">
+					{{ oProduct.title }}
+				</a>
+				{% if section.settings.has_reviews %}
+				<div class="include-overview-reviews">
+					{% render 'include_overview_reviews', product: oProduct %}
+				</div>
+				{% endif %}
+				<div 
+					class="price-div"
+					style="
+						color: {{section.settings.product_price_color}};
+						font-size: {{section.settings.product_price_font_size}};
+						font-weight: {{section.settings.product_price_font_weight}};
+					">
+					{% render 'price-element', price: oProduct_variant.price %}
+				</div>
+			</div>
+		</div>
+		{% if forloop.last == false %}
+		<div 
+			class="bundle-item-operator"
+			style="
+				width: {{section.settings.operator_width}};
+				color: {{section.settings.operator_color}};
+				font-size: {{section.settings.operator_font_size}}
+			">
+			+
+		</div>
+		{% endif %}
+		{% endfor %}
+		<div 
+			class="price-total"
+			style="
+				align-items: {{section.settings.text_align}};
+				border-color: {{section.settings.border_color}};
+		">
+			<div class="limited_items_content_price">
+				<span 
+					class="price-div"
+					style="
+						color: {{section.settings.price_color}};
+						font-size: {{section.settings.price_font_size}};
+						font-weight: {{section.settings.price_font_weight}};
+					">
+					{% assign save_total_price = 0 %}
+					{% for block in  section.blocks %}
+						{% assign save_total_price = save_total_price | plus: block.settings.product_bundle_price %}
+						{% if forloop.last == true %}
+							{% render 'price-element', price: save_total_price  %}
+						{% endif %}
+					{% endfor %}
+				</span>
+				<span
+					class="compare-at-price"
+					style="
+						color: {{section.settings.compare_at_price_color}};
+						font-size: {{section.settings.compare_at_price_font_size}};
+						font-weight: {{section.settings.compare_at_price_font_weight}}
+					"
+				>
+					{% assign save_total_compare_at_price = 0 %}
+					{% for block in  section.blocks %}
+						{% assign oProduct = block.settings.product_info %}
+						{% assign variants = oProduct.variants %}
+						{% assign oProduct_variant = oProduct.selected_or_first_available_variant %}
+						{% for child_variant in variants  %} 
+							{% if child_variant.sku == block.settings.variant_sku %}
+							{% assign oProduct_variant = child_variant %}
+							{% endif %}
+						{% endfor %}
+						{% assign save_total_compare_at_price = save_total_compare_at_price | plus: oProduct_variant.price %}
+						{% if forloop.last == true %}
+							{% render 'price-element', price: save_total_compare_at_price %}
+						{% endif %}
+					{% endfor %}
+				</span>
+			</div>
+			{% if section.settings.save_price_text != blank %}
+			<div 
+				class="save-price"
+				style="
+					color: {{section.settings.save_price_color}};
+					font-size: {{section.settings.save_price_font_size}};
+				">
+				{{section.settings.save_price_text}}
+				{% assign diff_price = save_total_compare_at_price | minus: save_total_price  %}
+				{% render 'price-element', price: diff_price %}
+			</div>
+			{% endif %}
+			{% if section.settings.button_txt %}
+			{% assign has_sold_out = false %}
+			{% for block in  section.blocks %}
+				{% assign oProduct = block.settings.product_info %}
+				{% assign variants = oProduct.variants %}
+				{% assign oProduct_variant = oProduct.selected_or_first_available_variant %}
+				{% for child_variant in variants  %} 
+					{% if child_variant.sku == block.settings.variant_sku %}
+					{% assign oProduct_variant = child_variant %}
+					{% endif %}
+				{% endfor %}
+				{% if oProduct_variant.available == false or oProduct_variant.price == 999999999 %}
+				{% assign has_sold_out = true %}
+				{% endif %}
+			{% endfor %}
+			<button 
+				class="
+					{% if has_sold_out == true %}
+					limited_items_content_button-disabled
+					{% endif %}
+					limited_items_content_button
+				"
+				style="
+					{% if section.settings.button_width != blank %}width:{{section.settings.button_width}};{% endif %}
+					{% if section.settings.button_height != blank %}height:{{section.settings.button_height}};{% endif %}
+					border-color: {{section.settings.button_border_color}};
+					color: {{section.settings.button_txt_color}};
+					font-size: {{section.settings.button_txt_font_size}};
+					background: {{section.settings.button_bg}};
+					padding: {{ section.settings.button_padding }};
+				">
+					{% if has_sold_out == false %}
+					{{section.settings.button_txt}}
+					{% else %}
+					{{ 'products.product.sold_out' | t }}
+					{% endif %}
+			</button>
+			{% endif %}
+		</div>
+	</div>
+</div>
+
+<script>
+$(function() {
+	$('#{{section.id}} .limited_items_content_button').on('click', function() {
+		var line_items = []
+		{% for block in  section.blocks %}
+		{% assign oProduct = block.settings.product_info %}
+		{% assign variants = oProduct.variants %}
+		{% assign oProduct_variant = oProduct.selected_or_first_available_variant %}
+		{% for child_variant in variants  %} 
+			{% if child_variant.sku == block.settings.variant_sku %}
+			{% assign oProduct_variant = child_variant %}
+			{% endif %}
+		{% endfor %}
+		// # _bundle_up: 加密参数, = (42 * variant_id[后三位] * _bundle_price * _bundle_quantity * _bundle_size) 的前3位. 只取3位的原因是太长容易变成科学计数,导致不准
+			line_items.push({
+				variant_id: '{{oProduct_variant.id}}',
+				properties: {
+					"_bundle_name": "BUNDLE_SALE",
+					"_bundle_price": "{{block.settings.product_bundle_price}}",
+					"_bundle_quantity": 1,
+					"_bundle_size": "{{forloop.length}}",
+					"_bundle_up": "{{ oProduct_variant.id | slice: -3, 3 | times: 42 | times: block.settings.product_bundle_price | times: 1 | times: forloop.length | slice: 0, 3 }}"
+				}
+			})
+		{% endfor %}
+		Shopify.theme.bundleBuynow_BF({
+			authorization: "{{ authorization }}",
+			checkout: {
+				line_items: line_items,
+				presentment_currency: "{{ shop.currency }}",
+				is_upstream_button: true,
+				page_type: "product",
+				secret: true,
+				wallet_name: "Checkout",
+				page_group: "{{section.settings.ga4_page_group}}",
+				page_position: "{{section.settings.ga4_page_group}}_Checkout"
+			},
+			onSuccess: () => {},
+			onError: err => {
+				console.log(err)
+				$.dialog({ title: err.message, content: err.description, type: 'red' });
+			}
+		});
+	})
+	let allProducts = []
+	window.dataLayer.push({ "event_parameters": null });
+	{% for block in section.blocks %}
+		{% assign oProduct = block.settings.product_info %}
+		{% assign variants = oProduct.variants %}
+		{% assign oProduct_variant = oProduct.selected_or_first_available_variant %}
+		{% for child_variant in variants  %} 
+			{% if child_variant.sku == block.settings.variant_sku %}
+			{% assign oProduct_variant = child_variant %}
+			{% endif %}
+		{% endfor %}
+			var item = {
+				"event": "ga4Event",
+				"event_name": "view_item_list",
+				"event_parameters": {
+					"page_group": "{{section.settings.ga4_page_group}}",
+					"currency": "{{shop.currency}}",
+					"position": (function(){
+						let bundle_sale_list = Array.from(document.querySelectorAll('.component_bundle_sale.{{section.settings.show_device}}')).map(item => item.id)
+						let index = bundle_sale_list.indexOf('{{section.id}}')
+						if(index > -1) {
+							index++;
+							return 'bundle' + index 
+						}
+					})(),
+					"items": [{
+						"item_id": "{{oProduct_variant.sku}}",
+						"item_name": "{{oProduct.title | replace: '<br/>', '' }}",
+						"item_brand": "{{shop.name}}",
+						"item_category": "{{oProduct_variant.type}}",
+						"item_variant": "{{oProduct_variant.title}}",
+						"price": "{{oProduct_variant.price | divided_by: 100}}",
+						"index": "{{forloop.index}}",
+						"item_list_id": "{{section.id}}",
+						"item_list_name": "{{section.id}}"
+					}]
+				}
+			}
+			allProducts.push(item)
+	{% endfor %}
+
+	let io = new IntersectionObserver((entries) => {
+    entries.forEach(item => {
+			let el = item.target
+      if (item.isIntersecting) {
+				let index = el.getAttribute('data-forloop_index') || 1;
+				index--;
+				window.dataLayer.push(allProducts[index])
+        io.unobserve(item.target)
+      }
+    })
+  })
+
+	const limited_items_list = document.querySelectorAll('#{{section.id}} .bundle-item')
+
+	limited_items_list.forEach((el) => {
+		io.observe(el)
+	})
+
+	$('#{{section.id}} .ga4-btn').on('click', function() {
+		let index = $(this).data("ga4-index");
+		let source = $(this).data("source");
+		index--;
+		let position = allProducts[index].event_parameters.position;
+		let items = allProducts[index].event_parameters.items;
+		window.dataLayer.push({ "event_parameters": null });
+		window.dataLayer.push({
+			"event": "ga4Event",
+			"event_name": "select_item",
+			"event_parameters": {
+				"page_group": "{{section.settings.ga4_page_group}}",
+				"position": position,
+				"action": source + items[0].item_name,
+				"currency": "{{shop.currency}}",
+				"items": items
+			}
+		});
+	})
+})
+</script>
+
+{% schema %}
+	{
+		"name": "component_bundle_sale",
+		"presets": [
+			{
+				"name": "component_bundle_sale"
+			}
+		],
+		"settings": [
+			{
+				"type": "select",
+				"id": "show_device",
+				"label": "展示的设备",
+				"info": "移动端或PC端",
+				"options": [
+					{
+						"value": "showPc",
+						"label": "PC"
+					},
+					{
+						"value": "showMobile",
+						"label": "Mobile"
+					},
+					{
+						"value": "",
+						"label": "两端共用"
+					}
+				],
+				"default": "showPc"
+			},
+			{
+				"type": "header",
+				"content": "埋点相关"
+			},
+			{
+				"type": "text",
+				"id": "img_source",
+				"label": "GA3埋点字段,图片的Ref",
+				"default": "pd_live_img"
+			},
+			{
+				"type": "text",
+				"id": "ga4_img_source",
+				"label": "GA4图片入口埋点字段前缀",
+				"default": "img_"
+			},
+			{
+				"type": "text",
+				"id": "ga4_page_group",
+				"label": "Ga4的埋点字段",
+				"default": "Live Streaming Page"
+			},
+			{
+				"type": "header",
+				"content": "产品信息区域"
+			},
+			{
+				"type": "select",
+				"id": "custom_style",
+				"label": "卡片样式选择",
+				"options": [
+					{
+						"value": "1",
+						"label": "样式1（纵向排列）"
+					},
+					{
+						"value": "2",
+						"label": "样式2（横向排列）"
+					}
+				],
+				"default": "2"
+			},
+			{
+				"type": "select",
+				"id": "card_width",
+				"label": "卡片宽度",
+				"options": [
+					{
+						"label": "样式1（纵向排列）时的合适宽度",
+						"value":  "150px"
+					},
+					{
+						"label": "样式2（横向排列）时的合适宽度",
+						"value":  "334px"
+					}
+				],
+				"default": "334px"
+			},
+			{
+				"type": "select",
+				"id": "content_text_align",
+				"label": "产品描述区文案水平居中方式",
+				"options": [
+					{
+						"value": "left",
+						"label": "居左"
+					},
+					{
+						"value": "center",
+						"label": "居中"
+					},
+					{
+						"value": "right",
+						"label": "居右"
+					}
+				],
+				"default": "left"
+			},
+			{
+				"type": "select",
+				"id": "content_font_family",
+				"label": "内容区字体",
+				"default": "DINNextLT",
+				"info": "这里聚齐了所有品牌站点的字体，请选择该品牌已有的字体",
+				"options": [
+					{
+						"value": "DINNextLT",
+						"label": "DINNextLT"
+					},
+					{
+						"value": "Helvetica",
+						"label": "Helvetica"
+					},
+					{
+						"value": "Arial",
+						"label": "Arial"
+					},
+          {
+            "value": "Avenir Next",
+            "label": "Avenir Next"
+          },
+          {
+            "value": "Helvetica Neue",
+            "label": "Helvetica Neue"
+          },
+          {
+            "value": "",
+            "label": "系统默认字体"
+          }
+				]
+			},
+			{
+				"type": "color",
+				"id": "product_title_color",
+				"label": "产品标题颜色",
+				"default": "#000000"
+			},
+			{
+				"type": "text",
+				"id": "product_title_font_size",
+				"label": "产品标题大小",
+				"default": "30px"
+			},
+			{
+				"type": "select",
+				"id": "product_title_font_weight",
+				"label": "产品标题粗细",
+				"options": [
+					{
+						"value": "bold",
+						"label": "bold"
+					},
+					{
+						"value": "normal",
+						"label": "normal"
+					}
+				],
+				"default": "bold"
+			},
+			{
+				"type": "color",
+				"id": "product_price_color",
+				"label": "价格颜色",
+				"default": "#000000"
+			},
+			{
+				"type": "text",
+				"id": "product_price_font_size",
+				"label": "价格大小",
+				"default": "28px"
+			},
+			{
+				"type": "select",
+				"id": "product_price_font_weight",
+				"label": "价格粗细",
+				"default": "bold",
+				"options": [
+					{
+						"value": "bold",
+						"label": "bold"
+					},
+					{
+						"value": "normal",
+						"label": "normal"
+					}
+				]
+			},
+			{
+				"type": "color",
+				"id": "img_bg",
+				"label": "产品图片的背景色",
+				"default": "#ffffff"
+			},
+			{
+				"type": "checkbox",
+				"id": "has_reviews",
+				"label": "是否需要产品的星级评分",
+				"default": true
+			},
+			{
+				"type": "header",
+				"content": "bundle内容区"
+			},
+			{
+				"type": "select",
+				"id": "bundle_style",
+				"label": "bundle样式区域",
+				"options": [
+					{
+						"label": "总价格区域与bundle，在一行!!！",
+						"value": "1"
+					},
+					{
+						"label": "总价格区域与bundle，不在一行！！！",
+						"value": "2"
+					},
+					{
+						"label": "每个bundle都不在一行！！！",
+						"value": "3"
+					}
+				],
+				"default": "1"
+			},
+			{
+				"type": "text",
+				"id": "bundle_item_div_padding",
+				"label": "bundle区域的内边距,保持默认值！！！",
+				"default": "50px 15px"
+			},
+			{
+				"type": "color",
+				"id": "bundle_item_div_bg",
+				"label": "bundle区域的背景色"
+			},
+			{
+				"type": "color",
+				"id": "border_color",
+				"label": "分割线颜色",
+				"default": "#999999"
+			},
+			{
+				"type": "text",
+				"id": "operator_width",
+				"label": "操作符宽度(保持默认值)",
+				"default": "50px"
+			},
+			{
+				"type": "color",
+				"id": "operator_color",
+				"label": "操作符颜色（保持默认值！！！）",
+				"default": "#999999"
+			},
+			{
+				"type": "text",
+				"id": "operator_font_size",
+				"label": "操作符“加号”大小（保持默认值）",
+				"default": "40px"
+			},
+			{
+				"type": "header",
+				"content": "外层盒子相关信息"
+			},
+			{
+				"type": "text",
+				"id": "box_width",
+				"label": "外层盒子的宽度（保持默认值！！！）",
+				"info": "可以是百分比可以是固定的像素，内容区域会默认居中",
+				"default": "100%"
+			},
+			{
+				"type": "text",
+				"id": "box_height",
+				"label": "外层盒子的高度(保持默认值！！！)",
+				"info": "可以是百分比可以是固定的像素，内容区域会默认居中"
+			},
+			{
+				"type": "text",
+				"id": "box_padding",
+				"label": "外层盒子的内边距（保持默认值！！！）"
+			},
+			{
+				"type": "color",
+				"id": "box_bg",
+				"label": "外层盒子背景色",
+				"default": "#f6f6f6"
+			},
+			{
+				"type": "header",
+				"content": "总价格区域"
+			},
+			{
+				"type": "select",
+				"id": "text_align",
+				"label": "价格信息区域文案左中右",
+				"options": [
+					{
+						"value": "flex-start",
+						"label": "居左"
+					},
+					{
+						"value": "center",
+						"label": "居中"
+					},
+					{
+						"value": "flex-end",
+						"label": "居右"
+					}
+				],
+				"default": "flex-start"
+			},
+			{
+				"type": "text",
+				"id": "button_width",
+				"label": "按钮宽度",
+				"info": "一般情况下是不建议给按钮设置宽度的，通过下方的padding进行设置"
+			},
+			{
+				"type": "text",
+				"id": "button_height",
+				"label": "按钮高度",
+				"info": "一般情况下是不建议给按钮设置宽度的，通过下方的padding进行设置"
+			},
+			{
+				"type": "text",
+				"id": "button_txt",
+				"label": "按钮文案",
+				"default": "Buy Now"
+			},
+			{
+				"type": "text",
+				"id": "button_padding",
+				"label": "按钮内边距",
+				"default": "6px 20px"
+			},
+			{
+				"type": "color",
+				"id": "button_bg",
+				"label": "按钮背景色",
+				"default": "#ffffff"
+			},
+			{
+				"type": "color",
+				"id": "button_border_color",
+				"label": "按钮边框颜色",
+				"default": "#333333"
+			},
+			{
+				"type": "color",
+				"id": "button_txt_color",
+				"label": "按钮文案颜色",
+				"default": "#333333"
+			},
+			{
+				"type": "text",
+				"id": "button_txt_font_size",
+				"label": "按钮文案大小",
+				"default": "16px"
+			},
+			{
+				"type": "color",
+				"id": "button_hover_bg",
+				"label": "按钮hover时背景色",
+				"default": "#00a9e1"
+			},
+			{
+				"type": "color",
+				"id": "button_hover_border_color",
+				"label": "按钮hover时边框颜色",
+				"default": "#00a9e1"
+			},
+			{
+				"type": "color",
+				"id": "button_hover_txt_color",
+				"label": "按钮hover时文案颜色",
+				"default": "#ffffff"
+			},
+			{
+				"type": "color",
+				"id": "button_disabled_bg",
+				"label": "按钮禁用时的背景色",
+				"info": "没有库存或产品下架时会禁用",
+				"default": "#666666"
+			},
+			{
+				"type": "color",
+				"id": "button_disabled_border_color",
+				"label": "按钮禁用时的边框颜色",
+				"info": "没有库存或产品下架时会禁用",
+				"default": "#666666"
+			},
+			{
+				"type": "color",
+				"id": "button_disabled_txt_color",
+				"label": "按钮禁用时的文案颜色",
+				"info": "没有库存或产品下架时会禁用",
+				"default": "#ffffff"
+			},
+			{
+				"type": "color",
+				"id": "price_color",
+				"label": "价格颜色",
+				"default": "#000000"
+			},
+			{
+				"type": "text",
+				"id": "price_font_size",
+				"label": "价格大小",
+				"default": "28px"
+			},
+			{
+				"type": "select",
+				"id": "price_font_weight",
+				"label": "价格粗细",
+				"default": "bold",
+				"options": [
+					{
+						"value": "bold",
+						"label": "bold"
+					},
+					{
+						"value": "normal",
+						"label": "normal"
+					}
+				]
+			},
+			{
+				"type": "color",
+				"id": "compare_at_price_color",
+				"label": "原价格颜色",
+				"default": "#333333"
+			},
+			{
+				"type": "text",
+				"id": "compare_at_price_font_size",
+				"label": "原价格大小",
+				"default": "16px"
+			},
+			{
+				"type": "select",
+				"id": "compare_at_price_font_weight",
+				"label": "原价格粗细",
+				"default": "normal",
+				"options": [
+					{
+						"value": "bold",
+						"label": "bold"
+					},
+					{
+						"value": "normal",
+						"label": "normal"
+					}
+				]
+			},
+			{
+				"type": "color",
+				"id": "save_price_color",
+				"label": "节省多少钱的文案颜色",
+				"default": "#333333"
+			},
+			{
+				"type": "text",
+				"id": "save_price_font_size",
+				"label": "节省多少钱的文案大小",
+				"default": "16px"
+			},
+			{
+				"type": "text",
+				"id": "save_price_text",
+				"label": "节省文案",
+				"default": "You save"
+			},
+			{
+				"type": "text",
+				"id": "save_price_margin",
+				"label": "节省的外边距",
+				"default": "0 0 20px 0"
+			},
+			{
+				"type": "header",
+				"content": "作废区"
+			},
+			{
+				"type": "text",
+				"id": "bundle_item_div_width",
+				"label": "bundle区域的宽度(作废！！！)"
+			},
+						{
+				"type": "text",
+				"id": "width",
+				"label": "价格区域宽度（作废！！！）"
+			},
+			{
+				"type": "text",
+				"id": "height",
+				"label": "价格区域高度（作废！！！）"
+			},
+			{
+				"type": "text",
+				"id": "border",
+				"label": "下方区域的边框（作废！！！）",
+				"default": "border-top: 1px solid",
+				"info": "这里为了灵活方便设置，直接写了CSS代码"
+			},
+			{
+				"type": "text",
+				"id": "padding",
+				"label": "下方区域边距（作废！！！",
+				"info": "用来设置左右或上下内边距，例如：100px 50px。代表上下为100px 左右代表50px，中间以空格隔开。"
+			}
+		],
+		"blocks": [
+			{
+				"type": "bundle_item",
+				"name": "bundle_item",
+				"settings": [
+					{
+						"type": "product",
+						"id": "product_info",
+						"label": "选择产品",
+						"info": "用于获取产品信息"
+					},
+					{
+						"type": "text",
+						"id": "variant_sku",
+						"label": "variant_sku",
+						"info": "提供给自定义展示不同商品的variant，如果不填写，默认就展示第一个可用的variant"
+					},
+					{
+						"type": "number",
+						"id": "product_bundle_price",
+						"label": "捆绑价格",
+						"info": "填写数字，单位是分"
+					},
+					{
+						"type": "header",
+						"content": "作废区"
+					},
+					{
+						"type": "text",
+						"id": "card_height",
+						"label": "卡片高度（作废！！！）"
+					},
+					{
+						"type": "text",
+						"id": "card_margin",
+						"label": "卡片的外边距（作废！！！）",
+						"info": "用作处理多个卡片时直接的间距, 0 10px 0 0 代表上右下左"
+					},
+					{
+						"type": "text",
+						"id": "img_width",
+						"label": "产品图片的宽度（作废！！！）"
+					},
+					{
+						"type": "text",
+						"id": "img_height",
+						"label": "产品图片的高度（作废！！！）"
+					},
+					{
+						"type": "text",
+						"id": "product_info_width",
+						"label": "组合区域宽度（作废！！！）",
+						"info": "组合区域为 标题、价格、评分"
+					},
+					{
+						"type": "text",
+						"id": "product_info_height",
+						"label": "组合区域高度（作废！！！）",
+						"info": "组合区域为 标题、价格、评分"
+					},
+					{
+						"type": "text",
+						"id": "operator_margin",
+						"label": "操作符外边距(作废！！！)",
+						"default": "-100px 50px 0 50px",
+						"info": "这里的-100px 其实是图片的高度减半，目前是200px 减半为 100px，向上移为负，改变图片高度时，请将该边距进行调整"
+					}
+				]
+			}
+		]
+	}
+{% endschema %}

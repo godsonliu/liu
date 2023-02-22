@@ -1,0 +1,27 @@
+{% assign blocks = section.blocks %}
+
+{% for item in blocks %}
+    {% capture styleName %}{{ item.settings.styleName }}.css{% endcapture %}
+    <link rel="stylesheet" href="{{ styleName | asset_url }}">
+{% endfor %}
+
+{% schema %}
+{
+    "name": "Custom Style Block",
+    "presets": [{
+        "category": "Custom Style Block Sections",
+        "name": "Custom Style Block"
+    }],
+    "blocks":[
+    {
+      "name":"StyleLink",
+      "type":"StyleLink",
+      "settings":[
+      {
+        "type": "text",
+        "id": "styleName",
+        "label": "私有样式名称"
+      }]
+    }]
+}
+{% endschema %}

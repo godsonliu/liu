@@ -1,0 +1,835 @@
+{% assign section_id = 'shopify-section-' | append: section.id %}
+<style>
+@media(max-width: 769px) {
+  .showPc {
+    display: none;
+  } 
+}
+@media(min-width: 769px) {
+  .showMobile {
+    display: none;
+  } 
+}
+.mach_question_div {
+  background: #F5F5F7;
+  padding: 80px 30px;
+}
+.mach_question {
+  width: 62.5vw;
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+.mach_question_title {
+  font-size: 4.6875vw;
+  line-height: 5.36vw;
+  color: #000;
+  font-weight: 500;
+}
+.mach_question_subtitle {
+  color: #6E6E73;
+  font-size: 1.25vw;
+  line-height: 1.46vw;
+  font-weight: 400;
+  margin: 40px 0;
+}
+.check-rules {
+  font-size: 18px;
+  line-height: 20px;
+  text-decoration-line: underline;
+  color: #86868B;
+  margin: 30px 0;
+  cursor: pointer;
+}
+.mach-question-content {
+  border-radius: 10px;
+}
+.question-step {
+  padding: 40px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.question-step-first {
+  background: #1D1D1F;
+  border-radius: 10px;
+}
+.question-step-next {
+  border-radius: 20px;
+  padding: 60px 30px;
+  background: #fff;
+  display: none;
+}
+.question-step-number {
+  display: none;
+}
+
+.question-svg {
+  width: 100%;
+  max-width: 420px;
+}
+
+.question-title {
+  font-weight: 500;
+  font-size: 2.5vw;
+  line-height: 2.5vw;
+  color: #FFFFFF;
+}
+.question-button {
+  width: 90%;
+  max-width: 342px;
+  height: 60px;
+  background: #EF3340;
+  border-radius: 80px;
+  font-size: 24px;
+  line-height: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-weight: 400;
+  cursor: pointer;
+  margin: 30px auto;
+  border: none;
+}
+
+.answer-list {
+  height: 30px;
+  overflow: hidden;
+}
+.answer-div-container {
+  position: relative;
+}
+.answer-item {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 20px;
+  color: #CECECE;
+  opacity: 0.6;
+}
+.question-buttons {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+.next-button {
+  background: #EF3340;
+  margin: 0 auto;
+}
+.next-button[disabled] {
+  background-color: #86868B;
+	pointer-events: none;
+	cursor: not-allowed;
+}
+.step-title {
+  font-weight: 500;
+  font-size: 2vw;
+  line-height: 2.4vw;
+  color: #1D1D1F;
+  text-align: left;
+}
+.multi-choice {
+  font-size: 14px;
+  color: #86868B;
+}
+.step-answer-list {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 30px 0;
+}
+.step-answer-item {
+  width: 100%;
+  max-width: 320px;
+  height: 350px;
+  border: 4px solid transparent;
+  border-radius: 20px;
+  position: relative;
+  padding: 25px;
+  text-align: left;
+  overflow: hidden;
+  cursor: pointer;
+  margin: 0 10px;
+}
+.step-answer-item:hover {
+  border-color: #EF3340;
+}
+.step-answer-item-active {
+  border-color: #EF3340;
+}
+
+.answer-item-title {
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+  color: #FFFFFF;
+  position: relative;
+  z-index: 2;
+}
+.answer-item-title .chart-a {
+  font-size: 2.1vw;
+  line-height: 2.4vw;
+}
+.answer-item-img {
+  width: 97%;
+  height: 97%;
+  object-fit: cover;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 12px;
+}
+
+@media(max-width: 769px) {
+  .mach_question {
+    width: 100%;
+  }
+  .mach_question_div {
+    padding: 30px 24px;
+  }
+  .mach_question_title {
+    font-size: 48px;
+    line-height: 48px;
+  }
+  .mach_question_subtitle {
+    margin: 25px 0;
+    font-size: 14px;
+    line-height: 20px;
+  }
+  .check-rules {
+    font-size: 12px;
+    line-height: 20px;
+  }
+  .question-title {
+    font-size: 24px;
+    line-height: 27px;
+  }
+  .question-step {
+    padding: 30px 0;
+  }
+  .question-step-next {
+    padding: 30px 15px;
+  }
+  .question-svg {
+    width: 80%;
+  }
+  .step-title {
+    font-size: 18px;
+    line-height: 24px;
+  }
+  .answer-item-title {
+    font-size: 14px;
+    line-height: 20px;
+  }
+  .answer-item-title .chart-a {
+    font-size: 24px;
+    line-height: 20px;
+  }
+  .step-answer-list {
+    flex-direction: column;
+    margin: 10px 0;
+  }
+  .step-answer-item {
+    height: 85px;
+    margin: 5px 0;
+    border-radius: 5px;
+    padding: 10px 25px;
+  }
+  .answer-item-img {
+    width: 99%;
+    height: 98%;
+    border-radius: 5px;
+  }
+  .question-button {
+    width: 282px;
+  }
+}
+
+</style>
+
+<div class="mach_question_div" id="mach_question_div">
+  <div class="mach_question">
+    <div class="mach_question_title">{{ section.settings.title }}</div>
+    <div class="mach_question_subtitle">{{ section.settings.subtitle }}</div>
+    {% comment %} <div class="check-rules">{{ section.settings.check_rules }}</div> {% endcomment %}
+    <div class="mach-question-content">
+      <div class="question-step question-step-first">
+        <div class="question-svg">
+          <img class="lazyload" data-src="{{ section.settings.bg }}"  />
+        </div>
+        <div class="question-title">{{ section.settings.about_mach }}</div>
+        <div class="question-button start_answer">{{ section.settings.start_answer }}</div>
+        <div class="answer-list">
+          <div class="answer-div-container">
+            <div class="answer-div answer-div-1"></div>
+            <div class="answer-div answer-div-2"></div>
+          </div>
+        </div>
+      </div>
+      <div class="question-step question-step-next">
+        {% for block in section.blocks %}
+        {% assign len = forloop.length %}
+          <div class="question-step-number question-step-{{forloop.index}}">
+            <div class="step-title">{{ block.settings.title }}</div>
+            <div 
+              class="step-answer-list"
+              data-title="{{ section.settings.popup_title  }}"
+              data-desc="{{ section.settings.popup_desc }}"
+              data-title2="{{ section.settings.popup_title_2 }}"
+              data-desc2="{{ section.settings.popup_desc_2 }}"
+              data-light-index="{{ block.settings.question_number }}"
+            >
+              <div class="step-answer-item" data-index="1">
+                <div class="answer-item-title">{{ block.settings.answer_1 }}</div>
+                <img class="answer-item-img lazyload showPc" data-src="{{ block.settings.answer_1_img | image_url }}" />
+                <img class="answer-item-img lazyload showMobile" data-src="{{ block.settings.mobile_answer_1_img | image_url }}" />
+              </div>
+              <div class="step-answer-item" data-index="2">
+                <div class="answer-item-title">{{ block.settings.answer_2 }}</div>
+                <img class="answer-item-img lazyload showPc" data-src="{{ block.settings.answer_2_img | image_url }}" />
+                <img class="answer-item-img lazyload showMobile" data-src="{{ block.settings.mobile_answer_2_img | image_url }}" />
+              </div>
+              <div class="step-answer-item" data-index="3">
+                <div class="answer-item-title">{{ block.settings.answer_3 }}</div>
+                <img class="answer-item-img lazyload showPc" data-src="{{ block.settings.answer_3_img | image_url }}" />
+                <img class="answer-item-img lazyload showMobile" data-src="{{ block.settings.mobile_answer_3_img | image_url }}" />
+              </div>
+              <div class="step-answer-item" data-index="4">
+                <div class="answer-item-title">{{ block.settings.answer_4 }}</div>
+                <img class="answer-item-img lazyload showPc" data-src="{{ block.settings.answer_4_img | image_url }}" />
+                <img class="answer-item-img lazyload showMobile" data-src="{{ block.settings.mobile_answer_4_img | image_url }}" />
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+        <div class="question-buttons">
+          <button class="question-button next-button">{{ section.settings.submit_button }}</button>
+        </div>
+      </div>  
+    </div>
+  </div>
+  {% 
+    render 'mach_popup',  
+    email_placeholder: section.settings.email_placeholder,
+    email_error: section.settings.email_error,
+    plocy_err: section.settings.plocy_err,
+    agree_txt: section.settings.agree_txt,
+    Right_Answer: section.settings.Right_Answer,
+    type: 1
+  %}
+</div>
+
+<script>
+$(function() {
+  let answer_index = '{{ section.settings.answer_index }}';
+  let len = '{{ len }}';
+  if(!answer_index) {
+    answer_index = Math.ceil(Math.random() * len)
+  }
+  $('.start_answer').click(function() {
+    $('.question-step-first').css({
+      display: 'none'
+    })
+    $('.question-step-next').css({
+      display: 'flex'
+    })
+    $(`.question-step-${answer_index}`).css({
+      display: 'block'
+    })
+
+    $('.next-button').prop('disabled', true)
+    
+    dataLayer.push({
+      "event": "uaEvent", 
+      "eventCategory": 'answer_questions',
+      "eventAction": 'Start Quiz',
+      "eventLabel":  '{{ page.handle }}', 
+    })
+    window.dataLayer.push({ "event_parameters": null });
+    window.dataLayer.push({
+      "event": "ga4Event",
+      "event_name": "answer_questions",
+      "event_parameters": {
+        "page_group": '{{ page.handle }}', 
+        "action": 'Start Quiz'
+      }
+    })
+  })
+
+  function pushSuccDataLayer(data) {
+    window.dataLayer.push({
+      "event": "bottom_function",
+      "page_group": "{{ template }}",
+      "action": "Email Sign Up Success"
+    })
+    window.dataLayer.push({ "event_parameters": null });
+    window.dataLayer.push({
+      "event": "ga4Event",
+      "event_name": "subscribe",
+      "event_parameters": {
+        "page_group": "{{ section.settings.deals_type }}"
+      }
+    })
+    typeof fbq === 'function' && fbq('track', 'CompleteRegistration')
+  }
+
+  function subscribe_handle({ email, title, desc, button_txt, right_answer }) {
+    $('#{{ section_id }} .live-chat-popup-div').trigger('show-event', {
+      email,
+      title,
+      desc,
+      right_answer,
+      button_txt
+    })
+  }
+
+  function subscribe_activities_emails ({ email, callback }) {
+
+    const data = {
+      email: email,
+      shopify_domain: "{{ shop.permanent_domain }}",
+      register_source: window.location.href,
+      brand: 'eufy',
+      phone_number: null,
+      genre: '{{ section.settings.deals_type  }}',
+      single_brand_subscribe: false,
+      country_code: "{{ localization.country.iso_code}}",
+      trigger_subscribe: true,
+      qa: {
+        question_number: answer_index,
+        question: $(`.question-step-${answer_index}`).find('.step-title').text(),
+        answer: [
+          {
+            answer_number: $('.step-answer-item-active').data('index'),
+            answer: $('.step-answer-item-active').find('.answer-item-title').text()
+          }
+        ]
+      }
+    }
+
+    window?.mach_utils?.machRequest({
+      url: '/warm/qa',
+      method: 'POST',
+      params: data,
+      fn: (body) => {
+        if(body.code == 200) {
+          typeof callback === 'function' && callback()
+        }else if(body.code == 201) {
+          subscribe_handle({
+            email,
+            title: '{{section.settings.resub_popup_title}}', 
+            desc: '{{section.settings.resub_popup_desc}}', 
+            button_txt: '{{section.settings.Okay}}'
+          })
+        }
+      },
+      error: (err) => {
+        const { responseJSON } = err || {};
+      }
+    });
+    
+  }
+
+  $('.next-button').click(function() {
+    let email = $.cookie('mach_user_email')
+    let select_dom = $('.step-answer-item-active')
+    let select_parent_dom = $('.step-answer-item-active').closest('.step-answer-list')
+    let select_index = select_dom.data('index');
+    let light_index = select_parent_dom.data('light-index');
+    let title, desc,right_answer;
+    let self = $(this)
+    if(select_index == light_index) {
+      title = select_parent_dom.data('title');
+      desc = select_parent_dom.data('desc')
+    }else {
+      title = select_parent_dom.data('title2');
+      desc = select_parent_dom.data('desc2')
+      right_answer = select_dom.siblings(`.step-answer-item[data-index="${light_index}"]`).prop('outerHTML')
+    }
+    $(this).prop("disabled", true);
+    if(email) {
+      subscribe_activities_emails({
+        email,
+        callback: function() {
+          subscribe_handle({
+            email,
+            title, 
+            desc, 
+            right_answer,
+            button_txt: '{{section.settings.Okay}}'
+          })
+          self.prop("disabled", false);
+        }
+      })
+    }else {
+      subscribe_handle({
+        email,
+        title, 
+        desc, 
+        right_answer,
+        button_txt: '{{section.settings.sign_up}}'
+      })
+      self.prop("disabled", false);
+    }
+
+    dataLayer.push({
+      "event": "uaEvent", 
+      "eventCategory": 'answer_questions',
+      "eventAction": $(this).text(),
+      "eventLabel":  '{{ page.handle }}', 
+    })
+    window.dataLayer.push({ "event_parameters": null });
+    window.dataLayer.push({
+      "event": "ga4Event",
+      "event_name": "answer_questions",
+      "event_parameters": {
+        "page_group": '{{ page.handle }}', 
+        "action": $(this).text()
+      }
+    })
+  })
+
+  function backfrist() {
+    $('.question-step-first').css({
+      display: 'flex'
+    })
+    $('.question-step-next').css({
+      display: 'none'
+    })
+    $(`.question-step-${answer_index}`).css({
+      display: 'none'
+    })
+    $('.step-answer-item-active').removeClass('step-answer-item-active')
+  }
+
+  $(document).on('mach_popup_submit', function(event, { type, email }) {
+    if(type == 1) {
+      subscribe_activities_emails({
+        email,
+        callback: function() {
+          subscribe_handle({
+            email,
+            title: '{{section.settings.popup_title_3}}', 
+            desc: '{{section.settings.popup_desc_3}}', 
+            button_txt: '{{section.settings.Okay}}'
+          })
+          $.cookie('mach_user_email', email, { path: '/', expires: 14   } );
+          backfrist()
+        }
+      })
+    }
+  })
+  $(document).on('mach_popup_close', function(event, { type, email }) {
+    if(type == 1) {
+      backfrist()
+    }
+  })
+
+  $('.step-answer-item').click(function() {
+    $('.step-answer-item').removeClass('step-answer-item-active')
+    $(this).addClass('step-answer-item-active')
+    $('.next-button').prop('disabled', false)
+  })
+
+  function hande_animation() {
+    let roll_speed = 100
+    let noticeList1 = $('.answer-div-1');
+    let noticeList2 = $('.answer-div-2');
+    let listWrapper = $(".answer-div-container");
+    noticeList2.html(noticeList1.html())
+    listWrapper.css('top', 0)
+    let timer = setInterval(rollStart, roll_speed);
+
+    function rollStart() {
+      if (Math.abs(_subStr(listWrapper.css('top'))) >= noticeList1.height()) {
+        listWrapper.css('top', 0)
+      } else {
+        let top = listWrapper.css('top');
+        listWrapper.css('top', _subStr(top) - 1)
+      }
+    }
+
+    // 截取px前数值
+    function _subStr(str) {
+      let index = str.indexOf('px');
+      if (index > -1) {
+        return parseFloat(str.substr(0, index + 1))
+      }
+    }
+  }
+
+  window?.mach_utils?.machRequest({
+    url: `/warm/qa/now?size=99&shopify_domain={{ shop.permanent_domain }}`,
+    method: 'GET',
+    fn: (body) => {
+      const data = body?.data;
+      let html = ''
+      if(Array.isArray(data)) {
+        data.forEach(item => {
+          if( item.email.indexOf('@qq.com') == -1 && item.email.indexOf('@anker.com') == -1 && item.email.indexOf('@anker-in.com') == -1 ) {
+            html += `<div class="answer-item">${item.email}</div>`
+          }
+        })
+        $('.answer-div-1').html(html)
+        $('.answer-div-2').html(html)
+        hande_animation()
+      }
+    },
+    error: (err) => {
+      const { responseJSON } = err || {};
+    }
+  });
+
+
+})
+</script>
+
+{% schema %}
+  {
+    "name": "Mach Question",
+    "presets": [
+      {
+        "name": "Mach Question"
+      }
+    ],
+    "settings": [
+      {
+        "type": "number",
+        "id": "answer_index",
+        "label": "题目选择",
+        "info": "准备三道题目，可通过配置选择其中任意一道，如果未输入，则在代码层面随机分配其中的一道"
+      },
+      {
+        "type": "html",
+        "id": "title",
+        "label": "标题",
+        "default": "Guess what kinds for features we still have"
+      },
+      {
+        "type": "html",
+        "id": "subtitle",
+        "label": "副标题",
+        "default": "Lorem ipsum dolor sit amet consectetur. Id purus urna at ullamcorper. Semper suspendisse et lobortis nunc."
+      },
+      {
+        "type": "text",
+        "id": "bg",
+        "label": "礼品盒图片",
+        "default": "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/Group_5_19ef6045-b8eb-4a28-b31f-c2cbc3d35719.png?v=1673400803"
+      },
+      {
+        "type": "html",
+        "id": "check_rules",
+        "label": "Check Rules",
+        "default": "Check Rules"
+      },
+      {
+        "type": "html",
+        "id": "about_mach",
+        "label": "About Mach",
+        "default": "From Now You will Know<br/> everything about MACH"
+      },
+      {
+        "type": "html",
+        "id": "start_answer",
+        "label": "Start Answer",
+        "default": "Start Answer"
+      },
+      {
+        "type": "header",
+        "content": "回答问题后的提交模块"
+      },
+      {
+        "type": "html",
+        "id": "submit_button",
+        "label": "Submit",
+        "default": "Submit" 
+      },
+      {
+        "type": "header",
+        "content": "弹窗内容"
+      },
+      {
+        "type": "html",
+        "id": "popup_title",
+        "label": "弹窗标题",
+        "default": "Well Done",
+        "info": "选对答案弹窗标题"
+      },
+      {
+        "type": "html",
+        "id": "popup_desc",
+        "label": "弹窗描述",
+        "default": "You really know MACH V1 Ultra! Please enter your email to get your gifts.",
+        "info": "选对答案弹窗描述"
+      },
+      {
+        "type": "html",
+        "id": "popup_title_2",
+        "label": "弹窗标题2",
+        "default": "Oops, wrong answer.",
+        "info": "未选对答案弹窗标题"
+      },
+      {
+        "type": "html",
+        "id": "popup_desc_2",
+        "label": "弹窗描述2",
+        "default": "Thanks for your participation and we will send you a special gift via email.",
+        "info": "未选对答案弹窗描述"
+      },
+      {
+        "type": "html",
+        "id": "popup_title_3",
+        "label": "输入邮箱订阅成功后的标题提示",
+        "default": "Subscribed Successfully!"
+      },
+      {
+        "type": "html",
+        "id": "popup_desc_3",
+        "label": "输入邮箱订阅成功后的描述提示",
+        "default": "We will send you an email shortly, with details on your free gift and how to claim the prize."
+      },
+      {
+        "type": "html",
+        "id": "resub_popup_title",
+        "label": "重复订阅的标题提示",
+        "info": "留空"
+      },
+      {
+        "type": "html",
+        "id": "resub_popup_desc",
+        "label": "重复订阅的标题描述",
+        "default": "Repeat Subscribed"
+      },
+      {
+        "type": "html",
+        "id": "sign_up",
+        "label": "Sign Up",
+        "default": "Sign Up"
+      },
+      {
+        "type": "html",
+        "id": "Okay",
+        "label": "Okay",
+        "default": "Okay"
+      },
+      {
+        "type": "html",
+        "id": "email_placeholder",
+        "label": "邮箱输入提示",
+        "default": "Enter Your Email"
+      },
+      {
+        "type": "html",
+        "id": "email_error",
+        "label": "邮箱错误提示",
+        "default": "Please enter a valid email address"
+      },
+      {
+        "type": "html",
+        "id": "plocy_err",
+        "label": "勾选协议提示",
+        "default": "Please agree to the rules"
+      },
+      {
+        "type": "text",
+        "id": "deals_type",
+        "label": "注册类型",
+        "default": "mach_pre_hot_quiz"
+      },
+      {
+        "type": "html",
+        "id": "agree_txt",
+        "label": "协议文案",
+        "default": "I consent to the Terms of Use and Privacy Policy."
+      },
+      {
+        "type": "html",
+        "id": "Right_Answer",
+        "label": "Right Answer",
+        "default": "Right Answer"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "question_item",
+        "name": "question_item",
+        "settings": [
+          {
+            "type": "html",
+            "id": "title",
+            "label": "问题"
+          },
+          {
+            "type": "number",
+            "id": "question_number",
+            "label": "答题卡的答案",
+            "info": "请填写对应的正确答案对应的顺序。例如：正确答案为A, 则填写 1，以此内推。",
+            "default": 4
+          },
+          {
+            "type": "html",
+            "id": "answer_1",
+            "label": "答案1"
+          },
+          {
+            "type": "image_picker",
+            "id": "answer_1_img",
+            "label": "答案1对应的背景图"
+          },
+          {
+            "type": "image_picker",
+            "id": "mobile_answer_1_img",
+            "label": "Mobile端答案1对应的背景图"
+          },
+          {
+            "type": "html",
+            "id": "answer_2",
+            "label": "答案2"
+          },
+          {
+            "type": "image_picker",
+            "id": "answer_2_img",
+            "label": "答案2对应的背景图"
+          },
+          {
+            "type": "image_picker",
+            "id": "mobile_answer_2_img",
+            "label": "Mobile端答案2对应的背景图"
+          },
+          {
+            "type": "html",
+            "id": "answer_3",
+            "label": "答案3"
+          },
+          {
+            "type": "image_picker",
+            "id": "answer_3_img",
+            "label": "答案3对应的背景图"
+          },
+          {
+            "type": "image_picker",
+            "id": "mobile_answer_3_img",
+            "label": "Mobile端答案3对应的背景图"
+          },
+          {
+            "type": "html",
+            "id": "answer_4",
+            "label": "答案4"
+          },
+          {
+            "type": "image_picker",
+            "id": "answer_4_img",
+            "label": "答案4对应的背景图"
+          },
+          {
+            "type": "image_picker",
+            "id": "mobile_answer_4_img",
+            "label": "Mobile端答案4对应的背景图"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

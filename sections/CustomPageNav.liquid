@@ -1,0 +1,211 @@
+{% capture navlist %}
+  {% if section.blocks %}
+    {% for block in section.blocks %}{"label":"{{ block.settings.label }}","id":"{{  block.settings.nav_id }}"}{% if forloop.last == false %},{% endif %}{% endfor %}
+  {% endif %}
+{% endcapture %}
+
+<link rel="stylesheet" href="{{ 'CustomPageNav.scss.css' | asset_url }}">
+
+<section id="{{ section.id }}" class="custom-page-nav-contianer">
+  <div class="custom-page-nav-box{% if section.settings.title != blank %} title-mode{% endif %}">
+    {% if section.settings.title != blank %}
+      <div class="custom-page-nav-title">
+        <a  {% if section.settings.title_link != blank %}href="{{ section.settings.title_link }}"{% endif %}>{{ section.settings.title }}</a>
+      </div>
+    {% endif %}
+    <nav class="custom-page-nav">
+      {% for block in section.blocks %}
+        <a class="custom-page-nav-item">{{ block.settings.label }}</a>
+      {% endfor %}
+    </nav>
+  </div>
+</section>
+
+<script>
+  $(function () {
+    let navlist = JSON.parse(`[{{navlist | strip | strip_newlines }}]`)
+    let w = $(window).width()
+    let pageNavH = $('.custom-page-nav-box').height()
+    let scrollPoint = []
+    let siteNavH = 0
+    let isNavClick = true
+    let offset = 200
+    let index
+    let scrollAction = {
+        x: 'undefined', 
+        y: 'undefined'
+    }
+
+    init()
+
+    function init() {
+      dataInit()
+      event()
+      // resize()
+      scroll()
+    }
+
+    function dataInit() {
+      navlist.map(item => {
+          scrollPoint.push(item.id)
+      })
+    }
+
+
+    function getScrollOffset() {
+      let arr = []
+      
+      scrollPoint.map(item => {
+        arr.push($(`#${item}`)[0] && $(`#${item}`)[0].offsetTop - offset)
+      })
+      arr.push($('html').height())
+
+      return arr
+    }
+
+    function event() {
+      $('.custom-page-nav-item').on('click', function() {
+        const idx = $(this).index()
+        const arr = getScrollOffset()
+
+        isNavClick = false
+        index = idx
+        $(this).addClass('active').siblings().removeClass('active')
+        $('html,body').animate({
+            scrollTop: arr[idx]
+        }, 500, 'swing', function () {
+            // isNavClick = true
+        })
+      })
+    }
+
+    function navAct(idx) {
+        $('.custom-page-nav-item').eq(idx).addClass('active').siblings().removeClass('active')
+    }
+
+    function scroll() {
+        const offsetTop = $('.custom-page-nav-contianer')[0].offsetTop
+        let timer
+        let flag = false
+
+        w = $(window).width()
+        siteNavH = w > 768 ? $('#header').height() : $('.mobile-header').height() 
+
+        $('.custom-page-nav-contianer').height(pageNavH)
+
+        document.addEventListener('scroll', function() {
+            const scrollTop = $(window).scrollTop()
+            const stArr = getScrollOffset()
+            siteNavH = w > 768 ? $('#header').height() : $('.mobile-header').height() 
+            siteNavH = siteNavH + ($('#shopify-section-header__icon-bar').length && $('#shopify-section-header__icon-bar').height())
+            
+            timer && clearTimeout(timer) 
+            if(scrollTop > offsetTop) {
+              
+              if( w > 768) {
+                $('.custom-page-nav-box').addClass('fixed').css('transform', 'translateY('+ siteNavH +'px)')
+              } else {
+                $('.custom-page-nav-box').addClass('fixed')
+                if(getScrollDir() === 'up') {
+                  $('.custom-page-nav-box').css('transform', 'translateY('+ siteNavH +'px)')
+                  if(!flag) timer = setTimeout(() => {
+                    $('.custom-page-nav-contianer').css('z-index', '10')
+                    flag = true
+                  }, 300)
+                }else {
+                  $('.custom-page-nav-box').css('transform', 'none').parents('.custom-page-nav-contianer').css('z-index', '40')
+                  flag = false
+                }
+              }
+            } else {
+              $('.custom-page-nav-box').removeClass('fixed').css('transform', 'none').parents('.custom-page-nav-contianer').css('z-index', '10')
+            }
+
+            if (scrollTop>=stArr[index]) {
+              isNavClick = true
+            }
+            if(isNavClick) {
+                if(scrollTop >= stArr[0] && scrollTop < stArr[1]) {
+                    navAct(0)
+                } else if (scrollTop >= stArr[1] && scrollTop < stArr[2]) {
+                    navAct(1)
+                } else if (scrollTop >= stArr[2] && scrollTop < stArr[3]) {
+                    navAct(2)
+                } else if (scrollTop >= stArr[3] || (stArr[4] && scrollTop < stArr[4])) {
+                    navAct(3)
+                } else if (scrollTop >= stArr[4]) {
+                    navAct(4)
+                }
+            }
+        })
+    }
+
+    function getScrollDir() {
+        let dir = ''
+
+        if (typeof scrollAction.x == 'undefined') {
+            scrollAction.y = window.pageYOffset
+        }
+
+        const diffY = scrollAction.y - window.pageYOffset
+
+        if (diffY < 0) {
+            dir = 'down'
+        } else if (diffY > 0) {
+            dir = 'up'
+        }
+
+        scrollAction.y = window.pageYOffset
+
+        return dir
+    }
+
+  })
+</script>
+
+{% schema %}
+{
+  "name": "Custom Page Nav",
+  "presets": [{
+    "category": "Custom Dynamic Sections",
+    "name": "Custom Page Nav"
+  }],
+  "settings": [
+    {
+      "type": "text",
+      "id": "id",
+      "label": "ID"
+    },{
+      "type": "header",
+      "content": "样式 配置"
+    },{
+      "type": "text",
+      "id": "title",
+      "label": "标题"
+    },{
+      "type": "url",
+      "id": "title_link",
+      "label": "链接",
+      "info": "添加即让标题拥有链接跳转能力"
+    }
+  ],
+  "blocks":[{
+    "type": "Nav",
+    "name": "NavItem",
+    "settings": [
+      {
+        "type": "text",
+        "id": "label",
+        "label": "label",
+        "info": "导航展示信息"
+      },
+      {
+        "type": "text",
+        "id": "nav_id",
+        "label": "nav id",
+        "info": "导航跳转模块ID"
+      }
+    ]
+  }]
+}
+{% endschema %}

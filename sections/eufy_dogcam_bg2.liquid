@@ -1,0 +1,157 @@
+{% assign lang = page.metafields.global %}
+
+{% if lang.dogcam.value %}
+  {% assign dogcam = lang.dogcam.value %}
+{% else %}
+  {% assign dogcam = lang.dogcam %}
+{% endif %}
+
+<link rel="stylesheet" href="{{ 'eufy_dogcam.scss.css' | asset_url }}">
+<script src="{{ 'eufy_dogcam.js' | asset_url }}" defer="defer"></script>
+
+
+<div class="eufy_dogcam_2">
+  <div class="banner_2">
+    
+    
+    <!-- <div class="banner_2_qh pc1_show">
+      <div class="banner_2_qh_a active"></div>
+      <div class="banner_2_qh_a"></div>
+      <div class="banner_2_qh_a"></div>
+    </div> -->
+    <div class="banner_2_content_all pc1_show">
+      <div class="banner_2_content banner_2_content_a1">
+        <div class="banner_2_content_a">
+          <img class="pc1_show lazyload" data-src="{{ dogcam.bg2_img }}" alt="">
+          <img class="mob1_show lazyload" data-src="{{ dogcam.bg2_img_mob }}" alt="">
+          <p class="banner_2_p">{{ dogcam.banner_2_p }}</p>
+          <div class="dog_all">
+            <div class="dog_bg">
+              <img class="lazyload" data-src="{{ dogcam.dog_bg }}" alt="">
+            </div>
+            <div class="dog_bg_top">
+              <img class="pc1_show lazyload" data-src="{{ dogcam.dog_all_top }}" alt="">
+              <img class="mob1_show lazyload" data-src="{{ dogcam.dog_all_top_mob }}" alt="">
+            </div>
+            <div class="dog">
+              <img class="lazyload" data-src="{{ dogcam.dog }}" alt="">
+            </div>
+            <div class="dog_bg_bottom">
+              <img class="pc1_show lazyload" data-src="{{ dogcam.dog_all_bottom }}" alt="">
+              <img class="mob1_show lazyload" data-src="{{ dogcam.dog_all_bottom_mob }}" alt="">
+            </div>
+            <div class="gouliang">
+              <img class="lazyload" data-src="{{ dogcam.gouliang }}" alt="">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="banner_2_content">
+        <div class="banner_2_content_c">
+          <img class="pc1_show lazyload" data-src="{{ dogcam.bg2_img }}" alt="">
+          <img class="mob1_show lazyload" data-src="{{ dogcam.bg2_img_mob }}" alt="">
+          <p class="banner_2_p_c">{{ dogcam.banner_2_p_c }}</p>
+          <div class="dog_all_c">
+            <img class="dog_all_c_img lazyload" data-src="{{ dogcam.dog_all_c_img }}" alt="">
+            <div class="dog_all_c_small">
+              <div class="dog_bg_c">
+                <img class="lazyload" data-src="{{ dogcam.dog_bg_c }}" alt="">
+              </div>
+              <div class="dog_c">
+                <img class="lazyload" data-src="{{ dogcam.dog_c }}" alt="">
+              </div>
+            </div> 
+          </div>
+        </div>
+      </div> 
+      <div class="banner_2_content">
+        <div class="banner_2_content_b">
+          <img class="pc1_show lazyload" data-src="{{ dogcam.bg2_img }}" alt="">
+          <img class="mob1_show lazyload" data-src="{{ dogcam.bg2_img_mob }}" alt="">
+          <p class="banner_2_p_b1">{{ dogcam.banner_2_p_b1 }}</p>
+          <p class="banner_2_p_b2">{{ dogcam.banner_2_p_b2 }}</p>
+          <div class="dog_all_b">
+            <img class="dog_all_b_img lazyload" data-src="{{ dogcam.dog_all_b_img }}" alt="">
+            <div class="dog_all_b_small">
+              <div class="dog_bg_b">
+                <img class="lazyload" data-src="{{ dogcam.dog_bg_b }}" alt="">
+              </div>
+              <div class="dog_b">
+                <img class="lazyload" data-src="{{ dogcam.dog_b }}" alt="">
+              </div>
+              <div class="banner_2_b_bk">
+                <img class="lazyload" data-src="{{ dogcam.banner_2_b_bk }}" alt="">
+              </div>
+            </div> 
+          </div>
+        </div>
+      </div>
+      
+    </div>  
+    <div class="banner_2_content_all_mob mob1_show">
+      <div class="banner_2_content_a">
+        <img class="pc1_show lazyload" data-src="{{ dogcam.bg2_img }}" alt="">
+        <img class="mob1_show lazyload" data-src="{{ dogcam.bg2_img_mob }}" alt="">
+        <p class="banner_2_p">{{ dogcam.banner_2_p }}</p>
+        
+        <div class="dog_all">
+          <div class="dog_bg">
+            <img class="lazyload" data-src="{{ dogcam.dog_bg }}" alt="">
+          </div>
+          <div class="dog_bg_top">
+            <img class="pc1_show lazyload" data-src="{{ dogcam.dog_all_top }}" alt="">
+            <img class="mob1_show lazyload" data-src="{{ dogcam.dog_all_top_mob }}" alt="">
+          </div>
+          
+          <div class="dog">
+            <img class="lazyload" data-src="{{ dogcam.dog }}" alt="">
+          </div>
+          <div class="dog_bg_bottom">
+            <img class="pc1_show lazyload" data-src="{{ dogcam.dog_all_bottom }}" alt="">
+            <img class="mob1_show lazyload" data-src="{{ dogcam.dog_all_bottom_mob }}" alt="">
+          </div>
+          <div class="gouliang">
+            <img class="lazyload" data-src="{{ dogcam.gouliang }}" alt="">
+          </div>
+        </div>
+      </div>
+      <div class="banner_2_content_c">
+        <img class="pc1_show lazyload" data-src="{{ dogcam.bg2_img }}" alt="">
+        <img class="mob1_show lazyload" data-src="{{ dogcam.bg2_img_mob }}" alt="">
+        <p class="banner_2_p_c">{{ dogcam.banner_2_p_c }}</p>
+        <div class="dog_all_c">
+          <img class="dog_all_c_img lazyload" data-src="{{ dogcam.dog_all_c_img }}" alt="">
+          <div class="dog_all_c_small">
+            <div class="dog_bg_c">
+              <img class="lazyload" data-src="{{ dogcam.dog_bg_c }}" alt="">
+            </div>
+            <div class="dog_c">
+              <img class="lazyload" data-src="{{ dogcam.dog_c }}" alt="">
+            </div>
+          </div> 
+        </div>
+      </div>
+      <div class="banner_2_content_b">
+        <img class="pc1_show lazyload" data-src="{{ dogcam.bg2_img }}" alt="">
+        <img class="mob1_show lazyload" data-src="{{ dogcam.bg2_img_mob }}" alt="">
+        <p class="banner_2_p_b1">{{ dogcam.banner_2_p_b1 }}</p>
+        <p class="banner_2_p_b2">{{ dogcam.banner_2_p_b2 }}</p>
+        <div class="dog_all_b">
+          <img class="dog_all_b_img lazyload" data-src="{{ dogcam.dog_all_b_img }}" alt="">
+          <div class="dog_all_b_small">
+            <div class="dog_bg_b">
+              <img class="lazyload" data-src="{{ dogcam.dog_bg_b }}" alt="">
+            </div>
+            <div class="dog_b">
+              <img class="lazyload" data-src="{{ dogcam.dog_b }}" alt="">
+            </div>
+            <div class="banner_2_b_bk">
+              <img class="lazyload" data-src="{{ dogcam.banner_2_b_bk }}" alt="">
+            </div>
+          </div> 
+        </div>
+      </div>
+      
+    </div> 
+  </div>
+</div>

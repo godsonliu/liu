@@ -1,0 +1,126 @@
+<section class="smartSock-3" id="{{section.settings.id}}">
+  <div class="main-container">
+    <div class="title">
+      <h2>{{ section.settings.title }}</h2>
+      <p>{{ section.settings.subtitle }}</p>
+    </div>
+    <div class="content">
+      <div class="left-img">
+        {% render 'image-element', 
+          image: section.settings.left_img,
+          alt: section.settings.left_img.alt,
+          additional_classes: "pc-show"
+        %}
+        {% render 'image-element', 
+          image: section.settings.left_img_mob,
+          alt: section.settings.left_img_mob.alt,
+          additional_classes: "mob-show"
+        %}
+      </div>
+      <div class="right-img">
+        {% render 'image-element', 
+          image: section.settings.right_img,
+          alt: section.settings.right_img.alt,
+          additional_classes: "pc-show"
+        %}
+        {% render 'image-element', 
+          image: section.settings.right_img_mob,
+          alt: section.settings.right_img_mob.alt,
+          additional_classes: "mob-show"
+        %}
+        <img class="data" src="{{section.settings.data | image_url}}">
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  $(function() {
+    ScrollTrigger.create({
+      trigger: ".smartSock-3",
+      start: "top center",
+      toggleClass: "active"
+    });
+    ScrollTrigger.create({
+      trigger: ".smartSock-3 .content",
+      start: "top center",
+      toggleClass: "active"
+    });
+    {% comment %} var tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: ".smartSock-3",
+        start: "top top+=400",
+        end: "+=200",
+        scrub: true,
+        onLeave: function() {
+          $(".smartSock-3 .data").css({
+            opacity: 1,
+            transform: "scale(1, 1)"
+          });
+        }
+      }
+    });
+    tl.from(".smartSock-3 .title h2", {
+      opacity: 0,
+      y: 20
+    }).from(".smartSock-3 .title p", {
+      opacity: 0,
+      y: 20
+    }); {% endcomment %}
+  });  
+</script>
+
+{% schema %}
+{
+  "name": "Smart Sock P3",
+  "presets": [
+    {
+      "name": "Smart Sock P3"
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "id",
+      "label": "模块id"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "标题",
+      "default": "Know When You Are Needed"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "副标题",
+      "default": "Check on your baby and get notified instantly when your little one feels uncomfortable on both the 5\" touchscreen display monitor and your phone for peace of mind."
+    },
+    {
+      "type": "image_picker",
+      "id": "left_img",
+      "label": "app图"
+    },
+    {
+      "type": "image_picker",
+      "id": "left_img_mob",
+      "label": "移动端app图"
+    },
+    {
+      "type": "image_picker",
+      "id": "right_img",
+      "label": "monitor图"
+    },
+    {
+      "type": "image_picker",
+      "id": "right_img_mob",
+      "label": "移动端monitor图"
+    },
+    {
+      "type": "image_picker",
+      "id": "data",
+      "label": "数据图"
+    }
+  ]
+}
+{% endschema %}

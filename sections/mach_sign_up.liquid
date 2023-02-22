@@ -1,0 +1,541 @@
+{% assign section_id = 'shopify-section-' | append: section.id %}
+<style>
+@media(max-width: 769px) {
+  .showPc {
+    display: none;
+  } 
+}
+@media(min-width: 769px) {
+  .showMobile {
+    display: none;
+  } 
+}
+.lazyframe {
+  width: 100%;
+  height: 100%;
+}
+
+#shopify-section-announcement-bar {
+  display: none;
+}
+.mach_sign_up {
+  width: 100%;
+  position: relative;
+  font-size: 0;
+}
+.mach_sign_up_content {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40px 0 10px 0;
+}
+.title-area {
+  padding: 0 24px;
+  letter-spacing: -.5px;
+}
+.mach-title {
+  text-align: center;
+}
+
+.mach-title-img {
+  width: 400px;
+}
+
+.mach-subtitle {
+  font-size: 1.25vw;
+  line-height: 1.25vw;
+  color: #fff;
+  font-weight: 500;
+  margin: 22px 0 6px 0;
+  text-align: center;
+  font-weight: 400;
+}
+
+.mach-desc {
+  font-size: 0.9375vw;
+  line-height: 1.25vw;
+  color: #CECECE;
+  text-align: center;
+  letter-spacing: 0;
+}
+
+.content-area {
+  font-size: 4.2vw;
+  line-height: 4.6875vw;
+  color: #fff;
+  font-weight: 500;
+  text-align: center;
+  opacity: 0;
+  letter-spacing: -1px;
+}
+.sign-up-area {
+  text-align: center;
+}
+
+.sign-up-tips {
+  font-size: 18px;
+  line-height: 24px;
+  color: #CECECE;
+}
+
+.sign-up-input {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.sign_up_input {
+  width: 335px;
+  height: 82px;
+  padding: 10px 30px;
+  color: #1D1D1F;
+  font-size: 24px;
+  background: #fff;
+  border: none;
+  outline: none;
+  border-radius: 80px 0px 0px 80px;
+}
+
+.sign_up_submit {
+  width: 165px;
+  height: 82px;
+  background: #EF3340;
+  border-radius: 0px 80px 80px 0px;
+  font-size: 24px;
+  color: #FFFFFF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 400;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+.sign-up-checkbox {
+  color: #CECECE;
+  font-size: 12px;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sign-up-checkbox a {
+  font-size: 12px;
+  color: #CECECE;
+  text-decoration: underline;
+}
+
+.sign_up_checkbox {
+  width: 18px;
+  height: 18px;
+  margin-right: 13px;
+}
+
+.sign-up-error {
+  height: 20px;
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+  visibility: hidden;
+}
+
+.sign_up_submit[disabled] {
+	background-color: #86868B;
+	pointer-events: none;
+	cursor: not-allowed;
+}
+
+@media(max-width: 769px) {
+  #mach_sign_up {
+    {% comment %} height: calc(100vh - 50px); {% endcomment %}
+    {% comment %} overflow: hidden; {% endcomment %}
+  }
+  .mach_sign_up_content {
+    padding: 50px 10px 0 10px;
+  }
+  .title-area {
+    padding: 0 10px;
+  }
+  .mach-title-img {
+    width: 267px;
+  }
+  .mach-subtitle {
+    font-size: 14px;
+    line-height: 24px;
+    margin: 6px 0 0 0;
+  }
+  .mach-desc {
+    font-size: 14px;
+    line-height: 24px;
+  }
+  .sign-up-area {
+    width: 100%;
+  }
+  .sign_up_input {
+    width: 200px;
+    height: 60px;
+    font-size: 14px;
+  }
+  .sign-up-tips {
+    font-size: 14px;
+  }
+  .sign-up-input {
+    margin: 10px 0;
+  }
+  .sign_up_submit {
+    width: 100px;
+    height: 60px;
+    font-size: 14px;
+  }
+  .content-area {
+    font-size: 11.2vw;
+    line-height: 54px;
+    padding: 0 24px;
+  }
+  .sign-up-checkbox {
+    align-items: flex-start;
+    width: 100%;
+    margin: 0 auto;
+    text-align: left;
+  }
+  .sign-up-checkbox span {
+    display: inline-block;
+    max-width: 80%;
+  }
+}  
+
+</style>
+
+<div class="mach_sign_up" id="mach_sign_up">
+  <video
+    id="mach_sign_up_pc" 
+    class="mach_sign_up mach_sign_up_pc showPc" 
+    poster="{{ section.settings.sign_up_poster }}" 
+    autoplay 
+    muted 
+    webkit-playsinline="true"
+    playsinline="true"
+    x5-video-player-type="h5"
+    x5-video-player-fullscreen="true"
+    x5-video-orientation="portraint"
+    src="{{section.settings.sign_up_video}}" 
+    width="1920" 
+    height="750"
+  >
+  </video>
+  <video
+    id="mach_sign_up_mobile"  
+    class="mach_sign_up mach_sign_up_mobile showMobile" 
+    poster="{{ section.settings.mobile_sign_up_poster }}" 
+    autoplay 
+    preload
+    muted 
+    webkit-playsinline="true"
+    playsinline="true"
+    x5-video-player-type="h5"
+    x5-video-player-fullscreen="true"
+    x5-video-orientation="portraint"
+    src="{{section.settings.sign_up_video_mobile}}" 
+    width="390" 
+    height="550"
+  >
+  </video>
+  <div class="mach_sign_up_content">
+    <div class="title-area">
+      <div class="mach-title">
+        <img class="mach-title-img" src="{{ section.settings.mach_title }}" />
+      </div>
+      <div class="mach-subtitle">{{ section.settings.mach_subtitle }}</div>
+      <div class="mach-desc">{{ section.settings.mach_desc }}</div>
+    </div>
+    <div class="content-area">
+      {{ section.settings.mach_content }}
+    </div>
+    <div class="sign-up-area">
+      <div class="sign-up-tips">{{ section.settings.mach_tips }}</div>
+      <div class="sign-up-input">
+        <input class="sign_up_input" placeholder="{{ section.settings.input_plc }}" type="text" name="email"  />
+        <button class="sign_up_submit">{{ section.settings.submit_txt }}</button>
+      </div>
+      <div class="sign-up-checkbox">
+        <input type="checkbox" class="sign_up_checkbox" />
+        <span>{{ section.settings.checkbox_plocy }}</span>
+      </div>
+      <div class="sign-up-error"></div>
+    </div>
+  </div>
+</div>
+
+{% render 'mach_popup' %}
+
+<script>
+$(function() {
+  if(document.cookie.indexOf('mach_hot_preivew') > -1) {
+    $('.content-area').css({ opacity: 1 });
+    $('.mach_sign_up_content').css({  background: 'rgba(0,0,0,.5)' });
+  }else {
+    setTimeout(function() {
+      $('.content-area').animate({ opacity: 1 }, 1000);
+      $('.mach_sign_up_content').css({  background: 'rgba(0,0,0,.5)' });
+      $.cookie('mach_hot_preivew', 1, { path: '/', expires: 14   } )
+    }, 2500)
+  }
+
+  function pushSuccDataLayer(data) {
+    window.dataLayer.push({
+      "event": "bottom_function",
+      "page_group": "{{ template }}",
+      "action": "Email Sign Up Success"
+    })
+    window.dataLayer.push({ "event_parameters": null });
+    window.dataLayer.push({
+      "event": "ga4Event",
+      "event_name": "subscribe",
+      "event_parameters": {
+        "page_group": "{{ section.settings.deals_type }}"
+      }
+    })
+    typeof fbq === 'function' && fbq('track', 'CompleteRegistration')
+  }
+
+  $('.sign_up_submit').click(function(e) {
+    e.stopPropagation();
+		e.preventDefault();
+    const email_err = '{{section.settings.email_err}}';
+    const plocy_err = '{{section.settings.plocy_err}}';
+    const email = $('.sign_up_input').val()
+    const check = $('.sign_up_checkbox').prop('checked')
+    const reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if(!reg.test(email)) {
+      $('.sign-up-error').css({ visibility: 'visible' }).text(email_err)
+      return;
+    }
+    if(!check) {
+      $('.sign-up-error').css({ visibility: 'visible' }).text(plocy_err)
+      return;
+    }
+    $('.sign-up-error').css({ visibility: 'hidden' })
+
+		$(this).prop("disabled", true);
+
+    const data = {
+			email: email,
+			brand: 'eufy',
+      phone_number: null,
+      genre: '{{ section.settings.deals_type  }}',
+		  single_brand_subscribe: false,
+		  shopify_domain: "{{ shop.permanent_domain }}",
+		  country_code: "{{ localization.country.iso_code }}",
+		  trigger_subscribe: true,
+      register_source: window.location.href
+		}
+
+    dataLayer.push({
+      "event": "uaEvent", 
+      "eventCategory": 'subscribe',
+      "eventAction": '{{ section.settings.deals_type  }}',
+      "eventLabel": "1st_banner", 
+    })
+
+    window.dataLayer.push({ "event_parameters": null });
+    window.dataLayer.push({
+      "event": "ga4Event",
+      "event_name": "subscribe",
+      "event_parameters": {
+        "page_group": '{{ section.settings.deals_type  }}',
+        "position":"1st_banner",
+        "info": "",  
+      }
+    })
+
+    window?.mach_utils?.machRequest({
+      url: '/warm/subscribe',
+      method: 'POST',
+			params: data,
+			fn: (body) => {
+        $('.sign_up_submit').prop("disabled", false);
+				$('#{{section_id}} .sign_up_input').val('');
+				$('#{{section_id}} .sign_up_checkbox').prop("checked", false);
+        if(body.code == 200) {
+          pushSuccDataLayer(body)
+          $.cookie('mach_user_email', email, { path: '/', expires: 14   } );
+          $('#{{ section_id }} .live-chat-popup-div').trigger('show-event', {
+            email,
+            title: '{{ section.settings.popup_title }}',
+            desc: '{{ section.settings.popup_desc }}',
+            button_txt: '{{ section.settings.button_txt }}'
+          })
+        }else if(body.code == 201) {
+          $('#{{ section_id }} .live-chat-popup-div').trigger('show-event', {
+            email,
+            title: '{{ section.settings.resub_popup_title }}',
+            desc: '{{ section.settings.resub_popup_desc }}',
+            button_txt: '{{ section.settings.button_txt }}'
+          })
+        }
+			},
+			error: (err) => {
+				const { responseJSON } = err || {};
+			}
+		});
+  })
+
+  function getPeopleBooked() {
+    window?.mach_utils?.machRequest({
+      method: 'GET',
+      url: `/warm/subscribe/count?shopify_domain={{ shop.permanent_domain }}&t=${ Date.now() }`,
+      fn: (body) => {
+        $('#people_booked').text(body?.data?.count)
+      },
+      error: (err) => {
+        const { responseJSON } = err || {};
+        setTimeout(getPeopleBooked, 1000)
+      }
+    });
+  }
+
+  getPeopleBooked()
+
+})
+
+</script>
+
+{% schema %}
+  {
+    "name": "Mach Sign Up",
+    "presets": [
+      {
+        "name": "Mach Sign Up"
+      }
+    ],
+    "settings": [
+      {
+        "type": "text",
+        "id": "deals_type",
+        "label": "活动类型",
+        "default": "mach_pre_hot_sign_up"
+      },
+      {
+        "type": "text",
+        "id": "sign_up_video",
+        "label": "背景视频"
+      },
+      {
+        "type": "text",
+        "id": "sign_up_poster",
+        "label": "PC端视频背景图"
+      },
+      {
+        "type": "text",
+        "id": "sign_up_video_mobile",
+        "label": "Mobile背景视频"
+      },
+      {
+         "type": "text",
+        "id": "mobile_sign_up_poster",
+        "label": "Mobile端视频背景图"
+      },
+      {
+        "type": "text",
+        "id": "mach_title",
+        "label": "标题",
+        "default": "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/Group_3952.png?v=1675154244"
+      },
+      {
+        "type": "html",
+        "id": "mach_subtitle",
+        "label": "副标题",
+        "default": "The Home Cleaning Evolution"
+      },
+      {
+        "type": "html",
+        "id": "mach_desc",
+        "label": "描述",
+        "default": "2023.02.15 xx:xx (EST) Coming Soon"
+      },
+      {
+        "type": "html",
+        "id": "mach_content",
+        "label": "内容文案",
+        "default": "Sign Up Now For<br class='showPc'> Exclusive Giveaways"
+      },
+      {
+        "type": "html",
+        "id": "mach_tips",
+        "label": "文案提示",
+        "default": "Now <span id='people_booked'></span> people booked"
+      },
+      {
+        "type": "html",
+        "id": "input_plc",
+        "label": "输入提示",
+        "default": "Enter Your Email"
+      },
+      {
+        "type": "html",
+        "id": "submit_txt",
+        "label": "提交按钮文案",
+        "default": "Submit"
+      },
+      {
+        "type": "html",
+        "id": "checkbox_plocy",
+        "label": "协议",
+        "default": "Agree all the contract"
+      },
+      {
+        "type": "html",
+        "id": "email_err",
+        "label": "邮箱错误提示",
+        "default": "Please enter a valid email address"
+      },
+      {
+        "type": "html",
+        "id": "plocy_err",
+        "label": "勾选协议提示",
+        "default": "Please agree to the rules"
+      },
+      {
+        "type": "header",
+        "content": "弹窗部分"
+      },
+      {
+        "type": "html",
+        "id": "popup_title",
+        "label": "订阅成功弹窗标题",
+        "default": "Subscribed Successfully!"
+      },
+      {
+        "type": "html",
+        "id": "popup_desc",
+        "label": "订阅成功弹窗描述",
+        "default": "We will send you an email shortly, with details on your free gift and how to claim the prize."
+      },
+      {
+        "type": "html",
+        "id": "resub_popup_title",
+        "label": "重复订阅的标题提示",
+        "info": "留空"
+      },
+      {
+        "type": "html",
+        "id": "resub_popup_desc",
+        "label": "重复订阅的标题描述",
+        "default": "Repeat Subscribed"
+      },
+      {
+        "type": "html",
+        "id": "button_txt",
+        "label": "弹窗按钮文案",
+        "default": "Okay"
+      }
+    ]
+  }
+{% endschema %}

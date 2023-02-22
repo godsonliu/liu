@@ -1,0 +1,565 @@
+$minPadWidth: 768px;
+// distance between review's description and image
+$defaultMargin: 25px;
+// normal font-size
+$normalFontSize: 21px;
+// slick arrow distance from content
+$distance: -50px;
+$mob_distance: -30px;
+
+.reviews {
+  text-align: center;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  padding-bottom: 30px;
+  .review-item {
+    transform: none !important;
+  }
+  @media (max-width: 1200px) {
+    width: 95vw;
+    padding-bottom: 10px;
+  }
+  .title {
+    font-size: 48px;
+    font-weight: bold;
+    @media (max-width: $minPadWidth) {
+      font-size: 6.2vw;
+    }
+  }
+  .subtitle {
+    margin-top: 1.5em !important;
+    font-weight: initial;
+    font-size: $normalFontSize;
+    @media (max-width: $minPadWidth) {
+      font-size: 14px;
+    }
+  }
+  .nav {
+    padding-top: 2.8vw;
+    a {
+      font-weight: 700;
+      font-size: 19px;
+      @media (max-width: $minPadWidth) {
+        font-size: 2.7vw;
+      }
+    }
+    ul {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+    }
+    li {
+      padding-inline: 3px;
+      padding-bottom: 10px;
+    }
+    @media (max-width: $minPadWidth) {
+      // mobile display two line
+      li {
+        width: 50%;
+        &:nth-child(odd) {
+          text-align: left;
+        }
+        &:nth-child(even) {
+          text-align: right;
+        }
+      }
+    }
+    .active {
+      border-bottom: 4px solid #ffd893;
+      @media (max-width: $minPadWidth) {
+        border-bottom: none;
+        a {
+          color: #ffd893 !important;
+        }
+      }
+    }
+  }
+  .content-container {
+    padding-top: 50px;
+    margin-bottom: 10px;
+    @media (max-width: $minPadWidth) {
+      // set mobile content width narrow than pc
+      width: 80% !important;
+      padding-top: 25px;
+    }
+    .content {
+      margin: 0 auto;
+      text-align: center;
+      // default font style
+      span {
+        display: block;
+      }
+      p,
+      span,
+      a {
+        padding: initial;
+        margin: initial;
+        font-weight: initial;
+        font-size: $normalFontSize;
+      }
+      p {
+        font-weight: bold;
+      }
+      @media (max-width: $minPadWidth) {
+        p,
+        span,
+        a {
+          font-size: 3.9vw;
+        }
+      }
+    }
+    // soundcore default home_slick style
+    .home_slick {
+      $slickBtnSize: 30px;
+      .slick-arrow {
+        font-size: 0;
+        line-height: 0;
+        position: absolute;
+        z-index: 2;
+        top: 50%;
+        transform: translateY(-50%);
+        width: $slickBtnSize;
+        height: $slickBtnSize;
+        border-radius: 50%;
+        cursor: pointer;
+        border: none;
+        outline: none;
+        opacity: 0;
+    
+        &.slick-disabled {
+          &:hover {
+            cursor: not-allowed;
+          }
+        }
+    
+        &:after {
+          content: "";
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 8px;
+          height: 8px;
+          border-top: 2px solid;
+          border-right: 2px solid;
+          border-color: #334761;
+        }
+      }
+    
+      .slick-prev {
+        left: 8px;
+    
+        &:after {
+          transform: translate(-30%, -50%) rotate(225deg);
+        }
+      }
+    
+      .slick-next {
+        right: 8px;
+    
+        &:after {
+          transform: translate(-70%, -50%) rotate(45deg);
+        }
+      }
+    
+      .slick-prev,
+      .slick-next {
+        &:before {
+          content: "";
+        }
+      }
+    
+      .slick-slider:hover {
+        .slick-arrow {
+          opacity: 0.5;
+        }
+      }
+    
+      .slick-prev:hover,
+      .slick-prev:focus,
+      .slick-next:hover,
+      .slick-next:focus {
+        box-shadow: 0px 2px 5px 2px rgba(0, 0, 0, .1);
+        background: white;
+    
+        &:after {
+          border-color: #334761;
+        }
+      }
+    
+      &.dark {
+    
+        .slick-prev,
+        .slick-next {
+          background: white;
+        }
+      }
+    }
+    // adjustment  home_slick style
+    .home_slick {
+      .slick-prev {
+        left: $distance;
+      }
+      .slick-next {
+        right: $distance;
+      }
+      
+      .slick-arrow {
+        opacity: 1 !important;
+      }
+      .slick-arrow::after {
+        border-color: rgba($color: #fff, $alpha: 0.6) !important;
+      }
+      @media (max-width: $minPadWidth) {
+        .slick-prev {
+          left: $mob_distance;
+        }
+        .slick-next {
+          right: $mob_distance;
+        }
+        // set mobile arrow small than pc
+        .slick-arrow {
+          width: 30px !important;
+          height: 30px !important;
+          &:after {
+            border-top: 1px solid !important;
+            border-right: 1px solid !important;
+            border-color: rgba($color: #fff, $alpha: 0.9) !important;
+          }
+        }
+      }
+    }
+  }
+  .youtuber-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    cursor: pointer;
+    p,
+    span {
+      // special small font size
+      font-size: 12px !important;
+      @media screen and (max-width: $minPadWidth) {
+        font-size: 3.4vw;
+      }
+    }
+    .image {
+      position: relative;
+      .bg-mask {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        background: linear-gradient(
+          180deg,
+          rgba(196, 196, 196, 0) 34.9%,
+          rgba(0, 0, 0, 0.8) 100%
+        );
+      }
+      &:hover {
+        .play-icon-img {
+          img {
+            transform: scale(1.2);
+            transition-duration: 300ms;
+          }
+        }
+      }
+      .play-icon-img {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1;
+        img {
+          width: 10%;
+        }
+      }
+      .text {
+        position: absolute;
+        width: 100%;
+        text-align: left;
+        padding-left: 0.4vw;
+        font-size: 16px;
+        bottom: 0.2vw;
+        z-index: 1;
+        span {
+          color: #fff !important;
+          font-weight: bold;
+        }
+      }
+    }
+    .youtuber-info {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      .icon {
+        width: 20%;
+        margin: 8% 1%;
+        img {
+          width: 80%;
+        }
+      }
+      .text {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+      }
+    }
+  }
+  .normal-item {
+    margin: 0 auto;
+    .image {
+      width: 70%;
+      margin: 0 auto;
+      img {
+        margin: 0 auto;
+      }
+    }
+    .text {
+      margin-top: $defaultMargin;
+    }
+    &.normal-item1 {
+      width: 630px !important;
+      height: 212px;
+      display: flex;
+      flex-direction: row-reverse;
+      justify-content: center;
+      align-items: center;
+      background-color: #fff;
+      .image {
+        width: 110px;
+        height: 154px;
+        img {
+          width: 100%;
+        }
+      }
+      .text {
+        margin-top: 0;
+        text-align: left;
+        width: 350px;
+        margin-left: 57px;
+        span {
+          font-size: 13px;
+        }
+      }
+
+      @media (max-width: $minPadWidth) {
+        flex-direction: column;
+        width: 100% !important;
+        height: 100%;
+        padding: 10px 24px;
+        .image {
+          width: 68px;
+          height: 95px;
+          img {
+            width: 100%;
+          }
+        }
+        .text {
+          margin-top: 17px;
+          text-align: left;
+          width: 100%;
+          margin-left: 0;
+          span {
+            font-size: 12px;
+          }
+        }
+      }
+    }
+  }
+  .customer-item {
+    margin: 0 auto;
+    padding: 20px 0;
+    .upper {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      .icon {
+        width: 24%;
+        margin: 4%;
+        margin-left: 0;
+        img {
+          width: 90%;
+        }
+      }
+      .right {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        // p {
+        //   @media screen and (max-width: $minPadWidth) {
+        //     font-size: 3.4vw;
+        //   }
+        // }
+      }
+    }
+    .des {
+      margin-top: $defaultMargin;
+    }
+    .iconfont{
+      color: #ffc23d;
+    }
+    .stars {
+      position: relative;
+      .mask {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+    }
+  }
+  a.learn-more {
+    color: #00a9e0 !important;
+  }
+}
+#A3600_product, .A3600-style {
+  .reviews {
+    @media (max-width: $minPadWidth) {
+      padding-top: 36px!important;
+    }
+    .title {
+      margin-bottom: 0;
+      @media (max-width: $minPadWidth) {
+        font-size: 24px;
+        width: 70%;
+      }
+    }
+    .nav {
+      padding-top: 54px;
+      border-bottom: 3px solid black;
+      @media (max-width: $minPadWidth) {
+        padding-top: 0;
+      }
+      ul {
+        margin-bottom: -3px;
+      }
+      a {
+        line-height: 33px;
+        font-size: 24px;
+        font-weight: normal;
+        @media (max-width: $minPadWidth) {
+          font-size: 14px;
+          font-weight: bold;
+        }
+      }
+      li {
+        padding-bottom: 5px;
+      }
+      @media (max-width: $minPadWidth) {
+        li {
+          width: 50%;
+          padding-top: 27px;
+          text-align: center;
+          border-bottom: 3px solid black;
+        }
+      }
+      li.active {
+        border-bottom: 3px solid #00A9E0;
+        a {
+          color: #00A9E0 !important;
+        }
+      }
+    }
+    @media (max-width: $minPadWidth) {
+      .nav {
+        border-bottom: none;
+      }
+    }
+    .youtuber-info{
+      .text {
+        width: 100%;
+        align-items: center;
+        }
+      p {
+        padding-top: 18px;
+        font-weight: normal;
+        padding-bottom: 14px;
+        font-size: 13px !important;
+        }
+      span {
+          font-size: 13px !important;
+          font-weight: bold;
+          }
+    }  
+    .home_slick .slick-arrow{
+        top:38%;
+      }
+    .normal-item {
+      height: 240px;
+      background: white;
+      .text span {
+        font-size: 13px;
+        }
+    }
+    .customer-item {
+      background-color: white;
+      padding: 27px 37px 29px 29px;
+      height: 240px;
+      .des {
+        height: 120px;
+        margin-top: 3px;
+        overflow: hidden;
+      }
+      .upper {
+          justify-content: start;
+      }
+      p, span {
+        font-size: 13px;
+        text-align: left;
+      }
+      .extra-text span {
+          margin-bottom: 0;
+          font-style: italic;
+      }
+    }
+    .normal-item {
+      padding: 30px;
+      }
+  }
+}
+
+#reviewsVideoCoverYouTube {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #000;
+  z-index: 99;
+}
+
+#reviewsVideoCoverYouTube .closeVideo {
+  position: absolute;
+  top: 5%;
+  right: 5%;
+  color: #fff;
+}
+
+#reviewsVideoCoverYouTube .box {
+  width: 60vw;
+  height: 30.54vw;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  text-align: center;
+  transform: translate(-50%, -50%);
+  @media (max-width: $minPadWidth) {
+    width: 95vw;
+    height: 48.36vw;
+  }
+}

@@ -1,0 +1,105 @@
+{% if product.metafields.global.countdown_text.value %}
+  {% assign product_text = product.metafields.global.countdown_text.value %}
+{% else %}
+  {% assign product_text = product.metafields.global.countdown_text %}
+{% endif %}
+
+{% if shop.metafields.global.discounts.value %}
+  {% assign lang = shop.metafields.global.discounts.value %}
+{% else %}
+  {% assign lang = shop.metafields.global.discounts %}
+{% endif %}
+
+
+{% render 'txtModal' %}
+
+<style>
+  .product__Coupon__Notice .enddate {
+    color: #000;
+    margin-bottom: 10px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  .product__Coupon__Notice .enddate .newDtes {
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .product__Coupon__Notice .enddate i {
+    vertical-align: revert;
+    font-weight: 500;
+  }
+</style>
+
+<div class="product__Coupon__Notice line_background borderB" style="display: none;">
+  <p class="enddate" onclick="openCouponTips()">
+    <i class="iconfont">&#xe624;</i>
+    <span id="timeTxt" class="timeTxt"></span>
+    <span id="timeOutTxt" class="timeOutTxt">
+      {{ product_text.text }}
+      <span id="newDtes" class="newDtes"></span>
+    </span>
+  </p>
+</div>
+
+<script>
+$(document).ready(function () {
+    var timeLine;
+    function openCouponTips() {
+      openTxtModal("{{ lang.coupon_txt }}");
+    }
+    var timer = setInterval(judgeIsInDisplayTime, 3000);
+
+    function judgeIsInDisplayTime() {
+      var nowTime = new Date().getTime();
+      var startTime = new Date("{{ product_text.start_time }}").valueOf();
+      var endTime = new Date("{{ product_text.end_time }}").valueOf();
+      if (startTime < nowTime && endTime > nowTime) {
+        $('.product__Coupon__Notice').show();
+        clearInterval(timer);
+        refreshTime();
+      }else if(endTime < nowTime){
+        clearInterval(timer);
+        $('.product__Coupon__Notice').hide();
+      }
+    }
+
+    function refreshTime(){
+      let endsTime = "{{ product_text.end_time }}" ? new Date("{{ product_text.end_time }}").valueOf() : null;
+      if (endsTime) {
+        timeLine = setInterval(function() {
+        nowTime = new Date().getTime();
+        let distance = endsTime - nowTime;
+        if (distance < 0) {
+          clearInterval(timeLine);
+          clearInterval(timer);
+          $('.product__Coupon__Notice').hide();
+        } else {
+          let days = Math.floor(distance / (1000 * 60 * 60 * 24));
+          let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+          let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+          if(days >= 7) {
+            $('.product__Coupon__Notice .timeOutTxt').css('display', 'none');
+            $('.product__Coupon__Notice .timeTxt').css('display', 'inline-block');
+            $('.product__Coupon__Notice .timeTxt').html('{{ lang.day_7_txt }}');
+          } else if (days === 1) {
+            $('.product__Coupon__Notice .timeOutTxt').css('display', 'inline-block');
+            $('.product__Coupon__Notice .timeTxt').css('display', 'none');
+            $('.product__Coupon__Notice .newDtes').html(`${days} {{ lang.day }} ${hours}:${minutes}:${seconds}`);
+          } else if (days === 0) {
+            $('.product__Coupon__Notice .timeOutTxt').css('display', 'inline-block');
+            $('.product__Coupon__Notice .timeTxt').css('display', 'none');
+            $('.product__Coupon__Notice .newDtes').html(`{{ lang.today }} ${hours}:${minutes}:${seconds}`);
+          } else {
+            $('.product__Coupon__Notice .timeOutTxt').css('display', 'inline-block');
+            $('.product__Coupon__Notice .timeTxt').css('display', 'none');
+            $('.product__Coupon__Notice .newDtes').html(`${days} {{ lang.days }} ${hours}:${minutes}:${seconds}`);
+          }
+        }
+      }, 1000);
+    }
+  }
+})
+</script>

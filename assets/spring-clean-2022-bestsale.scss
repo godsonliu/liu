@@ -1,0 +1,46 @@
+$maxPhoneWidth: 767px;
+$minPadWidth: 768px; 
+$maxPadWidth: 1024px; 
+
+.spring-clean-2022-bestsale{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 80px;
+  width: 100%;
+  height: auto;
+  background: #EFF4E8;
+  .box-container{
+    margin-bottom: 80px;
+    width: 1200px;
+    border: none;
+    overflow: hidden;
+    text-align: center;
+  }
+  .box-container .title{
+    margin-bottom: 50px;
+    font-weight: bold;
+    font-size: 64px;
+    line-height: 90px;
+    color: #4A7743;
+  }
+  @media screen and (max-width: 1200px) and (min-width: $minPadWidth){
+    .box-container{
+      width: 100%;
+    }
+    .box-container .title{
+      font-size: calc(64 / 1200 * 100vw);
+      line-height: calc(90 / 1200 * 100vw);
+    }
+  }
+  @media screen and (max-width: $maxPhoneWidth){
+    .box-container{
+      margin-bottom: 70px;
+      width: 100%;
+    }
+    .box-container .title{
+      font-size: calc(70 / 750 * 100vw);
+      line-height: calc(90 / 750 * 100vw);
+    }
+  }
+}

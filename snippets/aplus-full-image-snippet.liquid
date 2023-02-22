@@ -1,0 +1,45 @@
+{% if section.settings %}
+  {% assign config = section.settings %}
+  {% assign isSchemaData = true %}
+{% endif %}
+
+{% unless namespace %}
+  {% assign namespace = 'aplus' %}
+{% endunless %}
+
+{% if key %}
+{% if product.metafields[namespace][key].value %}
+  {% assign config = product.metafields[namespace][key].value %}
+{% else %}
+  {% assign config = product.metafields[namespace][key] %}
+{% endif %}
+
+  {% assign isSchemaData = false %}
+{% endif %}
+
+<section class="aplus aplus-full-image">
+  {% if config.headline != blank  %}
+    <div class="aplus-full-image__title">
+      {{ config.headline }}
+    </div>
+  {% endif %}
+  <div class="aplus-full-image__image">
+    <div class="aplus__mobile">
+      {% render 'lazyload_image'
+        isSchemaData: isSchemaData,
+        src: config.mobileImageUrl
+      %}
+    </div>
+    <div class="aplus__pc">
+      {% render 'lazyload_image'
+        isSchemaData: isSchemaData,
+        src: config.imageUrl
+      %}
+    </div>
+  </div>
+  {% if config.body != blank %}
+    <div class="aplus-full-image__description">
+      {{ config.body }}
+    </div>
+  {% endif %}
+</section>

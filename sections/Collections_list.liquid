@@ -1,0 +1,108 @@
+
+{% style %}
+.collections_list_{{section.id}} {
+  padding: 1rem 0;
+}
+.collections_list_{{section.id}} h1 {
+  text-align: center;
+}
+.collections_list_{{section.id}} .listBox {
+  width: 100%;
+  overflow-x: auto;
+}
+.collections_list_{{section.id}} .logo_list {
+  min-width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.collections_list_{{section.id}} .logo_list li {
+  box-sizing: content-box;
+  flex-shrink: 0;
+  width: 95px;
+  padding: 10px 30px;
+}
+.collections_list_{{section.id}} .logo_list a {
+  display: block;
+}
+.collections_list_{{section.id}} .logo_list a:hover span{
+  font-weight: 600;
+  text-decoration: underline;
+}
+.collections_list_{{section.id}} .logo_list li img {
+  display: block;
+  width: 85%;
+  margin: 0 auto;
+  margin-bottom: 10px;
+}
+.collections_list_{{section.id}} .logo_list li span {
+  display: block;
+  text-align: center;
+  font-size: 14px;
+}
+@media (max-width: 768px) {
+  .collections_list_{{section.id}} .logo_list li {
+    padding: 10px;
+  }
+}
+{% endstyle %}
+
+
+<section class="collections_list collections_list_{{section.id}}">
+  <div class="listBox">
+    {% if section.settings.title != nil %}
+      <h1>{{section.settings.title}}</h1>
+    {% endif %}
+    <ul class="logo_list">
+      {% for item in section.blocks %}
+        <li>
+          <a href="{{ item.settings.link }}" target="_blank" rel="noopener noreferrer">
+            <img src="{{ item.settings.icon | img_url: '200x200' }}" alt="">
+            <span>{{ item.settings.name }}</span>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "collections_list",
+  "presets": [
+    {
+      "category": "Custom Dynamic Sections",
+      "name": "Collections Icon List"
+    }
+  ],
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Title"
+    }
+  ],
+  "blocks":[
+    {
+      "name":"Collection",
+      "type":"collection_block",
+      "settings": [
+        {
+          "type":"image_picker",
+          "id":"icon",
+          "label": "Icon img"
+        },
+        {
+          "type":"text",
+          "id":"name",
+          "label": "Name"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Collection url"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

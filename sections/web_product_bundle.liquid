@@ -1,0 +1,305 @@
+{% if variant.metafields.global.related_variant.value %}
+  {% assign related_variant = variant.metafields.global.related_variant.value %}
+{% else %}
+  {% assign related_variant = variant.metafields.global.related_variant %}
+{% endif %}
+
+{% if shop.metafields['global']['common'].value %}
+  {% assign common = shop.metafields['global']['common'].value %}
+{% else %}
+  {% assign common = shop.metafields['global']['common'] %}
+{% endif %}
+
+{% if shop.metafields['global']['storefront_key'].value %}
+  {% assign storefront_key = shop.metafields['global']['storefront_key'].value %}
+{% else %}
+  {% assign storefront_key = shop.metafields['global']['storefront_key'] %}
+{% endif %}
+
+
+{% assign DataId = section.settings.data_id %}
+{% if page.metafields['global'][DataId].value %}
+  {% assign web_product_bundle = page.metafields['global'][DataId].value %}
+{% else %}
+  {% assign web_product_bundle = page.metafields['global'][DataId] %}
+{% endif %}
+
+
+<section class="web_product_bundle" id="{{ DataId }}">
+  <div class="bundleBox">
+    <h3 class="title">{{ web_product_bundle.heading_text }}</h3>
+    <div class="Spin Spin_{{ DataId }}">
+      <div
+        class="content cnt products
+        {% if web_product_bundle.products_list[2] %} products_row {% else %} products_column {% endif %}"
+      >
+        <div class="prods">
+          {% for item in web_product_bundle.products_list %}
+
+            {% assign product = all_products[item.handle] %}
+            {% assign sold_out = false %}
+            {% if product.variants == blank %}
+              {% assign sold_out = true %}
+            {% else %}
+              {% for v in product.variants %}
+                {% if v.sku == item.sku %}
+                  {% assign variant = v %}
+                {% endif %}
+              {% endfor %}
+              {% if variant.available == false or variant.price == 999999999 %}
+                {% assign sold_out = true %}
+              {% endif %}
+
+              {% if related_variant %}
+                {% for i in related_variant %}
+                  {% assign thisProduct = all_products[i.handle] %}
+                  {% if thisProduct.variants == blank %}
+                    {% assign sold_out = true %}
+                  {% else %}
+                    {% for v in thisProduct.variants %}
+                      {% if v.sku == i.sku %}
+                        {% assign thisVariant = v %}
+                      {% endif %}
+                    {% endfor %}
+                    {% if thisVariant.available == false or thisVariant.price == 999999999 %}
+                      {% assign sold_out = true %}
+                    {% endif %}
+                  {% endif %}
+                {% endfor %}
+              {% endif %}
+
+              {% assign oPrice = variant.price %}
+              {% assign totalPrice = totalPrice | plus: oPrice %}
+            {% endif %}
+
+            <div class="item">
+              <a href="/products/{{ item.handle }}" class="img" style="display: block;position: relative;">
+                <img class="lazyload" data-src="{{ product.featured_media.preview_image| img_url: '600x' }}" />
+              </a>
+              <div class="txt">
+                <a href="/products/{{ item.handle }}">
+                  <h3 class="name">{{ product.title }}</h3>
+                </a>
+                {% if sold_out != true %}
+                  <p class="price">{{ oPrice | money }}</p>
+                {% else %}
+                  <p class="soldOut">{{ common.soldOut }}</p>
+                {% endif %}
+              </div>
+            </div>
+
+          {% endfor %}
+        </div>
+        <div class="btn">
+          <div class="txt">
+            {% if sold_out == true %}
+              <a class="soldOut">{{ common.soldOut }}</a>
+            {% else %}
+              <p class="bundle_text">{{ web_product_bundle.bundle_text }}</p>
+              <p class="bundle_price">
+                <del>{{ totalPrice | money }}</del>
+                <span>{{ web_product_bundle.bundle_price }}</span>
+              </p>
+            </div>
+            <a class="buyBundle">{{ common.buy_now }}</a>
+          {% endif %}
+        </div>
+      </div>
+      <div class="mask"></div>
+      <div class="spinner">
+        <i class="iconfont"></i>
+        <div class="focus"><i class="iconfont"></i></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  #{{ DataId }}.web_product_bundle {
+    padding: 5rem 0; background: {{ web_product_bundle.section_background_color }};
+    background-image: url({{ web_product_bundle.section_background_image }});
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    background-position: center top;
+  }
+  #{{ DataId }}.web_product_bundle .bundleBox { width: 100%; max-width: 1200px; margin: 0 auto; }
+  #{{ DataId }}.web_product_bundle .title { font-size: 30px; font-weight: 600; text-align: center; margin-bottom: 3rem; color: {{ web_product_bundle.heading_color }}; }
+  #{{ DataId }}.web_product_bundle .products { padding: 3% 8% 5%; background: {{ web_product_bundle.row_background_color }}; }
+  #{{ DataId }}.web_product_bundle .products_column { display: flex; align-items: flex-end; }
+  #{{ DataId }}.web_product_bundle .products .prods { display: flex; }
+  #{{ DataId }}.web_product_bundle .products .item { margin-right: 10%; text-align: center; position: relative; }
+  #{{ DataId }}.web_product_bundle .products_row .item { margin-right: 5%; }
+  #{{ DataId }}.web_product_bundle .products_row .item:last-child { margin-right: 0; }
+  #{{ DataId }}.web_product_bundle .products .item .plus {
+    position: absolute;
+    top: 50%;
+    right: -17%;
+    font-size: 26px;
+    transform: translateY(-50%);
+    color: {{ web_product_bundle.section_color }};
+  }
+  #{{ DataId }}.web_product_bundle .products_row .item .plus { right: -12%; }
+  #{{ DataId }}.web_product_bundle .products .item .name { color: {{ web_product_bundle.text_color }}; font-size: 22px; margin-bottom: 5px; }
+  #{{ DataId }}.web_product_bundle .products_row .item .name { font-size: 18px; }
+  #{{ DataId }}.web_product_bundle .products .item .price { color: {{ web_product_bundle.text_color }}; font-size: 22px; margin: 0; }
+  #{{ DataId }}.web_product_bundle .products .item .soldOut { color: #666; font-size: 22px; margin: 0; }
+  #{{ DataId }}.web_product_bundle .products_column .btn { width: 50%; padding: 10% 0 10% 7%; border-left: 1px solid {{ web_product_bundle.btn_border_color }}; }
+  #{{ DataId }}.web_product_bundle .products_row .btn {
+    width: 80%;
+    border-top: 1px solid #333;
+    display: flex;
+    justify-content: center;
+    margin: 4rem auto 0;
+    padding-top: 3rem;
+  }
+  #{{ DataId }}.web_product_bundle .products_row .btn .txt { display: flex; }
+  #{{ DataId }}.web_product_bundle .products .btn .bundle_text { font-size: 24px; margin-bottom: 10px; font-weight: 600; color: {{ web_product_bundle.text_color }};}
+  #{{ DataId }}.web_product_bundle .products .btn .soldOut { font-size: 24px; color: {{ web_product_bundle.soldOut_color }}; font-weight: 600; }
+  #{{ DataId }}.web_product_bundle .products .btn .bundle_price { font-size: 24px; color: {{ web_product_bundle.price_color }}; margin-bottom: 1rem; font-weight: 600; }
+  #{{ DataId }}.web_product_bundle .products_row .btn .bundle_price { margin: 0 3rem; }
+  #{{ DataId }}.web_product_bundle .products .btn .bundle_price del { font-size: 18px; color: {{ web_product_bundle.del_color }}; }
+  #{{ DataId }}.web_product_bundle .products .btn .buyBundle {
+    height: 36px;
+    line-height: 36px;
+    display: inline-block;
+    border-radius: 18px;
+    width: 80%;
+    text-align: center;
+    color: {{ web_product_bundle.button__color }};
+    font-weight: 600;
+    max-width: 200px;
+    background: {{ web_product_bundle.button_color }};
+  }
+  @media (max-width: 1200px){
+    #{{ DataId }}.web_product_bundle { padding: 3rem 1rem; }
+  }
+  @media (max-width: 767px){
+    #{{ DataId }}.web_product_bundle .products { display: block; }
+    #{{ DataId }}.web_product_bundle .products { padding: 2rem; }
+    #{{ DataId }}.web_product_bundle .products_row .prods { flex-direction: column; }
+    #{{ DataId }}.web_product_bundle .products_row .item { display: flex; margin: 0 0 10% 0; align-items: center; }
+    #{{ DataId }}.web_product_bundle .products .item:last-child { margin: 0; }
+    #{{ DataId }}.web_product_bundle .products_row .item .img { width: 40%; margin-right: 2rem; }
+    #{{ DataId }}.web_product_bundle .products_row .item .txt { text-align: left; }
+    #{{ DataId }}.web_product_bundle .products .item .name { font-size: 16px; }
+    #{{ DataId }}.web_product_bundle .products .item .price, .web_product_bundle .products .item .soldOut { font-size: 16px; }
+    #{{ DataId }}.web_product_bundle .products .item .plus { font-size: 20px; }
+    #{{ DataId }}.web_product_bundle .products_row .item .plus { right: auto; left: 15%; top: auto; bottom: -30px; transform: translateY(0); }
+    #{{ DataId }}.web_product_bundle .products_column .btn { border: none; border-top: 1px solid #333;flex-direction: column; }
+    #{{ DataId }}.web_product_bundle .products .btn { padding: 2rem 1rem; margin: 2rem auto 0; width: 100%; display: flex; justify-content: space-between; align-items: center; }
+    #{{ DataId }}.web_product_bundle .products .btn .bundle_text, .web_product_bundle .products .btn .bundle_price { font-size: 18px; }
+    #{{ DataId }}.web_product_bundle .products .btn .bundle_price { margin: 0;display: flex;flex-direction: column;align-items: center; }
+    #{{ DataId }}.web_product_bundle .products .btn .bundle_price del { font-size: 14px; }
+    #{{ DataId }}.web_product_bundle .products .btn .buyBundle { width: 70%;margin-top: 2vw; }
+    #{{ DataId }}.web_product_bundle .products_row .btn .txt { display: block; }
+  }
+</style>
+
+<script>
+  var line_items_{{DataId}} = [];
+  var productsList_{{DataId}} = [];
+  $(document).ready(function(){
+    $("#{{ DataId }} .products .item ").each(function(i, ele) {
+      if (i !== $("#{{ DataId }} .products .item ").length - 1) {
+        $(this).find('.img').append("<i class='iconfont plus'>&#xe64b;</i>");
+      }
+    })
+
+    // 初始化
+    {% for item in web_product_bundle.products_list %}
+      {% assign itemPro = all_products[item.handle] %}
+
+      {% for v in itemPro.variants %}
+      {% if v.metafields.global.related_variant.value %}
+        {% assign related_variant = v.metafields.global.related_variant.value %}
+      {% else %}
+        {% assign related_variant = v.metafields.global.related_variant %}
+      {% endif %}
+
+        {% if related_variant %}
+          {% for i in related_variant %}
+            var thisProduct = {{ all_products[i.handle] | json }};
+            var thisVariant = thisProduct.variants.find(o => o.sku === '{{i.sku}}');
+            line_items_{{DataId}}.push({ variant_id: thisVariant.id, quantity: 1, properties: { '{{ web_product_bundle.section_bundle_key }}': '{{ web_product_bundle.section_bundle_key }}' } })
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+
+      var oProduct = {{ itemPro | json }};
+      var oVariant = oProduct.variants.find(o => o.sku === '{{ item.sku }}');
+
+      line_items_{{DataId}}.push({ variant_id: oVariant.id, quantity: 1, properties: { '{{ web_product_bundle.section_bundle_key }}': '{{ web_product_bundle.section_bundle_key }}' } });
+      productsList_{{DataId}}.push({
+        'name': oVariant.name,
+        'id': oVariant.sku,
+        'category': '',
+        'categoryName': oProduct.type,
+        'brand': "{{ shop.name }}",
+        'variant': oVariant.title,
+        'price': oVariant.price / 100,
+        'quantity': 1
+      })
+    {% endfor %}
+
+    $('#{{ DataId }} .buyBundle').on('click', function(e) {
+      $('#{{ DataId }} .Spin_{{ DataId }}').addClass('active');
+      e.stopPropagation();
+      e.preventDefault();
+      Shopify.theme.bundleBuynow({
+        authorization: "{{ storefront_key }}",
+        checkout: {
+          line_items: line_items_{{DataId}},
+          presentment_currency: "{{ shop.currency }}",
+          is_upstream_button: true,
+          page_type: "product",
+          secret: true,
+          wallet_name: "Checkout"
+        },
+        onSuccess: () => {
+          window.setTimeout(function() {
+            $('#{{ DataId }} .Spin_{{ DataId }}').removeClass('active');
+          } , 2000);
+          window.dataLayer.push({
+            'event': 'uaEvent',
+            'eventCategory': 'EnhancedEcommerce',
+            'eventAction': 'BuyNow', // 如果是右上角加购功能, 换成Added Product
+            'eventLabel': productsList_{{DataId}}[0].id,
+            'ecommerce': {
+              'currencyCode': '{{ shop.currency }}',
+              'add': {
+                'products': productsList_{{DataId}}
+              }
+            }
+        })
+        },
+        onError: err => {
+          window.setTimeout(function() {
+            $('#{{ DataId }} .Spin_{{ DataId }}').removeClass('active');
+          } , 2000);
+          $.dialog({ title: err.message, content: err.description, type: 'red' });
+        }
+      });
+    })
+    
+  })
+</script>
+
+{% schema %}
+{
+  "name": "web_product_bundle",
+  "presets": [
+    {
+      "category": "Custom Dynamic Sections",
+      "name": "web product bundle"
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "data_id",
+      "label": "metafields data id",
+      "default": "web_product_bundle"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,80 @@
+<div class="t2273_feature_2">
+  <div id="vimeoVideo"></div>
+  <p class="tip">{{section.settings.tip}}</p>
+  <div class="days">
+    <span class="t1">{{section.settings.day}}</span>
+    <span class="t2">{{section.settings.symbol}}</span>
+    <span class="t3">{{section.settings.days}}</span>
+  </div>
+</div>
+
+<script src="https://player.vimeo.com/api/player.js" defer></script>
+<script>
+  $(function () {
+    var video = new Vimeo.Player('vimeoVideo', {
+      id: $(window).width() > 769
+        ? '{{ section.settings.vid }}'
+        : '{{ section.settings.vid_mob }}',
+      controls: false,
+      muted: true
+    });
+    var isPlaying = false;
+    video.play().then(function() {
+      !isPlaying && video.pause();
+    });
+
+    ScrollTrigger.create({
+      trigger: ".t2273_feature_2",
+      start: "top bottom-=200",
+      once: true,
+      onEnter: function() {
+        isPlaying = true;
+        video.play();
+        var timer, count = 0;
+        timer = setInterval(function () {
+          count += 1;
+          let num  = count < 10 ? "0" + count : count;
+          $(".t2273_feature_2 .t1").text(num);
+          if (count >= {{section.settings.day}}) {
+            clearInterval(timer);
+          }
+        }, 83);
+      }
+    })
+
+  })
+</script>
+
+{% schema %}
+{
+  "name": "T2273 feature 2",
+  "settings": [{
+    "type": "text",
+    "id": "vid",
+    "label": "vimeo id"
+  }, {
+    "type": "text",
+    "id": "vid_mob",
+    "label": "移动端vimeo id"
+  }, {
+    "type": "textarea",
+    "id": "tip",
+    "label": "提示信息"
+  }, {
+    "type": "text",
+    "id": "day",
+    "label": "天数",
+    "default": "60"
+  }, {
+    "type": "text",
+    "id": "days",
+    "label": "days",
+    "default": "Days"
+  }, {
+    "type": "text",
+    "id": "symbol",
+    "label": "符号",
+    "default": "*"
+  }]
+}
+{% endschema %}

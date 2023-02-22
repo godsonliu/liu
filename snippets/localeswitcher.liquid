@@ -1,0 +1,160 @@
+{% if shop.metafields['global']['localeswitcher'].value %}
+  {% assign localesLang = shop.metafields['global']['localeswitcher'].value %}
+{% else %}
+  {% assign localesLang = shop.metafields['global']['localeswitcher'] %}
+{% endif %}
+
+
+{% if localesLang.show  %}
+
+  <div class="localeswitcher swap--visible">
+    <div class="ls-content">
+      <div class="ls-copy"></div>
+      <div class="ls-actions">
+        <div class="ls-dropdown">
+          <div class="ls-dropdown-select">
+            <span class="ls-dropdown-title">
+              <span class="ls-dropdown-check"><i class="iconfont">&#xe786;</i></span>
+              <span class="ls-dropdown-copy"></span>
+            </span>
+            <div class="ls-dropdown-icon"><i class="iconfont">&#xe6bc;</i></div>
+          </div>
+          <div class="ls-dropdown-options swap--visible">
+            <ul class="ls-dropdown-options-list"></ul>
+            <div class="ls-dropdown-icon"><i class="iconfont">&#xe6bc;</i></div>
+          </div>
+        </div>
+        <a class="ls-continue"></a>
+      </div>
+      <a class="ls-close"><i class="iconfont"></i></a>
+    </div>
+  </div>
+
+{% endif %}
+
+<script type="text/javascript">
+  let IPCountryCode = '';
+  const ShopCountryCode = '{{ localesLang.country_code }}';
+  const localesData = {{ localesLang | json }};
+  let locale;
+
+  $(function() {
+    // 前置判断
+    if (localStorage.getItem('localeswitcher')) return;
+    $('.localeswitcher .ls-close').on('click', function(e) {
+      $('.localeswitcher').addClass('swap--visible');
+      localStorage.setItem('localeswitcher', true);
+    })
+
+    // 数据准备
+    // 获取当前页面的跳转数组 locale
+    const pathname = window.location.pathname;
+    locale = localesData?.urlDataList.find(item => item[`url_${ShopCountryCode}`] == pathname 
+      || (item.regexp && new RegExp(item[`url_${ShopCountryCode}`]).test(pathname))); // 新增正则匹配
+    // console.log("locale", locale)
+    if (!locale) return;
+    // 获取ip地址并进行后续判断
+    $.ajax({
+      headers: Shopify.contentCreator.pastApi.getHeaders(),
+      url: '/apps/pp/rainbowbridge/ipinfo',
+      type: 'GET',
+      success: body => {
+        const ip = body.country.toLowerCase();
+        if (localesData.eu_country.find(item => item.toLowerCase() === ip)) {
+          IPCountryCode = "eu";
+        } else if (localesData.au_country?.find(item => item.toLowerCase() === ip)) {
+          IPCountryCode = "au"; // 新增跳转到 au 的国家配置
+        } else if (ip === "gb") {
+          IPCountryCode = "uk";
+        } else {
+          IPCountryCode = ip;
+        }
+
+        const ShopName = '{{ shop.name }}';
+        // 若当前 IPCountryCode 与 当前 ShopCountryCode 不同且有相应 IPCountryCode 的链接 则使其能手动跳转
+        if (ShopCountryCode !== IPCountryCode) {
+          if (locale && locale.autoJump && locale[`url_${IPCountryCode}`]) {
+            const origin = window.location.origin.replace(ShopCountryCode, IPCountryCode);
+            const pathname = locale[`url_${IPCountryCode}`];
+            const oSearch = pathname.split('?')[1]
+            const search = window.location.search ? window.location.search + '&' + oSearch : '?' + oSearch
+            window.location.href = `${origin}${pathname}${search}`;
+          } else if (locale && locale[`url_${IPCountryCode}`]){
+            localeswitcherInit();
+          }
+        }
+      },
+      error: err => {}
+    });
+
+    // 交互
+    $('.ls-dropdown-select').on('click', function(e) {
+      $('.ls-dropdown-options').removeClass('swap--visible');
+    })
+    document.body.addEventListener('click', function(e) {
+      if (!$(e.target).hasClass('ls-dropdown-select')){
+        $('.ls-dropdown-options').addClass('swap--visible');
+      }
+    })
+
+    // 切换国家
+    $(document).on('click',  '.ls-dropdown-option', function() {
+      $('.ls-dropdown-option').attr("aria-selected", false);
+      $(this).attr("aria-selected", true);
+      $(".ls-dropdown-select").attr("data-country", $(this).attr('data-country'));
+      $(".ls-dropdown-select").attr("data-href", $(this).attr('data-href'));
+      $(".ls-dropdown-select .ls-dropdown-copy").text($(this).find(".ls-dropdown-copy").text());
+    });
+
+    // 跳转
+    $(".ls-continue").on('click', function(e) {
+      const code = $(".ls-dropdown-select").attr("data-country");
+      if (code === ShopCountryCode) {
+        $('.localeswitcher').addClass('swap--visible');
+      } else {
+        const origin = window.location.origin.replace(ShopCountryCode, code);
+        const pathname = $(".ls-dropdown-select").attr("data-href");
+        const oSearch = pathname.split('?')[1]
+        const search = window.location.search ? window.location.search + '&' + oSearch : '?' + oSearch
+        window.location.href = `${origin}${pathname}${search}`;
+      }
+    })
+  })
+
+  function localeswitcherInit() {
+    // 样式显示
+    $(".localeswitcher").removeClass('swap--visible');
+    $(".ls-dropdown-select").attr("data-country", IPCountryCode);
+    $(".localeswitcher .ls-copy").html(`${localesData.country_text[IPCountryCode].title}`);
+    $(".localeswitcher .ls-continue").html(`${localesData.country_text[IPCountryCode].continue}`);
+    $(".ls-dropdown-select .ls-dropdown-copy").text(`${localesData.country_text[IPCountryCode].code}`);
+    
+    const href = `url_${IPCountryCode}`;
+    let dom = `<li class="ls-dropdown-option" data-country="${IPCountryCode}" data-href="${locale[href]}">
+      <span class="ls-dropdown-check"><i class="iconfont">&#xe786;</i></span>
+      <span class="ls-dropdown-copy">${localesData.country_text[IPCountryCode].code}</span>
+    </li>`;
+
+    for (let i in locale) {
+      const iCode = i.split('_')[1];
+      if (iCode && iCode !== IPCountryCode && iCode !== ShopCountryCode) {
+        dom = dom.concat(`<li class="ls-dropdown-option" data-country="${iCode}" data-href="${locale[i]}">
+          <span class="ls-dropdown-check"><i class="iconfont">&#xe786;</i></span>
+          <span class="ls-dropdown-copy">${localesData.country_text[iCode].code}</span>
+        </li>`);
+      }
+    }
+    for (let i in locale) {
+      const iCode = i.split('_')[1];
+      if (iCode && iCode === ShopCountryCode) {
+        dom = dom.concat(`<li class="ls-dropdown-option" data-country="${iCode}" data-href="${locale[i]}">
+          <span class="ls-dropdown-check"><i class="iconfont">&#xe786;</i></span>
+          <span class="ls-dropdown-copy">${localesData.country_text[iCode].code}</span>
+        </li>`)
+      }
+    }
+
+    $('.ls-dropdown-options-list').html(dom);
+    $('.ls-dropdown-options-list').find(`.ls-dropdown-option[data-country=${IPCountryCode}]`).attr("aria-selected", true);
+  }
+</script>

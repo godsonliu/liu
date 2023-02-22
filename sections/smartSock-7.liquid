@@ -1,0 +1,56 @@
+<section class="smartSock-7" id="{{section.settings.id}}">
+  <ul>
+    {% for block in section.blocks %}
+      <li>
+        <img class="lazyload" data-src="{{block.settings.icon | image_url}}">
+        <p>{{ block.settings.text }}</p>
+      </li>
+    {% endfor %}
+  </ul>
+</section>
+
+<script>
+  $(function() {
+    ScrollTrigger.create({
+      trigger: ".smartSock-7",
+      start: "top center+=200",
+      toggleClass: "active"
+    });
+  });  
+</script>
+
+{% schema %}
+{
+  "name": "Smart Sock P7",
+  "presets": [
+    {
+      "name": "Smart Sock P7"
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "id",
+      "label": "模块id"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "iconText",
+      "name": "iconText",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "图标"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "文案"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,74 @@
+<section class="smartSock-6" id="{{section.settings.id}}">
+  <div class="banner">
+    {% render 'image-element', 
+      image: section.settings.banner,
+      alt: section.settings.banner.alt,
+      additional_classes: "pc-show"
+    %}
+    {% render 'image-element', 
+      image: section.settings.banner_mob,
+      alt: section.settings.banner_mob.alt,
+      additional_classes: "mob-show"
+    %}
+    <img class="line pc-show" src="{{section.settings.banner_line | image_url}}">
+  </div>
+  <div class="content">
+    <h2>{{ section.settings.title }}</h2>
+    <p>{{ section.settings.subtitle }}</p>
+  </div>
+</section>
+
+<script>
+  $(function() {
+    ScrollTrigger.create({
+      trigger: ".smartSock-6 .banner",
+      start: "top center+=100",
+      toggleClass: "active"
+    });
+  });  
+</script>
+
+{% schema %}
+{
+  "name": "Smart Sock P6",
+  "presets": [
+    {
+      "name": "Smart Sock P6"
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "id",
+      "label": "模块id"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner",
+      "label": "banner图"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_line",
+      "label": "banner线条图"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_mob",
+      "label": "移动端banner图"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "标题",
+      "default": "Zero Privacy Concerns"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "副标题",
+      "default": "For you and your baby's privacy, every bit of information is stored locally on a 32GB SD card and data transmission is encrypted with an AES 128-bit military-grade encryption."
+    }
+  ]
+}
+{% endschema %}

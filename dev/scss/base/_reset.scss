@@ -1,0 +1,284 @@
+
+* {
+  &,
+  &::before,
+  &::after {
+    box-sizing: inherit;
+  }
+}
+
+html {
+  box-sizing: border-box;
+  background-color: $body-background-color;
+  font-size: $commentFontSize;
+  color: $gray;
+  line-height: $lineHeight;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  min-width: 300px;
+  overflow-y: auto;
+  text-rendering: $body-rendering;
+  text-size-adjust: 100%;
+  backface-visibility: hidden; // Used to correct webkit transform bug
+}
+
+body {
+  font-family: "Open Sans", Booster Next FY, Helvetica, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  color: #000;
+  line-height: 1.5;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html,
+body,
+p,
+ol,
+ul,
+li,
+dl,
+dt,
+dd,
+blockquote,
+figure,
+fieldset,
+legend,
+textarea,
+pre,
+iframe,
+hr,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: 100%;
+  font-weight: normal;
+}
+
+ul {
+  list-style: none;
+}
+
+button,
+input,
+select,
+textarea {
+  margin: 0;
+}
+
+img,
+audio,
+video {
+  height: auto;
+  max-width: 100%;
+}
+
+iframe {
+  border: 0;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+td,
+th {
+  padding: 0;
+  text-align: left;
+}
+
+main {
+  min-height: 30vh; // Make sure header and footer aren't stuck together
+}
+
+article,
+aside,
+figure,
+footer,
+header,
+main,
+hgroup,
+section {
+  display: block;
+}
+
+body,
+button,
+input,
+select,
+textarea {
+  font-family: $body-family;
+}
+
+code,
+pre {
+  -moz-osx-font-smoothing: auto;
+  -webkit-font-smoothing: auto;
+  font-family: $code-family;
+}
+
+a {
+  color: $link;
+  cursor: pointer;
+  text-decoration: none;
+  transition: color $transition-speed ease-in-out;
+
+  strong {
+    color: currentColor;
+  }
+
+  &:hover {
+    color: $link-hover;
+  }
+}
+
+code {
+  background-color: $code-background;
+  color: $code;
+  font-size: $code-size;
+  font-weight: $code-weight;
+  padding: $code-padding;
+}
+
+hr {
+  background-color: $hr-background-color;
+  border: none;
+  display: block;
+  height: $hr-height;
+  margin: $hr-margin;
+}
+
+img {
+  height: auto;
+  max-width: 100%;
+}
+
+input {
+  font-size: 16px;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  vertical-align: baseline;
+}
+
+small {
+  font-size: 0.875em;
+}
+
+span {
+  font-style: inherit;
+  font-weight: inherit;
+}
+
+strong {
+  font-weight: $strong-weight;
+}
+
+fieldset {
+  border: none;
+}
+
+pre {
+  @include overflow-touch;
+
+  background-color: $pre-background;
+  color: $pre;
+  font-size: 0.875em;
+  overflow-x: auto;
+  padding: 1.25rem 1.5rem;
+  white-space: pre;
+  word-wrap: normal;
+
+  code {
+    background-color: transparent;
+    color: currentColor;
+    font-size: 1em;
+    padding: 0;
+  }
+}
+
+table {
+  td,
+  th {
+    text-align: left;
+    vertical-align: top;
+  }
+
+  th {
+    color: $text-strong;
+  }
+}
+
+sub {
+  font-size: smaller;
+}
+
+em,
+i {
+  font-style: italic;
+}
+
+strong,
+b {
+  font-weight: bold;
+}
+
+small {
+  font-size: smaller;
+}
+
+// Blockquotes
+
+blockquote {
+  font-size: larger;
+  line-height: 1.2;
+  font-style: italic;
+  cite {
+    display: block;
+    font-size: smaller;
+    &:before {
+      content: "\2014 \0020";
+    }
+  }
+}
+
+select::-ms-expand {
+  display: none;
+}
+
+select:focus::-ms-value {
+  background: none;
+  color: #000;
+}
+
+button[readonly],
+input[readonly],
+select[readonly],
+textarea[readonly] {
+  background: transparent;
+  box-shadow: none;
+}
+
+input,
+optgroup,
+select,
+textarea {
+  outline: none;
+}

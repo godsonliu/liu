@@ -1,0 +1,40 @@
+{% comment %}
+Required values
+  src: <mobile image src property>
+  alt: <image alt property>
+______________
+Optional values
+  id: <string>
+  additional_classes: <string>
+  additional_style: <string>
+  isSchemaData: <boolean>
+  width: <number>
+  max_width: <number>
+  height: <number>
+  aspect_ratio: <number>
+{% endcomment %}
+
+{% if isSchemaData == true %}
+  {% assign img_src = src | img_url: '' %}
+{% else %}
+  {% assign img_src = src %}
+{% endif %}
+
+{% if max_width != blank %}
+  {% capture fix_width %}&width={{ max_width }}{% endcapture %}
+  {% assign img_src = img_src | append: fix_width %}
+{% endif %}
+
+{% assign low_src = img_src | replace: '.png', '_50x.png'| replace: '.jpg', '_50x.jpg'| replace: 'jpeg', '_50x.jpeg' %}
+
+<img
+  {% if id != blank %} id="{{ id }}" {% endif %}
+  class="lazyload blur-up {{ additional_classes }}" 
+  data-src="{{ img_src }}"
+  src="{{ low_src }}"
+  alt="{{ alt }}"
+  {% if additional_style != blank %} style="{{ additional_style }}" {% endif %}
+  {% if width != blank %} width="{{ width }}" {% endif %}
+  {% if aspect_ratio != blank %}height="{{ width | divided_by: aspect_ratio }}" {% endif %}
+  {% if height != blank %}height="{{ height }}" {% endif %}
+/>

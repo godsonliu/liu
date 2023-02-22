@@ -1,0 +1,10 @@
+{% if shop.metafields['global']['country'].value %}
+  {% assign country = shop.metafields['global']['country'].value %}
+{% else %}
+  {% assign country = shop.metafields['global']['country'] %}
+{% endif %}
+
+
+{% if country.optimize_id %}
+    <script src="https://www.googleoptimize.com/optimize.js?id={{ country.optimize_id }}"></script>
+{% endif %}

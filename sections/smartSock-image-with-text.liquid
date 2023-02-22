@@ -1,0 +1,136 @@
+<style>
+  .smartSock-image-text {
+    display: flex;
+    justify-content: space-around;
+    max-width: 1300px;
+    gap: 1.71vw;
+    margin: 0 auto;
+    margin-top: 50px;
+    padding-bottom: 30px;
+  }
+  .smartSock-image-text .item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .smartSock-image-text h5 {
+    font-size: 25px;
+  }
+  .smartSock-image-text .item img {
+    display: block;
+    margin: 0 auto;
+  }
+  .smartSock-image-text .text {
+    padding: 10px 0 0;
+  }
+  .smartSock-image-text .item-large img {
+    order: 1;
+    margin-top: 10px;
+  }
+  .smartSock-image-text .item-large .text {
+    padding-top: 0;
+    text-align: center;
+  }
+  @media screen and (min-width: 769px) {
+    .mob-show {
+      display: none!important;
+    }
+  }
+  @media screen and (max-width: 768px) {
+    .smartSock-image-text {
+      display: block;
+      padding-bottom: 0;
+    }
+    .smartSock-image-text .item {
+      margin-bottom: 30px;
+    }
+    .smartSock-image-text .text {
+      padding: 15px;
+    }
+    .smartSock-image-text h5 {
+      font-size: 15px;
+    }
+    .smartSock-image-text .item-large img {
+      order: 0;
+      margin-top: 0;
+    }
+    .smartSock-image-text .item-large .text {
+      padding-top: 10px;
+      text-align: left;
+    }
+    .pc-show {
+      display: none!important;
+    }
+  }
+</style>
+
+<div class="smartSock-image-text">
+  {% for block in section.blocks %}
+    <div class="item {% if forloop.length == 1%}item-large{% endif %}">
+      {% render 'lazyload_image',  
+        src: block.settings.image,
+        alt: block.settings.image.alt,
+        width: block.settings.image.width,
+        aspect_ratio: block.settings.image.aspect_ratio,
+        isSchemaData: true,
+        additional_classes: "is-hidden-mobile-only"
+      %}
+      {% assign image_mob = block.settings.image_mob %}
+      {% if image_mob == blank %}
+        {% assign image_mob = block.settings.image %}
+      {% endif %}
+      {% render 'lazyload_image',  
+        src: image_mob,
+        alt: image_mob.alt,
+        width: image_mob.width,
+        aspect_ratio: image_mob.aspect_ratio,
+        isSchemaData: true,
+        additional_classes: "is-hidden-desktop-only"
+      %}
+      <div class="text">
+        <h5>{{ block.settings.title }}</h5>
+        <p>{{ block.settings.content }}</p>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+{% schema %}
+{
+  "name": "Smart Sock Image Text",
+  "presets": [
+    {
+      "name": "Smart Sock Image Text"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image_text",
+      "name": "image_text",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "图片"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mob",
+          "label": "移动端图片",
+          "info": "不填则取桌面端图片"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "标题"
+        },
+        {
+          "type": "textarea",
+          "id": "content",
+          "label": "内容"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,345 @@
+{{ 'wlc-landing.scss.css' | asset_url | stylesheet_tag }}
+{% assign section_id = 'shopify-section-' | append: section.id %}
+
+{% assign custom_css = section.settings.custom_css %}
+<style>
+  #{{section_id}} {
+    background: #000;
+  }
+</style>
+{% render 'css-loop',
+  css: custom_css,
+  id: section.id
+%}
+{% if section.settings.img1 %}
+<div class="wlc-camera">
+  <div class="page-wrap">
+    <div class="page1">
+      {% render 'lazyload_image',
+        src: section.settings.img1,
+        alt: section.settings.img1.alt,
+        width: section.settings.img1.width,
+        aspect_ratio: section.settings.aspect_ratio,
+        isSchemaData: true,
+        additional_classes: "is-hidden-mobile-only"
+      %}
+      {% render 'lazyload_image',
+        src: section.settings.img1_mob,
+        alt: section.settings.img1_mob.alt,
+        width: section.settings.img1_mob.width,
+        aspect_ratio: section.settings.aspect_ratio,
+        isSchemaData: true,
+        additional_classes: "is-hidden-desktop-only"
+      %}
+    </div>
+    <div class="page2">
+      {% render 'lazyload_image',
+        src: section.settings.img2,
+        alt: section.settings.img2.alt,
+        width: section.settings.img2.width,
+        aspect_ratio: section.settings.aspect_ratio,
+        isSchemaData: true,
+        additional_classes: "is-hidden-mobile-only"
+      %}
+      {% render 'lazyload_image',
+        src: section.settings.img2_mob,
+        alt: section.settings.img2_mob.alt,
+        width: section.settings.img2_mob.width,
+        aspect_ratio: section.settings.aspect_ratio,
+        isSchemaData: true,
+        additional_classes: "is-hidden-desktop-only"
+      %}
+      <div class="mask"></div>
+      {% comment %} <div class="text">
+        <h3>{{ section.settings.title2 }}</h3>
+        <p>{{ section.settings.desc2 }}</p>
+      </div> {% endcomment %}
+    </div>
+  </div>
+  <div class="text">
+    <h3>{{ section.settings.title1 }}</h3>
+    <p>{{ section.settings.desc1 }}</p>
+  </div>
+</div>
+{% endif %}
+{{ 'gsap.min.js' | asset_url | script_tag }}
+{{ 'ScrollTrigger.min.js' | asset_url | script_tag }}
+<script>
+  $(function() {
+    var ismob = $(window).width() < 768;
+    gsap.registerPlugin(ScrollTrigger);
+    
+    if ($(".wlc-camera").length > 0) {
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: '.wlc-camera',
+          start: 'top bottom-=300',
+          end: '+=200%',
+          scrub: true
+        }
+      })
+      .from('.wlc-camera .page1', { opacity: 0 })
+  
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: '.wlc-camera',
+          start: 'top top+=' + (ismob ? '56' : '72'),
+          end: '+=400%',
+          pin: true,
+          scrub: true
+        }
+      })
+      .from('.wlc-camera .text', { opacity: 0, y: 50, duration: 1 }, "+=1.4")
+      .to('.wlc-camera .page-wrap', { y: '-100%' })
+      .to('.wlc-camera .mask', { opacity: 1 })
+    }
+
+    if ($(".wall").length > 0) {
+      $(".wall").append("<div class='mask'></div>");
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: '.wall',
+          start: 'top bottom-=100',
+          end: '+=100%',
+          scrub: true
+        }
+      })
+      .from('.wall .media-image-wrap', {scale: 0.6, opacity: 0.6})
+      
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: '.wall',
+          start: 'top top+=' + (ismob ? '56' : '72'),
+          end: '+=100%',
+          pin: true,
+          scrub: true
+        }
+      })
+      .from(".wall .media-inner-wrap", { opacity: 0, y: 50, duration: 1 }, "+=1")
+      .to(".wall .mask", { opacity: 1 })
+    }
+    
+
+    if ($(".hassle").length > 0) {
+      $(".hassle").append("<div class='mask'></div>");
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: '.hassle',
+          start: 'top bottom-=100',
+          end: '+=100%',
+          scrub: true
+        }
+      })
+      .from('.hassle .media-image-wrap', {scale: 0.6, opacity: 0.6})
+      
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: '.hassle',
+          start: 'top top+=' + (ismob ? '56' : '72'),
+          end: '+=100%',
+          pin: true,
+          scrub: true
+        }
+      })
+      .from(".hassle .media-inner-wrap", { opacity: 0, y: 50, duration: 1 }, "+=1")
+      .to(".hassle .mask", { opacity: 1 })
+    }
+
+    if ($(".illumination").length > 0) {
+      $(".illumination").append("<div class='mask'></div>");
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: '.illumination',
+          start: 'top bottom-=100',
+          end: '+=100%',
+          scrub: true
+        }
+      })
+      .from('.illumination .media-image-wrap', {scale: 0.6, opacity: 0.6})
+      
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: '.illumination',
+          start: 'top top+=' + (ismob ? '56' : '72'),
+          end: '+=100%',
+          pin: true,
+          scrub: true
+        }
+      })
+      .from(".illumination .media-inner-wrap", { opacity: 0, y: 50, duration: 1 }, "+=0.8")
+      .to(".illumination .mask", { opacity: 1 })
+    }
+
+    if ($(".ecosystem").length > 0) {
+      $(".ecosystem").append("<div class='mask'></div>");
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: '.ecosystem',
+          start: 'top bottom-=100',
+          end: '+=100%',
+          scrub: true
+        }
+      })
+      .from('.ecosystem .media-image-wrap', {scale: 0.6, opacity: 0.6})
+  
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: '.ecosystem',
+          start: 'top top+=' + (ismob ? '56' : '72'),
+          end: '+=100%',
+          pin: true,
+          scrub: true
+        }
+      })
+      .from(".ecosystem .media-inner-wrap", { opacity: 0, y: 50, duration: 1 }, "+=1")
+      .to(".ecosystem .mask", { opacity: 1 });
+    }
+
+    if ($(".vision").length > 0) {
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: '.vision',
+          start: 'top bottom-=200',
+          end: '+=400',
+          scrub: true
+        }
+      })
+      .from(".vision", {opacity: 0, y: 50})
+      .from(".vision .subtitle", {opacity: 0, y: 20});
+  
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: '.vision-1',
+          start: 'top bottom-=100',
+          end: '+=400',
+          scrub: true
+        }
+      })
+      .from(".vision-1 .image-element__wrap", {opacity: 0})
+      .from(".vision-1 .image-with-text__wrapper", {opacity: 0, y: 50});
+  
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: '.vision-2',
+          start: 'top bottom-=100',
+          end: '+=400',
+          scrub: true
+        }
+      })
+      .from(".vision-2 .image-element__wrap", {opacity: 0})
+      .from(".vision-2 .image-with-text__wrapper", {opacity: 0, y: 50});
+  
+      if ($(".vision-3").length > 0) {
+        gsap.timeline({
+          scrollTrigger: {
+            trigger: '.vision-3',
+            start: 'top bottom-=100',
+            end: '+=400',
+            scrub: true
+          }
+        })
+        .from(".vision-3 .image-element__wrap", {opacity: 0})
+        .from(".vision-3 .image-with-text__wrapper", {opacity: 0, y: 50});
+      }
+    }
+
+    if ($(".motion").length > 0) {
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: '.motion',
+          start: 'top bottom-=200',
+          end: '+=400',
+          scrub: true
+        }
+      })
+      .from(".motion", {opacity: 0, y: 50})
+      .from(".motion .subtitle", {opacity: 0, y: 20}, "=");
+  
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: '.motion-1',
+          start: 'top bottom-=100',
+          end: '+=400',
+          scrub: true
+        }
+      })
+      .from(".motion-1 .iwt-img-column", {opacity: 0})
+      .from(".motion-1 .iwt-info-column", {opacity: 0, y: 50});
+  
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: '.motion-2',
+          start: 'top bottom-=100',
+          end: '+=400',
+          scrub: true
+        }
+      })
+      .from(".motion-2 .iwt-img-column", {opacity: 0})
+      .from(".motion-2 .iwt-info-column", {opacity: 0, y: 50});
+  
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: '.motion-3',
+          start: 'top bottom-=100',
+          end: '+=400',
+          scrub: true
+        }
+      })
+      .from(".motion-3 .iwt-img-column", {opacity: 0})
+      .from(".motion-3 .iwt-info-column", {opacity: 0, y: 50});
+    }
+
+    $(".v2_top_bar_section a").on("click", function() {
+      dataLayer.push({
+        "event": "uaEvent", 
+        "eventCategory": "Activity Page_{{ page.handle }}",
+        "eventAction": "navi",
+        "eventLabel": $(this).text(), //取导航栏文字
+        "nonInteraction": true, 
+      })
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "wlc camera",
+  "settings": [{
+    "type": "image_picker",
+    "id": "img1",
+    "label": "图片1"
+  }, {
+    "type": "image_picker",
+    "id": "img1_mob",
+    "label": "移动端图片1"
+  }, {
+    "type": "textarea",
+    "id": "title1",
+    "label": "标题1"
+  }, {
+    "type": "textarea",
+    "id": "desc1",
+    "label": "描述1"
+  }, {
+    "type": "image_picker",
+    "id": "img2",
+    "label": "图片2"
+  }, {
+    "type": "image_picker",
+    "id": "img2_mob",
+    "label": "移动端图片2"
+  }, {
+    "type": "textarea",
+    "id": "title2",
+    "label": "标题2"
+  }, {
+    "type": "textarea",
+    "id": "desc2",
+    "label": "描述2"
+  },{
+    "type": "textarea",
+    "id": "custom_css",
+    "label": "Custom CSS"
+  }]
+}
+{% endschema %}

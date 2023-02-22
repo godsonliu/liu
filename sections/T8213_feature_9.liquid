@@ -1,0 +1,31 @@
+{% if template contains 'page' %}
+  {% if page.metafields['global']['feature'].value %}
+    {% assign lang = page.metafields['global']['feature'].value %}
+  {% else %}
+    {% assign lang = page.metafields['global']['feature'] %}
+  {% endif %}
+{% else %}
+  {% if product.metafields['global']['feature'].value %}
+    {% assign lang = product.metafields['global']['feature'].value %}
+  {% else %}
+    {% assign lang = product.metafields['global']['feature'] %}
+  {% endif %}
+{% endif %}
+{% assign feature9 = lang.t8213-feature_9 %}
+
+<section id="t8213-feature_9" class="t8213-feature_9">
+  <div class="t8213-feature-container">
+    <h2 class="header-title">{{ feature9.title }}</h2>
+    <div class="feature_9_block">
+      {% render 'lazyload_image',  
+        src: feature9.img_pc,
+        additional_classes: "is-hidden-mobile-only feature_9-img_pc"
+        style: "opacity: 0;"
+        alt: "" %}
+      {% render 'lazyload_image',
+        src: feature9.img_mob,
+        additional_classes: "is-hidden-desktop-only feature_9-img_mob",
+        style: "opacity: 0;"
+        alt: "" %}  
+    </div>
+</section>

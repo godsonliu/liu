@@ -1,0 +1,20 @@
+{% assign lang = page.metafields.global %}
+
+{% if lang.benefits.value %}
+  {% assign benefits = lang.benefits.value %}
+{% else %}
+  {% assign benefits = lang.benefits %}
+{% endif %}
+
+{% assign lang = product.metafields.global %}
+
+{%- if template contains 'page' -%}
+{%- else %}
+{% endif %}
+
+<div class="t8213_note">
+  <!-- <div class="remark">{{ benefits.benefits_remark }}</div> -->
+  {% if benefits.benefits_remark_content and benefits.benefits_remark_content != "" %}
+    <div class="remark_content">{{ benefits.benefits_remark_content }}</div>
+  {% endif %}
+</div>

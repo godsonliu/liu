@@ -1,0 +1,349 @@
+{% if shop.metafields['global']['common'].value %}
+  {% assign shop_common = shop.metafields['global']['common'].value %}
+{% else %}
+  {% assign shop_common = shop.metafields['global']['common'] %}
+{% endif %}
+
+{% comment %}
+Optional values
+newsletter_class: <string>
+policy_text: <string>
+info_fill_email: <string>
+info_err_email: <string>
+
+隔离同一页面的组件
+snippets_id: <string>
+{% endcomment %}
+
+{%- if submit_position -%}
+  {% assign submit_position = submit_position %}
+{%- else %}
+  {% assign submit_position = section.settings.submit_position %}
+{% endif %}
+{%- if submit_btn_txt -%}
+  {% assign submit_btn_txt = submit_btn_txt %}
+{%- else %}
+  {% assign submit_btn_txt = section.settings.submit_btn_txt %}
+{% endif %}
+{%- if policy_text -%}
+  {% assign policy_text = shop_common.policy_text %}
+{%- else %}
+{% endif %}
+{%- if info_seccess -%}
+  {% assign info_seccess = shop_common.info_seccess %}
+{%- else %}
+{% endif %}
+{%- if info_fill_email -%}
+  {% assign info_fill_email = shop_common.info_fill_email %}
+{%- else %}
+{% endif %}
+{%- if info_err_email -%}
+  {% assign info_err_email = shop_common.info_err_email %}
+{%- else %}
+{% endif %}
+{%- if info_select_policy -%}
+  {% assign info_select_policy = shop_common.info_select_policy %}
+{%- else %}
+{% endif %}
+{%- if info_fill_captcha -%}
+  {% assign info_fill_captcha = shop_common.info_fill_captcha %}
+{%- else %}
+{% endif %}
+{%- if use_placeholders -%}
+  {% assign use_placeholders = shop_common.use_placeholders %}
+{%- else %}
+{% endif %}
+
+{% comment %} HTML markup {% endcomment %}
+<div class="newsletter-form__wrapper">
+  <div class="form__success-message"></div>
+
+  <form method="post" id="newsletter_form" accept-charset="UTF-8" class="{{snippets_id}} contact-form newsletter-form--newsletter-section">
+
+    {% comment %} Hidden fields {% endcomment %}
+    <!-- <input type="hidden" name="contact[tags]" value="prospect,newsletter"/>
+    <input type="hidden" name="challenge" value="false" /> -->
+
+    <div class="newsletter-form form is-responsive">
+
+      {% comment %} Email {% endcomment %}
+      <div class="field is-stretched-width">
+        {% if show_top_emailtxt %}
+          <label class="label newsletter__text">
+            {{ 'general.newsletter_form.email' | t }}<span class="required">*</span>
+          </label>
+        {% endif %}
+        <div class="control {% if settings.show_form_icons %} has-icons-left has-icons-left--responsive-form{% endif %}">
+          <input class="input is-{{ field_input_style }} is-{{ field_input_size }}" type="email" name="contact[email]" maxlength="200" placeholder="{{ use_placeholders }}" aria-label="{{ use_placeholders }}"/>
+          {% if settings.show_form_icons and show_email_icon %}
+            {% render 'icon', name: 'email' %}
+          {% endif %}
+        </div>
+        {% if captchaShow %}
+          <div class="Spin subscribeCaptchaSpin">
+            <div class="content cnt">
+              <div class="captcha con">
+                <div class="captcha-box">
+                  <span class="input-normal captcha">
+                    <input autocomplete="nope" placeholder="{{ shop_common.captcha_placeholders }}" name="captcha" value="" onChange="subscribeValueChange()">
+                    <span class="subscribeCaptchaImage" onClick="getSubscribeCaptchaCode('{{ snippets_id }}')"></span>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="mask"></div>
+            <div class="spinner">
+              <i class="iconfont">&#xe626;</i>
+              <div class="focus"><i class="iconfont">&#xe626;</i></div>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+
+      {% comment %} Submit button {% endcomment %}
+      {% if submit_position != 'bottom'%}
+        <div class="field is-default-width is-align-self-end">
+          <div class="control submit">
+            {%- assign button_label = 'general.newsletter_form.submit' | t -%}
+            <button type="submit" class="button reverse {{ settings.form_button_style }} is-within-form brandButtonText" {{ attribute }}>
+              {% if submit_btn_txt != blank %}
+                {{ submit_btn_txt }}
+              {% else %}
+                {{ button_label }}
+              {% endif %}
+            </button>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+    {% if extend_tip != blank %}
+      <div class="extend_tip">
+        <p>{{ extend_tip }}</p>
+      </div>
+    {% endif %}
+    <div class="policyBox">
+        <input type="checkbox" name="policy" value="yes" aria-label="checkbox"/>
+        <span>{{ policy_text }}</span>
+    </div>
+
+    <div class="form_error_box">
+      <div class="one-whole column contact-form__form-errors swap--visible info_error">
+        <p class="form__error"></p>
+      </div>
+      <div class="one-whole column contact-form__form-errors swap--visible info_seccess">
+        <p class="form__error quote">{{ info_seccess }}</p>
+      </div>
+      <div class="one-whole column contact-form__form-errors swap--visible info_fill_email">
+        <p class="form__error">{{ info_fill_email }}</p>
+      </div>
+      <div class="one-whole column contact-form__form-errors swap--visible info_err_email">
+        <p class="form__error">{{ info_err_email }}</p>
+      </div>
+      <div class="one-whole column contact-form__form-errors swap--visible info_select_policy">
+        <p class="form__error">{{ info_select_policy }}</p>
+      </div>
+      <div class="one-whole column contact-form__form-errors swap--visible info_fill_captcha">
+        <p class="form__error">{{ info_fill_captcha }}</p>
+      </div>
+    </div>
+ 
+    {% if submit_position == 'bottom'%}
+      <div class="field is-default-width is-align-self-end lastone">
+        <div class="control submit">
+          {%- assign button_label = 'general.newsletter_form.submit' | t -%}
+          <button type="submit" class="button reverse {{ settings.form_button_style }} is-within-form brandButtonText" {{ attribute }}>
+            {% if submit_btn_txt %}
+              {{ submit_btn_txt }}
+            {% else %}
+              {{ button_label }}
+            {% endif %}
+          </button>
+        </div>
+      </div>
+    {% endif %}
+  </form>
+</div>
+
+
+<script>
+  var captchaData = {};
+  function getSubscribeCaptchaCode(snippets_id) {
+    $('.subscribeCaptchaSpin').addClass('active');
+    Shopify.contentCreator.pastApi.getCaptcha({
+      fn: body => {
+        const { captcha_url = '', captcha_code = '' } = body;
+        captchaData.captcha_code = captcha_code;
+        $('.subscribeCaptchaImage').html(` <img src='/apps/pp/account${captcha_url}'>`);
+        $('.subscribeCaptchaSpin').removeClass('active');
+      },
+      error: (err) => {
+        openModal(`<p>${err.responseJSON.error || err.responseJSON.exception}</p>`);
+      }
+    });
+  }
+  function subscribeValueChange() {
+    const event = window.event;
+    const { name, value } = event.target;
+    captchaData[name] = (value || '').trim();
+  }
+  function pushErrorDataLayer() {
+      window.dataLayer.push({
+        "event": "bottom_function",
+        "page_group": "{{ template }}",
+        "action": "Email Sign Up Error"
+      })
+  }
+
+  function pushSuccDataLayer() {
+    window.dataLayer.push({
+      "event": "bottom_function",
+      "page_group": "{{ template }}",
+      "action": "Email Sign Up Success"
+    })
+  }
+
+  function pushIndexDataLayer() {
+    window.dataLayer.push({
+      "event": "uaEvent", 
+      "eventCategory": 'subscribe',
+      "eventAction": "homepage",
+      "eventLabel": "footer",
+      "eventValue": "undefined",
+    });
+  }
+  
+  $(document).ready(function () {
+    {% if captchaShow %}
+      getSubscribeCaptchaCode('{{ snippets_id }}');
+    {% endif %}
+
+    const subscribe_private = {
+      timer: null,
+      regExp: {
+        email: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      },
+      isEmail: val => subscribe_private.regExp.email.test(val),
+      tip_info: (clas, val) => {
+        $('#newsletter_form.{{snippets_id}} button[type="submit"]').prop("disabled", false);
+        $('#newsletter_form.{{snippets_id}} .contact-form__form-errors').addClass('swap--visible');
+        $(`#newsletter_form.{{snippets_id}} .${clas}`).removeClass('swap--visible');
+        if (val) $(`#newsletter_form.{{snippets_id}} .${clas} .form__error`).html(val);
+        if (subscribe_private.timer) clearTimeout(subscribe_private.timer);
+        subscribe_private.timer = setTimeout(() => { 
+          $(`#newsletter_form.{{snippets_id}} .${clas}`).addClass('swap--visible');
+        }, 8000);
+      }
+    };
+
+    $('#newsletter_form.{{ snippets_id }} button[type="submit"]').on('click', function (e) {
+      e.stopPropagation();
+      e.preventDefault();
+      $(this).prop("disabled", true);
+      let value = $('#newsletter_form.{{snippets_id}}').serializeArray();
+      const email = value.filter(v => v.name === "contact[email]")[0].value;
+      const policy = value.filter(v => v.name === "policy")[0];
+      const { captcha_code = '', captcha = '' } = captchaData;
+      if (!email) {
+        subscribe_private.tip_info('info_fill_email');
+        {% if bottom_subscribe %} pushErrorDataLayer(); {% endif %}
+      } else
+      if (!policy || policy.value !== 'yes') {
+        subscribe_private.tip_info('info_select_policy');
+        {% if bottom_subscribe %} pushErrorDataLayer(); {% endif %}
+      } else
+      if (email && !subscribe_private.isEmail(email)) {
+        subscribe_private.tip_info('info_err_email');
+        {% if bottom_subscribe %} pushErrorDataLayer(); {% endif %}
+      } else
+      if ('{{ captchaShow }}' && captcha === ''){
+        subscribe_private.tip_info('info_fill_captcha');
+        {% if bottom_subscribe %} pushErrorDataLayer(); {% endif %}
+      } else {
+        const data = {
+          email,
+          brand: 'eufy',
+        };
+        {% if deals_type %}
+          data.deals_type = '{{ deals_type }}';
+          {% if captchaShow %}
+            data.captcha_code = captcha_code;
+            data.captcha_value = captcha;
+          {% endif %}
+          Shopify.contentCreator.pastApi.subscribe_deals_emails({
+            params: data,
+            fn: (body) => {
+              window.dataLayer.push({'event': '{{ dataLayer }}'});
+              {% if bottom_subscribe %} pushSuccDataLayer(); {% endif %}
+
+              {% if index_subscribe %} pushIndexDataLayer(); {% endif %}
+
+              $('.{{snippets_id}} .captcha input').html("");
+              {% if succssInfo %}
+                $('.newsletter_form .{{succssInfo}}').removeClass('swap--visible');
+                window.setTimeout(() => {
+                  $('.newsletter_form .{{succssInfo}}').addClass('swap--visible');
+                  $('#newsletter_form.{{snippets_id}} button[type="submit"]').prop("disabled", false);
+                }, 2500);
+              {% else %}
+              {% if onSuccess %}
+                Shopify.contentCreator.activities['{{onSuccess}}']();
+              {% endif %}
+                subscribe_private.tip_info('info_seccess');
+              {% endif %}
+              $('#newsletter_form.{{snippets_id}} input[name="contact[email]"]').val('');
+              $('#newsletter_form.{{snippets_id}} input[name="policy"]').prop("checked", false);
+              {% if captchaShow %}
+                $('#newsletter_form.{{snippets_id}} input[name="captcha"]').val('');
+                getSubscribeCaptchaCode('{{ snippets_id }}');
+              {% endif %}
+            }, 
+            error: (err) => {
+              {% if bottom_subscribe %} pushErrorDataLayer(); {% endif %}
+              {% if captchaShow %}
+                $('#newsletter_form.{{snippets_id}} input[name="captcha"]').val('');
+                getSubscribeCaptchaCode('{{ snippets_id }}');
+              {% endif %}
+              const { responseJSON } = err || {};
+              if (responseJSON) {
+                subscribe_private.tip_info('info_error', responseJSON.error || responseJSON.err);
+              } else {
+                subscribe_private.tip_info('info_err_email');
+              }
+            }
+          });
+        {% else %}
+          {% if captchaShow %}
+            data.captcha_code = captcha_code;
+            data.captcha_value = captcha;
+          {% endif %}
+          Shopify.contentCreator.pastApi.subscribe_emails({
+            params: data,
+            fn: (body) => {
+              {% if bottom_subscribe %} pushSuccDataLayer(); {% endif %}
+              {% if index_subscribe %} pushIndexDataLayer(); {% endif %}
+              {% if succssInfo %}
+                $('.newsletter_form .{{succssInfo}}').removeClass('swap--visible');
+                window.setTimeout(() => {
+                  $('.newsletter_form .{{succssInfo}}').addClass('swap--visible');
+                  $('#newsletter_form.{{snippets_id}} button[type="submit"]').prop("disabled", false);
+                }, 2500);
+              {% else %}
+                subscribe_private.tip_info('info_seccess');
+              {% endif %}
+              $('#newsletter_form.{{snippets_id}} input[name="contact[email]"]').val('');
+              $('#newsletter_form.{{snippets_id}} input[name="policy"]').prop("checked", false);
+            },
+            error: (err) => {
+              const { responseJSON } = err || {};
+              if (responseJSON) {
+                subscribe_private.tip_info('info_error', responseJSON.error || responseJSON.err);
+              } else {
+                subscribe_private.tip_info('info_err_email');
+              }
+            }
+          });
+        {% endif %}
+      }
+    });
+  })
+</script>

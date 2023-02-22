@@ -1,0 +1,11 @@
+@media (min-width: 769px) {
+  .swiper_title_text {
+    font-size: 36px !important;
+  }
+}
+.page-scene-activity + style + .page_scene_popup_div .page_scene_popup {
+  max-width: 1200px;
+}
+.page-scene-activity + style + .page_scene_popup_div .page_scene_popup_list {
+  max-height: 500px;
+}

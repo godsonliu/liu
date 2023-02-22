@@ -1,0 +1,38 @@
+{% render 'aplus-full-image-snippet' %}
+
+{% schema %}
+{
+  "name": "Aplus Full Image",
+  "presets": [
+    {
+      "name": "Aplus Full Image",
+      "settings": {}
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "headline"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "body"
+    },
+    {
+      "type": "image_picker",
+      "id": "imageUrl",
+      "label": "image",
+      "info": "1464 x 600 recommended"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobileImageUrl",
+      "label": "image",
+      "info": "600 x 450 recommended"
+    }
+  ]
+}
+{% endschema %}
+  

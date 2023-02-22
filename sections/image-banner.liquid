@@ -1,0 +1,1290 @@
+
+{% style %}
+  @media screen and (max-width: 768px) {
+    #shopify-section-{{ section.id }} .media-info-wrap{
+      {% if section.settings.mb_padding_y != 0 %}
+        padding-top: {{ section.settings.mb_padding_y }}px;
+        padding-bottom: {{ section.settings.mb_padding_y }}px;
+      {% endif %}
+
+      {% if section.settings.mb_padding_x != 0 %}
+        padding-left: {{ section.settings.mb_padding_x }}px;
+        padding-right: {{ section.settings.mb_padding_x }}px;
+      {% endif %}
+    }
+
+    #shopify-section-{{ section.id }} .media-inner-wrap{
+      color: {{ section.settings.mb_color }}
+    }
+  }
+
+  @media screen and (min-width: 769px) {
+    #shopify-section-{{ section.id }} .media-info-wrap{
+      {% if section.settings.padding_y != 0 %}
+        padding-top: {{ section.settings.padding_y | divided_by: 19.2 }}vw;
+        padding-bottom: {{ section.settings.padding_y | divided_by: 19.2 }}vw;
+      {% endif %}
+
+      {% if section.settings.padding_x != 0 %}
+        padding-left: {{ section.settings.padding_x | divided_by: 19.2 }}vw;
+        padding-right: {{ section.settings.padding_x | divided_by: 19.2 }}vw;
+      {% endif %}
+    }
+
+    #shopify-section-{{ section.id }} .media-inner-wrap{
+      {% if section.settings.text_width != 0 %}
+        max-width: {{ section.settings.text_width | divided_by: 19.2 }}vw;
+      {% endif %}
+      color: {{ section.settings.desktop_color }};
+    }
+  }
+
+  {% if section.settings.custom_css != blank %}
+    {{ section.settings.custom_css }}
+  {% endif %}
+{% endstyle %}
+
+
+<image-banner class="over-hide image-banner-section {{ section.settings.custom_class }}" {% if section.settings.id != blank %}id="{{ section.settings.id }}"{% endif %}>
+  {% if section.settings.video_pc != blank %}
+    <div class="ps-ret f-0 media-video-wrap is-hidden-mobile-only">
+      <video class="banner-bg-media js-pc-media-loader" style="display: none;" data-src="{{ section.settings.video_pc }}" muted autoplay playsinline loop></video>
+    </div>
+  {% endif %}
+  {% if section.settings.video_mb != blank %}
+    <div class="ps-ret f-0 media-video-wrap is-hidden-desktop-only">
+      <video class="banner-bg-media js-mb-media-loader" style="display: none;" data-src="{{ section.settings.video_mb }}" muted autoplay playsinline loop></video>
+    </div>
+  {% endif %}
+  {% if section.settings.img_pc != blank %}
+    <div class="ps-ret media-image-wrap js-pc-image-wrap is-hidden-mobile-only">
+      {% render 'lazyload_image',  
+        src: section.settings.img_pc,
+        alt: section.settings.img_pc.alt,
+        width: section.settings.img_pc.width,
+        additional_classes: 'banner-bg-img',
+        aspect_ratio: section.settings.img_pc.aspect_ratio,
+        isSchemaData: true
+      %}
+    </div>
+  {% elsif section.settings.img_mb == blank %}
+    <div class="ps-ret media-image-wrap">
+      {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
+    </div>
+  {% endif %}
+  {% if section.settings.img_mb != blank %}
+    <div class="ps-ret media-image-wrap js-mb-image-wrap is-hidden-desktop-only">
+      {% render 'lazyload_image',  
+        src: section.settings.img_mb,
+        alt: section.settings.img_mb.alt,
+        width: section.settings.img_mb.width,
+        aspect_ratio: section.settings.img_mb.aspect_ratio,
+        additional_classes: 'banner-bg-img',
+        isSchemaData: true
+      %}
+    </div>
+  {% endif %}
+  <div class="media-info-wrap media-info-{{ section.settings.desktop_content_position }} media-info-mb-{{ section.settings.mobile_content_position }} ">
+    <div class="media-inner-wrap media-txt-{{ section.settings.desktop_content_alignment }} media-mb-txt-{{ section.settings.mobile_content_alignment }}">
+      {% for block in section.blocks %}
+        {% capture content_extra %}
+          {% if block.settings.content_extra == 'tag' %}
+            <span class="tag" style="color: {{ block.settings.tag_color }};background-color:{{ block.settings.tag_bg_color }};">{{ block.settings.tag }}</span>
+          {% elsif block.settings.content_extra == 'image' %}
+            {% style %}
+              @media screen and (min-width: 769px) {
+                .extra-img-{{ block.id }} {
+                  {% if block.settings.is_pc_img_resize == true %}
+                    width: {{ block.settings.img.width | divided_by: 19.2 }}vw;
+                  {% endif %}
+                }
+              }
+            {% endstyle %}
+            {% capture extra_img_class %}extra-img extra-img-{{ block.id }}{% endcapture %}
+            {% render 'lazyload_image',  
+              src: block.settings.img,
+              alt: block.settings.img.alt,
+              width: block.settings.img.width,
+              aspect_ratio: block.settings.img.aspect_ratio,
+              additional_classes: extra_img_class,
+              isSchemaData: true
+            %}
+          {% endif %}
+        {% endcapture %}
+
+        {% case block.type %}
+          {% when 'heading' %}
+            <p class="heading" {% if block.settings.id != blank %}id="{{ block.settings.id }}"{% endif %}>
+              {% if block.settings.heading_extra_postion == 'before' %}{{ content_extra }}{% endif %}
+              <span>{{ block.settings.heading }}</span>
+              {% if block.settings.heading_extra_postion == 'after' %}{{ content_extra }}{% endif %}
+            </p>
+          {% when 'text' %}
+            {% style %}
+              .image-banner-section .text-{{ block.id }} {
+                {% if block.settings.text_style == 'bgtext' %}
+                background-color:{{ block.settings.bg_color }};
+                {% endif %}
+
+                {% if block.settings.text_color != blank %}
+                  color: {{ block.settings.text_color }};
+                {%endif%}
+
+                {% if block.settings.cursor_pointer == true %}
+                  cursor: pointer;
+                {%endif%}
+              }
+
+              @media screen and (min-width: 769px) {
+                .image-banner-section .text-{{ block.id }} {
+                  {% if block.settings.margin_top != 0 %}
+                    margin-top: {{ block.settings.margin_top }}px;
+                  {% endif %}
+
+                  {% if block.settings.margin_bottom != 0 %}
+                    margin-bottom: {{ block.settings.margin_bottom }}px;
+                  {% endif %}
+                }
+              }
+
+              @media screen and (max-width: 768px) {
+                .image-banner-section .text-{{ block.id }} {
+                  {% if block.settings.mb_margin_top != 0 %}
+                    margin-top: {{ block.settings.mb_margin_top }}px;
+                  {% endif %}
+
+                  {% if block.settings.mb_margin_bottom != 0 %}
+                    margin-bottom: {{ block.settings.mb_margin_bottom }}px;
+                  {% endif %}
+                }
+              }
+            {% endstyle %}
+            
+            <div class="text {{ block.settings.text_style }} text-{{ block.id }}" style="{{ textstyle | strip_newlines | strip }}" {% if block.settings.id != blank %}id="{{ block.settings.id }}"{% endif %}>
+              {% if block.settings.heading_extra_postion == 'before' %}{{ content_extra }}{% endif %}
+              {{ block.settings.text }}
+              {% if block.settings.heading_extra_postion == 'after' %}{{ content_extra }}{% endif %}
+            </div>
+          {% when 'image' %}
+            {% style %}
+              @media screen and (min-width: 769px) {
+                .img-{{ block.id }} {
+                  {% if block.settings.is_pc_img_resize == true %}
+                    width: {{ block.settings.img_pc.width | divided_by: 19.2 }}vw;
+                  {% endif %}
+                }
+              }
+              @media screen and (max-width: 768px) {
+                .img-{{ block.id }} {
+                  {% if block.settings.mb_img_width != 0 %}
+                    width: {{ block.settings.mb_img_width }}%;
+                  {% endif %}
+                }
+              }
+            {% endstyle %}
+            {% capture img_class %}img-{{ block.id }}{% endcapture %}
+            <div class="media-inner-image">
+              {% if block.settings.img_pc != blank %}
+                <div class="media-image-wrap {% if block.settings.img_mb != blank %}is-hidden-mobile-only{% endif %}">
+                  {% render 'lazyload_image',  
+                    src: block.settings.img_pc,
+                    alt: block.settings.img_pc.alt,
+                    width: block.settings.img_pc.width,
+                    additional_classes: img_class,
+                    aspect_ratio: block.settings.img_pc.aspect_ratio,
+                    isSchemaData: true
+                  %}
+                </div>
+              {% elsif block.settings.img_mb == blank %}
+                <div class="media-image-wrap">
+                  {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+                </div>
+              {% endif %}
+              {% if block.settings.img_mb != blank %}
+                <div class="media-image-wrap is-hidden-desktop-only">
+                  {% render 'lazyload_image',  
+                    src: block.settings.img_mb,
+                    alt: block.settings.img_mb.alt,
+                    width: block.settings.img_mb.width,
+                    additional_classes: img_class,
+                    aspect_ratio: block.settings.img_mb.aspect_ratio,
+                    isSchemaData: true
+                  %}
+                </div>
+              {% endif %}
+            </div>
+          {% when 'iconlist' %}
+            {% style %}
+              {% if block.settings.text_color != blank %}
+                #shopify-section-{{ section.id }} .media-icon-text{
+                  color: {{ block.settings.text_color }};
+                }
+              {%endif%}
+              
+              #shopify-section-{{ section.id }} .icon-list-wrap{
+                {% if block.settings.margin_top != 0 %}
+                  margin-top: {{ block.settings.margin_top }}px;
+                {% endif %}
+          
+                {% if block.settings.margin_bottom != 0 %}
+                  margin-bottom: {{ block.settings.margin_bottom }}px;
+                {% endif %}
+              }
+              
+              @media screen and (min-width: 769px) { 
+                {% if block.settings.txt1 != blank %}
+                  #shopify-section-{{ section.id }} .media-icon-item:nth-child(1) img{
+                    width: {{ block.settings.img1.width | divided_by: 19.2 }}vw 
+                  }
+                {% endif %}
+                {% if block.settings.txt2 != blank %}
+                  #shopify-section-{{ section.id }} .media-icon-item:nth-child(2) img{
+                    width: {{ block.settings.img2.width | divided_by: 19.2 }}vw 
+                  }
+                {% endif %}
+                {% if block.settings.txt3 != blank %}
+                  #shopify-section-{{ section.id }} .media-icon-item:nth-child(3) img{
+                    width: {{ block.settings.img3.width | divided_by: 19.2 }}vw 
+                  }
+                {% endif %}
+                {% if block.settings.txt4 != blank %}
+                  #shopify-section-{{ section.id }} .media-icon-item:nth-child(4) img{
+                    width: {{ block.settings.img4.width | divided_by: 19.2 }}vw 
+                  }
+                {% endif %}
+              }
+            {% endstyle %}
+            <div class="icon-list-wrap {% if block.settings.mb_hide == true %}is-hidden-mobile-only{% endif %} {% if block.settings.pc_hide == true %}is-hidden-desktop-only{% endif %}">
+              <ul class="media-icon-list {{ block.settings.col }}">
+                {% if block.settings.txt1 != blank %}
+                  <li class="media-icon-item">
+                    <div class="media-icon-wrap">
+                      {% if block.settings.img1_mob %}
+                        {% render 'lazyload_image',  
+                          src: block.settings.img1,
+                          alt: block.settings.img1.alt,
+                          width: block.settings.img1.width,
+                          additional_style: width,
+                          aspect_ratio: block.settings.img1.aspect_ratio,
+                          isSchemaData: true,
+                          additional_classes: "is-hidden-mobile-only"
+                        %}
+                        {% render 'lazyload_image',  
+                          src: block.settings.img1_mob,
+                          alt: block.settings.img1_mob.alt,
+                          width: block.settings.img1_mob.width,
+                          additional_style: width,
+                          aspect_ratio: block.settings.img1_mob.aspect_ratio,
+                          isSchemaData: true,
+                          additional_classes: "is-hidden-desktop-only"
+                        %}
+                      {% else %}
+                        {% render 'lazyload_image',  
+                          src: block.settings.img1,
+                          alt: block.settings.img1.alt,
+                          width: block.settings.img1.width,
+                          additional_style: width,
+                          aspect_ratio: block.settings.img1.aspect_ratio,
+                          isSchemaData: true
+                        %}
+                      {% endif %}
+                    </div>
+                    <div class="media-icon-text">{{ block.settings.txt1 }}</div>
+                  </li>
+                {% endif %}
+                {% if block.settings.txt2 != blank %}
+                  <li class="media-icon-item">
+                    <div class="media-icon-wrap">
+                      {% if block.settings.img2_mob %}
+                        {% render 'lazyload_image',  
+                          src: block.settings.img2,
+                          alt: block.settings.img2.alt,
+                          width: block.settings.img2.width,
+                          additional_style: width,
+                          aspect_ratio: block.settings.img2.aspect_ratio,
+                          isSchemaData: true,
+                          additional_classes: "is-hidden-mobile-only"
+                        %}
+                        {% render 'lazyload_image',  
+                          src: block.settings.img2_mob,
+                          alt: block.settings.img2_mob.alt,
+                          width: block.settings.img2_mob.width,
+                          additional_style: width,
+                          aspect_ratio: block.settings.img2_mob.aspect_ratio,
+                          isSchemaData: true,
+                          additional_classes: "is-hidden-desktop-only"
+                        %}
+                      {% else %}
+                        {% render 'lazyload_image',  
+                          src: block.settings.img2,
+                          alt: block.settings.img2.alt,
+                          width: block.settings.img2.width,
+                          additional_style: width,
+                          aspect_ratio: block.settings.img2.aspect_ratio,
+                          isSchemaData: true
+                        %}
+                      {% endif %}
+                    </div>
+                    <div class="media-icon-text">{{ block.settings.txt2 }}</div>
+                  </li>
+                {% endif %}
+                {% if block.settings.txt3 != blank %}
+                  <li class="media-icon-item">
+                    <div class="media-icon-wrap">
+                      {% if block.settings.img3_mob %}
+                        {% render 'lazyload_image',  
+                          src: block.settings.img3,
+                          alt: block.settings.img3.alt,
+                          width: block.settings.img3.width,
+                          additional_style: width,
+                          aspect_ratio: block.settings.img3.aspect_ratio,
+                          isSchemaData: true,
+                          additional_classes: "is-hidden-mobile-only"
+                        %}
+                        {% render 'lazyload_image',  
+                          src: block.settings.img3_mob,
+                          alt: block.settings.img3_mob.alt,
+                          width: block.settings.img3_mob.width,
+                          additional_style: width,
+                          aspect_ratio: block.settings.img3_mob.aspect_ratio,
+                          isSchemaData: true,
+                          additional_classes: "is-hidden-desktop-only"
+                        %}
+                      {% else %}
+                        {% render 'lazyload_image',  
+                          src: block.settings.img3,
+                          alt: block.settings.img3.alt,
+                          width: block.settings.img3.width,
+                          additional_style: width,
+                          aspect_ratio: block.settings.img3.aspect_ratio,
+                          isSchemaData: true
+                        %}
+                      {% endif %}
+                    </div>
+                    <div class="media-icon-text">{{ block.settings.txt3 }}</div>
+                  </li>
+                {% endif %}
+                {% if block.settings.txt4 != blank %}
+                  <li class="media-icon-item">
+                    <div class="media-icon-wrap">
+                      {% if block.settings.img4_mob %}
+                        {% render 'lazyload_image',  
+                          src: block.settings.img4,
+                          alt: block.settings.img4.alt,
+                          width: block.settings.img4.width,
+                          additional_style: width,
+                          aspect_ratio: block.settings.img4.aspect_ratio,
+                          isSchemaData: true,
+                          additional_classes: "is-hidden-mobile-only"
+                        %}
+                        {% render 'lazyload_image',  
+                          src: block.settings.img4_mob,
+                          alt: block.settings.img4_mob.alt,
+                          width: block.settings.img4_mob.width,
+                          additional_style: width,
+                          aspect_ratio: block.settings.img4_mob.aspect_ratio,
+                          isSchemaData: true,
+                          additional_classes: "is-hidden-desktop-only"
+                        %}
+                      {% else %}
+                        {% render 'lazyload_image',  
+                          src: block.settings.img4,
+                          alt: block.settings.img4.alt,
+                          width: block.settings.img4.width,
+                          additional_style: width,
+                          aspect_ratio: block.settings.img4.aspect_ratio,
+                          isSchemaData: true
+                        %}
+                      {% endif %}
+                    </div>
+                    <div class="media-icon-text">{{ block.settings.txt4 }}</div>
+                  </li>
+                {% endif %}
+              </ul>
+            </div>
+          {% when 'button' %}
+            <div class="media-button-wrap">
+              {% if block.settings.button_1 != blank %}
+                {% render 'button',
+                  select_product: block.settings.button_1_product,
+                  select_product_sku: block.settings.button_1_sku,
+                  quantity: block.settings.button_1_quantity,
+                  label: block.settings.button_1,
+                  href: block.settings.button_1_link,
+                  type: "link",
+                  id: block.settings.id_1,
+                  style: block.settings.button_1_style,
+                  class: block.settings.button_1_class
+                %}
+              {% endif %}
+              {% if block.settings.button_2 != blank %}
+                {% render 'button',
+                  label: block.settings.button_2,
+                  href: block.settings.button_2_link,
+                  type: "link",
+                  id: block.settings.id_2,
+                  style: block.settings.button_2_style,
+                  class: block.settings.button_2_class
+                %}
+              {% endif %}
+            </div>
+            {% when 'custom_liquid' %}
+              <div class="media-custom-liquid-wrap">
+                {% if block.settings.custom_liquid != blank %}
+                  {{ block.settings.custom_liquid }}
+                {% endif %}
+              </div>
+            {% when 'custom_html' %}
+              <div class="media-custom-html-wrap">
+                {% if block.settings.custom_html != blank %}
+                  {{ block.settings.custom_html }}
+                {% endif %}
+              </div>
+          {% endcase %}
+      {% endfor %}
+    </div>
+  </div>
+</image-banner>
+
+{% if section.settings.custom_liquid != blank %}
+  {{ section.settings.custom_liquid }}
+{% endif %}
+
+{% javascript %}
+class ImageBanner extends HTMLElement {
+  constructor() {
+    super();
+    this.elements = {
+      videoPc: this.querySelector('.js-pc-media-loader'),
+      videoMb: this.querySelector('.js-mb-media-loader'),
+      imgPcWrap: this.querySelector('.js-pc-image-wrap'),
+      imgMbWrap: this.querySelector('.js-mb-image-wrap'),
+    }
+    
+    this.setVideoLoad()
+  }
+
+  setVideoLoad() {
+    const w = window.innerWidth || document.documentElement.clientWidth
+
+    if(w > 768){
+      this.videoLazyLoad(this.elements.videoPc, () => {
+        this.elements.imgPcWrap.style.display = 'none'
+      })
+    } else {
+      this.videoLazyLoad(this.elements.videoMb, () => {
+        this.elements.imgMbWrap.style.display = 'none'
+      })
+    }
+  }
+
+  videoLazyLoad(video, cb) {
+    if(!video) return
+    video.setAttribute('src', video.getAttribute('data-src'))
+    video.load()
+    video.addEventListener('loadedmetadata', () => {
+      video.setAttribute('style', '')
+      cb && cb()
+    })
+  }
+}
+
+customElements.define('image-banner', ImageBanner);
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "image banner",
+  "presets": [
+    {
+      "category": "image banner",
+      "name": "image banner",
+      "blocks":[{
+        "type": "heading"
+      },{
+        "type": "text"
+      }]
+    }
+  ],
+  "settings": [{
+    "type": "header",
+    "content": "背景图片"
+  },{
+    "type": "image_picker",
+    "id": "img_pc",
+    "label": "桌面端展示图片"
+  },{
+    "type": "image_picker",
+    "id": "img_mb",
+    "label": "移动端展示图片"
+  },{
+    "type": "text",
+    "id": "video_pc",
+    "label": "桌面端展示视频",
+    "info": "非必填，只支持站内mp4格式"
+  },{
+    "type": "text",
+    "id": "video_mb",
+    "label": "移动端展示视频",
+    "info": "非必填，只支持站内mp4格式"
+  },{
+    "type": "header",
+    "content": "桌面端设置"
+  },{
+    "type": "range",
+    "id": "padding_y",
+    "min": 0,
+    "max": 400,
+    "step": 4,
+    "unit": "px",
+    "label": "上下内边距",
+    "default": 0
+  },{
+    "type": "range",
+    "id": "padding_x",
+    "min": 0,
+    "max": 400,
+    "step": 4,
+    "unit": "px",
+    "label": "左右内边距",
+    "default": 0
+  },{
+    "type": "range",
+    "id": "text_width",
+    "min": 0,
+    "max": 1000,
+    "step": 20,
+    "unit": "px",
+    "label": "文本宽度",
+    "default": 0
+  },{
+    "type": "select",
+    "id": "desktop_content_position",
+    "options": [
+      {
+        "value": "top-left",
+        "label": "左上"
+      },
+      {
+        "value": "top-center",
+        "label": "中上"
+      },
+      {
+        "value": "top-right",
+        "label": "右上"
+      },
+      {
+        "value": "middle-left",
+        "label": "中左"
+      },
+      {
+        "value": "middle-center",
+        "label": "中中"
+      },
+      {
+        "value": "middle-right",
+        "label": "中右"
+      },
+      {
+        "value": "bottom-left",
+        "label": "左下"
+      },
+      {
+        "value": "bottom-center",
+        "label": "中下"
+      },
+      {
+        "value": "bottom-right",
+        "label": "右下"
+      }
+    ],
+    "default": "middle-center",
+    "label": "信息对齐位置"
+  },{
+    "type": "select",
+    "id": "desktop_content_alignment",
+    "options": [
+      {
+        "value": "left",
+        "label": "左对齐"
+      },
+      {
+        "value": "center",
+        "label": "居中"
+      },
+      {
+        "value": "right",
+        "label": "右对齐"
+      }
+    ],
+    "default": "center",
+    "label": "文本对齐方式"
+  },{
+    "type": "color",
+    "id": "desktop_color",
+    "label": "文本颜色",
+    "default": "#000"
+  },{
+    "type": "header",
+    "content": "移动端设置"
+  },{
+    "type": "range",
+    "id": "mb_padding_y",
+    "min": 0,
+    "max": 100,
+    "step": 1,
+    "unit": "px",
+    "label": "上下内边距",
+    "default": 0
+  },{
+    "type": "range",
+    "id": "mb_padding_x",
+    "min": 0,
+    "max": 100,
+    "step": 1,
+    "unit": "px",
+    "label": "左右内边距",
+    "default": 0
+  },{
+    "type": "select",
+    "id": "mobile_content_position",
+    "options": [
+      {
+        "value": "top",
+        "label": "上"
+      },
+      {
+        "value": "center",
+        "label": "中"
+      },
+      {
+        "value": "bottom",
+        "label": "下"
+      }
+    ],
+    "default": "top",
+    "label": "信息对齐位置"
+  },{
+    "type": "select",
+    "id": "mobile_content_alignment",
+    "options": [
+      {
+        "value": "left",
+        "label": "左对齐"
+      },
+      {
+        "value": "center",
+        "label": "居中"
+      },
+      {
+        "value": "right",
+        "label": "右对齐"
+      }
+    ],
+    "default": "center",
+    "label": "文本对齐方式"
+  },{
+    "type": "color",
+    "id": "mb_color",
+    "label": "文本颜色",
+    "default": "#000"
+  },{
+    "type": "header",
+    "content": "开发拓展"
+  },{
+    "type": "text",
+    "id": "id",
+    "label": "id",
+    "info": "非必填，一般针对开发来使用"
+  },{
+    "type": "text",
+    "id": "custom_class",
+    "label": "自定义容器类名"
+  },{
+    "type": "textarea",
+    "id": "custom_css",
+    "label": "自定义样式内容"
+  },{
+    "type": "liquid",
+    "id": "custom_liquid",
+    "label": "自定义拓展liquid"
+  }],
+  "blocks": [{
+    "type": "heading",
+    "name": "heading",
+    "settings": [{
+        "type": "header",
+        "content": "内容"
+      },{
+        "type": "textarea",
+        "id": "heading",
+        "default": "Image banner",
+        "label": "标题"
+      },{
+        "type": "header",
+        "content": "修饰内容"
+      },{
+        "type": "select",
+        "id": "content_extra",
+        "options": [
+          {
+            "value": "tag",
+            "label": "标签"
+          },
+          {
+            "value": "image",
+            "label": "图片"
+          },
+          {
+            "value": "none",
+            "label": "无"
+          }
+        ],
+        "default": "none",
+        "label": "额外标识",
+        "info": "默认不添加，选择对应类型后对应配置才会生效"
+      },
+      {
+        "type": "select",
+        "id": "heading_extra_postion",
+        "options": [
+          {
+            "value": "before",
+            "label": "在标题前面"
+          },
+          {
+            "value": "after",
+            "label": "在标题后面"
+          }
+        ],
+        "default": "after",
+        "label": "添加位置"
+      },
+      {
+        "type": "header",
+        "content": "标签内容设置"
+      },
+      {
+        "type": "paragraph",
+        "content": "额外标识设置为标签以下设置内容才会生效"
+      },
+      {
+        "type": "text",
+        "id": "tag",
+        "default": "tag",
+        "label": "标签内容"
+      },
+      {
+        "type": "color",
+        "id": "tag_color",
+        "label": "文本颜色",
+        "default": "#fff"
+      },
+      {
+        "type": "color",
+        "id": "tag_bg_color",
+        "label": "背景颜色",
+        "default": "#21D2C5"
+      },
+      {
+        "type": "header",
+        "content": "图片内容设置"
+      },
+      {
+        "type": "image_picker",
+        "id": "img",
+        "label": "图片"
+      },
+      {
+        "type": "header",
+        "content": "开发拓展"
+      },
+      {
+        "type": "text",
+        "id": "id",
+        "label": "id",
+        "info": "非必填，一般针对开发来使用"
+      }
+    ]
+  },{
+    "type": "text",
+    "name": "text",
+    "settings": [{
+      "type": "header",
+      "content": "桌面端设置"
+    },{
+      "type": "range",
+      "id": "margin_top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "上外边距",
+      "default": 0
+    },{
+      "type": "range",
+      "id": "margin_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "下外边距",
+      "default": 0
+    },{
+      "type": "header",
+      "content": "移动端设置"
+    },{
+      "type": "range",
+      "id": "mb_margin_top",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "上外边距",
+      "default": 0
+    },{
+      "type": "range",
+      "id": "mb_margin_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "label": "下外边距",
+      "default": 0
+    },{
+      "type": "header",
+      "content": "内容"
+    },{
+      "type": "select",
+      "id": "text_style",
+        "options": [
+          {
+            "value": "paragraph",
+            "label": "正文"
+          },
+          {
+            "value": "subtitle",
+            "label": "副标题"
+          },
+          {
+            "value": "bgtext",
+            "label": "带背景颜色的文本"
+          },
+          {
+            "value": "subtext",
+            "label": "副文本"
+          },
+          {
+            "value": "custom",
+            "label": "自定义"
+          }
+        ],
+        "default": "paragraph",
+        "label": "类型"
+      },{
+        "type": "textarea",
+        "id": "text",
+        "default": "Image banner text",
+        "label": "段落内容"
+      },{
+        "type": "color",
+        "id": "bg_color",
+        "label": "背景颜色",
+        "default": "#21D2C5",
+        "info": "类型选中【带背景色的文本】才会生效"
+      },{
+        "type": "color",
+        "id": "text_color",
+        "label": "文本颜色"
+      },{
+        "type": "header",
+        "content": "修饰内容"
+      },{
+        "type": "select",
+        "id": "content_extra",
+        "options": [
+          {
+            "value": "tag",
+            "label": "标签"
+          },
+          {
+            "value": "image",
+            "label": "图片"
+          },
+          {
+            "value": "none",
+            "label": "无"
+          }
+        ],
+        "default": "none",
+        "label": "额外标识",
+        "info": "默认不添加，选择对应类型后对应配置才会生效"
+      },
+      {
+        "type": "select",
+        "id": "heading_extra_postion",
+        "options": [
+          {
+            "value": "before",
+            "label": "在标题前面"
+          },
+          {
+            "value": "after",
+            "label": "在标题后面"
+          }
+        ],
+        "default": "after",
+        "label": "添加位置"
+      },
+      {
+        "type": "header",
+        "content": "标签内容设置"
+      },
+      {
+        "type": "paragraph",
+        "content": "额外标识设置为标签以下设置内容才会生效"
+      },
+      {
+        "type": "text",
+        "id": "tag",
+        "default": "tag",
+        "label": "标签内容"
+      },
+      {
+        "type": "color",
+        "id": "tag_color",
+        "label": "文本颜色",
+        "default": "#fff"
+      },
+      {
+        "type": "color",
+        "id": "tag_bg_color",
+        "label": "背景颜色",
+        "default": "#21D2C5"
+      },
+      {
+        "type": "header",
+        "content": "图片内容设置"
+      },
+      {
+        "type": "checkbox",
+        "id": "is_pc_img_resize",
+        "label": "PC端图片是否根据视窗大小进行适配",
+        "default": false
+      },
+      {
+        "type": "image_picker",
+        "id": "img",
+        "label": "图片"
+      },
+      {
+        "type": "header",
+        "content": "开发拓展"
+      },
+      {
+        "type": "checkbox",
+        "id": "cursor_pointer",
+        "label": "是否开启鼠标移入显示手型",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "id",
+        "label": "id",
+        "info": "非必填，一般针对开发来使用"
+      }
+    ]
+  },{
+    "type": "image",
+    "name": "image",
+    "settings": [
+      {
+        "type": "header",
+        "content": "桌面端设置"
+      },
+      {
+        "type": "image_picker",
+        "id": "img_pc",
+        "label": "图片"
+      },{
+        "type": "checkbox",
+        "id": "is_pc_img_resize",
+        "label": "图片是否根据视窗大小进行适配",
+        "default": false
+      },{
+        "type": "header",
+        "content": "移动端设置"
+      },{
+        "type": "image_picker",
+        "id": "img_mb",
+        "label": "图片"
+      },{
+        "type": "range",
+        "id": "mb_img_width",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "%",
+        "label": "宽度",
+        "default": 0
+      }
+    ]
+  },{
+    "type": "iconlist",
+    "name": "iconlist",
+    "limit": 1,
+    "settings": [
+      {
+        "type": "header",
+        "content": "布局"
+      },
+      {
+        "type": "checkbox",
+        "id": "pc_hide",
+        "label": "桌面端隐藏",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "mb_hide",
+        "label": "移动端隐藏",
+        "default": false
+      },
+      {
+        "type": "select",
+        "id": "col",
+        "options": [
+          {
+            "value": "col-1",
+            "label": "一行一个"
+          },
+          {
+            "value": "col-2",
+            "label": "一行两个"
+          },
+          {
+            "value": "col-auto",
+            "label": "内容宽度自适应"
+          }
+        ],
+        "default": "col-auto",
+        "label": "排版"
+      },
+      {
+        "type": "range",
+        "id": "margin_top",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px",
+        "label": "上外边距",
+        "default": 0
+      },{
+        "type": "range",
+        "id": "margin_bottom",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px",
+        "label": "下外边距",
+        "default": 0
+      },
+      {
+        "type": "color",
+        "id": "text_color",
+        "label": "文本颜色"
+      },{
+        "type": "header",
+        "content": "内容设置"
+      },{
+        "type": "image_picker",
+        "id": "img1",
+        "label": "第1个图片"
+      },{
+        "type": "image_picker",
+        "id": "img1_mob",
+        "label": "第1个图片移动端 (可选)"
+      },{
+        "type": "html",
+        "id": "txt1",
+        "label": "第1个内容"
+      },{
+        "type": "image_picker",
+        "id": "img2",
+        "label": "第2个图片"
+      },{
+        "type": "image_picker",
+        "id": "img2_mob",
+        "label": "第2个图片移动端 (可选)"
+      },{
+        "type": "html",
+        "id": "txt2",
+        "label": "第2个内容"
+      },{
+        "type": "image_picker",
+        "id": "img3",
+        "label": "第3个图片"
+      },{
+        "type": "image_picker",
+        "id": "img3_mob",
+        "label": "第3个图片移动端 (可选)"
+      },{
+        "type": "html",
+        "id": "txt3",
+        "label": "第3个内容"
+      },{
+        "type": "image_picker",
+        "id": "img4",
+        "label": "第4个图片"
+      },{
+        "type": "image_picker",
+        "id": "img4_mob",
+        "label": "第4个图片移动端 (可选)"
+      },{
+        "type": "html",
+        "id": "txt4",
+        "label": "第4个内容"
+      }
+    ]
+  },{
+    "type": "button",
+    "name": "button",
+    "limit": 1,
+    "settings": [{
+      "type": "header",
+      "content": "第1个按钮"
+    },{
+      "type": "text",
+      "id": "button_1",
+      "label": "按钮文案",
+      "default": "Button 1"
+    },
+    {
+      "type": "text",
+      "id": "id_1",
+      "label": "id"
+    },{
+      "type": "product",
+      "id": "button_1_product",
+      "label": "作为加购按钮时选择的产品"
+    },
+    {
+      "type": "text",
+      "id": "button_1_sku",
+      "label": "填入产品的variant的sku"
+    },
+    {
+      "type": "number",
+      "id": "button_1_quantity",
+      "label": "产品数量",
+      "default": 1
+    },
+    {
+      "type": "url",
+      "id": "button_1_link",
+      "label": "按钮链接"
+    },
+    {
+      "type": "select",
+      "id": "button_1_style",
+      "label": "按钮样式",
+      "options": [
+        {
+          "value": "button--primary",
+          "label": "Primary"
+        },
+        {
+          "value": "button--secondary",
+          "label": "Secondary"
+        },
+        {
+          "value": "button--link-style",
+          "label": "Link style"
+        },
+        {
+          "value": "button--Green-style",
+          "label": "Green"
+        },
+        {
+          "value": "custom",
+          "label": "自定义"
+        }
+      ],
+      "default": "button--primary"
+    },
+    {
+      "type": "text",
+      "id": "button_1_class",
+      "label": "按钮自定义类名"
+    },
+    {
+      "type": "header",
+      "content": "第2个按钮"
+    },
+    {
+      "type": "text",
+      "id": "button_2",
+      "label": "按钮文案",
+      "default": "Button 2"
+    },
+    {
+      "type": "text",
+      "id": "id_2",
+      "label": "id"
+    },
+    {
+      "type": "url",
+      "id": "button_2_link",
+      "label": "按钮链接"
+    },
+    {
+      "type": "select",
+      "id": "button_2_style",
+      "label": "按钮样式",
+      "options": [
+        {
+          "value": "button--primary",
+          "label": "Primary"
+        },
+        {
+          "value": "button--secondary",
+          "label": "Secondary"
+        },
+        {
+          "value": "button--link-style",
+          "label": "Link style"
+        },
+        {
+          "value": "button--Green-style",
+          "label": "Green"
+        },
+        {
+          "value": "custom",
+          "label": "自定义"
+        }
+      ],
+      "default": "button--secondary"
+    },{
+      "type": "text",
+      "id": "button_2_class",
+      "label": "按钮自定义类名"
+    }]
+  },{
+    "type": "custom_liquid",
+    "name": "custom_liquid",
+    "settings": [{
+      "type": "liquid",
+      "id": "custom_liquid",
+      "label": "自定义拓展liquid"
+    }]
+  },{
+    "type": "custom_html",
+    "name": "custom_html",
+    "settings": [{
+      "type": "html",
+      "id": "custom_html",
+      "label": "自定义拓展html"
+    }]
+  }]
+}
+{% endschema %}

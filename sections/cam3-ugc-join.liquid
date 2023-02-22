@@ -1,0 +1,128 @@
+<style>
+.cam3-ugc-join {
+  margin: 0 auto;
+  max-width: 1200px;
+  display: flex;
+  justify-content: center;
+}
+.join_order {
+  width: 36px;
+  height: 36px;
+  border-radius: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  font-size: 24px;
+  font-weight: 600;
+  background: linear-gradient(180deg, #3A5D93 0%, #6C96D2 100%), linear-gradient(180deg, #333333 0%, rgba(51, 51, 51, 0) 100%);
+}
+.join-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+.join-item-2 {
+  min-width: 200px;
+}
+.join-item-3 {
+  min-width: 180px;
+}
+.join_html {
+  margin-top: 20px;
+  font-size: 18px;
+  line-height: 24px;
+  color: #333333;
+  text-align: center;
+}
+.join_html a {
+  color: #025C85;
+}
+.join-matrix {
+  margin: 0 30px;
+}
+
+@media(max-width: 1024px) {
+  .cam3-ugc-join {
+    flex-direction: column;
+    padding: 0 30px;
+  }
+  .join-matrix {
+    margin: 30px 0;
+    text-align: center;
+    transform: rotate(90deg);
+  }
+}
+</style>
+
+<section class="cam3-ugc-join">
+  {% for block in section.blocks %}
+    <div class="join-item join-item-{{forloop.index}}">
+      <div class="join_order">{{forloop.index}}</div>
+      <div class="join_html">
+        {{ block.settings.join_text }}
+      </div>
+    </div>
+    {% if forloop.last == false %}
+    <div class="join-matrix">
+      <svg width="11" height="14" viewBox="0 0 11 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M11 7L0.499999 0.937823L0.5 13.0622L11 7Z" fill="#333333"/>
+      </svg>
+    </div>
+    {% endif %}
+  {% endfor %}
+</section>
+
+{% schema %}
+  {
+    "name": "Cam3 Ugc Join",
+    "presets": [
+			{
+				"name": "Cam3 Ugc Join",
+        "blocks": [
+          {
+            "type": "join-in",
+            "settings": {
+              "join_text": "Publicly post your image or video on any of the selected social media platforms.*"
+            }
+          },
+          {
+            "type": "join-in",
+            "settings": {
+              "join_text": "Use the hashtags #NoMonthlyFee and #eufyCam3."
+            }
+          },
+          {
+            "type": "join-in",
+            "settings": {
+              "join_text": "Tag eufy's official social account for that platform."
+            }
+          },
+          {
+            "type": "join-in",
+            "settings": {
+              "join_text": "Screenshot your social post/s and share on the eufy Community #NoMonthlyFee event page as confirmation of your entry."
+            }
+          }
+        ]
+			}
+		],
+    "settings": [
+
+    ],
+    "blocks": [
+      {
+        "type": "join-in",
+        "name": "join-in",
+        "settings": [
+          {
+            "type": "html",
+            "id": "join_text",
+            "label": "文案"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,420 @@
+{% if shop.metafields['global']['invoice'].value %}
+  {% assign invoice_lang = shop.metafields['global']['invoice'].value %}
+{% else %}
+  {% assign invoice_lang = shop.metafields['global']['invoice'] %}
+{% endif %}
+
+{% if shop.metafields['global']['invoice_btn'].value %}
+  {% assign invoice_btn = shop.metafields['global']['invoice_btn'].value %}
+{% else %}
+  {% assign invoice_btn = shop.metafields['global']['invoice_btn'] %}
+{% endif %}
+
+{% comment %}
+Optional values
+renderBtn: <string>
+{% endcomment %}
+
+
+{%- capture invoice_ids -%}
+  {%- for item in order.line_items -%}
+    "O_{{ order.name }}_{{ item.fulfillment.created_at | date: "%L%S%M%H%j%Y" }}"{%- if forloop.last == false -%},{%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+
+{%- capture invoice_items -%}
+  {%- for item in order.line_items -%}
+    {
+      "name": "{{ item.title | strip_html }}",
+      "quantity": "{{ item.quantity }}",
+      "display_amount": "{{ item.original_price | money }}"
+    }{%- if forloop.last == false -%},{%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+
+{%- capture adjustments -%}
+  {%- for discount_application in order.discount_applications -%}
+    {
+      "label": "{{ discount_application.title }}",
+      "display_amount": "{{ discount_application.total_allocated_amount | divided_by: -1 | money }}"
+    }{%- if forloop.last == false -%},{%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+
+{%- capture invoice_body -%}
+  {
+    "shop_url": "{{ shop.secure_url }}", 
+    "invoice_lang": {{ invoice_lang }}, 
+    "invoice_date": "{{ order.created_at | date: format: 'abbreviated_date' }}",
+    "invoice_ids": [{{ invoice_ids }}],
+    "invoice_address": {
+      "name": "{{ order.billing_address.name }}",
+      "address1": "{{ order.billing_address.address1 }}",
+      "address2": "{{ order.billing_address.address2 }}",
+      "city": "{{ order.billing_address.city }}",
+      "province": "{{ order.billing_address.province }}",
+      "country": "{{ order.billing_address.country }}"
+    }, 
+    "invoice_items": [{{ invoice_items }}],
+    "adjustments": [{{ adjustments }}],
+    "order_name": "{{order.name}}",
+    "sub_total": "{{ order.subtotal_price | money }}", 
+    "ship_total": "{{ order.shipping_price | money }}", 
+    "total": "{{ order.total_price | money }}", 
+    "tax_total": "{{ order.tax_price | money }}"
+  }
+{%- endcapture -%}
+
+<style>
+  
+  #invoice-download-btn {
+    margin: 1rem 0 0;
+    overflow: hidden;
+  }
+</style>
+
+<div class="invoice-download-btn">
+  {% unless renderBtn %}
+  <div id="invoice-download-btn">
+    <button class="button button--primary" style="line-height: 1;">{{ invoice_btn }}</button>
+  </div>
+  {% endunless %}
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.70/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.70/vfs_fonts.min.js"></script>
+
+<script>
+$(function() {
+
+  {% if renderBtn %}
+    $('{{renderBtn}}').append('<div id="invoice-download-btn"><button class="step__footer__continue-btn btn">{{invoice_btn}}</button></div>');
+  {% endif %}
+  
+  var country_code = '{{ order.shipping_address.country_code }}';
+  var province = `{{ order.shipping_address.province | replace: ' ', '_' }}`;
+
+  const jsonParse = (str) => {
+    try {
+      return JSON.parse(str);
+    } catch (err) {
+      return null;
+    }
+  };
+
+  const unique = (arr) => {
+    var array = arr;
+    var len = array.length;
+
+    array.sort(function(a,b){   //排序后更加方便去重
+        return a - b;
+    })
+
+    function loop(index){
+        if(index >= 1){
+            if(array[index] === array[index-1]){
+                array.splice(index,1);
+            }
+            loop(index - 1);    //递归loop，然后数组去重
+        }
+    }
+    loop(len-1);
+    return array;
+  }
+
+  const pdfContent = (invoiceBody) => {
+    const body = jsonParse(invoiceBody) || {};
+    const {
+      invoice_lang, invoice_date, adjustments, 
+      invoice_ids, invoice_address, invoice_items,
+      sub_total, ship_total, total, tax_total,
+      order_name, shop_url, taxs
+    } = body;
+    const lang = invoice_lang || {};
+
+    var tax_id, tax_id_province, tax_txt;
+    tax_id = lang.taxs ? lang.taxs[country_code] : '';
+    if (lang.taxs && country_code === 'CA') {
+      tax_id_province = lang.taxs.CA[province] ? `\n${lang.tax_title_province}${lang.taxs.CA[province]}` : '';
+      tax_txt = `${lang.vatid}${tax_id_province}`
+    } else
+    if (tax_id) {
+      tax_txt = `${lang.tax_title}${tax_id}`
+    } else {
+      tax_txt = lang.vatid
+    }
+
+    const bill = invoice_address || {};
+    const ids_json = unique(invoice_ids || []).map((item) => ({
+      text: item,
+      alignment: 'right',
+    }));
+    const items_json = (invoice_items || []).map((item) => ([
+      {
+        text: item.name.replace(/\&lt\;[\/abi]+\&gt\;/g, ''),
+        margin: [0, 5, 0, 5],
+      },
+      {
+        text: item.quantity,
+        alignment: 'center',
+        margin: [0, 5, 0, 5],
+      },
+      {
+        text: item.display_amount,
+        alignment: 'right',
+        margin: [0, 5, 0, 5],
+      },
+    ]));
+    const adjusts_empty = {
+      border: [false, false, false, false],
+      text: '',
+      margin: [0, 5, 0, 5],
+    };
+    const adjusts_json = (adjustments || []).map((item) => [
+      adjusts_empty,
+      {
+        text: item.label ? `${lang.adjustments} (${item.label.toUpperCase()})` : lang.adjustments,
+        margin: [0, 5, 0, 5],
+      },
+      {
+        text: item.display_amount,
+        alignment: 'right',
+        margin: [0, 5, 0, 5],
+      },
+    ]);
+    const documentDefinition = {
+      content: [
+        {
+          columns: [
+            {
+              width: '55%',
+              stack: [
+                {
+                  text: lang.company,
+                  style: 'header',
+                },
+                {
+                  text: shop_url,
+                  style: 'subheader',
+                },
+                lang.direct,
+                lang.address1,
+                lang.address2,
+                lang.country,
+                tax_txt,
+                lang.weee,
+              ],
+            },
+            {
+              width: '45%',
+              stack: [
+                {
+                  text: ' ',
+                  style: 'header',
+                  alignment: 'center',
+                },
+                {
+                  text: lang.date,
+                  fontSize: 13,
+                  bold: true,
+                },
+                {
+                  text: invoice_date,
+                  alignment: 'right',
+                },
+                {
+                  text: lang.order_num,
+                  fontSize: 13,
+                  bold: true,
+                },
+                {
+                  text: order_name,
+                  alignment: 'right',
+                },
+                {
+                  text: lang.id,
+                  fontSize: 13,
+                  bold: true,
+                },
+                ...ids_json,
+              ],
+            },
+          ],
+          columnGap: 8,
+        },
+        {
+          margin: [0, 30, 0, 0],
+          style: 'table',
+          table: {
+            widths: [200],
+            body: [
+              [{
+                text: lang.billto,
+                style: 'tableHeader',
+                margin: [0, 5, 0, 5],
+              }],
+            ],
+          },
+        },
+        {
+          text: bill.name,
+          margin: [0, 5, 0, 0],
+        },
+        bill.address1,
+        bill.address2,
+        bill.city,
+        bill.province,
+        bill.country,
+        {
+          margin: [0, 30, 0, 0],
+          style: 'table',
+          table: {
+            widths: ['50%', '30%', '20%'],
+            body: [
+              [
+                {
+                  text: lang.description,
+                  style: 'tableHeader',
+                  margin: [0, 5, 0, 5],
+                },
+                {
+                  text: lang.quantity,
+                  style: 'tableHeader',
+                  margin: [0, 5, 0, 5],
+                },
+                {
+                  text: lang.amount,
+                  alignment: 'right',
+                  bold: true,
+                  fontSize: 14,
+                  fillColor: '#3e4f83',
+                  color: 'white',
+                  margin: [0, 5, 0, 5],
+                },
+              ],
+              ...items_json,
+              ...adjusts_json,
+              [
+                adjusts_empty,
+                {
+                  text: lang.sub_total,
+                  margin: [0, 5, 0, 5],
+                },
+                {
+                  text: sub_total,
+                  alignment: 'right',
+                  margin: [0, 5, 0, 5],
+                },
+              ],
+              [
+                adjusts_empty,
+                {
+                  text: lang.ship_total,
+                  margin: [0, 5, 0, 5],
+                },
+                {
+                  text: ship_total,
+                  alignment: 'right',
+                  margin: [0, 5, 0, 5],
+                },
+              ],
+              [
+                adjusts_empty,
+                {
+                  text: lang.tax_total,
+                  margin: [0, 5, 0, 5],
+                },
+                {
+                  text: tax_total,
+                  alignment: 'right',
+                  margin: [0, 5, 0, 5],
+                },
+              ],
+              [
+                adjusts_empty,
+                {
+                  text: lang.total,
+                  margin: [0, 5, 0, 5],
+                },
+                {
+                  text: total,
+                  alignment: 'right',
+                  margin: [0, 5, 0, 5],
+                },
+              ],
+            ],
+          },
+        },
+        {
+          text: lang.notice,
+          margin: [0, 30, 0, 0],
+          bold: true,
+          alignment: 'center',
+        },
+        {
+          text: lang.thanks,
+          margin: [0, 20, 0, 0],
+          bold: true,
+          fontSize: 13,
+          alignment: 'center',
+        },
+      ],
+      styles: {
+        table: {
+          lineHeight: 1.2,
+        },
+        header: {
+          fontSize: 18,
+          bold: true,
+        },
+        subheader: {
+          fontSize: 12,
+          bold: true,
+        },
+        tableHeader: {
+          bold: true,
+          fontSize: 14,
+          fillColor: '#3e4f83',
+          color: 'white',
+        },
+      }
+    };
+    return documentDefinition;
+  };
+
+  $('#invoice-download-btn button').on('click', function (e) { 
+    const body = `{{ invoice_body }}`.replace('\"', '"').replace('"{', '{').replace('}"', '}');
+    const documentDefinition = pdfContent(body);
+    const fonts = {
+      Courier: {
+        normal: 'Courier',
+        bold: 'Courier-Bold',
+        italics: 'Courier-Oblique',
+        bolditalics: 'Courier-BoldOblique',
+      },
+      Helvetica: {
+        normal: 'Helvetica',
+        bold: 'Helvetica-Bold',
+        italics: 'Helvetica-Oblique',
+        bolditalics: 'Helvetica-BoldOblique',
+      },
+      Times: {
+        normal: 'Times-Roman',
+        bold: 'Times-Bold',
+        italics: 'Times-Italic',
+        bolditalics: 'Times-BoldItalic',
+      },
+      Symbol: {
+        normal: 'Symbol',
+      },
+      ZapfDingbats: {
+        normal: 'ZapfDingbats',
+      },
+    };
+    // const printer = new PdfPrinter(fonts);
+    // const pdfDoc = printer.createPdfKitDocument(documentDefinition);
+    pdfMake.createPdf(documentDefinition).download('Invoice for {{order.name}}.pdf');
+  })
+})
+
+</script>

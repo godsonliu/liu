@@ -1,0 +1,35 @@
+{% if template contains 'page' %}
+  {% if page.metafields['global']['feature'].value %}
+    {% assign lang = page.metafields['global']['feature'].value %}
+  {% else %}
+    {% assign lang = page.metafields['global']['feature'] %}
+  {% endif %}
+{% else %}
+  {% if product.metafields['global']['feature'].value %}
+    {% assign lang = product.metafields['global']['feature'].value %}
+  {% else %}
+    {% assign lang = product.metafields['global']['feature'] %}
+  {% endif %}
+{% endif %}
+
+{% assign feature10 = lang.t8213-feature_10 %}
+
+<section id="t8213-feature_10" class="t8213-feature_10">
+  <div class="t8213-feature-container">
+    <div class="blocks">
+      {% for block in feature10.blockList %}
+        <div class="block card-col-{{feature10.blockList | size}}">
+          <div class="block-img">
+            <a class="listing_url" href="{{ block.to_url }}">
+              <img class="lazyload is-hidden-mobile-only feature_10-img_pc" data-src="{{ block.img_pc }}" alt=""/>
+              <img class="lazyload is-hidden-desktop-only feature_10-img_mob" data-src="{{ block.img_mob }}" alt=""/>
+            </a>
+          </div>
+          <div class="block-title">
+            <a class="listing_url" href="{{ block.to_url }}">{{block.title}}</a>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>

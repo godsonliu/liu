@@ -1,0 +1,574 @@
+{% liquid
+  assign filters = collection.metafields.global.filters.value
+  assign country = shop.metafields.global.country.value
+  assign sort_by = collection.sort_by | default: collection.default_sort_by
+%}
+
+{% capture sort_by_label %}
+  {% if sort_by == 'manual' %}
+    {{ 'collections.sorting.featured' | t }}
+  {% elsif sort_by == 'best-selling' %}
+    {{ 'collections.sorting.best_selling' | t }}
+  {% elsif sort_by == 'price-ascending' %}
+    {{ 'collections.sorting.price_ascending' | t }}
+  {% elsif sort_by == 'price-descending' %}
+    {{ 'collections.sorting.price_descending' | t }}
+  {% elsif sort_by == 'created-descending' %}
+    {{ 'collections.sorting.date_descending' | t }}
+  {% else %}
+    {{ 'collections.sorting.featured' | t }}
+  {% endif %}
+{% endcapture %}
+
+
+<div class="collection-main-v2{% if filters == blank %} collection-main-no-filters{%endif%}">
+  <div class="collection-main-v2-box">
+    <div class="collection-main-header">
+      <div class="collection-main-header-inner">
+        <div class="collection-filter-res">
+          <h1 class="filter-p filter-word">{{ collection.title }}</h1>
+          <p class="filter-p filter-res-counts">(<span class="js-product-counts">{{ collection.products.size }}</span> <span class="js-product-word">{{ 'general.common.results' | t | escape }}</span>)</p>
+          <span class="filter-word-clear js-clear-filter-btn"> 
+            <svg width="18" height="20" viewBox="0 0 18 20" fill="inherit" xmlns="http://www.w3.org/2000/svg">
+              <mask id="path-1-inside-1_5022_9496" fill="inherit">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M6.42773 1.80518C6.42773 1.25289 6.87545 0.805176 7.42773 0.805176H10.5706C11.1229 0.805176 11.5706 1.25289 11.5706 1.80518C11.5706 2.35746 11.1229 2.80518 10.5706 2.80518H7.42774C6.87545 2.80518 6.42773 2.35746 6.42773 1.80518ZM0 4.5C0 3.94772 0.447715 3.5 1 3.5H3H15H17C17.5523 3.5 18 3.94772 18 4.5C18 5.05228 17.5523 5.5 17 5.5H16V18.4967C16 19.0508 15.5523 19.5 15 19.5C14.9873 19.5 14.9747 19.4998 14.9621 19.4993C14.9495 19.4998 14.9369 19.5 14.9242 19.5H3C2.44771 19.5 2 19.0523 2 18.5C2 18.4995 2 18.4989 2 18.4984C2 18.4978 2 18.4973 2 18.4967V5.5H1C0.447716 5.5 0 5.05228 0 4.5ZM4 17.5H14V5.5H4V17.5ZM8.35742 8.23389C8.35742 7.6816 7.90971 7.23389 7.35742 7.23389C6.80514 7.23389 6.35742 7.6816 6.35742 8.23389V13.9894C6.35742 14.5417 6.80514 14.9894 7.35742 14.9894C7.90971 14.9894 8.35742 14.5417 8.35742 13.9894V8.23389ZM11.2148 7.23389C11.7671 7.23389 12.2148 7.6816 12.2148 8.23389V13.9894C12.2148 14.5417 11.7671 14.9894 11.2148 14.9894C10.6626 14.9894 10.2148 14.5417 10.2148 13.9894V8.23389C10.2148 7.6816 10.6626 7.23389 11.2148 7.23389Z"/>
+              </mask>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M6.42773 1.80518C6.42773 1.25289 6.87545 0.805176 7.42773 0.805176H10.5706C11.1229 0.805176 11.5706 1.25289 11.5706 1.80518C11.5706 2.35746 11.1229 2.80518 10.5706 2.80518H7.42774C6.87545 2.80518 6.42773 2.35746 6.42773 1.80518ZM0 4.5C0 3.94772 0.447715 3.5 1 3.5H3H15H17C17.5523 3.5 18 3.94772 18 4.5C18 5.05228 17.5523 5.5 17 5.5H16V18.4967C16 19.0508 15.5523 19.5 15 19.5C14.9873 19.5 14.9747 19.4998 14.9621 19.4993C14.9495 19.4998 14.9369 19.5 14.9242 19.5H3C2.44771 19.5 2 19.0523 2 18.5C2 18.4995 2 18.4989 2 18.4984C2 18.4978 2 18.4973 2 18.4967V5.5H1C0.447716 5.5 0 5.05228 0 4.5ZM4 17.5H14V5.5H4V17.5ZM8.35742 8.23389C8.35742 7.6816 7.90971 7.23389 7.35742 7.23389C6.80514 7.23389 6.35742 7.6816 6.35742 8.23389V13.9894C6.35742 14.5417 6.80514 14.9894 7.35742 14.9894C7.90971 14.9894 8.35742 14.5417 8.35742 13.9894V8.23389ZM11.2148 7.23389C11.7671 7.23389 12.2148 7.6816 12.2148 8.23389V13.9894C12.2148 14.5417 11.7671 14.9894 11.2148 14.9894C10.6626 14.9894 10.2148 14.5417 10.2148 13.9894V8.23389C10.2148 7.6816 10.6626 7.23389 11.2148 7.23389Z" fill="inherit"/>
+              <path d="M16 5.5V4.21429H14.7143V5.5H16ZM14.9621 19.4993L15.0101 18.2145L14.9622 18.2127L14.9142 18.2145L14.9621 19.4993ZM2 18.4984L3.28572 18.5006L3.28571 18.4961L2 18.4984ZM2 5.5H3.28571V4.21429H2V5.5ZM4 17.5H2.71429V18.7857H4V17.5ZM14 17.5V18.7857H15.2857V17.5H14ZM14 5.5H15.2857V4.21429H14V5.5ZM4 5.5V4.21429H2.71429V5.5H4ZM7.42773 -0.480538C6.16537 -0.480538 5.14202 0.542811 5.14202 1.80518H7.71345C7.71345 1.96297 7.58553 2.09089 7.42773 2.09089V-0.480538ZM10.5706 -0.480538H7.42773V2.09089H10.5706V-0.480538ZM12.8563 1.80518C12.8563 0.54281 11.833 -0.480538 10.5706 -0.480538V2.09089C10.4128 2.09089 10.2849 1.96297 10.2849 1.80518H12.8563ZM10.5706 4.09089C11.833 4.09089 12.8563 3.06754 12.8563 1.80518H10.2849C10.2849 1.64738 10.4128 1.51946 10.5706 1.51946V4.09089ZM7.42774 4.09089H10.5706V1.51946H7.42774V4.09089ZM5.14202 1.80518C5.14202 3.06754 6.16537 4.09089 7.42774 4.09089V1.51946C7.58553 1.51946 7.71345 1.64738 7.71345 1.80518H5.14202ZM1 2.21429C-0.262365 2.21429 -1.28571 3.23763 -1.28571 4.5H1.28571C1.28571 4.6578 1.1578 4.78571 1 4.78571V2.21429ZM3 2.21429H1V4.78571H3V2.21429ZM15 2.21429H3V4.78571H15V2.21429ZM17 2.21429H15V4.78571H17V2.21429ZM19.2857 4.5C19.2857 3.23763 18.2624 2.21429 17 2.21429V4.78571C16.8422 4.78571 16.7143 4.6578 16.7143 4.5H19.2857ZM17 6.78571C18.2624 6.78571 19.2857 5.76237 19.2857 4.5H16.7143C16.7143 4.3422 16.8422 4.21429 17 4.21429V6.78571ZM16 6.78571H17V4.21429H16V6.78571ZM17.2857 18.4967V5.5H14.7143V18.4967H17.2857ZM15 20.7857C16.2664 20.7857 17.2857 19.7569 17.2857 18.4967H14.7143C14.7143 18.3447 14.8382 18.2143 15 18.2143V20.7857ZM14.9142 20.7841C14.9427 20.7852 14.9713 20.7857 15 20.7857V18.2143C15.0033 18.2143 15.0067 18.2143 15.0101 18.2145L14.9142 20.7841ZM14.9142 18.2145C14.9176 18.2143 14.9209 18.2143 14.9242 18.2143V20.7857C14.9528 20.7857 14.9815 20.7852 15.01 20.7841L14.9142 18.2145ZM14.9242 18.2143H3V20.7857H14.9242V18.2143ZM3 18.2143C3.1578 18.2143 3.28571 18.3422 3.28571 18.5H0.714286C0.714286 19.7624 1.73763 20.7857 3 20.7857V18.2143ZM3.28571 18.5L3.28571 18.5006L0.714289 18.4961C0.714287 18.4974 0.714286 18.4987 0.714286 18.5H3.28571ZM0.714286 18.4967C0.714286 18.498 0.714287 18.4993 0.714289 18.5006L3.28571 18.4961L3.28571 18.4967H0.714286ZM0.714286 5.5V18.4967H3.28571V5.5H0.714286ZM1 6.78571H2V4.21429H1V6.78571ZM-1.28571 4.5C-1.28571 5.76237 -0.262364 6.78571 1 6.78571V4.21429C1.1578 4.21429 1.28571 4.3422 1.28571 4.5H-1.28571ZM4 18.7857H14V16.2143H4V18.7857ZM12.7143 5.5V17.5H15.2857V5.5H12.7143ZM4 6.78571H14V4.21429H4V6.78571ZM5.28571 17.5V5.5H2.71429V17.5H5.28571ZM7.35742 8.5196C7.19963 8.5196 7.07171 8.39168 7.07171 8.23389H9.64314C9.64314 6.97152 8.61979 5.94817 7.35742 5.94817V8.5196ZM7.64314 8.23389C7.64314 8.39168 7.51522 8.5196 7.35742 8.5196V5.94817C6.09506 5.94817 5.07171 6.97152 5.07171 8.23389H7.64314ZM7.64314 13.9894V8.23389H5.07171V13.9894H7.64314ZM7.35742 13.7037C7.51522 13.7037 7.64314 13.8316 7.64314 13.9894H5.07171C5.07171 15.2518 6.09506 16.2752 7.35742 16.2752V13.7037ZM7.07171 13.9894C7.07171 13.8316 7.19963 13.7037 7.35742 13.7037V16.2752C8.61979 16.2752 9.64314 15.2518 9.64314 13.9894H7.07171ZM7.07171 8.23389V13.9894H9.64314V8.23389H7.07171ZM13.5006 8.23389C13.5006 6.97152 12.4772 5.94817 11.2148 5.94817V8.5196C11.057 8.5196 10.9291 8.39168 10.9291 8.23389H13.5006ZM13.5006 13.9894V8.23389H10.9291V13.9894H13.5006ZM11.2148 16.2752C12.4772 16.2752 13.5006 15.2518 13.5006 13.9894H10.9291C10.9291 13.8316 11.057 13.7037 11.2148 13.7037V16.2752ZM8.92913 13.9894C8.92913 15.2518 9.95248 16.2752 11.2148 16.2752V13.7037C11.3726 13.7037 11.5006 13.8316 11.5006 13.9894H8.92913ZM8.92913 8.23389V13.9894H11.5006V8.23389H8.92913ZM11.2148 5.94817C9.95248 5.94817 8.92913 6.97152 8.92913 8.23389H11.5006C11.5006 8.39168 11.3726 8.5196 11.2148 8.5196V5.94817Z" fill="inherit" mask="url(#path-1-inside-1_5022_9496)"/>
+            </svg>            
+            <em>{{ 'general.common.clean' | t | escape }}</em>
+          </span>
+        </div>
+        <div class="collection-pc-rank-wrap">
+          <p class="collection-pc-rank-label">{{ 'general.common.rank_by' | t | escape }}</p>
+          <div class="collection-pc-rank-select">
+            <div class="cpr-select-wrap" data-value="{{ sort_by }}">
+              <p class="cpr-select-cur-value js-active-rank-btn" >
+                <span>{{ sort_by_label | escape }}</span>
+                <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M1 1.3125L6.30367 6.62739C6.49873 6.82286 6.81498 6.82286 7.01003 6.62739L12.3137 1.3125" stroke="black" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>                  
+              </p>
+              <div class="cpr-option-wrap">
+                <ul class="cpr-option-list">
+                  <li class="cpr-option-item js-cpr-option" data-value="manual" data-checked="{% if sort_by == 'manual' %}true{% else %}false{% endif %}">
+                    <span>{{ 'collections.sorting.featured' | t }}</span>
+                    {% render 'icon_outline', name: 'tick' %}
+                  </li>
+                  <li class="cpr-option-item js-cpr-option" data-value="best-selling" data-checked="{% if sort_by == 'best-selling' %}true{% else %}false{% endif %}">
+                    <span>{{ 'collections.sorting.best_selling' | t }}</span>
+                    {% render 'icon_outline', name: 'tick' %}
+                  </li>
+                  <li class="cpr-option-item js-cpr-option" data-value="price-ascending" data-checked="{% if sort_by == 'price-ascending' %}true{% else %}false{% endif %}">
+                    <span>{{ 'collections.sorting.price_ascending' | t }}</span>
+                    {% render 'icon_outline', name: 'tick' %}
+                  </li>
+                  <li class="cpr-option-item js-cpr-option" data-value="price-descending" data-checked="{% if sort_by == 'price-descending' %}true{% else %}false{% endif %}">
+                    <span>{{ 'collections.sorting.price_descending' | t }}</span>
+                    {% render 'icon_outline', name: 'tick' %}
+                  </li>
+                  <li class="cpr-option-item js-cpr-option" data-value="created-descending" data-checked="{% if sort_by == 'created-descending' %}true{% else %}false{% endif %}">
+                    <span>{{ 'collections.sorting.date_descending' | t }}</span>
+                    {% render 'icon_outline', name: 'tick' %}
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="collection-mb-filter-btn js-active-filter-btn">
+          <span class="cmf-btn-text">{{ 'general.common.filter' | t | escape }}</span>
+          <span class="cmf-btn-icon">
+            <i class="cmf-btn-counts js-filter-counts"></i>
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5.65201 8.2551V7.98591L5.48084 7.77817L2.87238 4.61241C2.69009 4.39118 2.71708 4.04552 2.91538 3.861C2.99695 3.7851 3.09335 3.75 3.18528 3.75H11.8147C12.0128 3.75 12.25 3.93453 12.25 4.25957C12.25 4.39569 12.2031 4.52078 12.1276 4.61241L9.51918 7.77817L9.348 7.98591V8.2551V15.8257C9.348 16.0799 9.1933 16.2633 9.02711 16.317L6.20165 17.2315C6.01428 17.2921 5.75873 17.1947 5.67441 16.9004C5.65967 16.849 5.65201 16.7949 5.65201 16.7401V8.2551Z" stroke="black" stroke-width="1.5"/>
+              <rect x="12" y="10.9023" width="6" height="1.5" rx="0.75" fill="black"/>
+              <rect x="12" y="14.5142" width="6" height="1.5" rx="0.75" fill="black"/>
+            </svg>    
+          </span>      
+        </div>
+      </div>
+    </div>
+    <div class="collection-main-body">
+      {% if filters != blank %}
+      <div class="collection-filter-bar">
+        <div class="mb-collection-filter-header">
+          <div class="mbc-header-inner">
+            <p class="mbc-header-title">{{ 'general.common.filter' | t | escape }}</p>
+            <a class="mbc-filter-colse-btn js-colse-filter-btn">
+              {% render 'icon', name: 'x-v2' %}
+            </a>
+          </div>
+        </div>
+        <div class="collection-filter-sticky-bar">
+          {% for filter in filters %}
+            <div class="collapse-wrap" data-open="{{ filter.open }}">
+              <div class="collapse-head">
+                <h2 class="collapse-title">{{ filter.title }}</h2>
+                <span class="collapse-icon">
+                  <svg width="14" height="8" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 6.65674L6.3033 1.35344C6.49856 1.15817 6.81515 1.15817 7.01041 1.35344L12.3137 6.65674" stroke="black" stroke-width="1.5" stroke-linecap="round"/>
+                  </svg>                
+                </span>
+              </div>
+              <div class="collapse-body">
+                <ul class="filter-list" data-input-type="{{ filter.type }}" data-value="{{ filter.value | replace: ",", "." }}" data-source-type="{{ filter.source }}">
+                  {% for option in filter.options %}
+                    <li class="filter-list-item filter-{{ filter.type }}-item{% if option.checked == true %} actived{%endif%}" data-value="{{ option.value | replace: ",", "." }}" data-checked="{{ option.checked }}">
+                      {% if filter.type == 'category' %}
+                        <a href="{{ option.link | default: collections[option.label].url }}">
+                          <div class="filter-list-item-img">
+                            {% render 'lazyload_image',  
+                              src: option.image,
+                              alt: option.label,
+                              width: 52,
+                              height: 52
+                            %}
+                          </div>
+                          <span>{{ option.label }}</span>
+                        </a>
+                      {% else %}
+                        {{ option.label }}
+                      {% endif %}
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+        <div class="mbc-filter-btn-wrap">
+          <a class="collection-button collection-button-secondary-accent js-clear-filter-btn">{{ 'general.common.clear' | t | escape }}</a>
+          <a class="collection-button collection-button-primary-accent js-colse-filter-btn">{{ 'general.common.apply' | t | escape }}</a>
+        </div>
+      </div>
+      {% endif %}
+      <div class="collection-product-bar">
+        <div class="collection-product-contain collection-no-product-contain js-no-procduct-res">
+          <div class="collection-has-no-product">
+            <!-- {% render 'lazyload_image',  
+              src: section.settings.image,
+              alt: section.settings.image.alt,
+              width: section.settings.image.width,
+              aspect_ratio: section.settings.image.aspect_ratio,
+              isSchemaData: true
+            %} -->
+            <p class="no-product-text">{{ section.settings.text }}</p>
+            <a class="collection-button collection-button-primary-accent no-product-btn is-hidden-desktop-only js-active-filter-btn">{{ 'general.common.filter_again' | t | escape }}</a>
+            <a class="collection-button collection-button-primary-accent no-product-btn is-hidden-mobile-only js-clear-filter-btn">{{ 'general.common.clear_filter' | t | escape }}</a>
+          </div>
+        </div>
+        <div class="collection-product-contain js-has-procduct-res">
+          {% for product in collection.products %}
+            {% render 'collection-product',
+                product: product
+            %}
+          {% endfor %}
+          <p class="product-all-line">
+            <span>{{ 'general.common.thats_all' | t }}</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+$(function() {
+  const offsetTop = $('.collection-main-v2')[0].offsetTop
+  const skus = [{% for product in collection.products %}{% if product.first_available_variant.sku != blank %}'{{ product.first_available_variant.sku }}'{% if forloop.last == false %},{%endif%}{%endif%}{% endfor %}]
+  let couponsData = {}
+  
+  $.ajax({
+    type: 'GET',
+    url: '/apps/pp/shopifyservices/coupons/by_skus',
+    data: { "skus": skus, "shopify_domain": "{{ shop.permanent_domain }}" },
+    success: function success(body) {
+      couponsData = body;
+      skus.forEach(function (sku) {
+        var ajaxData = couponsData[sku] && couponsData[sku][0];
+        if(ajaxData) {
+          const offVal = ajaxData.value_type === 'percentage' ?  `${ajaxData.percentage_sort_key}% {{ 'general.common.off' | t | escape }}` : `${ajaxData.value_style} {{ 'general.common.off' | t | escape }}`;
+          const tagText = $(`[data-sku=${sku}]`).find('.product-tag').html()
+          const finalTag = `<span>${offVal}</span>${tagText.trim()}`
+          $(`[data-sku=${sku}]`).attr('data-has-code', 'true')
+          $(`[data-sku=${sku}]`).find('.product-tag').html(finalTag)
+        }
+      })
+    }
+  })
+
+  $('.collapse-wrap').find('.collapse-body').each(function() {
+    const h = $(this).height()
+    $(this).height(h)
+  })
+
+  $('.collapse-head').on('click', function() {
+    const $parent =  $(this).parent()
+    const $body = $(this).siblings('.collapse-body')
+
+    if($parent.attr('data-open') === 'true'){
+      $parent.attr('data-open', 'false')
+    } else {
+      $parent.attr('data-open', 'true')
+    }
+  })
+
+  $('.js-active-filter-btn').on('click', function() {
+    $('.collection-filter-bar').addClass('actived')
+    $('html').addClass('mobile-menu--opened')
+  })
+
+  $('.js-colse-filter-btn').on('click', function() {
+    $('.collection-filter-bar').removeClass('actived')
+    $('html').removeClass('mobile-menu--opened')
+  })
+
+  $('.js-clear-filter-btn').on('click', function() {
+    clearFilter()
+  })
+
+  $('.js-active-rank-btn').on('click', function() {
+    const $wrap = $(this).parents('.collection-pc-rank-select')
+    const isActived = $wrap.hasClass('actived')
+    if(isActived) {
+      $wrap.removeClass('actived')
+    } else {
+      $wrap.addClass('actived')
+    }
+  })
+  
+  $('.js-cpr-option').on('click', function() {
+    const $select = $(this).parents('.collection-pc-rank-select')
+    const $wrap = $(this).parents('.cpr-select-wrap')
+    const $lable = $('.js-active-rank-btn').find('span')
+    const label = $(this).text()
+    const value = $(this).data('value')
+    
+    $select.removeClass('actived')
+    $lable.text(label)
+    $wrap.attr('data-value', value)
+    $(this).attr('data-checked', true).siblings().attr('data-checked', false)
+  })
+
+  function clearFilter() {
+    const len = $('.collection-product').length
+    $('.filter-list').attr('data-value', '')
+    $('.filter-checkbox-item').removeClass('actived').attr('data-checked', false)
+    $('.filter-radio-item').removeClass('actived').attr('data-checked', false)
+    $('.collection-filter-res').removeClass('show')
+    $('.js-filter-counts').text(0).hide()
+    $('.js-product-counts').text(len)
+    $('.collection-product').show().attr('data-visiable', true)
+    $('.js-has-procduct-res').show().siblings('.js-no-procduct-res').hide();
+  }
+
+  function showFilterRes(content) {
+    const len = $('.collection-product[data-visiable=true]').length
+    const word = len > 1 ? '{{ "general.common.results" | t | escape }}' : '{{ "general.common.result" | t | escape }}'
+    const filters = $('.filter-list-item[data-checked=true]').length
+
+    $('.collection-filter-res').addClass('show')
+    $('.js-filter-counts').text(filters).show()
+    $('.js-product-word').text(word)
+    $('.js-product-counts').text(len)
+
+    if(len){
+      $('.js-has-procduct-res').show().siblings('.js-no-procduct-res').hide();
+    } else {
+      $('.js-no-procduct-res').show().siblings('.js-has-procduct-res').hide();
+    }
+  }
+
+  function filterProduct() {
+    const tagFilters = []
+    const priceFilters = []
+    const offersFilters = []
+    const scrollTop = $(window).scrollTop()
+
+    scrollTop > offsetTop && $('html,body').animate({
+      scrollTop: offsetTop
+    }, 0, 'swing')
+    
+    $('.filter-list').each(function() {
+      const source = $(this).data('source-type')
+      const val = $(this).attr('data-value')
+      const res = val ? val.split(',') : []
+
+      if(res.length) {
+        switch (source) {
+          case 'tag': 
+            tagFilters.push(...res)
+            break
+          case 'price':
+            priceFilters.push(...res)
+            break
+          case 'offers':
+            offersFilters.push(...res)
+            break
+        }
+      }
+    })
+
+    if(tagFilters.length || priceFilters.length || offersFilters.length) {
+      $('.collection-product').each(function() {
+        const tags = $(this).data('tags')
+        const p_tags = tags ? tags.split(',') : []
+        const $price = $(this).find('.cur-money')
+        const $was_price = $(this).find('.was-price')
+        
+        const price = $price.length ? $price.data('price') : 'soldout'
+        const has_code = $(this).attr('data-has-code')
+        let res = true
+
+        if(p_tags.length) {
+          if(tagFilters.length) {
+            res = tagFilters.every((x) => {
+              if(x) {
+                return p_tags.includes(x)
+              } else {
+                return false
+              }
+            })
+          }
+        } else {
+          // filter empty tag product
+          res = false
+        }
+
+        if(priceFilters.length && res) {
+          if(price != 'soldout') {
+            const getRes = priceFilters.filter((x) => {
+              if(x.includes('<')) {
+                const min = x.split('<').reverse()[0]
+                return price < +min
+              }
+
+              if(x.includes('-')){
+                const sections = x.split('-')
+                return price >= +sections[0] && price <= +sections[1]
+              }
+
+              if(x.includes('>')){
+                const max = x.split('>').reverse()[0]
+                return price > +max
+              }
+            })
+            res = !!getRes.length
+          } else {
+            res = false
+          }
+        }
+        
+        if(offersFilters.length && res) {
+          offersFilters.map((x) => {
+            if(x === 'On Sale' || x === 'Best Deal') {
+              res = !!$was_price.length
+            }else if(x === 'With Code' || x === 'With Coupon') {
+              res = has_code === 'true'
+            }
+          })
+        }
+
+        if(res){
+          $(this).show().attr('data-visiable', true)
+        } else {
+          $(this).hide().attr('data-visiable', false)
+        }
+      })
+
+      showFilterRes([...tagFilters, ...priceFilters, ...offersFilters].join('、'))
+    } else {
+      clearFilter()
+    }
+  }
+
+  $('body').on('click', '.filter-checkbox-item', function(){
+    const $parent = $(this).parent()
+    const val = $(this).data('value')
+    const total_val = $parent.attr('data-value')
+    const total_arr = total_val ? total_val.split(',') : []
+
+    if($(this).hasClass('actived')){
+      $(this).removeClass('actived').attr('data-checked', false)
+      if(total_arr.includes(val)){
+        total_arr.splice(total_arr.indexOf(val), 1)
+      }
+    } else {
+      $(this).addClass('actived').attr('data-checked', true)
+      if(!total_arr.includes(val)){
+        total_arr.push(val)
+      }
+    }
+
+    $parent.attr('data-value', total_arr.join(','))
+
+    filterProduct()
+  })
+
+  $('body').on('click', '.filter-radio-item', function(){
+    const $parent = $(this).parent()
+    const val = $(this).data('value')
+    const total_val = $parent.attr('data-value')
+
+    if($(this).hasClass('actived')){
+      $(this).removeClass('actived').attr('data-checked', false)
+      $parent.attr('data-value', '')
+    } else {
+      $(this).addClass('actived').attr('data-checked', true).siblings().removeClass('actived').attr('data-checked', false)
+      $parent.attr('data-value', val)
+    }
+    
+    filterProduct()
+  })
+
+  var allProducts = [];
+  {% for product in collection.products %}
+    allProducts.push({{product | json}});
+  {% endfor %}
+
+  $(".collection-product-btn, .product-image-wrap a").each(function(i, item) {
+    var href = $(item).attr("href");
+    if (href.indexOf("ref") < 0) {
+      href += "?ref=collectionbuy"
+      if (!$(item).hasClass("collection-product-btn")) {
+        href += "_img";
+      }
+      $(item).attr("href", href);
+    }
+  });
+
+  var io = new IntersectionObserver((entries) => {
+    entries.forEach(item => {
+      if (item.isIntersecting) {
+        var el = item.target;
+        var index = $(el).index(".collection-product") + 1;
+        var handle = $(el).data("handle");
+        var product, variant;
+        allProducts.forEach(function(item) {
+          if (item.handle === handle) {
+            product = item;
+            variant = product.variants[0];
+          }
+        });
+        window.dataLayer.push({
+          "event": "view_item_list",
+          "page_group": "Product List Page_{{ collection.title }}",
+          "ecommerce": {
+            "currency": '{{ shop.currency }}',
+            "items": [{
+              "item_id": variant.sku,
+              "item_name": product.title,
+              "item_brand": "{{ shop.name }}",
+              "item_category": product.type,
+              "item_variant": variant.title,
+              "price": variant.price / 100,
+              "index": index,
+              "item_list_id": "{{ collection.title }}",
+              "item_list_name": "{{ collection.title }}"
+            }]
+          }
+        });
+      }
+    });
+  });
+
+  document.querySelectorAll(".collection-product").forEach((el) => {
+    io.observe(el);
+  });
+
+  $(".collection-product-btn.collection-button-secondary-accent, .product-image-wrap a").on("click", function() {
+
+    var $parent = $(this).parents(".collection-product");
+    var index = $parent.index(".collection-product") + 1;
+    var handle = $parent.data("handle");
+
+    var product, variant;
+    allProducts.forEach(function(item) {
+      if (item.handle === handle) {
+        product = item;
+        variant = product.variants[0];
+      }
+    });
+
+    var eventAction = "buy_now";
+    var action = "Learn More_" + product.title;
+    if (!$(this).hasClass("collection-product-btn")) {
+      eventAction += "_image";
+      action = "Img_" + product.title;
+    }
+    dataLayer.push({
+      "event": "uaEvent", 
+      "eventCategory": location.pathname,//取页面URL，如/collections/headphones
+      "eventAction": eventAction,
+      "eventLabel": $parent.data("sku"), //取跳转产品的SKU
+    });
+
+    window.dataLayer.push({ "event_parameters": null });
+    window.dataLayer.push({
+      "event": "ga4Event",
+      "event_name": "select_item",
+      "event_parameters": {
+        "page_group": "Product List Page_{{ collection.title }}",
+        "action": action,
+        "currency": '{{ shop.currency }}',
+        "items": [{
+          "item_id": variant.sku,
+          "item_name": product.title,
+          "item_brand": "{{ shop.name }}",
+          "item_category": product.type,
+          "item_variant": variant.title,
+          "price": variant.price / 100,
+          "index": index,
+          "item_list_id": "{{ collection.title }}",
+          "item_list_name": "{{ collection.title }}"
+        }]
+      }
+    });
+
+  });
+})
+</script>
+
+{% if country.admitad_code %}
+  <script type="text/javascript">
+    window.ad_category = "{{ collection.id }}";   // required
+
+    window._retag = window._retag || [];
+    window._retag.push({code: "9ce8884c93", level: 1});
+    (function () {
+        var id = "admitad-retag";
+        if (document.getElementById(id)) {return;}
+        var s=document.createElement("script");
+        s.async = true; s.id = id;
+        var r = (new Date).getDate();
+        s.src = (document.location.protocol == "https:" ? "https:" : "http:") + "//cdn.lenmit.com/static/js/retag.js?r="+r;
+        var a = document.getElementsByTagName("script")[0]
+        a.parentNode.insertBefore(s, a);
+    })()
+  </script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "collection main",
+  "presets": [{
+    "name": "collection main"
+  }],
+  "settings": [{
+    "type": "header",
+    "content": "过滤内容"
+  },{
+    "type": "image_picker",
+    "id": "image",
+    "label": "图片",
+    "info": "过滤结果为空时候展示，图片尺寸: 480 x 480"
+  },{
+    "type": "text",
+    "id": "text",
+    "label": "文案",
+    "default": "No Result",
+    "info": "过滤结果为空时候展示文案内容"
+  }]
+}
+{% endschema %}

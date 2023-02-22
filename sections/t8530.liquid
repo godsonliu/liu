@@ -1,0 +1,578 @@
+{%- assign lang = page.metafields['global'] -%}
+
+{% if lang.banner_2.value %}
+  {% assign banner_2 = lang.banner_2.value %}
+{% else %}
+  {% assign banner_2 = lang.banner_2 %}
+{% endif %}
+
+{% if lang.banner_3.value %}
+  {% assign banner_3 = lang.banner_3.value %}
+{% else %}
+  {% assign banner_3 = lang.banner_3 %}
+{% endif %}
+
+{% if lang.dialog_inbox.value %}
+  {% assign dialog_inbox = lang.dialog_inbox.value %}
+{% else %}
+  {% assign dialog_inbox = lang.dialog_inbox %}
+{% endif %}
+
+{% if lang.dialog_get_referral.value %}
+  {% assign dialog_get_referral = lang.dialog_get_referral.value %}
+{% else %}
+  {% assign dialog_get_referral = lang.dialog_get_referral %}
+{% endif %}
+
+{% if lang.rules.value %}
+  {% assign rules = lang.rules.value %}
+{% else %}
+  {% assign rules = lang.rules %}
+{% endif %}
+
+{% if lang.dialog_check.value %}
+  {% assign dialog_check = lang.dialog_check.value %}
+{% else %}
+  {% assign dialog_check = lang.dialog_check %}
+{% endif %}
+
+{% if lang.verify_text.value %}
+  {% assign verify_text = lang.verify_text.value %}
+{% else %}
+  {% assign verify_text = lang.verify_text %}
+{% endif %}
+
+{% if shop.metafields.global.country.value %}
+  {% assign country = shop.metafields.global.country.value %}
+{% else %}
+  {% assign country = shop.metafields.global.country %}
+{% endif %}
+
+{{ 't8530.scss.css' | asset_url | stylesheet_tag }}
+
+<section>
+  <div class="banner-2">
+    <video class="desktop-show lazyload" poster="{{ banner_2.desktop_poster }}" data-src="{{ banner_2.desktop_video }}" playsinline  autoplay muted loop></video>
+    <video class="mobile-show lazyload" poster="{{ banner_2.mobile_poster }}" data-src="{{ banner_2.mobile_video }}" playsinline autoplay muted loop></video>
+    <div class="banner-2-main"> 
+      <div class="banner-2-text-wrap">
+        <div class="banner-2-position">
+          <div class="banner-image-wrap">
+            <h1>{{ banner_2.title }}</h1>
+            <img class="lazyload" data-src="{{ banner_2.line_1 }}" alt="{{ banner_2.line_alt }}">
+          </div>
+          <p class="price">{{ banner_2.price_text }}</p>
+          <img class="lazyload line-two" data-src="{{ banner_2.line_2 }}" alt="{{ banner_2.line_alt }}">
+          <p class="easily">{{ banner_2.subtitle }}</p>
+        </div>
+
+        <div class="banner-2-btn-wrap Spin">
+          <button class="referral-link">{{ banner_2.btn_text_1 }}</button>
+          <button class="check-referrals">{{ banner_2.btn_text_2 }}</button>
+          <div class="mask"></div>
+          <div class="spinner">
+            <i class="iconfont">&#xe6c0;</i>
+            <div class="focus"><i class="iconfont">&#xe6c0;</i></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="banner-3">
+    <div class="desktop-show">
+      <img class="lazyload" data-src="{{ banner_3.desktop_image }}" alt="333">
+    </div>
+    <div class="mobile-show">
+      {% for item in banner_3.mobile_image_list %}
+        <img class="lazyload" data-src="{{ item }}" alt="{{ banner_3.image_alt }}">  
+      {% endfor %}
+    </div>
+
+    <div class="banner-3-wrap">
+      <ul>
+        {% for item in banner_3.list %}
+          <li>
+            <img class="lazyload" data-src="{{ item.image }}" alt="{{ banner_3.image_alt }}">
+            <h1>{{ item.title }}</h1>
+            <p>{{ item.des }}</p>
+          </li>
+        {% endfor %}
+      </ul>
+
+      <div class="footer">
+        <p>{{ banner_3.footer_title }}</p>
+        <p>{{ banner_3.footer_time }}</p>
+        <p>{{ banner_3.footer_des }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="referral-mask" onclick="handleClose(0)"></div>
+  <div class="dialog-wrap">
+    <div class="dialog-close" onclick="handleClose(0)"> {% render 'icon', name: 'x' %}</div>
+
+    <div class="verified-container">
+      <div class="is-verified">
+        <h2>{{ dialog_inbox.title }}</h2>
+        <p class="des">{{ dialog_inbox.des }}</p>
+        <div class="Spin">
+          <button class="dialog-inbox">{{ dialog_inbox.btn_text }}</button>
+          <div class="mask"></div>
+          <div class="spinner">
+            <i class="iconfont">&#xe6c0;</i>
+            <div class="focus"><i class="iconfont">&#xe6c0;</i></div>
+          </div>
+        </div>
+        <p class="tips"></p>
+      </div>
+    </div>
+
+    <div class="success-container">
+      <div class="referral-success">
+        <img class="lazyload referral-image" data-src="{{ dialog_get_referral.image_1 }}" alt="{{ dialog_get_referral.image_alt }}">
+        <div class="success-main Spin">
+          <h2 class="success-title">{{ dialog_get_referral.title }}</h2>
+          <h1>{{ dialog_get_referral.subtitle }}</h1>
+          <p class="success-des">{{ dialog_get_referral.des }}</p>
+          <div class="success-submit Spin">
+            <input id="text" type="text" maxlength="200" placeholder="{{ dialog_get_referral.input_placeholder }}">
+            <button class="refer-now">{{ dialog_get_referral.btn_text_1 }}</button>
+            <div class="mask"></div>
+            <div class="spinner">
+              <i class="iconfont">&#xe6c0;</i>
+              <div class="focus"><i class="iconfont">&#xe6c0;</i></div>
+            </div>
+          </div>
+          <p class="not-wrap">{{ dialog_get_referral.not }} <span class="not"></span></p>
+          <p class="tips"></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="rules-container">
+      <h3>{{ rules.title }}</h3>
+      {% for item in rules.list %}
+        <p>
+          {{ item.title }} 
+          {% if forloop.last == true %}
+            <span>{{ rules.mail }}</span>
+          {% endif %}
+        </p>
+      {% endfor %}
+      <div style="padding-bottom: 1rem; margin-bottom: 0;"></div>
+    </div>
+
+    <div class="is-check-container">
+      <div class="check-container">
+        <ul>
+          {% for item in dialog_check.list %}
+            <li>
+              <img class="lazyload" 
+                data-number="{{ item.number }}"
+                data-grey="{{ item.image }}"
+                data-active="{{ item.image_active }}" 
+                src="{{ item.image }}" 
+                alt="{{ item.title }}"
+              >
+              <div class="item-div">
+                <h6>{{ item.title }}</h6>
+                <p>{{ item.des }}</p>
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+        <img class="check-image desktop-show lazyload" data-src="{{ dialog_check.image }}" alt="{{ dialog_check.title }}">
+        <p class="grand">{{ dialog_check.title }}</p>
+        <div class="register">{{ dialog_check.invite_people }}{{ dialog_check.position_number }}</div>
+        <p class="not-wrap">{{ dialog_get_referral.not }} <span class="not"></span></p>
+      </div>
+    </div>
+  </div>
+</section>
+<script src="https://cdn.bootcss.com/countup.js/1.9.3/countUp.js"></script>  
+<script>
+  var type = 0
+  function handleClose(number) {
+    type = number
+    $('#text').val('')
+    $('.not-wrap').hide()
+    $('.success-des').hide()
+    $('.is-position').hide()
+    $('.referral-mask').hide()
+    $('.success-main h1').show()
+    $('.rules-container').hide()
+    $('.is-check-container').hide()
+    $('.verified-container').hide()
+    $('.success-container').hide()
+    $('#text').removeAttr('readonly')
+    $('.check-container ul li img').each(function() {
+      let greySrc = $(this).attr('data-grey')
+      $(this).attr('src', greySrc)
+    })
+    $('.success-title').css('marginBottom', 0)
+    $('.success-title').text('{{ dialog_get_referral.title }}')
+    $('.refer-now').text('{{ dialog_get_referral.btn_text_1 }}')
+    $('.referral-image').attr('src', '{{ dialog_get_referral.image_2 }}')
+    $('.dialog-wrap').hide().removeClass('success-wrap is-rules is-check is-verified-wrap')
+  } 
+
+  $(document).ready(function() {
+    const reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+    let genre = window.location.pathname
+    genre = genre.substring(genre.lastIndexOf('/') + 1, genre.length)
+
+    const options = {  
+      useEasing: true,  
+      useGrouping: true,  
+      separator: ',',  
+      decimal: '.',  
+    }
+
+    var flag = true
+    $(document).scroll(function() {
+      const width = $(window).width()
+      let banner_2_position = $('.banner-2-main').offset().top
+      const top = $(window).scrollTop()
+      const speed = width > 769 ? 150 : 400
+      const number = top - banner_2_position + speed
+      if (number >= 0 && flag) {
+        var demo = new CountUp('price-span', 0, {{ banner_2.price }}, 0, 1, options);
+        if (!demo.error) { 
+          flag = false
+          demo.start() 
+        } else {  
+          console.error(demo.error)
+        } 
+        $('.easily').css('opacity', 1)
+      }
+    })
+
+    function activeTips (type, that) {
+      let arr = {{ verify_text | json }};
+      let $node = that.parent().parent().find('.tips')
+      $node.css('opacity', 1).text(arr[type])
+      if ($node.text()) {
+        setTimeout(function(){
+          $node.css('opacity', 0)
+        }, 3000)
+      }
+    }
+
+    function getQueryVariable(variable) {
+      var query = window.location.search.substring(1);
+      var vars = query.split("&");
+      for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split("=");
+        if(pair[0] == variable)return pair[1]
+      }
+      return(false)
+    }
+
+    let ic = getQueryVariable("ic")
+    let vc = getQueryVariable("vc")
+
+    if (vc) {
+      grecaptcha.ready(() => {
+        grecaptcha.execute(ShopMetafields.recaptcha, { action: 'ActivityCreate' }).then((res) => {
+          let params = {
+            genre,
+            verify_code: vc,
+            shopify_domain: '{{ shop.permanent_domain }}'
+          }
+          $.ajax({
+            type: 'PUT',
+            dataType:"json",
+            data: JSON.stringify(params),
+            contentType: "application/json",
+            url: `/apps/pp/rainbowbridge/referrals/verify`,
+            headers: { ...Shopify.contentCreator.pastApi.getHeaders(), recaptcha: res },
+            success: (result) => {
+              $('.not-wrap').show()
+              $('.success-des').show()
+              $('.not').text(result.email + '{{ dialog_get_referral.log_out }}')
+              $('.success-submit input').attr('readonly', true)
+              $('.success-submit input').val(result.invite_link)
+              handleDialog(true)
+            }
+          })
+        })
+      })
+    }
+
+    $('.not-wrap').on('click', function() {
+      handleClose(type)
+      localStorage.removeItem('t8530-email')
+      handleDialog()
+    })
+
+    $('.rules').on('click', function() {
+      $('.referral-mask').show()
+      $('.rules-container').show()
+      $('.dialog-wrap').show().addClass('is-rules')
+    })
+
+    function handleDialog(isReferral) {
+      if (isReferral) {
+        $('.refer-now').text('{{ dialog_get_referral.btn_text_2 }}')
+        $('.referral-image').attr('src', '{{ dialog_get_referral.image_1 }}')
+      } else {
+        $('.success-main h1').hide();
+         $('.success-title').css('marginBottom', '2rem')
+        $('.success-title').text('{{ dialog_get_referral.title_2 }}')
+        $('.refer-now').text('{{ dialog_get_referral.btn_text_1 }}')
+        $('.referral-image').attr('data-src', '{{ dialog_get_referral.image_2 }}')
+      }
+      $('.referral-mask').show()
+      $('.success-container').show()
+      $('.dialog-wrap').show().addClass('success-wrap')
+    }
+
+    function handleCheckDialog() {
+      $('.referral-mask').show()
+      $('.is-check-container').show()
+      $('.dialog-wrap').show().addClass('is-check')
+    }
+
+    function toThousands(num) {
+      return (num || 0).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
+    }
+
+    function getGenreReferral (email, that) {
+      that.parent().addClass('active')
+      grecaptcha.ready(() => {
+        grecaptcha.execute(ShopMetafields.recaptcha, { action: 'ActivityCreate' }).then((res) => {
+          let params = {
+            email: encodeURI(email),
+            shopify_domain: '{{ shop.permanent_domain }}'
+          }
+          $.ajax({
+            type: 'GET',
+            dataType:"json",
+            data: params,
+            contentType: "application/json",
+            url: `/apps/pp/rainbowbridge/referrals/${genre}/referral`,
+            headers: { ...Shopify.contentCreator.pastApi.getHeaders(), recaptcha: res },
+            success: (result) => {
+              handleClose(type)
+              that.parent().removeClass('active')
+              localStorage.setItem('t8530-email', email)
+              if (!result.is_verified) {
+                if (!that.hasClass('dialog-inbox')) {
+                  dataLayer.push({
+                    "event": "uaEvent",
+                    "eventCategory": type == 1 ? 'get_referral' : 'check_referral',
+                    "eventAction": "t8530_contest",
+                    "eventLabel": "not_confirm", // 如果成功唤起copy弹窗, 传success; 否则传fail
+                    "eventValue": "undefined",
+                  })
+                }
+                $('.success-title').text('{{ dialog_get_referral.title_2 }}')
+                $('.referral-mask').show()
+                $('.verified-container').show()
+                $('.provided').text(result.email)
+                $('.dialog-wrap').show().addClass('is-verified-wrap')
+                return activeTips(3, that)
+              }
+       
+              $('.not-wrap').show()
+              $('.not').text(result.email + '{{ dialog_get_referral.log_out }}')
+              if (type == 1) {
+                dataLayer.push({
+                  "event": "uaEvent",
+                  "eventCategory": "get_referral",
+                  "eventAction": "t8530_contest",
+                  "eventLabel": "success", // 如果成功唤起copy弹窗, 传success; 否则传fail
+                  "eventValue": "undefined",
+                })
+                $('.success-des').show()
+                $('.success-submit input').attr('readonly', true)
+                $('.success-submit input').val(result.invite_link)
+                handleDialog(true)
+              }
+
+              if (type == 2) {
+                dataLayer.push({
+                  "event": "uaEvent",
+                  "eventCategory": "check_referral",
+                  "eventAction": "t8530_contest",
+                  "eventLabel": "success", // 如果成功唤起copy弹窗, 传success; 否则传fail
+                  "eventValue": "undefined",
+                })
+                if (result.invited_referral_count > 0 && result.rank_number) {
+                  $('.is-position').show()
+                  $('.position-number').text(result.rank_number > 10000 ? '10,000+' : toThousands(result.rank_number))
+                }
+                $('.invite-people').text(result.invited_referral_count)
+                $('.check-container ul li img').each(function() {
+                  let number = $(this).attr('data-number')
+                  if (number <= result.invited_referral_count) {
+                    let activeUrl = $(this).attr('data-active')
+                    $(this).attr('src', activeUrl)
+                  }
+                })
+                handleCheckDialog()
+              }
+            },
+            error(err) {
+              that.parent().removeClass('active')
+              if (err.responseJSON.statusCode == 404) {
+                activeTips(4, that)
+              }
+            }
+          })
+        })
+      })
+    }
+
+    $('.dialog-inbox').on('click', function() {
+      const that = $(this)
+      let email = localStorage.getItem('t8530-email')
+      if (email) {
+        return getGenreReferral(email, that)
+      }
+    })
+
+    $('.referral-link').on('click', function() {
+      const that = $(this)
+      type = 1 
+      let email = localStorage.getItem('t8530-email')
+      if (email) {
+        return getGenreReferral(email, that)
+      }
+      dataLayer.push({
+        "event": "uaEvent",
+        "eventCategory": 'get_referral',
+        "eventAction": "t8530_contest",
+        "eventLabel": "fail", // 如果成功唤起copy弹窗, 传success; 否则传fail
+        "eventValue": "undefined",
+      })
+      handleDialog()
+    })
+
+    $('.check-referrals').on('click', function() {
+      const that = $(this)
+      type = 2
+      let email = localStorage.getItem('t8530-email')
+      if (email) {
+        return getGenreReferral(email, that)
+      }
+      dataLayer.push({
+        "event": "uaEvent",
+        "eventCategory": 'check_referral',
+        "eventAction": "t8530_contest",
+        "eventLabel": "fail", // 如果成功唤起copy弹窗, 传success; 否则传fail
+        "eventValue": "undefined",
+      })
+      handleDialog()
+    })
+
+    $('.refer-now').on('click', function() {
+      const that = $(this)
+      if ($(this).text() == '{{ dialog_get_referral.btn_text_2 }}') {
+        dataLayer.push({
+          "event": "uaEvent",
+          "eventCategory": 'copy',
+          "eventAction": "t8530_contest",
+          "eventLabel": "undefined",
+          "eventValue": "undefined",
+        })
+        $('#text').select()
+        document.execCommand('{{ dialog_get_referral.btn_text_2 }}')
+        $(this).text('{{ dialog_get_referral.copied }}')
+        that.attr('disabled', true)
+        setTimeout(function() {
+          that.removeAttr('disabled')
+          $('.refer-now').text('{{ dialog_get_referral.btn_text_2 }}')
+        }, 1500)
+        return
+      } 
+
+      let  inputValue = $('.success-submit input').val().trim()
+
+      if (!inputValue) {
+        return activeTips(0, that)
+      }
+
+      if (!reg.test(inputValue)) {
+        return activeTips(1, that)
+      }
+      getGenreReferral(inputValue, that)
+    })
+
+    $('.subscription').on('click', function() {
+      const that = $(this)
+      let inputValue = $('.subscriptionInput').val().trim()
+
+      if (!inputValue) {
+        return activeTips(0, that)
+      }
+
+      if (!reg.test(inputValue)) {
+        return activeTips(1, that)
+      }
+
+      if (!$('#toggle').prop('checked')) {
+        return activeTips(2, that)
+      }
+
+      if (!window.grecaptcha) return
+      that.attr('disabled', true)
+      that.parent().addClass('active')
+      grecaptcha.ready(() => {
+        grecaptcha.execute(ShopMetafields.recaptcha, { action: 'ActivityCreate' }).then((res) => {
+          let params = {
+            genre,
+            email: inputValue,
+            inviter_code: ic ? ic : '', 
+            single_brand_subscribe: true,
+            register_source: window.location.href,
+            shopify_domain: '{{ shop.permanent_domain }}',
+            country_code: "{{ country.code }}"
+          }
+          $.ajax({
+            type: 'POST',
+            dataType: "json",
+            data: JSON.stringify(params),
+            contentType: "application/json",
+            url: `/apps/pp/rainbowbridge/referrals`,
+            headers: { ...Shopify.contentCreator.pastApi.getHeaders(), recaptcha: res },
+            success: (result) => {
+              that.removeAttr('disabled')
+              that.parent().removeClass('active')
+              $('.success-submit input').attr('readonly', true)
+              localStorage.setItem('t8530-email', inputValue)
+              dataLayer.push({
+                "event": "uaEvent",
+                "eventCategory": 'subscribe',
+                "eventAction": "t8530_contest",
+                "eventLabel":  result.is_verified ? 'new' : 'old', // 新用户传new; 老用户传old, 麻烦到时候给测试用例
+                "eventValue": "undefined",
+              })
+              fbq('track', 'CompleteRegistration')
+              if (result.is_verified) {
+                $('.success-des').show()
+                $('.not-wrap').show()
+                $('.not').text(result.email + '{{ dialog_get_referral.log_out }}')
+                $('.success-submit input').val(result.invite_link)
+                handleDialog(true)
+                return
+              }
+              $('.referral-mask').show()
+              $('.verified-container').show()
+              $('.provided').text(result.email)
+              $('.success-title').text('{{ dialog_get_referral.title_2 }}')
+              $('.dialog-wrap').show().addClass('is-verified-wrap')
+            },
+            error(err) {
+              that.parent().removeClass('active')
+              that.removeAttr('disabled')
+            }
+          })
+        })
+      })
+    })
+  })
+</script>

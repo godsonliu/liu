@@ -1,0 +1,71 @@
+{% render 'aplus-video-carousel-snippet' %}
+
+{% schema %}
+{
+  "name": "Aplus Video Carousel",
+  "presets": [
+    {
+      "name": "Aplus Video Carousel",
+      "blocks": [
+        {
+          "type": "item"
+        },
+        {
+          "type": "item"
+        }
+      ]
+    }
+  ],
+  "settings": [
+  ],
+  "blocks": [
+    {
+      "name": "item",
+      "type": "item",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "text",
+          "id": "headline",
+          "label": "headline"
+        },
+        {
+          "type": "text",
+          "id": "subheadline",
+          "label": "subheadline"
+        },
+        {
+          "type": "richtext",
+          "id": "body",
+          "label": "body"
+        },
+        {
+          "type": "image_picker",
+          "id": "imageUrl",
+          "label": "image",
+          "info": "800 x 600 recommended"
+        },
+        {
+          "type": "image_picker",
+          "id": "coverUrl",
+          "label": "cover",
+          "info": "800 x 600 recommended"
+        },
+        {
+          "type": "text",
+          "id": "videoUrl",
+          "label": "video",
+          "info": "HTML5 MP4/OGV File URL, 800 x 600 recommended"
+        },
+        {
+          "type": "video_url",
+          "id": "thirdPartyVideo",
+          "label": "youtube/viemo video",
+          "info": "youtube/vimeo URL, 800 x 600 recommended",
+          "accept": [ "youtube", "vimeo"]
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

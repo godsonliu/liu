@@ -1,0 +1,446 @@
+
+{% if template contains 'page' %}
+
+  {% if page.metafields.global.listing_compare_complex.value %}
+    {% assign compareInfo = page.metafields.global.listing_compare_complex.value %}
+  {% else %}
+    {% assign compareInfo = page.metafields.global.listing_compare_complex %}
+  {% endif %}
+
+  {% if page.metafields.global.listing_compare_complex.value %}
+    {% assign visibleList = page.metafields.global.listing_compare_complex.value %}
+  {% else %}
+    {% assign visibleList = page.metafields.global.listing_compare_complex %}
+  {% endif %}
+
+  {% if page.metafields.global.listing_compare_complex.value %}
+    {% assign listing_compare_complex = page.metafields.global.listing_compare_complex.value %}
+  {% else %}
+    {% assign listing_compare_complex = page.metafields.global.listing_compare_complex %}
+  {% endif %}
+
+{% else %}
+
+  {% if product.metafields.global.listing_compare_complex.value %}
+    {% assign compareInfo = product.metafields.global.listing_compare_complex.value %}
+  {% else %}
+    {% assign compareInfo = product.metafields.global.listing_compare_complex %}
+  {% endif %}
+
+  {% if product.metafields.global.listing_compare_complex.value %}
+    {% assign visibleList = product.metafields.global.listing_compare_complex.value %}
+  {% else %}
+    {% assign visibleList = product.metafields.global.listing_compare_complex %}
+  {% endif %}
+
+  {% if product.metafields.global.listing_compare_complex.value %}
+    {% assign listing_compare_complex = product.metafields.global.listing_compare_complex.value %}
+  {% else %}
+    {% assign listing_compare_complex = product.metafields.global.listing_compare_complex %}
+  {% endif %}
+{% endif %}
+
+{% if shop.metafields['global']['storefront_key'].value %}
+  {% assign storefront_key = shop.metafields['global']['storefront_key'].value %}
+{% else %}
+  {% assign storefront_key = shop.metafields['global']['storefront_key'] %}
+{% endif %}
+
+
+{{ 'listing_compare_complex.scss.css' | asset_url | stylesheet_tag }}
+{% assign custom_css = section.settings.custom_css %}
+
+{% style %}
+  {%- if custom_css != blank -%}
+  {{ custom_css }}
+  {% endif %}
+{% endstyle %}
+{%- if template contains 'page' -%}
+{%- else %}
+{% endif %}
+{% assign compareList = compareInfo.compareListing %}
+
+{%- capture allSku -%}
+  {% for item  in compareList%}
+  {% for i in item.options%}
+    {{i.sku}},
+  {% endfor %}
+  {% endfor %}
+{%- endcapture -%}
+
+
+
+{%- capture data_products -%}
+{
+  {% for item in compareList%}
+  {% assign loop = forloop.index %}
+    {% for i in item.options%}
+
+    {% if all_products[i.handle].metafields.compare.value %}
+      {% assign dynamic_compare = all_products[i.handle].metafields.compare.value.dynamic_compare %}
+    {% else %}
+      {% assign dynamic_compare = all_products[i.handle].metafields.compare.dynamic_compare %}
+    {% endif %}
+
+    "{{i.handle}}":
+    {
+      "url": "/products/{{i.handle}}",
+      "id": "{{all_products[i.handle].id}}",
+      "title": "{{all_products[i.handle].title | escape}}",
+      "variants": [
+        {%- for variant in all_products[i.handle].variants -%}
+        {
+          "id": "{{ variant.id }}",
+          "sku":"{{ variant.sku }}",
+          "image": "{{ variant.image | img_url: '1024x' }}",
+          "price": "{{ variant.price | money }}",
+          "priceNum": "{{ variant.price }}",
+          "options": {{ variant.options | json }},
+          "option": "{{ variant.options[0] | split: ' ' | last | handle }}",
+          "color": "{{ variant.options[0] }}",
+          "available": {%- if variant.price != 999999999 and variant.available -%}1{%- else -%}0{%- endif -%}
+        }{%- if forloop.last == false -%},{%- endif -%}
+        {%- endfor -%}
+      ],
+      "description": "{{all_products[i.handle].description | strip_newlines| escape}}",
+      "image": "{{ all_products[i.handle] | img_url: '1024x' }}",
+      "handle": "{{ i.handle }}",
+      "tags": "{{ all_products[i.handle].tags | join: ', ' }}",
+      "price": "{{ all_products[i.handle].price | money }}",
+      "dynamic_compare": {{ dynamic_compare | json }}
+    }{%- if forloop.last == true and loop == compareList.size -%} {%- else -%},{%- endif -%}
+    {% endfor %}
+  {% endfor %}
+}
+{%- endcapture -%}
+
+<section id="{{compareInfo.id | default: 'complexCompare'}}" class="listing_compare_complex">
+  <div class="box-container">
+    <h class="title">{{compareInfo.title }}</h>
+    <div class="compare-table">
+      <table class="table-header-wrapper" style="width: 100%">
+        <tr>
+          <th></th>
+          {% for info in visibleList%}
+          {% assign loopIndex = forloop.index0 %}
+          <th class="th-{{forloop.index}}">
+            <select class="select-component" data-index="{{forloop.index}}" onchange="changeSelection({{forloop.index}})">
+              {% for list in compareInfo.compareListing%}
+                <optgroup label="{{list.label | default: null}}">
+                  {% for item in list.options %}
+                    {%- if item.handle == visibleList[loopIndex].handle -%} 
+                      <option value ="{{ item.handle }}" data-sku="{{ item.sku | default: null}}" selected="selected">{{ all_products[item.handle].title }}</option>
+                    {%- else -%}
+                      <option value ="{{ item.handle }}" data-sku="{{ item.sku | default: null}}">{{ all_products[item.handle].title }}</option>
+                    {%- endif -%}
+                  {% endfor %}
+                </optgroup>
+              {% endfor %}
+            </select>
+            <div class="img-box">
+              <a class="product_a product_a-{{forloop.index}}" data-sku="{{info.sku}}" href="/products/{{info.handle}}" target="_blank" rel="noopener noreferrer" alt="learn more">
+                <img class="lazyload" data-src="{{ all_products[info.handle].variants[0].featured_image.src | img_url: ''}}" alt="{{ all_products[info.handle].title}}">
+              </a>
+            </div>
+            <!-- <a class="product_a product_a-{{forloop.index}}" data-sku="{{info.sku}}" href="/products/{{info.handle}}" target="_blank" rel="noopener noreferrer">
+              <div class="title">{{all_products[info.handle].title | default: null}}</div>
+            </a> -->
+            <div class="product-price">
+              <span class="discount_p"></span>
+              <span class="normal_p"></span>
+              {%- if all_products[info.handle].variants[0].price != 999999999 and all_products[info.handle].variants[0].available -%}
+                <span class="init_p">{{ all_products[info.handle].variants[0].price | money }}</span>
+              {%- else -%}
+                <span class="init_p">{{ compareInfo.sold_out }}</span>
+              {%- endif -%}
+            </div>
+            <div class="copyBox">
+              <span class="copyAct">
+                <span class="codeformat">{{ compareInfo.codeTxt }}</span>
+                <span class="codeTxt" data-sku=""></span>
+                <span class="copybtn">
+                  <button type="button" class="clipboard_btn" data-sku="" aria-label="copy">{{ compareInfo.copyTxt }}</button>
+                </span>
+              </span>
+            </div>
+            {%- if all_products[info.handle].variants[0].price != 999999999 and all_products[info.handle].variants[0].available -%}
+            <div class="btns btns-{{forloop.index}}">
+              <a class="shop_now_btn" data-handle="{{ info.handle }}" href="" target="_blank" rel="noopener noreferrer" alt="shop now">
+                {{compareInfo.shop_now}}
+              </a>
+              <a class="add_to_cart_btn" data-handle="{{ info.handle }}" href="" target="_blank" rel="noopener noreferrer" alt="add to art">
+                {{compareInfo.add_to_cart}}
+              </a>
+            </div>
+            {%- else -%}
+            <div class="btns btns-{{forloop.index}} hidden">
+              <a class="shop_now_btn" data-handle="{{ info.handle }}" href="" target="_blank" rel="noopener noreferrer" alt="shop now">
+                {{compareInfo.shop_now}}
+              </a>
+              <a class="add_to_cart_btn" data-handle="{{ info.handle }}" href="" target="_blank" rel="noopener noreferrer" alt="add to art">
+                {{compareInfo.add_to_cart}}
+              </a>
+            </div>
+            {%- endif -%}
+          </th>
+          {% endfor %}
+        </tr>
+        {% for item in compareInfo.compareColumns %}
+        <tr class="tr-{{forloop.index}}">
+          <td class="td-0"><span>{{item.value | default: null }}</span></td>
+            {% for info in visibleList %}
+            {% assign key = item.key %}
+            <td class="td-{{forloop.index}}" data-key="{{key}}">
+              <div class="td-info">
+                <span class="title">{{item.value }}</span>
+                <span class="txt">
+                  {% if all_products[info.handle].metafields.compare.value %}
+                    {% assign dynamic_compare = all_products[info.handle].metafields.compare.value.dynamic_compare %}
+                  {% else %}
+                    {% assign dynamic_compare = all_products[info.handle].metafields.compare.dynamic_compare %}
+                  {% endif %}
+                  {{ dynamic_compare[key] | default: null }}
+                </span>
+              </div>
+            </td>
+          {% endfor %}
+        </tr>
+        {% endfor%}
+      </table>
+    </div>
+  </div>
+</section>
+<script>
+  let compareInfo ={{ listing_compare_complex | json}} || {{ listing_compare_complex | json}}
+  let visibleList ={{ listing_compare_complex.defaultVisible | json}} || {{ listing_compare_complex.defaultVisible | json}}
+  let compareCols = {{ listing_compare_complex.compareColumns | json}} || {{ listing_compare_complex.compareColumns | json}}
+  let allSku = `{{ allSku }}`;
+  // allSkuData 所有的sku合集（去掉null选项）
+  let allSkuData = allSku.replace(/\s*/g,"").split(',').filter(function (s) {
+    return s && s.trim(); 
+  })
+  let data_products = JSON.parse(`{{ data_products }}`); // 所有产品参数
+  let couponsData_Compare = {}  // 折扣参数
+
+  getDiscountInfo(allSkuData)
+
+  function getDiscountInfo(arr){
+  $.ajax({
+      type: 'GET',
+      url: '/apps/pp/shopifyservices/coupons/by_skus',
+      data: { "skus": arr, "shopify_domain": "{{ shop.permanent_domain }}" },
+      success: function success(body) {
+        couponsData_Compare = body;
+        visibleList.forEach((item,index) => {
+          let discountInfo = body[item.sku];
+          let available = data_products[item.handle].variants[0].available
+          changeDiscountHtml(discountInfo,available,item.handle,index+1)
+        })
+      }
+    })
+  }
+  function changeSelection(index) {
+    let handle = $(`.select-component[data-index=${index}] option:selected`).attr('value')
+    let sku = $(`.select-component[data-index=${index}] option:selected`).attr('data-sku')
+    $(`.select-component[data-index=${index}] option`).prop('selected',false);
+    $(`.select-component[data-index=${index}] option[value=${handle}]`).prop("selected",true)
+    let currentTxt = $(`.select-component[data-index=${index}] option[value=${handle}]`).html()
+    let isRepeat = 0
+    visibleList.forEach((item,i)=>{
+      if(item.handle == handle ){
+        isRepeat = i+1
+      } 
+    })
+     // 判断是否重复展示产品，如果是，则交换位置
+    if(isRepeat && isRepeat != 0 ){
+      visibleList.splice(isRepeat-1,1,visibleList[index-1])
+      visibleList.splice(index-1,1, {"handle": handle ,"sku": sku})
+      $(`.select-component[data-index=${isRepeat}] option`).prop('selected',false);
+      $(`.select-component[data-index=${isRepeat}] option[value=${visibleList[isRepeat-1].handle}]`).prop("selected",true)
+      changeHtml(index)
+      changeHtml(isRepeat)
+    }else{
+      visibleList.splice(index-1,1,{"handle": handle ,"sku": sku})
+      changeHtml(index)
+    }
+  }
+  function changeHtml(i){
+    let obj = data_products[visibleList[i-1].handle].dynamic_compare
+    let title = data_products[visibleList[i-1].handle].title
+    let imgLink = data_products[visibleList[i-1].handle].variants[0].image
+    // 改变图文链接值
+    $(`.table-header-wrapper .th-${i} a`).attr("data-sku",visibleList[i-1].sku)
+    $(`.table-header-wrapper .th-${i} a`).attr("href",`/products/${visibleList[i-1].handle}`)
+    $(`.table-header-wrapper .th-${i} .title`).text(title)
+    $(`.table-header-wrapper .th-${i} .img-box a`).attr("data-sku",visibleList[i-1].sku)
+    $(`.table-header-wrapper .th-${i} .img-box a`).attr("href",`/products/${visibleList[i-1].handle}`)
+    $(`.table-header-wrapper .th-${i} .img-box img`).attr("alt",title)
+    $(`.table-header-wrapper .th-${i} .img-box img`).attr("src",imgLink)
+    $(`.table-header-wrapper .th-${i} .img-box img`).attr("data-src",imgLink)
+    $(`.table-header-wrapper .th-${i} .btns-${i} .shop_now_btn`).attr("data-handle",visibleList[i-1].handle)
+    $(`.table-header-wrapper .th-${i} .btns-${i} .add_to_cart_btn`).attr("data-handle",visibleList[i-1].handle)
+    $(`.table-header-wrapper .th-${i} .copyBox .clipboard_btn`).text('{{ compareInfo.copyTxt }}');
+    // 改变列表内值
+    compareCols.forEach((item)=>{
+      $(`.table-header-wrapper .td-${i}[data-key= ${item.key}] .td-info .txt`).text(obj[item.key])
+    })
+    // 改变价格和折扣
+    let discountInfo = couponsData_Compare[visibleList[i-1].sku];
+    let available = data_products[visibleList[i-1].handle].variants[0].available
+    changeDiscountHtml(discountInfo,available,visibleList[i-1].handle,i)
+  }
+  function changeDiscountHtml(discountInfo,available,handle,index){
+    if(available == 1){
+      $(`.table-header-wrapper .th-${index} .btns`).removeClass('hidden');
+      if(discountInfo){
+        let discount = discountInfo[0].value && (parseInt(discountInfo[0].value.replace('-', '')) * 100);
+        let value_style = discountInfo[0].value_style && discountInfo[0].value_style;
+        let discount_text = discountInfo[0].value_type === 'fixed_amount' ? value_style : `${discount / 100}%`;
+        $(`.table-header-wrapper .th-${index} .copyBox`).css('visibility', 'visible');
+        $(`.table-header-wrapper .th-${index} .copyBox .codeTxt`).text(discountInfo[0].title);
+        $(`.table-header-wrapper .th-${index} .product-price .discount_p`).text(Shopify.formatMoney(parseFloat(discountInfo[0].variant_price4wscode) * 100, $('body').data('money-format')) );
+        $(`.table-header-wrapper .th-${index} .product-price .normal_p`).text(Shopify.formatMoney(parseFloat(discountInfo[0].variant_price) * 100, $('body').data('money-format')) );
+        $(`.table-header-wrapper .th-${index} .product-price .init_p`).text('');
+      }else{
+        $(`.table-header-wrapper .th-${index} .copyBox`).css('visibility', 'hidden');
+        $(`.table-header-wrapper .th-${index} .copyBox .codeTxt`).text('');
+        $(`.table-header-wrapper .th-${index} .product-price .discount_p`).text('');
+        $(`.table-header-wrapper .th-${index} .product-price .normal_p`).text('');
+        $(`.table-header-wrapper .th-${index} .product-price .init_p`).text(data_products[handle].variants[0].price );
+      }
+    }else{
+      $(`.table-header-wrapper .th-${index} .btns`).addClass('hidden');
+      $(`.table-header-wrapper .th-${index} .copyBox`).css('visibility', 'hidden');
+      $(`.table-header-wrapper .th-${index} .copyBox .codeTxt`).text('');
+      $(`.table-header-wrapper .th-${index} .product-price .discount_p`).text('');
+      $(`.table-header-wrapper .th-${index} .product-price .normal_p`).text('');
+      $(`.table-header-wrapper .th-${index} .product-price .init_p`).text(`{{ compareInfo.sold_out}}`);
+    }
+  }
+  function execCoy(text) {
+    let input = document.createElement('INPUT');
+    input.style.opacity  = 0;
+    input.style.position = 'absolute';
+    input.style.left = '-100000px';
+    document.body.appendChild(input);
+    input.value = text;
+    input.select();
+    input.setSelectionRange(0, text.length);
+    document.execCommand('copy');
+    document.body.removeChild(input);
+    return true;
+  } 
+  // 给按钮绑定点击事件
+  visibleList.forEach((item,index)=>{
+    $(`.btns-${index+1} .shop_now_btn`).click(e => {
+      e.preventDefault();
+      let handle = $(`.btns-${index+1} .shop_now_btn`).attr('data-handle')
+      let line_items = [{variant_id: data_products[handle].variants[0].id, quantity: 1 }];
+      Shopify.theme.bundleBuynow({
+        authorization: "{{ storefront_key }}",
+        checkout: {
+          line_items: line_items,
+          presentment_currency: "{{ shop.currency }}",
+          is_upstream_button: true,
+          page_type: "product",
+          secret: true,
+          wallet_name: "Checkout"
+        },
+        onSuccess: () => {},
+        onError: err => $.dialog({ title: err.message, content: err.description, type: 'red' })
+      });
+
+      let products =[{
+        'name': data_products[handle].title, // product name
+        'id': data_products[handle].variants[0].id, // product id (注意大小写)
+        'category': '', 
+        'categoryName': '', // product cat...
+        'brand': "{{ shop.name }}", // product brand
+        'variant': data_products[handle].variants[0], //product variant
+        'price': data_products[handle].variants[0].price, //product price
+        'quantity': '1' //product quantity
+      }]
+      window.dataLayer.push({
+        'event': 'eeEvent',
+        'eventCategory': 'EnhancedEcommerce',
+        'eventAction': 'crosstable_buynow', 
+        'eventLabel': data_products[handle].variants[0].sku, //读取对应点击产品的SKU
+        'ecommerce': {
+          'currencyCode': '{{ shop.currency }}', // 填写对应货币 USD EUR...
+          'add': {
+            'products': products
+          }
+        }
+      })
+    })
+    $(`.btns-${index+1} .add_to_cart_btn`).click(e => {
+      e.preventDefault();
+      let handle = $(`.btns-${index+1} .add_to_cart_btn`).attr('data-handle')
+      let variants = [{ id: data_products[handle].variants[0].id, quantity: 1 }];
+      let products =[{
+        'name': data_products[handle].title, // product name
+        'id': data_products[handle].variants[0].id, // product id (注意大小写)
+        'category': '', 
+        'categoryName': '', // product cat...
+        'brand': "{{ shop.name }}", // product brand
+        'variant': data_products[handle].variants[0], //product variant
+        'price': data_products[handle].variants[0].price, //product price
+        'quantity': '1' //product quantity
+      }]
+      window.dataLayer.push({
+        'event': 'eeEvent',
+        'eventCategory': 'EnhancedEcommerce',
+        'eventAction': 'crosstable_Added Product', 
+        'eventLabel': data_products[handle].variants[0].sku, //读取对应点击产品的SKU
+        'ecommerce': {
+          'currencyCode': '{{ shop.currency }}', // 填写对应货币 USD EUR...
+          'add': {
+            'products': products
+          }
+        }
+      })
+      Shopify.theme.addItemsToCart(variants, {
+        onError: err => $.dialog({ title: err.message, content: err.description, type: 'red' })
+      })
+    })
+    $(`.table-header-wrapper .th-${index+1} .copyBox .clipboard_btn`).click(e => {
+      e.preventDefault();
+      var txt = $(`.table-header-wrapper .th-${index+1} .codeTxt`).text();
+      $(`.table-header-wrapper th .copyBox .clipboard_btn`).text('{{ compareInfo.copyTxt }}');
+      execCoy(txt);
+      $(`.table-header-wrapper .th-${index+1} .copyBox .clipboard_btn`).text('{{ compareInfo.copiedTxt }}');
+    })
+    $(`.compare-table .product_a-${index+1}`).click(e => {
+      // e.preventDefault();
+      let sku = $(`.compare-table .product_a-${index+1}`).attr('data-sku')
+      dataLayer.push({
+        "event": "uaEvent", // Trigger
+        "eventCategory": 'crosstable',
+        "eventAction": "learn_more",
+        "eventLabel": sku,//传点击产品的SKU
+      })
+    })
+
+  })
+</script>
+
+{% schema %}
+
+{
+  "name": "compare complex component",
+  "presets": [
+    {
+      "category": "compare complex Sections",
+      "name": "compare complex"
+    }
+  ],
+  "settings": [{
+    "type": "textarea",
+    "id": "custom_css",
+    "label": "Custom CSS",
+    "info": "自定义样式（注意：请按照标准的css语法添加样式）"
+    }
+  ]
+}
+
+{% endschema %}

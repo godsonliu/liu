@@ -1,0 +1,68 @@
+{% if product.selected_or_first_available_variant != blank %}
+  {% assign sku = product.selected_or_first_available_variant.sku %}
+{% else %}
+  {% assign sku = product.variants[0].sku %}
+{% endif %}
+
+<script>
+  $(document).ready(function(){
+    let closeTimer = {}
+
+    function togglePopover({ $point, $controls, status }) {
+      $controls.attr('aria-hidden', String(!status))
+      $point.attr('aria-expanded', String(status))
+    }
+
+    $('#{{id}}')
+      .on('mouseenter click', '.aplus-hotspots__hover-point', function() {
+        const $point = $(this)
+        const controlsId = $(this).attr('aria-controls')
+        const expanded = $point.attr("aria-expanded")
+        
+        if (closeTimer[controlsId]) {
+          clearTimeout(closeTimer[controlsId])
+          closeTimer[controlsId] = null
+        }
+        const $controls = $('#' + controlsId)
+        if (expanded === 'false') {
+          togglePopover({ $point, $controls, status: true })
+        }
+
+        const title = $point.data('headline')
+        dataLayer.push({
+          "event": "uaEvent", // Trigger
+          "eventCategory": "Product Detail Page_{{ sku }}",
+          "eventAction": "A+pop",
+          "eventLabel": title,
+          "nonInteraction": true, 
+        })
+        window.dataLayer.push({ "event_parameters": null });
+        window.dataLayer.push({
+          "event": "ga4Event",
+          "event_name": "bubble_pop",
+          "event_parameters": {
+            "page_group": "Product Detail Page_{{ sku }}",
+            "position":"A+pop", 
+            "info": title
+          }
+        })
+      })
+      .on('mouseleave', '.aplus-hotspots__hover-wrapper', function() {
+        const id = $(this).find('.aplus-hotspots__popover').attr('id')
+
+        closeTimer[id] = setTimeout(() => {
+          const $controls = $(this).find('.aplus-hotspots__popover')
+          const $point = $(this).find('.aplus-hotspots__hover-point')
+          togglePopover({ $point, $controls, status: false })
+          closeTimer[id] = null
+        }, 300)
+      })
+      .on('click', '.aplus-hotspots__popover-close', function() {
+        const $closeButton = $(this)
+        const $wrapper = $closeButton.parents('.aplus-hotspots__hover-wrapper')
+        const $point = $wrapper.find('.aplus-hotspots__hover-point')
+        const $controls = $wrapper.find('.aplus-hotspots__popover')
+        togglePopover({ $point, $controls, status: false })
+      })
+  })
+</script>

@@ -1,0 +1,487 @@
+{% if collection.metafields['global']['filtersData'].value %}
+  {% assign filtersData = collection.metafields['global']['filtersData'].value %}
+{% else %}
+  {% assign filtersData = collection.metafields['global']['filtersData'] %}
+{% endif %}
+
+{% if collection.metafields['global']['collection-products'].value %}
+  {% assign collection_products = collection.metafields['global']['collection-products'].value %}
+{% else %}
+  {% assign collection_products = collection.metafields['global']['collection-products'] %}
+{% endif %}
+
+
+
+<div class="filters_products">
+  <a class="open_filters">
+    <img src="https://cdn.shopify.com/s/files/1/0521/9411/5753/files/10.svg?v=1624330925" />
+    <span>{{ filtersData.title }}</span>
+  </a>
+  <div class="filters_box">
+    <div class="pc_filters_box">
+      <ul class="nav_key_box">
+        {% for item in filtersData.data %}
+          <li class="nav_key" data-key="{{ item.key }}" onClick="toggleNav('{{ item.key }}')">
+            {{ item.key }}
+          </li>
+        {% endfor %}
+      </ul>
+      <div class="nav_item_box clickFilterBox">
+        {% for item in filtersData.data %}
+          <ul class="nav_item clickNavItem" data-key="{{ item.key }}">
+            {% for filter in item.value %}
+              <li class="filter_key clickFilterKey" data-key="{{ item.key }}:{{ filter }}">{{ filter }}</li>
+            {% endfor %}
+          </ul>
+        {% endfor %}
+      </div>
+      <div class="btn">
+        <div class="items"><span class="itemsNum"></span> {{ filtersData.items }}</div>
+        <button class="reset invalid" onClick="reset()">{{ filtersData.reset }}</button>
+      </div>
+    </div>
+    <div class="mob_filters_box">
+      <div class="box">
+        <div class="title">
+          <div class="txt">
+            <span>{{ filtersData.title }}</span>
+            <img src="https://cdn.shopify.com/s/files/1/0521/9411/5753/files/10.svg?v=1624330925" />
+          </div>
+          <button class="close" onclick="closeFiltersBox()">
+            <i class="iconfont">&#xe723;</i>
+          </button>
+        </div>
+        <div class="mob_item_box">
+          {% for item in filtersData.data %}
+            <div class="item_box {% if item.default_open %} active {% endif %}" data-key="{{ item.key }}">
+              <div class="mob_nav_key" onClick="toggleNav('{{ item.key }}')">
+                <span>{{ item.key }}</span>
+                <i class="openBox"></i>
+              </div>
+              <div class="mob_nav_item_box clickFilterBox">
+                <ul class="mob_nav_item clickNavItem" data-key="{{ item.key }}">
+                  {% for filter in item.value %}
+                    <li class="mob_filter_key">
+                      <div class="check_box clickFilterKey" data-key="{{ item.key }}:{{ filter }}">
+                        <span class="key_box"></span>
+                        <span>{{ filter }}</span>
+                        <span class="num"></span>
+                      </div>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+        <div class="btnBox">
+          <div class="items"><span class="itemsNum"></span> {{ filtersData.items }}</div>
+          <div class="btn">
+            <button class="reset invalid" onClick="reset()">{{ filtersData.reset }}</button>
+            <button class="apply">{{ filtersData.apply }}<span class="keyNum"></span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  let filtersKey = [];
+  let allCollectionsPros = [];
+  let allProducts = [];
+
+  $(document).ready(function(){
+
+    // 渲染筛选器数据 filtersData
+    // RenderingOptions();
+
+    // 数据准备
+    // 获取js 的 Collections & Products
+    let jsCollections = [];
+    let jsProducts = [];
+    // 获取页面的 jsCollections 列表和 jsProducts
+    {% for item in collection_products %}
+      {% assign productsList = collections[item.handle].products %}
+      {% assign collectionsList = collections[item.handle] %}
+      jsCollections.push({{ collectionsList | json }});
+      jsProducts.push({{ productsList | json }});
+    {% endfor %}
+    // 获取总数据集合 allCollectionsPros
+    jsProducts.map((item, index) => {
+      allCollectionsPros.push({
+        "handle": jsCollections[index].handle,
+        "products": item
+      });
+      allProducts = allProducts.concat(item);
+    });
+
+    // ------------------------------
+
+    // 样式初始化
+    $('.filters_box .nav_key').first().addClass('active');
+    $('.filters_box .nav_item').first().addClass('active');
+    $('.itemsNum').text(`${allProducts.length}`);
+    $('.keyNum').text('(0)');
+
+    // url若带数据初始化
+    showUrlResult();
+    showResultNumber(filtersKey);
+
+    // 绑定展开过滤器事件
+    $('.open_filters').click(() => {
+      if(!$('.filters_box').hasClass('showBox')) {
+        $('.filters_box').addClass('showBox');
+        if ($(window).width() <=768 ) $('.Friendbuy-ribbon-transition').css('display', 'none');
+      } else {
+        $('.Friendbuy-ribbon-transition').css('display', 'block');
+        $('.filters_box').removeClass('showBox');
+      }
+    });
+
+    // 绑定筛选条件点击事件
+    $(document).on('click', '.pc_filters_box .clickFilterBox .clickFilterKey', function(e) {
+      e.stopPropagation();
+      clickFiltersKey($(this));
+      apply(filtersKey);
+    });
+    $(document).on('touchstart', '.mob_filters_box .clickFilterBox .clickFilterKey', function(e) {
+      e.stopPropagation();
+      clickFiltersKey($(this));
+      let filtersKeyArr = [];
+      filtersKey.map(item => filtersKeyArr = filtersKeyArr.concat(item.value));
+      if(filtersKeyArr[0]) {
+        // 获取符合过滤条件的 总数据集合 filtersCollectionsPros
+        let filtersProds = filtersProducts(filtersKey);
+        let prods = [];
+        filtersProds.map(item => prods = prods.concat(item.products));
+        $('.itemsNum').text(`${prods.length}`);
+        $('.keyNum').text(`(${filtersKeyArr.length})`);
+      } else {
+        reset();
+      }
+    });
+
+    // 绑定提交过滤器事件
+    $('.filters_products .apply').click(() => {
+      $('.filters_box').removeClass('showBox');
+      $('.open_filters').addClass('active');
+      apply(filtersKey);
+    });
+
+  });
+
+  function showResultNumber(keys, dataKey) {
+    $('.mob_filter_key .check_box').each(function(index, item) {
+      const keysArr = JSON.parse(JSON.stringify(keys));
+      const keyItem = $(this).attr('data-key');
+      const splitArr = keyItem.split(":");
+
+      if (dataKey && dataKey === splitArr[0]) return;
+
+      let findOne = keysArr.find(i => i.key === splitArr[0]);
+      if (findOne) {
+        findOne.value.push(keyItem);
+      } else {
+        keysArr.push({ key: splitArr[0], value: [keyItem] });
+      };
+      
+      const filtersProds = filtersProducts(keysArr);
+      let prods = [];
+      filtersProds.map(item => prods = prods.concat(item.products));
+      let prodsNumber = prods.length;
+      const $num = $('.num', $(this));
+      if (prodsNumber > 0) {
+        $(this).removeClass('not_allowed');
+        $num.text(`(${prodsNumber})`);
+      } else {
+        $(this).addClass('not_allowed');
+        $(this).removeClass('focus');
+        $num.text('(0)');
+      }
+    });
+  }
+
+  function clickFiltersKey(dom) {
+    const $navItem = dom.parents('.clickNavItem');
+    const keyItem = dom.attr('data-key');
+    const splitArr = keyItem.split(":");
+    Array.prototype.indexOf = function(val) {
+      for (var i = 0; i < this.length; i++) {
+        if (this[i] == val) return i; 
+      }
+      return -1;
+    };
+    Array.prototype.remove = function(val) { 
+      var index = this.indexOf(val); 
+      if (index > -1) { 
+        this.splice(index, 1); 
+      } 
+    };
+    // 获取筛选条件
+    if(!dom.hasClass('focus')) {
+      dom.addClass('focus');
+      let findOne = filtersKey.find(i => i.key === splitArr[0]);
+      if (findOne) {
+        findOne.value.push(keyItem);
+      } else {
+        filtersKey.push({ key: splitArr[0], value: [keyItem] });
+      };
+    } else {
+      dom.removeClass('focus');
+      filtersKey.map(item => {
+        if (item.key === splitArr[0]) item.value.remove(keyItem)
+      });
+    }
+    let filtersKeyArr = [];
+    filtersKey.map(item => filtersKeyArr = filtersKeyArr.concat(item.value));
+    if (filtersKeyArr[0]) {
+      $('.filters_products .reset').removeClass('invalid');
+    } else {
+      $('.filters_products .reset').addClass('invalid');
+    }
+    filterKeyBoxInt();
+    showResultNumber(filtersKey, splitArr[0]);
+  }
+
+  function closeFiltersBox() {
+    $('.filters_box').removeClass('showBox');
+  }
+
+  function showUrlResult() {
+    // 获取url中的filtersKey
+    const filtersKeyQuery = Shopify.theme.custom.GetQueryValue('filtersKeyQuery');
+    if (!filtersKeyQuery) return;
+    
+    // 筛选器样式初始化
+    $('.open_filters').addClass('active');
+    let filtersKeyArr = filtersKeyQuery.split(',');
+    $('.keyNum').text(`(${filtersKeyArr.length})`);
+    $(".clickFilterKey").each(function(index, item) {
+      filtersKeyArr.map(filter => {
+        if(filter == $(this).attr('data-key')) {
+          $(this).addClass('focus');
+        };
+      });
+    });
+    // filtersKey初始化
+    filtersKeyArr.map(item => {
+      const splitArr = item.split(":");
+      let findOne = filtersKey.find(i => i.key === splitArr[0]);
+      if (findOne) {
+        findOne.value.push(item);
+      } else {
+        filtersKey.push({ key: splitArr[0], value: [item] });
+      };
+    });
+    // 过滤结果初始化
+    showResultNumber(filtersKey);
+    if (filtersKeyArr[0]) {
+      $('.filters_products .reset').removeClass('invalid');
+      $('.filters_box').addClass('showBox');
+      apply(filtersKey);
+      filterKeyBoxInt();
+    }
+  }
+
+  function RenderingOptions() {
+    let AllTags = [];
+    {% for item in collection_products %}
+      {% assign tags = collections[item.handle].all_tags %}
+      {% for t in tags %} AllTags.push({{ t | json }}); {% endfor %}
+    {% endfor %}
+    // AllTags去重和切分
+    const subAllTags = unique(AllTags);
+    // 渲染结果
+    subAllTags.map(item => {
+      const keyDom = `<li class="nav_key" data-key="${item.key}" onClick="toggleNav('${item.key}')">${item.key}</li>`;
+      const valueDom = `<ul class="nav_item" data-key="${item.key}"></ul>`;
+      $('.nav_key_box').append(keyDom);
+      $('.nav_item_box').append(valueDom);
+      item.value.map(v => {
+        const valueDomItem = `<li class="filter_key" data-key="${v}">${v}</li>`;
+        $(`.nav_item_box .nav_item[data-key='${item.key}']`).append(valueDomItem);
+      });
+    });
+  }
+
+  function unique(arr){
+    let resultArr = [];
+    let subAllTags = [];
+    arr.map(a => {
+      if (a.includes(': ')) resultArr.push(a);
+    });
+    resultArr = resultArr.reduce((prev,cur) => prev.includes(cur) ? prev : [...prev,cur],[]);
+    for (let i = 0; i < resultArr.length; i++) {
+      let tag = resultArr[i];
+      let splitArr = tag.split(":");
+      let findOne = subAllTags.find((i) => i.key === splitArr[0]);
+      if (findOne) {
+        findOne.value.push(splitArr[1]);
+      } else {
+        subAllTags.push({
+          key: splitArr[0],
+          value: [splitArr[1]]
+        });
+      }
+    };
+    return subAllTags;
+  }
+
+  function filterKeyBoxInt() {
+    $(".nav_item").each(function(index, item) {
+      let num = $(this).find('.filter_key.focus').length;
+      let key = $(this).attr('data-key');
+      if(num > 0) {
+        if ($(`.nav_key[data-key='${key}'] .num`).text()) {
+          $(`.nav_key[data-key='${key}'] .num`).text(num);
+        } else {
+          $(`.nav_key[data-key='${key}']`).append(`<div class='num'>${num}</div>`);
+        }
+      } else {
+        $(`.nav_key[data-key='${key}'] .num`).remove();
+      }
+    });
+  }
+
+  function toggleNav(key) {
+    $('.filters_box .nav_key').removeClass('active');
+    $('.filters_box .nav_key_box').find(`.nav_key[data-key='${key}']`).addClass('active');
+    $('.filters_box .nav_item').removeClass('active');
+    $('.filters_box .nav_item_box').find(`.nav_item[data-key='${key}']`).addClass('active');
+    let $itemBox = $(`.mob_filters_box .item_box[data-key='${key}']`);
+    if ($itemBox.hasClass('active')) {
+      $itemBox.removeClass('active');
+    } else {
+      $itemBox.addClass('active');
+    };
+  }
+
+  function replaceParamVal (paramName, replaceWith) {
+    let filterURL;
+    const oUrl = this.location.href.toString();
+    if (oUrl.indexOf(paramName) > 0) {
+      const reg = new RegExp(paramName + '=[^&]*', 'gi');
+      if (replaceWith === '') {
+        const first = oUrl.indexOf(paramName);
+        const firstval  = oUrl.substring(first-1,first);
+        const filterP = oUrl.match(reg)[0];
+        filterURL = oUrl.replace(firstval + filterP, '');
+      } else {
+        filterURL = oUrl.replace(reg, paramName + '=' + replaceWith);
+      }
+    } else {
+      var hasQuestion = oUrl.indexOf("?");
+      if (hasQuestion > 0) {
+        filterURL = oUrl + "&" + (paramName + '=' + replaceWith);
+      } else {
+        filterURL = oUrl + "?" + (paramName + '=' + replaceWith);
+      }
+    };
+    window.history && window.history.pushState && window.history.pushState("", "", filterURL);
+  }
+
+  function reset() {
+    $('.filtersSpin').addClass('active');
+    // 样式初始化
+    $('.filters_box .mob_filter_key .check_box').removeClass('not_allowed');
+    $('.filters_box .clickFilterKey').removeClass('focus');
+    $('#collection-products .load_more').addClass('hidden');
+    $('.collectionProductsList .FiltersNothingFound').addClass('hidden');
+    $('.filters_products .reset').addClass('invalid');
+    // 数据清空
+    filtersKey = [];
+    showResultNumber(filtersKey);
+    $('.itemsNum').text(`${allProducts.length}`);
+    $('.keyNum').text('(0)');
+    replaceParamVal('filtersKeyArr', '');
+    $('.nav_key .num').remove();
+    $('.filtersSpin').addClass('active');
+    $('#collection-products').removeClass('hidden');
+    $('#collection-products .item').removeClass('hidden');
+    $('#collection-products .prods .prod').removeClass('hidden');
+    setTimeout(function(){
+      $('.filtersSpin').removeClass('active');
+    }, 500);
+  }
+
+  function apply (filtersKey) {
+    $('.filtersSpin').addClass('active');
+    let filtersKeyArr = [];
+    filtersKey.map(item => filtersKeyArr = filtersKeyArr.concat(item.value));
+    if(filtersKeyArr[0]) {
+      // 获取符合过滤条件的 总数据集合 filtersCollectionsPros
+      let filtersCollectionsPros = filtersProducts(filtersKey);
+      // 将符合过滤条件的商品显示出来
+      showResult(filtersCollectionsPros);
+      // 渲染url
+      let urlKey = filtersKeyArr.join(',');
+      replaceParamVal('filtersKeyArr', encodeURI(urlKey));
+    } else {
+      reset();
+    }
+    setTimeout(function(){
+      $('.filtersSpin').removeClass('active');
+    }, 500);
+  }
+
+  function filtersProducts(keyArr) {
+    let productsArr = JSON.parse(JSON.stringify(allCollectionsPros));
+    allCollectionsPros.map((item, index) => {
+      let filtersProds = [];
+      item.products.map(pro => {
+        let filtersPro = true;
+        let filtersArr = [];
+        for(let i=0; i < keyArr.length; i++) {
+          let keyPro = false;
+          if (keyArr[i].value && keyArr[i].value.length > 0) {
+            keyArr[i].value.map(v => {
+              if(pro.tags.indexOf(v) > -1) {
+                keyPro = true;
+              }
+            })
+          } else { keyPro = true; }
+          filtersArr.push(keyPro);
+        }
+        filtersArr.map(a => { if(!a) filtersPro = false });
+        // 若所有key在商品的tags池里面都能找到，取出这个商品
+        if(filtersPro) filtersProds.push(pro);
+      });
+      productsArr[index].products = filtersProds;
+    });
+    return productsArr;
+  }
+
+  function showResult (products) {
+    let prods = [];
+    // 将loadMore按钮隐藏
+    $('#collection-products .load_more').addClass('hidden');
+    products.map(item => {
+      if(!item.products[0]) {
+        // 将没有商品的品类隐藏
+        $('#collection-products').find(`.item[data-handle=${item.handle}]`).addClass('hidden');
+      } else {
+        prods = prods.concat(item.products);
+        $('#collection-products').find(`.item[data-handle=${item.handle}]`).removeClass('hidden');
+        // 将有商品的二级品类下面的商品先隐藏
+        $(`#collection-products .item[data-handle=${item.handle}] .prods .prod`).addClass('hidden');
+        // 将符合条件的商品显示
+        item.products.map(i => {
+          $('#collection-products .prods').find(`.prod[data-handle=${i.handle}]`).removeClass('hidden');
+        });
+      }
+    });
+    $('.itemsNum').text(`${prods.length}`);
+    let NothingFound = true;
+    $('#collection-products .item').each(function(index, item) {
+      if (!$(this).hasClass('hidden')) NothingFound = false;
+    });
+    if ($('.FiltersNothingFound').length > 0) {
+      NothingFound && $('.collectionProductsList .FiltersNothingFound').removeClass('hidden');
+      !NothingFound &&  $('.collectionProductsList .FiltersNothingFound').addClass('hidden');
+    } else {
+      NothingFound && $('.collectionProductsList').append("<div class='FiltersNothingFound'>{{ filtersData.nothing }}</div>");
+    }
+  }
+</script>

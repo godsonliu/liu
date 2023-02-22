@@ -1,0 +1,108 @@
+{% if template contains 'page' %}
+  {% if page.metafields['global']['rotation'].value %}
+    {% assign rotation = page.metafields['global']['rotation'].value %}
+  {% else %}
+    {% assign rotation = page.metafields['global']['rotation'] %}
+  {% endif %}
+{% else %}
+  {% if product.metafields['global']['rotation'].value %}
+    {% assign rotation = product.metafields['global']['rotation'].value %}
+  {% else %}
+    {% assign rotation = product.metafields['global']['rotation'] %}
+  {% endif %}
+{% endif %}
+
+<section class="smartScale-7">
+  <div class="box-container">
+    <div class="rotate_content rotate_content_pc is-hidden-mobile-only">
+      <button class="slick-prev slick-arrow slick-prev-pc" aria-label="Previous" type="button"><i class="iconfont">&#xe6bd;</i></button>
+      <div class="rotate_images rotate_images_pc">
+        {% for item in rotation.rotation-list_pc %}
+          <div class="lb_all">
+            <div class="lb_txtContent">
+              <h class="title">{{ item.title }}</h>
+              <p class="desc">{{ item.desc }}</p>
+            </div>
+            <div class="lb_img">
+              <img class="lazyload" data-src="{{ item.img_pc }}" alt=""/>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      <button class="slick-next slick-arrow slick-next-pc" aria-label="Next" type="button"><i class="iconfont">&#xe6bc;</i></button>
+    </div>
+    <div class="rotate_content rotate_content_mob is-hidden-desktop-only">
+      <button class="slick-prev slick-arrow slick-prev-mob" aria-label="Previous" type="button"><i class="iconfont">&#xe6bd;</i></button>
+      <div class="rotate_images rotate_images_mob">
+        {% for item in rotation.rotation-list_mob %}
+          <div class="lb_all">
+            <div class="lb_img">
+              <img class="lazyload" data-src="{{ item.img_mob }}" alt=""/>
+            </div>
+            <div class="btn-box"></div>
+          </div>
+        {% endfor %}
+      </div>
+      <button class="slick-next slick-arrow slick-next-mob" aria-label="Next" type="button"><i class="iconfont">&#xe6bc;</i></button>
+    </div>
+    <div class="txt is-hidden-desktop-only">
+      {% for item in rotation.rotation-list_mob %}
+        <div class="lb_txtContent-mob lb_txtContent-{{forloop.index0}}" data-index="{{ forloop.index0 }}">
+          <h class="title">{{ item.title }}</h>
+          <p class="desc">{{ item.desc }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "SmartScaleP2 Pro Rotation",
+  "presets": [
+    {
+      "category": "SmartScale P2 Pro Rotation Sections",
+      "name": "SmartScaleP2 Pro Rotation"
+    }
+  ],
+  "settings": []
+}
+{% endschema %}
+
+<script>
+  $(function() {
+    $(".rotate_images_pc").slick({
+      dots: true,
+      autoplay:true,
+      infinite: true,
+      slidesToShow:1,
+      lazyLoad: 'ondemand',
+      speed: 500,
+      easing: 'linear',
+      prevArrow: $('.slick-prev-pc'),
+      nextArrow: $('.slick-next-pc'),
+    });
+    $(".rotate_images_mob").slick({
+      dots: true,
+      autoplay:true,
+      infinite: true,
+      centerMode: true,
+      centerPadding: '60px',
+      slidesToShow: 1,
+      lazyLoad: 'ondemand',
+      speed: 500,
+      easing: 'linear',
+      prevArrow: $('.slick-prev-mob'),
+      nextArrow: $('.slick-next-mob')
+    });
+
+    const width = window.innerWidth;
+    if(width < 769){
+      $('.rotate_images_mob').on('beforeChange', function(event, slick, currentSlide, nextSlide){
+      $('.smartScale-7 .box-container .lb_txtContent-mob').css('opacity', '0');
+      $(`.smartScale-7 .box-container .lb_txtContent-mob[data-index=${nextSlide}]`).css('opacity', '1');
+    });
+    }
+
+  })
+</script>

@@ -1,0 +1,2858 @@
+{% assign lang = page.metafields.global %}
+
+{% assign list1 = lang.prod.list1 %}
+{% assign list2 = lang.prod.list2 %}
+
+
+<div class="banner_1 pc_show">
+    <div class="banner_1_img">
+        <img class="lazyload" data-src="{{ section.settings.banner_1_img | img_url: '' }}" alt="">
+    </div>
+    <div class="banner_1_wz">
+        <p class="p1">{{ section.settings.p1 }}</p>
+        <p class="p2">{{ section.settings.p2 }}</p>
+        <a class="btn" href="#jg_all" aria-label="{{ section.settings.btn_txt }}">{{ section.settings.btn_txt }}</a>
+    </div>
+</div>
+<div class="banner_2_mobile mob_show">
+    <div class="banner_2_bg">
+        <img class="lazyload" data-src="{{ section.settings.banner_2_bg_mob | img_url: '' }}" alt="">
+    </div>
+    <div class="banner_2_contain">
+        <div class="banner_2_p1">
+            {{ section.settings.banner_2_p1 }}
+            
+        </div>
+        <div class="banner_2_p2">{{ section.settings.banner_2_p2 }}</div>
+        <a class="banner_2_btn" href="#comparePlans" aria-label="{{ section.settings.btn_txt }}">{{ section.settings.btn_txt }}</a>
+        <div class="banner_2_p3">
+            <div class="tb_1">
+                <div class="tb_1_img">
+                    <img class="lazyload" data-src="{{ section.settings.tubiao_1 | img_url: '' }}" alt="">
+                </div>
+                <div class="tb_p1">{{ section.settings.tubiao_p_1 }}</div>
+            </div>
+            <div class="tb_2">
+                <div class="tb_2_img">
+                    <img class="lazyload" data-src="{{ section.settings.tubiao_2 | img_url: '' }}" alt="">
+                </div>
+                <div class="tb_p1">{{ section.settings.tubiao_p_2 }}</div>
+            </div>
+            
+            <div class="tb_3">
+                <div class="tb_3_img">
+                    <img class="lazyload" data-src="{{ section.settings.tubiao_3 | img_url: '' }}" alt="">
+                </div>
+                <div class="tb_p1">{{ section.settings.tubiao_p_3 }}</div>
+            </div>
+            <div class="tb_4">
+                <div class="tb_3_img">
+                    <img class="lazyload" data-src="{{ section.settings.tubiao_4 | img_url: '' }}" alt="">
+                </div>
+                <div class="tb_p1">{{ section.settings.tubiao_p_4 }}</div>
+            </div>
+            <div class="tb_5">
+                <div class="tb_3_img">
+                    <img class="lazyload" data-src="{{ section.settings.tubiao_5 | img_url: '' }}" alt="">
+                </div>
+                <div class="tb_p1">{{ section.settings.tubiao_p_5 }}</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="banner_protector is-hidden-mobile-only">
+  <h2 class="title">{{ section.settings.protector_title }}</h2>
+  <div class="blocks">
+    <div class="block block_1">
+      <div class="block_icon">
+        <img class="lazyload" data-src="{{ section.settings.protector_block_1_icon }}" alt="">
+      </div>
+      <div class="block_title">{{ section.settings.protector_block_1_title }}</div>
+      <div class="block_desc">{{ section.settings.protector_block_1_desc }}</div>
+    </div>
+    <div class="block block_2">
+      <div class="block_icon">
+        <img class="lazyload" data-src="{{ section.settings.protector_block_2_icon }}" alt="">
+      </div>
+      <div class="block_title">{{ section.settings.protector_block_2_title }}</div>
+      <div class="block_desc">{{ section.settings.protector_block_2_desc }}</div>
+    </div>
+    <div class="block block_3">
+      <div class="block_icon">
+        <img class="lazyload" data-src="{{ section.settings.protector_block_3_icon }}" alt="">
+      </div>
+      <div class="block_title">{{ section.settings.protector_block_3_title }}</div>
+      <div class="block_desc">{{ section.settings.protector_block_3_desc }}</div>
+    </div>
+  </div>
+</div>
+<div class="wz_xz mob_show">
+    <p class="wz_xz_p1">{{ section.settings.wz_xz_p1 }}</p>
+    <p class="wz_xz_p2">
+        {{ section.settings.wz_xz_p2 }}
+        
+    </p>
+</div>
+<div class="choose_new mob_show">
+    <div class="choose_p1">
+        {{ section.settings.choose_p1 }}
+        
+    </div>
+    <div class="choose_p2">
+        {{ section.settings.choose_p2 }}
+        
+    </div>
+    <div class="choose_p3">
+        <div class="ch_p1">
+            {{ section.settings.ch_p1 }}
+            {% if section.settings.ch_span_1 %}
+                <span class="ch_span_1">{{ section.settings.ch_span_1_p }}</span>
+            {% endif %}
+        </div>
+        <div class="ch_p2">
+            {{ section.settings.ch_p2 }}
+            
+        </div>
+        <div class="ch_p3">
+            {{ section.settings.ch_p3 }}
+            
+        </div>
+        <a class="ch_btn" href="{{ section.settings.btn_1_left }}" aria-label="{{ section.settings.ch_btn_1 }}">{{ section.settings.ch_btn_1 }}</a>
+    </div>
+    <div class="choose_p4">
+        <div class="ch_p1">
+            {{ section.settings.ch_p1_2 }}
+            {% if section.settings.ch_span_1 %}
+                <span class="ch_span_1">{{ section.settings.ch_span_1_p }}</span>
+            {% endif %}
+            {% if section.settings.ch_span_2%}
+                <span class="ch_span_2">
+                    <div class="xingxing">
+                        <img class="lazyload" data-src="{{ section.settings.xingxing | img_url: '' }}" alt="">
+                    </div>
+                    {{ section.settings.ch_span_2_p }}
+                    
+                </span>
+            {% endif %}
+        </div>
+        <div class="ch_p2">
+            {{ section.settings.ch_p2_2 }}
+            
+        </div>
+        <div class="ch_p3">
+            {{ section.settings.ch_p3_2 }}
+            
+        </div>
+        <a class="ch_btn" href="{{ section.settings.btn_1_left }}"  aria-label="{{ section.settings.ch_btn_2 }}">{{ section.settings.ch_btn_2 }}</a>
+    </div>
+</div>
+<div class="comparePlans mob_show">
+  <div id="comparePlans"></div>
+  <div class="bg_p1">{{ section.settings.bg_p1 }}</div>
+  <div class="comparePlans_table">
+    <table style="width: 100%;">
+      <tr>
+        <th class="column-1">{{ section.settings.ul_1_top_1 }}</th>
+        <th>{{ section.settings.ul_2_p2_mob }}</th>
+        <th>{{ section.settings.ul_3_p2_mob }}</th>
+        <th>{{ section.settings.ul_4_p2_mob }}</th>
+      </tr>
+      <tr>
+        <td>{{ section.settings.ul_1_1 }}
+          {% if section.settings.ul_1_p1 and section.settings.ul_1_p1 != '' %}
+            <div class="xtb_1 xtb_block">
+              <img class="lazyload" data-src="{{ section.settings.wenhao | img_url: '' }}" alt=""> 
+              <div class="pop zs_1">
+                <div class="arrow"></div>
+                <p class="zs_p">{{ section.settings.ul_1_p1 }}</p>
+              </div>
+            </div>
+          {% endif %}
+        </td>
+        <td><img style="width:4vw;" class="lazyload" data-src="{{ section.settings.gou_mob | img_url: '' }}" alt="selected"></td>
+        <td><img style="width:3vw;" class="lazyload" data-src="{{ section.settings.cha_mob | img_url: '' }}" alt=""></td>
+        <td><img style="width:3vw;" class="lazyload" data-src="{{ section.settings.cha_mob | img_url: '' }}" alt=""></td>
+      </tr>
+      <tr>
+        <td>{{ section.settings.ul_1_2 }}
+          {% if section.settings.ul_1_p2 and section.settings.ul_1_p2 != '' %}
+            <div class="xtb_2 xtb_block">
+              <img class="lazyload" data-src="{{ section.settings.wenhao | img_url: '' }}"> 
+              <div class="pop zs_2">
+                <div class="arrow"></div>
+                <p class="zs_p">{{ section.settings.ul_1_p2 }}</p>
+              </div>
+            </div>
+          {% endif %}
+        </td>
+        <td><img style="width:4vw;" class="lazyload" data-src="{{ section.settings.gou_mob | img_url: '' }}" alt="selected"></td>
+        <td><img style="width:3vw;" class="lazyload" data-src="{{ section.settings.cha_mob | img_url: '' }}" alt=""></td>
+        <td><img style="width:3vw;" class="lazyload" data-src="{{ section.settings.cha_mob | img_url: '' }}" alt=""></td>
+      </tr>
+      <tr>
+        <td>{{ section.settings.ul_1_3 }}
+          {% if section.settings.ul_1_p3 and section.settings.ul_1_p3 != '' %}
+            <div class="xtb_3 xtb_block">
+              <img class="lazyload" data-src="{{ section.settings.wenhao | img_url: '' }}" alt=""> 
+              <div class="pop zs_3">
+                <div class="arrow"></div>
+                <p class="zs_p">{{ section.settings.ul_1_p3 }}</p>
+              </div>
+            </div>
+          {% endif %}
+        </td>
+        <td>
+          <img style="width:4vw;" class="lazyload" data-src="{{ section.settings.gou_mob | img_url: '' }}" alt="selected">
+        </td>
+        <td><img style="width:3vw;" class="lazyload" data-src="{{ section.settings.cha_mob | img_url: '' }}" alt=""></td>
+        <td><img style="width:3vw;" class="lazyload" data-src="{{ section.settings.cha_mob | img_url: '' }}" alt=""></td>
+      </tr>
+      <tr>
+        <td>{{ section.settings.ul_1_4 }}
+          {% if section.settings.ul_1_p4 and section.settings.ul_1_p4 != '' %}
+            <div class="xtb_4 xtb_block">
+              <img class="lazyload" data-src="{{ section.settings.wenhao | img_url: '' }}"> 
+              <div class="pop zs_4">
+                <div class="arrow"></div>
+                <p class="zs_p">{{ section.settings.ul_1_p4 }}</p>
+              </div>
+            </div>
+          {% endif %}
+        </td>
+        <td><img style="width:4vw;" class="lazyload" data-src="{{ section.settings.gou_mob | img_url: '' }}" alt="selected"></td>
+        <td><img style="width:3vw;" class="lazyload" data-src="{{ section.settings.cha_mob | img_url: '' }}" alt=""></td>
+        <td><img style="width:3vw;" class="lazyload" data-src="{{ section.settings.cha_mob | img_url: '' }}" alt=""></td>
+      </tr>
+      <tr>
+        <td>{{ section.settings.ul_1_5 }}
+          {% if section.settings.ul_1_p5 and section.settings.ul_1_p5 != '' %}
+            <div class="xtb_5 xtb_block">
+              <img class="lazyload" data-src="{{ section.settings.wenhao | img_url: '' }}" alt=""> 
+              <div class="pop zs_5">
+                <div class="arrow"></div>
+                <p class="zs_p">{{ section.settings.ul_1_p5 }}</p>
+              </div>
+            </div>
+          {% endif %}
+        </td>
+        <td><img style="width:4vw;" class="lazyload" data-src="{{ section.settings.gou_mob | img_url: '' }}" alt="selected"></td>
+        <td><img style="width:3vw;" class="lazyload" data-src="{{ section.settings.cha_mob | img_url: '' }}" alt=""></td>
+        <td><img style="width:3vw;" class="lazyload" data-src="{{ section.settings.cha_mob | img_url: '' }}" alt=""></td>
+      </tr>
+      <tr>
+        <td>{{ section.settings.ul_1_6 }}
+          {% if section.settings.ul_1_p6 and section.settings.ul_1_p6 != '' %}
+            <div class="xtb_6 xtb_block">
+              <img class="lazyload" data-src="{{ section.settings.wenhao | img_url: '' }}" alt=""> 
+              <div class="pop zs_6">
+                <div class="arrow"></div>
+                <p class="zs_p">{{ section.settings.ul_1_p6 }}</p>
+              </div>
+            </div>
+          {% endif %}
+        </td>
+        <td><img style="width:4vw;" class="lazyload" data-src="{{ section.settings.gou_mob | img_url: '' }}" alt="selected"></td>
+        <td><img style="width:4vw;" class="lazyload" data-src="{{ section.settings.gou_mob | img_url: '' }}" alt="selected"></td>
+        <td><img style="width:3vw;" class="lazyload" data-src="{{ section.settings.cha_mob | img_url: '' }}" alt=""></td>
+      </tr>
+      <tr>
+        <td>{{ section.settings.ul_1_7 }}
+          {% if section.settings.ul_1_p7 and section.settings.ul_1_p7 != '' %}
+          <div class="xtb_7 xtb_block">
+            <img class="lazyload" data-src="{{ section.settings.wenhao | img_url: '' }}" alt=""> 
+            <div class="pop zs_7">
+              <div class="arrow"></div>
+              <p class="zs_p">{{ section.settings.ul_1_p7 }}</p>
+            </div>
+          </div>
+        {% endif %}
+        </td>
+        <td><img style="width:4vw;" class="lazyload" data-src="{{ section.settings.gou_mob | img_url: '' }}" alt="selected"></td>
+        <td><img style="width:4vw;" class="lazyload" data-src="{{ section.settings.gou_mob | img_url: '' }}" alt="selected"></td>
+        <td><img style="width:3vw;" class="lazyload" data-src="{{ section.settings.cha_mob | img_url: '' }}" alt=""></td>
+      </tr>
+      <tr>
+        <td>{{ section.settings.ul_1_8 }}
+          {% if section.settings.ul_1_p8 and section.settings.ul_1_p8 != '' %}
+          <div class="xtb_8 xtb_block">
+            <img class="lazyload" data-src="{{ section.settings.wenhao | img_url: '' }}" alt=""> 
+            <div class="pop zs_8">
+              <div class="arrow"></div>
+              <p class="zs_p">{{ section.settings.ul_1_p8 }}</p>
+            </div>
+          </div>
+        {% endif %}
+        </td>
+        <td><img style="width:4vw;" class="lazyload" data-src="{{ section.settings.gou_mob | img_url: '' }}" alt="selected"></td>
+        <td><img style="width:4vw;" class="lazyload" data-src="{{ section.settings.gou_mob | img_url: '' }}" alt="selected"></td>
+        <td><img style="width:3vw;" class="lazyload" data-src="{{ section.settings.cha_mob | img_url: '' }}" alt=""></td>
+      </tr>
+      <tr>
+        <td>{{ section.settings.ul_1_9 }}
+          {% if section.settings.ul_1_p9 and section.settings.ul_1_p9 != '' %}
+          <div class="xtb_9 xtb_block">
+            <img class="lazyload" data-src="{{ section.settings.wenhao | img_url: '' }}" alt=""> 
+            <div class="pop zs_9">
+              <div class="arrow"></div>
+              <p class="zs_p">{{ section.settings.ul_1_p9 }}</p>
+            </div>
+          </div>
+        {% endif %}
+        </td>
+        <td><img style="width:4vw;" class="lazyload" data-src="{{ section.settings.gou_mob | img_url: '' }}" alt="selected"></td>
+        <td><img style="width:4vw;" class="lazyload" data-src="{{ section.settings.gou_mob | img_url: '' }}" alt="selected"></td>
+        <td><img style="width:3vw;" class="lazyload" data-src="{{ section.settings.cha_mob | img_url: '' }}" alt=""></td>
+      </tr>
+    </table>
+  </div>
+</div>
+<div class="banner_protector is-hidden-desktop-only">
+  <h2 class="title">{{ section.settings.protector_title }}</h2>
+  <div class="blocks">
+    <div class="block block_1">
+      <div class="block_icon">
+        <img class="lazyload" data-src="{{ section.settings.protector_block_1_icon }}" alt="">
+      </div>
+      <div class="block_txt">
+        <div class="block_title">{{ section.settings.protector_block_1_title }}</div>
+        <div class="block_desc">{{ section.settings.protector_block_1_desc }}</div>
+      </div>
+    </div>
+    <div class="block block_2">
+      <div class="block_icon">
+        <img class="lazyload" data-src="{{ section.settings.protector_block_2_icon }}" alt="">
+      </div>
+      <div class="block_txt">
+        <div class="block_title">{{ section.settings.protector_block_2_title }}</div>
+        <div class="block_desc">{{ section.settings.protector_block_2_desc }}</div>
+      </div>
+    </div>
+    <div class="block block_3">
+      <div class="block_icon">
+        <img class="lazyload" data-src="{{ section.settings.protector_block_3_icon }}" alt="">
+      </div>
+      <div class="block_txt">
+        <div class="block_title">{{ section.settings.protector_block_3_title }}</div>
+        <div class="block_desc">{{ section.settings.protector_block_3_desc }}</div></div>
+    </div>
+  </div>
+</div>
+<div class="jg_all pc_show">
+  <div id="jg_all"></div>
+  <div class="jg_contain">
+    <div class="jg_bt">
+      {{ section.settings.jg_bt1 }}
+    </div>
+    <div class="jg_bg">
+      <ul class="ul_1">
+        <li class="ul_1_top"><span style="opacity: 0;">{{ section.settings.ul_1_top_2 }}</span></li>
+          <li>{{ section.settings.ul_1_1 }}
+            {% if section.settings.ul_1_p1 and section.settings.ul_1_p1 != '' %}
+              <div class="xtb_1 xtb_block">
+                <img class="lazyload" data-src="{{ section.settings.wenhao | img_url: '' }}" alt="">
+              </div>
+              <div class="zs_1">
+                <div class="zs_img">
+                  <img class="lazyload" data-src="{{ section.settings.zs_xtb | img_url: '' }}" alt="">
+                </div>
+                <p class="zs_1_p">{{ section.settings.ul_1_p1 }}</p>
+              </div>
+            {% endif %}
+          </li>
+          <li>{{ section.settings.ul_1_2 }}
+            {% if section.settings.ul_1_p2 and section.settings.ul_1_p2 != '' %}
+              <div class="xtb_2 xtb_block">
+                <img class="lazyload" data-src="{{ section.settings.wenhao | img_url: '' }}" alt="">
+              </div>
+              <div class="zs_2">
+                <div class="zs_img">
+                  <img class="lazyload" data-src="{{ section.settings.zs_xtb | img_url: '' }}" alt="">
+                </div>
+                <p class="zs_1_p">{{ section.settings.ul_1_p2 }}</p>
+              </div>
+            {% endif %}
+          </li>
+          <li>{{ section.settings.ul_1_3 }}  
+            {% if section.settings.ul_1_p3 and section.settings.ul_1_p3 != '' %}          
+            <div class="xtb_3 xtb_block">
+              <img class="lazyload" data-src="{{ section.settings.wenhao | img_url: '' }}" alt="">
+            </div>
+            <div class="zs_3">
+              <div class="zs_img">
+                <img class="lazyload" data-src="{{ section.settings.zs_xtb | img_url: '' }}" alt="">
+              </div>
+              <p class="zs_1_p">{{ section.settings.ul_1_p3 }}</p>
+            </div>
+            {% endif %}
+          </li>
+          <li>{{ section.settings.ul_1_4 }}
+            {% if section.settings.ul_1_p4 and section.settings.ul_1_p4 != '' %}          
+            <div class="xtb_4 xtb_block">
+              <img class="lazyload" data-src="{{ section.settings.wenhao | img_url: '' }}" alt="">
+            </div>
+            <div class="zs_4">
+              <div class="zs_img">
+                <img class="lazyload" data-src="{{ section.settings.zs_xtb | img_url: '' }}" alt="">
+              </div>
+              <p class="zs_1_p">{{ section.settings.ul_1_p4 }}</p>
+            </div>
+            {% endif %}
+          </li>
+          <li>{{ section.settings.ul_1_5 }}
+            {% if section.settings.ul_1_p5 and section.settings.ul_1_p5 != '' %}          
+            <div class="xtb_5 xtb_block">
+              <img class="lazyload" data-src="{{ section.settings.wenhao | img_url: '' }}" alt="">
+            </div>
+            <div class="zs_5">
+              <div class="zs_img">
+                <img class="lazyload" data-src="{{ section.settings.zs_xtb | img_url: '' }}" alt="">
+              </div>
+              <p class="zs_1_p">{{ section.settings.ul_1_p5 }}</p>
+            </div>
+            {% endif %}
+          </li>
+          <li>{{ section.settings.ul_1_6 }}
+            {% if section.settings.ul_1_p6 and section.settings.ul_1_p6 != '' %}          
+            <div class="xtb_6 xtb_block">
+              <img class="lazyload" data-src="{{ section.settings.wenhao | img_url: '' }}" alt="">
+            </div>
+            <div class="zs_6">
+              <div class="zs_img">
+                <img class="lazyload" data-src="{{ section.settings.zs_xtb | img_url: '' }}" alt="">
+              </div>
+              <p class="zs_1_p">{{ section.settings.ul_1_p6 }}</p>
+            </div>
+            {% endif %}
+          </li>
+          <li>{{ section.settings.ul_1_7 }}
+            {% if section.settings.ul_1_p7 and section.settings.ul_1_p7 != '' %}          
+            <div class="xtb_7 xtb_block">
+              <img class="lazyload" data-src="{{ section.settings.wenhao | img_url: '' }}" alt="">
+            </div>
+            <div class="zs_7">
+              <div class="zs_img">
+                <img class="lazyload" data-src="{{ section.settings.zs_xtb | img_url: '' }}" alt="">
+              </div>
+              <p class="zs_1_p">{{ section.settings.ul_1_p7 }}</p>
+            </div>
+            {% endif %}
+          </li>
+          <li>{{ section.settings.ul_1_8 }}
+            {% if section.settings.ul_1_p8 and section.settings.ul_1_p8 != '' %}          
+            <div class="xtb_8 xtb_block">
+              <img class="lazyload" data-src="{{ section.settings.wenhao | img_url: '' }}" alt="">
+            </div>
+            <div class="zs_8">
+              <div class="zs_img"> 
+                <img class="lazyload" data-src="{{ section.settings.zs_xtb | img_url: '' }}" alt="">
+              </div>
+              <p class="zs_1_p">{{ section.settings.ul_1_p8 }}</p>
+            </div>
+            {% endif %}
+          </li>
+          <li>{{ section.settings.ul_1_9 }}
+            {% if section.settings.ul_1_p9 and section.settings.ul_1_p9 != '' %}          
+            <div class="xtb_9 xtb_block">
+              <img class="lazyload" data-src="{{ section.settings.wenhao | img_url: '' }}" alt="">
+            </div>
+            <div class="zs_9">
+              <div class="zs_img">
+                <img class="lazyload" data-src="{{ section.settings.zs_xtb | img_url: '' }}" alt="">
+              </div>
+              <p class="zs_1_p">{{ section.settings.ul_1_p9 }}</p>
+            </div>
+            {% endif %}
+          </li>
+          <li class="ul_1_bottom"><span style="opacity: 0;">222</span></li>
+      </ul>
+      <ul class="ul_2">
+        <li class="ul_2_top">
+          <p class="ul_2_p1">{{ section.settings.ul_2_p1 }}</p>
+          <p class="ul_2_p2">{{ section.settings.ul_2_p2 }}</p>
+        </li>
+        <!-- <li>
+          <div class="ul_2_g">
+            <img class="lazyload" data-src="{{ section.settings.gou_1 | img_url: '' }}">
+          </div>
+        </li>
+        <li>
+          <div class="ul_2_g">
+            <img class="lazyload" data-src="{{ section.settings.gou_1 | img_url: '' }}">
+          </div>
+        </li> -->
+        <li> </li>
+        <li> </li>
+        <li> </li>
+        <li> </li>
+        <li> </li>
+        <li> </li>
+        <li> </li>
+        <li> </li>
+        <li> </li>
+        <li class="ul_2_bottom"> <span style="opacity: 0;">111</span></li>
+      </ul>
+      <ul class="ul_3" style="display: inline-block;">
+        <li class="ul_3_top">
+          <div class="ul_3_p1">
+              <p class="ul_3_p2">
+                  {{ section.settings.ul_3_p2_1 }}
+                  {% if section.settings.ch_span_1 %}
+                      <span>{{ section.settings.ch_span_1_p }}</span>
+                  {% endif %}
+              </p>
+              <p class="ul_3_p3">{{ section.settings.ch_p3 }}</p>
+          </div>
+          </li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li>
+            <img class="lazyload" data-src="{{ section.settings.gou_2 | img_url: '' }}" alt="">
+          </li>
+          <li>
+            <img class="lazyload" data-src="{{ section.settings.gou_2 | img_url: '' }}" alt="">
+          </li>
+          <li>
+            <img class="lazyload" data-src="{{ section.settings.gou_2 | img_url: '' }}" alt="">
+          </li>
+          <li>
+            <img class="lazyload" data-src="{{ section.settings.gou_2 | img_url: '' }}" alt="">
+          </li>
+          <li class="ul_3_bottom">
+              <a class="btn_1" href="{{ section.settings.btn_1_left }}" target="_blank" rel="noopener noreferrer" aria-label="{{ section.settings.Subscribe }}">{{ section.settings.Subscribe }}</a>
+          </li>
+      </ul>
+      <ul class="ul_3_tab" style="display: none;">
+          <li class="ul_3_top">
+              <div class="ul_3_p1">
+                  
+                  <p class="ul_3_p2">
+                      {{ section.settings.ul_3_p2_1 }}
+                      {% if section.settings.ch_span_1 %}
+                          <span>{{ section.settings.ch_span_1_p }}</span>
+                      {% endif %}
+                  </p>
+                  <p class="ul_3_p3">
+                      {{ section.settings.ch_p3 }}
+                  </p>
+              </div>
+              
+          </li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li>
+            <img class="lazyload" data-src="{{ section.settings.gou_3 | img_url: '' }}" alt="">
+          </li>
+          <li>
+            <img class="lazyload" data-src="{{ section.settings.gou_3 | img_url: '' }}" alt="">
+          </li>
+          <li>
+            <img class="lazyload" data-src="{{ section.settings.gou_3 | img_url: '' }}" alt="">
+          </li>
+          <li>
+            <img class="lazyload" data-src="{{ section.settings.gou_3 | img_url: '' }}" alt="">
+          </li>
+          <li class="ul_3_bottom">
+              <a class="btn_1" href="{{ section.settings.btn_1_left }}" target="_blank" rel="noopener noreferrer" aria-label="{{ section.settings.Subscribe }}">{{ section.settings.Subscribe }}</a>
+          </li>
+      </ul>
+      <ul class="ul_4" style="display: none;">
+          <li class="ul_4_top">
+              <div class="ul_4_p1">
+                  <div class="xingxing">
+                      <img class="lazyload" data-src="{{ section.settings.xingxing_a | img_url: '' }}" alt="">
+                  </div>
+                  <p class="ul_4_p2">
+                      {{ section.settings.ul_3_p2_2 }}
+                      {% if section.settings.ch_span_1 %}
+                          <span>{{ section.settings.ch_span_1_p }}</span>
+                      {% endif %}
+                  </p>
+                  <p class="ul_4_p3">
+                      {{ section.settings.ch_p3_2 }}</span>
+                      
+                  </p>
+              </div>
+          </li>
+          <li>
+              <img class="lazyload" data-src="{{ section.settings.gou_2 | img_url: '' }}" alt="">
+          </li>
+          <li>
+              <img class="lazyload" data-src="{{ section.settings.gou_2 | img_url: '' }}" alt="">
+          </li>
+          <li>
+              <img class="lazyload" data-src="{{ section.settings.gou_2 | img_url: '' }}" alt="">
+          </li>
+          <li>
+              <img class="lazyload" data-src="{{ section.settings.gou_2 | img_url: '' }}" alt="">
+          </li>
+          <li>
+            <img class="lazyload" data-src="{{ section.settings.gou_2 | img_url: '' }}" alt="">
+          </li>
+          <li>
+            <img class="lazyload" data-src="{{ section.settings.gou_2 | img_url: '' }}" alt="">
+          </li>
+          <li>
+            <img class="lazyload" data-src="{{ section.settings.gou_2 | img_url: '' }}" alt="">
+          </li>
+          <li>
+            <img class="lazyload" data-src="{{ section.settings.gou_2 | img_url: '' }}" alt="">
+          </li>
+          <li>
+            <img class="lazyload" data-src="{{ section.settings.gou_2 | img_url: '' }}" alt="">
+          </li>
+          <li class="ul_4_bottom">
+              <a class="btn_1" href="{{ section.settings.btn_1_right }}" target="_blank" rel="noopener noreferrer" aria-label="{{ section.settings.Subscribe }}">{{ section.settings.Subscribe }}</a>
+          </li>
+      </ul>
+      <ul class="ul_4_tab" style="display: inline-block;">
+          <li class="ul_4_top">
+              <div class="ul_4_p1">
+                  <div class="xingxing">
+                      <img class="lazyload" data-src="{{ section.settings.xingxing | img_url: '' }}" alt="">
+                  </div>
+                  <p class="ul_4_p2">
+                      {{ section.settings.ul_3_p2_2 }}
+                      {% if section.settings.ch_span_1 %}
+                          <span>{{ section.settings.ch_span_1_p }}</span>
+                      {% endif %}
+                  </p>
+                  <p class="ul_4_p3">
+                      {{ section.settings.ch_p3_2 }}</span>
+                  </p>
+              </div>
+          </li>
+          <li>
+              <img class="lazyload" data-src="{{ section.settings.gou_3 | img_url: '' }}" alt="">
+          </li>
+          <li>
+              <img class="lazyload" data-src="{{ section.settings.gou_3 | img_url: '' }}" alt="">
+          </li>
+          <li>
+              <img class="lazyload" data-src="{{ section.settings.gou_3 | img_url: '' }}" alt="">
+          </li>
+          <li>
+              <img class="lazyload" data-src="{{ section.settings.gou_3 | img_url: '' }}" alt="">
+          </li>
+          <li>
+              <img class="lazyload" data-src="{{ section.settings.gou_3 | img_url: '' }}" alt="">
+          </li>
+          <li>
+            <img class="lazyload" data-src="{{ section.settings.gou_3 | img_url: '' }}" alt="">
+          </li>
+          <li>
+            <img class="lazyload" data-src="{{ section.settings.gou_3 | img_url: '' }}" alt="">
+          </li>
+          <li>
+            <img class="lazyload" data-src="{{ section.settings.gou_3 | img_url: '' }}" alt="">
+          </li>
+          <li>
+            <img class="lazyload" data-src="{{ section.settings.gou_3 | img_url: '' }}" alt="">
+          </li>
+          <li class="ul_4_bottom">
+              <a class="btn_1" href="{{ section.settings.btn_1_right }}" target="_blank" rel="noopener noreferrer" aria-label="{{ section.settings.Subscribe }}">{{ section.settings.Subscribe }}</a>
+          </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="qh_tab_p_new mob_show" id="qh_tab_all">{{ section.settings.qh_tab_p_new }}
+  <div id="anker_id"></div>
+</div>
+<div style="width:100%;height:10vh;background-color:#f7f8f8;" id="qh_tab_left_content" class="pc_show"></div>
+<div class="qh_tab_all">
+  <div class="nav-content">
+    <a class="qh_tab_left" style="display: inline-block;" href="#qh_tab_left_content">
+      <p class="qh_p_left">
+        {{ section.settings.ul_3_p2_1 }}
+      </p>
+    </a>
+    <a class="qh_tab_left_a" style="display: none;" href="#qh_tab_left_content">
+      <p class="qh_p_left">
+        {{ section.settings.ul_3_p2_1 }}
+      </p>
+    </a>
+    <a class="qh_tab_right" style="display: none;" href="#qh_tab_left_content">
+      <p class="qh_p_right">
+        {{ section.settings.ul_3_p2_2 }}
+        {% if section.settings.ch_span_2_pc%}
+          <span class="pc_show">{{ section.settings.ch_span_2_p }}</span>
+        {% endif %}
+      </p>
+    </a>
+    <a class="qh_tab_right_a" style="display: inline-block;" href="#qh_tab_left_content">
+      <p class="qh_p_right">
+        {{ section.settings.ul_3_p2_2 }}
+        {% if section.settings.ch_span_2_pc%}
+          <span class="pc_show">{{ section.settings.ch_span_2_p }}</span>
+        {% endif %}
+      </p>
+    </a>
+  </div>
+  <div class="qh_btn pc_show">
+    <a role="button" class="btn_basic" href="{{ section.settings.btn_1_left }}" target="_blank" rel="noopener noreferrer" aria-label="{{ section.settings.GetBasicBtnTxt }}">{{ section.settings.GetBasicBtnTxt }}</a> 
+    <a role="button" class="btn_plus" href="{{ section.settings.btn_1_right }}" target="_blank" rel="noopener noreferrer" aria-label="{{ section.settings.GetPlusBtnTxt }}">{{ section.settings.GetPlusBtnTxt }}</a>      
+  </div>
+</div>
+<div class="qh_tab_content">
+    <div class="qh_tab_left_content" style="display: inline-block;">
+        <div style="margin-bottom:3vw;">
+            <div class="qh_contain">
+                <p class="qh_p1 pc_show">{{ section.settings.qh_p1_pc }}</p>
+                <p class="qh_p1 mob_show">{{ section.settings.qh_p1_mob }}</p>
+                
+                <div class="gif_3">
+                    <div class="gif_3_1">
+                        <div class="gif_3_1_gif">
+                            <img class="lazyload" data-src="{{ section.settings.gif_1 | img_url: '' }}" alt="">
+                        </div>
+                        <p class="qh_p2">
+                            {{ section.settings.qh_p2_1 }}
+                              
+                        </p>
+                        <p class="qh_p3">
+                            {{ section.settings.qh_p3_1 }}
+                            
+                        </p>
+                    </div>
+                    <div class="gif_3_2">
+                        <div class="gif_3_1_gif">
+                            <img class="lazyload" data-src="{{ section.settings.gif_2 | img_url: '' }}" alt="">
+                        </div>
+                        <p class="qh_p2">
+                            {{ section.settings.qh_p2_2 }}
+                            
+                        </p>
+                        <p class="qh_p3">
+                            {{ section.settings.qh_p3_2 }}
+                            
+                        </p>
+                    </div>
+                    <div class="gif_3_3">
+                        <div class="gif_3_1_gif">
+                            <img class="lazyload" data-src="{{ section.settings.gif_3 | img_url: '' }}" alt="">
+                        </div>
+                        <p class="qh_p2">{{ section.settings.qh_p2_3 }}</p>
+                        <p class="qh_p3">
+                            {{ section.settings.qh_p3_3 }}
+                            
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="banner_2 pc_show">
+            <div class="banner_2_bg">
+                <img class="lazyload" data-src="{{ section.settings.banner_2_bg | img_url: '' }}" alt="">
+            </div>
+            <div class="banner_2_contain">
+                <div class="banner_2_p1">
+                    {{ section.settings.banner_2_p1_pc }}
+                    
+                </div>
+                <div class="banner_2_p2">{{ section.settings.banner_2_p2_pc }}</div>
+                <div class="banner_2_p3">
+                    <div class="tb_1">
+                        <div class="tb_1_img">
+                            <img class="lazyload" data-src="{{ section.settings.tubiao_1_a | img_url: '' }}" alt="">
+                        </div>
+                        <div class="tb_p1">{{ section.settings.tubiao_p_1 }}</div>
+                    </div>
+                    <div class="tb_2">
+                        <div class="tb_2_img">
+                            <img class="lazyload" data-src="{{ section.settings.tubiao_2_a | img_url: '' }}" alt="">
+                        </div>
+                        <div class="tb_p1">{{ section.settings.tubiao_p_2 }}</div>
+                    </div>
+                    <div class="tb_3">
+                        <div class="tb_3_img">
+                            <img class="lazyload" data-src="{{ section.settings.tubiao_3_a | img_url: '' }}" alt="">
+                        </div>
+                        <div class="tb_p1">{{ section.settings.tubiao_p_3 }}</div>
+                    </div>
+                    <div class="tb_4">
+                        <div class="tb_3_img">
+                            <img class="lazyload" data-src="{{ section.settings.tubiao_4_a | img_url: '' }}" alt="">
+                        </div>
+                        <div class="tb_p1">{{ section.settings.tubiao_p_4 }}</div>
+                    </div>
+                    <div class="tb_5">
+                        <div class="tb_3_img">
+                            <img class="lazyload" data-src="{{ section.settings.tubiao_5_a | img_url: '' }}" alt="">
+                        </div>
+                        <div class="tb_p1">{{ section.settings.tubiao_p_5 }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="sp_3 pc_show">
+            <div class="sp_contain">
+                <div class="sp_3_1">
+                    <div class="sp_p1">{{ section.settings.sp_p1_1 }}</div>
+                    <div class="sp_p2">{{ section.settings.sp_p2_1 }}</div>
+                    <div class="sp_img">
+                        <img class="lazyload" data-src="{{ section.settings.xt_1 | img_url: '' }}" alt="">
+                    </div>
+                </div>
+                <div class="sp_3_2">
+                    <div class="sp_p1">
+                        {{ section.settings.sp_p1_2 }}
+                        
+                    </div>
+                    <div class="sp_p2">
+                        {{ section.settings.sp_p2_2 }}
+                        
+                    </div>
+                    <div class="sp_img">
+                        <img class="lazyload" data-src="{{ section.settings.xt_2 | img_url: '' }}" alt="">
+                    </div>
+                </div>
+                <div class="sp_3_3">
+                    <div class="sp_p1">{{ section.settings.sp_p1_3 }}</div>
+                    <div class="sp_p2">
+                        {{ section.settings.sp_p2_3 }}
+                        
+                    </div>
+                    <div class="sp_img">
+                        <img class="lazyload" data-src="{{ section.settings.xt_3 | img_url: '' }}" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="qh_tab_right_content" style="display: none;" id="qh_tab_right_content">
+        <div style="margin-bottom:3vw;">
+            <div class="qh_contain">
+                <p class="qh_p1 pc_show">{{ section.settings.qh_p1_pc_2 }}</p>
+                <p class="qh_p1 mob_show">
+                    {{ section.settings.qh_p1_mob_2 }}
+                    
+                </p>
+                <div class="gif_3">
+                    <div class="gif_3_1">
+                        <div class="gif_3_1_gif">
+                            <img class="lazyload" data-src="{{ section.settings.gif_4 | img_url: '' }}" alt="">
+                        </div>
+                        <p class="qh_p2">
+                            {{ section.settings.qh_p2_4 }}
+                                  
+                        </p>
+                        <p class="qh_p3">
+                            {{ section.settings.qh_p3_4 }}
+                        </p>
+                    </div>
+                    <div class="gif_3_2">
+                        <div class="gif_3_1_gif">
+                            <img class="lazyload" data-src="{{ section.settings.gif_5 | img_url: '' }}" alt="">
+                        </div>
+                        <p class="qh_p2">
+                            {{ section.settings.qh_p2_5 }}
+                             
+                        </p>
+                        <p class="qh_p3">
+                            {{ section.settings.qh_p3_5 }}
+                            
+                        </p>
+                    </div>
+                    <div class="gif_3_3">
+                        <div class="gif_3_1_gif">
+                            <img class="lazyload" data-src="{{ section.settings.gif_6 | img_url: '' }}" alt="">
+                        </div>
+                        <p class="qh_p2">
+                            {{ section.settings.qh_p2_6 }}
+                            
+                        </p>
+                        <p class="qh_p3">
+                            {{ section.settings.qh_p3_6 }}
+                            
+                        </p>
+                    </div>
+                    <div class="gif_3_4">
+                        <div class="gif_3_1_gif">
+                            <img class="lazyload" data-src="{{ section.settings.gif_7 | img_url: '' }}" alt="">
+                        </div>
+                        <p class="qh_p2">
+                            {{ section.settings.qh_p2_7 }}
+                            
+                        </p>
+                        <p class="qh_p3">
+                            {{ section.settings.qh_p3_7 }}
+                            
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="banner_3 pc_show">
+            <div class="banner_3_bg">
+                <img class="lazyload" data-src="{{ section.settings.banner_5 | img_url: '' }}" alt="">
+            </div>
+            <div class="banner_3_contain">
+                <div class="banner_3_p1">
+                    {{ section.settings.banner_3_p1 }}
+                    
+                </div>
+                <div class="banner_3_p2">
+                    {{ section.settings.banner_3_p2 }}
+                    
+                </div>
+                <div class="banner_3_p3">
+                    
+                    <div class="tb_1">
+                        <div class="tb_1_img">
+                            <img class="lazyload" data-src="{{ section.settings.tubiao_1 | img_url: '' }}" alt="">
+                        </div>
+                        <div class="tb_p1">{{ section.settings.tubiao_p_1 }}</div>
+                    </div>
+                    <div class="tb_2">
+                        <div class="tb_2_img">
+                            <img class="lazyload" data-src="{{ section.settings.tubiao_2 | img_url: '' }}" alt="">
+                        </div>
+                        <div class="tb_p1">{{ section.settings.tubiao_p_2 }}</div>
+                    </div>
+                    <div class="tb_3">
+                        <div class="tb_3_img">
+                            <img class="lazyload" data-src="{{ section.settings.tubiao_3 | img_url: '' }}" alt="">
+                        </div>
+                        <div class="tb_p1">{{ section.settings.tubiao_p_3 }}</div>
+                    </div>
+                    <div class="tb_4">
+                        <div class="tb_3_img">
+                            <img class="lazyload" data-src="{{ section.settings.tubiao_4 | img_url: '' }}" alt="">
+                        </div>
+                        <div class="tb_p1">{{ section.settings.tubiao_p_4 }}</div>
+                    </div>
+                    <div class="tb_5">
+                        <div class="tb_3_img">
+                            <img class="lazyload" data-src="{{ section.settings.tubiao_5 | img_url: '' }}" alt="">
+                        </div>
+                        <div class="tb_p1">{{ section.settings.tubiao_p_5 }}</div>
+                    </div>
+                    
+                </div>
+                <div class="gif_s">
+                    <img class="lazyload" data-src="{{ section.settings.gif_s | img_url: '' }}" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% if section.settings.lb_all_mob %}        
+    <div class="lb_all_1 mob_show">
+        <div class="lb_bt">{{ section.settings.lb_bt_mob }}</div>
+        <button class="slick-prev slick-arrow" aria-label="Previous" type="button">
+            <i class="left"></i>
+        </button>
+        <div class="lb_bk_1">
+            {% for o in list2 %}
+                <div class="lb_content">
+                    <p class="lb_p1">
+                        {{ o.p1 }}
+                    </p>
+                    <p class="lb_p2">
+                        {{ o.p2 }}
+                    </p>
+                    <p class="lb_p3">
+                        {{ o.p3 }}
+                    </p>
+                </div>
+            {% endfor %}
+            
+        </div>
+        <button class="slick-next slick-arrow" aria-label="Next" type="button">
+            <i class="right"></i>
+        </button>
+    </div>
+{% endif %}
+<div class="zs_all">
+    <div class="zs_p1">
+        {{ section.settings.zs_p1 }}
+    </div>
+    <div class="zs_p2 pc_show">
+        <span class="zs_p2_s1">{{ section.settings.zs_p2_s1_pc }}</span>
+        <span class="logo_1">
+            <img class="lazyload" data-src="{{ section.settings.logo_1 | img_url: '' }}" alt="">
+        </span>
+        
+        <span class="zs_p2_s2">{{ section.settings.zs_p2_s2_pc }}</span>
+    </div>
+    
+    <div class="zs_p2_mob mob_show">
+      <ol>
+        <li>
+          <span class="zs_p2_s1">{{ section.settings.zs_p2_1_mob }}</span>
+          <span class="logo_1">
+            <img class="lazyload" data-src="{{ section.settings.logo_1 | img_url: '' }}" alt="">
+          </span>
+        </li>
+        <li><span class="zs_p2_s1">{{ section.settings.zs_p2_2_mob }}</span></li>
+        <li><span class="zs_p2_s1">{{ section.settings.zs_p2_3_mob }}</span></li>
+      </ol>
+    </div>
+    <div class="zs_fl pc_show">
+        <div class="zs_fl_img">
+            <img class="lazyload" data-src="{{ section.settings.banner_4 | img_url: '' }}" alt="">
+        </div>
+        <div class="zs_p3">{{ section.settings.zs_p3 }}</div>
+        
+        <div class="zs_p5">
+            {{ section.settings.zs_p5 }}
+            
+        </div>
+        <a class="zs_1_1"  href="{{ section.settings.zs_btn_1 }}" target="_blank" rel="noopener noreferrer"></a>
+        <a class="zs_2_1"  href="{{ section.settings.zs_btn_2 }}" target="_blank" rel="noopener noreferrer"></a>
+        <!-- <a class="zs_3_1"  href="{{ section.settings.zs_btn_3 }}" target="_blank" rel="noopener noreferrer"></a> -->
+        <a class="zs_4_1"  href="{{ section.settings.zs_btn_4 }}" target="_blank" rel="noopener noreferrer"></a>
+        <a class="zs_5_1"  href="{{ section.settings.zs_btn_5 }}" target="_blank" rel="noopener noreferrer"></a>
+        <a class="zs_6_1"  href="{{ section.settings.zs_btn_6 }}" target="_blank" rel="noopener noreferrer"></a>
+        <div class="zs_1_content">
+            <div class="zs_1_bg">
+                <img class="lazyload" data-src="{{ section.settings.bg_2 | img_url: '' }}" alt="">
+            </div>
+            <div class="zs_1_all">
+                <div class="zs_1_bg2">
+                    <img class="lazyload" data-src="{{ section.settings.card_3 | img_url: '' }}" alt="">
+                </div>
+                <a class="zs_1_p1"  href="{{ section.settings.zs_btn_1 }}" target="_blank" rel="noopener noreferrer">
+                    {{ section.settings.zs_1_p1_1 }}
+                    
+                    <div class="zs_btn">
+                        <img class="lazyload" data-src="{{ section.settings.right_btn_a | img_url: '' }}" alt="">
+                    </div>
+                </a>
+                <p class="zs_1_p2">
+                    {{ section.settings.zs_1_p2_1 }}
+                    
+                </p>
+            </div>
+        </div>
+        <div class="zs_2_content">
+            <div class="zs_1_bg">
+                <img class="lazyload" data-src="{{ section.settings.bg_2 | img_url: '' }}" alt="">
+            </div>
+            <div class="zs_1_all">
+                <div class="zs_1_bg2">
+                    <img class="lazyload" data-src="{{ section.settings.card_2 | img_url: '' }}" alt="">
+                </div>
+                <a class="zs_1_p1"  href="{{ section.settings.zs_btn_2 }}" target="_blank" rel="noopener noreferrer">
+                    {{ section.settings.zs_1_p1_2 }}
+                    
+                    <div class="zs_btn">
+                        <img class="lazyload" data-src="{{ section.settings.right_btn_a | img_url: '' }}" alt="">
+                    </div>
+                </a>
+                <p class="zs_1_p2">
+                    {{ section.settings.zs_1_p2_2 }}
+                    
+                </p>
+            </div>
+        </div>
+        <!-- <div class="zs_3_content">
+            <div class="zs_1_bg">
+                <img class="lazyload" data-src="{{ section.settings.bg_2 | img_url: '' }}">
+            </div>
+            <div class="zs_1_all">
+                <div class="zs_1_bg2">
+                    <img class="lazyload" data-src="{{ section.settings.card_1 | img_url: '' }}">
+                </div>
+                <a class="zs_1_p1" href="{{ section.settings.zs_btn_3 }}" target="_blank" rel="noopener noreferrer">
+                    {{ section.settings.zs_1_p1_3 }}
+                    
+                    <div class="zs_btn">
+                        <img class="lazyload" data-src="{{ section.settings.right_btn_a | img_url: '' }}">
+                    </div>
+                </a>
+                <p class="zs_1_p2">
+                    {{ section.settings.zs_1_p2_3 }}
+                    
+                </p>
+            </div>
+        </div> -->
+        <div class="zs_4_content">
+            <div class="zs_1_bg">
+                <img class="lazyload" data-src="{{ section.settings.bg_2_a | img_url: '' }}" alt="">
+            </div>
+            <div class="zs_1_all">
+                <div class="zs_1_bg2">
+                    <img class="lazyload" data-src="{{ section.settings.card_4 | img_url: '' }}" alt="">
+                </div>
+                <a class="zs_1_p1" href="{{ section.settings.zs_btn_4 }}" target="_blank" rel="noopener noreferrer">
+                    {{ section.settings.zs_1_p1_4 }}
+                    
+                    <div class="zs_btn">
+                        <img class="lazyload" data-src="{{ section.settings.right_btn_a | img_url: '' }}" alt="">
+                    </div>
+                </a>
+                <p class="zs_1_p2">
+                    {{ section.settings.zs_1_p2_4 }}
+                    
+                </p>
+            </div>
+        </div>
+        <div class="zs_5_content">
+            <div class="zs_1_bg">
+                <img class="lazyload" data-src="{{ section.settings.bg_2 | img_url: '' }}" alt="">
+            </div>
+            <div class="zs_1_all">
+                <div class="zs_1_bg2">
+                    <img class="lazyload" data-src="{{ section.settings.card_5 | img_url: '' }}" alt="">
+                </div>
+                <a class="zs_1_p1" href="{{ section.settings.zs_btn_5 }}" target="_blank" rel="noopener noreferrer">
+                    {{ section.settings.zs_1_p1_5 }}
+                    
+                    <div class="zs_btn">
+                        <img class="lazyload" data-src="{{ section.settings.right_btn_a | img_url: '' }}" alt="">
+                    </div>
+                </a>
+                <p class="zs_1_p2">
+                    {{ section.settings.zs_1_p2_5 }}
+                    
+                </p>
+            </div>
+        </div>
+        <div class="zs_6_content">
+            <div class="zs_1_bg">
+                <img class="lazyload" data-src="{{ section.settings.bg_2_a | img_url: '' }}" alt="">
+            </div>
+            <div class="zs_1_all">
+                <div class="zs_1_bg2">
+                    <img class="lazyload" data-src="{{ section.settings.card_6 | img_url: '' }}" alt="">
+                </div>
+                <a class="zs_1_p1" href="{{ section.settings.zs_btn_6 }}" target="_blank" rel="noopener noreferrer">
+                    {{ section.settings.zs_1_p1_6 }}
+                    
+                    <div class="zs_btn">
+                        <img class="lazyload" data-src="{{ section.settings.right_btn_a | img_url: '' }}" alt="">
+                    </div>
+                </a>
+                <p class="zs_1_p2">
+                    {{ section.settings.zs_1_p2_6 }}
+                    
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if section.settings.lb_all_pc %}
+    <div class="lb_all pc_show">
+        <div class="lb_bt">{{ section.settings.lb_bt_pc }}</div>
+        <button class="slick-prev slick-arrow" aria-label="Previous" type="button">
+            <i class="left"></i>
+        </button>
+        <div class="lb_bk">
+            {% for o in list1 %}
+                <div class="lb_content">
+                    <p class="lb_p1">
+                        {{ o.p1 }}
+                    </p>
+                    <p class="lb_p2">
+                        {{ o.p2 }}
+                    </p>
+                    <p class="lb_p3">
+                        {{ o.p3 }}
+                    </p>
+                </div>
+            {% endfor %}
+        </div>
+        <button class="slick-next slick-arrow" aria-label="Next" type="button">
+            <i class="right"></i>
+        </button>
+    </div>
+{% endif %}    
+<!-- <div class="banner_5 pc_show">
+    <div class="banner_5_img">
+        <img class="lazyload" data-src="{{ section.settings.banner_3 | img_url: '' }}">
+    </div>
+    <div class="banner_5_contain">
+        <div class="banner_5_p1">
+            {{ section.settings.banner_5_p1 }}
+            
+        </div>
+        <div class="banner_5_p2">
+            {{ section.settings.banner_5_p2 }}
+            
+        </div>
+    </div>
+</div>
+<div class="dh_ht pc_show">
+    <div class="dh_ht_contain">
+        <p class="dh_ht_p1">{{ section.settings.dh_ht_p1 }}</p>
+        <a class="dh_ht_a" href="#jg_all">{{ section.settings.ul_3_p2_1 }}</a>
+        <a class="dh_ht_b" href="#jg_all">{{ section.settings.ul_3_p2_2 }}</a>
+    </div>
+    
+</div> -->
+<div class="zk_all">
+    <div class="zk_p">{{ section.settings.zk_p }}</div>
+    <div class="zk_content" id="father">
+      {{ section.settings.faq_txt }}
+      
+        
+
+
+    </div>
+
+</div>
+<div class="bottom_tab mob_show">
+    <div class="bottom_tab_p">{{ section.settings.bottom_tab_p }}</div>
+    <a class="bottom_btn_left" href="#anker_id" aria-label="go compare">{{ section.settings.ul_3_p2_1 }}</a>
+    <a class="bottom_btn_right" href="#anker_id" aria-label="go compare">{{ section.settings.ul_3_p2_2 }}</a>
+</div>
+<script>
+    $(function() {
+      $(".lb_bk").slick({
+        dots: true,
+        autoplay:true,
+        infinite: true,
+        slidesToShow: 3,
+        slidesToScroll: 3,
+        prevArrow: $('.slick-prev'),
+        nextArrow: $('.slick-next'),
+      });
+      $(".lb_bk_1").slick({
+        dots: true,
+        autoplay:true,
+        infinite: true,
+        centerMode:true,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        draggable:true,
+        
+      });
+
+    document.getElementById('father') && document.getElementById('father').addEventListener('click', e => {
+      const DOM = e.target.parentNode;
+      const DOMClass = DOM.getElementsByClassName('act')[0].getAttribute('class');
+      if (DOMClass.indexOf('open') === -1) {
+        DOM.getElementsByClassName('act')[0].classList.add('open');
+        DOM.getElementsByClassName('textLine_1')[0].classList.add('open');
+        DOM.getElementsByClassName('item_tj')[0].classList.add('open');
+        DOM.getElementsByClassName('actionLine2')[0].classList.add('open');
+      } else {
+        DOM.getElementsByClassName('act')[0].classList.remove('open');
+        DOM.getElementsByClassName('textLine_1')[0].classList.remove('open');
+        DOM.getElementsByClassName('item_tj')[0].classList.remove('open');
+        DOM.getElementsByClassName('actionLine2')[0].classList.remove('open');
+      }
+  });
+
+
+  $(window).scroll(function(){
+      
+      const top = $(window).scrollTop();
+      const dh_fd1 = $('.qh_tab_content').offset().top;
+      const dh_fd2 = $('.banner_1').offset().top;
+      const dh_fd3 = $('.jg_all').offset().top;
+      const dh_fd4 = $('.zs_all').offset().top;
+      const dh_div = $('.qh_tab_all').height();
+      const skia = top - dh_fd1; 
+      const skib = (top + dh_div);
+
+      if($(window).width() > 769){
+        if(skia <0){
+          $(`.qh_tab_all`).css('position', `relative`);
+          $(`.qh_tab_all`).css('top', `0px`);
+          $(`.qh_tab_all`).css('display', `flex`);
+        }else{
+          $(`.qh_tab_all`).css('position', `fixed`);
+          $(`.qh_tab_all`).css('top', `66px`);
+          $(`.qh_tab_all`).css('display', `flex`);
+        }  
+      }else{
+        $(`.qh_tab_all`).css('position', `relative`);
+        $(`.qh_tab_all`).css('top', `0px`); 
+      } 
+  }) 
+      
+      $(".zs_1_1").mouseover (function(){
+        $(".zs_1_content").css('display','block');   
+      });
+      $(".zs_1_1").mouseout (function(){
+        $(".zs_1_content").css('display','none');   
+      });
+      $(".zs_1_content").mouseover (function(){
+        $(".zs_1_content").css('display','block');   
+      });
+      $(".zs_1_content").mouseout (function(){
+        $(".zs_1_content").css('display','none');   
+      });
+      
+      $(".zs_2_1").mouseover (function(){
+        $(".zs_2_content").css('display','block');   
+      });
+      $(".zs_2_1").mouseout (function(){
+        $(".zs_2_content").css('display','none');   
+      });
+      $(".zs_2_content").mouseover (function(){
+        $(".zs_2_content").css('display','block');   
+      });
+      $(".zs_2_content").mouseout (function(){
+        $(".zs_2_content").css('display','none');   
+      });
+
+      // $(".zs_3_1").mouseover (function(){
+      //   $(".zs_3_content").css('display','block');   
+      // });
+      // $(".zs_3_1").mouseout (function(){
+      //   $(".zs_3_content").css('display','none');   
+      // });
+      $(".zs_3_content").mouseover (function(){
+        $(".zs_3_content").css('display','block');   
+      });
+      $(".zs_3_content").mouseout (function(){
+        $(".zs_3_content").css('display','none');   
+      });
+
+      $(".zs_4_1").mouseover (function(){
+        $(".zs_4_content").css('display','block');   
+      });
+      $(".zs_4_1").mouseout (function(){
+        $(".zs_4_content").css('display','none');   
+      });
+      $(".zs_4_content").mouseover (function(){
+        $(".zs_4_content").css('display','block');   
+      });
+      $(".zs_4_content").mouseout (function(){
+        $(".zs_4_content").css('display','none');   
+      });
+
+      $(".zs_5_1").mouseover (function(){
+        $(".zs_5_content").css('display','block');   
+      });
+      $(".zs_5_1").mouseout (function(){
+        $(".zs_5_content").css('display','none');   
+      });
+      $(".zs_5_content").mouseover (function(){
+        $(".zs_5_content").css('display','block');   
+      });
+      $(".zs_5_content").mouseout (function(){
+        $(".zs_5_content").css('display','none');   
+      });
+      $(".zs_6_1").mouseover (function(){
+        $(".zs_6_content").css('display','block');   
+      });
+      $(".zs_6_1").mouseout (function(){
+        $(".zs_6_content").css('display','none');   
+      });
+      $(".zs_6_content").mouseover (function(){
+        $(".zs_6_content").css('display','block');   
+      });
+      $(".zs_6_content").mouseout (function(){
+        $(".zs_6_content").css('display','none');   
+      });
+
+      $(".bottom_btn_left").click (function(){
+        
+        $(".qh_tab_left").css('display','none');
+        $(".qh_tab_left_a").css('display','inline-block');
+        $(".qh_tab_right").css('display','inline-block');
+        $(".qh_tab_right_a").css('display','none');
+        $(".qh_tab_left_content").css('display','none');
+        $(".qh_tab_right_content").css('display','inline-block');
+      });
+      $(".bottom_btn_right").click (function(){
+        
+        $(".qh_tab_left").css('display','inline-block');
+        $(".qh_tab_left_a").css('display','none');
+        $(".qh_tab_right").css('display','none');
+        $(".qh_tab_right_a").css('display','inline-block');
+        $(".qh_tab_left_content").css('display','inline-block');
+        $(".qh_tab_right_content").css('display','none');
+      });
+      $(".dh_ht_b").click (function(){
+        $(".ul_3").css('display','inline-block');
+        $(".ul_4").css('display','none');
+        $(".ul_3_tab").css('display','none');
+        $(".ul_4_tab").css('display','inline-block');
+        $(".qh_tab_left").css('display','inline-block');
+        $(".qh_tab_left_a").css('display','none');
+        $(".qh_tab_right").css('display','none');
+        $(".qh_tab_right_a").css('display','inline-block');
+        $(".qh_tab_left_content").css('display','inline-block');
+        $(".qh_tab_right_content").css('display','none');
+        $(".dh_ht_a").css('display','inline-block');
+        $(".dh_ht_b").css('display','none');
+        $(".zs_p5").css('display','block');
+
+      });
+      $(".dh_ht_a").click (function(){
+        $(".ul_3").css('display','none');
+        $(".ul_4").css('display','inline-block');
+        $(".ul_3_tab").css('display','inline-block');
+        $(".ul_4_tab").css('display','none');
+        $(".qh_tab_left").css('display','none');
+        $(".qh_tab_left_a").css('display','inline-block');
+        $(".qh_tab_right").css('display','inline-block');
+        $(".qh_tab_right_a").css('display','none');
+        $(".qh_tab_left_content").css('display','none');
+        $(".qh_tab_right_content").css('display','inline-block');
+        $(".dh_ht_a").css('display','none');
+        $(".dh_ht_b").css('display','inline-block');
+        $(".zs_p5").css('display','none');
+      });
+      $(".ul_3").click (function(){
+        $(".ul_3").css('display','none');
+        $(".ul_4").css('display','inline-block');
+        $(".ul_3_tab").css('display','inline-block');
+        $(".ul_4_tab").css('display','none');
+        $(".qh_tab_left").css('display','none');
+        $(".qh_tab_left_a").css('display','inline-block');
+        $(".qh_tab_right").css('display','inline-block');
+        $(".qh_tab_right_a").css('display','none');
+        $(".qh_tab_left_content").css('display','none');
+        $(".qh_tab_right_content").css('display','inline-block');
+        $(".dh_ht_a").css('display','none');
+        $(".dh_ht_b").css('display','inline-block');
+        $(".zs_p5").css('display','none');
+      });
+      $(".ul_4").click (function(){
+        $(".ul_3").css('display','inline-block');
+        $(".ul_4").css('display','none');
+        $(".ul_3_tab").css('display','none');
+        $(".ul_4_tab").css('display','inline-block');
+        $(".qh_tab_left").css('display','inline-block');
+        $(".qh_tab_left_a").css('display','none');
+        $(".qh_tab_right").css('display','none');
+        $(".qh_tab_right_a").css('display','inline-block');
+        $(".qh_tab_left_content").css('display','inline-block');
+        $(".qh_tab_right_content").css('display','none');
+        $(".dh_ht_a").css('display','inline-block');
+        $(".dh_ht_b").css('display','none');
+        $(".zs_p5").css('display','block');
+      });
+      $(".qh_tab_left").click (function(){
+        $(".ul_3").css('display','none');
+        $(".ul_4").css('display','inline-block');
+        $(".ul_3_tab").css('display','inline-block');
+        $(".ul_4_tab").css('display','none');
+        $(".qh_tab_left").css('display','none');
+        $(".qh_tab_left_a").css('display','inline-block');
+        $(".qh_tab_right").css('display','inline-block');
+        $(".qh_tab_right_a").css('display','none');
+        $(".qh_tab_left_content").css('display','none');
+        $(".qh_tab_right_content").css('display','inline-block');
+        $(".dh_ht_a").css('display','none');
+        $(".dh_ht_b").css('display','inline-block');
+        $(".zs_p5").css('display','none');
+        $(".btn_basic").css('display','block');
+        $(".btn_plus").css('display','none');
+      });
+      $(".qh_tab_right").click (function(){
+        $(".ul_3").css('display','inline-block');
+        $(".ul_4").css('display','none');
+        $(".ul_3_tab").css('display','none');
+        $(".ul_4_tab").css('display','inline-block');
+        $(".qh_tab_left").css('display','inline-block');
+        $(".qh_tab_left_a").css('display','none');
+        $(".qh_tab_right").css('display','none');
+        $(".qh_tab_right_a").css('display','inline-block');
+        $(".qh_tab_left_content").css('display','inline-block');
+        $(".qh_tab_right_content").css('display','none');
+        $(".dh_ht_a").css('display','inline-block');
+        $(".dh_ht_b").css('display','none');
+        $(".zs_p5").css('display','block');
+        $(".btn_basic").css('display','none');
+        $(".btn_plus").css('display','block');
+        
+      });
+      
+    })
+    $(document).ready(function() {
+
+        var dnum = 1;
+        var width = window.innerWidth;
+        $(".zk_content_p1_1").click(function() {
+            dnum = dnum + 1;
+            if (dnum % 2 != 0) {
+                $(".zk_content_p2_1").css("display","none");
+                $(".down_1").css("transform","rotate(45deg)");
+                $(".down_1").css("border-color","#000");
+                $(".zk_content_all:first-child").css("background-color","#fff");
+                $(".zk_content_p1_1").css("margin-bottom","0vw");
+                $(".zk_content_p1_1").css("color","#424041");
+                $(".zk_content_p1_1").css("font-weight","normal");
+                $(".zk_content_p2_1").css("color","#424041");
+            } else {
+                $(".zk_content_p2_1").css("display","block");
+                $(".down_1").css("transform","rotate(-135deg)");
+                
+                $(".zk_content_p1_1").css("margin-bottom","1.5vw");
+                $(".zk_content_p1_1").css("color","#025c85");
+                $(".zk_content_p1_1").css("font-weight","600");
+                if(width > 767){
+                    $(".zk_content_all:first-child").css("background-color","#f2f7f9");
+                    $(".zk_content_p2_1").css("color","#424041");
+                    $(".down_1").css("border-color","#000");
+                }else{
+                    $(".zk_content_all:first-child").css("background-color","#fff");
+                    $(".zk_content_p2_1").css("color","#025c85");
+                    $(".down_1").css("border-color","#025c85");
+                }
+            }
+        })
+    });
+$(document).ready(function() {
+
+    var dnum = 1;
+    var width = window.innerWidth;
+    $(".zk_content_p1_2").click(function() {
+        dnum = dnum + 1;
+        if (dnum % 2 != 0) {
+            $(".zk_content_p2_2").css("display","none");
+            $(".down_2").css("transform","rotate(45deg)");
+            $(".down_2").css("border-color","#000");
+            $(".zk_content_all:nth-child(1)").css("background-color","#fff");
+            $(".zk_content_p1_2").css("margin-bottom","0vw");
+            $(".zk_content_p1_2").css("color","#424041");
+            $(".zk_content_p1_2").css("font-weight","normal");
+            $(".zk_content_p2_2").css("color","#424041");
+        } else {
+            $(".zk_content_p2_2").css("display","block");
+            $(".down_2").css("transform","rotate(-135deg)");
+            
+            $(".zk_content_p1_2").css("margin-bottom","1.5vw");
+            $(".zk_content_p1_2").css("color","#025c85");
+            $(".zk_content_p1_2").css("font-weight","600");
+            if(width > 767){
+                $(".zk_content_all:nth-child(2)").css("background-color","#f2f7f9");
+                $(".zk_content_p2_2").css("color","#424041");
+                $(".down_2").css("border-color","#000");
+            }else{
+                $(".zk_content_all:nth-child(2)").css("background-color","#fff");
+                $(".zk_content_p2_2").css("color","#025c85");
+                $(".down_2").css("border-color","#025c85");
+            }
+        }
+    })
+});
+$(document).ready(function() {
+
+    var dnum = 1;
+    var width = window.innerWidth;
+    $(".zk_content_p1_3").click(function() {
+        dnum = dnum + 1;
+        if (dnum % 2 != 0) {
+            $(".zk_content_p2_3").css("display","none");
+            $(".down_3").css("transform","rotate(45deg)");
+            $(".down_3").css("border-color","#000");
+            $(".zk_content_all:nth-child(2)").css("background-color","#fff");
+            $(".zk_content_p1_3").css("margin-bottom","0vw");
+            $(".zk_content_p1_3").css("color","#424041");
+            $(".zk_content_p1_3").css("font-weight","normal");
+            $(".zk_content_p2_3").css("color","#424041");
+        } else {
+            $(".zk_content_p2_3").css("display","block");
+            $(".down_3").css("transform","rotate(-135deg)");
+            
+            $(".zk_content_p1_3").css("margin-bottom","1.5vw");
+            $(".zk_content_p1_3").css("color","#025c85");
+            $(".zk_content_p1_3").css("font-weight","600");
+            if(width > 767){
+                $(".zk_content_all:nth-child(3)").css("background-color","#f2f7f9");
+                $(".zk_content_p2_3").css("color","#424041");
+                $(".down_3").css("border-color","#000");
+            }else{
+                $(".zk_content_all:nth-child(3)").css("background-color","#fff");
+                $(".zk_content_p2_3").css("color","#025c85");
+                $(".down_3").css("border-color","#025c85");
+            }
+        }
+    })
+});  
+$(document).ready(function() {
+
+var dnum = 1;
+var width = window.innerWidth;
+$(".zk_content_p1_4").click(function() {
+    dnum = dnum + 1;
+    if (dnum % 2 != 0) {
+        $(".zk_content_p2_4").css("display","none");
+        $(".down_4").css("transform","rotate(45deg)");
+        $(".down_4").css("border-color","#000");
+        $(".zk_content_all:nth-child(3)").css("background-color","#fff");
+        $(".zk_content_p1_4").css("margin-bottom","0vw");
+        $(".zk_content_p1_4").css("color","#424041");
+        $(".zk_content_p1_4").css("font-weight","normal");
+        $(".zk_content_p2_4").css("color","#424041");
+    } else {
+        $(".zk_content_p2_4").css("display","block");
+        $(".down_4").css("transform","rotate(-135deg)");
+        
+        $(".zk_content_p1_4").css("margin-bottom","1.5vw");
+        $(".zk_content_p1_4").css("color","#025c85");
+        $(".zk_content_p1_4").css("font-weight","600");
+        if(width > 767){
+            $(".zk_content_all:nth-child(4)").css("background-color","#f2f7f9");
+            $(".zk_content_p2_4").css("color","#424041");
+            $(".down_4").css("border-color","#000");
+        }else{
+            $(".zk_content_all:nth-child(4)").css("background-color","#fff");
+            $(".zk_content_p2_4").css("color","#025c85");
+            $(".down_4").css("border-color","#025c85");
+        }
+    }
+})
+});
+$(document).ready(function() {
+
+var dnum = 1;
+var width = window.innerWidth;
+$(".zk_content_p1_5").click(function() {
+    dnum = dnum + 1;
+    if (dnum % 2 != 0) {
+        $(".zk_content_p2_5").css("display","none");
+        $(".down_5").css("transform","rotate(45deg)");
+        $(".down_5").css("border-color","#000");
+        $(".zk_content_all:nth-child(4)").css("background-color","#fff");
+        $(".zk_content_p1_5").css("margin-bottom","0vw");
+        $(".zk_content_p1_5").css("color","#424041");
+        $(".zk_content_p1_5").css("font-weight","normal");
+        $(".zk_content_p2_5").css("color","#424041");
+    } else {
+        $(".zk_content_p2_5").css("display","block");
+        $(".down_5").css("transform","rotate(-135deg)");
+        
+        $(".zk_content_p1_5").css("margin-bottom","1.5vw");
+        $(".zk_content_p1_5").css("color","#025c85");
+        $(".zk_content_p1_5").css("font-weight","600");
+        if(width > 767){
+            $(".zk_content_all:nth-child(5)").css("background-color","#f2f7f9");
+            $(".zk_content_p2_5").css("color","#424041");
+            $(".down_5").css("border-color","#000");
+        }else{
+            $(".zk_content_all:nth-child(5)").css("background-color","#fff");
+            $(".zk_content_p2_5").css("color","#025c85");
+            $(".down_5").css("border-color","#025c85");
+        }
+    }
+})
+}); 
+$(document).ready(function() {
+
+    var dnum = 1;
+    var width = window.innerWidth;
+    $(".zk_content_p1_6").click(function() {
+        dnum = dnum + 1;
+        if (dnum % 2 != 0) {
+            $(".zk_content_p2_6").css("display","none");
+            $(".down_6").css("transform","rotate(45deg)");
+            $(".down_6").css("border-color","#000");
+            $(".zk_content_all:nth-child(5)").css("background-color","#fff");
+            $(".zk_content_p1_6").css("margin-bottom","0vw");
+            $(".zk_content_p1_6").css("color","#424041");
+            $(".zk_content_p1_6").css("font-weight","normal");
+            $(".zk_content_p2_6").css("color","#424041");
+        } else {
+            $(".zk_content_p2_6").css("display","block");
+            $(".down_6").css("transform","rotate(-135deg)");
+            
+            $(".zk_content_p1_6").css("margin-bottom","1.5vw");
+            $(".zk_content_p1_6").css("color","#025c85");
+            $(".zk_content_p1_6").css("font-weight","600");
+            if(width > 767){
+                $(".zk_content_all:nth-child(6)").css("background-color","#f2f7f9");
+                $(".zk_content_p2_6").css("color","#424041");
+                $(".down_6").css("border-color","#000");
+            }else{
+                $(".zk_content_all:nth-child(6)").css("background-color","#fff");
+                $(".zk_content_p2_6").css("color","#025c85");
+                $(".down_6").css("border-color","#025c85");
+            }
+        }
+    })
+}); 
+$(document).ready(function() {
+
+    var dnum = 1;
+    var width = window.innerWidth;
+    $(".zk_content_p1_7").click(function() {
+        dnum = dnum + 1;
+        if (dnum % 2 != 0) {
+            $(".zk_content_p2_7").css("display","none");
+            $(".down_7").css("transform","rotate(45deg)");
+            $(".down_7").css("border-color","#000");
+            $(".zk_content_all:nth-child(6)").css("background-color","#fff");
+            $(".zk_content_p1_7").css("margin-bottom","0vw");
+            $(".zk_content_p1_7").css("color","#424041");
+            $(".zk_content_p1_7").css("font-weight","normal");
+            $(".zk_content_p2_7").css("color","#424041");
+        } else {
+            $(".zk_content_p2_7").css("display","block");
+            $(".down_7").css("transform","rotate(-135deg)");
+            
+            $(".zk_content_p1_7").css("margin-bottom","1.5vw");
+            $(".zk_content_p1_7").css("color","#025c85");
+            $(".zk_content_p1_7").css("font-weight","600");
+            if(width > 767){
+                $(".zk_content_all:nth-child(7)").css("background-color","#f2f7f9");
+                $(".zk_content_p2_7").css("color","#424041");
+                $(".down_7").css("border-color","#000");
+            }else{
+                $(".zk_content_all:nth-child(7)").css("background-color","#fff");
+                $(".zk_content_p2_7").css("color","#025c85");
+                $(".down_7").css("border-color","#025c85");
+            }
+        }
+    })
+}); 
+</script>
+{% schema %}
+  {
+    "name": "security",
+    "settings": [
+      {   
+        "type": "text",
+        "id": "tubiao_p_1",
+        "label": "tubiao_p_1 Text",
+        "default": "Home <br>Intrusion"
+      },      
+      {   
+        "type": "text",
+        "id": "tubiao_p_2",
+        "label": "tubiao_p_2 Text",
+        "default": "Package <br>Theft"
+      },
+      {   
+        "type": "text",
+        "id": "tubiao_p_3",
+        "label": "tubiao_p_3 Text",
+        "default": "Domestic<br>Dispute"
+      },
+      {   
+        "type": "text",
+        "id": "tubiao_p_4",
+        "label": "tubiao_p_4 Text",
+        "default": "Medical<br>Emergency"
+      },
+      {   
+        "type": "text",
+        "id": "tubiao_p_5",
+        "label": "tubiao_p_5 Text",
+        "default": "Fire"
+      },
+      {   
+        "type": "text",
+        "id": "p1",
+        "label": "p1 Text",
+        "default": "There When <br>You Need Us Most"
+      },
+      {   
+        "type": "text",
+        "id": "p2",
+        "label": "p2 Text",
+        "default": "Subscribe to one of our all-new eufy Security Professional Monitoring services and receive easy access to emergency dispatch services and support, when you need it most. "
+      },
+      {   
+        "type": "text",
+        "id": "btn_txt",
+        "label": "Btn Text",
+        "default": "Get Started"
+      },
+      {   
+        "type": "text",
+        "id": "protector_title",
+        "label": "Protector Title Text",
+        "default": "A Reliable Protector for Your Family"
+      },
+      {   
+        "type": "text",
+        "id": "protector_block_1_icon",
+        "label": "Protector Icon1",
+        "default": "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/time.svg?v=1652941302"
+      },
+      {   
+        "type": "text",
+        "id": "protector_block_1_title",
+        "label": "Protector Block Title1 Text",
+        "default": "In 5 seconds"
+      },
+      {   
+        "type": "text",
+        "id": "protector_block_1_desc",
+        "label": "Protector Block Desc1 Text",
+        "default": "A quick dispatch confirmation sent to you for possible scenario."
+      },
+      {   
+        "type": "text",
+        "id": "protector_block_2_icon",
+        "label": "Protector Icon2",
+        "default": "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/time_1.svg?v=1652941302"
+      },
+      {   
+        "type": "text",
+        "id": "protector_block_2_title",
+        "label": "Protector Block Title2 Text",
+        "default": "In 30 seconds"
+      },
+      {   
+        "type": "text",
+        "id": "protector_block_2_desc",
+        "label": "Protector Block Desc2 Text",
+        "default": "A quick following call if no direct response from you."
+      },
+      {   
+        "type": "text",
+        "id": "protector_block_3_icon",
+        "label": "Protector Icon1",
+        "default": "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/time_2.svg?v=1652941302"
+      },
+      {   
+        "type": "text",
+        "id": "protector_block_3_title",
+        "label": "Protector Block Title3 Text",
+        "default": "In 60 seconds"
+      },
+      {   
+        "type": "text",
+        "id": "protector_block_3_desc",
+        "label": "Protector Block Desc3 Text",
+        "default": "Local emergency service will be dispatched to you unless your safety is confirmed."
+      },
+      {   
+        "type": "text",
+        "id": "banner_2_p1",
+        "label": "banner_2_p1 Text",
+        "default": "24/7 Monitoring<br>and Dispatch Response<br>within 10 seconds"
+      },
+      {
+        "type": "text",
+        "id": "banner_2_p2",
+        "label": "banner_2_p2 Text",
+        "default": "Professional Monitoring for Ring Alarm" 
+      },
+      {
+        "type": "text",
+        "id": "wz_xz_p1",
+        "label": "wz_xz_p1 Text",
+        "default": "24/7 Professional Monitoring" 
+      },
+      {
+        "type": "text",
+        "id": "wz_xz_p2",
+        "label": "wz_xz_p2 Text",
+        "default": "Protect your loved ones, pets and belongings 24/7 with trained dispatchers. We’ll check on any opened doors, windows, or motion sensors while you’re away for added peace of mind." 
+      },
+      {
+        "type": "text",
+        "id": "choose_p1",
+        "label": "choose_p1 Text",
+        "default": "Choose a subscription<br> that's right for you." 
+      },
+      {
+        "type": "text",
+        "id": "choose_p2",
+        "label": "choose_p2 Text",
+        "default": "A 30 days free trial and 30 days money back guarantee." 
+      },
+      {
+        "type": "text",
+        "id": "ch_p1",
+        "label": "ch_p1 Text",
+        "default": "Basic Protection Plan" 
+      },
+      {
+        "type": "text",
+        "id": "ch_p2",
+        "label": "ch_p2 Text",
+        "default": "Tap to Access Dispatch Service Automatic Professional MonitoringA 30 days free trial and 30 days money back guarantee." 
+      },
+      {
+        "type": "text",
+        "id": "ch_p3",
+        "label": "ch_p3 Text",
+        "default": "<strong>$4.99</strong>/month (<strong>$49.99</strong>/year) <br><span></span>" 
+      },
+      {
+        "type": "text",
+        "id": "ch_btn_1",
+        "label": "ch_btn_1 Text",
+        "default": "Get Basic" 
+      },
+      {
+        "type": "text",
+        "id": "ch_p1_2",
+        "label": "ch_p1_2 Text",
+        "default": "Plus Protection Plan" 
+      },
+      
+      {
+        "type": "text",
+        "id": "ch_p2_2",
+        "label": "ch_p2_2 Text",
+        "default": "Automatic Professional Monitoring Automatic Professional MonitoringA 30 days free trial and 30 days money back guarantee." 
+      },
+      {
+        "type": "text",
+        "id": "ch_p3_2",
+        "label": "ch_p3_2 Text",
+        "default": "<strong>$9.99</strong>/month (<strong>$99.99</strong>/year) <br><span></span>" 
+      },
+      {
+        "type": "text",
+        "id": "ch_btn_2",
+        "label": "ch_btn_2 Text",
+        "default": "Get Plus" 
+      },
+      {
+        "type": "text",
+        "id": "bg_p1",
+        "label": "bg_p1 Text",
+        "default": "Compare Plans" 
+      },
+      {
+        "type": "text",
+        "id": "ul_1_top_1",
+        "label": "ul_1_top_1 Text",
+        "default": "Included" 
+      },
+      {
+        "type": "text",
+        "id": "ul_1_top_2",
+        "label": "ul_1_top_2 Text",
+        "default": "Price" 
+      },
+      {
+        "type": "text",
+        "id": "ul_1_1",
+        "label": "ul_1_1 Text",
+        "default": "24/7 Advanced Security Monitoring" 
+      },
+      {
+        "type": "text",
+        "id": "ul_1_p1",
+        "label": "ul_1_p1 Text"
+      },
+      {
+        "type": "text",
+        "id": "ul_1_2",
+        "label": "ul_1_2 Text",
+        "default": "24/7 Emergency Dispatch " 
+      },
+      {
+        "type": "text",
+        "id": "ul_1_p2",
+        "label": "ul_1_p2 Text"
+      },
+      {
+        "type": "text",
+        "id": "ul_1_3",
+        "label": "ul_1_3 Text",
+        "default": "Up to 20% Home Insurance Discount" 
+      },
+      {
+        "type": "text",
+        "id": "ul_1_p3",
+        "label": "ul_1_p3 Text",
+        "default": "Ask your home insurance agent for a discount. Protection Plus Plan subscribers will get an alarm monitoring certification to use for the discount." 
+      },
+      {
+        "type": "text",
+        "id": "ul_1_4",
+        "label": "ul_1_4 Text",
+        "default": "Works with Sensor/Camera" 
+      },
+      {
+        "type": "text",
+        "id": "ul_1_p4",
+        "label": "ul_1_p4 Text"
+      },
+      {
+        "type": "text",
+        "id": "ul_1_5",
+        "label": "ul_1_5 Text",
+        "default": "Custom Monitoring Settings" 
+      },
+      {
+        "type": "text",
+        "id": "ul_1_p5",
+        "label": "ul_1_p5 Text",
+        "default": "Select which security devices you would like to alert our monitoring center. Schedule and control when your devices arm and disarm." 
+      },
+      {
+        "type": "text",
+        "id": "ul_1_6",
+        "label": "ul_1_6 Text",
+        "default": "False Alarm Forgiveness" 
+      },
+      {
+        "type": "text",
+        "id": "ul_1_p6",
+        "label": "ul_1_p6 Text",
+        "default": "Noonlight will work with you to eliminate any false alarm fees. （eufy Security partners with Noonlight to provide 24/7 monitoring and dispatch.）" 
+      },
+      {
+        "type": "text",
+        "id": "ul_1_7",
+        "label": "ul_1_7 Text",
+        "default": "The Highest Priority Response " 
+      },
+      {
+        "type": "text",
+        "id": "ul_1_p7",
+        "label": "ul_1_p7 Text"
+      },
+      {
+        "type": "text",
+        "id": "ul_1_8",
+        "label": "ul_1_8 Text",
+        "default": "Tap for Dispatch（Via App or Keypad）" 
+      },
+      {
+        "type": "text",
+        "id": "ul_1_p8",
+        "label": "ul_1_p8 Text",
+        "default":"Tap the PANIC button on the app in an emergency. Our monitoring center will contact you to verify the responders."
+      },
+      {
+        "type": "text",
+        "id": "ul_1_9",
+        "label": "ul_1_9 Text",
+        "default": "Practice Mode" 
+      },
+      {
+        "type": "text",
+        "id": "ul_1_p9",
+        "label": "ul_1_p9 Text"
+      },
+      {
+        "type": "text",
+        "id": "ul_2_p2_mob",
+        "label": "ul_2_p2_mob Text",
+        "default": "Plus" 
+      },
+      {
+        "type": "text",
+        "id": "ul_3_p2_mob",
+        "label": "ul_3_p2_mob Text",
+        "default": "Basic" 
+      },
+      {
+        "type": "text",
+        "id": "Free",
+        "label": "Free Text",
+        "default": "Free" 
+      },
+      {
+        "type": "text",
+        "id": "ul_4_p2_mob",
+        "label": "ul_4_p2_mob Text",
+        "default": "No Plan" 
+      },
+      {
+        "type": "text",
+        "id": "jg_bt1",
+        "label": "jg_bt1 Text",
+        "default": "Choose a subscription that's right for you" 
+      },
+      {
+        "type": "text",
+        "id": "ch_span_1_p",
+        "label": "ch_span_1_p Text",
+        "default": "Free Trial" 
+      },
+      {
+        "type": "text",
+        "id": "ch_span_2_p",
+        "label": "ch_span_2_p Text",
+        "default": "More people's choice" 
+      },
+      {
+        "type": "text",
+        "id": "ul_2_p1",
+        "label": "ul_2_p1 Text",
+        "default": "Included Free" 
+      },
+      {
+        "type": "text",
+        "id": "ul_2_p2",
+        "label": "ul_2_p2 Text",
+        "default": "$0" 
+      },
+      {
+        "type": "text",
+        "id": "ul_3_p2_1",
+        "label": "ul_3_p2_1 Text",
+        "default": "Basic Plan" 
+      }, 
+      {
+        "type": "text",
+        "id": "ul_3_p2_2",
+        "label": "ul_3_p2_2 Text",
+        "default": "Plus Plan" 
+      },
+      {
+        "type": "text",
+        "id": "GetBasicBtnTxt",
+        "label": "GetBasicBtnTxt Text",
+        "default": "Get Basic" 
+      },
+      {
+        "type": "text",
+        "id": "GetPlusBtnTxt",
+        "label": "GetPlusBtnTxt Text",
+        "default": "Get Plus" 
+      },
+      {
+        "type": "text",
+        "id": "Subscribe",
+        "label": "Subscribe Text",
+        "default": "Subscribe" 
+      },
+      {
+        "type": "text",
+        "id": "qh_tab_p_new",
+        "label": "qh_tab_p_new Text",
+        "default": "How it works?" 
+      },
+      {
+        "type": "text",
+        "id": "qh_p1_pc",
+        "label": "qh_p1_pc Text",
+        "default": "How Automatic Professional Monitoring Works" 
+      },
+      {
+        "type": "text",
+        "id": "qh_p1_mob",
+        "label": "qh_p1_mob Text",
+        "default": "How Automatic Professional Monitoring Works" 
+      },
+      {
+        "type": "text",
+        "id": "qh_p1_pc_2",
+        "label": "qh_p1_pc_2 Text",
+        "default": "How Tap to Dispatch Works" 
+      },
+      {
+        "type": "text",
+        "id": "qh_p1_mob_2",
+        "label": "qh_p1_mob_2 Text",
+        "default": "How Tap to Dispatch Works" 
+      },
+      
+                
+      {
+        "type": "text",
+        "id": "qh_p2_1",
+        "label": "qh_p2_1 Text",
+        "default": "1. An event is detected and the<br> monitoring center is notified" 
+      },
+      {
+        "type": "text",
+        "id": "qh_p2_2",
+        "label": "qh_p2_2 Text",
+        "default": "2. Our monitoring center<br>will check on you" 
+      },
+      {
+        "type": "text",
+        "id": "qh_p2_3",
+        "label": "qh_p2_3 Text",
+        "default": "3. Help is on the way" 
+      },
+      {
+        "type": "text",
+        "id": "qh_p2_4",
+        "label": "qh_p2_4 Text",
+        "default": "1. An event is detected <br>and you are notified" 
+      },
+      {
+        "type": "text",
+        "id": "qh_p2_5",
+        "label": "qh_p2_5 Text",
+        "default": "2. Tap the emergency<br>button on the app" 
+      },
+      {
+        "type": "text",
+        "id": "qh_p2_6",
+        "label": "qh_p2_6 Text",
+        "default": "3. Our monitoring center<br>verifies the alarm" 
+      },
+      {
+        "type": "text",
+        "id": "qh_p2_7",
+        "label": "qh_p2_7 Text",
+        "default": "4. Help is on the way" 
+      },                
+      {
+        "type": "text",
+        "id": "qh_p3_1",
+        "label": "qh_p3_1 Text",
+        "default": "When your device is activated while away, our monitoring center will review your device status data for suspicious activity." 
+      },
+      {
+        "type": "text",
+        "id": "qh_p3_2",
+        "label": "qh_p3_2 Text",
+        "default": "If you don’t reply, a dedicated staff member will give you a call to see if you need them to dispatch emergency assistance." 
+      },
+      {
+        "type": "text",
+        "id": "qh_p3_3",
+        "label": "qh_p3_3 Text",
+        "default": "If you give the go-ahead or can’t be reached via text or call, the police are contacted and will be sent immediately." 
+      },
+      {
+        "type": "text",
+        "id": "qh_p3_4",
+        "label": "qh_p3_4 Text",
+        "default": "When your device is triggered, a notification is sent to your phone. Open the app to check what’s happened." 
+      },
+      {
+        "type": "text",
+        "id": "qh_p3_5",
+        "label": "qh_p3_5 Text",
+        "default": "If there’s an emergency, tap the siren icon in your eufy Security app, and local authorities will be notified." 
+      },
+      {
+        "type": "text",
+        "id": "qh_p3_6",
+        "label": "qh_p3_6 Text",
+        "default": "Once alerted, our center will send a message, call to confirm if you don't reply, and initiate dispatch if you still can't be contacted." 
+      },
+      {
+        "type": "text",
+        "id": "qh_p3_7",
+        "label": "qh_p3_7 Text",
+        "default": "If you give the go-ahead or can’t be reached via text or call, the police are contacted and will be sent immediately." 
+      },
+      {
+        "type": "text",
+        "id": "banner_2_p1_pc",
+        "label": "banner_2_p1_pc Text",
+        "default": "24/7 Monitoring and Dispatch<br>Response within 10 seconds" 
+      },
+      {
+        "type": "text",
+        "id": "banner_2_p2_pc",
+        "label": "banner_2_p2_pc Text",
+        "default": "Helpful in the following scenarios" 
+      },
+      {
+        "type": "text",
+        "id": "sp_p1_1",
+        "label": "sp_p1_1 Text",
+        "default": "20% Home Insurance Discounts" 
+      },
+      {
+        "type": "text",
+        "id": "sp_p1_2",
+        "label": "sp_p1_2 Text",
+        "default": "False Alarm Forgiveness" 
+      },
+      {
+        "type": "text",
+        "id": "sp_p1_3",
+        "label": "sp_p1_3 Text",
+        "default": "Customized Monitoring Settings" 
+      },
+      {
+        "type": "text",
+        "id": "sp_p2_1",
+        "label": "sp_p2_1 Text",
+        "default": "Receive up to a 20% discount on your homeowner’s insurance" 
+      },
+      {
+        "type": "text",
+        "id": "sp_p2_2",
+        "label": "sp_p2_2 Text",
+        "default": "If a false alarm occurs, you are exempt from legal ramifications" 
+      },
+      {
+        "type": "text",
+        "id": "sp_p2_3",
+        "label": "sp_p2_3 Text",
+        "default": "Customize your device settings to make the most out of the service provided" 
+      },
+      {
+        "type": "text",
+        "id": "banner_3_p1",
+        "label": "banner_3_p1 Text",
+        "default": "Request local emergency services <br>through the eufy Security app <br>or keypad" 
+      },
+      {
+        "type": "text",
+        "id": "banner_3_p2",
+        "label": "banner_3_p2 Text",
+        "default": "Helpful in the following scenarios" 
+      },
+      {
+        "type": "text",
+        "id": "lb_bt_mob",
+        "label": "lb_bt_mob Text",
+        "default": "Here’s What Our Users Think" 
+      },
+      {
+        "type": "text",
+        "id": "zs_p1",
+        "label": "zs_p1 Text",
+        "default": "Protected by experienced agents and<br>emergency responders" 
+      },
+      {
+        "type": "text",
+        "id": "zs_p2_s1_pc",
+        "label": "zs_p2_s1_pc Text",
+        "default": "eufy Professinal Monitoring is powered by" 
+      },
+      {
+        "type": "text",
+        "id": "zs_p2_s2_pc",
+        "label": "zs_p2_s2_pc Text",
+        "default": "with advanced<br>technology and TMA Five Diamond certified centers, routing vital information to 911 dispatchers and first responders." 
+      },
+      {
+        "type": "text",
+        "id": "zs_p2_1_mob",
+        "label": "zs_p2_1_mob Text",
+        "default": "Powered by" 
+      },
+      {
+        "type": "text",
+        "id": "zs_p2_2_mob",
+        "label": "zs_p2_2_mob Text",
+        "default": "Enhanced by advanced technology and TMA Five Diamond Certified Centers" 
+      },
+      {
+        "type": "text",
+        "id": "zs_p2_3_mob",
+        "label": "zs_p2_3_mob Text",
+        "default": "Join 2 million+ people already protected" 
+      },
+      {
+        "type": "text",
+        "id": "zs_p3",
+        "label": "zs_p3 Text",
+        "default": "Supports All eufy Security Devices" 
+      },
+      {
+        "type": "text",
+        "id": "zs_p4",
+        "label": "zs_p4 Text",
+        "default": "All eufy Security products" 
+      },
+      {
+        "type": "text",
+        "id": "zs_p5",
+        "label": "zs_p5 Text",
+        "default": "* Smart Lock currently not supported." 
+      },
+      {
+        "type": "text",
+        "id": "zs_1_p1_1",
+        "label": "zs_1_p1_1 Text",
+        "default": "Floodlight Camera" 
+      },
+      {
+        "type": "text",
+        "id": "zs_btn_1",
+        "label": "zs_btn_1 Text",
+        "default": "https://us.eufy.com/collections/security/products/t8420" 
+      },
+      {
+        "type": "text",
+        "id": "zs_1_p2_1",
+        "label": "zs_1_p2_1 Text",
+        "default": "Time to Upgrade Your Floodlights<br>Drop-in Anytime in 1080p<br>Smart Siren<br>Turn Night Into Day" 
+      },
+      {
+        "type": "text",
+        "id": "zs_1_p1_2",
+        "label": "zs_1_p1_2 Text",
+        "default": "eufyCam 2C" 
+      },
+      {
+        "type": "text",
+        "id": "zs_btn_2",
+        "label": "zs_btn_2 Text",
+        "default": "https://us.eufy.com/products/t8831" 
+      },
+      {
+        "type": "text",
+        "id": "zs_1_p2_2",
+        "label": "zs_1_p2_2 Text",
+        "default": "1080p Full HD<br>Half-Year Security from 1 Charge<br>Detailed Night Vision<br>IP67 weatherproof-rating" 
+      },
+      {
+        "type": "text",
+        "id": "zs_1_p1_3",
+        "label": "zs_1_p1_3 Text",
+        "default": "Baby Monitor" 
+      },
+      {
+        "type": "text",
+        "id": "zs_btn_3",
+        "label": "zs_btn_3 Text",
+        "default": "https://us.eufy.com/collections/security/products/t8300" 
+      },
+      {
+        "type": "text",
+        "id": "zs_1_p2_3",
+        "label": "zs_1_p2_3 Text",
+        "default": "Sweet Dreams on the Big Screen<br>Ready for Their First Steps<br>Pan from Pillow to Pinky Toes<br>Instant Alerts" 
+      },
+      {
+        "type": "text",
+        "id": "zs_1_p1_4",
+        "label": "zs_1_p1_4 Text",
+        "default": "Video Doorbell 2K" 
+      },
+      {
+        "type": "text",
+        "id": "zs_btn_4",
+        "label": "zs_btn_4 Text",
+        "default": "https://us.eufy.com/collections/security/products/e8210" 
+      },
+      {
+        "type": "text",
+        "id": "zs_1_p2_4",
+        "label": "zs_1_p2_4 Text",
+        "default": "2.5x the Clarity<br>Next-Level Detection<br>Dual Power Options<br>Expanded Field of View" 
+      },
+      {
+        "type": "text",
+        "id": "zs_1_p1_5",
+        "label": "zs_1_p1_5 Text",
+        "default": "eufyCam 2 Pro" 
+      },
+      {
+        "type": "text",
+        "id": "zs_btn_5",
+        "label": "zs_btn_5 Text",
+        "default": "https://us.eufy.com/collections/security/products/t8851" 
+      },
+      {
+        "type": "text",
+        "id": "zs_1_p2_5",
+        "label": "zs_1_p2_5 Text",
+        "default": "2K Resolution<br>A Year’s Security from 1 Charge<br>IP67 Weatherproof-Rating<br>Advanced Night Vision" 
+      },
+      {
+        "type": "text",
+        "id": "zs_1_p1_6",
+        "label": "zs_1_p1_6 Text",
+        "default": "Indoor Cam 2K" 
+      },
+      {
+        "type": "text",
+        "id": "zs_btn_6",
+        "label": "zs_btn_6 Text",
+        "default": "https://us.eufy.com/collections/security/products/t8410" 
+      },
+      {
+        "type": "text",
+        "id": "zs_1_p2_6",
+        "label": "zs_1_p2_6 Text",
+        "default": "Relevant Recordings<br>The Key is in the Detail<br>Smart Integration<br>Follows the Action" 
+      },
+      {
+        "type": "text",
+        "id": "lb_bt_pc",
+        "label": "lb_bt_pc Text",
+        "default": "Here’s What Our Users Think" 
+      },
+      {
+        "type": "text",
+        "id": "banner_5_p1",
+        "label": "banner_5_p1 Text",
+        "default": "More Protection for You<br>and Your Loved-Ones" 
+      },
+      {
+        "type": "text",
+        "id": "banner_5_p2",
+        "label": "banner_5_p2 Text",
+        "default": "If you are interested in one of the services<br> described above sign up to learn more. " 
+      },
+      {
+        "type": "text",
+        "id": "dh_ht_p1",
+        "label": "dh_ht_p1 Text",
+        "default": "Learn more features" 
+      },
+      {
+        "type": "text",
+        "id": "zk_p",
+        "label": "zk_p Text",
+        "default": "FAQ" 
+      },
+      {
+        "type": "text",
+        "id": "zk_content_p1_1",
+        "label": "zk_content_p1_1 Text",
+        "default": "Is there a free trial for monitoring service?" 
+      },
+      {
+        "type": "text",
+        "id": "zk_content_p1_2",
+        "label": "zk_content_p1_2 Text",
+        "default": "I have eufy Products at more than one address. Does plus plan cover them all?" 
+      },
+      {
+        "type": "text",
+        "id": "zk_content_p1_3",
+        "label": "zk_content_p1_3 Text",
+        "default": "How does 24/7 monitoring work?" 
+      },
+      {
+        "type": "text",
+        "id": "zk_content_p1_4",
+        "label": "zk_content_p1_4 Text",
+        "default": "How to set up my alarm system? " 
+      },
+      {
+        "type": "text",
+        "id": "zk_content_p1_5",
+        "label": "zk_content_p1_5 Text",
+        "default": "Always receive the alarm notification？" 
+      },
+      {
+        "type": "text",
+        "id": "zk_content_p1_6",
+        "label": "zk_content_p1_6 Text",
+        "default": "Emergency Contact" 
+      },
+      {
+        "type": "text",
+        "id": "zk_content_p1_7",
+        "label": "zk_content_p1_7 Text",
+        "default": "I have subscribed the Plus Plan, but the auto-alarm service doesn't work" 
+      },
+      {
+        "type": "text",
+        "id": "zk_content_p2_1",
+        "label": "zk_content_p2_1 Text",
+        "default": "Yes, every new user can enjoy a free 30-day trial of the Protection Plan. You can experience the free trial after fill out your credit card information, the fee will be automatically charged from next month (feel free to cancel subscription at any time)" 
+      },
+      {
+        "type": "text",
+        "id": "zk_content_p2_2",
+        "label": "zk_content_p2_2 Text",
+        "default": "Each Protection Plan can only cover one address. You can subscribe a separate plan if you have more than one address to cover." 
+      },
+      {
+        "type": "text",
+        "id": "zk_content_p2_3",
+        "label": "zk_content_p2_3 Text",
+        "default": "When you subscribe to eufy Protection plan, your house is under 24/7 security protection. Our team will be alerted when your alarm system detects a security issue. We’ll give you a  message/ call from a dedicated support line to see if you need an emergency response. If you give the go-ahead or can’t answer, the team will dispatch emergency responders like the police department, fire department, or emergency medical services. With monitoring service, you can also immediately request these emergency services via the Panic Button from keypad or App." 
+      },
+      {
+        "type": "text",
+        "id": "zk_content_p2_4",
+        "label": "zk_content_p2_4 Text",
+        "default": "To start the monitoring service, We highly recommend you following the initialization process after subscribe the protection plan. Otherwise, complete the setting via 'Service Setting'. " 
+      },
+      {
+        "type": "text",
+        "id": "zk_content_p2_5",
+        "label": "zk_content_p2_5 Text",
+        "default": "Remember to switch your security mode while arriving/leaving home. Also,You can set up a delay time in Security Modes setting to gain an extra period of buffering before the alarm will sound. In this interval, you can manually cancel the alarm before being sent to the monitoring center." 
+      },
+      {
+        "type": "text",
+        "id": "zk_content_p2_6",
+        "label": "zk_content_p2_6 Text",
+        "default": "In consider of your personal safety, we highly recommend you fill out the emergency contact to get extra protection. We will inform your emergency contact once the emergency service is activated. Please share your PIN code with the emergency contact that you can turst." 
+      },
+      {
+        "type": "text",
+        "id": "zk_content_p2_7",
+        "label": "zk_content_p2_7 Text",
+        "default": "Test your selected devices (make sure to set this device as trigger) . Switch to 'Away mode ' to test the trigger after configuring the alarm rules. For example, try to approach the selected eufycam to trigger the alarm system." 
+      },
+      {
+        "type": "text",
+        "id": "bottom_tab_p",
+        "label": "bottom_tab_p Text",
+        "default": "Choose a subscription that's right for you. " 
+      },
+      {
+        "type": "text",
+        "id": "btn_1_left",
+        "label": "btn_1_left Text",
+        "default": "https://mysecurity.eufylife.com/#/redirect/protection" 
+      },
+      {
+        "type": "text",
+        "id": "btn_1_right",
+        "label": "btn_1_right Text",
+        "default": "https://mysecurity.eufylife.com/#/redirect/protection" 
+      },
+      {
+        "type": "image_picker",
+        "id": "banner_1_img", 
+        "label": "banner_1_img"  
+      },
+      {
+        "type": "image_picker",
+        "id": "banner_2_bg_mob", 
+        "label": "banner_2_bg_mob"  
+      },
+      {
+        "type": "image_picker",
+        "id": "tubiao_1", 
+        "label": "tubiao_1"  
+      },
+      {
+        "type": "image_picker",
+        "id": "tubiao_2", 
+        "label": "tubiao_2"  
+      },
+      {
+        "type": "image_picker",
+        "id": "tubiao_3", 
+        "label": "tubiao_3"  
+      },
+      {
+        "type": "image_picker",
+        "id": "tubiao_4", 
+        "label": "tubiao_4"  
+      },
+      {
+        "type": "image_picker",
+        "id": "tubiao_5", 
+        "label": "tubiao_5"  
+      },
+      {
+        "type": "image_picker",
+        "id": "xingxing", 
+        "label": "xingxing"  
+      },
+      {
+        "type": "image_picker",
+        "id": "wenhao", 
+        "label": "wenhao"  
+      },
+      {
+        "type": "image_picker",
+        "id": "zs_xtb_mob", 
+        "label": "zs_xtb_mob"  
+      },
+      {
+        "type": "image_picker",
+        "id": "gou_mob", 
+        "label": "gou_mob"  
+      }, 
+      {
+        "type": "image_picker",
+        "id": "cha_mob", 
+        "label": "cha_mob"  
+      }, 
+      {
+        "type": "image_picker",
+        "id": "zs_xtb", 
+        "label": "zs_xtb"  
+      },
+      {
+        "type": "image_picker",
+        "id": "gou_1", 
+        "label": "gou_1"  
+      },
+      {
+        "type": "image_picker",
+        "id": "gou_2", 
+        "label": "gou_2"  
+      },
+      {
+        "type": "image_picker",
+        "id": "gou_3", 
+        "label": "gou_3"  
+      },
+      {
+        "type": "image_picker",
+        "id": "xingxing_a", 
+        "label": "xingxing_a"  
+      },
+      {
+        "type": "image_picker",
+        "id": "gif_1", 
+        "label": "gif_1"  
+      },
+      {
+        "type": "image_picker",
+        "id": "gif_2", 
+        "label": "gif_2"  
+      },
+      {
+        "type": "image_picker",
+        "id": "gif_3", 
+        "label": "gif_3"  
+      },
+      {
+        "type": "image_picker",
+        "id": "gif_4", 
+        "label": "gif_4"  
+      },
+      {
+        "type": "image_picker",
+        "id": "gif_5", 
+        "label": "gif_5"  
+      },
+      {
+        "type": "image_picker",
+        "id": "gif_6", 
+        "label": "gif_6"  
+      },
+      {
+        "type": "image_picker",
+        "id": "gif_7", 
+        "label": "gif_7"  
+      },
+      {
+        "type": "image_picker",
+        "id": "banner_2_bg", 
+        "label": "banner_2_bg"  
+      },
+      {
+        "type": "image_picker",
+        "id": "tubiao_1_a", 
+        "label": "tubiao_1_a"  
+      },
+      {
+        "type": "image_picker",
+        "id": "tubiao_2_a", 
+        "label": "tubiao_2_a"  
+      },
+      {
+        "type": "image_picker",
+        "id": "tubiao_3_a", 
+        "label": "tubiao_3_a"  
+      },
+      {
+        "type": "image_picker",
+        "id": "tubiao_4_a", 
+        "label": "tubiao_4_a"  
+      },
+      {
+        "type": "image_picker",
+        "id": "tubiao_5_a", 
+        "label": "tubiao_5_a"  
+      },
+      {
+        "type": "image_picker",
+        "id": "xt_1", 
+        "label": "xt_1"  
+      },
+      {
+        "type": "image_picker",
+        "id": "xt_2", 
+        "label": "xt_2"  
+      },
+      {
+        "type": "image_picker",
+        "id": "xt_3", 
+        "label": "xt_3"  
+      },
+      {
+        "type": "image_picker",
+        "id": "banner_5", 
+        "label": "banner_5"  
+      },
+      {
+        "type": "image_picker",
+        "id": "gif_s", 
+        "label": "gif_s"  
+      },
+      {
+        "type": "image_picker",
+        "id": "logo_1", 
+        "label": "logo_1"  
+      },
+      {
+        "type": "image_picker",
+        "id": "banner_4", 
+        "label": "banner_4"  
+      },
+      {
+        "type": "image_picker",
+        "id": "bg_2", 
+        "label": "bg_2"  
+      },
+      {
+        "type": "image_picker",
+        "id": "bg_2_a", 
+        "label": "bg_2_a"  
+      },
+      {
+        "type": "image_picker",
+        "id": "card_1", 
+        "label": "card_1"  
+      },
+      {
+        "type": "image_picker",
+        "id": "card_2", 
+        "label": "card_2"  
+      },
+      {
+        "type": "image_picker",
+        "id": "card_3", 
+        "label": "card_3"  
+      },
+      {
+        "type": "image_picker",
+        "id": "card_4", 
+        "label": "card_4"  
+      },
+      {
+        "type": "image_picker",
+        "id": "card_5", 
+        "label": "card_5"  
+      },
+      {
+        "type": "image_picker",
+        "id": "card_6", 
+        "label": "card_6"  
+      },
+      {
+        "type": "image_picker",
+        "id": "right_btn_a", 
+        "label": "right_btn_a"  
+      },
+      {
+        "type": "image_picker",
+        "id": "banner_3", 
+        "label": "banner_3"  
+      },
+      {
+        "type": "checkbox",
+        "id": "ch_span_1",
+        "label": "ch_span_1",
+        "info": "Free Trial",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "ch_span_2",
+        "label": "ch_span_2",
+        "info": "More people's choice",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "ch_span_2_pc",
+        "label": "ch_span_2_pc",
+        "info": "More people's choice",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "lb_all_pc",
+        "label": "lb_all_pc",
+        "info": "lb_all_pc",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "lb_all_mob",
+        "label": "lb_all_mob",
+        "info": "lb_all_mob",
+        "default": true
+      },
+      {"type": "html", "id": "faq_txt", "label": "faq_txt"}
+      
+    ]
+}
+{% endschema %}

@@ -1,0 +1,157 @@
+
+  {% assign id = section.id %}
+
+{% style %}
+.announcement_list_{{section.id}} {
+  padding: 1rem 5%;
+}
+.announcement_list_{{section.id}} .listBox {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.announcement_list_{{section.id}} .info_list {
+  display: flex;
+  justify-content:space-between;
+}
+
+.announcement_list_{{section.id}} .icon_bar {
+  flex-shrink: 0;
+  width: 25%;
+  text-align: center;
+  line-height: 28px;
+  font-size: 18px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+.announcement_list_{{section.id}} .icon_bar p {
+  padding: 5px 15px;
+}
+.announcement_list_{{section.id}} .icon_bar p span {
+  display: block;
+}
+.announcement_list_{{section.id}} .iconBox {
+  width: 100%;
+  padding: 15px 0;
+  border-right: 1px solid #333;
+}
+.announcement_list_{{section.id}} .icon_bar:last-child .iconBox {
+  border-right: none;
+}
+.announcement_list_{{section.id}} .iconfont {
+  margin-right: 5px;
+  font-size: 54px;
+}
+
+@media (max-width: 768px) {
+  .announcement_list_{{section.id}} {
+    padding: 1rem 0;
+  }
+  .announcement_list_{{section.id}} .icon_bar {
+    flex-shrink: 0;
+    width: 50%;
+  }
+  .announcement_list_{{section.id}} .info_list {
+    flex-wrap: wrap;
+  }
+  .announcement_list_{{section.id}} .icon_bar:nth-child(2n) .iconBox {
+    border-right: none;
+  }
+  .announcement_list_{{section.id}} .icon_bar p {
+    padding: 5px 5px;
+  }
+}
+{% endstyle %}
+
+
+<section class="announcement_list section announcement_list_{{id}}">
+  <div class="listBox">
+    <ul class="info_list">
+      {% for item in section.blocks %}
+        <li data-index="{{ forloop.index0 }}" class="icon_bar">
+          <div class="iconBox">
+            <i class="iconfont">{{ item.settings.icon }}</i>
+          </div>
+          <p>{{ item.settings.text }}</p>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+
+<div class="popup_{{ id }} popup hidden">
+  <div class="mask"></div>
+  <div class="container">
+    <button class="icon xIcon" data-icon="x"> 
+      <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" aria-hidden="true" data-acsb-hidden="true" data-acsb-force-hidden="true">
+        <g id="x"><polygon points="97.83 7.83 92.17 2.17 50 44.34 7.83 2.17 2.17 7.83 44.34 50 2.17 92.17 7.83 97.83 50 55.66 92.17 97.83 97.83 92.17 55.66 50 97.83 7.83"></polygon></g>
+      </svg>
+    </button>
+    {% for item in section.blocks %}
+      <div class="content content{{ forloop.index0 }}">
+        {{ item.settings.txtModal }}
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+<script>
+
+  $(document).ready(function() {
+    $('.announcement_list_{{ id }}').on('click', '.info_list .icon_bar', function(e) {
+      const index = $(this).data('index');
+      $('.popup_{{ id }} .content').addClass('hidden')
+      $(`.popup_{{ id }} .container .content${index}`).removeClass('hidden')
+      $('.popup_{{ id }}').removeClass('hidden')
+      return false
+    });
+
+    $('.popup_{{ id }}').on('click', '.xIcon', function(e) {
+      $('.popup_{{ id }}').addClass('hidden')
+    });
+  })
+
+</script>
+
+{% schema %}
+{
+  "name": "announcement_list",
+  "presets": [
+    {
+      "category": "Custom Dynamic Sections",
+      "name": "Announcement List"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Icon and text",
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Icon",
+          "default": "chat",
+          "info": "[Icon list](https://help.outofthesandbox.com/hc/en-us/articles/360021570294)"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Descriptive text"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link",
+          "info": "Optional"
+        },
+        {
+          "type": "textarea",
+          "id": "txtModal",
+          "label": "txtModal"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

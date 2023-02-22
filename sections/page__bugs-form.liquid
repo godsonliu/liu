@@ -1,0 +1,520 @@
+{% if page.metafields.global.file_format_error.value %}
+  {% assign file_format_error = page.metafields.global.file_format_error.value %}
+{% else %}
+  {% assign file_format_error = page.metafields.global.file_format_error %}
+{% endif %}
+
+{% if page.metafields.global.file_size_error.value %}
+  {% assign file_size_error = page.metafields.global.file_size_error.value %}
+{% else %}
+  {% assign file_size_error = page.metafields.global.file_size_error %}
+{% endif %}
+
+{% if page.metafields['global']['messages'].value %}
+  {% assign messages = page.metafields['global']['messages'].value %}
+{% else %}
+  {% assign messages = page.metafields['global']['messages'] %}
+{% endif %}
+
+{% if page.metafields.global.form_success.value %}
+  {% assign form_success = page.metafields.global.form_success.value %}
+{% else %}
+  {% assign form_success = page.metafields.global.form_success %}
+{% endif %}
+
+{% if page.metafields.global.form_error.value %}
+  {% assign form_error = page.metafields.global.form_error.value %}
+{% else %}
+  {% assign form_error = page.metafields.global.form_error %}
+{% endif %}
+
+{% if page.metafields['global']['label'].value %}
+  {% assign label = page.metafields['global']['label'].value %}
+{% else %}
+  {% assign label = page.metafields['global']['label'] %}
+{% endif %}
+
+{% if page.metafields['global']['policy'].value %}
+  {% assign policy = page.metafields['global']['policy'].value %}
+{% else %}
+  {% assign policy = page.metafields['global']['policy'] %}
+{% endif %}
+
+{% comment %}
+** Page - static **
+{% endcomment %}
+
+{% assign id = section.id %}
+{% comment %}Layout{% endcomment %}
+{% assign width = section.settings.width %}
+{% comment %}Advanced{% endcomment %}
+{% assign css_class = section.settings.css_class %}
+
+{% if page.metafields['global'].typeOption.value %}
+  {% assign lang = page.metafields['global'].typeOption.value %}
+{% else %}
+  {% assign lang = page.metafields['global'].typeOption %}
+{% endif %}
+
+{% if page.metafields['global'].assignee.value  %}
+  {% assign assignee = page.metafields['global'].assignee.value %}
+{% else %}
+  {% assign assignee = page.metafields['global'].assignee %}
+{% endif %}
+
+{% if page.metafields['global'].reporter.value %}
+  {% assign reporter = page.metafields['global'].reporter.value %}
+{% else %}
+  {% assign reporter = page.metafields['global'].reporter %}
+{% endif %}
+
+{% style %}
+
+ #shopify-section-page__bugs-form #bug-files_form .infos .upload i .img {
+    width: 100%;
+    height: auto;
+    word-break: break-all;
+    line-height: 20px;
+    left: 0;
+    padding: 0 8px;
+  }
+  #shopify-section-page__bugs-form #bug-files_form .infos .upload .images>.item {
+    display: block;
+    width: auto;
+    height: auto;
+    line-height: 26px;
+    text-align: left;
+    border: 0;
+    margin-bottom: 1rem;
+  }
+  .input-normal, .select-normal {
+    margin-bottom: 15px;
+  }
+  .attachSpin {
+    margin-top: 15px;
+  }
+
+{% endstyle %}
+
+<script>
+  $(function() {
+    const bugs_form = {
+      validator: null,
+      storeData: [],
+      subtype: {},
+      typeId: {},
+      fileMax: 5,
+      replaceEmoji: (v) => v.replace(/[\uD83C|\uD83D|\uD83E][\uDC00-\uDFFF][\u200D|\uFE0F]|[\uD83C|\uD83D|\uD83E][\uDC00-\uDFFF]|[0-9|*|#]\uFE0F\u20E3|[0-9|#]\u20E3|[\u203C-\u3299]\uFE0F\u200D|[\u203C-\u3299]\uFE0F|[\u2122-\u2B55]|\u303D|[\A9|\AE]\u3030|\uA9|\uAE|\u3030/ig, '<emoji>'),
+      loadAttachs: function loadAttachs(store) {
+        let data = bugs_form.storeData;
+        const images = JSON.parse(localStorage.getItem(`images_${store}`));
+        data = Array.isArray(images) ? images : [];
+        // 最多只能上传5个附件
+        const imagesDom = $(`.${store}_form .images`);
+        if (data && data.length >= bugs_form.fileMax) {
+          imagesDom.find('i.upBox').css("display", "none");
+        }
+        // 在images里面塞入imgDom
+        if (data && data.length > 0) {
+          data.forEach(item => {
+            const filename = item.url.split('?')[0].split('/').pop();
+            const imgDom = `<i class="item" data-id=${item.id}><a class="img" href="${item.url}" target="_blank" rel="noopener noreferrer">${filename}</a><b class="iconfont">&#xe723;</b></i>`
+            $(`.${store}_form`).find('.images').prepend(imgDom);
+          });
+        }
+        bugs_form.storeData = data;
+
+        $('.upload').find('b').click(e => bugs_form.rmaDeleteAttach(e));
+      },
+      uploadAttach: function uploadAttach(store) {
+        const e = window.event;
+        const { files = [] } = e.target;
+        const file = files[0];
+        if (!file) return;
+        if (!['image', 'pdf', 'video', 'doc', 'docx', 'zip', 'rar', '7z', 'gz'].find(t => file.type.includes(t))) {
+          Shopify.contentCreator.util.openModal(`<p>{{file_format_error}}</p>`);
+          return;
+        }
+        if (file.size > 1024 * 1024 * 8) {
+          Shopify.contentCreator.util.openModal(`<p>{{file_size_error}}</p>`);
+          return;
+        }
+
+        const data = new FormData();
+        data.append('picture', file);
+        $('.attachSpin').addClass('active');
+
+        $.ajax({
+          headers: Shopify.contentCreator.pastApi.getHeaders(),
+          url: '/apps/pp/rainbow/rma/upload_attachment',
+          type: 'POST',
+          cache: false,
+          data: data,
+          processData: false,
+          contentType: false,
+          success: function(body) {
+            // 最多只能上传5个附件
+            const imagesDom = $(`.${store}_form .images`);
+            if (imagesDom[0].getElementsByClassName('item').length >= bugs_form.fileMax) {
+              imagesDom.find('i.upBox').css("display", "none");
+            }
+
+            // dom插入
+            const filename = body.url.split('?')[0].split('/').pop();
+            const imgDom = `<i data-id=${body.id} class="item"><a class="img" href="${body.url}" target="_blank" rel="noopener noreferrer">${filename}</a><b class="iconfont">&#xe723;</b></i>`
+            $(`.${store}_form`).find('.images').prepend(imgDom);
+        
+            // 数据储存
+            const json = bugs_form.storeData;
+            bugs_form.storeData = (json || []).concat(body);
+            localStorage.setItem(`images_${store}`, JSON.stringify(bugs_form.storeData));
+            
+            $('.attachSpin').removeClass('active');
+            e.target.value = "";
+
+            $('.upload').find('b').click(e => bugs_form.rmaDeleteAttach(e));
+          }
+        });
+      },
+      rmaDeleteAttach: function rmaDeleteAttach(e) {
+        $('.attachSpin').addClass('active');
+        const dom = e.target.parentNode;
+        const storeCode = 'bug-files';
+        const attachs = bugs_form.storeData;
+        const deleteId = Number(dom.getAttribute('data-id'));
+        const domArr = $(`.${storeCode}_form .images`).find(`i[data-id=${deleteId}]`);
+        const deleteAttach = (attachs && attachs.length > 0) ? attachs.filter(item => item.id === deleteId) : [];
+        const retainAttachs = (attachs && attachs.length > 0) ? attachs.filter(item => item.id !== deleteId) : [];
+
+        const params = { "attachment_id": deleteAttach.id };
+        $.ajax({
+          headers: Shopify.contentCreator.pastApi.getHeaders(),
+          url: '/apps/pp/rainbow/rma/delete_attachment',
+          type: 'delete',
+          contentType: "application/json",
+          dataType:"json",
+          data: params,
+          success: function() {
+            // 最多只能上传5个附件
+            const imagesDom = $(`.${storeCode}_form .images`);
+            if (imagesDom[0].getElementsByClassName('item').length <= bugs_form.fileMax) {
+              imagesDom.find('i.upBox').css("display", "inline-block");
+            };
+            domArr.each((i, ele) => ele.remove());
+
+            localStorage.setItem(`images_${storeCode}`, JSON.stringify(retainAttachs));
+            bugs_form.storeData = retainAttachs;
+            $('.attachSpin').removeClass('active');
+          }
+        });
+      },
+      formOption: {
+        rules: {
+          title: {
+            required: true,
+            minlength: 2,
+            maxlength: 200,
+            normalizer: function( value ) {
+              return $.trim( value );
+            },
+          },
+          type: "required",
+          subtype: "required",
+          policy: "required",
+          email: {
+            required: true,
+            email: true,
+            minlength: 2,
+            maxlength: 100,
+            normalizer: function( value ) {
+              return $.trim( value );
+            },
+          },
+          description: {
+            required: true,
+            minlength: 5,
+            maxlength: 500,
+            normalizer: function( value ) {
+              return $.trim( value );
+            },
+          }
+        },
+        messages: {
+          title: {
+            required: "{{ messages.title.required }}",
+            minlength: "{{ messages.title.minlength }}",
+            maxlength: "{{ messages.title.maxlength }}"
+          },
+          type: "{{ messages.type }}",
+          subtype: "{{ messages.subtype }}",
+          policy: "{{ messages.policy }}",
+          email: {
+            required: "{{ messages.email.required }}",
+            email: "{{ messages.email.email }}",
+            minlength: "{{ messages.email.minlength }}",
+            maxlength: "{{ messages.email.maxlength }}",
+          },
+          description: {
+            required: "{{ messages.description.required }}",
+            minlength: "{{ messages.description.minlength }}",
+            maxlength: "{{ messages.description.maxlength }}",
+          }
+        },
+        submitHandler: function(form) {
+          const storeCode = 'bug-files';
+          $(form).ajaxSubmit({
+            beforeSubmit: (formData, jqForm, options) => {
+              const obj = {}
+              formData.forEach(v => obj[v.name] = bugs_form.replaceEmoji(v.value));
+              const upload = bugs_form.storeData.map(v => v.url);
+
+              const params = {
+                fields: {
+                  summary: obj.title,
+                  description: `E-mail: ${obj.email}\r\n \r\nSubtype: ${obj.subtype}\r\n \r\nDescription: ${obj.description}\r\n \r\nUploadFiles: ${upload.join('\r\n')}`,
+                  assignee: {
+                    name: "{{assignee.name}}",
+                    key: "{{assignee.key}}",
+                    emailAddress: "{{assignee.emailAddress}}",
+                    displayName: "{{assignee.displayName}}",
+                    active: "{{assignee.active}}",
+                    timeZone: "{{assignee.timeZone}}"
+                  },
+                  reporter: {
+                    name: "{{reporter.name}}",
+                    key: "{{reporter.key}}",
+                    emailAddress: "{{reporter.emailAddress}}",
+                    displayName: "{{reporter.displayName}}",
+                    active: "{{reporter.active}}",
+                    timeZone: "{{reporter.timeZone}}"
+                  },
+                  "issuetype": {
+                      "id": bugs_form.typeId[obj.type],
+                      "description": "",
+                      name: obj.type,
+                      "subtask": false,
+                      "avatarId": "10603"
+                  },
+                  "versions": [
+                    {
+                      "id": "23602",
+                      "description": "",
+                      "name": "web",
+                      "archived": false,
+                      "released": false
+                    }
+                  ],
+                  "priority": {
+                    "name": "P1",
+                    "id": "3"
+                  },
+                  "project": {
+                    "id": "12833",
+                    "key": "USPR",
+                    "name": "用户安全漏洞上报平台",
+                    "projectTypeKey": "software"
+                  },
+                  "components": [
+                    {
+                      "id": "16457",
+                      "name": "漏洞问题"
+                    }
+                  ],
+                  "customfield_10205": {
+                    "value": "一般",
+                    "id": "10219"
+                  },
+                  "customfield_10206": {
+                    "value": "随机重现",
+                    "id": "10221"
+                  },
+                  "customfield_10201": {
+                    "value": "上线后测试",
+                    "id": "10205"
+                  },
+                },
+              }
+            
+              $('.captchaSpin').addClass('active');
+              Shopify.contentCreator.pastApi.post_issue({
+                params: { fields: params },
+                fn: (body) => {
+                  $('.captchaSpin').removeClass('active');
+                  if (body.success) {
+                    Shopify.contentCreator.util.openModal(`<div>{{ form_success }}</div>`);
+                    if (bugs_form.validator) bugs_form.validator.resetForm();
+                    localStorage.setItem('images_bug-files', JSON.stringify([]));
+                    bugs_form.storeData = [];
+                    $('#bug-files_form .upload .images').find('i.item').remove();
+                    const imagesDom = $(`.${storeCode}_form .images`);
+                    imagesDom.find('i.upBox').css("display", "inline-block");
+                  } else {
+                    Shopify.contentCreator.util.openModal(`<p>{{ form_error }}</p>`);
+                  }
+                },
+                error: () => {
+                  $('.captchaSpin').removeClass('active');
+                  Shopify.contentCreator.util.openModal(`<p>{{ form_error }}</p>`);
+                }
+              })
+              return false
+            }
+          })
+        }
+      },
+    }
+    $.validator.methods.email = function( value, element ) {
+      return this.optional( element ) || /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test( value );
+    }
+    {% for item in lang.type %}
+      bugs_form.subtype['{{item}}'] = '{{ lang.subtype[forloop.index0] | join: ' | '}}';
+      bugs_form.typeId['{{item}}'] = '{{ lang.typeId[forloop.index0] }}';
+    {% endfor %}
+    $('#bug-files_form select[name="type"]').on('change', function (e) { 
+      const type = e.target.value;
+      const select = bugs_form.subtype[type]
+      if (select) {
+        const option = select.split(' | ');
+        $('#bug-files_form select[name="subtype"]').html(`${option.map(v => {
+          return `<option class="subtypeOption" data-type="${select}" value="${v}">${v}</option>`;
+        }).join('')}`);
+      }
+    })
+    $('#bug-files_form input[name="file"]').on('change', function (e) { 
+      bugs_form.uploadAttach('bug-files');
+    })
+    bugs_form.loadAttachs('bug-files');
+    
+    // init form 
+    bugs_form.validator = $('#bug-files_form').validate({ 
+      ...bugs_form.formOption,
+    });
+  })  
+  
+</script>
+
+<main class="{{ css_class }} bugs-form
+            is-width-{{ width }}
+            ">
+  <section class="section">
+    <div class="content cnt">
+      <h1>{{ label[0] }}</h1>
+      <form id="bug-files_form" class="bug-files_form validate-form" method="post">
+        <div class="infos content">
+          <div class="input-normal">
+            <span class="placeholder">{{ label[1] }}<i class="requiredFlag">*</i></span>
+            <input
+              type="text" autocomplete="nope" maxlength="200"
+              name="title" value=""
+            />
+          </div>
+          <div class="select-normal">
+            <span class="placeholder">{{ label[2] }}<i class="requiredFlag">*</i></span>
+            <select name="type" value="">
+              {% for option in label[3] %}
+                <option value="{{option}}">{{option}}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="select-normal">
+            <span class="placeholder">{{ label[4] }}<i class="requiredFlag">*</i></span>
+            <select name="subtype" value="">
+              <option class="subtypeOption" data-type="Web Vul" value="Information leak vulnerability">Information leak vulnerability</option>
+              <option class="subtypeOption" data-type="Web Vul" value="Logical vulnerability">Logical vulnerability</option>
+              <option class="subtypeOption" data-type="Web Vul" value="Upload vulnerability">Upload vulnerability</option>
+              <option class="subtypeOption" data-type="Web Vul" value="Code execution vulnerability">Code execution vulnerability</option>
+              <option class="subtypeOption" data-type="Web Vul" value="SQL injection vulnerability">SQL injection vulnerability</option>
+              <option class="subtypeOption" data-type="Web Vul" value="CSRF vulnerability">CSRF vulnerability</option>
+              <option class="subtypeOption" data-type="Web Vul" value="XSS vulnerability">XSS vulnerability</option>
+              <option class="subtypeOption" data-type="Web Vul" value="Verification Code vulnerability">Verification Code vulnerability</option>
+              <option class="subtypeOption" data-type="Web Vul" value="Collision vulnerability">Collision vulnerability</option>
+              <option class="subtypeOption" data-type="Web Vul" value="Invasion event">Invasion event</option>
+              <option class="subtypeOption" data-type="Web Vul" value="Code leakage">Code leakage</option>
+              <option value="Others">Others</option>
+            </select>
+          </div>
+          <div class="input-normal">
+            <span class="placeholder">{{ label[5] }}<i class="requiredFlag">*</i></span>
+            <input
+              type="text" autocomplete="nope" maxlength="200"
+              name="email" value=""
+            />
+          </div>
+          <div class="normal-box">
+            <div class="placeholder">{{ label[6] }}<i class="requiredFlag">*</i></div>
+            <div class="textarea-normal">
+              <textarea placeholder="1.Detailed description; 2.Proof; 3.How to fix;"
+                name="description" autocomplete="nope" 
+              ></textarea>
+            </div>
+          </div>
+          
+          <div class="Spin attachSpin">
+            <div class="content cnt">
+              <div class="upload con">
+                <h4 class="placeholder">{{ label[7] }}</h4>
+                <div class="images">
+                  <i class="upBox">
+                    <a class="iconfont item">&#xe727;</a>
+                    <input type="file" name="file"  accept=".doc,.docx,image/*,application/pdf,aplication/zip,.zip,.rar,.7z,.gz" multiple="multiple"/>
+
+                  </i>
+                </div>
+              </div>
+            </div>
+            <div class="mask"></div>
+            <div class="spinner">
+              <i class="iconfont">&#xe6c0;</i>
+              <div class="focus"><i class="iconfont">&#xe6c0;</i></div>
+            </div>
+          </div>
+
+          <div class="Spin captchaSpin">
+            <div class="content cnt" style="margin: 0 auto;">
+              <div class="captcha con">
+                <div class="captcha-box" style="border: 0;">
+                  <span class="btns">
+                    <button type="submit" class="button-normal submit">{{ label[8] }}</button>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="mask"></div>
+            <div class="spinner">
+              <i class="iconfont">&#xe6c0;</i>
+              <div class="focus"><i class="iconfont">&#xe6c0;</i></div>
+            </div>
+          </div>
+
+          <div class="policyBox" style="text-align: center;"> 
+            <label> 
+              <span> <input type="checkbox" name="policy" value="yes" /></span> 
+              {{ policy }}
+            </label>
+            <label for="policy" class="error"> </label>
+          </div>
+      </form>
+    </div>
+  </section>
+</main>
+
+{% schema %}
+  {
+    "name": "Page",
+    "class": "page-main has-sidebar-option",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Subtype"
+      },
+      { "type": "textarea", "id": "web_vul", "label": "Web Vul" },
+      { "type": "textarea", "id": "mobile_vul", "label": "Mobile Vul" },
+      { "type": "textarea", "id": "IOT_vul", "label": "IOT Vul" },
+      {
+        "type": "header",
+        "content": "Form Rules"
+      },
+      { "type": "textarea", "id": "form-rules", "label": "jquery validate rules" }
+    ]
+  }
+{% endschema %}

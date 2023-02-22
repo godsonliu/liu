@@ -1,0 +1,313 @@
+{% if shop.metafields.global.discounts.value %}
+  {% assign lang = shop.metafields.global.discounts.value %}
+{% else %}
+  {% assign lang = shop.metafields.global.discounts %}
+{% endif %}
+
+{% assign variant = product.selected_or_first_available_variant %}
+
+{% render 'txtModal' %}
+
+<div class="couponWrapper prodCouponWrapper line_background borderB" style="display: none;">
+  <p class="enddate" onclick="openCouponTips()">
+    <i class="iconfont">&#xe624;</i>
+    <span id="timeTxt" class="timeTxt"></span>
+    <span id="timeOutTxt" class="timeOutTxt">
+      {{ lang.ends }}
+      <span id="newDtes" class="newDtes"></span>
+    </span>
+  </p>
+  <div class="couponWrapperCon">
+    <div class="percentageOFF">
+      <div class="PercentPrice DiscountTxt" id="DiscountTxt"></div>
+      <span>{{ lang.off }}</span>
+    </div>
+    <div class="codeWrapper">
+      <div class="codeTxt">
+        <h5>
+          <span>{{ lang.code }}: </span>
+          <span id="couponCode" class="couponCode"></span>
+        </h5>
+      </div>
+      <div class="copyBox">
+        <p class="copyText" onclick="copyCouponCode()">{{ lang.copy }}</p>
+        <p class="copyTextReplace" style="display: none;">{{ lang.copied }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let couponsData;
+  let jsVariant;
+  let jsVariantArr = [];
+  let timeLine;
+  let nowTime = new Date().getTime();
+  let skus = [];
+  let copyCodeTxt;
+  let spMode = '{{ lang.sp_mode }}'
+  let spCountDownTips = '{{ lang.sp_mode_count_down_tips }}'
+  let spModeCodes = {{ lang.sp_mode_codes | json | default: '' }} || [];
+  let spModeRules = {{ lang.sp_mode_rules | json | default: '' }} || [];
+  let spModeEndTime = '{{ lang.sp_mode_end_time }}' ? new Date('{{ lang.sp_mode_end_time }}').getTime() : undefined;
+
+  $(document).ready(function() {
+    jsVariant = {{ variant | json }};
+    {% for item in product.variants %}
+      jsVariantArr.push({{ item | json }});
+      skus.push("{{ item.sku }}");
+    {% endfor %}
+
+    let params = { "skus": skus, "shopify_domain": "{{ shop.permanent_domain }}" };
+
+    $.ajax({
+      type: 'GET',
+      url: '/apps/pp/shopifyservices/coupons/by_skus',
+      data: params,
+      success: function success(data) {
+        couponsData = data;
+        jsVariantArr.map(variant => {
+          if(variant && couponsData[variant.sku] && couponsData[variant.sku][0]) {
+            couponsData[variant.sku][0].available = variant.available
+          }
+        })
+        showDiscountBox(jsVariant.sku);
+      }
+    })
+
+    $('body').on('click', '.swatch-element', function () {
+      let variantSku = $(this).attr('data-sku');
+      let toggleSku = skus.find(item => item === variantSku);
+
+      jsVariant = jsVariantArr.find(item => item.sku === variantSku);
+
+      if (timeLine) clearInterval(timeLine);
+      showDiscountBox(toggleSku);
+    });
+  })
+
+  function openCouponTips() {
+    openTxtModal("{{ lang.coupon_txt }}");
+  }
+
+  function showDiscountBox(sku) {
+    if (couponsData[sku] && couponsData[sku][0] && couponsData[sku][0].available) {
+      let currentData = couponsData[sku][0];
+      ShowCode(currentData);
+    } else {
+      $('.prodCouponWrapper.couponWrapper').hide();
+      $('.prodCouponWrapper.DiscountMark').hide();
+    }
+  }
+
+  function ShowCode(data) {
+    let endsTime = data.ends_at ? new Date(data.ends_at).valueOf() : null;
+    let spRule = {}
+    let isSpMode = false
+
+    // 展示code文案
+    $('.prodCouponWrapper .couponCode').text(data.title);
+    copyCodeTxt = data.title;
+
+    // 展示折扣数值
+    let DiscountTxt;
+    let DiscountedPrice;
+    let price = jsVariant.price / 100;
+    if (data.value_type === "fixed_amount") {
+      DiscountTxt = data.value_style;
+      DiscountedPrice = new Intl.NumberFormat('{{ lang.hreflang }}', { style: 'currency', currency: '{{ shop.currency }}' }).format((price + Number(data.value)).toFixed(2));
+    } else if (data.value_type === "percentage") {
+      DiscountTxt = Math.abs(parseInt(data.value)) + "%";
+      DiscountedPrice = new Intl.NumberFormat('{{ lang.hreflang }}', { style: 'currency', currency: '{{ shop.currency }}' }).format((price - price * Math.abs(Number(data.value)) / 100).toFixed(2));
+    };
+    $('.prodCouponWrapper .DiscountTxt').text(DiscountTxt);
+    $('.product_purchase_details .price_discount').html(`{{ lang.save }} <span class='DiscountTxt'>${DiscountTxt}</span> {{ lang.save_de }}`);
+    $('.prodCouponWrapper .DiscountMarkTxt').text(DiscountTxt);
+    
+    if(spModeRules && spModeRules.length) {
+      let flag = 0
+      spModeRules.map((item, idx) => {
+        let time = new Date(item.end_time).getTime()
+        let diff = time - nowTime
+
+        if(flag === 0) {
+          flag = diff
+        }
+
+        if(diff > 0 && diff <= flag) {
+          flag = diff
+          spRule = spModeRules[idx]
+        }
+      })
+
+      spRule.sp_mode_codes && spRule.sp_mode_codes.map(c => {
+        // 正向模糊匹配
+        if(c.includes('*')){
+          const matchCode = c.replaceAll('*', '')
+          if(copyCodeTxt.includes(matchCode)) {
+            isSpMode = true
+          }
+        }
+
+        // 反向精准匹配剔除
+        if(c.includes('^')){
+          const matchCode = c.replaceAll('^', '')
+          if(copyCodeTxt.includes(matchCode)) {
+            isSpMode = false
+          }
+        }
+
+        // 全部匹配
+        if(c.includes('all')){
+          isSpMode = true
+        }
+      })
+
+      if(isSpMode) {
+        spModeEndTime =  new Date(spRule.end_time).getTime()
+        spCountDownTips = spRule.tips
+      }
+    }
+
+    // 如果需要特殊信息倒计时，则将时间判断逻辑阻断
+    if(spModeEndTime && spModeEndTime - nowTime > 0) {
+      spCounDown(endsTime)
+      timeLine = setInterval(() => {
+        spCounDown(endsTime)
+      }, 1000)
+
+      $('.prodCouponWrapper.couponWrapper').addClass(`couponWrapper-${spMode}`)
+      $('.prodCouponWrapper .timeOutTxt').css('display', 'none');
+      $('.prodCouponWrapper .timeTxt').css('display', 'inline-block');
+      $('.couponWrapper').show();
+      return false
+    }
+    
+    // 失效时间判断
+    if (endsTime) {
+      timeLine = setInterval(function() {
+        nowTime = new Date().getTime();
+        let distance = endsTime - nowTime;
+        if (distance < 0) {
+          clearInterval(timeLine);
+          $('.couponWrapper').hide();
+          $('.prodCouponWrapper.DiscountMark').hide();
+          $('.prodCouponWrapper .product__information .modal_price .salePrice').remove();
+          $('.prodCouponWrapper .product__information .current_price').removeClass("UnderscorePrice");
+        } else {
+          // 展示折扣模块
+          $('.couponWrapper').show();
+          $('.prodCouponWrapper.DiscountMark').show();
+          // 展示划线价
+          //if ($('.product__information .modal_price .salePrice').length == 0 || $('.product__information .current_price .salePrice').text() != DiscountedPrice) {
+          //  $('.product__information .modal_price .salePrice').remove();
+          //  $('.product__information .current_price').before(`<span class='salePrice'>${DiscountedPrice}</span>`);
+          //  $('.product__information .current_price').addClass("UnderscorePrice");
+          //}
+          // 展示倒计时
+
+          const {days, hours, minutes, seconds}  = getFormatTimes(distance)
+  
+          if(days >= 7) {
+            $('.prodCouponWrapper .timeOutTxt').css('display', 'none');
+            $('.prodCouponWrapper .timeTxt').css('display', 'inline-block');
+            $('.prodCouponWrapper .timeTxt').html('{{ lang.day_7_txt }}');
+          } else if (days === 1) {
+            $('.prodCouponWrapper .timeOutTxt').css('display', 'inline-block');
+            $('.prodCouponWrapper .timeTxt').css('display', 'none');
+            $('.prodCouponWrapper .newDtes').html(`${days} {{ lang.day }} ${hours}:${minutes}:${seconds}`);
+          } else if (days === 0) {
+            $('.prodCouponWrapper .timeOutTxt').css('display', 'inline-block');
+            $('.prodCouponWrapper .timeTxt').css('display', 'none');
+            $('.prodCouponWrapper .newDtes').html(`{{ lang.today }} ${hours}:${minutes}:${seconds}`);
+          } else {
+            $('.prodCouponWrapper .timeOutTxt').css('display', 'inline-block');
+            $('.prodCouponWrapper .timeTxt').css('display', 'none');
+            $('.prodCouponWrapper .newDtes').html(`${days} {{ lang.days }} ${hours}:${minutes}:${seconds}`);
+          }
+        }
+      }, 1000);
+    } else {
+      // 展示折扣模块
+      $('.prodCouponWrapper.couponWrapper').show();
+      $('.prodCouponWrapper.DiscountMark').show();
+      // 展示划线价
+      //if ($('.product__information .modal_price .salePrice').length == 0 || $('.product__information .current_price .salePrice').text() != DiscountedPrice) {
+      //  $('.product__information .modal_price .salePrice').remove();
+      //  $('.product__information .current_price').before(`<span class='salePrice'>${DiscountedPrice}</span>`);
+      //  $('.product__information .current_price').addClass("UnderscorePrice");
+      //}
+      // 展示倒计时
+      $('.prodCouponWrapper .timeOutTxt').css('display', 'none');
+      $('.prodCouponWrapper .timeTxt').css('display', 'inline-block');
+      $('.prodCouponWrapper .timeTxt').html('{{ lang.day_7_txt }}');
+    }
+  }
+
+  function copyCouponCode() {
+    execCoy(copyCodeTxt);
+    $('.prodCouponWrapper .copyTextReplace').show();
+    $('.prodCouponWrapper .copyText').hide();
+    setInterval(function(){
+      $('.prodCouponWrapper .copyTextReplace').hide();
+      $('.prodCouponWrapper .copyText').show();
+    }, 3000);
+  }
+
+  function execCoy(text) {
+    const input = document.createElement('INPUT');
+    input.style.opacity  = 0;
+    input.style.position = 'absolute';
+    input.style.left = '-100000px';
+    document.body.appendChild(input);
+
+    input.value = text;
+    input.select();
+    input.setSelectionRange(0, text.length);
+    document.execCommand('copy');
+    document.body.removeChild(input);
+    return true;
+  }
+
+  function spCounDown(endsTime) {
+    nowTime = new Date().getTime();
+    const realEndsTime = endsTime ? (endsTime > spModeEndTime ? spModeEndTime : endsTime) : spModeEndTime
+    const distance = realEndsTime - nowTime;
+    const {days, hours, minutes, seconds}  = getFormatTimes(distance)
+    let countDown = days > 0 ? `${days} {{ lang.days }} ${hours}:${minutes}:${seconds}` : `{{ lang.today }} ${hours}:${minutes}:${seconds}`
+    
+    switch (days) {
+      case 0:
+        countDown = ` ${hours}:${minutes}:${seconds}`
+        break
+      case 1: 
+        countDown = `${days} {{ lang.day }} ${hours}:${minutes}:${seconds}`
+        break
+      default:
+        countDown = `${days} {{ lang.days }} ${hours}:${minutes}:${seconds}`
+        break
+    }
+
+    if (distance < 0) {
+      clearInterval(timeLine)
+      $('.prodCouponWrapper.couponWrapper').removeClass(`couponWrapper-${spMode}`)
+      $('.prodCouponWrapper .enddate').hide();
+    } else {
+      $('.prodCouponWrapper .timeTxt').html(spCountDownTips + countDown);
+    }
+  }
+
+  function formatNum(n) {
+    return n < 10 ? '0' + n : n
+  }
+
+  function getFormatTimes(time) {
+    const days = Math.floor(time / (1000 * 60 * 60 * 24));
+    const hours = formatNum(Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
+    const minutes = formatNum(Math.floor((time % (1000 * 60 * 60)) / (1000 * 60)));
+    const seconds = formatNum(Math.floor((time % (1000 * 60)) / 1000));
+
+    return {days, hours, minutes, seconds}
+  }
+
+</script>

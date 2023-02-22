@@ -1,0 +1,196 @@
+{% assign DataId = section.settings.data_id %}
+{% assign custom_css = section.settings.custom_css %}
+{% if product.metafields['global'][DataId].value %}
+  {% assign swiperContainer = product.metafields['global'][DataId].value %}
+{% else %}
+  {% assign swiperContainer = product.metafields['global'][DataId] %}
+{% endif %}
+
+
+<style>
+.G20_swiperContainer {
+	position: relative;
+	padding: 6.25vw 0;
+	text-align: center;
+	color: #2C2C2C;
+    background: #F8F8F8;
+}
+
+@media (max-width: 768px) {
+	.G20_swiperContainer {
+		padding: 0;
+	}
+}
+
+.G20_swiperContainer .G20_swiperBox .main_title {
+	font-size: calc(48 / 1920 * 100vw);
+	font-weight: 700;
+    line-height: 1;
+    color: #2C2C2C;
+}
+
+.G20_swiperContainer .G20_swiperBox .sub_title {
+	font-size: calc(18 / 1920 * 100vw);
+	font-weight: 600;
+	width: 40.20%;
+	margin: 20px auto 60px;
+    color: #2C2C2C;
+}
+
+.G20_swiperContainer .swiper-container-wrapper {
+	position: relative;
+	margin: 0 auto;
+	width: 67.7%;
+}
+
+@media (max-width: 768px) {
+	.G20_swiperBox {
+		padding: 50px 0;
+	}
+
+	.G20_swiperContainer .swiper-container-wrapper {
+		width: 100%;
+		padding: 0 36px;
+	}
+
+	.G20_swiperContainer .G20_swiperBox .main_title {
+		font-size: 30px;
+		line-height: 1;
+	}
+
+	.G20_swiperContainer .G20_swiperBox .sub_title {
+		font-size: 13px;
+		width: 100%;
+		padding: 0 32px;
+		margin: 15px auto 20px;
+	}
+}
+
+.G20_swiperContainer .swiper-container-wrapper .swiper-button-prev,
+.G20_swiperContainer .swiper-container-wrapper .swiper-button-next {
+	position: absolute;
+	top: 50%;
+	padding: 5px 0;
+	width: 28px;
+	height: 28px;
+	text-align: center;
+	background-color: #989B9E;
+	border-radius: 50%;
+	transform: translateY(-50%);
+	background-image: none;
+}
+
+.G20_swiperContainer .swiper-container-wrapper .swiper-button-prev {
+	left: -70px;
+	text-indent: -1px;
+}
+
+.G20_swiperContainer .swiper-container-wrapper .swiper-button-next {
+	right: -70px;
+	text-indent: 1px;
+}
+
+@media (max-width: 768px) {
+	.G20_swiperContainer .swiper-container-wrapper .swiper-button-prev {
+		left: 4px;
+	}
+
+	.G20_swiperContainer .swiper-container-wrapper .swiper-button-next {
+		right: 4px;
+	}
+}
+
+.G20_swiperContainer .swiper-container-wrapper .swiper-content > img {
+	width: 100%;
+	height: auto;
+}
+
+</style>
+{%- if swiperContainer != blank -%}
+{% comment %}<link rel="stylesheet" href="{{ 'swiper.min.css' | asset_url }}">{% endcomment %}
+
+<section id="{{DataId}}" class="G20_swiperContainer">
+    <div class="G20_swiperBox">
+        <h3 class="main_title">{{ swiperContainer.main_title }}</h3>
+        <h3 class="sub_title">{{ swiperContainer.sub_title }}</h3>
+        <div class="swiper-container-wrapper">
+            <div class="swiper-container G20_swiperWrapper">
+                <ul class="swiper-wrapper">
+                    {% for item in swiperContainer.data %}
+                        <li class="swiper-slide">
+                            <div class="swiper-content">
+                                <img class="is-hidden-mobile-only  lazyload" data-src="{{ item.pc_img }}" alt="">
+                                <img class="is-hidden-desktop-only lazyload" data-src="{{ item.mob_img }}" alt="">
+                            </div>
+                        </li> 
+                    {% endfor %} 
+                </ul>
+            </div>
+            <div class="swiper-button-prev">
+                <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M7.48151 0.851738C7.8395 1.20972 7.8395 1.79012 7.48151 2.1481L2.6297 6.99992L7.48152 11.8517C7.8395 12.2097 7.8395 12.7901 7.48152 13.1481C7.12354 13.5061 6.54313 13.5061 6.18515 13.1481L0.685153 7.6481C0.327172 7.29012 0.327172 6.70972 0.685153 6.35174L6.18515 0.851738C6.54313 0.493757 7.12353 0.493757 7.48151 0.851738Z" fill="white"/>
+                </svg>                    
+            </div>
+            <div class="swiper-button-next">
+                <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0.518485 13.1483C0.160505 12.7903 0.160505 12.2099 0.518485 11.8519L5.3703 7.00008L0.518485 2.14826C0.160504 1.79028 0.160504 1.20988 0.518485 0.851898C0.876466 0.493917 1.45687 0.493917 1.81485 0.851898L7.31485 6.3519C7.67283 6.70988 7.67283 7.29028 7.31485 7.64826L1.81485 13.1483C1.45687 13.5062 0.876466 13.5062 0.518485 13.1483Z" fill="white"/>
+                </svg>                    
+            </div>
+        </div>
+    </div>
+</section>
+
+{% comment %}<script src="{{ 'swiper.min.js' | asset_url }}"></script>{% endcomment %}
+<script>
+  $(document).ready(function(){
+    let setting = {};
+    let swiper = {};
+    const w = document.body.clientWidth || document.body.offsetWidth || document.body.scrollWidth || window.screen.width;
+    swiperInit();
+    function swiperInit () {
+        setting = {
+            loop : true,
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            }
+        }
+
+        // if(w > 768) {
+            setting = Object.assign(setting, {
+                slidesPerView : 1,
+                slidesPerGroup : 1
+            })
+        // } else {
+        //     setting = Object.assign(setting, {
+        //         width:  w * 1
+        //     })
+        // }
+
+        swiper = new Swiper('#{{DataId}} .G20_swiperWrapper', setting);
+    }
+})
+</script>
+{% endif %}
+
+{% schema %}
+
+{
+    "name": "swiperContainer",
+    "settings": [
+      {
+        "type": "textarea",
+        "id": "custom_css",
+        "label": "Custom CSS",
+        "info": "自定义样式（注意：请按照标准的css语法添加样式）"
+      },
+      {
+        "type": "text",
+        "id": "data_id",
+        "label": "metafields data id",
+        "default": "swiperContainer"
+      }
+    ]
+}
+
+{% endschema %}

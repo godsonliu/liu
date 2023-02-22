@@ -1,0 +1,231 @@
+{% assign lang = page.metafields.global %}
+
+{% if lang.section3.value %}
+  {% assign section3 = lang.section3.value %}
+{% else %}
+  {% assign section3 = lang.section3 %}
+{% endif %}
+
+{% if lang.banner.value %}
+  {% assign banner = lang.banner.value %}
+{% else %}
+  {% assign banner = lang.banner %}
+{% endif %}
+
+{% for item in section3.list %}
+{% if forloop.first %}
+{% assign section3_title = item.subscribe.title | replace: '<br/>', '' | replace: '<br>', '' %}
+{% endif %}
+{% endfor %}
+
+<link rel="stylesheet" href="{{ 'index_V2.0.scss.css' | asset_url }}">
+<link rel="stylesheet" href="{{ 'cam3_warn_up.scss.css' | asset_url }}">
+
+<div class="cam3-banner">
+  {% comment %} <video class="is-hidden-mobile-only" src="{{banner.video}}" poster="{{banner.poster}}" autoplay playsinline muted loop></video> {% endcomment %}
+  {% comment %} <video class="is-hidden-desktop-only" src="{{banner.video_mob}}" poster="{{banner.poster_mob}}" autoplay playsinline muted loop></video> {% endcomment %}
+  <img src="{{banner.poster}}" class="lazyload is-hidden-mobile-only" alt="">
+  <img src="{{banner.poster_mob}}" class="lazyload is-hidden-desktop-only" alt="">
+  <div class="text">
+    <h1>{{ banner.title }}</h1>
+    <p>
+      <span>{{ banner.date }}</span>
+      <span>{{ banner.time }}</span>
+    </p>
+    <div class="countdown">
+      <span class="num day">0</span>
+      <span class="divi">:</span>
+      <span class="num hour">00</span>
+      <span class="divi">:</span>
+      <span class="num minute">00</span>
+      <span class="divi">:</span>
+      <span class="num second">00</span>
+    </div>
+    <a class="reminder" href="javascript:;">{{ banner.reminder }}</a>
+    <a class="live" href="{{banner.live_href}}">{{ banner.live }}</a>
+  </div>
+  <div class="cam3_footer_nav">
+    <div class="cam3_footer_nav_title">{{ section3_title }}</div>
+    <a class="reminder" href="javascript:;">{{ banner.reminder }}</a>
+  </div>
+</div>
+
+
+
+<script>
+  $(function() {
+    let w = $(window).width()
+    if(w < 768) {
+      document.addEventListener('scroll', function() {
+        const scrollTop = $(window).scrollTop() + 80
+        const offsetTop = $('#section3').offset().top 
+        console.log(scrollTop, offsetTop)
+        if(scrollTop > offsetTop) {
+          $('.cam3_footer_nav').addClass('cam3_footer_nav-show')
+        }else {
+          $('.cam3_footer_nav').removeClass('cam3_footer_nav-show')
+        }
+      })
+    }
+  })
+  function addIcs() {
+    var url = 'data:text/calendar;charset=utf8,' + encodeURIComponent(getCalenderFile());
+    var downloadLink = document.createElement("a");
+    downloadLink.href = url;
+    var name = "{{ banner.reminder_name }}" || "calendar";
+    name = name + ".ics";
+    downloadLink.download = name;
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+  }
+
+  function getCalenderFile() {
+    var startDateTime = "{{banner.reminder_start}}";
+    var endDateTime = "{{banner.reminder_end}}";
+    var location = "{{banner.reminder_location}}";
+    var title = "{{banner.reminder_title}}";
+    var message = "{{banner.reminder_message}}";
+    var icsMSG = 'BEGIN:VCALENDAR\nPRODID:-//Microsoft Corporation//Outlook 16.0 MIMEDIR//EN\nVERSION:2.0\nMETHOD:REQUEST\nX-MS-OLK-FORCEINSPECTOROPEN:TRUE\nBEGIN:VEVENT\nDESCRIPTION:' + message + '\nDTSTART:' + startDateTime + '\nDTEND:' + endDateTime + '\nLOCATION:' + location + '\nSUMMARY;LANGUAGE=en-sg:' + title + '\nX-MICROSOFT-CDO-BUSYSTATUS:TENTATIVE\nX-MICROSOFT-CDO-IMPORTANCE:1\nX-MICROSOFT-CDO-INTENDEDSTATUS:BUSY\nX-MICROSOFT-DISALLOW-COUNTER:FALSE\nX-MS-OLK-CONFTYPE:0\nBEGIN:VALARM\nTRIGGER:-PT15M\nACTION:DISPLAY\nDESCRIPTION:Reminder\nEND:VALARM\nEND:VEVENT\nEND:VCALENDAR\n';
+    return icsMSG;
+  };
+  function setTheme() {
+    $('#shopify-section-header-classic .navbar-link').addClass('new_icon');
+    $('#shopify-section-header-classic .header_icon').addClass('new_icon');
+    $('#mobile-header .header_icon').addClass('new_icon');
+  }
+
+  function countdown() {
+    let times = new Date("{{banner.datetime}}").getTime() - new Date().getTime();
+    if (!isNaN(times) && times > 0) {
+      setTimeout(function() {
+        let seconds = parseInt(times / 1000);
+        let day = parseInt(seconds / 60 / 60 / 24);
+        let hour = parseInt(seconds / 60 / 60 - 24 * day);
+        hour = hour > 9 ? hour : "0" + hour;
+        let minute = parseInt(seconds / 60 - 24 * 60 * day - 60 * hour);
+        minute = minute > 9 ? minute : "0" + minute;
+        let second = parseInt(seconds - 24 * 60 * 60 * day - 60 * 60 * hour - 60 * minute);
+        second = second > 9 ? second : "0" + second;
+        $(".day").text(day);
+        $(".hour").text(hour);
+        $(".minute").text(minute);
+        $(".second").text(second);
+        if (day === 0 && hour === 0 && minute === 0 && second === 0) {
+          $(".reminder, .countdown").hide();
+          $(".live").addClass("show");
+        } else {
+          countdown();
+        }
+      }, 1000);
+    } else {
+      $(".reminder, .countdown").hide();
+      $(".live").addClass("show");
+    }
+  }
+
+  let scrollAction = { x: 'undefined', y: 'undefined' }, scrollDirection;
+  let offset = 0
+  if (typeof Shopify.theme.jsAnnouncementBar !== 'undefined' && Shopify.theme.jsAnnouncementBar.enable_sticky) {
+    offset = Shopify.theme.jsAnnouncementBar.getAnnouncementHeight()
+  }
+
+  function scrollFunc() {
+    if (typeof scrollAction.x == 'undefined') {
+      scrollAction.x = window.pageXOffset
+      scrollAction.y = window.pageYOffset
+    }
+    let diffX = scrollAction.x - window.pageXOffset
+    let diffY = scrollAction.y - window.pageYOffset
+    if (diffX < 0) {
+      // Scroll right
+      scrollDirection = 'right'
+    } else if (diffX > 0) {
+      // Scroll left
+      scrollDirection = 'left'
+    } else if (diffY < 0) {
+      // Scroll down
+      scrollDirection = 'down'
+    } else if (diffY > 5) {
+      // Scroll up
+      scrollDirection = 'up'
+    } else {
+      // First scroll event
+    }
+    scrollAction.x = window.pageXOffset
+    scrollAction.y = window.pageYOffset
+  }
+
+  function onScrollMenu() {
+    let s = document.documentElement.scrollTop || document.body.scrollTop
+    scrollFunc()
+    let $shopify = $('#shopify-section-announcement-bar')
+    let barHeight = $shopify.height()
+    //监听页面滚动事件
+    if (scrollDirection == 'down') {
+      //页面向下滚动要做的事情
+      let $mobile = $('#mobile-header')
+      let headerHeight = $mobile.height()
+      if (s > barHeight + headerHeight) {
+        $('#mobile-header, #header').css('opacity', 0)
+        $('#mobile-header, #header').unstick()
+      }
+      $(".subNav").css("top", "");
+    }
+
+    if (scrollDirection == 'up') {
+      $(".subNav").css("top", $(".z-header").height());
+
+      if ($(window).width() > 768) {
+        $('#header').css('opacity', 1)
+        $("#header").addClass('sticky--enabled');
+        $("#header").sticky({
+          wrapperClassName: 'header-sticky-wrapper',
+          zIndex: 40,
+          topSpacing: 0
+        });
+      } else {
+        $('#mobile-header').css('opacity', 1)
+        $('#mobile-header').addClass('sticky--enabled').addClass('mobile-header-add').sticky({
+          wrapperClassName: 'header-sticky-wrapper',
+          zIndex: 40,
+          topSpacing: offset
+        })
+        let $mobile = $('#mobile-header-sticky-wrapper')
+        let wrapper = $mobile.offset().top
+        if (s > (wrapper + barHeight) && $('#mobile-header-sticky-wrapper')) {
+          $('#mobile-header').css({ 'position': 'fixed', 'top': 0, 'zIndex': 40, 'width': '100%' })
+        }
+      }
+    }
+  }
+
+  $(function() {
+    setTheme();
+    countdown();
+    $(".reminder").on("click", function() {
+      var offset = $(".section3").offset().top - $(".fixbar").height();
+      $('html, body').stop().animate({
+        scrollTop: offset
+      });
+      {% comment %} addIcs(); {% endcomment %}
+      dataLayer.push({
+        "event": "uaEvent", 
+        "eventCategory": "Activity Page_{{handle}}",
+        "eventAction": "masterbanner",
+        "eventLabel": $(this).text(), //取按钮文案
+      });
+      window.dataLayer.push({ "event_parameters": null });
+      window.dataLayer.push({
+        "event": "ga4Event",
+        "event_name": "lp_button",
+        "event_parameters": {
+          "page_group": "Activity Page_{{handle}}",
+          "button_name": $(this).text(), //取按钮文案
+          "position": "masterbanner" 
+        }
+      })
+    });
+    window.addEventListener('scroll', Shopify.contentCreator.util.throttle(onScrollMenu, 200))
+  });
+</script>

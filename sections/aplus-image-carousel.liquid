@@ -1,0 +1,64 @@
+{% render 'aplus-image-carousel-snippet' %}
+
+{% schema %}
+{
+  "name": "Aplus Image Carousel",
+  "presets": [
+    {
+      "name": "Aplus Image Carousel",
+      "blocks": [
+        {
+          "type": "item"
+        },
+        {
+          "type": "item"
+        }
+      ]
+    }
+  ],
+  "settings": [
+  ],
+  "blocks": [
+    {
+      "name": "item",
+      "type": "item",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "text",
+          "id": "headline",
+          "label": "headline"
+        },
+        {
+          "type": "richtext",
+          "id": "body",
+          "label": "body"
+        },
+        {
+          "type": "text",
+          "id": "learnMoreText",
+          "label": "learn more text",
+          "default": "Learn More"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "learn more url"
+        },
+        {
+          "type": "image_picker",
+          "id": "imageUrl",
+          "label": "image",
+          "info": "1464 x 600 recommended"
+        },
+        {
+          "type": "image_picker",
+          "id": "mobileImageUrl",
+          "label": "mobile image",
+          "info": "600 x 450 recommended"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

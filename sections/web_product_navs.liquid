@@ -1,0 +1,157 @@
+{% assign DataId = section.settings.data_id %}
+{% if page.metafields['global'][DataId].value %}
+  {% assign web_product_navs = page.metafields['global'][DataId].value %}
+{% else %}
+  {% assign web_product_navs = page.metafields['global'][DataId] %}
+{% endif %}
+
+{% assign custom_css = section.settings.custom_css %}
+{% assign clearFirstLine = section.settings.clearFirstLine %}
+
+<style>
+  #{{ DataId }}.nav { width: 100%; padding: 25px 0; z-index: 19; background: {{ web_product_navs.section_background_color }}; }
+  #{{ DataId }}.nav .nav_box {
+    display: flex; justify-content: center; align-items: center;
+    width: 100%; max-width: 1200px; margin: 0 auto;
+    height: 72px; line-height: 52px;
+    flex-wrap: nowrap; overflow: auto;
+    border-radius: 36px; z-index: 20;
+    background: {{ web_product_navs.row_background_color }};
+  }
+  #{{ DataId }}.nav .nav_box li {
+    margin: 0 2vw; height: 52px; line-height: 52px;
+    position: relative; font-size: 24px; cursor: pointer;
+    color: #fff; font-weight: bold; text-align: center;
+  }
+  #{{ DataId }}.nav .nav_box li:hover { border-bottom: 4px solid {{ web_product_navs.section_color }}; }
+  #{{ DataId }}.nav .nav_box li.active { border-bottom: 4px solid {{ web_product_navs.section_color }}; }
+  #{{ DataId }}.nav .nav_box li a { font-size: 24px; color: #fff; }
+  @media (max-width: 768px) {
+    #{{ DataId }}.nav { padding: 15px 1rem; }
+    #{{ DataId }}.nav .nav_box {
+      height: 52px; 
+      overflow-x: auto; box-sizing: border-box; list-style-type: none;
+      display: flex; display: -webkit-box; display: -webkit-flex; display: -ms-flexbox;
+      flex-wrap: nowrap; -webkit-flex-wrap: nowrap; -ms-flex-wrap: nowrap;
+      justify-content: space-between; -webkit-box-pack: justify; -webkit-justify-content: space-between; -ms-flex-pack: justify;
+      padding: 8px 1rem 8px 1rem;
+    }
+    #{{ DataId }}.nav .nav_box li:hover { border: none; }
+    #{{ DataId }}.nav .nav_box::-webkit-scrollbar { width: 0px; }
+    #{{ DataId }}.nav .nav_box::-webkit-scrollbar { display: none; }
+    #{{ DataId }}.nav .nav_box li {
+      -webkit-box-flex: 1;
+      -webkit-flex: 1 0 auto;
+      -ms-flex: 1 0 auto;
+      flex: 1 0 auto;
+      position: relative;
+      font-size: 16px; color: #fff;
+      height: 36px; line-height: 36px;
+    }
+  }
+  {%- if custom_css != blank -%} {{ custom_css }} {% endif %}
+</style>
+
+<div class="nav" id="{{DataId}}">
+  <ul class="nav_box">
+    {% for item in web_product_navs.data %}
+      <li data-index="{{ forloop.index0 }}" onclick="goAnchor('{{ item.link }}')">{{ item.label }}</li>
+    {% endfor %}
+  </ul>
+</div>
+
+<script>
+  const navTop = $('#{{DataId}}').offset().top;
+  const headerHeigh = $('.z-header').height();
+  const nav_data = `{{ data | json }}` || [];
+  const arr = [];
+  {% for item in web_product_navs.data %} arr.push("{{ item.link }}"); {% endfor %}
+
+  let width = window.innerWidth;
+  let elseDistance = $(window).width() < 769 ? 99 : headerHeigh + $('#{{DataId}}').height();
+  let BF_Nav = {};
+
+  function goAnchor(id) {
+    $("html, body").stop().animate({
+      scrollTop: $(`#${id}`).offset().top - (elseDistance + 10 )
+    }, 400);
+  };
+  BF_Nav.navMove = function (distance) {
+    $('#{{ DataId }} li').stop().animate({ left: distance }, 150);
+    $('#{{ DataId }} img').stop().animate({ left: distance }, 150);
+  }
+  BF_Nav.navHighLight = function (index) {
+    $('#{{DataId}} .nav_box li').eq(index).addClass("active").siblings().removeClass('active');
+  }
+  BF_Nav.BF_Scroll = function () {
+    let top = $(window).scrollTop();
+    if ($('#{{DataId}} .nav_box').length > 0) {
+      const xishu = elseDistance + 30;
+
+      let skia1 = top - $('#' + arr[1]).offset().top + xishu;
+      let skia2 = top - $('#' + arr[2]).offset().top + xishu;
+      let skia3 = top - $('#' + arr[3]).offset().top + xishu;
+      if (top + headerHeigh >= navTop) {
+        $(`#{{DataId}}`).css('position', `fixed`);
+        $(`#{{DataId}}`).css('top', $(window).width() < 769 ? 0 : headerHeigh);
+        BF_Nav.navHighLight(0);
+        (width < 769) && BF_Nav.navMove(10);
+      } else {
+        $(`#{{DataId}}`).css('position', `relative`);
+        $(`#{{DataId}}`).css('top', `0px`);
+        $('#{{DataId}} .nav_box li').removeClass('active');
+      }
+      if (skia1 > 0) BF_Nav.navHighLight(1);
+      if (skia2 > 0) {
+        (width < 769) && BF_Nav.navMove(-120);
+        BF_Nav.navHighLight(2);
+      }
+      if (skia3 > 0) {
+        (width < 769) && BF_Nav.navMove(-270);
+        BF_Nav.navHighLight(3);
+      }
+    }
+  };
+  $(document).ready(function () {
+    if (`{{ section.settings.clearFirstLine | json }}` == 'true'){
+      $('#{{DataId}}.nav .data_img_0').hide();
+    };
+    window.addEventListener('scroll', Shopify.contentCreator.util.throttle(BF_Nav.BF_Scroll, 200));
+  })
+</script>
+
+{% schema %}
+
+{
+  "name": "web_product_navs",
+  "presets": [
+    {
+      "category": "Custom Dynamic Sections",
+      "name": "web product navs"
+    }
+  ],
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Custom CSS",
+      "info": "自定义样式（注意：请按照标准的css语法添加样式）"
+    }, 
+    {
+      "type": "checkbox",
+      "id": "clearFirstLine",
+      "label": "clear FirstLine",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "data_id",
+      "label": "metafields data id",
+      "default": "web_product_navs"
+    }
+  ]
+}
+
+{% endschema %}
+
+   

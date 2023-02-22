@@ -1,0 +1,137 @@
+<style>
+.cam3-live-system {
+  width: 100%;
+}
+.cam3_live_system_title {
+  font-size: 32px;
+  color: #fff;
+  font-weight: 700;
+  text-align: center;
+  padding: 50px 0;
+}
+.cam3_live_system_list {
+  max-width: 1024px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: auto;
+  grid-gap: 18px;
+}
+.cam3-live-system-item {
+  position: relative;
+  border-radius: 20px;
+  box-sizing: border-box;
+}
+.system-item-image {
+  width: 100%;
+}
+.system-item-div {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  bottom: 20px;
+  text-align: center;
+  padding: 0 10px;
+}
+.system-item-title {
+  font-weight: 600;
+  font-size: 25px;
+  color: #fff;
+}
+.system-item-desc {
+  margin-top: 5px;
+  font-size: 16px;
+  color: #fff;
+}
+.system-item-button {
+  font-size: 15px;
+  font-weight: 700;
+  padding: 9px 28px;
+  color: #fff;
+  background: #000000;
+  border: 1px solid #FFFFFF;
+  border-radius: 60px;
+  margin-top: 5px;
+  display: none;
+}
+.system-item-button:hover {
+  color: #fff;
+}
+@media(max-width: 769px) {
+  .cam3_live_system_list {
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: auto auto;
+  }
+  .cam3_live_system_title {
+    font-size: 20px;
+  }
+  .system-item-title {
+    font-size: 26px;
+  }
+}
+</style>
+
+<div class="cam3-live-system">
+  <div class="cam3_live_system_title">{{ section.settings.cam3_live_system_title }}</div>
+  <div class="cam3_live_system_list">
+    {% for block in section.blocks %}
+    {% if block.type == 'cam3_live_system_item' %}
+    <div class="cam3-live-system-item">
+      <div class="system-item-div">
+        {% if block.settings.system_list_title != blank %}
+        <div class="system-item-title">{{ block.settings.system_list_title }}</div>
+        {% endif %}
+        {% if block.settings.system_list_desc != blank %}
+        <div class="system-item-desc">{{ block.settings.system_list_desc }}</div>
+        {% endif %}
+        {% if block.settings.button_txt != blank %}
+        <a class="system-item-button" href="{{ block.settings.system_list_link }}">{{ block.settings.button_txt }}</a>
+        {% endif %}
+      </div>
+      <img 
+        class="system-item-image showPc" 
+        width="{{block.settings.system_list_default_img.width}}"
+        height="{{block.settings.system_list_default_img.height}}"
+        data-system_list_img="{{ block.settings.system_list_img | image_url }}"
+        src="{{ block.settings.system_list_default_img | image_url }}"  
+      />
+      <img 
+        class="system-item-image showMobile" 
+        width="{{block.settings.system_list_default_mobile_img.width}}"
+        height="{{block.settings.system_list_default_mobile_img.height}}"
+        data-system_list_img="{{ block.settings.system_list_mobile_img | image_url }}"
+        src="{{ block.settings.system_list_default_mobile_img | image_url }}"  
+      />
+    </div>
+    {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+<script>
+$(function() {
+  let curTime = new Date().getTime()
+  let pd_time = new Date("{{section.settings.pd_time}}").getTime()
+  function arrivePdTime() {
+    if(curTime >= pd_time) {
+      let cam3_live_system_items = $('.cam3-live-system-item')
+      cam3_live_system_items.each(function() {
+        $(this).find('.system-item-desc').hide()
+        $(this).find('.system-item-button').css({
+          display: 'inline-block'
+        })
+        let product_img = $(this).find('.showPc').data('system_list_img')
+        let mobile_product_img = $(this).find('.showMobile').data('system_list_img')
+        $(this).find('.showPc').attr('src', product_img)
+        $(this).find('.showMobile').attr('src', mobile_product_img)
+      })
+    }else {
+      setTimeout(function() {
+        curTime = new Date().getTime();
+        arrivePdTime()
+      }, 1000)
+    }
+  }
+  arrivePdTime()
+})
+</script>

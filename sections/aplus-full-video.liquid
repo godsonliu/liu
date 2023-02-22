@@ -1,0 +1,45 @@
+{% render 'aplus-full-video-snippet' %}
+
+{% schema %}
+{
+  "name": "Aplus Full Video",
+  "presets": [
+    {
+      "name": "Aplus Full Video",
+      "settings": {}
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "headline"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "body"
+    },
+    {
+      "type": "image_picker",
+      "id": "coverUrl",
+      "label": "cover",
+      "info": "1464 x 600 recommended"
+    },
+    {
+      "type": "text",
+      "id": "videoUrl",
+      "label": "video",
+      "info": "HTML5 MP4/OGV File URL, 1464 x 600 recommended"
+    },
+    {
+      "type": "video_url",
+      "id": "thirdPartyVideo",
+      "label": "youtube/viemo video",
+      "info": "youtube/vimeo URL, 800 x 600 recommended",
+      "accept": [ "youtube", "vimeo"]
+    }
+  ]
+}
+{% endschema %}
+  

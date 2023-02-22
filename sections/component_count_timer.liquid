@@ -1,0 +1,191 @@
+<style>
+@media(max-width: 769px) {
+	.showPc {
+		display: none !important;
+	}
+}
+@media(min-width: 769px) {
+	.showMobile {
+		display: none !important;
+	}
+}
+.component_count_timer_{{section.id}} {
+  display: flex;
+	justify-content: center;
+  align-items: center;
+	width: {{section.settings.box_width}};
+	height: {{section.settings.box_height}};
+	background: {{section.settings.box_bg}};
+	padding: {{section.settings.box_padding}};
+}
+</style>
+
+<div class="component_count_timer_{{section.id}} {{section.settings.show_device}}" id="{{section.id}}">
+  {% render 'component_count_timer',
+    id: section.id,
+    fontWeight: section.settings.timer_font_weight,
+    color: section.settings.timer_color,
+    fontSize: section.settings.timer_font_size,
+    fontSmallSize: section.settings.timer_font_small_size,
+    smallColor: section.settings.timer_small_color, 
+    dotMarginY: section.settings.dot_margin_y,
+    startTime: section.settings.startTime, 
+    endTime: section.settings.endTime,
+    days: section.settings.days,
+    hours: section.settings.hours,
+    minutes: section.settings.minutes,
+    seconds: section.settings.seconds,
+    index: 0
+  %}
+</div>
+
+<script>
+// 定时器  index: 代表第几个 sold_txt: 按钮售罄的文案, flag: 代表是否为超出时间范围
+window['component_count_timer_{{section.id}}'] = function(index,sold_txt,flag) {
+	$(`#{{section.id}}`).hide()
+}
+</script>
+
+
+{% schema %}
+  {
+    "name": "component_count_timer",
+    "presets": [
+      {
+        "name": "component_count_timer"
+      }
+    ],
+    "settings": [
+      {
+        "type": "select",
+        "id": "show_device",
+        "label": "展示的设备",
+        "info": "移动端或PC端",
+        "options": [
+          {
+            "value": "showPc",
+            "label": "PC"
+          },
+          {
+            "value": "showMobile",
+            "label": "Mobile"
+          },
+          {
+            "value": "",
+            "label": "两端共用"
+          }
+        ],
+        "default": "showPc"
+      },
+      {
+        "type": "text",
+        "id": "box_width",
+        "label": "外层盒子的宽度",
+        "info": "可以是百分比可以是固定的像素，内容区域会默认居中",
+        "default": "100%"
+      },
+      {
+        "type": "text",
+        "id": "box_height",
+        "label": "外层盒子的高度",
+        "info": "可以是百分比可以是固定的像素，内容区域会默认居中",
+        "default": "500px"
+      },
+      {
+        "type": "text",
+        "id": "box_padding",
+        "label": "外层盒子的内边距",
+        "info": "用于在移动端不固定高度时，给留出的边距"
+      },
+      {
+        "type": "color",
+        "id": "box_bg",
+        "label": "外层盒子背景色",
+        "default": "#e5e5e5"
+      },
+      {
+        "type": "select",
+        "id": "timer_font_weight",
+        "label": "倒计时的文案粗细",
+        "default": "bold",
+        "options": [
+          {
+            "value": "bold",
+            "label": "bold"
+          },
+          {
+            "value": "normal",
+            "label": "normal"
+          }
+        ]
+      },
+      {
+        "type": "color",
+        "id": "timer_color",
+        "label": "倒计时文案的颜色",
+        "default": "#000000"
+      },
+      {
+        "type": "text",
+        "id": "timer_font_size",
+        "label": "倒计时文案大小",
+        "default": "20px"
+      },
+      {
+        "type": "text",
+        "id": "timer_font_small_size",
+        "label": "倒计时辅助文案大小",
+        "default": "14px"
+      },
+      {
+        "type": "color",
+        "id": "timer_small_color",
+        "label": "辅助文案的颜色",
+        "default": "#000000"
+      },
+      {
+        "type": "text",
+        "id": "startTime",
+        "label": "开始时间",
+        "info": "YYYY/MM/DD"
+      },
+      {
+        "type": "text",
+        "id": "endTime",
+        "label": "结束时间",
+        "info": "YYYY/MM/DD"
+      },
+      {
+        "type": "text",
+        "id": "dot_margin_y",
+        "label": "点点的向上边距",
+        "info": "点点是基于基线对齐，故提供为微调入口",
+        "default": "3px"
+      },
+      {
+        "type": "text",
+        "id": "days",
+        "label": "Days的描述文案",
+        "default": "Days"
+      },
+      {
+        "type": "text",
+        "id": "hours",
+        "label": "Hours的描述文案",
+        "default": "Hours"
+      },
+      {
+        "type": "text",
+        "id": "minutes",
+        "label": "Minutes的描述文案",
+        "default": "Minutes"
+      },
+      {
+        "type": "text",
+        "id": "seconds",
+        "label": "Seconds的描述文案",
+        "default": "Seconds"
+      }
+    ]
+  }
+{% endschema %}

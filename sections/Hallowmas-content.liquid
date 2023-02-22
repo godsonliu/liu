@@ -1,0 +1,278 @@
+{% if page.metafields['global']['banner'].value %}
+  {% assign sorting = page.metafields['global']['banner'].value %}
+{% else %}
+  {% assign sorting = page.metafields['global']['banner'] %}
+{% endif %}
+
+{% if page.metafields['global']['banner'].value %}
+  {% assign banner = page.metafields['global']['banner'].value %}
+{% else %}
+  {% assign banner = page.metafields['global']['banner'] %}
+{% endif %}
+
+{% if page.metafields['global']['copy_btn'].value %}
+  {% assign copy_btn = page.metafields['global']['copy_btn'].value %}
+{% else %}
+  {% assign copy_btn = page.metafields['global']['copy_btn'] %}
+{% endif %}
+
+{% if page.metafields.global.banner.value %}
+  {% assign banner = page.metafields.global.banner.value %}
+{% else %}
+  {% assign banner = page.metafields.global.banner %}
+{% endif %}
+
+{% if page.metafields['global']['alert_text'].value %}
+  {% assign alert_text = page.metafields['global']['alert_text'].value %}
+{% else %}
+  {% assign alert_text = page.metafields['global']['alert_text'] %}
+{% endif %}
+
+{% if page.metafields['global']['share'].value %}
+  {% assign share = page.metafields['global']['share'].value %}
+{% else %}
+  {% assign share = page.metafields['global']['share'] %}
+{% endif %}
+
+{% if page.metafields['global']['watch'].value %}
+  {% assign watch = page.metafields['global']['watch'].value %}
+{% else %}
+  {% assign watch = page.metafields['global']['watch'] %}
+{% endif %}
+
+{% if page.metafields['global']['products_bg'].value %}
+  {% assign products_bg = page.metafields['global']['products_bg'].value %}
+{% else %}
+  {% assign products_bg = page.metafields['global']['products_bg'] %}
+{% endif %}
+
+{% if page.metafields['global']['products_content'].value %}
+  {% assign products_content = page.metafields['global']['products_content'].value %}
+{% else %}
+  {% assign products_content = page.metafields['global']['products_content'] %}
+{% endif %}
+
+{% if page.metafields['global']['products_lucky'].value %}
+  {% assign products_lucky = page.metafields['global']['products_lucky'].value %}
+{% else %}
+  {% assign products_lucky = page.metafields['global']['products_lucky'] %}
+{% endif %}
+
+<div class="banner">
+  <img data-src="{{ banner.bgSrcMob }}" alt=""
+    class="halloBg lazyload is-hidden-desktop-only">
+  <video poster="{{ banner.pc_banner }}" class="is-hidden-mobile-only lazyload video_first"
+    data-src="{{ banner.bgSrc }}" preload="auto" muted="muted" autoplay="autoplay"
+    loop="loop" playsinline></video>
+  {% for item in  banner.GifSrcArr%}
+  <video class="lazyload video_one is-hidden-mobile-only" data-src="{{item}}"></video>
+  {% endfor %}
+  <div class="btn"></div>
+  {% for item in banner.audioSrc %}
+  <audio src="{{item}}" class="is-hidden-mobile-only"></audio>
+  {% endfor %}
+  <div class="banneralext">
+    <div class="banneralext_content-Box">
+      <div class="banneralext_content">
+
+        <img class="lazyload banneralext_content_bg is-hidden-mobile-only"
+          data-src="{{ banner.alert_src }}" alt="">
+        <img class="lazyload banneralext_content_bg is-hidden-desktop-only"
+          data-src="{{ banner.alert_src_mob }}" alt="">
+        <div class="closeBox">
+          <i class="iconfont">&#xe723;</i>
+        </div>
+        <div class="content">
+          <img class="lazyload banneralext_content_title"
+            data-src="{{ banner.alert_titlesrc }}" alt="">
+          <p class="banneralext_content_text">{{ banner.alert_text }} <span
+              class="codeCopy">{{ banner.code }}</span> <span style="background: #fa7621;" class="CopyAll" onclick="copyUrl2(event)"><span class="CopyBox"  data-clipboard-text="{{ banner.code }}" data-clipboard-target=".codeCopy"  >{{ copy_btn.copy_text }} </span><img
+              class="copyimg lazyload "
+              data-src="{{ copy_btn.copy_src }}"
+              alt=""></span>  </p>
+          <div class="banneralext_content_btn">
+            <a class="btnpath" href="" target="blank"
+              onclick="btnpath('{{ banner.alert_href }}')">
+              {{ banner.alert_btntext }}
+            </a>
+          </div>
+          <div class="rules">
+            <p>{{ alert_text }} </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="share">
+  <div class="share_products">
+    <img class="lazyload is-hidden-mobile-only" data-src="{{ share.share_products_src }}"
+      alt="">
+    <img class="lazyload is-hidden-desktop-only"
+      data-src="{{ share.share_products_src_mob }}" alt="">
+    <h1>{{ share.share_products_title }}</h1>
+    <p> {{ share.share_products_text }}</p>
+    <p> {{ share.share_products_text_two }}</p>
+  </div>
+  <div class="share_text">
+    {{ share.text }}
+  </div>
+  <div class="share_btn">
+    <a target="blank" href="{{ share.href }}" onclick="Atopath()">
+      <img class="lazyload" data-src="{{ share.btnSrc }}" alt="">
+    </a>
+  </div>
+  <!-- <div class="rules">
+    <h2>{{ share.rules_title }}</h2>
+    <p>{{ share.rules_text }}</p>
+  </div> -->
+  <img class="sharepc lazyload is-hidden-mobile-only" data-src="{{ share.bgSrc }}" alt="">
+  <img class="sharemob lazyload is-hidden-desktop-only" data-src="{{ share.bgSrcMob }}"
+    alt="">
+  <div class="ktv">
+    <iframe width="640" height="360" class="lazyload" data-src="{{ share.youtube_src }}"
+      title="YouTube video player" frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen></iframe>
+  </div>
+
+</div>
+<!-- <div class="watchBox is-hidden-desktop-only">
+  <img data-src="{{ watch.bgSrc }}" alt="" class="watch_bg lazyload is-hidden-desktop-only">
+  <img data-src="{{ watch.bgSrcMob }}" alt="" class="watch_bg lazyload is-hidden-mobile-only">
+  <h1>{{ watch.title }}</h1>
+  <video class="lazyload" data-src=""></video>
+</div> -->
+<div class="products">
+  <img data-src="{{ products_bg.bgSrcMob }}" alt=""
+    class="products_bg  lazyload is-hidden-desktop-only">
+  <img data-src="{{ products_bg.bgSrc }}" alt=""
+    class="products_bg lazyload is-hidden-mobile-only">
+  <h1>{{ products_bg.title }}</h1>
+  <div class="products_content">
+    {% for item in products_content%}
+    <div class="products_text">
+      <div class="products_content_text">
+        <h2>{{item.title}}</h2>
+        <p>{{item.text}}</p>
+        <div class="products_btn" onclick="ToPath('{{item.href}}','{{item.JSTEXT}}','{{item.JSTEXTTWO}}')">
+          {{item.btn_text}}
+        </div>
+        {% if item.TimeText != blank%}
+        <p class="products_bottom ">{{ item.TimeText }}</p>
+        {% endif %}
+      </div>
+      <img data-src="{{item.src}}" alt="" class="lazyload is-hidden-mobile-only">
+      <img data-src="{{item.mobsrc}}" alt="" class="lazyload is-hidden-desktop-only">
+
+    </div>
+    {% endfor %}
+    <div class="products_text_bottom">
+      <h3>{{ products_lucky.title }}</h3>
+      {% for item in  products_lucky.lucky_rules %}
+      <p>{{item.text}}</p>
+      {%endfor%}
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js"></script>
+
+<script>
+  var btn=document.getElementsByClassName('CopyBox')[0]
+  var clipboard = new ClipboardJS(btn);
+  copyUrl2()
+  function copyUrl2(ev){
+    clipboard.on('success', function(e) {
+      $('.CopyAll').css({"background":"#fff","border":"1px solid #fa7621"})
+      $('.CopyBox').css('color','#fa7621')
+      e.trigger.innerText = "{{ copy_btn.copied_text }}";
+      $('.copyimg').attr('src',"{{ copy_btn.copied_src }}")
+      setTimeout(() =>{
+        e.trigger.innerText = "{{ copy_btn.copy_text }}"
+        $('.copyimg').attr('src',"{{ copy_btn.copy_src }}")
+        $('.CopyAll').css({"background":"#fa7621","border":"none"})
+        $('.CopyBox').css('color','#fff')
+      } , 3000);
+     e.clearSelection();
+    });
+  }
+  let ArrLength = {{sorting | json}}
+  let AudioNum = 0
+  let palyAudio = true
+  $('.btn').on('click', function () {
+    dataLayer.push({
+      "event": "uaEvent",
+      "eventCategory": 'smart_drop_halloween',
+      "eventAction": "lucky_draw",
+      "eventLabel": "undefined",
+      "eventValue": "undefined",
+    })
+    if ($(window).width() > 768) {
+      if (palyAudio) {
+        $('.video_one').css('opacity', '0')
+        palyAudio = false
+        $('.btn').css('cursor', 'not-allowed')
+        AudioNum = Math.floor(Math.random() * ArrLength.length)
+        $('audio').eq(AudioNum).get(0).play()
+        $('.video_first').css('opacity', '0')
+        $('.video_one').eq(AudioNum).css('opacity', '1')
+        $('.video_one').eq(AudioNum).get(0).play()
+        $('.video_one').eq(AudioNum).on('ended', function () {
+          $('.btn').css('cursor', 'pointer')
+          palyAudio = true
+          $('.banneralext').show()
+        })
+      }
+    } else {
+      $('.banneralext').show()
+    }
+
+  })
+
+  function ToPath(el,el2,el3) {
+    window.location.href = el
+    dataLayer.push({
+      "event": "uaEvent",
+      "eventCategory": 'smart_drop_halloween',
+      "eventAction": el2,
+      "eventLabel": el3,
+      "eventValue": "undefined",
+    })
+  }
+  function Atopath(){
+    dataLayer.push({
+      "event": "uaEvent",
+      "eventCategory": 'smart_drop_halloween',
+      "eventAction": "click_tiktok",
+      "eventLabel": "undefined",
+      "eventValue": "undefined",
+    })
+  }
+
+  function btnpath(el) {
+    $('.btnpath').attr('href', el)
+    dataLayer.push({
+      "event": "uaEvent",
+      "eventCategory": 'smart_drop_halloween',
+      "eventAction": "click_pre_order",
+      "eventLabel": "t8790",
+      "eventValue": "undefined",
+    })
+  }
+
+  $('.closeBox').on('click', function (e) {
+    e.stopPropagation()
+    $('.banneralext').hide()
+  })
+  $('.rules').on('click', function () {
+    $("html,body").animate({
+      scrollTop: $(".products_text_bottom").offset().top - 200
+    }, 1000)
+  })
+  $('.line').on('click', function () {
+    $("html,body").animate({
+      scrollTop: $(".products_text_bottom").offset().top - 200
+    }, 1000)
+  })
+</script>

@@ -1,0 +1,129 @@
+{% assign lang = page.metafields.global %}
+
+{% if lang.overview.value %}
+  {% assign overview = lang.overview.value %}
+{% else %}
+  {% assign overview = lang.overview %}
+{% endif %}
+
+
+<div class="t8213_video">
+  <div class="banner_2">
+    <!-- <div class="btm_video"></div> -->
+    <div class="banner_2_content">
+      <div class="banner_2_font">
+        <div class="banner_2_title">{{ overview.banner_2_title }}</div>
+        <div class="banner_2_text">{{ overview.banner_2_text }}</div>
+      </div>
+      <div class="box_content_all">
+        
+        <img class="pc1_show lazyload" data-src="{{ overview.video_images }}" alt="" style="opacity: 0;">
+        <img class="mob1_show lazyload" data-src="{{ overview.video_mob_images }}" alt="" style="opacity: 0;">
+        <div class="box_content_contain">
+          <div class="box_content pc1_show">
+            <div class="item_1">
+              <div class="font">
+                {{ overview.item_1_font }}
+              </div>
+              <div class="item-content">
+                <img class="lazyload" data-src="{{ overview.item_1_img }}" alt="">
+              </div>
+            </div>
+            <div class="item_2">
+              <div class="font">
+                {{ overview.item_2_font }}
+              </div>
+              <div class="item-content">
+                <img class="lazyload" data-src="{{ overview.item_2_img }}" alt="">
+              </div>
+            </div>
+            <div class="item_3">
+              <div class="font">
+                {{ overview.item_3_font }}
+              </div>
+              <div class="item-content">
+                <img class="lazyload" data-src="{{ overview.item_3_img }}" alt="">
+              </div>
+            </div>
+            <div class="item_4">
+              <div class="font">
+                {{ overview.item_4_font }}
+              </div>
+              <div class="item-content">
+                <img class="lazyload" data-src="{{ overview.item_4_img }}" alt="">
+              </div>
+            </div>
+            <div class="item_5">
+              <div class="font">
+                {{ overview.item_5_font }}
+              </div>
+              <div class="item-content">
+                <img class="lazyload" data-src="{{ overview.item_5_img }}" alt="">
+              </div>
+            </div>
+            <div class="item_6">
+              <div class="font">
+                {{ overview.item_6_font }}
+              </div>
+              <div class="item-content">
+                <img class="lazyload" data-src="{{ overview.item_6_img }}" alt="">
+              </div>
+            </div>
+          </div>
+          <div class="box_content mob1_show">
+            <div class="item_1">
+              <div class="font">
+                {{ overview.item_1_font_mob }}
+              </div>
+              <div class="item-content">
+                <img class="lazyload" data-src="{{ overview.item_1_img_mob }}" alt="">
+              </div>
+            </div>
+            <div class="item_2">
+              <div class="font">
+                {{ overview.item_2_font_mob }}
+              </div>
+              <div class="item-content">
+                <img class="lazyload" data-src="{{ overview.item_2_img_mob }}" alt="">
+              </div>
+            </div>
+            <div class="item_3">
+              <div class="font">
+                {{ overview.item_3_font_mob }}
+              </div>
+              <div class="item-content">
+                <img class="lazyload" data-src="{{ overview.item_3_img_mob }}" alt="">
+              </div>
+            </div>
+            <div class="item_4">
+              <div class="font">
+                {{ overview.item_4_font_mob }}
+              </div>
+              <div class="item-content">
+                <img class="lazyload" data-src="{{ overview.item_4_img_mob }}" alt="">
+              </div>
+            </div>
+            <div class="item_5">
+              <div class="font">
+                {{ overview.item_5_font_mob }}
+              </div>
+              <div class="item-content">
+                <img class="lazyload" data-src="{{ overview.item_5_img_mob }}" alt="">
+              </div>
+            </div>
+            <div class="item_6">
+              <div class="font">
+                {{ overview.item_6_font_mob }}
+              </div>
+              <div class="item-content">
+                <img class="lazyload" data-src="{{ overview.item_6_img_mob }}" alt="">
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+      
+    </div>
+  </div>
+</div>

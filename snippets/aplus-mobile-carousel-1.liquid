@@ -1,0 +1,123 @@
+{% capture moduleId %}{{ id }}-mobile{% endcapture %}
+
+{% if textBgBlack %}
+  {% assign textColor = 'white-text' %}
+{% else %}
+  {% assign textColor = 'black-text' %}
+{% endif %}
+
+<div id="{{ moduleId }}" class="aplus-mobile-carousel aplus-mobile-carousel-1">
+  {% if topTextCard %}
+    <div
+      class="aplus-carousel__text-wrapper"
+      aria-controls="{{ moduleId }}"
+    >
+      {% for item in items %}
+          <div data-index="{{ forloop.index0 }}" class="{% unless forloop.index0 != 0 %} active {% endunless %}">
+            {%render 'aplus-text-card'
+              subtitle: item.subheadline,
+              title: item.headline,
+              description: item.body,
+              textColor: textColor,
+              textAlign: 'text-center',
+              learnMoreText: item.learnMoreText,
+              url: item.url,
+              isSchemaData: isSchemaData
+            %}
+          </div>
+      {% endfor %}
+    </div>
+  {%endif%}
+  {% if topTitle %}
+    <div
+      class="aplus-carousel__text-wrapper"
+      aria-controls="{{ moduleId }}"
+    >
+      {% for item in items %}
+        <div data-index="{{ forloop.index0 }}" class="{% unless forloop.index0 != 0 %} active {% endunless %}">
+          {%render 'aplus-text-card'
+            subtitle: item.subheadline,
+            title: item.headline,
+            isSchemaData: isSchemaData,
+            textAlign: 'text-center',
+          %}
+        </div>
+    {% endfor %}
+    </div>
+  {% endif %}
+  <div class="swiper-container {% if noPagination%} no-pagination {%endif%}">
+    <div class="swiper-wrapper">
+      {% for item in items %}
+        <div class="swiper-slide" data-headline="{{ item.headline }}">
+          {% capture slideId %}{{ id }}-{{ forloop.index0 }}{% endcapture %}
+          {% if item.videoUrl != blank %}
+            {% render 'aplus-video-player'
+              id: slideId,
+              coverUrl: item.coverUrl,
+              videoUrl: item.videoUrl,
+              thirdPartyVideo: thirdPartyVideo,
+              isSchemaData: isSchemaData
+            %}
+          {% else %}
+            {% if item.mobileImageUrl != blank %}
+              {% assign imageUrl = item.mobileImageUrl %}
+            {% else %}
+              {% assign imageUrl = item.imageUrl %}
+            {% endif %}
+            {% render 'lazyload_image'
+              src: imageUrl,
+              additional_classes: 'is-hidden-desktop-only'
+              isSchemaData: isSchemaData
+            %}
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+    {% unless noPagination %}
+      <div class="swiper-pagination"></div>
+    {% endunless %}
+    {% unless noArrow %}
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+    {% endunless %}
+  </div>
+  {% unless topTextCard %}
+    <div
+      class="aplus-carousel__text-wrapper"
+      aria-controls="{{ moduleId }}"
+    >
+      {% for item in items %}
+          <div data-index="{{ forloop.index0 }}" class="{% unless forloop.index0 != 0 %} active {% endunless %}">
+            {% if topTitle %}
+              {%render 'aplus-text-card'
+                description: item.body,
+                textColor: textColor,
+                textAlign: 'text-center',
+                learnMoreText: item.learnMoreText,
+                url: item.url,
+                isSchemaData: isSchemaData
+              %}
+            {% else %}
+              {%render 'aplus-text-card'
+                subtitle: item.subheadline,
+                title: item.headline,
+                description: item.body,
+                textColor: textColor,
+                textAlign: 'text-center',
+                learnMoreText: item.learnMoreText,
+                url: item.url,
+                isSchemaData: isSchemaData
+              %}
+            {% endif %}
+          </div>
+      {% endfor %}
+    </div>
+{% endunless %}
+</div>
+{% render 'aplus-carousel-script'
+  swiperMode: swiperMode,
+  moduleId: moduleId,
+  items: items,
+  noPagination: noPagination,
+  noArrow: noArrow
+%}

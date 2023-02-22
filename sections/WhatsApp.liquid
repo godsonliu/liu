@@ -1,0 +1,92 @@
+{% if section.settings.show_whats_app %}
+{% style %}
+  .WhatsApp{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    z-index: 8;
+    right: 1rem;
+    bottom: 156px;
+    width: 46px;
+    height: 46px;
+    background: rgba(0, 0, 0, .4);
+    text-align: center;
+    transition: 200ms;
+    border-radius: 100px;
+    cursor: pointer;
+  }
+
+  .WhatsApp img{
+    width: 70%;
+  }
+
+  @media (min-width: 769px) {
+    .WhatsApp:hover{
+      background-color: rgba(0, 0, 0, .8);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .WhatsApp{
+      bottom: 97px;
+    }
+  }
+{% endstyle %}
+
+<a class="WhatsApp" id="WhatsApp" target="_blank" rel="noopener noreferrer" href="{{ section.settings.whats_app_link }}">
+  <img src="https://cdn.shopify.com/s/files/1/0501/7678/6607/files/WhatsApp_1.svg?v=1659606426">
+</a>
+
+<script>
+  (function() {
+    document.getElementById('WhatsApp').addEventListener('click', function() {
+      // ga3
+      dataLayer.push({
+        "event": "uaEvent", 
+        "eventCategory": "bottom_function",
+        "eventAction": "customer_service",
+        "eventLabel": "", 
+      })
+
+      // ga4
+      window.dataLayer.push({ "event_parameters": null });
+      window.dataLayer.push({
+        "event": "ga4Event",
+        "event_name": "bottom_function",
+        "event_parameters": {
+          "action": "customer_service"
+        }
+      })
+    })
+  })()
+</script>
+
+{% endif %}
+
+{% schema %}
+
+{
+  "name": "WhatsApp",
+  "presets": [
+    {
+      "name": "WhatsApp"
+    }
+  ],
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_whats_app",
+      "label": "Show WhatsApp",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "whats_app_link",
+      "label": "WhatsApp Link",
+      "default": "https://wa.me/971529750842"
+    }
+  ]
+}
+
+{% endschema %}

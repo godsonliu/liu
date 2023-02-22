@@ -1,0 +1,190 @@
+{% assign lang = product.metafields.global %}
+
+{% if lang.products.value %}
+  {% assign products = lang.products.value %}
+{% else %}
+  {% assign products = lang.products %}
+{% endif %}
+
+{% if lang.products.value %}
+  {% assign products = lang.products.value %}
+{% else %}
+  {% assign products = lang.products %}
+{% endif %}
+
+{% if lang.products.value %}
+  {% assign products = lang.products.value %}
+{% else %}
+  {% assign products = lang.products %}
+{% endif %}
+
+{% if lang.products.value %}
+  {% assign products = lang.products.value %}
+{% else %}
+  {% assign products = lang.products %}
+{% endif %}
+
+{% if shop.metafields['global']['storefront_key'].value %}
+  {% assign storefront_key = shop.metafields['global']['storefront_key'].value %}
+{% else %}
+  {% assign storefront_key = shop.metafields['global']['storefront_key'] %}
+{% endif %}
+
+
+{% for item in products %}
+  {% assign oProduct = all_products[item.handle] %}
+  {% if oProduct.variants == blank %}
+    {% assign sold_out = true %}
+  {% else %}
+    {% for v in oProduct.variants %}
+      {% if v.sku == item.sku %}
+        {% assign oVariant = v %}
+      {% endif %}
+    {% endfor %}
+    {% if oVariant.available == false or oVariant.price == 999999999 %}
+      {% assign sold_out = true %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
+
+{% if sold_out %}
+  <span class="product-thumbnail__sold-out">{{ 'products.product.sold_out' | t }}</span>
+  <style>.current_price, .purchase-details__quantity { display: none; }</style>
+{% else %}
+  <button class="customize_button_addtocart">{{ addtocat_txt }}</button>
+  <button class="customize_button_buynow">{{ buynow_txt }}</button>
+  <button class="customize_button_klarna">{{buynow_txt2}}</button>
+{% endif %}
+
+<script>
+
+  function line_item(variants, product) {
+    let line_item = {};
+    variants.map(item => {
+      if(item.sku === product.sku) line_item.variant_id = item.id
+    });
+    line_item.quantity = Number($(".purchase-details input").val());
+    return line_item;
+  }
+  function variantArr(variants, product) {
+    let variantArr = {};
+    variants.map(item => {
+      if(item.sku === product.sku) variantArr.id = item.id
+    });
+    variantArr.quantity = Number($(".purchase-details input").val());
+    return variantArr;
+  }
+
+  $('.customize_button_addtocart').click(e => {
+    e.preventDefault();
+    let variantsArr = [];
+    {% for item in products %}
+      {% assign product = all_products[item.handle] %}
+      variantsArr.push(variantArr({{ product.variants | json }}, {{ item | json }}))
+    {% endfor %}
+    Shopify.theme.addItemsToCart(variantsArr, {
+      onError: err => $.dialog({ title: err.message, content: err.description, type: 'red' })
+    })
+  })
+  $('.customize_button_buynow').click(e => {
+    e.preventDefault();
+    let line_items = [];
+    {% for item in products %}
+      {% assign product = all_products[item.handle] %}
+      line_items.push(line_item({{ product.variants | json }}, {{ item | json }}));
+    {% endfor %}
+    Shopify.theme.bundleBuynow({
+      authorization: "{{ storefront_key }}",
+      checkout: {
+        line_items: line_items,
+        presentment_currency: "{{ shop.currency }}",
+        is_upstream_button: true,
+        page_type: "product",
+        secret: true,
+        wallet_name: "Checkout"
+      },
+      onSuccess: () => {},
+      onError: err => $.dialog({ title: err.message, content: err.description, type: 'red' })
+    });
+  })
+  $('.customize_button_klarna').click(e => {
+    e.preventDefault();
+    let line_items = [];
+    {% for item in products %}
+      {% assign product = all_products[item.handle] %}
+      line_items.push(line_item({{ product.variants | json }}, {{ item | json }}));
+    {% endfor %}
+    line_items.forEach(element => {
+      element.properties = {_x8_klarna_promo: '_x8_klarna_promo'}
+    });
+    Shopify.theme.bundleBuynow({
+      authorization: "{{ storefront_key }}",
+      checkout: {
+        line_items: line_items,
+        presentment_currency: "{{ shop.currency }}",
+        is_upstream_button: true,
+        page_type: "product",
+        secret: true,
+        wallet_name: "Checkout"
+      },
+      onSuccess: () => {},
+      onError: err => $.dialog({ title: err.message, content: err.description, type: 'red' })
+    });
+  })
+
+</script>
+
+<style>
+  .product-thumbnail__sold-out {
+    font-size: 36px;
+    font-weight: 700;
+    color: rgba(0,0,0,.3);
+  }
+  .customize_button_addtocart, .customize_button_buynow {
+    font-weight: 600;
+    border-radius: 22px;
+    height: 36px;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 0rem 4rem;
+    border: none;
+    max-width: calc(calc(50% - 12px));
+    width:100%;
+  }
+  .customize_button_addtocart {
+    margin-right: 1rem;
+    color: #1db2a6;
+    background: #fff;
+    border: 1px solid #1db2a6;
+  }
+  .customize_button_buynow {
+    background: linear-gradient(to right,#4391e5,#03d7c7);
+    color: #fff;
+    border: 1px solid transparent;
+  }
+  .customize_button_buynow:hover {
+    background: #fff;
+    color: #1db2a6;
+    border: 1px solid #1db2a6;
+  }
+  .customize_button_klarna{
+    font-weight: 700;
+    border-radius: 22px;
+    height: 36px;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 0rem 4rem;
+    border: none;
+    max-width: calc(calc(100% - 12px));
+    width:100%;
+    background: rgb(255, 179, 199);
+    margin-top: 15px;
+    color: #000;
+  }
+  .product-form-container { padding: 0; }
+  .purchase-details .purchase-details__spb--true { margin: 1rem auto; }
+  @media (max-width: 767px){
+    .customize_button_addtocart, .customize_button_buynow, .customize_button_klarna { max-width: 100%; }
+    .customize_button_addtocart { margin: 0 0 1rem; }
+  }
+  </style>

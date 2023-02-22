@@ -1,0 +1,35 @@
+{% if shop.metafields.global.trustpilot.value %}
+  {% assign trustpilot = shop.metafields.global.trustpilot.value %}
+{% else %}
+  {% assign trustpilot = shop.metafields.global.trustpilot %}
+{% endif %}
+
+{% comment %}
+  Required values
+  name: <trustpilot name>
+  sku
+{% endcomment %}
+
+
+{% if trustpilot %}
+  <div
+    class="trustpilot-widget"
+    href="{{ trustpilot[name].data.href }}"
+    data-locale="{{ trustpilot.lang }}"
+    data-template-id="{{ trustpilot[name].data.templateId }}"
+    data-businessunit-id="{{ trustpilot[name].data.businessunitId }}"
+    data-style-height="{{ trustpilot[name].data.height }}"
+    data-style-width="{{ trustpilot[name].data.width }}"
+    data-theme="{{ trustpilot[name].data.theme }}"
+    data-stars="{{ trustpilot[name].data.stars }}"
+    data-review-languages="{{ trustpilot[name].data.languages }}"
+    data-sku="{{ sku }}"
+    data-font-family="{{ trustpilot.fontFamily }}"
+    data-link-color="{{ trustpilot[name].data.linkColor }}"
+    data-star-color="{{ trustpilot[name].data.starColor }}"
+  >
+    <a href="{{ trustpilot[name].data.href }}" target="_blank" rel="noopener noreferrer">
+      Trustpilot
+    </a>
+  </div>
+{% endif %}

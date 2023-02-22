@@ -1,0 +1,291 @@
+<style>
+  .smartSock-banner {
+    position: relative;
+    color: #333;
+  }
+  .smartSock-banner .banner-container {
+    position: absolute;
+    width: 64.58vw;
+    top: 6.6vw;
+    left: 50%;
+    margin-left: -32.29vw;
+  }
+  
+  .smartSock-banner .banner-title {
+    display: flex;
+    align-items: center;
+  }
+  .smartSock-banner .banner-title h1 {
+    font-size: 1.14vw;
+    font-weight: 400;
+  }
+  .smartSock-banner .banner-title .title-tag {
+    font-size: 1.25vw;
+    font-weight: 600;
+    margin-left: 1vw;
+    border: 2px solid #000;
+    border-radius: 4px;
+    padding: 0 12px 2px;
+    line-height: 1.38;
+  }
+  .smartSock-banner .subtitle {
+    font-size: 2.39vw;
+    font-weight: 600;
+    margin-top: 10px;
+    margin-bottom: 0;
+  }
+  .smartSock-banner .btn-buy {
+    margin-top: 3.9vw;
+  }
+  .smartSock-banner .btn-buy a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 11.45vw;
+    height: 2.34vw;
+    font-size: 1.04vw;
+    background: linear-gradient(270deg, #69B1E8 0%, #B3D9F5 100%);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    color: #fff;
+    border-radius: 60px;
+    transition: background 0.2s;
+  }
+  .smartSock-banner .btn-buy a:hover {
+    background: transparent;
+    border: 2px solid #90c2e8;
+    color: #90c2e8;
+  }
+  .smartSock-banner .feature {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin-top: 4vw;
+  }
+  .smartSock-banner .feature li {
+    margin-right: 3.6vw;
+  }
+  .smartSock-banner .feature li:last-child {
+    margin-right: 0;
+  }
+  .smartSock-banner .feature .icon-wrap {
+    display: flex;
+    height: 3.07vw;
+  }
+  .smartSock-banner .feature .image-element__wrap {
+    width: 100%;
+    height: 100%;
+  }
+  .smartSock-banner .feature .image-element__wrap img {
+    height: 100%;
+    width: auto;
+  }
+  .smartSock-banner .feature p {
+    font-size: 1vw;
+    font-weight: 600;
+    margin-top: 1vw;
+  }
+  @media screen and (min-width: 769px) {
+    .mob-show {
+      display: none !important;
+    }
+  }
+  @media screen and (max-width: 768px) {
+    .pc-show {
+      display: none !important;
+    }
+    .smartSock-banner .banner-container {
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      margin-left: 0;
+      padding-top: 10.1vw;
+      text-align: center;
+    }
+    .smartSock-banner .banner-title {
+      justify-content: center;
+    }
+    .smartSock-banner .banner-title h1 {
+      font-size: 4.2vw;
+    }
+    .smartSock-banner .banner-title .title-tag {
+      font-size: 2.4vw;
+      padding: 0 12px;
+    }
+    .smartSock-banner .subtitle {
+      font-size: 8vw;
+    }
+    .smartSock-banner .btn-buy a {
+      position: absolute;
+      bottom: 12vw;
+      left: 50%;
+      margin-left: -26.66vw;
+      width: 53.33vw;
+      height: 10.66vw;
+      line-height: 10.66vw;
+      font-size: 4vw;
+    }
+    .smartSock-banner .feature {
+      justify-content: center;
+      margin-top: 7.46vw;
+    }
+    .smartSock-banner .feature li {
+      margin-right: 9.2vw;
+    }
+    .smartSock-banner .feature .icon-wrap {
+      height: 7.86vw;
+    }
+    .smartSock-banner .feature p {
+      font-size: 2.66vw;
+    }
+  }
+</style>
+
+<section class="smartSock-banner">
+  {% render 'image-element', 
+    image: section.settings.background,
+    alt: section.settings.background.alt,
+    additional_classes: "pc-show"
+  %}
+  {% render 'image-element', 
+    image: section.settings.background_mob,
+    alt: section.settings.background_mob.alt,
+    additional_classes: "mob-show"
+  %}
+  <div class="banner-container">
+    <div class="banner-title">
+      <h1>{{ section.settings.title }}</h1>
+      <p class="title-tag">{{ section.settings.tag }}</p>
+    </div>
+    <p class="subtitle">{{ section.settings.subtitle }}</p>
+    <div class="btn-buy pc-show">
+      <a href="{{section.settings.link}}">{{ section.settings.btn }}</a>
+    </div>
+    <ul class="feature">
+      {% for block in section.blocks %}
+        <li>
+          <div class="icon-wrap">
+            {% render 'image-element', 
+              image: block.settings.icon,
+              alt: block.settings.icon.alt
+            %}
+          </div>
+          <p>{{ block.settings.text }}</p>
+        </li>
+      {% endfor %}
+    </ul>
+    <div class="btn-buy mob-show">
+      <a href="{{section.settings.link}}">{{ section.settings.btn }}</a>
+    </div>
+  </div>
+</section>
+
+<script>
+  $(function() {
+
+    $(".btn-buy a").on("click", function() {
+      // GA3代码
+      dataLayer.push({
+        "event": "uaEvent", // Trigger
+        "eventCategory": "Activity Page_{{page.handle}}",
+        "eventAction": "masterbanner",
+        "eventLabel": "{{ section.settings.btn }}", //取按钮文字
+      });
+  
+      // GA4代码
+      window.dataLayer.push({ "event_parameters": null });
+      window.dataLayer.push({
+        "event": "ga4Event",
+        "event_name": "lp_button",
+        "event_parameters": {
+          "page_group": "Activity Page_{{page.handle}}",
+          "button_name": "{{ section.settings.btn }}", //取按钮名字
+          "position": "Activity Page_masterbanner" //专题页首屏
+        }
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Smart Sock Banner",
+  "presets": [
+    {
+      "name": "Smart Sock Banner",
+      "blocks": [
+        {
+          "type": "feature"
+        },
+        {
+          "type": "feature"
+        },
+        {
+          "type": "feature"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "background",
+      "label": "banner背景图"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_mob",
+      "label": "banner移动端背景图"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "标题",
+      "default": "S360 Smart Sock"
+    },
+    {
+      "type": "text",
+      "id": "tag",
+      "label": "标签",
+      "default": "Now with Added Display"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "副标题",
+      "default": "Never Miss a Tiny Beat"
+    },
+    {
+      "type": "text",
+      "id": "btn",
+      "label": "购买按钮",
+      "default": "Buy Now"
+    },
+    {
+      "type": "text",
+      "id": "link",
+      "label": "购买链接",
+      "default": "/products/e8312"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "feature",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "图标"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "文案"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,770 @@
+<style>
+.page_lc35_popup {
+  width: 100%;
+  max-width: 600px;
+  min-height: 550px;
+  text-align: center;
+  padding: 35px 50px;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 30px;
+  background: #fff;
+  z-index: 99;
+  display: none;
+}
+.page_lc35_popup .text-underline {
+  text-decoration: underline;
+}
+.page_lc35_popup .close-svg {
+  position: absolute;
+  top: 15px;
+  right: 25px;
+  cursor: pointer;
+}
+
+.page_lc35_popup .main-title {
+  color: #262626;
+  font-size: 30px;
+  line-height: 30px;
+  font-weight: 700;
+}
+
+.page_lc35_popup .title {
+  color: #262626;
+  font-size: 20px;
+  line-height: 30px;
+}
+.page_lc35_popup .sub_title {
+  color: #404040;
+  font-size: 14px;
+  line-height: 20px;
+  margin-bottom: 15px;
+}
+
+.page_lc35_popup .my-button {
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
+  background: linear-gradient(90deg, #26A4E4 0%, #22D1C6 100%);
+  border-radius: 30px;
+  color: #F8F8F8;
+  font-size: 24px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-weight: 600;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+	-webkit-tap-highlight-color: transparent;
+}
+.page_lc35_popup .my-button[disabled] {
+	pointer-events: none;
+	cursor: not-allowed;
+}
+
+
+.lc35_popup_1 .input-area {
+  margin-bottom: 25px;
+}
+.lc35_popup_1 .my-input {
+  display: block;
+  width: 100%;
+  height: 40px;
+  border: 1px solid #acacac;
+  border-radius: 30px;
+  outline: none;
+  color: #262626;
+  font-size: 16px;
+  padding: 0 30px;
+  overflow: hidden;
+}
+.lc35_popup_1 .input_upload {
+  text-align: left;
+  line-height: 40px;
+  cursor: pointer;
+  color: #27A5E4;
+}
+.lc35_popup_1 .input_upload_disabled {
+  pointer-events: none;
+  cursor: not-allowed;
+}
+.lc35_popup_1 .form-message {
+  color: #ACACAC;
+  font-size: 14px;
+  margin-bottom: 5px;
+  text-align: left;
+}
+.lc35_popup_1 .form-message a {
+  color: #ACACAC;
+  text-decoration: underline;
+}
+.lc35_popup_2, .lc35_popup_3 { display: none; }
+
+.lc35_popup_1 .error-info {
+	height: 30px;
+	text-align: center;
+}
+.lc35_popup_1  .info_tips {
+  display: none;
+	font-size: 12px;
+	color: #ee3749;
+}
+
+
+.lc35_popup_2 .coupon-item {
+  background: #F2F2F2;
+  border-radius: 30px;
+  padding: 15px 70px;
+  margin-bottom: 20px;
+}
+.lc35_popup_2 .coupon-item:last-child {
+  margin-bottom: 0;
+}
+.lc35_popup_2 .coupon-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #404040;
+}
+.lc35_popup_2 .code {
+  width: 30px;
+  display: inline-block;
+  text-align: left;
+  color: #27A5E4;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.lc35_popup_2 .shop-now {
+  display: block;
+  margin-top: 10px;
+}
+
+.lc35_popup_3 .rules {
+  color: #ACACAC;
+  text-align: left;
+  line-height: 25px;
+}
+.lc35_popup_3 .rules div {
+  padding-left: 10px;
+  text-indent: -10px;
+}
+.lc35_popup_3 .call-back {
+  width: 18%;
+  margin: 10px auto;
+  font-size: 18px;
+  height: 34px;
+  line-height: 34px;
+}
+
+@media(max-width: 767px) {
+  .page_lc35_popup {
+    max-height: 98%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    padding: 30px 20px;
+  }
+  .page_lc35_popup .close-svg {
+    right: 15px;
+    top: 15px;
+  }
+  .lc35_popup_1 .sub_title {
+    text-align: left;
+  }
+  .lc35_popup_1 .input-area {
+    margin-bottom: 15px;
+  }
+  .lc35_popup_2 .shop-now {
+    width: 80%;
+    font-size: 18px;
+    margin: 10px auto 0 auto;
+  }
+  .lc35_popup_2 .coupon-item {
+    padding: 25px 5px;
+  }
+  .lc35_popup_2 .coupon-title {
+    font-size: 16px;
+    text-align: center;
+  }
+  .lc35_popup_3 .rules {
+    font-size: 12px;
+  }
+}
+</style>
+
+<div class="page_lc35_popup" id="{{section.id}}">
+  <svg class="close-svg" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M2.29663 1.16394L10.8594 10.6781" stroke="#ACACAC" stroke-width="1.4" stroke-linecap="square"/>
+    <line y1="-0.7" x2="14" y2="-0.7" transform="matrix(-0.668965 0.743294 0.882642 0.470046 11.3655 1)" stroke="#ACACAC" stroke-width="1.4"/>
+  </svg>
+
+  <div class="lc35_popup_1 lc35_popup_child">
+    <div class="title">{{ section.settings.popup_title }}</div>
+    <div class="sub_title">{{ section.settings.popup_sub_title }}</div>
+    <div class="input-area">
+      <input type="text" class="my-input email_input" placeholder="{{section.settings.email_placeholder}}" />
+    </div>
+    <label class="my-input input-area input_upload" for="input_upload">
+      <span class="input_upload_txt">{{ section.settings.upload_files }}</span>
+      <input type="file" id="input_upload" style="display: none" accept="image/*,application/pdf" />
+    </label>
+    <div class="form-message">
+      <input type="checkbox" class="form-checkbox policy-checkbox" />
+      {{ section.settings.form_message }}
+    </div>
+    <div class="error-info">
+      <div class="info_tips info_fill_email">{{ section.settings.info_fill_email }}</div>
+      <div class="info_tips info_err_email">{{ section.settings.info_err_email }}</div>
+      <div class="info_tips info_select_policy">{{ section.settings.info_select_policy }}</div>
+      <div class="info_tips info_fill_file">{{ section.settings.info_fill_file }}</div>
+    </div>
+    <button class="my-button">{{ section.settings.button_txt }}</button>
+  </div>
+  <div class="lc35_popup_2 lc35_popup_child">
+    <div class="sub_title">{{ section.settings.popup_2_desc }}</div>
+    {% if section.settings.popup_2_desc2 != blank %}
+    <div class="sub_title">{{ section.settings.popup_2_desc2 }}</div>
+    {% endif %}
+    <div class="coupon-list">
+    </div>
+  </div>
+  <div class="lc35_popup_3 lc35_popup_child">
+    <div class="title">{{ section.settings.popup_3_title }}</div>
+    <div class="rules">
+      {{ section.settings.popup_3_content }}
+    </div>
+    <div class="my-button call-back">{{ section.settings.call_back }}</div>
+  </div>
+</div>
+
+<script>
+$(function() {
+  function pushErrorDataLayer() {}
+  $('.page_lc35_popup .close-svg').on('click', function() {
+    $('.page_lc35_popup').hide()
+  })
+  let presell_pic_url = null
+  const subscribe_private = {
+		timer: null,
+		regExp: {
+			email: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+		},
+		isEmail: val => subscribe_private.regExp.email.test(val),
+		tip_info: (clas, val) => {
+			$('#{{section.id}} .my-button').prop("disabled", false);
+			$('#{{section.id}} .info_tips').hide()
+			$(`#{{section.id}} .${clas}`).show()
+			if (subscribe_private.timer) clearTimeout(subscribe_private.timer);
+			subscribe_private.timer = setTimeout(() => { 
+				$(`#{{section.id}} .${clas}`).hide();
+			}, 8000);
+		}
+	};
+  function checkForm() {
+    const email_val = $('#{{section.id}} .email_input').val().trim()
+		const check_val = $('#{{section.id}} .policy-checkbox').prop('checked')
+		if(!email_val) {
+			subscribe_private.tip_info('info_fill_email');
+			pushErrorDataLayer(); 
+			return
+		}
+		if(email_val && !subscribe_private.isEmail(email_val)) {
+			subscribe_private.tip_info('info_err_email');
+			pushErrorDataLayer()
+			return
+		}
+    if(!presell_pic_url) {
+			subscribe_private.tip_info('info_fill_file');
+      pushErrorDataLayer()
+			return
+		}
+		if(!check_val) {
+			subscribe_private.tip_info('info_select_policy');
+      pushErrorDataLayer()
+			return
+		}
+    return true;
+  }
+
+  //去掉注册流程
+  {% if section.settings.has_sign_up %}
+  $('.custom_get_now, .top_bar_button .box a').on('click', function(e) {
+    let button_text = $(this).text()
+    e.stopPropagation();
+		e.preventDefault();
+    $('.page_lc35_popup').show()
+    $('.page_lc35_popup .lc35_popup_child').hide();
+    $('.page_lc35_popup .lc35_popup_1').show()
+    presell_pic_url = null;
+    $('.lc35_popup_1 .email_input').val('')
+    $('.lc35_popup_1 .input_upload').find('.input_upload_txt').text('{{section.settings.upload_files}}')
+    $('.lc35_popup_1 .input_upload').find('#input_upload').val(null)
+    if($(this).hasClass('custom_get_now')) {
+      dataLayer.push({
+        "event": "uaEvent", // Trigger
+        "eventCategory": "Activity Page_{{ page.handle }}",
+        "eventAction": "masterbanner",
+        "eventLabel": button_text, //取按钮文字
+      })
+      window.dataLayer.push({ "event_parameters": null });
+      window.dataLayer.push({
+        "event": "ga4Event",
+        "event_name": "lp_button",
+        "event_parameters": {
+          "page_group": "Activity Page_{{ page.handle }}",
+          "button_name": button_text, //取按钮名字
+          "position": "Activity Page_masterbanner" //专题页首屏
+        }
+      })
+    }else {
+      dataLayer.push({
+        "event": "uaEvent", // Trigger
+        "eventCategory": "Activity Page_{{ page.handle }}",
+        "eventAction": "navi",
+        "eventLabel": $(this).text(), //取导航栏文字
+        "nonInteraction": true, 
+      })
+      window.dataLayer.push({ "event_parameters": null });
+      window.dataLayer.push({
+        "event": "ga4Event",
+        "event_name": "lp_navigation",
+        "event_parameters": {
+          "navigation": $(this).text(), //取导航栏文字
+          "page_group":"Activity Page_{{ page.handle }}"
+        }
+      })
+    }
+  })
+  {% endif %}
+  $('.lc35_popup_1 .my-button').on('click', function(e) {
+    let self = $(this)
+    e.stopPropagation();
+		e.preventDefault();
+    $('.lc35_popup_2 .coupon-list').html('')
+    if(checkForm()) {
+      $(this).prop("disabled", true).text('{{section.settings.submiting_txt}}');
+      grecaptcha.ready(() => {
+        grecaptcha.execute(ShopMetafields.recaptcha, { action: "ActivityCreate" }).then((recaptcha) => {
+          const email = $('#{{section.id}} .email_input').val().trim();
+          const images = [presell_pic_url];
+          const shopify_domain = '{{ shop.permanent_domain }}';
+          const sub_brand_type = 'eufy_clean'
+          const formData = {
+            register_source: window.location.href,
+            email,
+            images,
+            single_brand_subscribe: true,
+            genre: "{{ section.settings.genre }}",
+            shopify_domain,
+            sub_brand_type
+          };
+          let product_name = '{{ section.settings.product_name }}';
+          let product_name2 = '{{ section.settings.product_name2 }}';
+          let product_sku = '{{ section.settings.product_sku }}';
+          let product_sku2 = '{{ section.settings.product_sku2 }}';
+          let shop_buy_amazon_href = '{{ section.settings.shop_buy_amazon_href }}';
+          let shop_buy_amazon_href2 = '{{ section.settings.shop_buy_amazon_href2 }}';
+          let shop_buy_eufy_href = '{{ section.settings.shop_buy_eufy_href }}';
+          let shop_buy_eufy_href2 = '{{ section.settings.shop_buy_eufy_href2 }}';
+          $.ajax({
+            headers: {
+              ...Shopify.contentCreator.pastApi.getHeaders(),
+              'recaptcha': recaptcha
+            },
+            url: '/apps/pp/rainbowbridge/activities',
+            type: 'POST',
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify(formData),
+            success: function (data) {
+              let { coupons } = data
+              coupons.forEach((item,index) => {
+                let price_rule_class = item.price_rule_class;
+                let info = {}
+                if(price_rule_class === product_sku) {
+                  info = {
+                    name: product_name,
+                    shop_buy_amazon_href: shop_buy_amazon_href,
+                    shop_buy_eufy_href: shop_buy_eufy_href
+                  }
+                } 
+  
+                if(price_rule_class === product_sku2) {
+                  info = {
+                    name: product_name2,
+                    shop_buy_amazon_href: shop_buy_amazon_href2,
+                    shop_buy_eufy_href: shop_buy_eufy_href2
+                  }
+                } 
+                $('.lc35_popup_2 .coupon-list').append(
+                  `<div class="coupon-item">
+                    <div class="coupon-title">
+                      ${info.name}: <span class="code_number">${item?.code}</span>
+                      <span class="code code_pop" data-product-name="${info.name}">{{ section.settings.copy_txt }}</span>
+                    </div>
+                    {% if section.settings.shop_buy_amazon != blank  %}
+                    <a class="my-button shop-now code_pop" data-product-name="${info.name}" data-sku="${item.price_rule_class}" href="${ info.shop_buy_amazon_href }" target="_blank" rel="noopener noreferrer">{{ section.settings.shop_buy_amazon }}</a>
+                    {% endif %}
+                    {% if section.settings.shop_buy_eufy != blank %}
+                    <a class="my-button shop-now code_pop" data-product-name="${info.name}" href="${ info.shop_buy_eufy_href }">{{ section.settings.shop_buy_eufy }}</a>
+                    {% endif %}
+                  </div>`
+                )
+                self.prop("disabled", false).text('{{section.settings.button_txt}}');
+                $('.page_lc35_popup .lc35_popup_child').hide();
+                $('.page_lc35_popup .lc35_popup_2').show()
+              })
+            },
+            error: function (err) {
+              $.dialog({ title: err.message, content: err.description, type: 'red' });
+            }
+          });
+        })
+      })
+    }
+  })
+  $('.lc35_popup_1 .input_upload').on('change', function(e) {
+    const { files = [] } = e.target;
+    const file = files[0];
+    if (!file) return;
+    const data = new FormData();
+    data.append('file', file);
+    data.append('category', 'eufy_lc35_tradein');
+    $('.input_upload').addClass('input_upload_disabled').find('.input_upload_txt').text('{{section.settings.uploading_files}}')
+    $.ajax({
+      headers: Shopify.contentCreator.pastApi.getHeaders(),
+      url: '/apps/pp/rainbow/upload_files',
+      timeout: 180000,
+      type: 'POST',
+      cache: false,
+      data: data,
+      processData: false,
+      contentType: false,
+      success: function (body) {
+        presell_pic_url = body.url;
+        $('.lc35_popup_1 .input_upload').removeClass('input_upload_disabled').find('.input_upload_txt').text(file.name)
+      },
+      error: function (err) {
+        $('.lc35_popup_1 .input_upload').removeClass('input_upload_disabled').find('.input_upload_txt').text('{{section.settings.upload_files}}')
+        $.dialog({ title: err.message, content: err.description, type: 'red' });
+      }
+    });
+  })
+  $('.lc35_popup_1  .activity-rules').on('click', function(e) {
+    e.stopPropagation();
+		e.preventDefault();
+    $('.page_lc35_popup .lc35_popup_child').hide();
+    $('.page_lc35_popup .lc35_popup_3').show()
+  })
+  $('.lc35_popup_3 .call-back').on('click', function(e) {
+    e.stopPropagation();
+		e.preventDefault();
+    $('.page_lc35_popup .lc35_popup_child').hide();
+    $('.page_lc35_popup .lc35_popup_1').show()
+  })
+  function execCoy(text) {
+    const input = document.createElement('INPUT');
+    input.style.opacity  = 0;
+    input.style.position = 'absolute';
+    input.style.left = '-100000px';
+    document.body.appendChild(input);
+
+    input.value = text;
+    input.select();
+    input.setSelectionRange(0, text.length);
+    document.execCommand('copy');
+    document.body.removeChild(input);
+    return true;
+  }
+  $('.page_lc35_popup .coupon-list').on('click', '.code', function() {
+    let copying_text = '{{ section.settings.copying_txt }}';
+    let copy_text = '{{ section.settings.copy_txt }}';
+    let code_number = $(this).prev('.code_number').text();
+    let self = $(this)
+    $(this).text(copying_text);
+    execCoy(code_number);
+    setTimeout(function() {
+			self.text(copy_text)
+		}, 500)
+  })
+  $('.page_lc35_popup').on('click', '.code_pop', function() {
+    dataLayer.push({
+      "event": "uaEvent", // Trigger
+      "eventCategory": "Activity Page_{{ page.handle }}",
+      "eventAction": "code_pop_"+ $(this).data('product-name'), //LR30 Hybrid或LR30 Hybrid+
+      "eventLabel": $(this).text(),
+    })
+    window.dataLayer.push({ "event_parameters": null });
+    window.dataLayer.push({
+      "event": "ga4Event",
+      "event_name": "lp_button",
+      "event_parameters": {
+        "page_group": "Activity Page_{{ page.handle }}",
+        "button_name": $(this).text(), //取按钮名字
+        "position": "code_pop",
+        "SKU_name":  $(this).data('product-name') //取对应产品名，LR30 Hybrid或LR30 Hybrid+
+      }
+    })
+  })
+  $('.v2_top_bar_section .tb_page_nav_item').on('click', function() {
+    dataLayer.push({
+      "event": "uaEvent", // Trigger
+      "eventCategory": "Activity Page_{{ page.handle }}",
+      "eventAction": "navi",
+      "eventLabel": $(this).text(), //取导航栏文字
+      "nonInteraction": true, 
+    })
+    window.dataLayer.push({ "event_parameters": null });
+    window.dataLayer.push({
+      "event": "ga4Event",
+      "event_name": "lp_navigation",
+      "event_parameters": {
+        "navigation": $(this).text(), //取导航栏文字
+        "page_group":"Activity Page_{{ page.handle }}"
+      }
+    })
+  })
+})
+
+</script>
+
+{% schema %}
+  {
+    "name": "Page Lc35 Popup",
+    "presets": [
+      {
+        "name": "Page Lc35 Popup"
+      }
+    ],
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "has_sign_up",
+        "label": "是否需要注册流程",
+        "default" : true
+      },
+      {
+        "type": "select",
+        "id": "genre",
+        "label": "订阅类型",
+        "options": [
+          {
+            "value": "l35_tradein",
+            "label": "类型一"
+          },
+          {
+            "value": "l35_tradein_without_amazon",
+            "label": "类型二"
+          }
+        ],
+        "default": "l35_tradein",
+        "info": "分为两种类型，第一种有亚马逊和官网购买链接的类型 第二种为 没有亚马逊购买类型"
+      },
+      {
+        "type": "header",
+        "content": "埋点相关"
+      },
+      {
+        "type": "text",
+        "id": "ga_handle",
+        "label": "埋点填写的产品handle",
+        "default": "/products/t2181g11"
+      },
+      {
+        "type": "header",
+        "content": "弹窗第一屏内容"
+      },
+      {
+        "type": "html",
+        "id": "popup_title",
+        "label": "标题",
+        "default": "<div class='main-title'>Get £100 Off</div>the New eufy Clean LR30 Hybrid Series"
+      },
+      {
+        "type": "html",
+        "id": "popup_sub_title",
+        "label": "副标题",
+        "default": "If you own a eufy product, simply upload a photo of it, and we'll give you a coupon for £100 off the new eufy Clean LR30 Hybrid robot vacuum series."
+      },
+      {
+        "type": "text",
+        "id": "email_placeholder",
+        "label": "email的输入提示",
+        "default": "Enter Your E-Mail"
+      },
+      {
+        "type": "text",
+        "id": "upload_files",
+        "label": "上传的文案",
+        "default": "Upload Files"
+      },
+      {
+        "type": "text",
+        "id": "uploading_files",
+        "label": "上传中的文案",
+        "default": "Uploading"
+      },
+      {
+        "type": "html",
+        "id": "form_message",
+        "label": "协议文案",
+        "default": "We promise to protect your privacy. <br/> By offering your email address you agree to the <a href='/policies/terms-of-service' target='_blank' rel='noopener noreferrer'>Terms of Use</a> and <a href='/policies/privacy-policy' target='_blank' rel='noopener noreferrer'>Privacy Policy</a>, and <a class='text-underline activity-rules'>Activity Rules</a>."
+      },
+      {
+        "type": "text",
+        "id": "button_txt",
+        "label": "按钮文案",
+        "default": "Submit"
+      },
+      {
+        "type": "text",
+        "id": "submiting_txt",
+        "label": "按钮文案",
+        "default": "Submiting"
+      },
+      {
+        "type": "header",
+        "content": "表单提交的提示信息"
+      },
+      {
+				"type": "text",
+				"id": "info_fill_email",
+				"label": "info_fill_email Text",
+				"default": "Please enter your email address."
+			},
+			{
+				"type": "text",
+				"id": "info_err_email",
+				"label": "info_err_email Text",
+				"default": "Please enter a valid email address (Example: name@domain.com)."
+			},
+			{
+				"type": "text",
+				"id": "info_select_policy",
+				"label": "info_agree_policy Text",
+				"default": "Please agree to the Terms of Use and Privacy Policy."
+			},
+      {
+				"type": "text",
+				"id": "info_fill_file",
+				"label": "未上传文件的提示",
+				"default": "Please upload file."
+			},
+      {
+        "type": "header",
+        "content": "第二屏内容"
+      },
+      {
+        "type": "html",
+        "id": "popup_2_desc",
+        "label": "第一段描述",
+        "default": "Your code is ready, it's time to get a new RoboVac for your home. The code is valid from August 10th-24th, 2022."
+      },
+      {
+        "type": "html",
+        "id": "popup_2_desc2",
+        "label": "第二段描述",
+        "default": "This code can be used once on <a class='text-underline' href='https://us.eufy.com/'>eufy.com</a>."
+      },
+      {
+        "type": "header",
+        "content": "LR30 Hybrid"
+      },
+      {
+        "type": "text",
+        "id": "product_name",
+        "label": "产品名称",
+        "default": "LR30 Hybrid"
+      },
+      {
+        "type": "text",
+        "id": "product_sku",
+        "label": "产品 LR30 Hybrid sku"
+      },
+      {
+        "type": "text",
+        "id": "shop_buy_amazon_href",
+        "label": "产品 LR30 亚马逊购买链接"
+      },
+      {
+        "type": "text",
+        "id": "shop_buy_eufy_href",
+        "label": "产品 LR30 eufy购买链接"
+      },
+      {
+        "type": "header",
+        "content": "LR30 Hybrid +"
+      },
+      {
+        "type": "text",
+        "id": "product_name2",
+        "label": "产品2名称",
+        "default": "LR30 Hybrid+"
+      },
+      {
+        "type": "text",
+        "id": "product_sku2",
+        "label": "产品 LR30 Hybrid+ sku"
+      },
+      {
+        "type": "text",
+        "id": "shop_buy_amazon_href2",
+        "label": "产品 LR30+ 亚马逊购买链接"
+      },
+      {
+        "type": "text",
+        "id": "shop_buy_eufy_href2",
+        "label": "产品 LR30+ eufy购买链接"
+      },
+      {
+        "type": "header",
+        "content": "按钮文案"
+      },
+      {
+        "type": "text",
+        "id": "shop_buy_amazon",
+        "label": "亚马逊购买按钮",
+        "default": "Shop on Amazon now"
+      },
+      {
+        "type": "text",
+        "id": "shop_buy_eufy",
+        "label": "eufy购买按钮",
+        "default": "Shop on eufy now"
+      },
+      {
+        "type": "text",
+        "id": "copy_txt",
+        "label": "Copy文案",
+        "default": "Copy"
+      },
+      {
+        "type": "text",
+        "id": "copying_txt",
+        "label": "Copying文案",
+        "default": "Copying"
+      },
+      {
+        "type": "header",
+        "content": "第三屏内容"
+      },
+      {
+        "type": "text",
+        "id": "popup_3_title",
+        "label": "标题",
+        "default": "Activity Rules"
+      },
+      {
+        "type": "html",
+        "id": "popup_3_content",
+        "label": "描述",
+        "default": "<div>1. This event is open to residents of the UK and Germany only.</div><div>2. This event runs from August 10th-24th, 2022. </div><div>3.Receive a coupon for £100 off the eufy Clean LR30 Hybrid series when you upload a photo of your current eufy product.</div> <div>4.Order confirmation screenshots and pictures of the device are also acceptable.</div><div>5.Each user can only participate one time, and only one code can be sent and used.</div><div>6.The code is valid from August 10th-24th, 2022.</div> <div>7.Attempts to upload non-compliant pictures will invalidate your discount and leave you liable to pay full price.</div> <div>8.By entering your email, you will automatically subscribe to the <a class='text-underline' href='https://us.eufy.com/'>eufy.com</a> newsletter and agree to our Terms of Use and Privacy Policy.</div><div>9.eufy Clean reserves the right of final explanation.</div>"
+      },
+      {
+        "type": "text",
+        "id": "call_back",
+        "label": "返回按钮",
+        "default": "Back"
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,49 @@
+{% assign lang = page.metafields.global %}
+
+{% if lang.dogcam.value %}
+  {% assign dogcam = lang.dogcam.value %}
+{% else %}
+  {% assign dogcam = lang.dogcam %}
+{% endif %}
+
+<link rel="stylesheet" href="{{ 'eufy_dogcam.scss.css' | asset_url }}">
+<script src="{{ 'eufy_dogcam.js' | asset_url }}" defer="defer"></script>
+
+
+<div class="eufy_dogcam_4">
+  <div class="banner_4">
+    <img class="pc1_show lazyload" data-src="{{ dogcam.bg4_img }}" alt="" style="opacity: 0;">
+    <img class="mob1_show lazyload" data-src="{{ dogcam.bg4_img_mob }}" alt="" style="opacity: 0;">
+    <div class="banner_4_content">
+      <p class="pc1_show banner_4_p1">{{ dogcam.banner_4_p1 }}</p>
+      <p class="pc1_show banner_4_p2">{{ dogcam.banner_4_p2 }}</p>
+      <p class="mob1_show banner_4_p1">{{ dogcam.banner_4_p1_mob }}</p>
+      <p class="mob1_show banner_4_p2">{{ dogcam.banner_4_p2_mob }}</p>
+      <div class="gou_all_1">
+        <div class="gou_4_1">
+          <img class="lazyload" data-src="{{ dogcam.gou_4_1 }}" alt="">
+        </div>
+        <div class="gou_p">{{ dogcam.gou_p2 }}</div>
+      </div>
+      <div class="gou_all_2">
+        <div class="gou_4_2">
+          <img class="lazyload" data-src="{{ dogcam.gou_4_5 }}" alt="">
+        </div>
+        <div class="gou_p">{{ dogcam.gou_p3 }}</div>
+      </div>
+      <div class="gou_all_3">
+        <div class="gou_4_3">
+          <img class="lazyload" data-src="{{ dogcam.gou_4_3 }}" alt="">
+        </div>
+        <div class="gou_p">{{ dogcam.gou_p4 }}</div>
+      </div>
+      <div class="gou_all_4">
+        <div class="gou_4_4">
+          <img class="lazyload" data-src="{{ dogcam.gou_4_4 }}" alt="">
+        </div>
+        <div class="gou_p">{{ dogcam.gou_p1 }}</div>
+      </div>
+      
+    </div>
+  </div>
+</div>

@@ -1,0 +1,373 @@
+{% assign lang = collection.metafields.global %}
+
+{% if lang.featured_in.value %}
+  {% assign featured_in = lang.featured_in.value %}
+{% else %}
+  {% assign featured_in = lang.featured_in %}
+{% endif %}
+
+{% if lang.main_product_txt.value %}
+  {% assign main_product_txt = lang.main_product_txt.value %}
+{% else %}
+  {% assign main_product_txt = lang.main_product_txt %}
+{% endif %}
+
+{% if shop.metafields.global.discounts.value %}
+  {% assign discounts = shop.metafields.global.discounts.value %}
+{% else %}
+  {% assign discounts = shop.metafields.global.discounts %}
+{% endif %}
+
+
+{% assign modules = lang.modules.value | split: ", " %}
+{% assign reviewsList = lang.reviews.list %}
+{% assign sellPointList = lang.sell_point.list %}
+{% assign featuredInList = featured_in.list %}
+{% assign main_product =  all_products[lang.main_product.handle] %}
+{% assign main_variant = main_product.selected_or_first_available_variant %}
+
+<section class="collection-security">
+  {% for mod in modules %}
+    {% if mod contains 'banner' %}
+      <div class="banner {{ mod }}">
+        {% if lang[mod].value.banner_link != blank %}<a target="_blank" rel="noopener noreferrer" href="{{ lang[mod].value.banner_link}}">{% endif %}
+          <div class="img {% if lang[mod].value.oimg == blank %}oimg{% endif %}"><img src="{{ lang[mod].value.img }}"></div>
+          {% if lang[mod].value.txt_tit != blank or lang[mod].value.txt_desc != blank %}
+            <div class="txt {{ lang[mod].value.txt_site }}">
+              <div class="txtBox {{ lang[mod].value.txt_align }}">
+                <h3 class="title" style="color: {{lang[mod].value.txt_color}}">{{ lang[mod].value.txt_tit }}</h3>
+                <p class="desc" style="color: {{lang[mod].value.txt_color}}">{{ lang[mod].value.txt_desc }}</p>
+              </div>
+            </div>
+          {% endif %}
+        {% if lang[mod].value.banner_link != blank %}</a>{% endif %}
+      </div>
+    {% endif %}
+
+    {% if mod == 'products' %}
+      <div class="products">
+        <div class="con">
+          <p class="titleBox">{{ collection.title }}</p>
+          <div class="proList_slider oSlider">
+            {% for product in collection.products %}
+              {% assign alt_text = product.title %}
+              {% assign variant = product.selected_or_first_available_variant %}
+              <div>
+                <div class="item itemProduct" data-handle="{{ product.handle }}">
+                  <div class="img">
+                    {% comment %} {% render 'image-element',
+                          image: product.featured_media.preview_image,
+                          alt: alt_text,
+                          height: '230px'
+                    %} {% endcomment %}
+                    <img class="lazyload" data-src="{{ product.featured_media.preview_image | img_url: '1600x' }}" alt="{{ alt_text }}" />
+                  </div>
+                  <div class="txt">
+                    <p class="tit">{{ product.title }}</p>
+      
+                    {% comment %} Price {% endcomment %}
+                    <p class="modal_price subtitle">
+                      {% if collection_handles contains 'coming-soon' %}
+                        {% if settings.stickers_enabled == false %}
+                          {{ 'collections.general.coming_soon' | t }}
+                        {% endif %}
+                      {% else %}
+      
+                        {% comment %} Sold out {% endcomment %}
+                        <span class="sold_out">{% if variant.available == false %}{{ 'products.product.sold_out' | t }}{% endif %}</span>
+      
+                        {% comment %} Current price {% endcomment %}
+                        <span content="{{ variant.price | money_without_currency | remove: "," }}" class="{% if variant.compare_at_price > variant.price %}sale{% endif %}">
+                          <span class="current_price {% if product.available == false %}hidden{% endif %}">
+                            {% if variant.price > 0 %}
+                              <span class="money">
+                                {% render 'price-element', price: variant.price %}
+                              </span>
+                            {% endif %}
+                          </span>
+                        </span>
+      
+                        {% comment %} Compare at (original) price {% endcomment %}
+                        <span class="was-price">
+                          {% if variant.price < variant.compare_at_price and variant.available %}
+                            <span class="money">
+                              {% render 'price-element', price: variant.compare_at_price %}
+                            </span>
+                          {% endif %}
+                        </span>
+      
+                        {% comment %} Size chart {% endcomment %}
+                        {% if product_tags contains 'meta-size-chart-' %}
+                          {% for tag in product.tags %}
+                            {% if tag contains 'meta-size-chart-' %}
+                              <a href="javascript:;" class="product__size-chart" data-fancybox data-src="#size-chart{{product.id}}" data-type="inline">{{ 'products.product.size_chart' | t }} {% render 'icon', name: 'right-caret' %}</a>
+                              {% render 'popup-size-chart',
+                                      product_id: product.id,
+                                      product: product
+                              %}
+                            {% endif %}
+                          {% endfor %}
+                        {% elsif settings.size_chart != blank %}
+                          <a href="javascript:;" class="product__size-chart" data-fancybox data-src="#size-chart{{product.id}}" data-type="inline">{{ 'products.product.size_chart' | t }} {% render 'icon', name: 'right-caret' %}</a>
+                          {% render 'popup-size-chart',
+                                  product_id: product.id,
+                                  product: product
+                          %}
+                        {% endif %}
+      
+                        {% comment %} Savings {% endcomment %}
+                        {% if display_savings %}
+                          <span class="sale savings">
+                            {% if variant.price < variant.compare_at_price and variant.available %}
+                              {{ 'products.product.savings' | t }}  {{ variant.compare_at_price | minus: variant.price | times: 100 | divided_by: variant.compare_at_price }}% (<span class="money">{% assign compare_at = variant.compare_at_price | minus: variant.price %}{% render 'price-element', price: compare_at %}</span>)
+                            {% endif %}
+                          </span>
+                        {% endif %}
+                      {% endif %}
+                    </p>
+      
+                    {% render 'include_overview_reviews', product: product %}
+                    
+                    <div class="btn">
+                      <a
+                        class="shopnow" href="{{ product.url | within: collection }}"
+                        target="_blank" rel="noopener noreferrer"
+                      >{{ section.settings.shopnow }}</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+      
+    {% if mod == 'reviews' %}
+      <div class="reviews">
+        <div class="con">
+          <div class="reviews_slider oSlider">
+            {% for item in reviewsList %}
+              <div>
+                <div class="item">
+                  <div class="txt"><p class="desc">{{ item.desc }}</p></div>
+                  <div class="img">
+                    <p class="logo"><img class="lazyload" data-src="{{ item.img }}" /></p>
+                    <p class="name">{{ item.name }}</p>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+      
+    {% if mod == 'featured_in' %}
+      <div class="featured_in">
+        <div class="con">
+          <h4 class="title">{{ featured_in.tit }}</h4>
+          <div class="featured_in_slider oSlider">
+            {% for item in featuredInList %}
+              <div>
+                <div class="item">
+                  <div class="img"><img class="lazyload" data-src="{{ item.img }}"></div>
+                  <div class="txt"><p class="desc">{{ item.desc }}</p></div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+      
+    {% if mod contains 'left_right' %}
+      <div class="left_right {{ mod }}">
+        {% for item in lang[mod].data %}
+          <div class="con">
+            <div>
+              <ul>
+                {% if item.left_img != blank %}
+                  <li class="txtRight clearfix">
+                    {% if item.left_hide_img != blank %}
+                      <p class="img toggle_img">
+                        <img key="0" class="lazyload active" data-src="https://dz02g1kgtiysz.cloudfront.net/deals/files/191113_114123_12.png">
+                        <img key="1" class="lazyload" data-src="https://dz02g1kgtiysz.cloudfront.net/deals/files/191113_114127_13.png">
+                      </p>
+                    {% else %}
+                      <p class="img"><img class="lazyload" data-src="{{ item.left_img }}"></p>
+                    {% endif %}
+                    <div class="txt">
+                      {% if item.left_ico_up != blank %}
+                        <img class="lazyload left_ico_up" data-src="{{ item.left_ico_up }}">
+                      {% endif %}
+                      <h6>{{ item.left_txt_tit }}</h6>
+                      <p class="desc">{{ item.left_txt_desc }}</p>
+                      {% if item.left_ico_down != blank %}
+                        <img class="lazyload left_ico_down" data-src="{{ item.left_ico_down }}">
+                      {% endif %}
+                      {% if item.left_nav_0 != blank %}
+                        <ul class="nav">
+                          <li key="0" class="active">{{ item.left_nav_0 }}</li>
+                          <li key="1">{{ item.left_nav_1 }}</li>
+                        </ul>
+                      {% endif %}
+                    </div>
+                  </li>
+                {% endif %}
+                {% if item.right_img != blank %}
+                  <li class="txtLeft clearfix">
+                    {% if item.right_hide_img != blank %}
+                      <p class="img toggle_img">
+                        <img key="0" class="lazyload active" data-src="https://dz02g1kgtiysz.cloudfront.net/deals/files/191113_114123_12.png">
+                        <img key="1" class="lazyload" data-src="https://dz02g1kgtiysz.cloudfront.net/deals/files/191113_114127_13.png">
+                      </p>
+                    {% else %}
+                      <p class="img"><img class="lazyload" data-src="{{ item.right_img }}"></p>
+                    {% endif %}
+                    <div class="txt">
+                      {% if item.right_ico_up != blank %}
+                        <img class="lazyload right_ico_up" data-src="{{ item.right_ico_up }}">
+                      {% endif %}
+                      <h6>{{ item.right_txt_tit }}</h6>
+                      <p class="desc">{{ item.right_txt_desc }}</p>
+                      {% if item.right_ico_down != blank %}
+                        <img class="lazyload right_ico_down" data-src="{{ item.right_ico_down }}">
+                      {% endif %}
+                      {% if item.right_nav_0 != blank %}
+                        <ul class="nav">
+                          <li key="0" class="active">{{ item.right_nav_0 }}</li>
+                          <li key="1">{{ item.right_nav_1 }}</li>
+                        </ul>
+                      {% endif %}
+                    </div>
+                  </li>
+                {% endif %}
+              </ul>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+      
+    {% if mod == 'sell_point' %}
+      <div class="sell_point">
+        <div class="con">
+          <div class="sell_point_slider oSlider">
+            {% for item in sellPointList %}
+              <div>
+                <div class="item">
+                  <div class="img"><img class="lazyload" data-src="{{ item.img }}"></div>
+                  <div class="txt">
+                    <h3 class="tit">{{ item.tit }}</h3>
+                    <p class="desc">{{ item.desc }}</p>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
+    {% if mod == 'main_product' %}
+      <div class="main_product">
+        <div class="pro_img"><img class="lazyload" data-src="{{ main_product_txt.pro_img }}"></div>
+        <div class="pro_text">
+          <p class="tit">{{ main_product.title }}</p>
+          <p class="des">{{ main_product_txt.pro_desc }}</p>
+          <div class="buy">
+            <span class="{% if main_variant.compare_at_price > variamain_variantnt.price %}sale{% endif %}">
+              <span class="current_price {% if product.available == false %}hidden{% endif %}">
+                <span class="money productPrice">
+                  {% render 'price-element', price: main_variant.price %}
+                </span>
+              </span>
+            </span>
+            <a
+              class="shopnow" href="{{ main_product.url | within: collection }}"
+              target="_blank" rel="noopener noreferrer"
+            >{{ section.settings.shopnow }}</a>
+          </div>
+          <ul class="point">
+            {% for item in main_product_txt.pro_icons %}
+              <li class="item">
+                <img class="lazyload" data-src="{{ item.icon }}">
+                <p class="icon_des">{{ item.txt }}</p>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    {% endif %}      
+  
+  {% endfor %}
+
+</section>
+
+
+{% if discounts.show_discounts %}
+  {% paginate collection.products by 1000 %}
+    {% render 'collection__DiscountMark', products: collection.products %}
+  {% endpaginate %}
+{% endif %}
+
+<script>
+  $(document).ready(function(){
+
+    const w = document.body.offsetWidth;
+    const num = w > 767 ? 3 : 1;
+    $('.proList_slider').slick({
+      infinite: true,
+      speed: 500,
+      slidesToShow: w > 767 ? 4 : 1,
+      easing: 'linear'
+    });
+    $('.reviews_slider').slick({
+      infinite: true,
+      speed: 500,
+      slidesToShow: w > 767 ? 3 : 1,
+      easing: 'linear'
+    });
+    $('.featured_in_slider').slick({
+      infinite: true,
+      speed: 500,
+      slidesToShow: w > 767 ? 3 : 1,
+      easing: 'linear'
+    });
+    $('.sell_point_slider').slick({
+      infinite: true,
+      speed: 500,
+      slidesToShow: w > 767 ? 3 : 1,
+      easing: 'linear'
+    });
+
+    $('.nav li').click(e => {
+      const dom = e.target;
+      const showDom = e.target.parentNode.getElementsByClassName('active')[0];
+      if (!dom.classList.contains('active')) {
+        const key = dom.getAttribute('key');
+        showDom.classList.remove('active');
+        dom.classList.add('active');
+        $('.toggle_img .active').removeClass('active');
+        $('.toggle_img').find(`img[key=${key}]`).addClass('active')
+      }
+    })
+  })
+</script>
+
+{% schema %}
+
+{
+  "name": "Security collection",
+  "settings": [
+    {
+      "type": "text",
+      "id": "shopnow",
+      "label": "Shop Now",
+      "default": "SHOP NOW"
+    }
+  ]
+}
+
+{% endschema %}

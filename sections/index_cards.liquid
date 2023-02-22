@@ -1,0 +1,212 @@
+
+{% style %}
+  {% for block in section.blocks %}
+    #newBanner{{ forloop.index }} .box-wrapper .title, #newBanner{{ forloop.index }} .box-wrapper .desc{
+      color: {{ block.settings.color }};
+    }
+    #newBanner{{ forloop.index }} .box-wrapper .index-button--default{
+      background-color: {{ block.settings.btn_background-color }};
+      border-color: {{ block.settings.btn-border-color }};
+      color: {{ block.settings.btn-color }};
+    }
+    #newBanner{{ forloop.index }} .box-wrapper .index-button--default:hover{
+      background: rgba({{ block.settings.hover_rgb1 }},{{ block.settings.hover_rgb2 }},{{ block.settings.hover_rgb3 }}, {{ block.settings.opacity }});
+    }
+    @media screen and (max-width: 768px){
+      #newBanner{{ forloop.index }} .box-wrapper .title, #newBanner{{ forloop.index }} .box-wrapper .desc{
+        color: #000000;
+      }
+    }
+  {% endfor %}
+{% endstyle %}
+<section id="index-cards-{{ section.id }}" class="index-cards section-wrapper">
+  <div class="container-wrapper">
+    <h2 class="index-title">{{ section.settings.title }}</h2>
+    <div class="cards-container">
+      {% for block in section.blocks %}
+        {% assign link = block.settings.link %}
+        {% assign name = block.settings.dataname %}
+        {% assign position = block.settings.position %}
+        <div id="newBanner{{ forloop.index }}"
+          class="card-block card-radius block-{{ block.settings.size }}"
+          onclick="goMobLink(`{{ link }}`,`{{ name }}`,`{{ position }}`,`newBanner{{ forloop.index }}`)">  
+          <figure>
+            {% render 'lazyload_image',
+              src: block.settings.img_pc,
+              additional_classes: "is-hidden-mobile-only",
+              style: "opacity: 0;",
+              alt: block.settings.img_pc.alt,
+              width: block.settings.img_pc.width,
+              aspect_ratio: block.settings.img_pc.aspect_ratio,
+              isSchemaData: true %}
+            {% render 'lazyload_image',
+              src: block.settings.img_mob,
+              additional_classes: "is-hidden-desktop-only",
+              style: "opacity: 0;",
+              alt: block.settings.img_mob.alt ,
+              width: block.settings.img_mob.width,
+              aspect_ratio: block.settings.img_mob.aspect_ratio,
+              isSchemaData: true %}
+          </figure>
+          <div class="box-wrapper" onclick="goLearnMore(`{{ link }}`,`{{ name }}`,`{{ position }}`,`newBanner{{ forloop.index }}`)">
+            {% if block.settings.title and block.settings.title != '' %}
+            <p class="title">{{ block.settings.title }}</p>
+            {% endif %}
+            {% if block.settings.desc and block.settings.desc != '' %}
+            <p class="desc">{{ block.settings.desc }}</p>
+            {% endif %}
+            <div class="btns is-hidden-mobile-only">
+              {% if block.settings.btn_txt and block.settings.btn_txt != '' %}
+              <button class="index-button index-button--default learn_more">{{ block.settings.btn_txt }}</button>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+<script>
+  $(function() {
+    var dataObj2 = {};
+    {% for block in section.blocks %}
+      dataObj2['newBanner' + {{ forloop.index }}] = {
+        id: 'newBanner' + {{ forloop.index }},
+        name: "{{ block.settings.datename }}",
+        creative: "",
+        position: "{{ block.settings.position }}"
+      }
+    {% endfor %}
+    window.dataLayer.push(dataObj2);
+  })
+  function goMobLink(link,name,position,className) {
+    if(window.innerWidth < 769){
+      goLearnMore(link,name,position,className)
+    }
+  }
+</script>
+{% schema %}
+{
+  "name": "Index Cards",
+  "presets": [
+    {
+      "category": "Index Cards",
+      "name": "Index Cards"
+    }
+  ],
+  "settings": [{
+    "type": "text",
+    "id": "title",
+    "label": "Title",
+    "default": "Take a look at what’s new, right now."
+  }],
+  "blocks": [{
+    "type": "block",
+    "name": "block",
+    "settings": [{
+      "type": "select",
+      "id": "size",
+      "label": "卡片大小",
+      "default": "1",
+      "options": [
+        {
+          "value": "1",
+          "label": "大（100%）"
+        },
+        {
+          "value": "2",
+          "label": "中（50%）"
+        }
+      ]
+    },{
+      "type": "image_picker",
+      "id": "img_pc",
+      "label": "PC图片",
+      "info": "图片格式推介使用jpg"
+    },
+    {
+      "type": "image_picker",
+      "id": "img_mob",
+      "label": "移动端图片",
+      "info": "图片格式推介使用jpg"
+    },{
+      "type": "text",
+      "id": "title",
+      "label": "标题"
+    },{
+      "type": "text",
+      "id": "desc",
+      "label": "描述"
+    },{
+      "type": "text",
+      "id": "btn_txt",
+      "label": "按钮文本"
+    },{
+      "type": "color",
+      "id": "color",
+      "label": "文字颜色",
+      "default": "#000000"
+    },{
+      "type": "color",
+      "id": "btn_background-color",
+      "label": "按钮背景色",
+      "default": "transparent"
+    },{
+      "type": "color",
+      "id": "btn-color",
+      "label": "按钮文本颜色",
+      "default": "#000000"
+    },{
+      "type": "color",
+      "id": "btn-border-color",
+      "label": "按钮边框颜色",
+      "default": "#000000"
+    },{
+      "type": "text",
+      "id": "hover_rgb1",
+      "label": "按钮hover颜色第一位数值",
+      "default": "0"
+    },{
+      "type": "text",
+      "id": "hover_rgb2",
+      "label": "按钮hover颜色第二位数值",
+      "default": "0"
+    },{
+      "type": "text",
+      "id": "hover_rgb3",
+      "label": "按钮hover颜色第三位数值",
+      "default": "0"
+    },{
+      "type": "text",
+      "id": "opacity",
+      "label": "透明度",
+      "default":"0.08"
+    },{
+      "type": "text",
+      "id": "handle",
+      "label": "展示产品handle,仅在跳转listing页面时配置"
+    },{
+      "type": "text",
+      "id": "sku",
+      "label": "展示产品Sku,仅在跳转listing页面时配置"
+    },{
+      "type": "text",
+      "id": "link",
+      "label": "按钮链接"
+    },{
+      "type": "text",
+      "id": "datename",
+      "label": "修改信息",
+      "info": "埋点：这里给运营留字段补充格式为200531banner内容，表示修改banner的日期和banner的内容（不超过3个单词）"
+    },{
+      "type": "text",
+      "id": "position",
+      "label": "物料类型",
+      "default": "static",
+      "info": "埋点：这里给运营留字段填写static(静态图片)或者dynamic(视频或者gif)"
+    }
+    ]
+  }]
+  
+}
+{% endschema %}

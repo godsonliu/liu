@@ -1,0 +1,70 @@
+{% if page.metafields['global']['quiz-banner'].value %}
+  {% assign quiz = page.metafields['global']['quiz-banner'].value %}
+{% else %}
+  {% assign quiz = page.metafields['global']['quiz-banner'] %}
+{% endif %}
+
+{% if page.metafields['global']['quiz-banner'].value %}
+  {% assign quiz_banner = page.metafields['global']['quiz-banner'].value %}
+{% else %}
+  {% assign quiz_banner = page.metafields['global']['quiz-banner'] %}
+{% endif %}
+
+
+<link rel="stylesheet" href="{{ 'quiz-banner.scss.css' | asset_url }}">
+{% style %}
+  .quiz-banner {
+    background: {{ quiz.css-background_color }};
+  }
+  .quiz-banner .quiz-enter-section{
+    background: {{ quiz.css-card-background_color }};
+  }
+  .quiz-banner .quiz-enter-section .page-content h{
+    color: {{ quiz.css-txt_color}};
+  }
+  .quiz-banner .quiz-enter-section .page-content .button {
+    background: {{ quiz.css-btn_color }};
+    color: {{ quiz.css-btn_txt_color}};
+  }
+{% endstyle %}
+
+<div id="quiz.id"></div>
+<section class="quiz-banner">
+  <div class="box-container">
+    <div class="question">
+      <h>{{quiz.question}}</h>
+    </div>
+    <div class="title">
+      <h>{{quiz.title}}</h>
+    </div>
+    <div class="quiz-enter-section">
+      <img class="lazyload is-hidden-mobile-only" data-src="{{ quiz.quiz_img_pc }}" alt=""/>
+      <img class="lazyload is-hidden-desktop-only" data-src="{{ quiz.quiz_img_mob }}" alt=""/>
+      <div class="page-content">
+        <h>{{ quiz.quiz_txt }}</h>
+        <button type="button" class="button" aria-label="{{ quiz.quiz_btn_txt }}" onclick="goQuizAllPage2()">
+          {{ quiz.quiz_btn_txt }}
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+  function goQuizAllPage2(){
+
+  let quizLink = {{ quiz_banner.quiz_link_id | json }}
+    window.location.href = `https://${Shopify.shop}/pages/${quizLink}`;
+    window.dataLayer.push({
+      'event': 'answer_questions',
+      'page_group': 'AP help_me_choose Quiz',
+      'action': 'get_started'
+    });
+  }
+</script>
+{% schema %}
+{
+  "name": "Quiz Banner",
+  "settings": [
+  ]
+}
+{% endschema %}

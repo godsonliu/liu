@@ -1,0 +1,224 @@
+<script src="{{ 'gsap.min.js' | asset_url }}"></script>
+<script src="{{ 'ScrollTrigger.min.js' | asset_url }}"></script>
+
+<div class="banner banner1">
+  <div class="bg">
+    <img class="img img1" data-height="899" src="https://cdn.shopify.com/s/files/1/0504/1094/6753/files/banner_2.jpg?v=1623837399">
+  </div>
+</div>
+
+<div class="ani">
+  <div class="deng"><img src="https://cdn.shopify.com/s/files/1/0521/9411/5753/files/3_ea37ab0a-f72e-477c-9c54-a4c7cb9a5035.jpg?v=1623985173" /></div>
+  <div class="caodi"><img src="https://cdn.shopify.com/s/files/1/0521/9411/5753/files/40ft_6d7a528b-65a5-4a0a-a950-7b1a3f6f2dbe.jpg?v=1623985173" /></div>
+</div>
+
+<div class="banner">
+  <div class="bg">
+    <img class="img" src="https://cdn.shopify.com/s/files/1/0504/1094/6753/files/banner_2.jpg?v=1623837399">
+  </div>
+</div>
+
+<div class="ani2">
+  <div class="caodi2"><img src="https://cdn.shopify.com/s/files/1/0521/9411/5753/files/40ft_6d7a528b-65a5-4a0a-a950-7b1a3f6f2dbe.jpg?v=1623985173" /></div>
+  <div class="deng2"><img class="deng2_ani" src="https://cdn.shopify.com/s/files/1/0521/9411/5753/files/3_ea37ab0a-f72e-477c-9c54-a4c7cb9a5035.jpg?v=1623985173" /></div>
+</div>
+
+<div class="banner">
+  <div class="bg">
+    <img class="img" src="https://cdn.shopify.com/s/files/1/0504/1094/6753/files/banner_2.jpg?v=1623837399">
+  </div>
+</div>
+
+<div class="x8">
+  <div class="bg">
+    <img src="https://cdn.shopify.com/s/files/1/0582/4669/3040/files/20210907-181931_2_32cc5155-c053-4440-8291-0779d42f3404.jpg?v=1631100233" />
+  </div>
+  <div id="cover">
+    <img src="https://cdn.shopify.com/s/files/1/0521/9411/5753/files/20210907-181924.jpg?v=1631010322" />
+  </div>
+</div>
+
+<style>
+  .x8 {
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    position: relative;
+  }
+  .x8 .bg {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    transform: scale(6.5);
+    filter: blur(1px);
+  }
+  .x8 .bg img {
+    max-width: none;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .x8 #cover {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 1;
+  }
+  .x8 #cover.hide { opacity: 0; }
+  .x8 #cover img {
+    max-width: none;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .banner {
+    width: 100%;
+    overflow-x: auto;
+    line-height: 0;
+  }
+  .banner2 {
+    position: fixed;
+    top: 0;
+    z-index: 999;
+  }
+  .banner .img {
+    height: calc(100vh - 105px);
+    width: auto;
+    max-width: none;
+  }
+  .banner2 .img {
+    height: 100vh;
+    width: auto;
+    max-width: none;
+  }
+  .ani {
+    width: 100%;
+    background: #000;
+    line-height: 0;
+    position: relative;
+  }
+  .ani2 img, .ani img{
+    width: 100%;
+    max-width: none;
+  }
+  .ani .caodi {
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    left: 0;
+  }
+  .pin-spacer {
+    background: #000;
+  }
+  .ani2 {
+    position: relative;
+    line-height: 0;
+  }
+  .deng2_ani {
+    opacity: 1;
+  }
+  .ani2 .deng2 {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 0;
+    background: #000;
+  }
+</style>
+
+<script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    var imgH = 899 * window.innerWidth / 3734;
+    var imgX = window.innerWidth - 3734;
+
+    gsap.timeline({
+      scrollTrigger: {
+      trigger: ".banner1",
+        start: 'top top+=111.39',
+        end: '+=2000',
+        scrub: 1,
+        pin: true,
+        markers: true
+      }
+    })
+    .to(".img1",  { x: imgX })
+    .to(".img1", { x: 0, width: window.innerWidth, height: imgH });
+
+
+
+  gsap.to(".img", {
+    x: -2000,
+    scrollTrigger: {
+      trigger: '.banner',
+      start: 'top top+=111.39',
+      end: '+=2000',
+      pin: true,
+      scrub: 1,
+      markers: true
+    }
+  });
+
+  gsap.to(".deng", {
+    opacity: 0,
+    scrollTrigger: {
+      trigger: '.ani',
+      start: 'top top+=111.39',
+      end: 'bottom top+=111.39',
+      pin: true,
+      scrub: true,
+      //markers: true
+    }
+  });
+  gsap.to(".caodi", {
+    top: 0,
+    scrollTrigger: {
+      trigger: '.deng',
+      start: 'top top+=111.39',
+      end: 'bottom top+=111.39',
+      // pin: true,
+      scrub: true,
+      //markers: true
+    }
+  });
+
+  gsap.to(".deng2_ani", {
+    opacity: 0,
+    scrollTrigger: {
+      trigger: '.ani2',
+      start: 'top top+=111.39',
+      end: 'bottom top+=111.39',
+      pin: true,
+      scrub: true,
+      //markers: true
+    }
+  });
+  gsap.to(".deng2", {
+    clipPath: 'inset(0 0 100% 0)',
+    scrollTrigger: {
+      trigger: '.ani2',
+      start: 'top top+=111.39',
+      end: 'bottom top+=111.39',
+      pin: true,
+      scrub: true,
+      //markers: true
+    }
+  });
+
+  gsap.timeline({
+    scrollTrigger: {
+      trigger: ".x8",
+      start: 'top top+=99',
+      end: '+=3000',
+      scrub: 1,
+      pin: true,
+      markers: true
+    }
+  })
+    .to(".x8 #cover",  { opacity: '0' })
+    .to(".x8 .bg",  { transform: 'scale(1)', filter: 'blur(0px)' });
+
+</script>

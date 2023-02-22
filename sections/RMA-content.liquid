@@ -1,0 +1,1383 @@
+{% assign lang = section.settings %}
+
+<div class="_page" style="display: none">{{ lang.jsText }}</div>
+<div class="RMA">
+  <div id="myModal" class="mymodal">
+    <div class="dialogModal">
+      <div class="modalContent">
+        <button
+          id="modal_close" type="button" class="modalClose"
+          onclick="closeModal()"
+        >
+          <i class="iconfont">&#xe723;</i>
+        </button>
+        <div id="modal_con"></div>
+      </div>
+    </div>
+  </div>
+  <div class="notes">{{ lang.notes_txt1 }}</div>
+
+  <div class="infos">
+    <nav>
+      <div class="scrollnav">
+        {% if lang.show_store %}<h5 id="official">{{ lang.store }}</h5>{% endif %}
+        {% if lang.show_amazon %}<h5 id="amazon">{{ lang.amazon }}</h5>{% endif %}
+        {% if lang.show_ebay %}<h5 id="eBay">{{ lang.eBay }}</h5>{% endif %}
+        {% if lang.show_walmart %}<h5 id="Walmart">{{ lang.walmart }}</h5>{% endif %}
+        {% if lang.show_bestbuy %}<h5 id="BestBuy">{{ lang.bestbuy }}</h5>{% endif %}
+        {% if lang.show_target %}<h5 id="Target">{{ lang.target }}</h5>{% endif %}
+        {% if lang.show_others %}<h5 id="Others">{{ lang.others }}</h5>{% endif %}
+      </div>
+    </nav>
+
+    <div class="forms">
+      <div class="Spin formSpin">
+        <div class="content cnt formContent">
+
+          <form id="official_form" class="official_form" onSubmit="rmaConfirm('official')">
+            <div class="info content">
+              <h4>{{ lang.form_info }}</h4>
+              <div class="col2">
+                <p class="input-normal col">
+                  <span class="placeholder">{{ lang.email }}<i class="requiredFlag">*</i></span>
+                  <input
+                    type="text" autocomplete="nope" maxlength="200"
+                    name="email" value="" onChange="valueChange('official')"
+                  />
+                </p>
+                <p class="input-normal col">
+                  <span class="placeholder">{{ lang.confirm_email }}<i class="requiredFlag">*</i></span>
+                  <input
+                    type="text" autocomplete="nope" maxlength="200"
+                    name="email_confirm" value="" onChange="valueChange('official')"
+                  />
+                </p>
+              </div>
+              <div class="col2">
+                <p class="input-normal col">
+                  <span class="placeholder">{{ lang.first_name }}<i class="requiredFlag">*</i></span>
+                  <input
+                    type="text" autocomplete="nope" maxlength="200"
+                    name="first_name" value="" onChange="{valueChange('official')}"
+                  />
+                </p>
+                <p class="input-normal col">
+                  <span class="placeholder">{{ lang.last_name }}<i class="requiredFlag">*</i></span>
+                  <input
+                    type="text" autocomplete="nope" maxlength="200"
+                    name="last_name" value="" onChange="{valueChange('official')}"
+                  />
+                </p>
+              </div>
+            </div>
+            
+            <div class="order content">
+              <h4>{{ lang.form_order }}</h4>
+              <div class="Spin orderSpin">
+                <div class="content cnt">
+                  <div class="input-normal">
+                    <span class="placeholder">{{ lang.order_id }}<i class="requiredFlag">*</i></span>
+                    <div class="col2">
+                      <p class="col">
+                        <input type="text" autocomplete="nope" maxlength="200" name="order_id" value="" onChange="{valueChange('official')}">
+                      </p>
+                      <p class="col">
+                        <button type="button" class="button-normal submit" onClick="verifyOrder('official')">{{ lang.verify_order }}</button>
+                      </p>
+                    </div>
+                    <a class="tip" onclick="openModal('<p style=\'width: 300px;\'>For guest users, enter the {{ lang.order_id }} listed in the confirmation email you received. For registered customers, simply sign in to sync your order history automatically.</p>')">
+                      {{ lang.how_find_order }}
+                    </a>
+                  </div>
+                </div>
+                <div class="mask"></div>
+                <div class="spinner">
+                  <i class="iconfont">&#xe6c0;</i>
+                  <div class="focus"><i class="iconfont">&#xe6c0;</i></div>
+                </div>
+              </div>
+                
+              <div class="prods_info"></div>
+            </div>
+
+            <div class="Spin addressSpin">
+              <div class="content cnt">
+                <div class="address content">
+                  <h4>
+                    {{ lang.form_address }}
+                    <span class="remark">{{ lang.address_tips }}</span>
+                  </h4>
+                  <div class="addressInfo">
+                    <div class="col2">
+                      <div class="col">
+                        <p class="input-normal">
+                          <span class="placeholder">{{ lang.address1 }}</span>
+                          <input type="text" maxlength="200" name="address1" value="" onChange="valueChange('official')">
+                        </p>
+                      </div>
+                      <div class="col">
+                        <p class="input-normal">
+                          <span class="placeholder">{{ lang.address2 }}</span>
+                          <input type="text" maxlength="200" name="address2" value="" onChange="valueChange('official')">
+                        </p>
+                      </div>
+                    </div>
+                    <div class="col2">
+                      <div class="col">
+                        <p class="select-normal">
+                          <span class="placeholder">{{ lang.country }}</span>
+                          <select name="country_id" onChange="countryChange('official')" value="">
+                            {{ lang.rmaCountries }}
+                          </select>
+                        </p>
+                      </div>
+                      <div class="col">
+                        <p class="select-normal">
+                          <span class="placeholder">{{ lang.state }}</span>
+                          <select class="official_state_id" name="state_id" onChange="valueChange('official')"></select>
+                        </p>
+                      </div>
+                    </div>
+                    <div class="col2">
+                      <div class="col">
+                        <p class="input-normal">
+                          <span class="placeholder">{{ lang.city }}</span>
+                          <input type="text" maxlength="200" name="city" value="" onChange="valueChange('official')">
+                        </p>
+                      </div>
+                      <div class="col">
+                        <p class="input-normal">
+                          <span class="placeholder">{{ lang.zip_code }}</span>
+                          <input type="text" maxlength="200" name="zip_code" value="" onChange="{valueChange('official')}">
+                        </p>
+                      </div>
+                    </div>
+                    <p class="input-normal">
+                      <span class="placeholder">{{ lang.phone_number }}</span>
+                      <input type="text" maxlength="20" name="phone" value="" onChange="{valueChange('official')}">
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="mask"></div>
+              <div class="spinner">
+                <i class="iconfont">&#xe696;</i>
+                <div class="focus"><i class="iconfont">&#xe696;</i></div>
+              </div>
+            </div>
+
+            <div class="details content">
+              <h4>{{ lang.form_details }}<i class="requiredFlag">*</i></h4>
+              <p class="textarea-normal">
+                <textarea name="other" autocomplete="nope" onChange="valueChange('official')"></textarea>
+              </p>
+            </div>
+
+            <div class="Spin attachSpin">
+              <div class="content cnt">
+                <div class="upload con">
+                  <h4>{{ lang.upload }}</h4>
+                  <div class="images">
+                    {% comment %} item {% endcomment %}
+                    <i class="upBox">
+                      <a class="iconfont item">&#xe727;</a>
+                      <input type="file" accept="image/*,application/pdf" multiple="multiple"
+                        onChange="uploadAttach('official')" value
+                      />
+                    </i>
+                  </div>
+                </div>
+              </div>
+              <div class="mask"></div>
+              <div class="spinner">
+                <i class="iconfont">&#xe6c0;</i>
+                <div class="focus"><i class="iconfont">&#xe6c0;</i></div>
+              </div>
+            </div>
+
+            <div class="Spin captchaSpin">
+              <div class="content cnt">
+                <div class="captcha con">
+                  <div class="captcha-box">
+                    <span class="input-normal captcha">
+                      <input autocomplete="nope" placeholder="{{ lang.placeholder }}" name="captcha" value="" onChange="valueChange('official')">
+                      <a class="official_captcha_img" role="button" tabindex="0" onClick="{getCaptchaCode('official')}"></a>
+                    </span>
+                    <span class="btns">
+                      <a class="button-normal reset" onClick="resetForm('official')">{{ lang.reset }}</a>
+                      <button type="submit" class="button-normal submit">{{ lang.submit }}</button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="mask"></div>
+              <div class="spinner">
+                <i class="iconfont">&#xe6c0;</i>
+                <div class="focus"><i class="iconfont">&#xe6c0;</i></div>
+              </div>
+            </div>
+            
+          </form>
+
+          <form id="amazon_form" class="amazon_form" onSubmit="rmaConfirm('amazon')">
+            <div class="sources content">
+              <h4>{{ lang.amazon_site }}</h4>
+              <p class="sources_label">
+                <label for="source"><input type="radio" name="source" value="amazon" onChange="valueChange('amazon')">Amazon.com</label>
+                <label for="source"><input type="radio" name="source" value="amazon_uk" onChange="valueChange('amazon')">Amazon.co.uk</label>
+                <label for="source"><input type="radio" name="source" value="amazon_ca" onChange="valueChange('amazon')">Amazon.ca</label>
+                <label for="source"><input type="radio" name="source" value="amazon_es" onChange="valueChange('amazon')">Amazon.es</label>
+                <label for="source"><input type="radio" name="source" value="amazon_it" onChange="valueChange('amazon')">Amazon.it</label>
+                <label for="source"><input type="radio" name="source" value="amazon_fr" onChange="valueChange('amazon')">Amazon.fr</label>
+                <label for="source"><input type="radio" name="source" value="amazon_de" onChange="valueChange('amazon')">Amazon.de</label>
+                <label for="source"><input type="radio" name="source" value="amazon_ae" onChange="valueChange('amazon')">Amazon.ae</label>
+                <label for="source"><input type="radio" name="source" value="amazon_au" onChange="valueChange('amazon')">Amazon.com.au</label>
+                <label for="source"><input type="radio" name="source" value="amazon_mx" onChange="valueChange('amazon')">Amazon.com.mx</label>
+              </p>
+            </div>
+
+            <div class="info content">
+              <h4>{{ lang.form_info }}</h4>
+              <div class="col2">
+                <p class="input-normal col">
+                  <span class="placeholder">{{ lang.email }}<i class="requiredFlag">*</i></span>
+                  <input autocomplete="nope" type="text" maxlength="200" name="email" value="" onChange="valueChange('amazon')">
+                </p>
+                <p class="input-normal col">
+                  <span class="placeholder">{{ lang.confirm_email }}<i class="requiredFlag">*</i></span>
+                  <input autocomplete="nope" type="text" maxlength="200" name="email_confirm" value="" onChange="valueChange('amazon')">
+                </p>
+              </div>
+              <div class="col2">
+                <p class="input-normal col">
+                  <span class="placeholder">{{ lang.first_name }}<i class="requiredFlag">*</i></span>
+                  <input autocomplete="nope" type="text" maxlength="200" name="first_name" value="" onChange="valueChange('amazon')">
+                </p>
+                <p class="input-normal col">
+                  <span class="placeholder">{{ lang.last_name }}<i class="requiredFlag">*</i></span>
+                  <input autocomplete="nope" type="text" maxlength="200" name="last_name" value="" onChange="valueChange('amazon')">
+                </p>
+              </div>
+            </div>
+
+            <div class="order content">
+              <h4>
+                {{ lang.form_order }}:
+                <span class="tips"> {{ lang.order_tips3 }} </span>
+              </h4>
+              <div class="input-normal">
+                <div class="placeholder">{{ lang.order_ }}<i class="requiredFlag">*</i></div>
+                <input autocomplete="nope" type="text" maxlength="20" name="order_id" value="" onChange="valueChange('amazon')">
+              </div>
+              <div class="prods">
+                <div class="col2">
+                  <p class="input-normal col">
+                    <span class="placeholder">{{ lang.product_name }}<i class="requiredFlag">*</i></span>
+                    <input autocomplete="nope" type="text" maxlength="200" name="name" value="" onChange="changeProd('amazon')">
+                  </p>
+                  <p class="input-normal col">
+                    <span class="placeholder">{{ lang.model }}</span>
+                    <input autocomplete="nope" type="text" maxlength="200" name="sku" value="" onChange="changeProd('amazon')">
+                  </p>
+                </div>
+                <p class="input-normal">
+                  <span class="placeholder">{{ lang.SN }}</span>
+                  <input autocomplete="nope" type="text" maxlength="200" name="series_no" value="" onChange="changeProd('amazon')">
+                </p>
+              </div>
+            </div>
+
+            <div class="Spin addressSpin">
+              <div class="content cnt">
+                <div class="address content">
+                  <h4>
+                    {{ lang.form_address }}
+                    <span class="remark">{{ lang.address_tips }}</span>
+                  </h4>
+                  <div class="addressInfo">
+                    <div class="col2">
+                      <div class="col">
+                        <p class="input-normal">
+                          <span class="placeholder">{{ lang.address1 }}</span>
+                          <input type="text" maxlength="200" name="address1" value="" onChange="valueChange('amazon')">
+                        </p>
+                      </div>
+                      <div class="col">
+                        <p class="input-normal">
+                          <span class="placeholder">{{ lang.address2 }}</span>
+                          <input type="text" maxlength="200" name="address2" value="" onChange="valueChange('amazon')">
+                        </p>
+                      </div>
+                    </div>
+                    <div class="col2">
+                      <div class="col">
+                        <p class="select-normal">
+                          <span class="placeholder">{{ lang.country }}</span>
+                          <select name="country_id" onChange="countryChange('amazon')" value="">
+                            {{ lang.rmaCountries }}
+                          </select>
+                        </p>
+                      </div>
+                      <div class="col">
+                        <p class="select-normal">
+                          <span class="placeholder">{{ lang.state }}</span>
+                          <select class="amazon_state_id" name="state_id" onChange="valueChange('amazon')"></select>
+                        </p>
+                      </div>
+                    </div>
+                    <div class="col2">
+                      <div class="col">
+                        <p class="input-normal">
+                          <span class="placeholder">{{ lang.city }}</span>
+                          <input type="text" maxlength="200" name="city" value="" onChange="valueChange('amazon')">
+                        </p>
+                      </div>
+                      <div class="col">
+                        <p class="input-normal">
+                          <span class="placeholder">{{ lang.zip_code }}</span>
+                          <input type="text" maxlength="200" name="zip_code" value="" onChange="{valueChange('amazon')}">
+                        </p>
+                      </div>
+                    </div>
+                    <p class="input-normal">
+                      <span class="placeholder">{{ lang.phone_number }}</span>
+                      <input type="text" maxlength="20" name="phone" value="" onChange="{valueChange('amazon')}">
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="mask"></div>
+              <div class="spinner">
+                <i class="iconfont">&#xe6c0;</i>
+                <div class="focus"><i class="iconfont">&#xe6c0;</i></div>
+              </div>
+            </div>
+
+            <div class="details content">
+              <h4>{{ lang.form_details }}<i class="requiredFlag">*</i></h4>
+              <p class="textarea-normal">
+                <textarea name="other" autocomplete="nope" onChange="{valueChange('amazon')}"></textarea>
+              </p>
+            </div>
+
+            <div class="Spin attachSpin">
+              <div class="content cnt">
+                <div class="upload con">
+                  <h4>{{ lang.uploads }}</h4>
+                  <div class="images">
+                    <i class="upBox">
+                      <a class="iconfont item">&#xe727;</a>
+                      <input type="file" accept="image/*,application/pdf" multiple="multiple"
+                        onChange="uploadAttach('amazon')"
+                      />
+                    </i>
+                  </div>
+                </div>
+              </div>
+              <div class="mask"></div>
+              <div class="spinner">
+                <i class="iconfont">&#xe6c0;</i>
+                <div class="focus"><i class="iconfont">&#xe6c0;</i></div>
+              </div>
+            </div>
+
+            <div class="Spin captchaSpin">
+              <div class="content cnt">
+                <div class="captcha con">
+                  <div class="captcha-box">
+                    <span class="input-normal captcha">
+                      <input autocomplete="nope" name="captcha" placeholder="{{ lang.placeholder }}" value="" onChange="{valueChange('amazon')}">
+                      <a class="amazon_captcha_img" role="button" tabindex="0" onClick="{getCaptchaCode('amazon')}"></a>
+                    </span>
+                    <span class="btns">
+                      <a class="button-normal reset"  onClick="resetForm('amazon')">{{ lang.reset }}</a>
+                      <button type="submit" class="button-normal submit">{{ lang.submit }}</button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="mask"></div>
+              <div class="spinner">
+                <i class="iconfont">&#xe6c0;</i>
+                <div class="focus"><i class="iconfont">&#xe6c0;</i></div>
+              </div>
+            </div>
+
+          </form>
+
+          <form id="eBay_form" class="ex_form" onSubmit="rmaConfirm('ex')">
+            <div class="info content">
+              <h4>{{ lang.form_info }}</h4>
+              <div class="col2">
+                <p class="input-normal col">
+                  <span class="placeholder">{{ lang.email }}<i class="requiredFlag">*</i></span>
+                  <input autocomplete="nope" type="text" maxlength="200" class="ex_email" name="email" value="" onChange="valueChange('ex')">
+                </p>
+                <p class="input-normal col">
+                  <span class="placeholder">{{ lang.confirm_email }}<i class="requiredFlag">*</i></span>
+                  <input autocomplete="nope" type="text" maxlength="200" class="ex_email_confirm" name="email_confirm" value="" onChange="valueChange('ex')">
+                </p>
+              </div>
+              <div class="col2">
+                <p class="input-normal col">
+                  <span class="placeholder">{{ lang.first_name }}<i class="requiredFlag">*</i></span>
+                  <input autocomplete="nope" type="text" maxlength="200" class="ex_first_name" name="first_name" value="" onChange="valueChange('ex')">
+                </p>
+                <p class="input-normal col">
+                  <span class="placeholder">{{ lang.last_name }}<i class="requiredFlag">*</i></span>
+                  <input autocomplete="nope" type="text" maxlength="200" class="ex_last_name" name="last_name" value="" onChange="valueChange('ex')">
+                </p>
+              </div>
+            </div>
+
+            <div class="order content">
+              <h4>{{ lang.form_order }}
+                <span class="tips linefeed"> {{ lang.order_tips1 }} </span>
+              </h4>
+              <div class="Spin attachSpin">
+                <div class="content cnt">
+                  <div class="upload">
+                    <p class="input-normal col">{{ lang.uploads }}</p>
+                    <div class="images">
+                      <i class="upBox">
+                        <a class="iconfont item">&#xe727;</a>
+                        <input type="file" accept="image/*,application/pdf" multiple="multiple"
+                          onChange="uploadAttach('ex')"
+                        />
+                      </i>
+                    </div>
+                  </div>
+                </div>
+                <div class="mask"></div>
+                <div class="spinner">
+                  <i class="iconfont">&#xe6c0;</i>
+                  <div class="focus"><i class="iconfont">&#xe6c0;</i></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="prods content">
+              <h4>{{ lang.product_details }}</h4>
+              <div class="prods">
+                <div class="col2">
+                  <p class="input-normal col">
+                    <span class="placeholder">{{ lang.product_name }}</span>
+                    <input autocomplete="nope" type="text" maxlength="200" class="ex_name" name="name" value="" onChange="changeProd('ex')">
+                  </p>
+                  <p class="input-normal col">
+                    <span class="placeholder">{{ lang.model }}</span>
+                    <input autocomplete="nope" type="text" maxlength="200" class="ex_model" name="sku" value="" onChange="changeProd('ex')">
+                  </p>
+                </div>
+                <p class="input-normal">
+                  <span class="placeholder">{{ lang.SN }}</span>
+                  <input autocomplete="nope" type="text" maxlength="200" class="ex_series_no" name="series_no" value="" onChange="changeProd('ex')">
+                </p>
+              </div>
+            </div>
+
+            <div class="details content">
+              <h4>
+                {{ lang.form_details }}
+                <i class="requiredFlag">*</i>
+                <span class="remark">{{ lang.details_tips }}</span>
+              </h4>
+              <p class="textarea-normal">
+                <textarea class="ex_other" name="other" value="" autocomplete="nope" onChange="valueChange('ex')"></textarea>
+              </p>
+            </div>
+
+            <div class="Spin addressSpin">
+              <div class="content cnt">
+                <div class="address content">
+                  <h4>{{ lang.form_address }}
+                    <span class="remark">{{ lang.address_tips }}</span>
+                  </h4>
+                  <div class="addressInfo">
+                    <div class="col2">
+                      <div class="col">
+                        <p class="input-normal">
+                          <span class="placeholder">{{ lang.address1 }}</span>
+                          <input type="text" maxlength="200" class="ex_address1" name="address1" value="" onChange="valueChange('ex')">
+                        </p>
+                      </div>
+                      <div class="col">
+                        <p class="input-normal">
+                          <span class="placeholder">{{ lang.address2 }}</span>
+                          <input type="text" maxlength="200" class="ex_address2" name="address2" value="" onChange="valueChange('ex')">
+                        </p>
+                      </div>
+                    </div>
+                    <div class="col2">
+                      <div class="col">
+                        <p class="select-normal">
+                          <span class="placeholder">{{ lang.country }}</span>
+                          <select class="ex_country_id" name="country_id" onChange="countryChange('ex')" value="">
+                            {{ lang.rmaCountries }}
+                          </select>
+                        </p>
+                      </div>
+                      <div class="col">
+                        <p class="select-normal">
+                          <span class="placeholder">{{ lang.state }}</span>
+                          <select class="ex_state_id" name="state_id" onChange="valueChange('ex')"></select>
+                        </p>
+                      </div>
+                    </div>
+                    <div class="col2">
+                      <div class="col">
+                        <p class="input-normal">
+                          <span class="placeholder">{{ lang.city }}</span>
+                          <input type="text" maxlength="200" class="ex_city" name="city" value="" onChange="valueChange('ex')">
+                        </p>
+                      </div>
+                      <div class="col">
+                        <p class="input-normal">
+                          <span class="placeholder">{{ lang.zip_code }}</span>
+                          <input type="text" maxlength="200" class="ex_zip_code" name="zip_code" value="" onChange="valueChange('ex')">
+                        </p>
+                      </div>
+                    </div>
+                    <p class="input-normal">
+                      <span class="placeholder">{{ lang.phone_number }}</span>
+                      <input type="text" maxlength="200" class="ex_phone" name="phone" value="" onChange="valueChange('ex')">
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="mask"></div>
+              <div class="spinner">
+                <i class="iconfont">&#xe6c0;</i>
+                <div class="focus"><i class="iconfont">&#xe6c0;</i></div>
+              </div>
+            </div>
+
+            <div class="Spin captchaSpin">
+              <div class="content cnt">
+                <div class="captcha-box con">
+                  <span class="input-normal captcha">
+                    <input autocomplete="nope" class="ex_captcha" name="captcha" placeholder="{{ lang.placeholder }}" value="" onChange="valueChange('ex')">
+                    <a class="ex_captcha_img" role="button" tabindex="0" onClick="getCaptchaCode('ex')"></a>
+                  </span>
+                  <span class="btns">
+                    <a class="button-normal reset" onClick="resetForm('ex')">{{ lang.reset }}</a>
+                    <button type="submit" class="button-normal submit">{{ lang.submit }}</button>
+                  </span>
+                </div>
+              </div>
+              <div class="mask"></div>
+              <div class="spinner">
+                <i class="iconfont">&#xe6c0;</i>
+                <div class="focus"><i class="iconfont">&#xe6c0;</i></div>
+              </div>
+            </div>
+
+          </form>
+
+          <form id="Walmart_form" class="ex_form" onSubmit="rmaConfirm('ex')">
+            <div class="sources content">
+              <h4>Where to purchase</h4>
+              <p class="sources_label">
+                {% assign walmart_source = lang.walmart_source | split: "," %}
+                {% for source in walmart_source %}
+                  <label for="where_to_purchase">
+                    <input type="radio" name="where_to_purchase" value="{{source}}" onChange="valueChange('ex')">
+                    {{ source }}
+                  </label>
+                {% endfor %}
+              </p>
+            </div>
+
+            <div class="info content">
+              <h4>{{ lang.form_info }}</h4>
+              <div class="col2">
+                <p class="input-normal col">
+                  <span class="placeholder">{{ lang.email }}<i class="requiredFlag">*</i></span>
+                  <input autocomplete="nope" type="text" maxlength="200" class="ex_email" name="email" value="" onChange="valueChange('ex')">
+                </p>
+                <p class="input-normal col">
+                  <span class="placeholder">{{ lang.confirm_email }}<i class="requiredFlag">*</i></span>
+                  <input autocomplete="nope" type="text" maxlength="200" class="ex_email_confirm" name="email_confirm" value="" onChange="valueChange('ex')">
+                </p>
+              </div>
+              <div class="col2">
+                <p class="input-normal col">
+                  <span class="placeholder">{{ lang.first_name }}<i class="requiredFlag">*</i></span>
+                  <input autocomplete="nope" type="text" maxlength="200" class="ex_first_name" name="first_name" value="" onChange="valueChange('ex')">
+                </p>
+                <p class="input-normal col">
+                  <span class="placeholder">{{ lang.last_name }}<i class="requiredFlag">*</i></span>
+                  <input autocomplete="nope" type="text" maxlength="200" class="ex_last_name" name="last_name" value="" onChange="valueChange('ex')">
+                </p>
+              </div>
+            </div>
+
+            <div class="order content">
+              <h4>
+                {{ lang.form_order }}
+                <span class="tips linefeed">{{ lang.order_tips1 }}</span>
+              </h4>
+              <h4><span class="tips linefeed">{{ lang.order_tips2 }}</span></h4>
+              <div class="Spin attachSpin">
+                <div class="content cnt">
+                  <div class="upload">
+                    <p class="input-normal col">{{ lang.uploads }}</p>
+                    <div class="images">
+                      <i class="upBox">
+                        <a class="iconfont item">&#xe727;</a>
+                        <input type="file" accept="image/*,application/pdf" multiple="multiple"
+                          onChange="uploadAttach('ex')"
+                        />
+                      </i>
+                      <i class="item hiddenimg" onclick="openModal('<img src=\'https://dz02g1kgtiysz.cloudfront.net/deals/files/190510_170220_walmart.jpg\' />')">
+                        <i class="img" style="background-image: url(&quot;https://dz02g1kgtiysz.cloudfront.net/deals/files/190510_170225_thumbnailwalmart.png&quot;);"></i>
+                        <p class="example">{{ lang.example }}</p>
+                      </i>
+                    </div>
+                  </div>
+                </div>
+                <div class="mask"></div>
+                <div class="spinner">
+                  <i class="iconfont">&#xe6c0;</i>
+                  <div class="focus"><i class="iconfont">&#xe6c0;</i></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="prods content">
+              <h4>{{ lang.product_details }}</h4>
+              <div class="prods">
+                <div class="col2">
+                  <p class="input-normal col">
+                    <span class="placeholder">{{ lang.product_name }}</span>
+                    <input autocomplete="nope" type="text" maxlength="200" class="ex_name" name="name" value="" onChange="changeProd('ex')">
+                  </p>
+                  <p class="input-normal col">
+                    <span class="placeholder">{{ lang.model }}</span>
+                    <input autocomplete="nope" type="text" maxlength="200" class="ex_model" name="sku" value="" onChange="changeProd('ex')">
+                  </p>
+                </div>
+                <p class="input-normal">
+                  <span class="placeholder">{{ lang.SN }}</span>
+                  <input autocomplete="nope" type="text" maxlength="200" class="ex_series_no" name="series_no" value="" onChange="changeProd('ex')">
+                </p>
+              </div>
+            </div>
+
+            <div class="details content">
+              <h4>
+                {{ lang.form_details }}
+                <i class="requiredFlag">*</i>
+                <span class="remark">{{ lang.details_tips }}</span>
+              </h4>
+              <p class="textarea-normal">
+                <textarea class="ex_other" name="other" value="" autocomplete="nope" onChange="valueChange('ex')"></textarea>
+              </p>
+            </div>
+
+            <div class="Spin addressSpin">
+              <div class="content cnt">
+                <div class="address content">
+                  <h4>
+                    {{ lang.form_address }}
+                    <span class="remark">{{ lang.address_tips }}</span>
+                  </h4>
+                  <div class="addressInfo">
+                    <div class="col2">
+                      <div class="col">
+                        <p class="input-normal">
+                          <span class="placeholder">{{ lang.address1 }}</span>
+                          <input type="text" maxlength="200" class="ex_address1" name="address1" value="" onChange="valueChange('ex')">
+                        </p>
+                      </div>
+                      <div class="col">
+                        <p class="input-normal">
+                          <span class="placeholder">{{ lang.address2 }}</span>
+                          <input type="text" maxlength="200" class="ex_address2" name="address2" value="" onChange="valueChange('ex')">
+                        </p>
+                      </div>
+                    </div>
+                    <div class="col2">
+                      <div class="col">
+                        <p class="select-normal">
+                          <span class="placeholder">{{ lang.country }}</span>
+                          <select class="ex_country_id" name="country_id" onChange="countryChange('ex')" value="">
+                            {{ lang.rmaCountries }}
+                          </select>
+                        </p>
+                      </div>
+                      <div class="col">
+                        <p class="select-normal">
+                          <span class="placeholder">{{ lang.state }}</span>
+                          <select class="ex_state_id" name="state_id" onChange="valueChange('ex')"></select>
+                        </p>
+                      </div>
+                    </div>
+                    <div class="col2">
+                      <div class="col">
+                        <p class="input-normal">
+                          <span class="placeholder">{{ lang.city }}</span>
+                          <input type="text" maxlength="200" class="ex_city" name="city" value="" onChange="valueChange('ex')">
+                        </p>
+                      </div>
+                      <div class="col">
+                        <p class="input-normal">
+                          <span class="placeholder">{{ lang.zip_code }}</span>
+                          <input type="text" maxlength="200" class="ex_zip_code" name="zip_code" value="" onChange="valueChange('ex')">
+                        </p>
+                      </div>
+                    </div>
+                    <p class="input-normal">
+                      <span class="placeholder">{{ lang.phone_number }}</span>
+                      <input type="text" maxlength="200" class="ex_phone" name="phone" value="" onChange="valueChange('ex')">
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="mask"></div>
+              <div class="spinner">
+                <i class="iconfont">&#xe6c0;</i>
+                <div class="focus"><i class="iconfont">&#xe6c0;</i></div>
+              </div>
+            </div>
+
+            <div class="Spin captchaSpin">
+              <div class="content cnt">
+                <div class="captcha-box con">
+                  <span class="input-normal captcha">
+                    <input autocomplete="nope" class="ex_captcha" name="captcha" placeholder="{{ lang.placeholder }}" value="" onChange="valueChange('ex')">
+                    <a class="ex_captcha_img" role="button" tabindex="0" onClick="getCaptchaCode('ex')"></a>
+                  </span>
+                  <span class="btns">
+                    <a class="button-normal reset" onClick="resetForm('ex')">{{ lang.reset }}</a>
+                    <button type="submit" class="button-normal submit">{{ lang.submit }}</button>
+                  </span>
+                </div>
+              </div>
+              <div class="mask"></div>
+              <div class="spinner">
+                <i class="iconfont">&#xe6c0;</i>
+                <div class="focus"><i class="iconfont">&#xe6c0;</i></div>
+              </div>
+            </div>
+
+          </form>
+
+          <form id="BestBuy_form" class="ex_form" onSubmit="rmaConfirm('ex')">
+            <div class="info content">
+              <h4>{{ lang.form_info }}</h4>
+              <div class="col2">
+                <p class="input-normal col">
+                  <span class="placeholder">{{ lang.email }}<i class="requiredFlag">*</i></span>
+                  <input autocomplete="nope" type="text" maxlength="200" class="ex_email" name="email" value="" onChange="valueChange('ex')">
+                </p>
+                <p class="input-normal col">
+                  <span class="placeholder">{{ lang.confirm_email }}<i class="requiredFlag">*</i></span>
+                  <input autocomplete="nope" type="text" maxlength="200" class="ex_email_confirm" name="email_confirm" value="" onChange="valueChange('ex')">
+                </p>
+              </div>
+              <div class="col2">
+                <p class="input-normal col">
+                  <span class="placeholder">{{ lang.first_name }}<i class="requiredFlag">*</i></span>
+                  <input autocomplete="nope" type="text" maxlength="200" class="ex_first_name" name="first_name" value="" onChange="valueChange('ex')">
+                </p>
+                <p class="input-normal col">
+                  <span class="placeholder">{{ lang.last_name }}<i class="requiredFlag">*</i></span>
+                  <input autocomplete="nope" type="text" maxlength="200" class="ex_last_name" name="last_name" value="" onChange="valueChange('ex')">
+                </p>
+              </div>
+            </div>
+
+            <div class="order content">
+              <h4>
+                {{ lang.form_order }}
+                <span class="tips linefeed">{{ lang.order_tips1 }}</span>
+              </h4>
+              <h4><span class="tips linefeed">{{ lang.order_tips2 }}</span></h4>
+              <div class="Spin attachSpin">
+                <div class="content cnt">
+                  <div class="upload">
+                    <p class="input-normal col">{{ lang.uploads }}</p>
+                    <div class="images">
+                      {% comment %} item {% endcomment %}
+                      <i class="upBox">
+                        <a class="iconfont item">&#xe727;</a>
+                        <input type="file" accept="image/*,application/pdf" multiple="multiple"
+                          onChange="uploadAttach('ex')"
+                        />
+                      </i>
+                      <i class="item hiddenimg" onclick="openModal('<img src=\'https://dz02g1kgtiysz.cloudfront.net/deals/files/190510_170231_bestbuy.jpg\' />')">
+                        <i class="img" style="background-image: url(&quot;https://dz02g1kgtiysz.cloudfront.net/deals/files/190510_170235_thumbnailbestbuy.png&quot;);"></i>
+                        <p class="example">{{ lang.example }}</p>
+                      </i>
+                    </div>
+                  </div>
+                </div>
+                <div class="mask"></div>
+                <div class="spinner">
+                  <i class="iconfont">&#xe6c0;</i>
+                  <div class="focus"><i class="iconfont">&#xe6c0;</i></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="prods content">
+              <h4>{{ lang.product_details }}</h4>
+              <div class="prods">
+                <div class="col2">
+                  <p class="input-normal col">
+                    <span class="placeholder">{{ lang.product_name }}</span>
+                    <input autocomplete="nope" type="text" maxlength="200" class="ex_name" name="name" value="" onChange="changeProd('ex')">
+                  </p>
+                  <p class="input-normal col">
+                    <span class="placeholder">{{ lang.model }}</span>
+                    <input autocomplete="nope" type="text" maxlength="200" class="ex_model" name="sku" value="" onChange="changeProd('ex')">
+                  </p>
+                </div>
+                <p class="input-normal">
+                  <span class="placeholder">{{ lang.SN }}</span>
+                  <input autocomplete="nope" type="text" maxlength="200" class="ex_series_no" name="series_no" value="" onChange="changeProd('ex')">
+                </p>
+              </div>
+            </div>
+
+            <div class="details content">
+              <h4>
+                {{ lang.form_details }}
+                <i class="requiredFlag">*</i>
+                <span class="remark">{{ lang.details_tips }}</span>
+              </h4>
+              <p class="textarea-normal">
+                <textarea class="ex_other" name="other" value="" autocomplete="nope" onChange="valueChange('ex')"></textarea>
+              </p>
+            </div>
+
+            <div class="Spin addressSpin">
+              <div class="content cnt">
+                <div class="address content">
+                  <h4>
+                    {{ lang.form_address }}
+                    <span class="remark">{{ lang.address_tips }}</span>
+                  </h4>
+                  <div class="addressInfo">
+                    <div class="col2">
+                      <div class="col">
+                        <p class="input-normal">
+                          <span class="placeholder">{{ lang.address1 }}</span>
+                          <input type="text" maxlength="200" class="ex_address1" name="address1" value="" onChange="valueChange('ex')">
+                        </p>
+                      </div>
+                      <div class="col">
+                        <p class="input-normal">
+                          <span class="placeholder">{{ lang.address2 }}</span>
+                          <input type="text" maxlength="200" class="ex_address2" name="address2" value="" onChange="valueChange('ex')">
+                        </p>
+                      </div>
+                    </div>
+                    <div class="col2">
+                      <div class="col">
+                        <p class="select-normal">
+                          <span class="placeholder">{{ lang.country }}</span>
+                          <select class="ex_country_id" name="country_id" onChange="countryChange('ex')" value="">
+                            {{ lang.rmaCountries }}
+                          </select>
+                        </p>
+                      </div>
+                      <div class="col">
+                        <p class="select-normal">
+                          <span class="placeholder">{{ lang.state }}</span>
+                          <select class="ex_state_id" name="state_id" onChange="valueChange('ex')"></select>
+                        </p>
+                      </div>
+                    </div>
+                    <div class="col2">
+                      <div class="col">
+                        <p class="input-normal">
+                          <span class="placeholder">{{ lang.city }}</span>
+                          <input type="text" maxlength="200" class="ex_city" name="city" value="" onChange="valueChange('ex')">
+                        </p>
+                      </div>
+                      <div class="col">
+                        <p class="input-normal">
+                          <span class="placeholder">{{ lang.zip_code }}</span>
+                          <input type="text" maxlength="200" class="ex_zip_code" name="zip_code" value="" onChange="valueChange('ex')">
+                        </p>
+                      </div>
+                    </div>
+                    <p class="input-normal">
+                      <span class="placeholder">{{ lang.phone_number }}</span>
+                      <input type="text" maxlength="200" class="ex_phone" name="phone" value="" onChange="valueChange('ex')">
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="mask"></div>
+              <div class="spinner">
+                <i class="iconfont">&#xe6c0;</i>
+                <div class="focus"><i class="iconfont">&#xe6c0;</i></div>
+              </div>
+            </div>
+
+            <div class="Spin captchaSpin">
+              <div class="content cnt">
+                <div class="captcha-box con">
+                  <span class="input-normal captcha">
+                    <input autocomplete="nope" class="ex_captcha" name="captcha" placeholder="{{ lang.placeholder }}" value="" onChange="valueChange('ex')">
+                      <a class="ex_captcha_img" role="button" tabindex="0" onClick="getCaptchaCode('ex')"></a>
+                  </span>
+                  <span class="btns">
+                    <a class="button-normal reset" onClick="resetForm('ex')">{{ lang.reset }}</a>
+                    <button type="submit" class="button-normal submit">{{ lang.submit }}</button>
+                  </span>
+                </div>
+              </div>
+              <div class="mask"></div>
+              <div class="spinner">
+                <i class="iconfont">&#xe6c0;</i>
+                <div class="focus"><i class="iconfont">&#xe6c0;</i></div>
+              </div>
+            </div>
+
+          </form>
+          
+          <form id="Target_form" class="ex_form" onSubmit="rmaConfirm('ex')">
+            <div class="info content">
+              <h4>{{ lang.form_info }}</h4>
+              <div class="col2">
+                <p class="input-normal col">
+                  <span class="placeholder">{{ lang.email }}<i class="requiredFlag">*</i></span>
+                  <input autocomplete="nope" type="text" maxlength="200" class="ex_email" name="email" value="" onChange="valueChange('ex')">
+                </p>
+                <p class="input-normal col">
+                  <span class="placeholder">{{ lang.confirm_email }}<i class="requiredFlag">*</i></span>
+                  <input autocomplete="nope" type="text" maxlength="200" class="ex_email_confirm" name="email_confirm" value="" onChange="valueChange('ex')">
+                </p>
+              </div>
+              <div class="col2">
+                <p class="input-normal col">
+                  <span class="placeholder">{{ lang.first_name }}<i class="requiredFlag">*</i></span>
+                  <input autocomplete="nope" type="text" maxlength="200" class="ex_first_name" name="first_name" value="" onChange="valueChange('ex')">
+                </p>
+                <p class="input-normal col">
+                  <span class="placeholder">{{ lang.last_name }}<i class="requiredFlag">*</i></span>
+                  <input autocomplete="nope" type="text" maxlength="200" class="ex_last_name" name="last_name" value="" onChange="valueChange('ex')">
+                </p>
+              </div>
+            </div>
+
+            <div class="order content">
+              <h4>
+                {{ lang.form_order }}
+                <span class="tips linefeed">{{ lang.order_tips4 }}</span>
+              </h4>
+              <h4><span class="tips linefeed">{{ lang.order_tips2 }}</span></h4>
+              <div class="Spin attachSpin">
+                <div class="content cnt">
+                  <div class="upload">
+                    <p class="input-normal col">{{ lang.uploads }}</p>
+                    <div class="images">
+                      {% comment %} item {% endcomment %}
+                      <i class="upBox">
+                        <a class="iconfont item">&#xe727;</a>
+                        <input type="file" accept="image/*,application/pdf" multiple="multiple"
+                          onChange="uploadAttach('ex')"
+                        />
+                      </i>
+                      <i class="item hiddenimg" onclick="openModal('<img src=\'https://dz02g1kgtiysz.cloudfront.net/deals/files/190510_170211_target.jpg\' />')">
+                        <i class="img" style="background-image: url(&quot;https://dz02g1kgtiysz.cloudfront.net/deals/files/190510_170215_thumbnailtarget.png&quot;);"></i>
+                        <p class="example">{{ lang.example }}</p>
+                      </i>
+                    </div>
+                  </div>
+                </div>
+                <div class="mask"></div>
+                <div class="spinner">
+                  <i class="iconfont">&#xe6c0;</i>
+                  <div class="focus"><i class="iconfont">&#xe6c0;</i></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="prods content">
+              <h4>{{ lang.product_details }}</h4>
+              <div class="prods">
+                <div class="col2">
+                  <p class="input-normal col">
+                    <span class="placeholder">{{ lang.product_name }}</span>
+                    <input autocomplete="nope" type="text" maxlength="200" class="ex_name" name="name" value="" onChange="changeProd('ex')">
+                  </p>
+                  <p class="input-normal col">
+                    <span class="placeholder">{{ lang.model }}</span>
+                    <input autocomplete="nope" type="text" maxlength="200" class="ex_model" name="sku" value="" onChange="changeProd('ex')">
+                  </p>
+                </div>
+                <p class="input-normal">
+                  <span class="placeholder">{{ lang.SN }}</span>
+                  <input autocomplete="nope" type="text" maxlength="200" class="ex_series_no" name="series_no" value="" onChange="changeProd('ex')">
+                </p>
+              </div>
+            </div>
+
+            <div class="details content">
+              <h4>
+                {{ lang.form_details }}
+                <i class="requiredFlag">*</i>
+                <span class="remark">{{ lang.details_tips }}</span>
+              </h4>
+              <p class="textarea-normal">
+                <textarea class="ex_other" name="other" value="" autocomplete="nope" onChange="valueChange('ex')"></textarea>
+              </p>
+            </div>
+
+            <div class="Spin addressSpin">
+              <div class="content cnt">
+                <div class="address content">
+                  <h4>
+                    {{ lang.form_address }}
+                    <span class="remark">{{ lang.address_tips }}</span>
+                  </h4>
+                  <div class="addressInfo">
+                    <div class="col2">
+                      <div class="col">
+                        <p class="input-normal">
+                          <span class="placeholder">{{ lang.address1 }}</span>
+                          <input type="text" maxlength="200" class="ex_address1" name="address1" value="" onChange="valueChange('ex')">
+                        </p>
+                      </div>
+                      <div class="col">
+                        <p class="input-normal">
+                          <span class="placeholder">{{ lang.address2 }}</span>
+                          <input type="text" maxlength="200" class="ex_address2" name="address2" value="" onChange="valueChange('ex')">
+                        </p>
+                      </div>
+                    </div>
+                    <div class="col2">
+                      <div class="col">
+                        <p class="select-normal">
+                          <span class="placeholder">{{ lang.country }}</span>
+                          <select class="ex_country_id" name="country_id" onChange="countryChange('ex')" value="">
+                            {{ lang.rmaCountries }}
+                          </select>
+                        </p>
+                      </div>
+                      <div class="col">
+                        <p class="select-normal">
+                          <span class="placeholder">{{ lang.state }}</span>
+                          <select class="ex_state_id" name="state_id" onChange="valueChange('ex')"></select>
+                        </p>
+                      </div>
+                    </div>
+                    <div class="col2">
+                      <div class="col">
+                        <p class="input-normal">
+                          <span class="placeholder">{{ lang.city }}</span>
+                          <input type="text" maxlength="200" class="ex_city" name="city" value="" onChange="valueChange('ex')">
+                        </p>
+                      </div>
+                      <div class="col">
+                        <p class="input-normal">
+                          <span class="placeholder">{{ lang.zip_code }}</span>
+                          <input type="text" maxlength="200" class="ex_zip_code" name="zip_code" value="" onChange="valueChange('ex')">
+                        </p>
+                      </div>
+                    </div>
+                    <p class="input-normal">
+                      <span class="placeholder">{{ lang.phone_number }}</span>
+                      <input type="text" maxlength="200" class="ex_phone" name="phone" value="" onChange="valueChange('ex')">
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="mask"></div>
+              <div class="spinner">
+                <i class="iconfont">&#xe6c0;</i>
+                <div class="focus"><i class="iconfont">&#xe6c0;</i></div>
+              </div>
+            </div>
+
+            <div class="Spin captchaSpin">
+              <div class="content cnt">
+                <div class="captcha-box con">
+                  <span class="input-normal captcha">
+                    <input autocomplete="nope" class="ex_captcha" name="captcha" placeholder="{{ lang.placeholder }}" value="" onChange="valueChange('ex')">
+                    <a class="ex_captcha_img" role="button" tabindex="0" onClick="getCaptchaCode('ex')"></a>
+                  </span>
+                  <span class="btns">
+                    <a class="button-normal reset" onClick="resetForm('ex')">{{ lang.reset }}</a>
+                    <button type="submit" class="button-normal submit">{{ lang.submit }}</button>
+                  </span>
+                </div>
+              </div>
+              <div class="mask"></div>
+              <div class="spinner">
+                <i class="iconfont">&#xe6c0;</i>
+                <div class="focus"><i class="iconfont">&#xe6c0;</i></div>
+              </div>
+            </div>
+
+          </form>
+
+          <form id="Others_form" class="ex_form" onSubmit="rmaConfirm('ex')">
+            <div class="sources content">
+              <h4>Where to purchase</h4>
+              <p class="sources_label">
+              {% assign others_source = lang.others_source | split: "," %}
+              {% for source in others_source %}
+                  <label for="where_to_purchase">
+                    <input type="radio" name="where_to_purchase" value="{{source}}" onChange="valueChange('ex')">
+                    {{ source }}
+                  </label>
+                {% endfor %}
+              </p>
+            </div>
+
+            <div class="info content">
+              <h4>{{ lang.form_info }}</h4>
+              <div class="col2">
+                <p class="input-normal col">
+                  <span class="placeholder">{{ lang.email }}<i class="requiredFlag">*</i></span>
+                  <input autocomplete="nope" type="text" maxlength="200" class="ex_email" name="email" value="" onChange="valueChange('ex')">
+                </p>
+                <p class="input-normal col">
+                  <span class="placeholder">{{ lang.confirm_email }}<i class="requiredFlag">*</i></span>
+                  <input autocomplete="nope" type="text" maxlength="200" class="ex_email_confirm" name="email_confirm" value="" onChange="valueChange('ex')">
+                </p>
+              </div>
+              <div class="col2">
+                <p class="input-normal col">
+                  <span class="placeholder">{{ lang.first_name }}<i class="requiredFlag">*</i></span>
+                  <input autocomplete="nope" type="text" maxlength="200" class="ex_first_name" name="first_name" value="" onChange="valueChange('ex')">
+                </p>
+                <p class="input-normal col">
+                  <span class="placeholder">{{ lang.last_name }}<i class="requiredFlag">*</i></span>
+                  <input autocomplete="nope" type="text" maxlength="200" class="ex_last_name" name="last_name" value="" onChange="valueChange('ex')">
+                </p>
+              </div>
+            </div>
+
+            <div class="order content">
+              <h4>
+                {{ lang.form_order }}
+                <span class="tips linefeed">{{ lang.order_tips1 }}</span>
+              </h4>
+              <h4><span class="tips linefeed">{{ lang.order_tips2 }}</span></h4>
+              <div class="Spin attachSpin">
+                <div class="content cnt">
+                  <div class="upload">
+                    <p class="input-normal col">{{ lang.uploads }}</p>
+                    <div class="images">
+                      {% comment %} item {% endcomment %}
+                      <i class="upBox">
+                        <a class="iconfont item">&#xe727;</a>
+                        <input type="file" accept="image/*,application/pdf" multiple="multiple"
+                          onChange="uploadAttach('ex')"
+                        />
+                      </i>
+                    </div>
+                  </div>
+                </div>
+                <div class="mask"></div>
+                <div class="spinner">
+                  <i class="iconfont">&#xe6c0;</i>
+                  <div class="focus"><i class="iconfont">&#xe6c0;</i></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="prods content">
+              <h4>{{ lang.product_details }}</h4>
+              <div class="prods">
+                <div class="col2">
+                  <p class="input-normal col">
+                    <span class="placeholder">{{ lang.product_name }}</span>
+                    <input autocomplete="nope" type="text" maxlength="200" class="ex_name" name="name" value="" onChange="changeProd('ex')">
+                  </p>
+                  <p class="input-normal col">
+                    <span class="placeholder">{{ lang.model }}</span>
+                    <input autocomplete="nope" type="text" maxlength="200" class="ex_model" name="sku" value="" onChange="changeProd('ex')">
+                  </p>
+                </div>
+                <p class="input-normal">
+                  <span class="placeholder">{{ lang.SN }}</span>
+                  <input autocomplete="nope" type="text" maxlength="200" class="ex_series_no" name="series_no" value="" onChange="changeProd('ex')">
+                </p>
+              </div>
+            </div>
+
+            <div class="details content">
+              <h4>
+                {{ lang.form_details }}
+                <i class="requiredFlag">*</i>
+                <span class="remark">{{ lang.details_tips }}</span>
+              </h4>
+              <p class="textarea-normal">
+                <textarea class="ex_other" name="other" value="" autocomplete="nope" onChange="valueChange('ex')"></textarea>
+              </p>
+            </div>
+
+            <div class="Spin addressSpin">
+              <div class="content cnt">
+                <div class="address content">
+                  <h4>
+                    {{ lang.form_address }}
+                    <span class="remark">{{ lang.address_tips }}</span>
+                  </h4>
+                  <div class="addressInfo">
+                    <div class="col2">
+                      <div class="col">
+                        <p class="input-normal">
+                          <span class="placeholder">{{ lang.address1 }}</span>
+                          <input type="text" maxlength="200" class="ex_address1" name="address1" value="" onChange="valueChange('ex')">
+                        </p>
+                      </div>
+                      <div class="col">
+                        <p class="input-normal">
+                          <span class="placeholder">{{ lang.address2 }}</span>
+                          <input type="text" maxlength="200" class="ex_address2" name="address2" value="" onChange="valueChange('ex')">
+                        </p>
+                      </div>
+                    </div>
+                    <div class="col2">
+                      <div class="col">
+                        <p class="select-normal">
+                          <span class="placeholder">{{ lang.country }}</span>
+                          <select class="ex_country_id" name="country_id" onChange="countryChange('ex')" value="">
+                            {{ lang.rmaCountries }}
+                          </select>
+                        </p>
+                      </div>
+                      <div class="col">
+                        <p class="select-normal">
+                          <span class="placeholder">{{ lang.state }}</span>
+                          <select class="ex_state_id" name="state_id" onChange="valueChange('ex')"></select>
+                        </p>
+                      </div>
+                    </div>
+                    <div class="col2">
+                      <div class="col">
+                        <p class="input-normal">
+                          <span class="placeholder">{{ lang.city }}</span>
+                          <input type="text" maxlength="200" class="ex_city" name="city" value="" onChange="valueChange('ex')">
+                        </p>
+                      </div>
+                      <div class="col">
+                        <p class="input-normal">
+                          <span class="placeholder">{{ lang.zip_code }}</span>
+                          <input type="text" maxlength="200" class="ex_zip_code" name="zip_code" value="" onChange="valueChange('ex')">
+                        </p>
+                      </div>
+                    </div>
+                    <p class="input-normal">
+                      <span class="placeholder">{{ lang.phone_number }}</span>
+                      <input type="text" maxlength="200" class="ex_phone" name="phone" value="" onChange="valueChange('ex')">
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="mask"></div>
+              <div class="spinner">
+                <i class="iconfont">&#xe6c0;</i>
+                <div class="focus"><i class="iconfont">&#xe6c0;</i></div>
+              </div>
+            </div>
+
+            <div class="Spin captchaSpin">
+              <div class="content cnt">
+                <div class="captcha-box con">
+                  <span class="input-normal captcha">
+                    <input autocomplete="nope" class="ex_captcha" name="captcha" placeholder="{{ lang.placeholder }}" value="" onChange="valueChange('ex')">
+                    <a class="ex_captcha_img" role="button" tabindex="0" onClick="{getCaptchaCode('ex')}"></a>
+                  </span>
+                  <span class="btns">
+                    <a class="button-normal reset" onClick="resetForm('ex')">{{ lang.reset }}</a>
+                    <button type="submit" class="button-normal submit">{{ lang.submit }}</button>
+                  </span>
+                </div>
+              </div>
+              <div class="mask"></div>
+              <div class="spinner">
+                <i class="iconfont">&#xe6c0;</i>
+                <div class="focus"><i class="iconfont">&#xe6c0;</i></div>
+              </div>
+            </div>
+
+          </form>
+
+        </div>
+        <div class="mask formMask"></div>
+        <div class="spinner formSpinner">
+          <i class="iconfont">&#xe6c0;</i>
+          <div class="focus"><i class="iconfont">&#xe6c0;</i></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="notes">{{ lang.notes_txt2 }}</div>
+</div>
+
+{% schema %}
+{
+  "name": "RMA_text",
+  "settings": [
+    { "type": "checkbox", "id": "show_store", "label": "Show Store" },
+    { "type": "text", "id": "store", "label": "store", "default": "Eufy Store" },
+    { "type": "checkbox", "id": "show_amazon", "label": "Show Amazon" },
+    { "type": "text", "id": "amazon", "label": "amazon", "default": "Amazon" },
+    { "type": "checkbox", "id": "show_ebay", "label": "Show eBay" },
+    { "type": "text", "id": "eBay", "label": "eBay", "default": "eBaye" },
+    { "type": "checkbox", "id": "show_walmart", "label": "Show Walmart" },
+    { "type": "text", "id": "walmart", "label": "walmart", "default": "Walmart" },
+    { "type": "checkbox", "id": "show_bestbuy", "label": "Show BestBuy" },
+    { "type": "text", "id": "bestbuy", "label": "bestbuy", "default": "BestBuy" },
+    { "type": "checkbox", "id": "show_target", "label": "Show Target" },
+    { "type": "text", "id": "target", "label": "target", "default": "Target" },
+    { "type": "checkbox", "id": "show_others", "label": "Show Others" },
+    { "type": "text", "id": "others", "label": "others", "default": "Others" },
+    { "type": "html", "id": "jsText", "label": "jsText" },
+    { "type": "html", "id": "notes_txt1", "label": "notes_txt1" },
+    { "type": "html", "id": "notes_txt2", "label": "notes_txt2" },
+    { "type": "text", "id": "amazon_source", "label": "amazon_source" },
+    { "type": "html", "id": "rmaCountries", "label": "rmaCountries" },
+    { "type": "text", "id": "others_source", "label": "others_source" },
+    { "type": "text", "id": "walmart_source", "label": "walmart_source" },
+    { "type": "text", "id": "amazon_site", "label": "amazon_site", "default": "Amazon Purchase Site"},
+    { "type": "text", "id": "form_info", "label": "form_info" },
+    { "type": "text", "id": "email", "label": "email" },
+    { "type": "text", "id": "confirm_email", "label": "confirm_email" },
+    { "type": "text", "id": "first_name", "label": "first_name" },
+    { "type": "text", "id": "last_name", "label": "last_name" },
+    { "type": "text", "id": "form_order", "label": "form_order" },
+    { "type": "text", "id": "order_tips1", "label": "order_tips1" },
+    { "type": "text", "id": "order_tips2", "label": "order_tips2" },
+    { "type": "text", "id": "order_tips3", "label": "order_tips3" },
+    { "type": "text", "id": "order_tips4", "label": "order_tips4" },
+    { "type": "text", "id": "order_", "label": "order_" },
+    { "type": "text", "id": "order_id", "label": "order_id" },
+    { "type": "text", "id": "example", "label": "example" },
+    { "type": "text", "id": "verify_order", "label": "verify_order" },
+    { "type": "text", "id": "how_find_order", "label": "how_find_order" },
+    { "type": "text", "id": "form_details", "label": "form_details" },
+    { "type": "text", "id": "details_tips", "label": "details_tips" },
+    { "type": "text", "id": "upload", "label": "upload" },
+    { "type": "html", "id": "uploads", "label": "uploads" },
+    { "type": "text", "id": "reset", "label": "reset" },
+    { "type": "text", "id": "submit", "label": "submit" },
+    { "type": "text", "id": "product_name", "label": "product_name" },
+    { "type": "text", "id": "model", "label": "model" },
+    { "type": "text", "id": "SN", "label": "SN" },
+    { "type": "text", "id": "form_address", "label": "form_address" },
+    { "type": "text", "id": "address_tips", "label": "address_tips" },
+    { "type": "text", "id": "address1", "label": "address1" },
+    { "type": "text", "id": "address2", "label": "address2" },
+    { "type": "text", "id": "country", "label": "country" },
+    { "type": "text", "id": "state", "label": "state" },
+    { "type": "text", "id": "city", "label": "city" },
+    { "type": "text", "id": "zip_code", "label": "zip_code" },
+    { "type": "text", "id": "phone_number", "label": "phone_number" },
+    { "type": "text", "id": "product_details", "label": "product_details" },
+    { "type": "text", "id": "placeholder", "label": "placeholder", "default": "Enter Captcha" }
+  ]
+}
+{% endschema %}

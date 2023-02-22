@@ -1,0 +1,49 @@
+{% if template contains 'page' %}
+  {% if page.metafields['global']['feature'].value %}
+    {% assign lang = page.metafields['global']['feature'].value %}
+  {% else %}
+    {% assign lang = page.metafields['global']['feature'] %}
+  {% endif %}
+{% else %}
+  {% if product.metafields['global']['feature'].value %}
+    {% assign lang = product.metafields['global']['feature'].value %}
+  {% else %}
+    {% assign lang = product.metafields['global']['feature'] %}
+  {% endif %}
+{% endif %}
+
+{% assign accurate = lang.t8213-feature_Get-Accurate-Alerts %}
+
+<section id="t8213-feature_3" class="t8213-feature_3">
+  <div class="t8213-feature-container">
+    <div class="t8213-feature_desc">
+      <h2 class="title is-hidden-mobile-only">{{ accurate.title_pc }}</h2>
+      <h2 class="title is-hidden-desktop-only">{{ accurate.title_mob }}</h2>
+      <p class="desc">{{ accurate.desc }}</p>
+    </div>
+    <div class="t8213-feature_img">
+      <div class="left-description">
+        <p>{{ accurate.left_desc }}</p>
+        <hr />
+      </div>
+      <div class="img accurateImg">
+        <!-- <img class="lazyload is-hidden-mobile-only" data-src="{{ accurate.img_pc }}" alt=""/>
+        <img class="lazyload is-hidden-desktop-only" data-src="{{ accurate.img_mob }}" alt=""/> -->
+        {% render 'lazyload_image',  
+          src: accurate.img_pc,
+          additional_classes: "is-hidden-mobile-only"
+          style: "opacity: 0;"
+          alt: "" %}
+        {% render 'lazyload_image',
+          src: accurate.img_mob,
+          additional_classes: "is-hidden-desktop-only",
+          style: "opacity: 0;"
+          alt: "" %}
+      </div>
+      <div class="right-description">
+        <p>{{ accurate.right_desc }}</p>
+        <hr />
+      </div>
+    </div>
+  </div>
+</section>

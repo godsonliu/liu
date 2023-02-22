@@ -1,0 +1,14 @@
+.tag-unit {
+  order: 2 !important;
+  margin-right: 0;
+  margin-top: -12px;
+}
+.tag-save {
+  display: flex;
+  flex-direction: column;
+  order: 1;
+  margin-left: 10px !important;
+}
+.save-txt {
+  order: 2;
+}

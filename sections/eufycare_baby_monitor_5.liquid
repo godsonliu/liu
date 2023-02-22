@@ -1,0 +1,48 @@
+{% assign lang = product.metafields.global %}
+
+{% if lang.monitor.value %}
+  {% assign monitor = lang.monitor.value %}
+{% else %}
+  {% assign monitor = lang.monitor %}
+{% endif %}
+
+
+
+<div class="eufycare_monitor_5">
+  <div class="banner_5">
+    <div class="contain_1">
+      <div class="banner_5_content">
+        <img class="pc1_show lazyload" data-src="{{ monitor.bg5_img }}" alt="">
+        <img class="mob1_show lazyload" data-src="{{ monitor.bg5_img_mob }}" alt="">
+        <div class="bg5_p1_content">
+          <p class="bg5_p1">{{ monitor.bg5_p1 }}</p>
+          <p class="bg5_p2">{{ monitor.bg5_p2 }}</p>
+        </div>
+        <div class="bg5_p2_content">
+          <p class="bg5_p3">{{ monitor.bg5_p3 }}</p>
+          <p class="bg5_p4">{{ monitor.bg5_p4 }}</p>
+        </div>
+        <div class="bg5_num">
+          <img class="pc1_show lazyload" data-src="{{ monitor.bg5_num }}" alt="">
+          <img class="mob1_show lazyload" data-src="{{ monitor.bg5_num_mob }}" alt="">
+        </div>
+        <div class="bg5_pro">
+          <img class="lazyload" data-src="{{ monitor.bg5_pro }}" alt="">
+        </div>
+        <div class="bg5_mob_content">
+          <img class="pc1_show lazyload" data-src="{{ monitor.bg5_img }}" alt="" style="height:100vh;">
+          <img class="mob1_show lazyload" data-src="{{ monitor.bg5_img_mob }}" alt="">
+          <div class="bg5_p3_content">
+            <p class="bg5_p5">{{ monitor.bg5_p5 }}</p>
+            <p class="bg5_p6">{{ monitor.bg5_p6 }}</p>
+          </div>
+          <div class="bg5_mob">
+            <img class="lazyload" data-src="{{ monitor.bg5_mob }}" alt="">
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+

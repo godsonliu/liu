@@ -1,0 +1,38 @@
+{% assign lang = product.metafields.global %}
+
+{% if lang.monitor.value %}
+  {% assign monitor = lang.monitor.value %}
+{% else %}
+  {% assign monitor = lang.monitor %}
+{% endif %}
+
+
+<div class="eufycare_monitor_10">
+  <div class="banner_10">
+    <div class="contain_1">
+      <div class="banner_10_content">
+        <div class="banner_bg10_dh_p">
+          <p class="banner_bg10_dh_p1">{{ monitor.banner_bg10_dh_p1 }}</p>
+          <p class="banner_bg10_dh_p2">{{ monitor.banner_bg10_dh_p2 }}</p>
+        </div>
+        <div class="framePlayer_jt">
+          <img class="pc1_show lazyload" data-src="{{ monitor.framePlayer_jt }}" alt="">
+          <img class="mob1_show lazyload" data-src="{{ monitor.framePlayer_jt_mob }}" alt="">
+        </div>
+        <div class="framePlayer_all">
+          <div class="framePlayer_lin">
+            <img class="lazyload" data-src="https://cdn.shopify.com/s/files/1/0582/4669/3040/files/1_00002.png?v=1646809081" alt="">
+          </div>
+          <div id="framePlayer_eufycare" class="framePlayer_eufycare">
+            <canvas
+              width="100%"
+              style="height: 100%; width: 100%"
+            ></canvas>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+

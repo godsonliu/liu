@@ -1,0 +1,83 @@
+
+<section>
+  <a id="backtop" class="BackTop" onClick="goTop()">
+    <i class="iconfont"></i>
+  </a>
+</section>
+
+<style>
+  .BackTop {
+    position: fixed;
+    z-index: 8;
+    right: 1rem;
+    bottom: 214px;
+    background: rgba(0, 0, 0, .4);
+    width: 46px;
+    height: 46px;
+    line-height: 46px;
+    text-align: center;
+    color: #eee;
+    transition: 200ms;
+    border-radius: 100px;
+    display: inline-block;
+    opacity: 0;
+    pointer-events: none;
+    cursor: pointer;
+  }
+  .show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .BackTop i {
+    font-size: 1em;
+    line-height: 2.8rem;
+  }
+
+  @media (max-width: 768px) {
+    .BackTop{
+      bottom: 148px;
+    }
+  }
+
+  @media (min-width: 769px) {
+    .BackTop:hover {
+      background-color: #21d2c5;
+      color: white;
+    }
+  }
+</style>
+
+<script>
+  
+  function setScrollTop () {
+    const scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+    if (scrollTop > 200) {
+      $('#backtop').addClass('show');
+    } else {
+      $('#backtop').removeClass('show');
+    };
+  };
+  let backTopTimer  = null;
+  function goTop () {
+    window.scrollTo(0, 0)
+    // ga3
+    dataLayer.push({
+      "event": "uaEvent", 
+      "eventCategory": "bottom_function",
+      "eventAction": "Back To Top",
+      "eventLabel": "", 
+    })
+
+    // ga4
+    window.dataLayer.push({ "event_parameters": null });
+    window.dataLayer.push({
+      "event": "ga4Event",
+      "event_name": "bottom_function",
+      "event_parameters": {
+        "action": "Back To Top"
+      }
+    })
+  };
+  window.addEventListener('scroll', setScrollTop);
+</script>

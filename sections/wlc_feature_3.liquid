@@ -1,0 +1,61 @@
+<div class="wlc-designed">
+  <h3>{{ section.settings.title }}</h3>
+  <div class="cards">
+    {% for block in section.blocks %}
+      <div class="card-item">
+        {% render 'lazyload_image',  
+          src: block.settings.img,
+          alt: block.settings.img.alt,
+          width: block.settings.img.width,
+          aspect_ratio: block.settings.img.aspect_ratio,
+          isSchemaData: true,
+          additional_classes: "is-hidden-mobile-only"
+        %}
+        {% render 'lazyload_image',  
+          src: block.settings.img_mob,
+          alt: block.settings.img_mob.alt,
+          width: block.settings.img_mob.width,
+          aspect_ratio: block.settings.img_mob.aspect_ratio,
+          isSchemaData: true,
+          additional_classes: "is-hidden-desktop-only"
+        %}
+        <div class="text-container">
+          <div class="card-title">{{ block.settings.tit }}</div>
+          <p class="card-desc">{{ block.settings.desc }}</p>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "wlc feature 3",
+  "settings": [{
+    "type": "textarea",
+    "id": "title",
+    "label": "标题"
+  }],
+  "blocks": [{
+     "type": "card",
+     "name": "card",
+      "settings": [{
+        "type": "image_picker",
+        "id": "img",
+        "label": "图片"
+      },{
+        "type": "image_picker",
+        "id": "img_mob",
+        "label": "移动端图片"
+      },{
+       "type": "textarea",
+       "id": "tit",
+       "label": "标题"
+      },{
+       "type": "textarea",
+       "id": "desc",
+       "label": "副标题"
+      }]
+   }]
+ }
+{% endschema %}

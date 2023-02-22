@@ -1,0 +1,105 @@
+{% if template contains 'page' %}
+  {% if page.metafields['global']['technology'].value %}
+    {% assign technology = page.metafields['global']['technology'].value %}
+  {% else %}
+    {% assign technology = page.metafields['global']['technology'] %}
+  {% endif %}
+{% else %}
+  {% if product.metafields['global']['technology'].value %}
+    {% assign technology = product.metafields['global']['technology'].value %}
+  {% else %}
+    {% assign technology = product.metafields['global']['technology'] %}
+  {% endif %}
+{% endif %}
+
+<section class="smartScale-6">
+  <div class="box-container">
+    <h class="title">{{ technology.title }}</h>
+    <div class="img-container is-hidden-mobile-only">
+      <div class="img">
+        <img class="lazyload" data-src="{{ technology.img_pc }}" alt=""/>
+      </div>
+      <div class="technology-1">
+        <hr>
+        <div class="txt-content">
+          <p class="txt-title">{{ technology.technology-1-title_pc  }}</p>
+          <p class="desc">{{ technology.technology-1-desc_pc  }}</p>
+        </div>
+      </div>
+      <div class="technology-2">
+        <div class="txt-content">
+          <p class="txt-title">{{ technology.technology-2-title_pc  }}</p>
+          <p class="desc">{{ technology.technology-2-desc_pc  }}</p>
+        </div>
+        <hr>
+      </div>
+      <div class="technology-3">
+        <div class="line"></div>
+        <div class="txt-content">
+          <p class="txt-title">{{ technology.technology-3-title_pc }}</p>
+          <p class="desc">{{ technology.technology-3-desc_pc  }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="img-container is-hidden-desktop-only">
+      <div class="img">
+        <img class="lazyload" data-src="{{ technology.img_mob }}" alt=""/>
+        <hr class="line-1">
+        <hr class="line-2">
+        <hr class="line-3">
+      </div>
+
+      <div class="txt-content-box">
+        <div class="txt-content txt-content-1">
+          <p class="txt-title">{{ technology.technology-1-title_mob }}</p>
+          <p class="desc">{{ technology.technology-1-desc_mob }}</p>
+        </div>
+        <div class="txt-content txt-content-2">
+          <p class="txt-title">{{ technology.technology-2-title_mob }}</p>
+          <p class="desc">{{ technology.technology-2-desc_mob }}</p>
+        </div>
+        <div class="txt-content txt-content-3">
+          <p class="txt-title">{{ technology.technology-3-title_mob }}</p>
+          <p class="desc">{{ technology.technology-3-desc_mob }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+  $(document).ready(function(){
+    // const width = window.innerWidth;
+    if(width <= 769){
+      gsap.timeline({
+            scrollTrigger: {
+              trigger: ".smartScale-6",
+              start: 'top top',
+              end: 'bottom',
+              pin: true,
+              // markers: true,
+              scrub: true
+            }
+          })
+            .to('.smartScale-6 .txt-content-1', { opacity: 0 })
+            .to('.smartScale-6 .img-container .img .line-1', { opacity: 0 },"<=0")
+            .to('.smartScale-6 .txt-content-2', { opacity: 1 })
+            .to('.smartScale-6 .img-container .img .line-2', { opacity: 1 },"<=0")
+            .to('.smartScale-6 .txt-content-2', { opacity: 0 })
+            .to('.smartScale-6 .img-container .img .line-2', { opacity: 0 },"<=0")
+            .to('.smartScale-6 .txt-content-3', { opacity: 1 })
+            .to('.smartScale-6 .img-container .img .line-3', { opacity: 1 },"<=0")
+    }
+  })
+</script>
+{% schema %}
+{
+  "name": "SmartScale Technology",
+  "presets": [
+    {
+      "category": "SmartScale Technology Sections",
+      "name": "SmartScale Technology"
+    }
+  ],
+  "settings": []
+}
+{% endschema %}

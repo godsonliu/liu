@@ -1,0 +1,191 @@
+$maxPhoneWidth: 767px;
+$minPadWidth: 768px; 
+$maxPadWidth: 1024px; 
+
+.spring_cleaning_22-banner{
+  .container-box{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    .bg {
+      width: 100%;
+    }
+    .bg img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    .banner_content{
+      position: absolute;
+      top: 25%;
+      margin: 0 auto;
+      width: 1200px;
+      color: #FFFFFF;
+    }
+    .banner_content h{
+      font-size: calc(72 / 1920 * 100vw);
+      font-weight: bold;
+      color: #000000;
+    }
+    p{
+      font-size: calc(36 / 1920 * 100vw);
+      color: #000000;
+      letter-spacing: 0.05em;
+    }
+    .button-quiz{
+      margin-top: 60px;
+      width: 324px;
+      height: calc(58 / 1920 * 100vw);
+      background: #76A44A;
+      border-radius: calc(100 / 1920 * 100vw);
+      border: none;
+      cursor: pointer;
+      font-size: 23px;
+      font-weight: bold;
+      letter-spacing: 0.05em;
+      color: #FFFFFF;
+    }
+    @media screen and (max-width: 1200px) and (min-width: $minPadWidth){
+      .banner_content{
+        position: absolute;
+        top: 25%;
+        margin: 0 auto;
+        width: 100%;
+        color: #FFFFFF;
+      }
+      .button-quiz{
+        margin-top: calc(60 / 1200 * 100vw);
+      }
+    }
+    @media screen and (max-width: $maxPhoneWidth){
+      .banner_content {
+        position: absolute;
+        top: 6%;
+        left: 0;
+        margin: 0 auto;
+        width: 100%;
+        text-align: center;
+        color: #FFFFFF;
+      }
+      .banner_content h{
+        font-size: calc(72 / 750 * 100vw);
+        font-weight: bold;
+      }
+      p{
+        font-size: calc(36 / 750 * 100vw);
+        letter-spacing: 0.05em;
+      }
+      .button-quiz{
+        margin-top: calc(40 / 750 * 100vw);
+        width: calc(324 / 750 * 100vw);
+        height: calc(58 / 750 * 100vw);
+        border-radius: calc(100 / 750 * 100vw);
+        font-size: calc(36 / 750 * 100vw);
+      }
+    }
+  }
+  .quiz-enter-page{
+    display: none;
+    .dialog-wrapper{
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      overflow: auto;
+      margin: 0;
+      z-index: 40;
+      background-color: #0003;
+    }
+    .dialog-container{
+      position: relative;
+      margin: 100px auto 50px;
+      background: #ffffff;
+      border-radius: 20px;
+      box-sizing: border-box;
+      width: 1200px;
+      height: auto;
+      img{ 
+        display: block;
+        border-radius: 20px;
+      }
+      .close-icon{
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        // background: #00490F;
+        font-size: 16px;
+        color: #00490F;
+        text-align: center;
+      }
+      .page-content{
+        position: absolute;
+        top: 40%;
+        left: 16%;
+        display: flex;
+        flex-direction: column;
+        width: 435px;
+        h{
+          font-size: 54px;
+          font-weight: bold;
+          color: #000000;
+        }
+        .button{
+          margin-top: 20px;
+          margin-left: 40px;
+          width: 151px;
+          height: 33px;
+          background: #4A7743;
+          border-radius: 20px;
+          border: none;
+          font-weight: bold;
+          font-size: 18px;
+          color: #FFFFFF;
+        }
+      }
+    }
+    img{
+      border-radius: 20px;
+    }
+    @media screen and (max-width: $maxPhoneWidth){
+      .dialog-container {
+        margin-top: 40px;
+        width: 100%;
+        border-radius: 20px;
+        height:auto;
+        border: none;
+        background: #ffffff;
+        .page-content{
+          top: 0%;
+          left: 0%;
+          margin-top: calc(200 / 750 * 100vw);
+          width: 100%;
+          align-items: center;
+          h{
+            font-size: calc(60 / 750 * 100vw);
+          }
+          .button{
+            margin-top: 20px;
+            margin-left: 0px;
+            width: calc(300 / 750 * 100vw);
+            height: calc(66 / 750 * 100vw);
+            background: #4A7743;
+            border-radius:calc(66 / 750 * 100vw);
+            border: none;
+            font-weight: bold;
+            font-size: calc(36 / 750 * 100vw);
+            color: #FFFFFF;
+          }
+        }
+      }
+
+    }
+  }
+}

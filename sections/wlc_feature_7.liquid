@@ -1,0 +1,43 @@
+<div class="wlc-right" id="specs">
+  <h3>{{ section.settings.title }}</h3>
+  <p>{{ section.settings.subtitle }}</p>
+  <div class="img-wrap">
+    {% render 'lazyload_image',  
+      src: section.settings.img1,
+      alt: section.settings.img1.alt,
+      width: section.settings.img1.width,
+      aspect_ratio: section.settings.img1.aspect_ratio,
+      isSchemaData: true
+    %}
+    {% render 'lazyload_image',  
+      src: section.settings.img2,
+      alt: section.settings.img2.alt,
+      width: section.settings.img2.width,
+      aspect_ratio: section.settings.img2.aspect_ratio,
+      isSchemaData: true
+    %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "wlc feature 7",
+  "settings": [{
+    "type": "textarea",
+    "id": "title",
+    "label": "标题"
+  }, {
+    "type": "richtext",
+    "id": "subtitle",
+    "label": "副标题"
+  }, {
+    "type": "image_picker",
+    "id": "img1",
+    "label": "图片1"
+  }, {
+    "type": "image_picker",
+    "id": "img2",
+    "label": "图片2"
+  }]
+}
+{% endschema %}

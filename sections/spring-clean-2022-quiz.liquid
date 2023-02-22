@@ -1,0 +1,71 @@
+{% if page.metafields['global']['spring_clean_quiz'].value %}
+  {% assign quiz = page.metafields['global']['spring_clean_quiz'].value %}
+{% else %}
+  {% assign quiz = page.metafields['global']['spring_clean_quiz'] %}
+{% endif %}
+
+
+
+<link rel="stylesheet" href="{{ 'spring-clean-2022-quiz.scss.css' | asset_url }}">
+{% style %}
+  .spring-clean-2022-quiz {
+    background: {{ quiz.css-background_color }};
+  }
+  .spring-clean-2022-quiz .quiz-enter-section{
+    background: {{ quiz.css-card-background_color }};
+  }
+  .spring-clean-2022-quiz .quiz-enter-section .page-content h{
+    color: {{ quiz.css-txt_color}};
+  }
+  .spring-clean-2022-quiz .quiz-enter-section .page-content .button {
+    background: {{ quiz.css-btn_color }};
+    color: {{ quiz.css-btn_txt_color}};
+  }
+{% endstyle %}
+<div id="spring-clean-2022-quiz"></div>
+<section class="spring-clean-2022-quiz">
+  <div class="box-container">
+    <div class="question">
+      <h>{{quiz.question}}</h>
+    </div>
+    <div class="title">
+      <h>{{quiz.title}}</h>
+    </div>
+    <div class="quiz-enter-section">
+      <img class="lazyload is-hidden-mobile-only" data-src="{{ quiz.quiz_img_pc }}" alt=""/>
+      <img class="lazyload is-hidden-desktop-only" data-src="{{ quiz.quiz_img_mob }}" alt=""/>
+      <div class="page-content">
+        <h>{{ quiz.quiz_txt }}</h>
+        <button type="button" class="button" aria-label="{{ quiz.quiz_btn_txt }}" onclick="goQuizAllPage2()">
+          {{ quiz.quiz_btn_txt }}
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="zzc" style="z-index: 39"></div>
+</section>
+<script>
+  function goQuizAllPage2(){
+    $('.quiz-enter-page').hide()
+    $('.quizall').show()
+    dataLayer.push({
+      "event": "uaEvent", // Trigger
+      "eventCategory": 'springclean',
+      "eventAction": "help_me_choose",
+      "eventLabel": "choose_now",
+    })
+  }
+</script>
+{% schema %}
+{
+  "name": "Spring Clean Quiz",
+  "presets": [
+    {
+      "category": "Spring Clean Quiz Sections",
+      "name": "Spring Clean Quiz"
+    }
+  ],
+  "settings": [
+  ]
+}
+{% endschema %}

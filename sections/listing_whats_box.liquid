@@ -1,0 +1,55 @@
+{% if product.metafields.global.whats_box.value %}
+  {% assign whatsBox = product.metafields.global.whats_box.value %}
+{% else %}
+  {% assign whatsBox = product.metafields.global.whats_box %}
+{% endif %}
+
+{{ 'listing_whats_box.scss.css' | asset_url | stylesheet_tag }}
+{% assign custom_css = section.settings.custom_css %}
+
+{% style %}
+  {%- if custom_css != blank -%}
+  {{ custom_css }}
+  {% endif %}
+{% endstyle %}
+
+<section id="{{whatsBox.id | default: 'whatsBox'}}" class="whats_box">
+  <div class="box-container">
+    {% if whatsBox.title %}
+    <div class="header is-hidden-mobile-only">
+      <h class="title">{{ whatsBox.title }}</h>
+    </div>
+    {% endif %}
+    <div class="box-content">
+      <div class="txt">
+        <div class="title is-hidden-desktop-only">
+          <h>{{ whatsBox.title }}</h>
+        </div>
+        <p>{{ whatsBox.desc }}</p>
+      </div>
+      <div class="bg">
+        {% render 'lazyload_image', src: whatsBox.bg, alt: "" %}
+      </div>
+    </div>
+  </div>
+</section>
+{% schema %}
+
+{
+  "name": "whats box component",
+  "presets": [
+    {
+      "category": "whats box Sections",
+      "name": "whats box"
+    }
+  ],
+  "settings": [{
+    "type": "textarea",
+    "id": "custom_css",
+    "label": "Custom CSS",
+    "info": "自定义样式（注意：请按照标准的css语法添加样式）"
+    }
+  ]
+}
+
+{% endschema %}

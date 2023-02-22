@@ -1,0 +1,173 @@
+.v2_top_bar_box .tb_page_nav_item.active {
+  color: #21d2c5;
+}
+.v2_top_bar_box .tb_page_nav_item:after {
+  color: #21d2c5;
+  background-color: #21d2c5;
+  background-image: linear-gradient(to right, #22d1c4, #22d1c4);
+}
+.v2_top_bar_box .top_bar_button {
+  background-image: linear-gradient(to right, #22d1c4, #22d1c4);
+}
+.v2_top_bar_box .top_bar_button:hover .box {
+  background-image: linear-gradient(to right, #22d1c4, #22d1c4);
+}
+.v2_top_bar_box .top_bar_button a {
+  background-image: linear-gradient(to right, #22d1c4, #22d1c4);
+  padding: 0 10px;
+}
+.get-off-100 {
+  font-size: 1.1vw;
+  display: inline;
+  font-weight: 700;
+}
+.mobile-br {
+  display: none;
+}
+
+.weekend-div-prev {
+  display: inline-block;
+  line-height: 1.2;
+}
+.weekend-div {
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+  font-size: 0;
+  margin-left: 15px;
+}
+.weekend-txt {
+  width: 100%;
+  height: 100%;
+  color: #000;
+  font-weight: 700;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.txt-num {
+  font-size: 12px;
+  color: #fff;
+  line-height: 1;
+  margin-left: 5px;
+}
+.weekend-png {
+  width: 150px;
+}
+.icon-png {
+  width: 20px;
+  margin-left: 5px;
+}
+.media-button-wrap {
+  display: flex;
+  align-items: center;
+}
+
+.media-button-wrap .button {
+  font-size: 16px !important;
+}
+.media-button-wrap .custom-link-style {
+  border-bottom: 0 !important;
+  cursor: auto;
+  margin-left: 18px;
+  font-size: 14px !important;
+}
+.media-button-wrap .custom-link-style:hover {
+  color: #323232 !important;
+}
+.custom-tag-list {
+  display: flex;
+  align-items: center;
+  margin-bottom: 25px;
+}
+.custom-tag-list .tag-item {
+  margin-right: 60px;
+  display: flex;
+  align-items: center;
+}
+
+.custom-tag-list .tag-item:last-child {
+  margin-right: 0;
+}
+
+.custom-tag-list .tag-item .tag-img {
+  height: 50px;
+  margin-right: 15px;
+}
+
+.custom-tag-list .tag-txt {
+  text-align: left;
+  color: #000;
+  font-size: 18px;
+}
+
+.custom-tag-list .tag-txt-bold {
+  font-weight: 600;
+}
+
+@media (min-width: 769px) {
+  .image-banner-section .heading {
+    font-size: 2.2vw !important;
+  }
+}
+
+@media (max-width: 1240px) {
+  .weekend-png {
+    width: 130px;
+  }
+}
+
+@media (max-width: 769px) {
+  .weekend-div {
+    position: absolute;
+    right: 0;
+    bottom: 25%;
+  }
+  .weekend-png {
+    width: 140px;
+  }
+  .media-info-wrap {
+    width: 100%;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+    padding-bottom: 30px !important;
+  }
+  .media-button-wrap {
+    justify-content: center;
+  }
+  .custom-tag-list {
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  .custom-tag-list .tag-item {
+    margin-right: 22px;
+  }
+  .custom-tag-list .tag-item .tag-img {
+    margin-right: 12px;
+  }
+  .custom-tag-list .tag-txt {
+    white-space: nowrap;
+    font-size: 14px;
+  }
+  .media-button-wrap .button {
+    font-size: 13px !important;
+  }
+}
+
+@media (max-width: 767px) {
+  #lc35_page_image_banner .heading {
+    font-size: 20px;
+  }
+  .get-off-100 {
+    font-size: 14px;
+    /* display: block; */
+  }
+  .mobile-br {
+    display: block;
+  }
+}

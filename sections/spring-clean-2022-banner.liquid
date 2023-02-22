@@ -1,0 +1,98 @@
+{% if page.metafields['global']['spring_clean_banner'].value %}
+  {% assign banner = page.metafields['global']['spring_clean_banner'].value %}
+{% else %}
+  {% assign banner = page.metafields['global']['spring_clean_banner'] %}
+{% endif %}
+
+{% if page.metafields['global']['New_year_nav'].value %}
+  {% assign nav = page.metafields['global']['New_year_nav'].value %}
+{% else %}
+  {% assign nav = page.metafields['global']['New_year_nav'] %}
+{% endif %}
+
+<link rel="stylesheet" href="{{ 'spring-clean-2022.scss.css' | asset_url }}">
+
+<section class="spring_cleaning_22-banner">
+  <div class="container-box">
+    <div class="bg">
+      {% render 'lazyload_image',  
+        src: banner.img_pc,
+        additional_classes: "is-hidden-mobile-only"
+        alt: "" %}
+      {% render 'lazyload_image',
+        src: banner.img_mob,
+        additional_classes: "is-hidden-desktop-only"
+        alt="" %}
+      <!-- <img class="is-hidden-mobile-only" src="{{ banner.img_pc }}" alt=""/>
+      <img class="is-hidden-desktop-only" src="{{ banner.img_mob }}" alt=""/> -->
+    </div>
+    <div class="banner_content">
+      <h>{{ banner.title }}</h>
+      <p>{{ banner.desc }}</p>
+      <button type="button" class="button-quiz" aria-label="{{ banner.btn_txt }}" onclick="goQuizPage('spring-clean-2022-quiz')">
+        {{ banner.btn_txt }}
+      </button>
+    </div>
+  </div>
+  <div class="quiz-enter-page">
+    <div class="dialog-wrapper">
+      <div class="dialog-container">
+        <img class="lazyload is-hidden-mobile-only" data-src="{{ banner.quiz_img_pc }}" alt=""/>
+        <img class="lazyload is-hidden-desktop-only" data-src="{{ banner.quiz_img_mob }}" alt=""/>
+        <div class="close-icon"><i class="iconfont">&#xe723;</i></div>
+        <div class="page-content">
+          <h>{{ banner.quiz_txt }}</h>
+          <button type="button" class="button" aria-label="{{ banner.quiz_btn_txt }}" onclick="goQuizAllPage()">
+            {{ banner.quiz_btn_txt }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+  $('.close-icon').on('click',function(e){
+    $('.quiz-enter-page').hide()
+  })
+
+  var length = {{ nav.data | size }}
+  function goQuizPage(id){
+    let height = 0
+    // 判断New_year_nav是否存在
+    if(length>0){
+      height = $('#New_year_nav').height();
+    }
+    let elseDistance = $(window).width() < 769 ? 99 : 99 + height 
+    $("html, body").stop().animate({
+      scrollTop: $(`#${id}`).offset().top - (elseDistance + 10 )
+    }, 400);
+    dataLayer.push({
+      "event": "uaEvent", // Trigger
+      "eventCategory": 'springclean',
+      "eventAction": "help_me_choose",
+      "eventLabel": "start_now",
+    })
+  }
+  function goQuizAllPage(){
+    $('.quiz-enter-page').hide()
+    $('.quizall').show()
+    dataLayer.push({
+      "event": "uaEvent", // Trigger
+      "eventCategory": 'springclean',
+      "eventAction": "help_me_choose",
+      "eventLabel": "get_started",
+    })
+  }
+</script>
+{% schema %}
+{
+  "name": "Spring Clean Banner",
+  "presets": [
+    {
+      "category": "Spring Clean Banner Sections",
+      "name": "Spring Clean Banner"
+    }
+  ],
+  "settings": []
+}
+{% endschema %}

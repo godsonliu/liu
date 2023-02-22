@@ -1,0 +1,399 @@
+{% assign authorization = shop.metafields['global']['storefront_key'] %}
+{% assign section_id = 'shopify-section-' | append: section.id %}
+{% assign custom_css = section.settings.custom_css %}
+
+{% style %}
+  {% if section.settings.tag_bg %}
+    #{{section_id}} .tag-box {
+      background-image: url({{section.settings.tag_bg | image_url}});
+    }
+  {% endif %}
+  {% if section.settings.show_bg %}
+    #{{section_id}} .card-box:after {
+      display: block;
+    }
+  {% endif %}
+{% endstyle %}
+
+{% render 'css-loop',
+  css: custom_css,
+  id: section.id
+%}
+
+{% assign product = section.settings.product %}
+{% assign productData = product.metafields.product.data.value %}
+{% assign variant = product.selected_or_first_available_variant %}
+{% if section.settings.sku %}
+  {% for item in product.variants %}
+    {% if item.sku == section.settings.sku %}
+      {% assign variant = item %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+<section class="gift-product-card">
+  <div class="title">{{ section.settings.title }}</div>
+  <div class="card-box layout-{{section.settings.layout}}">
+    {% assign product_image = product.featured_image | image_url %}
+    {% if variant.image %}
+      {% assign product_image = variant.image | image_url %}
+    {% endif %}
+    {% if section.settings.product_image %}
+      {% assign product_image = section.settings.product_image | image_url %}
+    {% endif %}
+    <div class="image-box">
+      <a href="{{ section.settings.learn_more_href | default:variant.url }}">
+        <img class="lazyload" data-src="{{ product_image }}">
+      </a>
+    </div>
+    <div class="text-box">
+      {% assign product_title = product.title | strip_html | strip_newlines %}
+      {% if section.settings.product_title %}
+        {% assign product_title = section.settings.product_title %}
+      {% endif %}
+      <div class="card-title">{{ product_title }}</div>
+      {% assign product_description = product.description | strip_html | strip_newlines %}
+      {% if section.settings.product_description %}
+        {% assign product_description = section.settings.product_description %}
+      {% endif %}
+      <div class="card-description">{{ product_description }}</div>
+      {% if section.settings.show_price %}
+      <div class="price-wrap">
+        <span class="price">
+          {% render 'price-element', price: variant.price %}
+        </span>
+        <span class="compare_at_price">
+          {% render 'price-element', price: variant.compare_at_price %}
+        </span>
+      </div>
+      {% endif %}
+      <div class="code-wrap">
+        <span>{{section.settings.code}}</span>
+        <span class="code"></span>
+        <a href="javascript:;" class="copy">{{section.settings.copy}}</a>
+      </div>
+      <div class="btn-group btn-group-1">
+        {% if section.settings.show_buy_now %}
+        <a href="javascript:;" class="buy_now" data-id="{{variant.id}}" data-sku="{{variant.sku}}">{{ section.settings.buy_now }}</a>
+        {% endif %}
+        {% assign learn_more_href = variant.url %}
+        {% if section.settings.learn_more_href != blank %}
+          {% assign learn_more_href = section.settings.learn_more_href %}
+        {% endif %}
+        {% if learn_more_href contains "?" %}
+          {% assign learn_more_href = learn_more_href | append: "&ref=" | append: page.handle %}
+        {% else %}
+          {% assign learn_more_href = learn_more_href | append: "?ref=" | append: page.handle %}
+        {% endif %}
+        <a href="{{ learn_more_href }}">{{ section.settings.learn_more }}</a>
+      </div>
+    </div>
+    <div class="tag-box">
+      <div class="tag-text">
+        <span class="tag-off"></span>
+        <span>{{ section.settings.tag }}</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+$(function() {
+  let skus = ["{{variant.sku}}"];
+  let params = { "skus": skus, "shopify_domain": "{{ shop.permanent_domain }}" };
+  $.ajax({
+    type: 'GET',
+    url: '/apps/pp/shopifyservices/coupons/by_skus',
+    data: params,
+    success: function success(data) {
+      skus.forEach(function(key,index) {
+        if (data[key] && data[key][0]) {
+          var item = data[key][0];
+          if (item.value_type === "fixed_amount") {
+            $("#{{section_id}} .tag-off").text(item.value_style);
+          }
+          if (item.value_type === "percentage") {
+            $("#{{section_id}} .tag-off").text(Math.abs(parseInt(item.value)));
+          }
+          $("#{{section_id}} .code").text(item.title);
+          $("#{{section_id}} .price").text(Shopify.formatMoney(parseFloat(item.variant_price4wscode) * 100, $("body").data("money-format")));
+          $("#{{section_id}} .compare_at_price").text(Shopify.formatMoney(parseFloat(item.variant_price) * 100, $("body").data("money-format")));
+        }
+      })
+    }
+  });
+
+  $("#{{section_id}} .buy_now").on("click", function() {
+    var line_items = [{
+      variant_id: $(this).data("id"),
+      quantity: 1
+    }];
+
+    const freeGift = []
+
+    {% if productData.freeGift != blank %}
+      {% for item in productData.freeGift.list %}
+        {% assign gift = all_products[item.handle] %}
+        {% for v in gift.variants %}
+          {% if v.sku == item.sku %}
+            freeGift.push({
+              variant_id: +'{{ v.id }}',
+              ...{{ item | json}}
+            })
+          {% endif %}
+        {% endfor %}
+      {% endfor %}
+    {% endif %}
+
+    {% assign variant_arr = variant.metafields.global.custom_purchase_buttons.value.variant_arr %}
+    {% if variant_arr == blank %}
+      {% assign variant_arr = variant.metafields.global.products.value %}
+    {% endif %}
+    {% if variant_arr == blank %}
+      {% assign variant_arr = product.metafields.global.products.value %}
+    {% endif %}
+    {% for variant_item in variant_arr %}
+      {% if variant_item.sku != variant.sku %}
+        {% for variant_gift in all_products[variant_item.handle].variants %}
+          {% if variant_gift.sku == variant_item.sku %}
+            line_items.push({
+              variant_id: {{variant_gift.id}},
+              quantity: 1
+            });
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    {% endfor %}
+
+    // if macth url-gift fail, add normal free-gift
+    if(freeGift.length && line_items.length === 1) {
+      freeGift.map(item => {
+        line_items.push({ 
+          variant_id: item.variant_id,
+          quantity: item.quantity
+        })
+      })
+    }
+
+    var discount = $(this).parents(".gift-product-card").find(".code").text();
+    Shopify.theme.bundleBuynow({
+      authorization: "{{ authorization }}",
+      checkout: {
+        line_items: line_items,
+        presentment_currency: "{{ shop.currency }}",
+        is_upstream_button: true,
+        page_type: "product",
+        secret: true,
+        discount,
+        wallet_name: "Checkout"
+      },
+      onSuccess: () => {},
+      onError: err => $.dialog({ title: err.message, content: err.description, type: 'red' })
+    });
+    var $parent = $(this).parents(".gift-product-card");
+    window.dataLayer.push({
+      event: "eeEvent",
+      eventCategory: "EnhancedEcommerce",
+      eventAction: "BuyNow",
+      eventLabel: $(this).data("sku"),
+      ecommerce: {
+        currencyCode: '{{ shop.currency }}',
+        add: {
+          products: [
+            {
+              name: $parent.find(".product-title").text(),
+              id: $(this).data("sku"),
+              category: "",
+              categoryName: "",
+              brand: '{{ shop.name }}',
+              variant: $(this).data("id"),
+              price: $parent.find(".price").text().trim(),
+              quantity: "1"
+            },
+          ],
+        },
+      },
+    });
+    window.dataLayer.push({ event_parameters: null });
+    window.dataLayer.push({
+      event: "ga4Event",
+      event_name: "begin_checkout",
+      event_parameters: {
+        page_group: "Activity Page_{{page.handle}}",
+        currency: '{{ shop.currency }}',
+        value: $parent.find(".price").text().trim(),
+        items: [
+          {
+            item_id: $(this).data("sku"),
+            item_name: $parent.find(".product-title").text(),
+            item_brand: '{{ shop.name }}',
+            item_variant: $(this).data("id"),
+            price: $parent.find(".price").text().trim(),
+            quantity: "1"
+          },
+        ],
+      },
+    });
+  });
+
+  $("#{{section_id}} .copy").on("click", function() {
+    var $this = $(this);
+    var coupon = $this.parents(".gift-product-card").find(".code").text();
+    $this.text("{{section.settings.copied}}");
+    setTimeout(function() {
+      $this.text("{{section.settings.copy}}");
+    }, 3000);
+    execCoy(coupon);
+  });
+
+  function execCoy(text) {
+    const input = document.createElement('INPUT');
+    input.style.opacity  = 0;
+    input.style.position = 'absolute';
+    input.style.left = '-100000px';
+    document.body.appendChild(input);
+
+    input.value = text;
+    input.select();
+    input.setSelectionRange(0, text.length);
+    document.execCommand('copy');
+    document.body.removeChild(input);
+    return true;
+  }
+});
+</script>
+
+{% schema %}
+{
+  "name": "gift_product_card",
+  "presets": [
+		{
+			"name": "gift_product_card"
+		}
+	],
+  "settings": [
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "布局",
+      "options": [
+        {
+          "value": "1",
+          "label": "左图右文"
+        },
+        {
+          "value": "2",
+          "label": "左文右图"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "标题"
+    },
+    {
+      "type": "header",
+      "content": "产品内容区"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "产品"
+    },
+    {
+      "type": "text",
+      "id": "sku",
+      "label": "sku",
+      "info": "自定义产品sku"
+    },
+    {
+      "type": "image_picker",
+      "id": "product_image",
+      "label": "产品图片",
+      "info": "自定义产品图片"
+    },
+    {
+      "type": "textarea",
+      "id": "product_title",
+      "label": "产品标题",
+      "info": "自定义产品标题"
+    },
+    {
+      "type": "textarea",
+      "id": "product_description",
+      "label": "产品描述",
+      "info": "自定义产品描述"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_price",
+      "label": "是否展示价格",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_buy_now",
+      "label": "是否展示Buy Now",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "buy_now",
+      "label": "按钮文案",
+      "default": "Buy Now"
+    },
+    {
+      "type": "text",
+      "id": "learn_more",
+      "label": "learn more文案",
+      "default": "Learn More"
+    },
+    {
+      "type": "text",
+      "id": "learn_more_href",
+      "label": "learn more链接",
+      "info": "自定义按钮链接"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_bg",
+      "label": "是否展示背景",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "tag_bg",
+      "label": "左上角图标"
+    },
+    {
+      "type": "text",
+      "id": "tag",
+      "label": "优惠文案",
+      "default": "OFF"
+    },
+    {
+      "type": "text",
+      "id": "code",
+      "label": "CODE文案",
+      "default": "CODE:"
+    },
+    {
+      "type": "text",
+      "id": "copy",
+      "label": "copy文案",
+      "default": "Copy"
+    },
+    {
+      "type": "text",
+      "id": "copied",
+      "label": "已copy文案",
+      "default": "Copied"
+    },
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Custom CSS"
+    }
+  ]
+}
+{% endschema%}

@@ -1,0 +1,63 @@
+{% assign lang = product.metafields.global %}
+
+{% if lang.monitor.value %}
+  {% assign monitor = lang.monitor.value %}
+{% else %}
+  {% assign monitor = lang.monitor %}
+{% endif %}
+
+<link rel="stylesheet" href="{{ 'eufycare_monitor.scss.css' | asset_url }}">
+<script src="{{ 'eufycare_monitor.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'framePlayer.js' | asset_url }}" defer="defer"></script>
+
+
+
+<div class="eufycare_monitor_1">
+  <div class="banner_1">
+    <img class="pc1_show" src="{{ monitor.bg1_img }}" alt="">
+    <img class="mob1_show" src="{{ monitor.bg1_img_mob }}" alt="">
+    <div class="banner_bg1_content">
+      <p class="bg1_p1">{{ monitor.bg1_p1 }}</p>
+      <p class="bg1_p2">{{ monitor.bg1_p2 }}</p>
+      <p class="bg1_p3">{{ monitor.bg1_p3 }}</p>
+    </div>
+    <div class="banner_1_svg pc1_show">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="图层_1" x="0px" y="0px" viewBox="0 0 1920 800" style="enable-background:new 0 0 1920 800;" xml:space="preserve">
+        <linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="-30" y1="399.0559" x2="1953" y2="399.0559" gradientTransform="matrix(1 0 0 -1 0 800)">
+          <stop offset="0" style="stop-color:#B6CADA"/>
+          <stop offset="0.1839" style="stop-color:#8FA8BD"/>
+          <stop offset="0.4541" style="stop-color:#B6CADA"/>
+          <stop offset="0.7033" style="stop-color:#94ADC1"/>
+          <stop offset="0.8797" style="stop-color:#B6CADA"/>
+          <stop offset="1" style="stop-color:#B6CADA"/>
+        </linearGradient>
+        <path class="st0" d="M-17.5,674.5c0,0,136-57,353-71c0,0,130-12,296,20c0,0,316,79,465,98c0,0,268,34,419-66  c0,0,192.5-118.5,135-347c0,0-17.02-67.47-70.81-129.26c-45.48-52.25-117.82-99.99-222.43-104.07c0,0-97.42-7.15-173.76,43.33  c0,0-133,69-150,238c0,0-22,156,102,271c0,0,119,103,299,87c0,0,211-14,343-65l163-62"/>
+      </svg>
+    </div>
+    <div class="banner_1_content pc1_show">
+      <img src="{{ monitor.bg1_img_baby }}" alt="">
+    </div>
+    <div class="banner_1_p1 pc1_show" id="banner_1_p1">
+      <img src="{{ monitor.banner_1_p1 }}" alt="">
+    </div>
+    <div class="banner_1_p2 pc1_show" id="banner_1_p2">
+      <img src="{{ monitor.banner_1_p2 }}" alt="">
+    </div>
+    
+  </div>
+</div>
+
+<script>
+  setTimeout("changeState_1()",500 );  
+  function changeState_1(){  
+      $("#banner_1_p1").addClass("active");  
+  } 
+
+  setTimeout("changeState_2()",1500 );  
+  function changeState_2(){  
+    $("#banner_1_p2").addClass("active");  
+  }
+
+</script>
+

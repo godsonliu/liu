@@ -1,0 +1,184 @@
+{% assign lang =  page.metafields['global'] %}
+
+{% if lang.banner.value %}
+  {% assign banner = lang.banner.value %}
+{% else %}
+  {% assign banner = lang.banner %}
+{% endif %}
+
+{% if lang.products.value %}
+  {% assign products = lang.products.value %}
+{% else %}
+  {% assign products = lang.products %}
+{% endif %}
+
+{% if lang.nav.value %}
+  {% assign nav = lang.nav.value %}
+{% else %}
+  {% assign nav = lang.nav %}
+{% endif %}
+
+{% if lang.whatsInBox.value %}
+  {% assign whatsInBox = lang.whatsInBox.value %}
+{% else %}
+  {% assign whatsInBox = lang.whatsInBox %}
+{% endif %}
+
+{% if shop.metafields['global']['storefront_key'].value %}
+  {% assign storefront_key = shop.metafields['global']['storefront_key'].value %}
+{% else %}
+  {% assign storefront_key = shop.metafields['global']['storefront_key'] %}
+{% endif %}
+
+{{ 'X8-H30.scss.css' | asset_url | stylesheet_tag }}
+
+
+<div class="X8-H30-Bundle">
+  <ul id="bundle-nav" class="nav">
+    {% for item in nav %}
+      <li>
+        <a {% if item.anchor != blank %} onclick="goAnchor('{{ item.anchor }}')" {% else %} href="{{ item.link }}" {% endif %}>
+          {{ item.txt }}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+
+  <div class="banner">
+    <div class="txt">
+      <h3 class="title">{{ banner.title }}</h3>
+      <p class="desc1">{{ banner.desc1 }}</p>
+      <p class="desc2">{{ banner.desc2 }}</p>
+      <p class="tips">{{ banner.tips }}</p>
+    </div>
+    <div class="bg">
+      <picture>
+        <source media="(max-width: 768px)" data-srcset="{{ banner.mob_bg }}" />
+        <img alt="" class="lazyload" data-src="{{ banner.bg }}" />
+      </picture>
+    </div>
+  </div>
+
+  <div class="bundle" id="Bundle">
+    <div class="bundleBox">
+      <div class="Spin Spin_products">
+        <div class="content cnt products">
+          <div class="prods">
+            {% for item in products.bundle %}
+
+              {% assign product = all_products[item.handle] %}
+              {% if product.variants == blank %}
+                {% assign sold_out = true %}
+              {% else %}
+                {% for v in product.variants %}
+                  {% if v.sku == item.sku %}
+                    {% assign variant = v %}
+                  {% endif %}
+                {% endfor %}
+                {% if variant.available == false or variant.price == 999999999 %}
+                  {% assign sold_out = true %}
+                {% endif %}
+                {% assign oPrice = variant.price %}
+                {% assign totalPrice = totalPrice | plus: oPrice %}
+              {% endif %}
+
+              <div class="item">
+                <a href="/products/{{ item.handle }}"><img src="{{ item.img }}" /></a>
+                <a href="/products/{{ item.handle }}"><h3 class="name">{{ item.name }}</h3></a>
+                {% if sold_out != true %}
+                  <p class="price">{{ oPrice | money }}</p>
+                {% endif %}
+              </div>
+
+            {% endfor %}
+            <div class="plus"><i class="iconfont">&#xe64b;</i></div>
+          </div>
+          <div class="btn">
+            {% if sold_out == true %}
+              <a class="soldOut">{{ products.soldOut }}</a>
+            {% else %}
+              <p class="total_price">
+                <del>{{ totalPrice | money }}</del>
+                <span>{{ products.sale_price }}</span>
+              </p>
+              <a class="buyBundle">{{ products.buy_now }}</a>
+            {% endif %}
+          </div>
+        </div>
+        <div class="mask"></div>
+        <div class="spinner">
+          <i class="iconfont"></i>
+          <div class="focus"><i class="iconfont"></i></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="whatsInBox">
+    <ul class="links">
+      {% for item in whatsInBox %}
+        <li class="item">
+          <a href="{{ item.link }}">
+            <div class="bg">
+              <picture>
+                <source media="(max-width: 768px)" data-srcset="{{ item.mob_img }}" />
+                <img alt="" class="lazyload" data-src="{{ item.img }}" />
+              </picture>
+            </div>
+            <div class="txt">
+              <p class="name">{{ item.name }}</p>
+              <h3 class="tit">{{ item.title }}</h3>
+              <p class="desc">{{ item.desc }}</p>
+            </div>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+<script>
+  let line_items = [];
+
+  $(document).ready(function(){
+    // 初始化
+    {% for item in products.bundle %}
+      {% assign itemPro = all_products[item.handle] %}
+      var oProduct = {{ itemPro | json }};
+      var oVariant = oProduct.variants.find(o => o.sku === '{{ item.sku }}');
+      line_items.push({ variant_id: oVariant.id, quantity: 1 });
+    {% endfor %}
+
+    $('.X8-H30-Bundle .buyBundle').on('click', function(e) {
+      $('.Spin_products').addClass('active');
+      e.stopPropagation();
+      e.preventDefault();
+      Shopify.theme.bundleBuynow({
+        authorization: "{{  storefront_key }}",
+        checkout: {
+          line_items: line_items,
+          presentment_currency: "{{ shop.currency }}",
+          is_upstream_button: true,
+          page_type: "product",
+          secret: true,
+          wallet_name: "Checkout"
+        },
+        onSuccess: () => {
+          window.setTimeout(function() {
+            $('.Spin_products').removeClass('active');
+          } , 2000);
+        },
+        onError: err => {
+          window.setTimeout(function() {
+            $('.Spin_products').removeClass('active');
+          } , 2000);
+          $.dialog({ title: err.message, content: err.description, type: 'red' });
+        }
+      });
+    })
+  })
+
+  function goAnchor(id) {
+    $('html, body').animate({ scrollTop: $(`#${id}`).offset().top - (document.body.offsetWidth > 768 ? 99 : 77) }, 800);
+  }
+</script>

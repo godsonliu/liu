@@ -1,0 +1,1118 @@
+<style>
+{% assign section_id = 'shopify-section-' | append: section.id %}
+{%- assign card_position = section.settings.card_position | split: ' ' -%}
+{% for item in card_position -%}
+	{% if forloop.index == 1 %}
+	{% assign card_left = item %}
+	{% else %}
+	{% assign card_top = item %}
+	{% endif %}
+{%- endfor %}
+
+@media(min-width: 769px) {
+  .showMobile {
+    display: none !important;
+  }
+  {%- assign column_count = section.settings.column_count | split: '-' -%}
+  {% if section.settings.grid_height != blank %}
+  {% assign grid_height = section.settings.grid_height %}
+  {% else %}
+  {% assign grid_height = "240px" %}
+  {% endif %}
+  {% for item in column_count -%}
+    {% if forloop.index == 1 %}
+    {% assign grid_template_columns = item %}
+    {% else %}
+    {% assign grid_template_rows = item | replace: 'xx', grid_height %}
+    {% endif %}
+  {%- endfor %}
+}
+
+@media(max-width: 769px) {
+  .showPc {
+    display: none !important;
+  }
+  {%- assign mobile_column_count = section.settings.mobile_column_count | split: '-' -%}
+  {% if section.settings.mobile_grid_height != blank %}
+  {% assign mobile_grid_height = section.settings.mobile_grid_height %}
+  {% else %}
+  {% assign mobile_grid_height = "120px" %}
+  {% endif %}
+  {% for item in mobile_column_count -%}
+    {% if forloop.index == 1 %}
+    {% assign mobile_grid_template_columns = item %}
+    {% else %}
+    {% assign mobile_grid_template_rows = item | replace: 'xx', mobile_grid_height %}
+    {% endif %}
+  {%- endfor %}
+}
+
+#{{section_id}} .component_multi_banner_v2 {
+  {% if section.settings.box_padding != blank %}
+  padding: {{ section.settings.box_padding }};
+  {% else %}
+  padding: 20px 10px;
+  {% endif %}
+  background: {{ section.settings.box_bg }};
+}
+
+.component_nano_pro_{{section.id}} {
+  display: grid;
+  grid-row-gap: 20px;
+  grid-column-gap: 20px;
+  grid-template-columns: {{ grid_template_columns }};
+  grid-template-rows: {{ grid_template_rows }};
+  width: 100%;
+  max-width: {{ section.settings.max_width }};
+  margin: 0 auto;
+}
+
+.component_nano_pro_{{section.id}} .nano_pro_item {
+  position: relative;
+}
+#{{section_id}} .limited_items_icon {
+	width: 100%;
+	top: 0;
+	left: 0;
+	position: absolute;
+  z-index: 10;
+}
+#{{section_id}} .limited_items_icon_div {
+	width: fit-content;
+	left: 0;
+	top: 0;
+	position: relative;
+  display: none;
+  font-size: 0;
+}
+#{{section_id}} .limited_items_icon img {
+	width: 100%;
+}
+#{{section_id}} .limited_items_icon .icon_txt {
+	position: absolute;
+	z-index: 2;
+	width: 100%;
+	height: 100%;
+	left: 0;
+	top: 0;
+	line-height: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	font-weight: 700;
+	font-size: 16px;
+	color: {% if section.settings.icon_txt_color != blank %} {{ section.settings.icon_txt_color }} {% else %} #fff {% endif %}; 
+}
+.component_nano_pro_{{section.id}} .item-image {
+  width: 100%;
+  {% if grid_height != 'auto' %}
+  height: 100%;
+  {% endif %}
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border-radius: {{section.settings.item_radius}};
+}
+.component_nano_pro_{{section.id}} .item-image img {
+  width: 100%;
+  {% if grid_height != 'auto' %}
+  height: 100%;
+  object-fit: cover;
+  {% endif %}
+}
+.component_nano_pro_{{section.id}} .nano_pro_item .item-div {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 20px 15px;
+  display: flex;
+  justify-content: {{card_left}};
+  align-items: {{card_top}};
+  text-align: {% if card_left == 'flex-start'%}left {% elsif card_left == 'flex-end' %}right {% else %}center{% endif %};
+  z-index: 2;
+}
+.component_nano_pro_{{section.id}} .nano_pro_item .item-div .product_title {
+  font-size: 22px;
+  color: {{section.settings.product_title_color}};
+  font-weight: 600;
+  line-height: 1.5;
+}
+.component_nano_pro_{{section.id}} .nano_pro_item .item-div .product_subtitle {
+  font-size: 18px;
+  color: {{section.settings.product_subtitle_color}};
+  font-weight: 600;
+  line-height: 1.5;
+}
+.component_nano_pro_{{section.id}} .nano_pro_item .item-div .product_desc {
+  font-size: 14px;
+  color: {{section.settings.product_desc_color}};
+  line-height: 1.5;
+}
+.component_nano_pro_{{section.id}} .nano_pro_item .item-div .product_button {
+  font-size: 16px;
+  padding: 8px 30px;
+  border: 1px solid;
+  margin-top: 10px;
+  display: inline-block;
+  font-weight: 400;
+  border-color: {{section.settings.button_border_color}};
+  border-radius: {% if section.settings.button_border_radius != blank %}{{section.settings.button_border_radius}}{% else %}70px{% endif %};
+  color: {{section.settings.button_txt_color}};
+  background: {{section.settings.button_bg}};
+}
+.component_nano_pro_{{section.id}} .nano_pro_item .item-div .product_button:hover {
+  border-color: {% if section.settings.button_hover_border_color != blank %} {{section.settings.button_hover_border_color}} {% else %} var(--light_color) {% endif %};
+  background: {% if section.settings.button_hover_bg != blank %} {{section.settings.button_hover_bg}} {% else %} var(--light_color) {% endif %};
+  color: {{section.settings.button_hover_txt_color}};
+}
+
+#{{section_id}} .product_code {
+  display: none;
+	align-items: center;
+  justify-content: {{card_left}};
+}
+#{{section_id}} .copy_code {
+	text-decoration: underline;
+	margin-left: 5px;
+	cursor: pointer;
+	color: {% if section.settings.copy_text_color != blank %} {{section.settings.copy_text_color}} {% else %} var(--light_color) {% endif %};
+	font-size: 14px;
+}
+#{{section_id}} .code_txt {
+	white-space: nowrap;
+	color: {% if section.settings.code_text_color != blank %} {{section.settings.code_text_color}} {% else %} #999999 {% endif %};
+	font-size: 16px;	
+}
+
+@media(max-width: 769px) {
+  #{{section_id}} .component_multi_banner_v2 {
+    {% if section.settings.mobile_box_padding != blank %}
+    padding: {{ section.settings.mobile_box_padding }};
+    {% else %}
+    padding: 10px;
+    {% endif %}
+  }
+  .component_nano_pro_{{section.id}} {
+    grid-template-columns: {{ mobile_grid_template_columns }};
+    grid-template-rows: {{ mobile_grid_template_rows }};
+    grid-row-gap: 12px;
+    grid-column-gap: 12px;
+  }
+  .component_nano_pro_{{section.id}} .item-image {
+    {% if mobile_grid_height != 'auto' %}
+    height: 100%;
+    {% endif %}
+  }
+  .component_nano_pro_{{section.id}} .item-image img {
+    {% if mobile_grid_height != 'auto' %}
+    height: 100%;
+    object-fit: cover;
+    {% endif %}
+  }
+
+  #{{section_id}} .limited_items_icon_div svg {
+		width: 60px;
+		height: 48px;
+	}
+	#{{section_id}} .limited_items_icon .icon_txt {
+		font-size: 14px;
+	}
+  .component_nano_pro_{{section.id}} .nano_pro_item .item-div .product_title {
+    font-size: 18px;
+  }
+  .component_nano_pro_{{section.id}} .nano_pro_item .item-div .product_subtitle {
+    font-size: 14px;
+  }
+  .component_nano_pro_{{section.id}} .nano_pro_item .item-div .product_desc {
+    font-size: 12px;
+  }
+  .component_nano_pro_{{section.id}} .nano_pro_item .item-div .product_button {
+    padding: 5px 16px;
+    font-size: 12px;
+  }
+  #{{section_id}} .copy_code, #{{section_id}} .code_txt {
+		font-size: 12px;
+	}
+}
+</style>
+
+<section class="component_multi_banner_v2 {{section.settings.custom_class}}">
+  <div class="component_nano_pro component_nano_pro_{{section.id}}">
+    {% for block in section.blocks %}
+    {% assign oProduct = block.settings.product_info %}
+		{% assign variants = oProduct.variants %}
+		{% assign oProduct_variant = oProduct.selected_or_first_available_variant %}
+		{% for child_variant in variants  %} 
+			{% if child_variant.sku == block.settings.variant_sku %}
+			{% assign oProduct_variant = child_variant %}
+			{% endif %}
+		{% endfor %}
+    <style>
+    .component_nano_pro_{{section.id}} .nano_pro_item_{{forloop.index}} {
+      background-color: {{ block.settings.item_bg }};
+    }
+    @media(min-width: 769px) {
+      .component_nano_pro_{{section.id}} .nano_pro_item_{{forloop.index}} {
+        {% if block.settings.grid_column_start != blank and  block.settings.grid_column_end != blank %}
+        grid-column-start: {{ block.settings.grid_column_start }};
+        grid-column-end: {{ block.settings.grid_column_end }};
+        {% endif %}
+        {% if block.settings.grid_row_start != blank and  block.settings.grid_row_end != blank %}
+        grid-row-start: {{ block.settings.grid_row_start }};
+        grid-row-end: {{ block.settings.grid_row_end }};
+        {% endif %}
+      }
+    }
+    @media(max-width: 769px) {
+      .component_nano_pro_{{section.id}} .nano_pro_item_{{forloop.index}} {
+        {% if block.settings.mobile_grid_column_start != blank and  block.settings.mobile_grid_column_end != blank %}
+        grid-column-start: {{ block.settings.mobile_grid_column_start }};
+        grid-column-end: {{ block.settings.mobile_grid_column_end }};
+        {% endif %}
+        {% if block.settings.mobile_grid_row_start != blank and  block.settings.mobile_grid_row_end != blank %}
+        grid-row-start: {{ block.settings.mobile_grid_row_start }};
+        grid-row-end: {{ block.settings.mobile_grid_row_end }};
+        {% endif %}
+      }
+    }
+    
+    </style>
+    <div class="nano_pro_item nano_pro_item_{{forloop.index}}">
+      <div class="limited_items_icon">
+        <div class="limited_items_icon_div limited_items_icon_div_{{forloop.index}}" style="{% if block.settings.custom_product_off != blank %}display: block;{% endif %}">
+          {% if section.settings.icon_bg != blank %}
+          <img src="{{ section.settings.icon_bg | image_url }}" />
+          {% else %}
+          {{ section.settings.icon_default }}
+          {% endif %}
+          <span 
+            class="icon_txt icon_txt_{{forloop.index}}">
+            {% if block.settings.custom_product_off != blank %}
+            {{ block.settings.custom_product_off }}
+            {% else %}
+            {{ section.settings.icon_txt }}
+            {% endif %}
+          </span>
+        </div>
+      </div>
+      <div class="item-div">
+        <div class="item-div-txt">
+          {% if block.settings.product_title != blank %}
+          <div class="product_title">{{ block.settings.product_title }}</div>
+          {% endif %}
+          {% if block.settings.product_subtitle != blank %}
+          <div class="product_subtitle">{{ block.settings.product_subtitle }}</div>
+          {% endif %}
+          {% if block.settings.product_desc != blank %}
+          <div class="product_desc">{{ block.settings.product_desc }}</div>
+          {% endif %}
+          {% if section.settings.has_code == true %}
+          <div class="product_code product_code-{{forloop.index}}" style="{% if block.settings.custom_product_code != blank %}display: flex;{% endif %}">
+            <div 
+              class="code_txt"
+            >
+              <span 
+                class="code-text"
+              >{{ section.settings.code_text }}:</span>
+              <span class="code-number code-number-{{forloop.index}}">
+                {% if block.settings.custom_product_code != blank %}
+                {{ block.settings.custom_product_code }}
+                {% endif %}
+              </span>
+            </div>
+            <div 
+              class="copy_code"
+              data-product_title="{{oProduct.title}}"
+              data-sku="{{oProduct_variant.sku}}"
+              data-copy-text="{{section.settings.copy_text}}"
+              data-copying-text="{{section.settings.copying_text}}"
+            >
+              {{section.settings.copy_text}}
+            </div>
+          </div>
+          {% endif %}
+          {% if block.settings.button_txt != blank %}
+          <a href="{{ block.settings.button_href }}?ref={{section.settings.eventCategory}}" class="product_button">{{ block.settings.button_txt }}</a>
+          {% endif %}
+        </div>
+      </div>
+      {% if block.settings.product_image != blank %}
+      <div class="item-image">
+        <img class="showPc lazyload" width="{{block.settings.product_image.width}}" height="{{block.settings.product_image.height}}" data-src="{{ block.settings.product_image | image_url }}" />
+        <img class="showMobile lazyload" width="{{block.settings.mobile_product_image.width}}" height="{{block.settings.mobile_product_image.height}}" data-src="{{ block.settings.mobile_product_image | image_url }}" />
+      </div>
+      {% endif %} 
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<script>
+$(function() {
+  $('.component_nano_pro_{{section.id}} .product_button').on('click', function() {
+    let eventLabel = $(this).attr('href')
+    window.dataLayer.push({
+      "event": "uaEvent", 
+      "eventCategory": '{{section.settings.eventCategory}}',
+      "eventAction": window.location.href, //取当前活动页URL
+      "eventLabel": eventLabel //取跳转页面URL
+    })
+  })
+
+	;(function() {
+		let skus = []
+    let filterSkus = []
+		{% for block in section.blocks %}
+		{% assign oProduct = block.settings.product_info %}
+		{% assign variants = oProduct.variants %}
+		{% assign oProduct_variant = oProduct.selected_or_first_available_variant %}
+		{% for child_variant in variants  %} 
+			{% if child_variant.sku == block.settings.variant_sku %}
+			{% assign oProduct_variant = child_variant %}
+			{% endif %}
+		{% endfor %}
+    skus.push("{{oProduct_variant.sku}}")
+    {% if block.settings.custom_product_code != blank %}
+    filterSkus.push("{{oProduct_variant.sku}}")
+    {% endif %}
+		{% endfor %}
+		let params = { "skus": skus, "shopify_domain": "{{ shop.permanent_domain }}" };
+		$.ajax({
+			type: 'GET',
+			url: '/apps/pp/shopifyservices/coupons/by_skus',
+			data: params,
+			success: function success(data) {
+				skus.forEach(function(key,index) {
+					index++;
+					if(data[key] && data[key][0] && filterSkus.indexOf(key) === -1 ) {
+						$(`#{{section_id}} .code-number-${index}`).text(data[key][0].title)
+						if(data[key][0].value_type === "fixed_amount") {
+							$(`#{{section_id}} .icon_txt_${index}`).prepend(data[key][0].value_style)
+						}else if(data[key][0].value_type === "percentage") {
+							$(`#{{section_id}} .icon_txt_${index}`).prepend(Math.abs(parseInt(data[key][0].value)) + '%')
+						}
+            $(`#{{section_id}} .product_code-${index}`).css({
+              display: 'flex'
+            })
+            $(`#{{section_id}} .limited_items_icon_div_${index}`).show()
+					}
+				})
+			}
+		})
+	})()
+
+  function execCoy(text) {
+    const input = document.createElement('INPUT');
+    input.style.opacity  = 0;
+    input.style.position = 'absolute';
+    input.style.left = '-100000px';
+    document.body.appendChild(input);
+
+    input.value = text;
+    input.select();
+    input.setSelectionRange(0, text.length);
+    document.execCommand('copy');
+    document.body.removeChild(input);
+    return true;
+  }
+
+	$('#{{section_id}} .copy_code').on('click', function() {
+		let copying_text = $(this).data('copying-text')
+		let copy_text = $(this).data('copy-text');
+		let sku = $(this).data('sku');
+		let product_title = $(this).data('product_title')
+		let code_number = $(this).prev('.code_txt').find('.code-number').text()
+		let self = $(this)
+		$(this).text(copying_text)
+		execCoy(code_number)
+		dataLayer.push({
+			"event": "uaEvent",
+			"eventCategory": 'copy',
+			"eventAction": "{{section.settings.eventAction}}",
+			"eventLabel":  code_number + '_' + sku // 由coupon和sku拼接而成
+		})
+		window.dataLayer.push({ "event_parameters": null });
+		window.dataLayer.push({
+			"event": "ga4Event",
+			"event_name": "copy_coupon_code",
+			"event_parameters": {
+				"page_group": "{{section.settings.ga4_page_group}}",
+				"coupon_name": code_number,
+				"info": product_title
+			}
+		});
+		setTimeout(function() {
+			self.text(copy_text)
+		}, 500)
+	})
+})
+</script>
+
+{% schema %}
+  {
+    "name": "component_multi_banner_v2",
+		"presets": [
+			{
+				"name": "component_multi_banner_v2",
+        "settings": {
+          "icon_default": "{% render 'component_flash_sale_icon' %}"
+        }
+			}
+		],
+    "settings": [
+      {
+        "type": "text",
+        "id": "max_width",
+        "label": "最大宽度",
+        "default": "1200px",
+        "info": "模块最大宽度，保持默认值"
+      },
+      {
+        "type": "text",
+        "id": "box_padding",
+        "label": "模块边距",
+        "info": "上边距 右边距 下边距 左边距。遵循顺时针，带上单位px, 以空格隔开。例如 ：20px 10px 15px 12px"
+      },
+      {
+        "type": "text",
+        "id": "mobile_box_padding",
+        "label": "Mobile模块边距"
+      },
+      {
+        "type": "header",
+        "content": "Section结构"
+      },
+      {
+        "type": "text",
+        "id": "item_radius",
+        "label": "Item每项的圆角",
+        "default": "12px"
+      },
+      {
+        "type": "select",
+        "id": "column_count",
+        "label": "一行排列多少个",
+        "info": "xx：代表占位符",
+        "options": [
+          {
+            "label": "一行两列",
+            "value": "repeat(2, 1fr)-xx"
+          },
+          {
+            "label": "一行三列",
+            "value": "repeat(3, 1fr)-xx"
+          },
+          {
+            "label": "两行两列",
+            "value": "repeat(2, 1fr)-xx xx"
+          },
+          {
+            "label": "两行三列",
+            "value": "repeat(3, 1fr)-xx xx"
+          },
+          {
+            "label": "三行二列",
+            "value": "repeat(2, 1fr)-xx xx xx"
+          },
+          {
+            "label": "三行三列",
+            "value": "repeat(3, 1fr)-xx xx xx"
+          }
+        ],
+        "default": "repeat(2, 1fr)-xx"
+      },
+      {
+        "type": "text",
+        "id": "grid_height",
+        "label": "单元格高度",
+        "info": "默认为240px，可支持自定义, auto则保持图片宽高比例",
+        "default": "auto"
+      },
+      {
+        "type": "select",
+        "id": "mobile_column_count",
+        "label": "移动端一行排列多少个",
+        "info": "xx：代表占位符",
+        "options": [
+          {
+            "label": "一行两列",
+            "value": "repeat(2, 1fr)-xx"
+          },
+          {
+            "label": "两行一列",
+            "value": "1fr-xx xx"
+          },
+          {
+            "label": "两行两列",
+            "value": "repeat(2, 1fr)-xx xx"
+          },
+          {
+            "label": "两行三列",
+            "value": "repeat(3, 1fr)-xx xx"
+          },
+          {
+            "label": "三行一列",
+            "value": "1fr-xx xx xx"
+          },
+          {
+            "label": "三行二列",
+            "value": "repeat(2, 1fr)-xx xx xx"
+          },
+          {
+            "label": "三行三列",
+            "value": "repeat(3, 1fr)-xx xx xx"
+          },
+          {
+            "label": "四行一列",
+            "value": "1fr-xx xx xx xx"
+          }
+        ],
+        "default": "repeat(2, 1fr)-xx"
+      },
+      {
+        "type": "text",
+        "id": "mobile_grid_height",
+        "label": "Mobile单元格高度",
+        "info": "默认为120px，可支持自定义，auto则保持图片宽高比例",
+        "default": "auto"
+      },
+      {
+        "type": "color",
+        "id": "box_bg",
+        "label": "section背景色"
+      },
+      {
+        "type": "header",
+        "content": "卡片的文本区域"
+      },
+      {
+        "type": "select",
+        "id": "card_position",
+        "label": "文本区域位置",
+        "options": [
+          {
+            "label": "左上",
+            "value": "flex-start flex-start"
+          },
+          {
+            "label": "中上",
+            "value": "center flex-start"
+          },
+          {
+            "label": "右上",
+            "value": "flex-end flex-start"
+          },
+          {
+            "label": "左中",
+            "value": "flex-start center"
+          },
+          {
+            "label": "正中心",
+            "value": "center center"
+          },
+          {
+            "label": "右中",
+            "value": "flex-end center"
+          },
+          {
+            "label": "左下",
+            "value": "flex-start flex-end"
+          },
+          {
+            "label": "中下",
+            "value": "center flex-end"
+          },
+          {
+            "label": "右下",
+            "value": "flex-end flex-end"
+          }
+        ],
+        "default": "flex-start flex-start"
+      },
+      {
+        "type": "color",
+        "id": "product_title_color",
+        "label": "产品标题颜色",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "product_subtitle_color",
+        "label": "产品副标题颜色",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "product_desc_color",
+        "label": "产品描述颜色",
+        "default": "#ffffff"
+      },
+      {
+        "type": "header",
+        "content": "按钮部分"
+      },
+      {
+        "type": "color",
+        "id": "button_bg",
+        "label": "按钮背景色"
+      },
+      {
+        "type": "color",
+        "id": "button_border_color",
+        "label": "按钮边框颜色",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "button_txt_color",
+        "label": "按钮文案颜色",
+        "default": "#ffffff"
+      },
+      {
+        "type": "text",
+        "id": "button_border_radius",
+        "label": "按钮圆角",
+        "default": "70px"
+      },
+      {
+        "type": "header",
+        "content": "按钮hover时的配置"
+      },
+      {
+        "type": "color",
+        "id": "button_hover_bg",
+        "label": "按钮hover时背景色"
+      },
+      {
+        "type": "color",
+        "id": "button_hover_border_color",
+        "label": "按钮hover时边框颜色"
+      },
+      {
+        "type": "color",
+        "id": "button_hover_txt_color",
+        "label": "按钮hover时文案颜色",
+        "default": "#ffffff"
+      },
+      {
+        "type": "header",
+        "content": "Code文案"
+      },
+      {
+        "type": "text",
+        "id": "code_text",
+        "label": "Code文案",
+        "default": "CODE"
+      },
+      {
+        "type": "color",
+        "id": "code_text_color",
+        "label": "Code文案颜色",
+        "default": "#999999"
+      },
+      {
+        "type": "text",
+        "id": "copy_text",
+        "label": "Copy文案",
+        "default": "Copy"
+      },
+      {
+        "type": "text",
+        "id": "copying_text",
+        "label": "拷贝中的文案",
+        "default": "COPIED"
+      },
+      {
+        "type": "color",
+        "id": "copy_text_color",
+        "label": "Copy文案颜色"
+      },
+      {
+        "type": "header",
+        "content": "icon相关"
+      },
+      {
+        "type": "image_picker",
+        "id": "icon_bg",
+        "label": "icon的背景图片"
+      },
+      {
+        "type": "liquid",
+        "id": "icon_default",
+        "label": "icon的默认值"
+      },
+      {
+        "type": "html",
+        "id": "icon_txt",
+        "label": "icon的文案",
+        "default": "<br/>Off"
+      },
+      {
+        "type": "color",
+        "id": "icon_txt_color",
+        "label": "icon的文案颜色",
+        "default": "#ffffff"
+      },
+      {
+        "type": "header",
+        "content": "埋点相关"
+      },
+      {
+        "type": "text",
+        "id": "eventCategory",
+        "label": "eventCategory",
+        "default": "multi_image_template"
+      },
+      {
+        "type": "header",
+        "content": "部分字段控制"
+      },
+      {
+        "type": "checkbox",
+        "id": "has_code",
+        "label": "折扣Code是否展示",
+        "default": false
+      },
+      {
+        "type": "header",
+        "content": "开发相关"
+      },
+      {
+        "type": "text",
+        "id": "custom_class",
+        "label": "自定义类名"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "Nano_item",
+			  "name": "Nano_item",
+        "settings": [
+          {
+            "type": "header",
+            "content": "选择产品"
+          },
+          {
+            "type": "product",
+            "id": "product_info",
+            "label": "产品",
+            "info": "用于获取产品信息, 作为产品模块时需要"
+          },
+          {
+            "type": "text",
+            "id": "variant_sku",
+            "label": "variant_sku",
+            "info": "提供给自定义展示不同商品的variant，如果不填写，默认就展示第一个可用的variant。（备注：作为产品模块时需要）"
+          },
+          {
+            "type": "image_picker",
+            "id": "product_image",
+            "label": "自定义产品图"
+          },
+          {
+            "type": "image_picker",
+            "id": "mobile_product_image",
+            "label": "Mobile端自定义产品图"
+          },
+          {
+            "type": "color",
+            "id": "item_bg",
+            "label": "卡片的背景色",
+            "info": "一般用于品牌介绍，如果不上传图片当背景色，可以自定义设置背景色"
+          },
+          {
+            "type": "html",
+            "id": "product_title",
+            "label": "产品标题",
+            "info": "产品标题可自定义"
+          },
+          {
+            "type": "html",
+            "id": "product_subtitle",
+            "label": "产品副标题",
+            "info": "产品副标题可自定义"
+          },
+          {
+            "type": "html",
+            "id": "product_desc",
+            "label": "产品描述",
+            "info": "自定义的产品描述"
+          },
+          {
+            "type": "html",
+            "id": "custom_product_off",
+            "label": "自定义产品折扣"
+          },
+          {
+            "type": "html",
+            "id": "custom_product_code",
+            "label": "自定义产品Code"
+          },
+          {
+            "type": "text",
+            "id": "button_txt",
+            "label": "按钮文案",
+            "default": "Learn More"
+          },
+          {
+            "type": "url",
+            "id": "button_href",
+            "label": "按钮跳转的链接"
+          },
+          {
+            "type": "header",
+            "content": "不等分情况说明"
+          },
+          {
+            "type": "paragraph",
+            "content": "整体结构采用网格布局，如果产生 n * m个单元格，那么网格线就有 n+1条 水平网格线和 m+1条 垂直网格线，可以画一个田字格理解。"
+          },
+          {
+            "type": "header",
+            "content": "PC端网格线"
+          },
+          {
+            "type": "select",
+            "id": "grid_column_start",
+            "label": "代表卡片从第几列开始",
+            "info": "非等分的时候需要设置",
+            "options": [
+              {
+                "label": "回归等分",
+                "value": ""
+              },
+              {
+                "label": "第一列",
+                "value": "1"
+              },
+              {
+                "label": "第二列",
+                "value": "2"
+              },
+              {
+                "label": "第三列",
+                "value": "3"
+              },
+              {
+                "label": "第四列",
+                "value": "4"
+              }
+            ],
+            "default": ""
+          },
+          {
+            "type": "select",
+            "id": "grid_column_end",
+            "label": "代表卡片从第几列结束",
+            "info": "非等分的时候需要设置",
+            "options": [
+              {
+                "label": "回归等分",
+                "value": ""
+              },
+              {
+                "label": "第一列",
+                "value": "1"
+              },
+              {
+                "label": "第二列",
+                "value": "2"
+              },
+              {
+                "label": "第三列",
+                "value": "3"
+              },
+              {
+                "label": "第四列",
+                "value": "4"
+              }
+            ],
+            "default": ""
+          },
+          {
+            "type": "select",
+            "id": "grid_row_start",
+            "label": "代表卡片从第几行开始",
+            "info": "非等分的时候需要设置",
+            "options": [
+              {
+                "label": "回归等分",
+                "value": ""
+              },
+              {
+                "label": "第一行",
+                "value": "1"
+              },
+              {
+                "label": "第二行",
+                "value": "2"
+              },
+              {
+                "label": "第三行",
+                "value": "3"
+              },
+              {
+                "label": "第四行",
+                "value": "4"
+              }
+            ],
+            "default": ""
+          },
+          {
+            "type": "select",
+            "id": "grid_row_end",
+            "label": "代表卡片从第几行结束",
+            "info": "非等分的时候需要设置",
+            "options": [
+              {
+                "label": "回归等分",
+                "value": ""
+              },
+              {
+                "label": "第一行",
+                "value": "1"
+              },
+              {
+                "label": "第二行",
+                "value": "2"
+              },
+              {
+                "label": "第三行",
+                "value": "3"
+              },
+              {
+                "label": "第四行",
+                "value": "4"
+              }
+            ],
+            "default": ""
+          },
+          {
+            "type": "header",
+            "content": "Mobile端网格线"
+          },
+          {
+            "type": "select",
+            "id": "mobile_grid_column_start",
+            "label": "Mobile端代表卡片从第几列开始",
+            "info": "非等分的时候需要设置",
+            "options": [
+              {
+                "label": "回归等分",
+                "value": ""
+              },
+              {
+                "label": "第一列",
+                "value": "1"
+              },
+              {
+                "label": "第二列",
+                "value": "2"
+              },
+              {
+                "label": "第三列",
+                "value": "3"
+              },
+              {
+                "label": "第四列",
+                "value": "4"
+              }
+            ],
+            "default": ""
+          },
+          {
+            "type": "select",
+            "id": "mobile_grid_column_end",
+            "label": "Mobile端代表卡片从第几列结束",
+            "info": "非等分的时候需要设置",
+            "options": [
+              {
+                "label": "回归等分",
+                "value": ""
+              },
+              {
+                "label": "第一列",
+                "value": "1"
+              },
+              {
+                "label": "第二列",
+                "value": "2"
+              },
+              {
+                "label": "第三列",
+                "value": "3"
+              },
+              {
+                "label": "第四列",
+                "value": "4"
+              }
+            ],
+            "default": ""
+          }, 
+          {
+            "type": "select",
+            "id": "mobile_grid_row_start",
+            "label": "Mobile端代表卡片从第几行开始",
+            "info": "非等分的时候需要设置",
+            "options": [
+              {
+                "label": "回归等分",
+                "value": ""
+              },
+              {
+                "label": "第一行",
+                "value": "1"
+              },
+              {
+                "label": "第二行",
+                "value": "2"
+              },
+              {
+                "label": "第三行",
+                "value": "3"
+              },
+              {
+                "label": "第四行",
+                "value": "4"
+              }
+            ],
+            "default": ""
+          },
+          {
+            "type": "select",
+            "id": "mobile_grid_row_end",
+            "label": "Mobile端代表卡片从第几行结束",
+            "info": "非等分的时候需要设置",
+            "options": [
+              {
+                "label": "回归等分",
+                "value": ""
+              },
+              {
+                "label": "第一行",
+                "value": "1"
+              },
+              {
+                "label": "第二行",
+                "value": "2"
+              },
+              {
+                "label": "第三行",
+                "value": "3"
+              },
+              {
+                "label": "第四行",
+                "value": "4"
+              }
+            ],
+            "default": ""
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

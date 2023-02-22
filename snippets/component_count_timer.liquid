@@ -1,0 +1,160 @@
+<style>
+#{{id}} .component_count_timer {
+	display: flex;
+	align-items: center;
+}
+#{{id}} .component_count_timer .dot {
+	font-weight: 700;
+	color: {{smallColor}};
+	font-size: 20px;
+	margin: 0 5px;
+	line-height: 0.5;
+	align-self: baseline;
+}
+#{{id}} .component_count_timer .time {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+#{{id}} .component_count_timer .time-count, .component_count_timer .time-txt  {
+	line-height: 1;
+}
+</style>
+
+<div class="component_count_timer component_count_timer_{{index}}">
+  <div class="time">
+		<div
+			class="timer-days time-count"
+			style="
+				font-weight: {{fontWeight}};
+				color: {{color}};
+				font-size: {{ fontSize }};
+			"></div>
+		<div 
+			class="time-txt"
+			style="
+				color: {{smallColor}};
+				font-size: {{ fontSmallSize }};
+			">
+			{{ days }}
+		</div>
+	</div>
+	<div class="dot" style="margin-top: {{dotMarginY}}">:</div>
+	<div class="time">
+		<div
+			class="timer-hours time-count"
+			style="
+				font-weight: {{fontWeight}};
+				color: {{color}};
+				font-size: {{ fontSize }};
+			"></div>
+		<div 
+			class="time-txt"
+			style="
+				color: {{smallColor}};
+				font-size: {{ fontSmallSize }};
+			">
+			{{ hours }}
+		</div>
+	</div>
+	<div class="dot" style="margin-top: {{dotMarginY}}">:</div>
+	<div class="time">
+		<div
+			class="timer-minutes time-count"
+			style="
+				font-weight: {{fontWeight}};
+				color: {{color}};
+				font-size: {{ fontSize }};
+			"></div>
+		<div 
+			class="time-txt"
+			style="
+				color: {{smallColor}};
+				font-size: {{ fontSmallSize }};
+			">
+			{{ minutes }}
+		</div>
+	</div>
+	<div class="dot" style="margin-top: {{dotMarginY}}">:</div>
+	<div class="time">
+		<div
+			class="timer-seconds time-count"
+			style="
+				font-weight: {{fontWeight}};
+				color: {{color}};
+				font-size: {{ fontSize }};
+			"></div>
+		<div 
+			class="time-txt"
+			style="
+				color: {{smallColor}};
+				font-size: {{ fontSmallSize }};
+			">
+			{{ seconds }}
+		</div>
+	</div>
+</div>
+
+<script>
+$(function() {
+
+	function timer_diff(startTime, endTime) {
+		let timeDiff = endTime - startTime;
+		let days = Math.floor(timeDiff / (24 * 3600 * 1000)); // 计算出天数
+		let leavel1 = timeDiff % (24 * 3600 * 1000); // 计算天数后剩余的时间
+		let hours = Math.floor(leavel1 / (3600 * 1000)); // 计算天数后剩余的小时数
+		let leavel2 = timeDiff % (3600 * 1000); // 计算剩余小时后剩余的毫秒数
+		let minutes = Math.floor(leavel2 / (60 * 1000));
+		let leave3 = leavel2 % (60*1000);    //计算分钟数后剩余的毫秒数
+		let seconds = Math.floor(leave3/1000)
+		if(days < 10) days = '0' + days
+		if(hours < 10) hours = '0' + hours
+		if(minutes < 10) minutes = '0' + minutes
+		if(seconds < 10) seconds = '0' + seconds
+		return {
+			days,
+			hours,
+			minutes,
+			seconds
+		}
+	}
+	let startTime = new Date('{{startTime}}').getTime()
+	let endTime = new Date('{{endTime}}').getTime()
+	/*
+		newStartTime: 代表外层传过来的时间，取折扣接口的开始时间
+		newEndTime: 代表外层传过来的时间，取折扣接口的结束时间
+		需要保证配置的开始时间小于等于当前时间
+	*/	
+	window['loopGetTime_{{id}}_{{index}}'] = function(newStartTime, newEndTime) {
+		let curTime = new Date().getTime()
+		let timerId;
+		if( (!newStartTime || !newEndTime) && (curTime < startTime || curTime > endTime ||  '{{startTime}}' === '' || '{{endTime}}' === '')) {
+			let flag = curTime > endTime
+			clearTimeout(timerId)
+			if(flag) {
+				$('#{{id}} .component_count_timer_{{index}} .timer-days').text("00")
+				$('#{{id}} .component_count_timer_{{index}} .timer-hours').text("00")
+				$('#{{id}} .component_count_timer_{{index}} .timer-minutes').text("00")
+				$('#{{id}} .component_count_timer_{{index}} .timer-seconds').text("00")
+			}
+			window['component_count_timer_{{id}}'] && window['component_count_timer_{{id}}']( '{{index}}', "{{ 'products.product.sold_out' | t }}",flag)
+		}else {
+			let time_info = timer_diff(curTime, newEndTime ? newEndTime : endTime)
+			$('#{{id}} .component_count_timer_{{index}} .timer-days').text(time_info.days)
+			$('#{{id}} .component_count_timer_{{index}} .timer-hours').text(time_info.hours)
+			$('#{{id}} .component_count_timer_{{index}} .timer-minutes').text(time_info.minutes)
+			$('#{{id}} .component_count_timer_{{index}} .timer-seconds').text(time_info.seconds)
+		}
+		if(newStartTime && newEndTime) {
+			timerId = setTimeout(function() {
+				window['loopGetTime_{{id}}_{{index}}'](newStartTime, newEndTime)
+			}, 1000)			
+		}else {
+			if('{{startTime}}' !== '' && '{{endTime}}' !== '') {
+				timerId = setTimeout(window['loopGetTime_{{id}}_{{index}}'], 1000)
+			}
+		}
+	}
+	window['loopGetTime_{{id}}_{{index}}']()
+})
+</script>

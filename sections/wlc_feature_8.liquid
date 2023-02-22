@@ -1,0 +1,229 @@
+<div class="wlc-mix wlc-mix{{section.settings.style}}">
+  <div class="card-container">
+    <div class="card1">
+      {% if section.settings.video1 %}
+        <video class="is-hidden-mobile-only" src="{{section.settings.video1}}" {% if section.settings.img1 %}poster="{{section.settings.img1 | img_url}}"{% endif %} width="{{section.settings.video1_width}}" height="{{section.settings.video1_height}}" autoplay playsinline muted loop></video>
+      {% else %}
+        {% render 'lazyload_image',  
+          src: section.settings.img1,
+          alt: section.settings.img1.alt,
+          width: section.settings.img1.width,
+          aspect_ratio: section.settings.img1.aspect_ratio,
+          isSchemaData: true,
+          additional_classes: "is-hidden-mobile-only"
+        %}
+      {% endif %}
+      {% if section.settings.video1_mob %}
+        <video class="is-hidden-desktop-only" src="{{section.settings.video1_mob}}" {% if section.settings.img1_mob %}poster="{{section.settings.img1_mob | img_url}}"{% endif %} width="{{section.settings.video1_mob_width}}" height="{{section.settings.video1_mob_height}}" autoplay playsinline muted loop></video>
+      {% else %}
+        {% render 'lazyload_image',  
+          src: section.settings.img1_mob,
+          alt: section.settings.img1_mob.alt,
+          width: section.settings.img1_mob.width,
+          aspect_ratio: section.settings.img1_mob.aspect_ratio,
+          isSchemaData: true,
+          additional_classes: "is-hidden-desktop-only"
+        %}
+      {% endif %}
+      <div class="text-container">
+        <h3>{{ section.settings.title1 }}</h3>
+        <p>{{ section.settings.desc1 }}</p>
+        <img class="lazyload" data-src="{{section.settings.icon1 | image_url}}">
+      </div>
+      {% comment %} <div class="play-box">
+        <i class="play"></i>
+      </div> {% endcomment %}
+    </div>
+    <div class="card2">
+      <div class="item">
+        {% render 'lazyload_image',  
+          src: section.settings.img2,
+          alt: section.settings.img2.alt,
+          width: section.settings.img2.width,
+          aspect_ratio: section.settings.img2.aspect_ratio,
+          isSchemaData: true,
+          additional_classes: "is-hidden-mobile-only"
+        %}
+        {% render 'lazyload_image',  
+          src: section.settings.img2_mob,
+          alt: section.settings.img2_mob.alt,
+          width: section.settings.img2_mob.width,
+          aspect_ratio: section.settings.img2_mob.aspect_ratio,
+          isSchemaData: true,
+          additional_classes: "is-hidden-desktop-only"
+        %}
+        <div class="text-container">
+          {% if section.settings.icon2 %}
+          <img class="lazyload" data-src="{{section.settings.icon2 | image_url}}">
+          {% endif %}
+          <h3>{{ section.settings.title2 }}</h3>
+        </div>
+      </div>
+      <div class="item">
+        {% render 'lazyload_image',  
+          src: section.settings.img3,
+          alt: section.settings.img3.alt,
+          width: section.settings.img3.width,
+          aspect_ratio: section.settings.img3.aspect_ratio,
+          isSchemaData: true,
+          additional_classes: "is-hidden-mobile-only"
+        %}
+        {% render 'lazyload_image',  
+          src: section.settings.img3_mob,
+          alt: section.settings.img3_mob.alt,
+          width: section.settings.img3_mob.width,
+          aspect_ratio: section.settings.img3_mob.aspect_ratio,
+          isSchemaData: true,
+          additional_classes: "is-hidden-desktop-only"
+        %}
+        <div class="text-container">
+          {% if section.settings.icon3 %}
+          <img class="lazyload" data-src="{{section.settings.icon3 | image_url}}">
+          {% endif %}
+          <h3>{{ section.settings.title3 }}</h3>
+        </div>
+      </div>
+    </div>
+    {% if section.settings.img4 %}
+    <div class="card3">
+      {% render 'lazyload_image',  
+        src: section.settings.img4,
+        alt: section.settings.img4.alt,
+        width: section.settings.img4.width,
+        aspect_ratio: section.settings.img4.aspect_ratio,
+        isSchemaData: true,
+        additional_classes: "is-hidden-mobile-only"
+      %}
+      {% render 'lazyload_image',  
+        src: section.settings.img4_mob,
+        alt: section.settings.img4_mob.alt,
+        width: section.settings.img4_mob.width,
+        aspect_ratio: section.settings.img4_mob.aspect_ratio,
+        isSchemaData: true,
+        additional_classes: "is-hidden-desktop-only"
+      %}
+      <div class="text-container">
+        <h3>{{ section.settings.title4 }}</h3>
+        <p>{{ section.settings.desc4 }}</p>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "wlc feature 8",
+  "settings": [{
+    "type": "select",
+    "id": "style",
+    "label": "样式",
+    "options": [
+      {
+        "value": "1",
+        "label": "样式一"
+      },
+      {
+        "value": "2",
+        "label": "样式二"
+      }
+    ]
+  },{
+    "type": "image_picker",
+    "id": "img1",
+    "label": "图片1"
+  },{
+    "type": "url",
+    "id": "video1",
+    "label": "视频1"
+  },{
+    "type": "text",
+    "id": "video1_width",
+    "label": "视频1宽度",
+    "default": "1423"
+  },{
+    "type": "text",
+    "id": "video1_height",
+    "label": "视频1高度",
+    "default": "500"
+  }, {
+    "type": "image_picker",
+    "id": "img1_mob",
+    "label": "移动端图片1"
+  },{
+    "type": "url",
+    "id": "video1_mob",
+    "label": "移动端视频1"
+  },{
+    "type": "text",
+    "id": "video1_mob_width",
+    "label": "移动端视频1宽度",
+    "default": "698"
+  },{
+    "type": "text",
+    "id": "video1_mob_height",
+    "label": "移动端视频1高度",
+    "default": "744"
+  }, {
+    "type": "textarea",
+    "id": "title1",
+    "label": "标题1"
+  }, {
+    "type": "textarea",
+    "id": "desc1",
+    "label": "描述1"
+  }, {
+    "type": "image_picker",
+    "id": "icon1",
+    "label": "图标1"
+  }, {
+    "type": "image_picker",
+    "id": "img2",
+    "label": "图片2"
+  }, {
+    "type": "image_picker",
+    "id": "img2_mob",
+    "label": "移动端图片2"
+  }, {
+    "type": "image_picker",
+    "id": "icon2",
+    "label": "图标2"
+  }, {
+    "type": "textarea",
+    "id": "title2",
+    "label": "标题2"
+  }, {
+    "type": "image_picker",
+    "id": "img3",
+    "label": "图片3"
+  }, {
+    "type": "image_picker",
+    "id": "img3_mob",
+    "label": "移动端图片3"
+  }, {
+    "type": "image_picker",
+    "id": "icon3",
+    "label": "图标3"
+  }, {
+    "type": "textarea",
+    "id": "title3",
+    "label": "标题3"
+  }, {
+    "type": "image_picker",
+    "id": "img4",
+    "label": "图片4"
+  }, {
+    "type": "image_picker",
+    "id": "img4_mob",
+    "label": "移动端图片4"
+  }, {
+    "type": "textarea",
+    "id": "title4",
+    "label": "标题4"
+  }, {
+    "type": "textarea",
+    "id": "desc4",
+    "label": "描述4"
+  }]
+}
+{% endschema %}

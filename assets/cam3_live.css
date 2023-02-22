@@ -1,0 +1,19 @@
+#cam3-live {
+  width: 100%;
+  background-image: url("https://cdn.shopify.com/s/files/1/0521/9411/5753/files/Rectangle_6161_f0207ba0-bfa5-4658-956a-7ae5dbff3191.png?v=1664187042");
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: 100%;
+  margin-top: -64px;
+  background-color: #000;
+}
+
+@media (max-width: 769px) {
+  #cam3-live {
+    margin-top: -52px;
+  }
+}
+
+.embeddedServicePreventScrolling {
+  position: static !important;
+}

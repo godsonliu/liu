@@ -1,0 +1,127 @@
+{% if product.metafields.global.highlights.value %}
+  {% assign highlights = product.metafields.global.highlights.value %}
+{% else %}
+  {% assign highlights = product.metafields.global.highlights %}
+{% endif %}
+
+{% if product.metafields.global.cus_highlights_banner1.value %}
+  {% assign cus_highlights_banner1 = product.metafields.global.cus_highlights_banner1.value %}
+{% else %}
+  {% assign cus_highlights_banner1 = product.metafields.global.cus_highlights_banner1 %}
+{% endif %}
+
+{% if product.metafields.global.cus_highlights_img_text_4.value %}
+  {% assign cus_highlights_img_text_4 = product.metafields.global.cus_highlights_img_text_4.value %}
+{% else %}
+  {% assign cus_highlights_img_text_4 = product.metafields.global.cus_highlights_img_text_4 %}
+{% endif %}
+
+{% if product.metafields.global.cus_highlights_img_text_3.value %}
+  {% assign cus_highlights_img_text_3 = product.metafields.global.cus_highlights_img_text_3.value %}
+{% else %}
+  {% assign cus_highlights_img_text_3 = product.metafields.global.cus_highlights_img_text_3 %}
+{% endif %}
+
+{% if product.metafields.global.cus_highlights_banner2.value %}
+  {% assign cus_highlights_banner2 = product.metafields.global.cus_highlights_banner2.value %}
+{% else %}
+  {% assign cus_highlights_banner2 = product.metafields.global.cus_highlights_banner2 %}
+{% endif %}
+
+{% if product.metafields.global.cus_highlights_txt.value %}
+  {% assign cus_highlights_txt = product.metafields.global.cus_highlights_txt.value %}
+{% else %}
+  {% assign cus_highlights_txt = product.metafields.global.cus_highlights_txt %}
+{% endif %}
+
+{% if product.metafields.global.highlights.value %}
+  {% assign highlights = product.metafields.global.highlights.value %}
+{% else %}
+  {% assign highlights = product.metafields.global.highlights %}
+{% endif %}
+
+
+{% assign settings = section.settings %}
+
+
+{% if settings.show_product_highlights %}
+  {% if cus_highlights_banner1 or cus_highlights_img_text_4 or cus_highlights_img_text_3 or cus_highlights_banner2 or cus_highlights_txt %}
+    <section class="cus_highlights">
+      <div class="banner banner1">
+        <div class="bannerBox {{ cus_highlights_banner1.width_style }}">
+          <img class="is-hidden-mobile-only" src="{{ cus_highlights_banner1.img }}" />
+          <img class="is-hidden-desktop-only" src="{{ cus_highlights_banner1.mob_img }}" />
+        </div>
+      </div>
+      <div class="img_text img_text_4">
+        <ul class="img_text_box">
+          {% for item in cus_highlights_img_text_4 %}
+            <li class="item">
+              <div class="img"><img src="{{ item.img }}" /></div>
+              <div class="txt">
+                <h3>{{ item.tit }}</h3>
+                <p>{{ item.desc }}</p>
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="img_text img_text_3">
+        <ul class="img_text_box">
+          {% for item in cus_highlights_img_text_3 %}
+            <li class="item">
+              <div class="img"><img src="{{ item.img }}" /></div>
+              <div class="txt">
+                <h3>{{ item.tit }}</h3>
+                <p>{{ item.desc }}</p>
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="banner banner2">
+        <div class="bannerBox {{ cus_highlights_banner2.width_style }}">
+          <img class="is-hidden-mobile-only" src="{{ cus_highlights_banner2.img }}" />
+          <img class="is-hidden-desktop-only" src="{{ cus_highlights_banner2.mob_img }}" />
+        </div>
+      </div>
+      <div class="txt">
+        <div class="txtBox">{{ cus_highlights_txt }}</div>
+      </div>
+    </section>
+  {% elsif highlights %}
+    <section class="grid-item{% if settings.class != blank %} {{settings.class}}{% endif %}" data-section-id="{{ section.id }}">
+      {{ highlights }}
+    </section>
+  {% endif %}
+{% endif %}
+
+
+{% schema %}
+{
+  "name": "Product highlights",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "[AnkerFields: products](/admin/apps/betametafields/products), highlights"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_product_highlights",
+      "label": "Show highlights",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "class",
+      "label": "CSS Class",
+      "default": "highlights"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    }
+  ]
+}
+{% endschema %}

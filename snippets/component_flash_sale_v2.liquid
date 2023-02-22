@@ -1,0 +1,945 @@
+{% if shop.metafields['global']['storefront_key'].value %}
+  {% assign authorization = shop.metafields['global']['storefront_key'].value %}
+{% else %}
+  {% assign authorization = shop.metafields['global']['storefront_key'] %}
+{% endif %}
+
+{% comment %} 
+	section_blocks: 外部传入的block块
+	snippets_style：max_width_style: 代表外部调用时采用最大宽度样式 max-width: 769px
+	snippets_style：min_width_style: 代表外部调用时采用最小宽度样式  min-width: 769
+	说明：如果不传，则采用媒体查询规则
+ {% endcomment %}
+{% if section_blocks != blank %}
+{% assign blocks = section_blocks %}
+{% else %}
+{% assign blocks = section.blocks %}
+{% endif %}
+
+{% assign section_id = 'shopify-section-' | append: section.id %}
+{% assign card_gap = 12 %}
+{% assign default_box_max_width = '1200px-4-2-1' %}
+{% assign default_box_mobile_max_width = '100%-2-2-1' %}
+{% for block in  blocks %}
+{% assign blocks_len= forloop.length %}
+{% endfor %}
+<style>
+
+{% if section.settings.box_max_width != blank %}
+{%- assign box_max_width = section.settings.box_max_width | split: '-' -%}
+{% else %}
+{%- assign box_max_width = default_box_max_width | split: '-' -%}
+{% endif %}
+
+{% for item in box_max_width -%}
+	{% if forloop.index == 1 %}
+	{% assign max_width = item %}
+	{% elsif forloop.index == 2 %}
+	{% assign row_count = item | divided_by: 1 %}
+	{% elsif forloop.index == 3 %}
+	{% assign d_flex = item %}
+	{% else %}
+	{% assign button_group_style = item %}
+	{% endif %}
+{%- endfor %}
+
+
+{% if section.settings.box_mobile_max_width != blank %}
+{%- assign box_mobile_max_width = section.settings.box_mobile_max_width | split: '-' -%}
+{% else %}
+{%- assign box_mobile_max_width = default_box_mobile_max_width | split: '-' -%}
+{% endif %}
+
+
+
+{% for item in box_mobile_max_width -%}
+	{% if forloop.index == 1 %}
+	{% assign mobile_max_width = item %}
+	{% elsif forloop.index == 2 %}
+	{% assign mobile_row_count = item | divided_by: 1 %}
+	{% elsif forloop.index == 3 %}
+	{% assign mobile_d_flex = item %}
+	{% else %}
+	{% assign mobile_button_group_style = item %}
+	{% endif %}
+{%- endfor %}
+
+#{{section_id}} .component_flash_sale-div{
+	width: 100%;
+	box-sizing: border-box;
+}
+#{{section_id}} .component_flash_sale {
+	width: 100%;
+	max-width: {{max_width}};
+	display: grid;
+	grid-template-columns: repeat({{row_count}}, minmax(0, 1fr));
+	gap: {{ card_gap }}px;
+	margin: 0 auto;
+}
+
+#{{section_id}} .limited_items {
+	display: flex;
+	flex-direction: column;
+	border-radius: {% if section.settings.limited_items_radius != blank %} {{ section.settings.limited_items_radius }} {% else %} var(--item_border_radius) {% endif %};
+	{% if section.settings.limited_items_border_color != blank %}
+	border: 1px solid {{ section.settings.limited_items_border_color }};
+	{% endif %}
+	background: {{ section.settings.card_bg }};
+}
+
+#{{section_id}} .limited_items_img {
+	position: relative;
+	font-size: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	/*纵向样式保持的图片宽高*/
+	width: 100%;
+	height: 245px;
+	padding: 12px 20px;	
+}
+#{{section_id}} .limited_items_img  .items_img_a {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
+}
+#{{section_id}} .limited_items_img .items_img_a .items_img {
+	height: 100%;
+	border: none;
+	outline:none; 
+	-webkit-tap-highlight-color: transparent; 
+	-webkit-appearance: none;
+}
+#{{section_id}} .limited_items_icon {
+	width: 100%;
+	top: 0;
+	left: 0;
+	position: absolute;
+}
+#{{section_id}} .limited_items_icon_div {
+	width: fit-content;
+	left: 0;
+	top: 0;
+	position: relative;
+	opacity: 0;
+}
+#{{section_id}} .limited_items_icon img {
+	width: 100%;
+}
+#{{section_id}} .limited_items_icon .icon_txt {
+	position: absolute;
+	z-index: 2;
+	width: 100%;
+	height: 100%;
+	left: 0;
+	top: 0;
+	line-height: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	font-weight: 600;
+	font-size: 16px;
+	color: {% if section.settings.icon_txt_color != blank %} {{ section.settings.icon_txt_color }} {% else %} #fff {% endif %}; 
+}
+#{{section_id}} .limited_items_content {
+	width: 100%;
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	padding: 0 24px 24px 24px;
+}
+#{{section_id}} .title-desc-div {
+	width: 100%;
+	text-align: {% if section.settings.content_text_align == 'flex-end' %}right{% elsif section.settings.content_text_align == 'flex-start' %}left{% else %}center{% endif %};
+}
+#{{section_id}} .title-desc-div-false {
+
+}
+#{{section_id}} .price-button-div {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: {{ section.settings.content_text_align }};
+}
+#{{section_id}} .limited_items_content_title {
+	width: 100%;
+	overflow: hidden;
+	text-overflow:ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 4;
+	/*! autoprefixer: off */
+	-webkit-box-orient: vertical;
+	line-height: 1.2;
+	color: {% if section.settings.product_title_color != blank  %} {{section.settings.product_title_color}} {% else %} #000000 {% endif %};
+	font-size: 18px;
+	font-weight: 600;
+}
+#{{section_id}} .limited_items_content_desc {
+	width: 100%;
+	color: {% if section.settings.product_desc_color != blank  %} {{section.settings.product_desc_color}} {% else %} #333333 {% endif %};
+	font-size: 14px;
+	margin: 4px 0;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+#{{section_id}} .limited_items_content_price {
+	margin-bottom: 5px;
+}
+#{{section_id}} .price-div {
+	color: {% if section.settings.price_color != blank  %} {{section.settings.price_color}} {% else %} #000000 {% endif %};
+	font-size: 20px;
+	font-weight: 600;
+}
+#{{section_id}} .compare-at-price {
+	text-decoration: line-through;
+	margin-left: 8px;
+	color: {% if section.settings.compare_at_price_color != blank  %} {{section.settings.compare_at_price_color}} {% else %} #999999 {% endif %};
+	font-size: 16px
+}
+
+#{{section_id}} .product_code {
+	display: flex;
+	align-items: center;
+  flex-wrap: wrap;
+	margin-bottom: 5px;
+}
+#{{section_id}} .copy_code {
+	text-decoration: underline;
+	margin-left: 5px;
+	cursor: pointer;
+	color: {% if section.settings.copy_text_color != blank %} {{section.settings.copy_text_color}} {% else %} var(--light_color) {% endif %};
+	font-size: 14px;
+}
+#{{section_id}} .code_txt {
+	white-space: nowrap;
+	color: {% if section.settings.code_text_color != blank %} {{section.settings.code_text_color}} {% else %} #999999 {% endif %};
+	font-size: 14px;	
+}
+
+#{{section_id}} .limited_items_content_button {
+	width: fit-content;
+	border: 1px solid;
+	border-radius: {% if section.settings.button_radius != blank %} {{ section.settings.button_radius  }} {% else %} var(--button_border_radius) {% endif %};
+	outline: none;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	font-weight: 600;
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+	-webkit-tap-highlight-color: transparent;
+}
+#{{section_id}} .child-div {
+	height: 40px;
+	line-height: normal;
+	font-size: 16px;
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+	-webkit-tap-highlight-color: transparent;
+}
+#{{section_id}} .button-group-style {
+	width: 100%;
+	display: flex;
+	flex-direction: {% if button_group_style == "1" %}column{%else%}row{% endif %};
+	align-items: center;
+}
+
+
+
+#{{section_id}} .limited_items_content_button_buy-now {
+	color: {% if section.settings.button_txt_color != blank %} {{ section.settings.button_txt_color }} {% else %} #ffffff {% endif %};
+	border-color: {% if section.settings.button_border_color != blank %} {{ section.settings.button_border_color }} {% else %} var(--light_color) {% endif %};
+	background: {% if section.settings.button_bg != blank %} {{ section.settings.button_bg }} {% else %} var(--light_color) {% endif %};
+}
+
+#{{section_id}} .limited_items_content_button_learn-more {
+	border-color: {% if section.settings.button2_border_color != blank %} {{ section.settings.button2_border_color }} {% else %} #333333 {% endif%};
+	color: {% if section.settings.button2_txt_color != blank %} {{ section.settings.button2_txt_color }} {% else %} #333333 {% endif %};
+	background: {{ section.settings.button2_bg }};
+}
+
+#{{section_id}} .limited_items_content_button-disabled {
+	background-color: var(--button_disabled_color) !important;
+	color: var(--button_disabled_text_color) !important;
+	border-color: var(--button_disabled_color) !important;
+	pointer-events: none;
+	cursor: not-allowed;
+}
+#{{section_id}} .limited_items_content .limited_items_content_button_buy-now:hover { 
+	background: {% if section.settings.button_hover_bg != blank %} {{section.settings.button_hover_bg}} {% else %} transparent {% endif %} !important; 
+	border-color: {% if section.settings.button_hover_border_color != blank %} {{section.settings.button_hover_border_color}} {% else %} var(--button_border_color) {% endif %} !important;
+	color: {% if section.settings.button_hover_txt_color != blank %} {{ section.settings.button_hover_txt_color }} {% else %} var(--button_txt_color) {% endif %} !important;
+}
+
+#{{section_id}} .limited_items_content .limited_items_content_button_learn-more:hover { 
+	background: {% if section.settings.button2_hover_bg != blank %} {{section.settings.button2_hover_bg}} {% else %} var(--light_color) {% endif %} !important;
+	border-color: {% if section.settings.button2_hover_border_color != blank %} {{section.settings.button2_hover_border_color}} {% else %} var(--light_color) {% endif %} !important;
+	color: {% if section.settings.button2_hover_txt_color != blank %} {{ section.settings.button2_hover_txt_color }} {% else %} #ffffff {% endif %} !important;
+}
+
+
+.component_flash_sale-div + .view-more {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 18px;
+	color: var(--light_color);
+	cursor: pointer;
+	background: {{section.settings.view_more_bg}};
+}
+.component_flash_sale-div + .view-more .view-more-svg {
+	margin-left: 9px;
+}
+#{{section_id}} .limited_items-dn {
+	display: none !important;
+}
+#{{section_id}} .include-overview-reviews {
+	display: inline-block;
+}
+#{{section_id}} .prodYotpoReviews {
+	margin: 0 !important;
+}
+#{{section_id}} .prodYotpoReviews .text-m {
+	display: none !important;
+}
+
+{%- capture min_width_style -%}
+
+	{% if d_flex == "1" %}
+		#{{section_id}} .limited_items {
+			display: flex;
+			align-items: center;
+			flex-direction: row;
+			height: 245px;
+		}
+		#{{section_id}} .limited_items_img {
+			width: 40%;
+			height: 100%;
+		}
+		#{{section_id}} .limited_items_content  {
+			width: 60%;
+			height: 100%;
+			padding: 24px 24px 24px 0;
+			justify-content: space-between;
+		}
+		#{{section_id}} .limited_items_img .items_img_a .items_img {
+			height: auto;
+		}
+	{% else %}
+	#{{section_id}} .price-button-div {
+		
+	}	
+	{% endif %}
+
+	{% if button_group_style == "1" %}
+	#{{section_id}} .button-group-style .child-div {
+		width: 100%;
+		margin-bottom: 12px;
+	}
+	#{{section_id}} .button-group-style .child-div:last-child {
+		margin-bottom: 0;
+	}
+	{% else %}
+	#{{section_id}} .button-group-style .child-div {
+		width: calc((100% - 5px)/2);
+		margin-right: 5px;
+	}
+	#{{section_id}} .button-group-style .child-div:last-child {
+		margin-right: 0;
+	}
+	{% endif %}
+{%- endcapture -%}
+
+{%- capture max_width_style -%}
+	#{{section_id}} .component_flash_sale {
+		max-width: {{ mobile_max_width }};
+		grid-template-columns: repeat({{mobile_row_count}}, minmax(0, 1fr));
+	}
+	#{{section_id}} .limited_items_icon_div svg {
+		width: 60px;
+		height: 48px;
+	}
+	#{{section_id}} .limited_items_icon .icon_txt {
+		font-size: 14px;
+	}
+	{% if mobile_d_flex == '1' %}
+		#{{section_id}} .limited_items {
+			height: 200px;
+			display: flex;
+			align-items: center;
+			flex-direction: row;
+		}
+		#{{section_id}} .limited_items_img {
+			width: 40%;
+			height: 100%;
+			padding: 10px;
+		}
+		#{{section_id}} .limited_items_content  {
+			width: 60%;
+			height: 100%;
+			justify-content: space-between;
+		}
+		#{{section_id}} .limited_items_img .items_img_a .items_img {
+			height: auto;
+		}
+		#{{section_id}} .price-button-div {
+			align-items: flex-start;
+		}
+		#{{section_id}} .title-desc-div {
+			text-align: left;
+		}
+	{% else %}	
+		#{{section_id}} .limited_items_img {
+			height: 150px;
+			padding: 10px;
+		}
+		#{{section_id}} .price-button-div {
+			
+		}	
+	{% endif %}
+
+	#{{section_id}} .limited_items_content_title {
+		font-size: 16px;
+	}
+	#{{section_id}} .limited_items_content_desc {
+		font-size: 14px;
+	}
+	#{{section_id}} .price-div {
+		font-size: 16px;
+	}
+	#{{section_id}} .compare-at-price {
+		font-size: 12px
+	}
+	#{{section_id}} .copy_code, #{{section_id}} .code_txt {
+		font-size: 10px;
+	}
+	#{{section_id}} .button-group-style {
+		flex-direction: {% if mobile_button_group_style == '1' %}column{%else%}row{% endif %};
+	}
+	#{{section_id}} .child-div {
+		height: 36px;
+		font-size: 14px;
+	}
+
+	{% if mobile_button_group_style == '1' %}
+		#{{section_id}} .button-group-style .child-div {
+			width: 100%;
+			margin-bottom: 12px;
+		}
+		#{{section_id}} .button-group-style .child-div:last-child {
+			margin-bottom: 0;
+		}
+		{% else %}
+		#{{section_id}} .button-group-style {
+			flex-wrap: wrap;
+		}
+		#{{section_id}} .button-group-style .child-div {
+			width: calc((100% - 3px)/2);
+			margin-right: 3px;
+			font-size: 11px;
+		}
+		#{{section_id}} .button-group-style .child-div:last-child {
+			margin-right: 0;
+		}
+	{% endif %}
+	#{{section_id}} .limited_items_content {
+		padding: 12px;
+	}
+{%- endcapture -%}
+
+{% if snippets_style != blank %}
+	{% if snippets_style == 'min_width_style' %}
+	{{ min_width_style }}
+	{% else %}
+	{{ max_width_style }}
+	{% endif %}
+{% else %}
+@media(min-width: 769px) {
+	{{ min_width_style }}
+}
+@media(max-width: 769px) {
+	{{ max_width_style }}
+}
+{% endif %}
+
+</style>
+
+<div class="component_flash_sale-div">
+	<div class="component_flash_sale">
+		{% for block in  blocks %}
+			{% if block.type == 'limited_item' %}
+			{% assign oProduct = block.settings.product_info %}
+			{% assign variants = oProduct.variants %}
+			{% assign oProduct_variant = oProduct.selected_or_first_available_variant %}
+			{% for child_variant in variants  %} 
+				{% if child_variant.sku == block.settings.variant_sku %}
+				{% assign oProduct_variant = child_variant %}
+				{% endif %}
+			{% endfor %}
+
+			<div
+				data-forloop_index="{{forloop.index}}" 
+				class="
+					limited_items 
+					{% if section.settings.view_more_number > 0 and forloop.index > section.settings.view_more_number %}
+						limited_items-dn
+					{% endif %} 
+				">
+				<div 
+					class="limited_items_img" 
+				>
+					<a href="{{oProduct_variant.url}}&ref={% if block.settings.img_source != blank %}{{ block.settings.img_source }}{% else %}{{ section.settings.img_source }} {% endif %}" data-source="{{section.settings.ga4_img_source}}" data-ga4-index="{{forloop.index}}" class="items_img_a ga4-btn">
+						{% if block.settings.product_image != blank %}
+						<img class="items_img lazyload"  data-src="{{ block.settings.product_image | image_url }}"/>
+						{% else %}
+						<img class="items_img lazyload"  data-src="
+							{% if oProduct_variant.image != blank %}
+							{{ oProduct_variant.image | image_url}}
+							{% else %}
+							{{ oProduct.featured_image | image_url}}
+							{% endif %}
+						"/>
+						{% endif %}
+					</a>
+					{% if section.settings.has_show_discount %}
+					<div class="limited_items_icon">
+						<div class="limited_items_icon_div limited_items_icon_div_{{forloop.index}}">
+							{% if section.settings.icon_bg != blank %}
+							<img src="{{ section.settings.icon_bg | image_url }}" />
+							{% else %}
+							{{ section.settings.icon_default }}
+							{% endif %}
+							<span 
+								class="icon_txt icon_txt_{{forloop.index}}">
+								{{ section.settings.icon_txt }}
+							</span>
+						</div>
+					</div>
+					{% endif %}
+				</div>
+				<div 
+					class="limited_items_content limited_items_content_{{forloop.index}}">
+					<div class="title-desc-div title-desc-div-{{section.settings.has_show_reviews}}">
+						<a
+							href="{{oProduct_variant.url}}&ref={% if block.settings.img_source != blank %}{{ block.settings.img_source }}{% else %}{{ section.settings.img_source }} {% endif %}" 
+							class="limited_items_content_title"
+						>
+							{% if block.settings.product_title != blank %}
+							{{ block.settings.product_title }}
+							{% else %}
+							{{oProduct.title | replace: '<br/>', '' | replace: '<br>', '' }}
+							{% endif %}
+						</a>
+						<div 
+							class="limited_items_content_desc"
+						>
+							{{ block.settings.product_desc }}
+						</div>
+						{% if section.settings.has_show_reviews %}
+						<div class="include-overview-reviews">
+							{% render 'include_overview_reviews', product: oProduct %}
+						</div>
+						{% endif %}
+					</div>
+					<div class="price-button-div">
+						{% if section.settings.has_show_price %}
+						<div class="limited_items_content_price">
+							<span 
+								class="price-div">
+								{% if block.settings.custom_price != blank %}
+									{{ block.settings.custom_price }}
+								{% else %}
+									{% render 'price-element', price: oProduct_variant.price %}
+								{% endif%}
+							</span>
+							<span
+								class="compare-at-price"
+							>
+								{% if block.settings.custom_price != blank %}
+									{% render 'price-element', price: oProduct_variant.price %}
+								{% else %}
+									{% render 'price-element', price: oProduct_variant.compare_at_price %}
+								{% endif%}
+							</span>
+						</div>
+						{% endif %}
+						{% if section.settings.has_show_discount %}
+						<div class="product_code product_code-{{forloop.index}}">
+							<div 
+								class="code_txt"
+							>
+								<span 
+									class="code-text"
+								>{{ section.settings.code_text }}:</span>
+								<span class="code-number code-number-{{forloop.index}}"></span>
+							</div>
+							<div 
+								class="copy_code"
+								data-product_title="{{oProduct.title}}"
+								data-sku="{{oProduct_variant.sku}}"
+								data-copy-text="{{section.settings.copy_text}}"
+								data-copying-text="{{section.settings.copying_text}}"
+							>
+								{{section.settings.copy_text}}
+							</div>
+						</div>
+						{% endif %}
+						<div class="button-group-style">
+							{% if section.settings.button_txt != blank %}
+							<button 
+								class="
+									{% if oProduct_variant.available == false or oProduct_variant.price == 999999999  %}
+									limited_items_content_button-disabled
+									{% endif %}
+									child-div
+									limited_items_content_button_buy-now
+									limited_items_content_button limited_items_content_button_{{forloop.index}}
+								"
+									data-index="{{ forloop.index }}"
+									data-v_id="{{oProduct_variant.id}}"
+								>
+									{% if oProduct_variant.available and oProduct_variant.price != 999999999  %}
+									{{section.settings.button_txt}}
+									{% else %}
+									{{ 'products.product.sold_out' | t }}
+									{% endif %}
+							</button>
+							{% endif %}
+							{% if section.settings.learn_more != blank %}
+							<a
+								data-source="{{section.settings.ga4_button_source}}"
+								data-ga4-index="{{forloop.index}}"
+								href="{{oProduct_variant.url}}&ref={{section.settings.button_source}}"
+								class="limited_items_content_button limited_items_content_button_{{forloop.index}} child-div limited_items_content_button_learn-more ga4-btn"
+							>
+								{{section.settings.learn_more}}
+							</a>	
+							{% endif %}
+						</div>
+					</div>
+				</div>
+			</div>
+			{% endif %}
+		{% endfor %}
+	</div>
+</div>
+{% if section.settings.view_more_number > 0 and blocks_len > section.settings.view_more_number %}
+<div class="view-more">
+	{{section.settings.view_more_text}}
+	<div class="view-more-svg">
+		<svg width="13" height="8" viewBox="0 0 13 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+			<path d="M1 1L6.5 7L12 1" stroke="#00A9E1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+		</svg>
+	</div>
+</div>
+{% endif %}
+
+<script>
+$(function() {
+	let view_more_number = '{{section.settings.view_more_number}}';
+	let limited_items = $('#{{section_id}} .limited_items')
+	$('#{{section_id}} .component_flash_sale-div').next('.view-more').on('click', function() {
+		let self = $(this)
+		limited_items.each(function(index) {
+			if(index >= view_more_number) {
+				$(this).toggleClass('limited_items-dn')
+				if($(this).hasClass('limited_items-dn')) {
+					self.find('.view-more-svg').css({
+						transform: 'rotate(0deg)'
+					})
+				}else {
+					self.find('.view-more-svg').css({
+						transform: 'rotate(180deg)'
+					})
+				}
+			}
+		})
+	})
+	$('#{{section_id}} .limited_items_content_button_buy-now').on('click', function() {
+		let variant_list = []
+		{% for block in  blocks %}
+			{% if block.type == 'limited_item' %}
+				var variant_arr = []
+				{% assign oProduct = block.settings.product_info %}
+				{% assign variants = oProduct.variants %}
+				{% assign oProduct_variant = oProduct.selected_or_first_available_variant %}
+				{% for child_variant in variants  %} 
+					{% if child_variant.sku == block.settings.variant_sku %}
+					{% assign oProduct_variant = child_variant %}
+					{% endif %}
+				{% endfor %}
+
+				{%- assign metabuf_fields = block.settings.metabuf_fields | split: '.' -%}
+
+				{%- for field in metabuf_fields -%}
+					{% if forloop.index == 1 %}
+					{% assign field_namespace = field %}
+					{% elsif forloop.index == 2 %}
+					{% assign field_params = field %}
+					{% else %}
+					{% assign field_value = field %}
+					{% endif %}
+				{%- endfor -%}
+
+				{% if oProduct_variant.metafields[field_namespace][field_params].value %}
+					{% assign custom_purchase_buttons = oProduct_variant.metafields[field_namespace][field_params].value %}
+				{% else %}
+					{% assign custom_purchase_buttons = oProduct_variant.metafields[field_namespace][field_params] %}
+				{% endif %}
+
+				{% if custom_purchase_buttons == blank %}
+					{% if oProduct.metafields[field_namespace][field_params].value %}
+						{% assign custom_purchase_buttons = oProduct.metafields[field_namespace][field_params].value %}
+					{% else %}
+						{% assign custom_purchase_buttons = oProduct.metafields[field_namespace][field_params] %}
+					{% endif %}
+				{% endif %}
+
+				{% if custom_purchase_buttons == blank %}
+					
+					{% if oProduct_variant.metafields['global']['products'].value %}
+						{% assign custom_purchase_buttons2 = oProduct_variant.metafields['global']['products'].value %}
+					{% else %}
+						{% assign custom_purchase_buttons2 = oProduct_variant.metafields['global']['products'] %}
+					{% endif %}
+
+					{% if custom_purchase_buttons2 == blank %}
+						{% if oProduct.metafields['global']['products'].value %}
+							{% assign custom_purchase_buttons2 = oProduct.metafields['global']['products'].value %}
+						{% else %}
+							{% assign custom_purchase_buttons2 = oProduct.metafields['global']['products'] %}
+						{% endif %}
+					{% endif %}
+
+				{% endif %}
+
+
+
+				{% if custom_purchase_buttons != blank %}
+					{% assign free_gift_arr = custom_purchase_buttons[field_value] %}
+				{% else %}
+					{% assign free_gift_arr = custom_purchase_buttons2 %}
+				{% endif %}
+
+				{%- for item in free_gift_arr -%}
+					{% assign free_oProduct = all_products[item.handle] %}
+					{% assign free_variants = free_oProduct.variants %}
+					{% assign free_oProduct_variant = free_oProduct.selected_or_first_available_variant %}
+					{% for free_child_variant in free_variants  %} 
+						{% if free_child_variant.sku == item.sku %}
+							{% assign free_oProduct_variant = free_child_variant %}
+						{% endif %}
+					{% endfor %}
+					variant_arr.push({
+						id: '{{free_oProduct_variant.id}}',
+						quantity: {% if item.quantity != blank %} {{ item.quantity }} {% else %} 1 {% endif %}
+					});
+				{%- endfor -%}
+				variant_list.push(variant_arr)
+			{% endif %}
+		{% endfor %}
+		const v_id = $(this).data('v_id')
+    const discount = $(this).data('code')
+		const index = $(this).data('index')
+		const line_items = [{
+			variant_id: v_id,
+			quantity: 1
+		}];
+		const free_items = variant_list[index-1];
+		if(free_items.length > 0 ) {
+			free_items.forEach(item => {
+				if(item.id && item.id !=  line_items[0].variant_id) {
+					line_items.push({
+						variant_id: item.id,
+						quantity: item.quantity
+					})
+				}
+			})
+		}
+		Shopify.theme.bundleBuynow_BF({
+			authorization: "{{ authorization }}",
+			checkout: {
+				line_items: line_items,
+				presentment_currency: "{{ shop.currency }}",
+				is_upstream_button: true,
+				page_type: "product",
+				secret: true,
+        discount,
+				wallet_name: "Checkout",
+				page_group: "{{section.settings.ga4_page_group}}",
+				page_position: "{{section.settings.ga4_page_group}}_Checkout"
+			},
+			onSuccess: () => {},
+			onError: err => {
+				console.log(err)
+				$.dialog({ title: err.message, content: err.description, type: 'red' });
+			}
+		});
+	})
+	{% if section.settings.has_show_discount %}
+	;(function() {
+		let skus = []
+		{% for block in  blocks %}
+		{% assign oProduct = block.settings.product_info %}
+		{% assign variants = oProduct.variants %}
+		{% assign oProduct_variant = oProduct.selected_or_first_available_variant %}
+		{% for child_variant in variants  %} 
+			{% if child_variant.sku == block.settings.variant_sku %}
+			{% assign oProduct_variant = child_variant %}
+			{% endif %}
+		{% endfor %}
+		skus.push("{{oProduct_variant.sku}}")
+		{% endfor %}
+		let params = { "skus": skus, "shopify_domain": "{{ shop.permanent_domain }}" };
+		$.ajax({
+			type: 'GET',
+			url: '/apps/pp/shopifyservices/coupons/by_skus',
+			data: params,
+			success: function success(data) {
+				skus.forEach(function(key,index) {
+					index++;
+					if(data[key] && data[key][0]) {
+						$(`#{{section_id}} .code-number-${index}`).text(data[key][0].title)
+            $(`#{{section_id}} .limited_items_content_button_${index}`).attr('data-code', data[key][0].title)
+						if(data[key][0].value_type === "fixed_amount") {
+							$(`#{{section_id}} .icon_txt_${index}`).prepend(`${data[key][0].value_style}`)
+						}else if(data[key][0].value_type === "percentage") {
+							$(`#{{section_id}} .icon_txt_${index}`).prepend(`${Math.abs(parseInt(data[key][0].value))}%`)
+						}
+						$(`#{{section_id}} .limited_items_content_${index} .price-div`).text(Shopify.formatMoney(parseFloat(data[key][0].variant_price4wscode) * 100, $('body').data('money-format')) )
+						$(`#{{section_id}} .limited_items_content_${index} .compare-at-price`).text(Shopify.formatMoney(parseFloat(data[key][0].variant_price) * 100, $('body').data('money-format')) )
+						$(`#{{section_id}} .limited_items_icon_div_${index}`).css({
+							opacity: 1
+						})
+					}else {
+						$(`#{{section_id}} .product_code-${index}`).css({
+							visibility: 'hidden'
+						})
+					}
+				})
+			}
+		})
+	})()
+	{% endif %}
+	function execCoy(text) {
+    const input = document.createElement('INPUT');
+    input.style.opacity  = 0;
+    input.style.position = 'absolute';
+    input.style.left = '-100000px';
+    document.body.appendChild(input);
+
+    input.value = text;
+    input.select();
+    input.setSelectionRange(0, text.length);
+    document.execCommand('copy');
+    document.body.removeChild(input);
+    return true;
+  }
+
+	$('#{{section_id}} .copy_code').on('click', function() {
+		let copying_text = $(this).data('copying-text')
+		let copy_text = $(this).data('copy-text');
+		let sku = $(this).data('sku');
+		let product_title = $(this).data('product_title')
+		let code_number = $(this).prev('.code_txt').find('.code-number').text()
+		let self = $(this)
+		$(this).text(copying_text)
+		execCoy(code_number)
+		dataLayer.push({
+			"event": "uaEvent",
+			"eventCategory": 'copy',
+			"eventAction": "{{section.settings.eventAction}}",
+			"eventLabel":  code_number + '_' + sku // 由coupon和sku拼接而成
+		})
+		window.dataLayer.push({ "event_parameters": null });
+		window.dataLayer.push({
+			"event": "ga4Event",
+			"event_name": "copy_coupon_code",
+			"event_parameters": {
+				"page_group": "{{section.settings.ga4_page_group}}",
+				"coupon_name": code_number,
+				"info": product_title
+			}
+		});
+		setTimeout(function() {
+			self.text(copy_text)
+		}, 500)
+	})
+
+	let allProducts = []
+	window.dataLayer.push({ "event_parameters": null });
+	{% for block in blocks %}
+		{% assign oProduct = block.settings.product_info %}
+		{% assign variants = oProduct.variants %}
+		{% assign oProduct_variant = oProduct.selected_or_first_available_variant %}
+		{% for child_variant in variants  %} 
+			{% if child_variant.sku == block.settings.variant_sku %}
+			{% assign oProduct_variant = child_variant %}
+			{% endif %}
+		{% endfor %}
+			var item = {
+				"event": "ga4Event",
+				"event_name": "view_item_list",
+				"event_parameters": {
+					"page_group": "{{section.settings.ga4_page_group}}",
+					"currency": "{{shop.currency}}",
+					"items": [{
+						"item_id": "{{oProduct_variant.sku}}",
+						"item_name": "{{oProduct.title | replace: '<br/>', '' | replace: '<br>', '' }}",
+						"item_brand": "{{shop.name}}",
+						"item_category": "{{oProduct_variant.type}}",
+						"item_variant": "{{oProduct_variant.title}}",
+						"price": "{{oProduct_variant.price | divided_by: 100}}",
+						"index": "{{forloop.index}}",
+						"item_list_id": "{{section_id}}",
+						"item_list_name": "{{section_id}}"
+					}]
+				}
+			}
+			allProducts.push(item)
+	{% endfor %}
+
+	let io = new IntersectionObserver((entries) => {
+    entries.forEach(item => {
+			let el = item.target
+      if (item.isIntersecting) {
+				let index = el.getAttribute('data-forloop_index') || 1;
+				index--;
+				window.dataLayer.push(allProducts[index])
+        io.unobserve(item.target)
+      }
+    })
+  })
+
+	const limited_items_list = document.querySelectorAll('#{{section_id}} .limited_items')
+
+	limited_items_list.forEach((el) => {
+		io.observe(el)
+	})
+
+	$('#{{section_id}} .ga4-btn').on('click', function() {
+		let index = $(this).data("ga4-index");
+		let source = $(this).data("source");
+		index--;
+		let items = allProducts[index].event_parameters.items
+		window.dataLayer.push({ "event_parameters": null });
+		window.dataLayer.push({
+			"event": "ga4Event",
+			"event_name": "select_item",
+			"event_parameters": {
+				"page_group": "{{section.settings.ga4_page_group}}",
+				"action": source + items[0].item_name,
+				"currency": "{{shop.currency}}",
+				"items": items
+			}
+		});
+	})
+})
+</script>

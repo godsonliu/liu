@@ -1,0 +1,56 @@
+<section class="gift-product-banner">
+  {% render 'lazyload_image',  
+    src: section.settings.img_pc,
+    alt: section.settings.img_pc.alt,
+    width: section.settings.img_pc.width,
+    aspect_ratio: section.settings.img_pc.aspect_ratio,
+    additional_classes: "is-hidden-mobile-only",
+    isSchemaData: true
+  %}
+  {% render 'lazyload_image',  
+    src: section.settings.img_mb,
+    alt: section.settings.img_mb.alt,
+    width: section.settings.img_mb.width,
+    aspect_ratio: section.settings.img_mb.aspect_ratio,
+    additional_classes: "is-hidden-desktop-only",
+    isSchemaData: true
+  %}
+  <div class="text">
+    <h1>{{ section.settings.title1 }}</h1>
+    <p class="sub-text">{{ section.settings.title2 }}</p>
+    <p class="tip-text">{{ section.settings.title3 }}</p>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "gift_product_banner",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "img_pc",
+      "label": "桌面端展示图片"
+    },
+    {
+      "type": "image_picker",
+      "id": "img_mb",
+      "label": "移动端展示图片"
+    },
+    {
+      "type": "textarea",
+      "id": "title1",
+      "label": "第一行文字"
+    },
+    {
+      "type": "textarea",
+      "id": "title2",
+      "label": "第二行文字"
+    },
+    {
+      "type": "textarea",
+      "id": "title3",
+      "label": "第三行文字"
+    }
+  ]
+}
+{% endschema%}

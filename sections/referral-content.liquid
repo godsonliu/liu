@@ -1,0 +1,423 @@
+
+<div class="_page" style="display: none">{{ section.settings.jsText }}</div>
+<section>
+  <div id="myModal" class="mymodal">
+    <div class="dialogModal" style="max-width:1100px">
+      <div class="modalContent">
+        <button
+          id="modal_close" type="button" class="modalClose"
+          onclick="closeModal()"
+        >
+          <i class="iconfont">&#xe723;</i>
+        </button>
+        <div id="modal_con"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="image">
+      <img alt="" src="//dz02g1kgtiysz.cloudfront.net/deals/files/190220_120030_banner.jpg">
+    </div>
+    <div class="entry">
+      {% if customer %}
+        <div class="Spin referralSpin referral_info active">
+          <div class="content cnt">
+            <h4>Use Our Email or Share Your Referral Link</h4>
+            <form class="refer">
+              <div class="input-normal">
+                <div class="placeholder">To:</div>
+                <div class="emailInput">
+                  <input
+                    class="email_input"
+                    name="to" value="" placeholder="Enter Email Address"
+                    onChange="valueChange()"
+                  >
+                  <a type="button" class="import">
+                    <span class="text">Import Contacts: </span>
+                    <i class="iconfont"></i>
+                  </a>
+                  <div id="my-signin2" onclick="openPhoneNum()"></div>
+                </div>
+              </div>
+              <div class="input-normal">
+                <div class="placeholder">Subject:</div>
+                <input
+                  name="subject"
+                  value="Your Friend Gave You 2 Motion Sensors (valued at $60) for greater home security!"
+                  onChange="valueChange()"
+                >
+              </div>
+              <div class="textarea-normal">
+                <div class="placeholder">Body:</div>
+                <textarea
+                  name="body"
+                  onChange="valueChange()"
+                >Our eufyCam 2C wireless HD security cameras are designed from the ground up to offer wireless freedom and 180 days of surveillance on one charge. Just stick the mount onto any flat surface and eufyCam 2C is ready to go—in less than a second. If you’re not satisfied, let us know before 30 days and we’ll put things right. Most importantly, you’ll get 2 Motion Sensors (valued at $60) with your purchase!</textarea>
+              </div>
+              <div class="Spin captchaSpin">
+                <div class="content cnt">
+                  <div class="formSubmit">
+                    <div class="submit">
+                      <div class="input-normal captcha">
+                        <input
+                          onChange="valueChange()"
+                          type="text" class="captchaInput" placeholder="Enter Captcha"
+                          maxlength="20" autocomplete="off" name="captcha_value" value=""
+                        >
+                        <span class="captchaImage" onClick="getCaptchaCode()"></span>
+                      </div>
+                      <button type="submit" class="button-normal">Start Sharing</button>
+                    </div>
+                    <div class="share">
+                      <div class="referLink">
+                        <div class="table">
+                          <div class="table-cell"><span>Referral Link: </span></div>
+                          <div class="table-cell">
+                            <span class="value">
+                              <span class="code"><span class="share_url"></span></span>
+                              <button
+                                type="button"
+                                onClick="copyTxt()"
+                                class="clipboard_btn link"
+                              >copy</button>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <p class="referShare">
+                        <span>Share on Social Media:</span>
+                        <span>
+                          <a class="iconfont facebook" target="_blank" rel="noopener noreferrer"></a>
+                          <a class="iconfont twitter" target="_blank" rel="noopener noreferrer"></a>
+                          <a class="iconfont messenger" target="_blank" rel="noopener noreferrer"></a>
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="mask"></div>
+                <div class="spinner">
+                  <i class="iconfont"></i>
+                  <div class="focus"><i class="iconfont"></i></div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="mask"></div>
+          <div class="spinner">
+            <i class="iconfont"></i>
+            <div class="focus"><i class="iconfont"></i></div>
+          </div>
+        </div>
+
+        <div class="referral_thanks">
+          <h1>Thanks for Referring!</h1>
+          <h3>Remind your friends to check their email.</h3>
+          <div class="back">
+            <a href="/pages/referral">
+              <i class="iconfont"></i>
+              <span>Keep Referring</span>
+            </a>
+          </div>
+        </div>
+      {% else %}
+        <div>
+          <h1>Give Gifts, Get Cash</h1>
+          <p>Give your friends 2 Motion Sensors (<strong>valued at $60</strong>) for their eufy Security system—for free!</p>
+          <p>Receive <strong>$100</strong> for each eufyCam 2C 3-Cam Kit purchase your friends make!</p>
+          <div class="action">
+            <a
+              class="button-normal"
+              href="{% render 'mulpass-url', domain: shop.permanent_domain %}&redirect=https://{{ shop.permanent_domain }}/pages/referral"
+            >Log In to Refer Friends</a>
+          </div>
+        </div>
+      {% endif %}
+
+    </div>
+  </div>
+  <div class="how">
+    <div class="wrap">
+      <h4>It’s easy to get started</h4>
+      <ul>
+        <li>
+          <div class="box">
+            <p class="ico"><img class="lazyload" data-src="//dz02g1kgtiysz.cloudfront.net/deals/files/190226_113259_icon-01.svg"></p>
+            <div class="txt">
+              <h6>Step 1</h6>
+              <div class="text">Send invitation to friends</div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="box">
+            <p class="ico"><img class="lazyload" data-src="//dz02g1kgtiysz.cloudfront.net/deals/files/190226_113302_icon-02.svg"></p>
+            <div class="txt">
+              <h6>Step 2</h6>
+              <div class="text">Friends get $60 Motion Sensor*2 with eufyCam 2C purchase</div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="box">
+            <p class="ico"><img class="lazyload" data-src="//dz02g1kgtiysz.cloudfront.net/deals/files/190226_113308_icon-04.svg"></p>
+            <div class="txt">
+              <h6>Step 3</h6>
+              <div class="text">You receive $100 cash</div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="rules referral_rules">
+    <div class="wrap">
+      <h4>Conditions for Earning</h4>
+      <ul>
+        <li>
+          <i class="iconfont"></i>
+          <h6>Participation Qualification</h6>
+          <div class="text">
+            <p>Any US residents who sign up on eufy.com can refer friends. By providing a valid email address, and accepting the program’s Terms &amp; Conditions, you can refer your friends and family to join the referral site.</p>
+          </div>
+        </li>
+        <li>
+          <i class="iconfont"></i>
+          <h6>Conditions for Earning</h6>
+          <div class="text">
+            <p>Nobody tells the eufy story better than you, our customer. So when you recommend a eufyCam 2C 3-Cam Kit to your friends via your referral link you send, we want to thank you by giving you $100 cash when a friend completes their first purchase of eufyCam 2C 3-Cam Kit on eufy.com. <strong>You and your friend will both receive a gift. The more you invite, the more you earn</strong>.</p>
+            <p><strong>For every eufyCam 2C 3-Cam Kit your friends purchase, they will receive 2 Motion Sensors (valued at $60).</strong></p>
+          </div>
+        </li>
+        <li>
+          <i class="iconfont"></i>
+          <h6>Claim Your Reward</h6>
+          <div class="text">
+            <p>When someone buys through your referral link, you will receive an email informing you someone made a purchase using your link, automatically. We will review the referred order within 30 days. Once a referred purchase is verified, you will receive another confirmation email to collect your cash reward.</p>
+          </div>
+        </li>
+        <li>
+          <i class="iconfont"></i>
+          <h6>Multiple Referrals</h6>
+          <div class="text">
+            <p>Friends referred to the eufy Referral Program may only use one referral link. If a referee receives links from multiple eufy.com users, only the referrer of the first order by the referee will receive a reward.</p>
+            <p><strong style="color:#8B0000">You cannot refer yourself</strong>.</p>
+          </div>
+        </li>
+        <li>
+          <i class="iconfont"></i>
+          <h6>Termination and Changes</h6>
+          <div class="text">
+            <p>eufy may suspend or terminate the Referral Program or a user’s ability to participate in the Referral Program at any time for any reason.</p>
+            <p>eufy reserves the right to suspend accounts or remove cash rewards if eufy notices any activity eufy believes is abusive, fraudulent, or in violation of the eufy.com Terms of Service. eufy reserves the right to review and investigate all referral activities and to suspend accounts or modify referrals in our sole discretion as deemed fair and appropriate.</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<script>
+  const cfg = window._referral_page || {};
+  const { referralLang = {} } = cfg;
+  let share_url;
+  let invitation_code;
+  const { share_utm = "", email_utm = "", facebook_appId = "" } = Shopify.metafields.referrals || {};
+  const emailRegExp = { email: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/},
+  isEmail = val => emailRegExp.email.test(val);
+  let referralData = { "ref": share_utm };
+
+  $(document).ready(function(){
+    var clipboard = new Clipboard('.clipboard_btn');
+  })
+  $(function() {
+
+    $('.referralSpin').removeClass('active');
+    $('.referral_rules').find('.iconfont').click(e => toggleRules(e));
+    $('.referral_rules').find('h6').click(e => toggleRules(e));
+
+    if (window.location.pathname.includes('/thanks')) {
+      $('.referral_info').css('display', 'none');
+      $('.referral_thanks').css('display', 'block');
+    } else {
+      $('.referral_info').css('display', 'block');
+      $('.referral_thanks').css('display', 'none');
+    }
+
+    {% if customer %}
+      if (!window.location.pathname.includes('/thanks')) {
+        getCaptchaCode();
+      }
+      Shopify.contentCreator.pastApi.getUserInfo({
+        fn: (body = {}) => {
+          invitation_code = body.data ? body.data.invitation_code : '{{customer.email}}';
+          share_url = `https://{{shop.domain}}/pages/buy?ic=${invitation_code}`;
+          const complete_url = `${share_url}&${share_utm}`;
+          $('.share_url').html(complete_url);
+          $('.clipboard_btn').attr("data-clipboard-text", complete_url);
+
+          const shareInviteUrl = `${share_url}&${share_utm || ''}`;
+          const emailInviteUrl = `${share_url}&${email_utm || ''}`;
+          
+          referralData.invitation_code = invitation_code;
+          referralData.inviter_code = invitation_code;
+          referralData.register_source = complete_url;
+          referralData.referral_link = emailInviteUrl;
+
+          const encodedShareInviteUrl = encodeURIComponent(shareInviteUrl);
+          const facebook_url = `https://www.facebook.com/sharer/sharer.php?u=${encodedShareInviteUrl}`;
+          const twitter_url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(referralLang.ogdesc)}&url=${encodedShareInviteUrl}`;
+          const messenger_url = `https://www.facebook.com/dialog/send?link=${encodedShareInviteUrl}&app_id=${facebook_appId}&redirect_uri=https://${Shopify.shop}/pages/referral/thanks`;
+          $('.facebook').attr("href", facebook_url);
+          $('.twitter').attr("href", twitter_url);
+          $('.messenger').attr("href", messenger_url);
+        },
+        error: (err) => {
+          openModal(`<p>${err.responseJSON.error || err.responseJSON.exception}</p>`);
+        },
+        params: { email: '{{customer.email}}' }
+      });
+    {% endif %}
+
+    $('.refer').submit(e => referralSubmit(event));
+  })
+
+  function copyTxt() {
+    $('.clipboard_btn').html('Copied.');
+  }
+  function emailSelect(data) {
+    referralData.to = (data || '').trim();
+    $('.email_input').val(data);
+    closeModal();
+  }
+  function renderButton() {
+    gapi.signin2.render('my-signin2', {
+      'scope': 'https://www.googleapis.com/auth/contacts.readonly',
+      'width': 240,
+      'height': 50,
+      'longtitle': true,
+      'theme': 'dark',
+      'onsuccess': onSignIn
+    });
+  }
+  let accessToken;
+
+  function onSignIn(googleUser) {
+    accessToken = googleUser.getAuthResponse(true).access_token;
+  }
+  function openPhoneNum() {
+    if(accessToken) {
+      Shopify.contentCreator.referral.googleContacts({
+        fn: body => {
+          let html;
+          const { feed = {} } = body;
+          const { entry = [] } = feed;
+          if (entry && entry.length > 0) {
+            html = "<div id='modal_title' class='title'>select email</div>";
+            for(var i = 0; i < entry.length; i++) {
+              html += `<p class='item' key='${i}'><a onclick="emailSelect('${entry[i].gd$email[0].address}')">${entry[i].gd$email[0].address}</a></p>`;
+            }
+          } else {
+            html = `<div style='text-align: center;'><i class='iconfont'>&#xe68a;</i><p>${referralLang.could_not_find_anything}</p></div>`
+          }
+          openModal(html);
+          $('.referralSpin').removeClass('active');
+        },
+        error: (err) => {
+          $('.referralSpin').removeClass('active');
+        },
+        params: {
+          alt: "json",
+          access_token: accessToken,
+          "max-results": 700,
+          v: 3.0
+        }
+      });
+      $('.referralSpin').addClass('active');
+    }
+  }
+
+  function toggleRules(e) {
+    const dom = e.target.parentNode;
+    if (dom.classList.contains('close_rule')) {
+      dom.classList.remove('close_rule');
+    } else {
+      dom.classList.add('close_rule');
+    }
+  }
+
+  function getCaptchaCode() {
+    $('.captchaSpin').addClass('active');
+    Shopify.contentCreator.referral.getCaptcha({
+      fn: body => {
+        const { captcha_url = '', captcha_code = '' } = body;
+        referralData.captcha_code = captcha_code;
+        $(`.captchaImage`).html(`<img class="lazyload" data-src='/apps/pp/rainbow${captcha_url}'>`);
+        $('.captchaSpin').removeClass('active');
+      },
+      error: (err) => {
+        openModal(`<p>${err.responseJSON.error || err.responseJSON.exception}</p>`);
+      }
+    });
+  }
+
+  function valueChange() {
+    const event = window.event;
+    const { name, value } = event.target;
+    referralData[name] = (value || '').trim();
+  }
+
+  function closeModal() {
+    $('#myModal').css("display", "none");
+  }
+  function openModal(con) {
+    $('#myModal').css("display", "block");
+    $('#modal_con').html(`${con}`);
+  }
+
+  function referralSubmit(event) {
+    if (event) event.preventDefault();
+
+    if (referralData.subject === undefined) referralData.subject = referralLang.refer_subject_text;
+    if (referralData.body === undefined) referralData.body = referralLang.refer_body_text;
+    referralData.email = '{{customer.email}}';
+
+    const { to, captcha_code, captcha_value, subject, body } = referralData;
+
+    const errors = [];
+    if (!to) errors.push(referralLang.fill_email_address);
+    else if (!isEmail(to)) errors.push(referralLang.invalid_email);
+    if (!subject) errors.push(referralLang.fill_email_subject);
+    if (!body) errors.push(referralLang.fill_email_body);
+    if (!captcha_value) errors.push(referralLang.fill_captcha);
+    let html = "";
+    for(var i = 0; i < errors.length; i++) {
+      html += "<p>" + errors[i] + "</p>";
+    }
+    if (errors.length) return openModal(html);
+
+    Shopify.contentCreator.referral.referral_emails({
+      fn: (body = {}) => {
+        window.location.href = `https://${Shopify.shop}/pages/referral/thanks`;
+        getCaptchaCode();
+      },
+      error: (err) => {
+        openModal(`<p>${err.responseJSON.error || err.responseJSON.exception}</p>`);
+        getCaptchaCode();
+      },
+      params: referralData
+    });
+  }
+</script>
+<script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+
+{% schema %}
+  {
+    "name": "Referral",
+    "settings": [
+      { "type": "html", "id": "jsText", "label": "jsText" },
+      { "type": "text", "id": "refer_subject_text", "label": "refer_subject_text", "default": "Your Friend Gave You 2 Motion Sensors (valued at $60) for greater home security!" }
+    ]
+  }
+{% endschema %}

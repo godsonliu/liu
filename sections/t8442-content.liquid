@@ -1,0 +1,1009 @@
+{% if product.metafields['global']['custom_variants'].value %}
+  {% assign custom_variants = product.metafields['global']['custom_variants'].value %}
+{% else %}
+  {% assign custom_variants = product.metafields['global']['custom_variants'] %}
+{% endif %}
+
+<div class="T8442_main">
+    <div class="banner_1">
+        <div class="banner_1_img pc_show">
+            <img src="{{ section.settings.banner_1_img | img_url: '' }}">
+        </div>
+        <div class="banner_1_img mob_show">
+            <img src="{{ section.settings.banner_1_mob_img | img_url: '' }}">
+        </div>
+        <div class="banner_1_wz">
+            <p class="banner_1_p1">{{ section.settings.banner_1_p1 }}</p>
+        </div>
+    </div>
+    <div class="banner_2">
+        <div class="contain_2">
+            <div class="banner_2_img1 pc_show">
+                <img src="{{ section.settings.banner_2_img1 | img_url: '' }}">
+            </div>
+            <div class="banner_2_img1 mob_show">
+                <img src="{{ section.settings.banner_2_mob_img1 | img_url: '' }}">
+            </div>
+            <div class="banner_2_wz_1">
+                <p class="banner_2_p1">{{ section.settings.banner_2_p1 }}</p>
+            </div>
+            <div class="banner_2_wz_2">
+                <p class="banner_2_p2">{{ section.settings.banner_2_p2 }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="banner_3">
+        <div class="banner_3_img pc_show">
+            <img src="{{ section.settings.banner_3_img | img_url: '' }}">
+        </div>
+        <div class="banner_3_img mob_show">
+            <img src="{{ section.settings.banner_3_mob_img | img_url: '' }}">
+        </div>
+        <div class="banner_3_wz">
+            <p class="banner_3_p1">{{ section.settings.banner_3_p1 }}</p>
+        </div>
+    </div>
+    <div class="banner_4">
+        <div class="contain_2">
+            <div class="banner_4_img1 pc_show">
+                <img src="{{ section.settings.banner_4_img1 | img_url: '' }}">
+            </div>
+            <div class="banner_4_img1 mob_show">
+                <img src="{{ section.settings.banner_4_mob_img1 | img_url: '' }}">
+            </div>
+            <div class="banner_4_wz1">
+                <p>{{ section.settings.banner_4_wz1 }}</p>
+            </div>
+            <div class="banner_4_wz2">
+                <p>{{ section.settings.banner_4_wz2 }}</p>
+            </div>
+            <div class="banner_4_wz3">
+                <p>{{ section.settings.banner_4_wz3 }}</p>
+            </div>
+            <div class="wz_left pc_show">{{ section.settings.wz_left }}</div>
+            <div class="wz_right pc_show">{{ section.settings.wz_right }}</div>
+        </div>
+    </div>
+    <div class="banner_5">
+        <div class="contain_2">
+            <div class="banner_5_img1 pc_show">
+                <img src="{{ section.settings.banner_5_img1 | img_url: '' }}">
+            </div>
+            <div class="banner_5_img1 mob_show">
+                <img src="{{ section.settings.banner_5_mob_img1 | img_url: '' }}">
+            </div>
+            <div class="banner_5_wz1">
+                <p>{{ section.settings.banner_5_wz1 }}</p>
+            </div>
+            <div class="banner_5_wz2">
+                <p>{{ section.settings.banner_5_wz2 }}</p>
+            </div>
+            <div class="banner_5_wz3">
+                <p>{{ section.settings.banner_5_wz3 }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="banner_6">
+        <div class="contain_2">
+            <div class="banner_6_img1 pc_show">
+                <img src="{{ section.settings.banner_6_img1 | img_url: '' }}">
+            </div>
+            <div class="banner_6_img2 pc_show">
+                <img src="{{ section.settings.banner_6_img2 | img_url: '' }}">
+            </div>
+            <div class="banner_6_img1 mob_show">
+                <img src="{{ section.settings.banner_6_mob_img1 | img_url: '' }}">
+            </div>
+            <div class="banner_6_img2 mob_show">
+                <img src="{{ section.settings.banner_6_mob_img2 | img_url: '' }}">
+            </div>
+            <div class="banner_6_wz1">
+                <p>{{ section.settings.banner_6_wz1 }}</p>
+            </div>
+            <div class="banner_6_wz2">
+                <p>{{ section.settings.banner_6_wz2 }}</p>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="banner_7 pc_show">
+        <div class="contain_1">
+            <div class="banner_7_img1">
+                <div class="fad_tu">
+                    <img src="{{ section.settings.fad_tu | img_url: '' }}">
+                </div>
+                <div class="banner_7_wz4">
+                    <p><i>12345678</i>{{ section.settings.banner_7_wz4 }}</p>
+                </div>
+                <img src="https://cdn.shopify.com/s/files/1/0521/9411/5753/files/banner_5_a.png?v=1618368614" style="opacity: 0;">
+                
+                
+            </div>
+            <div class="banner_7_wz1">
+                <p>{{ section.settings.banner_7_wz1 }}</p>
+            </div>
+            <div class="banner_7_wz2">
+                <p>{{ section.settings.banner_7_wz2 }}</p>
+            </div>
+            
+        </div>
+    </div>
+    <div class="banner_7_mob mob_show">
+        <div class="contain_2">
+            <div class="banner_7_img1">
+                <div class="fad_tu">
+                    <img src="{{ section.settings.fad_tu_mob | img_url: '' }}">
+                </div>
+                <img src="https://cdn.shopify.com/s/files/1/0521/9411/5753/files/banner_7b.png?v=1618554359" style="opacity: 0;">
+                
+                
+            </div>
+            <div class="banner_7_wz1">
+                <p>{{ section.settings.banner_7_wz1 }}</p>
+            </div>
+            <div class="banner_7_wz2">
+                <p>{{ section.settings.banner_7_wz2 }}</p>
+            </div>
+            <div class="banner_7_wz3">
+                <p>{{ section.settings.banner_7_wz3 }}</p>
+            </div>
+            
+        </div>
+        <div class="contain_2">
+            <div class="banner_7_img1">
+                <img src="{{ section.settings.banner_7_mob_img1 | img_url: '' }}">    
+            </div>
+            <div class="banner_7_wz4">
+                <p>{{ section.settings.banner_7_wz4 }}</p>
+            </div>
+        </div>
+    </div> -->
+    <div class="banner_8">
+        <div class="contain_2">
+            <div class="banner_8_img1 pc_show">
+                <img src="{{ section.settings.banner_8_img1 | img_url: '' }}">
+            </div>
+            <div class="banner_8_img1 mob_show">
+                <img src="{{ section.settings.banner_8_mob_img1 | img_url: '' }}">
+            </div>
+            <div class="banner_8_wz1">
+                <p>{{ section.settings.banner_8_wz1 }}</p>
+            </div>
+            <div class="banner_8_wz2">
+                <p>{{ section.settings.banner_8_wz2 }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="banner_9">
+        <div class="contain_2">
+            <div class="banner_9_img1 pc_show">
+                <img src="{{ section.settings.banner_9_img1 | img_url: '' }}">
+            </div>
+            <div class="banner_9_img1 mob_show">
+                <img src="{{ section.settings.banner_9_mob_img1 | img_url: '' }}">
+            </div>
+            <div class="banner_9_wz1">
+                <p>{{ section.settings.banner_9_wz1 }}</p>
+            </div>
+            <div class="banner_9_wz2">
+                <p>{{ section.settings.banner_9_wz2 }}</p>
+            </div>
+            <div class="banner_9_wz3">
+                <p>{{ section.settings.banner_9_wz3 }}</p>
+            </div>
+            <div class="ka_2 pc_show">
+                <img src="https://cdn.shopify.com/s/files/1/0521/9411/5753/files/ka_2.png?v=1619003430">
+            </div>
+        </div>
+    </div>
+    <div class="banner_10">
+        <div class="contain_2">
+            <div class="banner_10_img1 pc_show">
+                <img src="{{ section.settings.banner_10_img1 | img_url: '' }}">
+            </div>
+            <div class="banner_10_img1 mob_show">
+                <img src="{{ section.settings.banner_10_mob_img1 | img_url: '' }}">
+            </div>
+            <div class="banner_10_wz1">
+                <p>{{ section.settings.banner_10_wz1 }}</p>
+            </div>
+            <div class="banner_10_wz2">
+                <p>{{ section.settings.banner_10_wz2 }}</p>
+            </div>
+            
+        </div>
+    </div>
+    <div class="banner_11">
+        <div class="contain_2">
+            <div class="banner_11_img1 pc_show">
+                <img src="{{ section.settings.banner_11_img1 | img_url: '' }}">
+            </div>
+            <div class="banner_11_img1 mob_show">
+                <img src="{{ section.settings.banner_11_mob_img1 | img_url: '' }}">
+            </div>
+            <div class="banner_11_wz1">
+                <p>{{ section.settings.banner_11_wz1 }}</p>
+            </div>
+            <div class="banner_11_wz2">
+                <p>{{ section.settings.banner_11_wz2 }}</p>
+            </div>
+            <div class="tb_all">
+                <div class="tb_1">
+                    <div class="tb_1_img">
+                        <img src="{{ section.settings.tu_1_img | img_url: '' }}">
+                    </div>
+                    <p>{{ section.settings.tb_1 }}</p>
+                </div>
+                <div class="tb_2">
+                    <div class="tb_2_img">
+                        <img src="{{ section.settings.tu_2_img | img_url: '' }}">
+                    </div>
+                    <p>{{ section.settings.tb_2 }}</p>
+                </div>
+                <div class="tb_3">
+                    <div class="tb_3_img">
+                        <img src="{{ section.settings.tu_3_img | img_url: '' }}">
+                    </div>
+                    <p>{{ section.settings.tb_3 }}</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="banner_12">
+        <div class="contain_2">
+            <div class="banner_12_img1 pc_show">
+                <img src="{{ section.settings.banner_12_img1 | img_url: '' }}">
+            </div>
+            <div class="banner_12_img1 mob_show">
+                <img src="{{ section.settings.banner_12_mob_img1 | img_url: '' }}">
+            </div>
+            <div class="banner_12_wz1">
+                <p>{{ section.settings.banner_12_wz1 }}</p>
+            </div>
+            <div class="banner_12_wz2">
+                <p>{{ section.settings.banner_12_wz2 }}</p>
+            </div>
+            <div class="banner_12_wz3">
+                <p>{{ section.settings.banner_12_wz3 }}</p>
+            </div>
+            <div class="banner_12_logo">
+                <img src="{{ section.settings.banner_12_logo | img_url: '' }}">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function() {
+      
+      const T8442_main = {
+        
+        init_num: (v) => {
+          if (v > 0.9) return 1;
+          if (v < 0.1) return 0;
+          return v;
+        },
+        getRandom: (n, m) => {
+          var num = Math.floor(Math.random() * (m - n + 1) + n);
+          return num;
+        },
+      }
+      
+      
+
+      const width = window.innerWidth;
+      const viewPortHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+      let h = 600;
+      if (width > 769) {
+        h = viewPortHeight - 92;    
+      } else {
+        h = viewPortHeight - 60;
+      }
+      
+      const s10_cont1 = 1.5*h ;
+      const s10_cont2 = 2*h ;
+      const s10_cont3 = 3*h ;
+      const s10_cont4 = 2.5*h ;
+      const s10_cont5 = 1*h ;
+      
+      $(window).scroll(function(){
+         
+        const top = $(window).scrollTop();
+        const sticky2_position = $('.banner_2').offset().top;
+        const sticky3_position = $('.banner_3').offset().top;
+        const sticky4_position = $('.banner_4').offset().top;
+        const sticky5_position = $('.banner_5').offset().top;
+        const sticky6_position = $('.banner_6').offset().top;
+        
+        
+        const sticky8_position = $('.banner_8').offset().top;
+        const sticky9_position = $('.banner_9').offset().top;
+        const sticky10_position = $('.banner_10').offset().top;
+        const sticky11_position = $('.banner_11').offset().top;
+        const sticky12_position = $('.banner_12').offset().top;
+        
+        const ski2 = top - sticky2_position;
+        const ski3 = top - sticky3_position;
+        const ski4 = top - sticky4_position;
+        const ski5 = top - sticky5_position;
+        const ski6 = top - sticky6_position;
+        
+        const ski8 = top - sticky8_position;
+        const ski9 = top - sticky9_position;
+        const ski10 = top - sticky10_position;
+        const ski11 = top - sticky11_position;
+        const ski12 = top - sticky12_position;
+        
+
+        
+        if (ski2 > -0.6*h){
+            
+            $(".banner_2_wz_1").addClass("active");
+        }else{
+            
+            $(".banner_2_wz_1").removeClass("active");
+        }
+        if (ski2 > -0.4*h){
+            
+            $(".banner_2_wz_2").addClass("active");
+        }else{
+            
+            $(".banner_2_wz_2").removeClass("active");
+        }
+        if (ski3 > -0.6*h){
+            
+            $(".banner_3_wz").addClass("active");
+        }else{
+            
+            $(".banner_3_wz").removeClass("active");
+        }
+        if (ski4 > -0.6*h){
+            
+            $(".banner_4_wz1").addClass("active");
+        }else{
+            
+            $(".banner_4_wz1").removeClass("active");
+        }
+        if (ski4 > -0.4*h){
+            
+            $(".banner_4_wz2").addClass("active");
+            
+        }else{
+            
+            $(".banner_4_wz2").removeClass("active");
+            
+        }
+        if (ski4 > -0.2*h){
+            
+            $(".banner_4_wz3").addClass("active");
+        }else{
+           
+            $(".banner_4_wz3").removeClass("active");
+            
+        }
+        if (ski4 > 0){
+            $(".wz_left").addClass("active");
+            $(".wz_right").addClass("active");
+            
+        }else{
+            $(".wz_left").removeClass("active");
+            $(".wz_right").removeClass("active");
+            
+            
+        }
+        if (ski5 > -0.6*h){
+            
+            $(".banner_5_wz1").addClass("active");
+        }else{
+            
+            $(".banner_5_wz1").removeClass("active");
+        }
+        if (ski5 > -0.4*h){
+            
+            $(".banner_5_wz2").addClass("active");
+        }else{
+            
+            $(".banner_5_wz2").removeClass("active");
+        }
+        if (ski5 > 0){
+            
+            $(".banner_5_wz3").addClass("active");
+        }else{
+            
+            $(".banner_5_wz3").removeClass("active");
+        }
+        if (ski6 > -0.6*h){
+            
+            $(".banner_6_wz1").addClass("active");
+        }else{
+            
+            $(".banner_6_wz1").removeClass("active");
+        }
+        if (ski6 > -0.4*h){
+            
+            $(".banner_6_wz2").addClass("active");
+            
+        }else{
+            
+            $(".banner_6_wz2").removeClass("active");
+            
+        }
+        if (ski6 > -0.2*h){
+            $(".banner_6_img2").addClass("active");
+            
+        }else{
+            $(".banner_6_img2").removeClass("active");
+            
+            
+        }
+        // if (ski7 > -0.6*h){
+            
+        //     $(".banner_7 .banner_7_wz1").addClass("active");
+        // }else{
+            
+        //     $(".banner_7 .banner_7_wz1").removeClass("active");
+        // }
+        // if (ski7 > -0.4*h){
+            
+        //     $(".banner_7 .banner_7_wz2").addClass("active");
+            
+        // }else{
+            
+        //     $(".banner_7 .banner_7_wz2").removeClass("active");
+            
+        // }
+        // if (ski7 > 0){
+        //     $(".banner_7 .banner_7_wz1").removeClass("active");
+        //     $(".banner_7 .banner_7_wz2").removeClass("active");
+        //     $(".banner_7 .banner_7_wz3").addClass("active");
+            
+        // }else{
+        //     $(".banner_7 .banner_7_wz3").removeClass("active");
+            
+        // }
+        
+        // if (ski7a > -0.6*h){
+            
+        //     $(".banner_7_mob .banner_7_wz1").addClass("active");
+        // }else{
+            
+        //     $(".banner_7_mob .banner_7_wz1").removeClass("active");
+        // }
+        // if (ski7a > -0.4*h){
+            
+        //     $(".banner_7_mob .banner_7_wz2").addClass("active");
+            
+        // }else{
+            
+        //     $(".banner_7_mob .banner_7_wz2").removeClass("active");
+            
+        // }
+        // if (ski7a > -0.2*h){
+        //     $(".banner_7_mob .banner_7_wz3").addClass("active");
+            
+        // }else{
+        //     $(".banner_7_mob .banner_7_wz3").removeClass("active");
+            
+        // }
+        // if (ski7a > 0.3*h){
+            
+        //     $(".banner_7_mob .banner_7_wz4").addClass("active");
+            
+        // }else{
+        //     $(".banner_7_mob .banner_7_wz4").removeClass("active");
+            
+        // }
+        if (ski8 > -0.6*h){
+            
+            $(".banner_8_wz1").addClass("active");
+        }else{
+            
+            $(".banner_8_wz1").removeClass("active");
+        }
+        if (ski8 > -0.4*h){
+            
+            $(".banner_8_wz2").addClass("active");
+            
+        }else{
+            
+            $(".banner_8_wz2").removeClass("active");
+            
+        }
+        if (ski9 > -0.6*h){
+            
+            $(".banner_9_wz1").addClass("active");
+        }else{
+            
+            $(".banner_9_wz1").removeClass("active");
+        }
+        if (ski9 > -0.4*h){
+            
+            $(".banner_9_wz2").addClass("active");
+        }else{
+            
+            $(".banner_9_wz2").removeClass("active");
+        }
+        if (ski9 > -0.2*h){
+            
+            $(".banner_9_wz3").addClass("active");
+        }else{
+            
+            $(".banner_9_wz3").removeClass("active");
+        }
+        if (ski9 > 0){
+            
+            $(".ka_2").addClass("active");
+        }else{
+            
+            $(".ka_2").removeClass("active");
+        }
+        if (ski10 > -0.6*h){
+            
+            $(".banner_10_wz1").addClass("active");
+        }else{
+            
+            $(".banner_10_wz1").removeClass("active");
+        }
+        if (ski10 > -0.4*h){
+            
+            $(".banner_10_wz2").addClass("active");
+        }else{
+            
+            $(".banner_10_wz2").removeClass("active");
+        }
+        if (ski11 > -0.6*h){
+            
+            $(".banner_11_wz1").addClass("active");
+        }else{
+            
+            $(".banner_11_wz1").removeClass("active");
+        }
+        if (ski11 > -0.4*h){
+            
+            $(".banner_11_wz2").addClass("active");
+        }else{
+            
+            $(".banner_11_wz2").removeClass("active");
+        }
+        if (ski11 > -0.2*h){
+            
+            $(".tb_all").addClass("active");
+        }else{
+            
+            $(".tb_all").removeClass("active");
+        }
+        if (ski12 > -0.6*h){
+            
+            $(".banner_12_wz1").addClass("active");
+        }else{
+            
+            $(".banner_12_wz1").removeClass("active");
+        }
+        if (ski12 > -0.4*h){
+            
+            $(".banner_12_wz2").addClass("active");
+        }else{
+            
+            $(".banner_12_wz2").removeClass("active");
+        }
+        if (ski12 > -0.2*h){
+            
+            $(".banner_12_wz3").addClass("active");
+        }else{
+            
+            $(".banner_12_wz3").removeClass("active");
+        }
+        if (ski12 > -0.1*h){
+            
+            $(".banner_12_logo").addClass("active");
+        }else{
+            
+            $(".banner_12_logo").removeClass("active");
+        }
+        // if(ski7 < 0){
+        //     $(`.banner_7_img1 .banner_7_wz4 p i`).css('transform', `translateY(-0%)`);
+        // }else if (ski7 >= 0 && ski7 <= s10_cont5){
+        //     const opacity = ski7 / s10_cont5;
+            
+        //     $(`.banner_7_img1 .fad_tu`).css('transform', `scale(${0.36 + 0.65 * opacity})`);
+        //     $(`.banner_7_img1 .fad_tu`).css('top', `-8vh + ${8 * opacity}vh`);
+        //     $(`.banner_7_img1 .banner_7_wz4 p i`).css('transform', `translateY(-${87 * opacity}%)`);
+        // }else{
+        //     $(`.banner_7_img1 .banner_7_wz4 p i`).css('transform', `translateY(-87%)`);
+        // }
+      })
+    })
+  </script>
+<script>
+    $(function() {
+      const custom_variants = JSON.parse('{{ custom_variants | json }}');
+      // product variant init
+      let sku = "";
+      {%- for variant in product.variants -%}
+        {% if forloop.first == true %}
+          sku = "{{ variant.sku }}"
+        {% endif %}
+      {% endfor %}
+      const dom = custom_variants.sku.map((v, i) => {
+        const act = sku === v ? 'current' : '';
+        return `<li class="color ${act}" data-sku="${v}">
+            <a href="/products/${v}">
+            <div class="dot" style="background: ${custom_variants.background[i]}"></div>
+            <span class="txt"> ${custom_variants.color_txt[i]}</span>
+            </a>
+        </li>`;
+      }).join('');
+      if (custom_variants.sku.indexOf(sku) > -1) {
+        $('.custom_variants').html(`<ul class="options">${dom}</ul>`);
+        $('.custom_variants').removeClass('swap--visible');
+      }
+    })
+  
+  </script>
+{% schema %}
+{
+  "name": "t8442",
+  "settings": [
+    {
+      "type": "text",
+      "id": "banner_1_p1",
+      "label": "banner_1_p1 Text",
+      "default": "The Mini but Mighty Security Camera"
+    },
+    {
+      "type": "text",
+      "id": "banner_2_p1",
+      "label": "banner_2_p1 Text",
+      "default": "Secure in Extreme Weather Conditions Round the Clock Surveillance"
+    },
+    {
+        "type": "text",
+        "id": "banner_2_p2",
+        "label": "banner_2_p2 Text",
+        "default": "With an IP67 weatherproof-rating and 24/7 non-stop recording, Outdoor Cam boasts greater protection against the elements than any of its competitors."
+      },
+    {
+        "type": "text",
+        "id": "banner_2_wz_2",
+        "label": "banner_2_wz_2 Text",
+        "default": "With an IP67 weatherproof-rating, Outdoor Cam boasts greater protection against the elements than any of its competitors."
+    },
+    {
+        "type": "text",
+        "id": "banner_3_p1",
+        "label": "banner_3_p1 Text",
+        "default": "Baseball-Sized Security That's a Home Run"
+    },
+    {
+        "type": "text",
+        "id": "banner_4_wz1",
+        "label": "banner_4_wz1 Text",
+        "default": "Color Detail at Night"
+    },
+    {
+        "type": "text",
+        "id": "banner_4_wz2",
+        "label": "banner_4_wz2 Text",
+        "default": "The built-in spotlight illuminates the surrounding area when motion is detected and allows the camera to capture footage in vivid color. Giving you a much clearer view of who's there."
+    },
+    {
+        "type": "text",
+        "id": "banner_4_wz3",
+        "label": "banner_4_wz3 Text",
+        "default": "*Full color night vision distance 3m."
+    },
+    {
+        "type": "text",
+        "id": "wz_left",
+        "label": "wz_left Text",
+        "default": "Outdoor Cam Pro"
+    },
+    {
+        "type": "text",
+        "id": "wz_right",
+        "label": "wz_right Text",
+        "default": "Others"
+    },
+    {
+        "type": "text",
+        "id": "banner_5_wz1",
+        "label": "banner_5_wz1 Text",
+        "default": "Ultra-Long Night Vision Monitoring Range"
+    },
+    {
+        "type": "text",
+        "id": "banner_5_wz2",
+        "label": "banner_5_wz2 Text",
+        "default": "The built-in spotlight and 4 super-powerful infrared lights ensure that Outdoor Cam Pro is capable of detecting and capturing more than ever before."
+    },
+    {
+        "type": "text",
+        "id": "banner_5_wz3",
+        "label": "banner_5_wz3 Text",
+        "default": "*Full color night vision distance 3m, black and white night vision distance 8m"
+    },
+    {
+        "type": "text",
+        "id": "banner_6_wz1",
+        "label": "banner_6_wz1 Text",
+        "default": "130-degree Field of View"
+    },
+    {
+        "type": "text",
+        "id": "banner_6_wz2",
+        "label": "banner_6_wz2 Text",
+        "default": "The camera’s ultra-wide viewing angle ensures that every corner is covered when an event is recorded."
+    },
+    {
+        "type": "text",
+        "id": "banner_7_wz1",
+        "label": "banner_7_wz1 Text",
+        "default": "8x Digital Zoom"
+    },
+    {
+        "type": "text",
+        "id": "banner_7_wz2",
+        "label": "banner_7_wz2 Text",
+        "default": "Zoom in and see even the smallest details in every shot with the high-power digital zoom function."
+    },
+    {
+        "type": "text",
+        "id": "banner_7_wz3",
+        "label": "banner_7_wz3 Text",
+        "default": "1x zoom"
+    },
+    {
+        "type": "text",
+        "id": "banner_7_wz4",
+        "label": "banner_7_wz4 Text",
+        "default": "x zoom"
+    },
+    {
+        "type": "text",
+        "id": "banner_8_wz1",
+        "label": "banner_8_wz1 Text",
+        "default": "Notifies You<br/>Only When Needed"
+    },
+    
+    {
+        "type": "text",
+        "id": "banner_8_wz2",
+        "label": "banner_8_wz2 Text",
+        "default": "The camera's built-in AI accurately identifies when a person is present. This means that you are only notified when an event occurs that requires your attention."
+    },
+    {
+        "type": "text",
+        "id": "banner_9_wz1",
+        "label": "banner_9_wz1 Text",
+        "default": "Security that Doesn’t Require a Subscription"
+    },
+    {
+        "type": "text",
+        "id": "banner_9_wz2",
+        "label": "banner_9_wz2 Text",
+        "default": "Equipped with on-device AI, Outdoor Cam offers security that is ready out of the box."
+    },
+    {
+        "type": "text",
+        "id": "banner_9_wz3",
+        "label": "banner_9_wz3 Text",
+        "default": "*Requires MicroSD Card (Not Included), the device can support up to 128G."
+    },
+    {
+        "type": "text",
+        "id": "banner_10_wz1",
+        "label": "banner_10_wz1 Text",
+        "default": "Crisp 1080p Resolution"
+    },
+    {
+        "type": "text",
+        "id": "banner_10_wz2",
+        "label": "banner_10_wz2 Text",
+        "default": "See each recording in clear 1080p clarity."
+    },
+    {
+        "type": "text",
+        "id": "banner_11_wz1",
+        "label": "banner_11_wz1 Text",
+        "default": "Flexible Installation"
+    },
+    {
+        "type": "text",
+        "id": "banner_11_wz2",
+        "label": "banner_11_wz2 Text",
+        "default": "The Magnetic Mount and 20 feet Cable allow you to easily install the camera anywhere on your property."
+    },
+    {
+        "type": "text",
+        "id": "tb_1",
+        "label": "tb_1 Text",
+        "default": "Magnet Connection"
+    },
+    {
+        "type": "text",
+        "id": "tb_2",
+        "label": "tb_2 Text",
+        "default": "Multiple Ways to Install"
+    },
+    {
+        "type": "text",
+        "id": "tb_3",
+        "label": "tb_3 Text",
+        "default": "Power Cable"
+    },
+    {
+        "type": "text",
+        "id": "banner_12_wz1",
+        "label": "banner_12_wz1 Text",
+        "default": "Smart Integration"
+    },
+    {
+        "type": "text",
+        "id": "banner_12_wz2",
+        "label": "banner_12_wz2 Text",
+        "default": "Compatible with the Google Assistant and Alexa."
+    },
+    {
+        "type": "text",
+        "id": "banner_12_wz3",
+        "label": "banner_12_wz3 Text",
+        "default": "Hey Alexa, show me my backyard."
+    },
+    {
+        "type": "image_picker",
+        "id": "banner_1_img", 
+        "label": "banner_1_img"  
+    },
+    {
+        "type": "image_picker",
+        "id": "banner_1_mob_img", 
+        "label": "banner_1_mob_img"  
+    },
+    {
+        "type": "image_picker",
+        "id": "banner_2_img1", 
+        "label": "banner_2_img1"  
+    },
+    {
+        "type": "image_picker",
+        "id": "banner_2_mob_img1", 
+        "label": "banner_2_mob_img1"  
+    },
+    {
+        "type": "image_picker",
+        "id": "banner_3_img", 
+        "label": "banner_3_img"  
+    },
+    {
+        "type": "image_picker",
+        "id": "banner_3_mob_img", 
+        "label": "banner_3_mob_img"  
+    },
+    {
+        "type": "image_picker",
+        "id": "banner_4_img1", 
+        "label": "banner_4_img1"  
+    },
+    {
+        "type": "image_picker",
+        "id": "banner_4_mob_img1", 
+        "label": "banner_4_mob_img1"  
+    },
+    {
+        "type": "image_picker",
+        "id": "banner_5_img1", 
+        "label": "banner_5_img1"  
+    },
+    {
+        "type": "image_picker",
+        "id": "banner_5_mob_img1", 
+        "label": "banner_5_mob_img1"  
+    },
+    {
+        "type": "image_picker",
+        "id": "banner_6_img1", 
+        "label": "banner_6_img1"  
+    },
+    {
+        "type": "image_picker",
+        "id": "banner_6_mob_img1", 
+        "label": "banner_6_mob_img1"  
+    },
+    {
+        "type": "image_picker",
+        "id": "banner_6_img2", 
+        "label": "banner_6_img2"  
+    },
+    {
+        "type": "image_picker",
+        "id": "banner_6_mob_img2", 
+        "label": "banner_6_mob_img2"  
+    },
+    {
+        "type": "image_picker",
+        "id": "fad_tu", 
+        "label": "fad_tu"  
+    },
+    {
+        "type": "image_picker",
+        "id": "fad_tu_mob", 
+        "label": "fad_tu_mob"  
+    },
+    {
+        "type": "image_picker",
+        "id": "banner_7_mob_img1", 
+        "label": "banner_7_mob_img1"  
+    },
+    {
+        "type": "image_picker",
+        "id": "banner_8_img1", 
+        "label": "banner_8_img1"  
+    },
+    {
+        "type": "image_picker",
+        "id": "banner_8_mob_img1", 
+        "label": "banner_8_mob_img1"  
+    },
+    {
+        "type": "image_picker",
+        "id": "banner_9_img1", 
+        "label": "banner_9_img1"  
+    },
+    {
+        "type": "image_picker",
+        "id": "banner_9_mob_img1", 
+        "label": "banner_9_mob_img1"  
+    },
+    {
+        "type": "image_picker",
+        "id": "banner_10_img1", 
+        "label": "banner_10_img1"  
+    },
+    {
+        "type": "image_picker",
+        "id": "banner_10_mob_img1", 
+        "label": "banner_10_mob_img1"  
+    },
+    {
+        "type": "image_picker",
+        "id": "banner_11_img1", 
+        "label": "banner_11_img1"  
+    },
+    {
+        "type": "image_picker",
+        "id": "banner_11_mob_img1", 
+        "label": "banner_11_mob_img1"  
+    },
+    {
+        "type": "image_picker",
+        "id": "tu_1_img", 
+        "label": "tu_1_img"  
+    },
+    {
+        "type": "image_picker",
+        "id": "tu_2_img", 
+        "label": "tu_2_img"  
+    },
+    {
+        "type": "image_picker",
+        "id": "tu_3_img", 
+        "label": "tu_3_img"  
+    },
+    {
+        "type": "image_picker",
+        "id": "banner_12_img1", 
+        "label": "banner_12_img1"  
+    },
+    {
+        "type": "image_picker",
+        "id": "banner_12_mob_img1", 
+        "label": "banner_12_mob_img1"  
+    },
+    {
+        "type": "image_picker",
+        "id": "banner_12_logo", 
+        "label": "banner_12_logo"  
+    }
+  ]
+}
+{% endschema %}

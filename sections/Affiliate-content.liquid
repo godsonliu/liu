@@ -1,0 +1,175 @@
+
+<section class="pageAffiliate">
+  {% assign lang = section.settings %}
+  {% if lang.banner_img %}
+  <div class="banner">
+    <div class="bannerWrap">
+      <div class="img">
+        <img src="{{ lang.banner_img | img_url: '' }}">
+      </div>
+      <div class="txt">
+        <div class="box">
+          <h3 class="title"></h3>
+          <div class="desc">
+            <div class="msg">{{ lang.banner_txt }}</div>
+            <p><a href="#detail" id="jump" class="button-normal submit shadow" rel="noopener noreferrer">{{ lang.banner_btn }}</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+  {%- if lang.why_tit.size > 0 -%}
+  <div class="why">
+    <div class="wrap">
+      <div class="col main">
+        <div class="title"><h4>{{ lang.why_tit }}</h4></div>
+        <div class="desc">{{ lang.why_desc }}</div>
+      </div>
+      <div class="col list">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="width:0;height:0;visibility:hidden">
+          <linearGradient id="circle-progress-horizontal" class="circlehorizontal">
+            <stop class="s" offset="0%" stop-color="#666"></stop>
+            <stop class="e" offset="100%" stop-color="#999"></stop>
+          </linearGradient>
+          <symbol id="circle-progress-bg" class="circleProgress">
+            <path class="b" d="M16.9,1a15.9,15.9,0,0,1,0,31.8h0A15.9,15.9,0,0,1,16.9,1" stroke-width="2" stroke="#CCCCCC" fill="none" stroke-linecap="round" stroke-dasharray="100, 100"></path>
+          </symbol>
+        </svg>
+        <ul>
+          <li>
+            <div class="circle">
+              <div class="txt">{{ lang.why_2 }}</div>
+              <svg data-progress="2%" viewBox="0 0 33.8 33.8" class="circleProgress">
+                <use xlink:href="#circle-progress-bg"></use>
+                <path class="f" d="M16.9,1a15.9,15.9,0,0,1,0,31.8h0A15.9,15.9,0,0,1,16.9,1" stroke-width="2" stroke="#000000" fill="none" stroke-linecap="round" stroke-dasharray="20, 100"></path>
+              </svg>
+            </div>
+            <div class="desc">{{ lang.why_2_desc }}</div>
+          </li>
+          <li>
+            <div class="circle">
+              <div class="txt">{{ lang.why_7 }}</div>
+              <svg data-progress="7%" viewBox="0 0 33.8 33.8" class="circleProgress">
+                <use xlink:href="#circle-progress-bg"></use>
+                <path class="f" d="M16.9,1a15.9,15.9,0,0,1,0,31.8h0A15.9,15.9,0,0,1,16.9,1" stroke-width="2" stroke="#000000" fill="none" stroke-linecap="round" stroke-dasharray="20, 100"></path>
+              </svg>
+            </div>
+            <div class="desc">{{ lang.why_7_desc }}</div>
+          </li>
+          <li>
+            <div class="circle">
+              <div class="txt">{{ lang.why_30 }}</div>
+              <svg data-progress="100%" viewBox="0 0 33.8 33.8" class="circleProgress">
+                <use xlink:href="#circle-progress-bg"></use>
+                <path class="f" d="M16.9,1a15.9,15.9,0,0,1,0,31.8h0A15.9,15.9,0,0,1,16.9,1" stroke-width="2" stroke="#000000" fill="none" stroke-linecap="round" stroke-dasharray="20, 100"></path>
+              </svg>
+            </div>
+            <div class="desc">{{ lang.why_30_desc }}</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+{%- endif -%}
+
+{% if lang.how_tit %}
+  <div class="how">
+    <div class="wrap">
+      <div class="title">
+        <h4>{{ lang.how_tit }}</h4>
+      </div>
+      <ul>{{ lang.how_txt }}</ul>
+    </div>
+  </div>
+  {% endif %}
+
+  <div id="detail" class="detail">
+    <div class="wrap">
+      <div class="title"><h4>{{ lang.details_tit }}</h4></div>
+      <div class="con">
+        <div class="col main">{{ lang.details_txt }}</div>
+        <div class="col sub">
+          <div class="bg">
+            <div class="box">
+              <div class="aff">
+                {% for block in section.blocks %}
+                  <div class="item">
+                    <p class="img">
+                      <img class="lazyload" data-src="{{ block.settings.img }}"/>
+                    </p>
+                    <a href="{{ block.settings.link }}" class="button-normal submit btn" target="_blank" rel="noopener noreferrer">{{ block.settings.button }}</a>
+                  </div>
+                {% endfor %}
+              </div>
+              <div class="help">
+                <h6>{{ lang.details_tit2 }}</h6>
+                <div class="txt">{{ lang.details_txt2 }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="qa">
+    <div class="wrap">
+      <div class="title"><h4>{{ lang.qa_tit }}</h4></div>
+      <div class="list">{{ lang.qa_list }}</div>
+    </div>
+  </div>
+
+</section>
+
+{% schema %}
+{
+  "name": "Affiliate_text",
+  "settings": [
+    { "type": "image_picker", "id": "banner_img", "label": "banner_img" },
+    { "type": "html", "id": "banner_txt", "label": "banner_txt" },
+    { "type": "text", "id": "banner_btn", "label": "banner_btn" },
+    { "type": "text", "id": "why_tit", "label": "why_tit" },
+    { "type": "text", "id": "why_desc", "label": "why_desc" },
+    { "type": "text", "id": "why_2", "label": "why_2" },
+    { "type": "text", "id": "why_2_desc", "label": "why_2_desc" },
+    { "type": "text", "id": "why_7", "label": "why_7" },
+    { "type": "text", "id": "why_7_desc", "label": "why_7_desc" },
+    { "type": "html", "id": "why_30", "label": "why_30" },
+    { "type": "text", "id": "why_30_desc", "label": "why_30_desc" },
+    { "type": "text", "id": "how_tit", "label": "how_tit" },
+    { "type": "html", "id": "how_txt", "label": "how_txt" },
+    { "type": "text", "id": "details_tit", "label": "details_tit" },
+    { "type": "html", "id": "details_txt", "label": "details_txt" },
+    { "type": "text", "id": "details_tit2", "label": "details_tit2" },
+    { "type": "html", "id": "details_txt2", "label": "details_txt2" },
+    { "type": "text", "id": "qa_tit", "label": "qa_tit" },
+    { "type": "html", "id": "qa_list", "label": "qa_list" }
+  ],
+  "blocks": [
+    {
+      "type": "details",
+      "name": "details",
+      "settings": [
+        {
+          "type": "text",
+          "id": "img",
+          "label": "img"
+        },
+        {
+          "type": "text",
+          "id": "link",
+          "label": "link"
+        },
+        {
+          "type": "text",
+          "id": "button",
+          "label": "button",
+          "default": "GET STARTED"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,339 @@
+
+
+
+<style>
+.component_sign_up_v2_{{section.id}} {
+  width: 100%;
+  padding: 60px 30px;
+  display: flex;
+	justify-content: center;
+	align-items: center;
+  {% if section.settings.sign_up_bg_image %}
+	background-image: url({{ section.settings.sign_up_bg_image | image_url }});
+	background-position: center;
+	background-size: cover;
+	{% else %}
+		{% if section.settings.sign_up_bg %} background: {{section.settings.sign_up_bg}}; {% endif %}
+	{% endif %}
+}
+</style>
+<section class="component_sign_up_v2_{{section.id}} {{section.settings.custom_class}}">
+  {% render 'component_sign_up_v2' %}
+</section>
+
+{% schema %}
+	{
+		"name": "component_sign_up_v2",
+		"presets": [
+			{
+				"name": "component_sign_up_v2",
+        "blocks": [
+          {
+            "type": "icon",
+            "settings": {
+              "icon_default": "{% render 'component_icon_facebook' %}",
+              "icon_href": "https://www.facebook.com/Anker.fans"
+            }
+          },
+          {
+            "type": "icon",
+            "settings": {
+              "icon_default": "{% render 'component_icon_twitter' %}",
+              "icon_href": "https://twitter.com/AnkerOfficial"
+            }
+          },
+          {
+            "type": "icon",
+            "settings": {
+              "icon_default": "{% render 'component_icon_youtube' %}",
+              "icon_href": "https://www.youtube.com/user/AnkerOceanwing"
+            }
+          },
+          {
+            "type": "icon",
+            "settings": {
+              "icon_default": "{% render 'component_icon_instagram' %}",
+              "icon_href": "https://www.instagram.com/anker_official/"
+            }
+          },
+          {
+            "type": "icon",
+            "settings": {
+              "icon_default": "{% render 'component_icon_tiktok' %}",
+              "icon_href": "https://www.tiktok.com/@ankerofficial"
+            }
+          }
+        ]
+			}
+		],
+		"settings": [
+      {
+        "type": "header",
+        "content": "全局参数设置"
+      },
+			{
+				"type": "select",
+				"id": "custom_style",
+				"label": "样式选择",
+				"options": [
+					{
+						"value": "1",
+						"label": "样式1"
+					}
+				],
+				"default": "1"
+			},
+			{
+				"type": "text",
+				"id": "brand_name",
+				"label": "注册的来源，一般为品牌名",
+				"default": "anker"
+			},
+			{
+				"type": "text",
+				"id": "deals_type",
+				"label": "订阅类型",
+				"info": "不填写代表普通订阅（不需要导出数据的订阅，页脚那种），如果是活动订阅，请填写相关标识"
+			},
+      {
+        "type": "header",
+        "content": "Section区域参数"
+      },
+			{
+				"type": "color",
+				"id": "sign_up_bg",
+				"label": "外层盒子的背景色"
+			},
+			{
+				"type": "image_picker",
+				"id": "sign_up_bg_image",
+				"label": "外层盒子的背景图片",
+				"info": "支持上传图片"
+			},
+			{
+				"type": "select",
+				"id": "sign_up_top_text_align",
+				"label": "内容区域位置（靠左，居中，靠右）",
+				"options": [
+					{
+						"value": "left",
+						"label": "left"
+					},
+					{
+						"value": "center",
+						"label": "center"
+					},
+					{
+						"value": "right",
+						"label": "right"
+					}
+				],
+				"default": "center"
+			},
+			{
+				"type": "html",
+				"id": "sign_up_title",
+				"label": "标题"
+			},
+			{
+				"type": "color",
+				"id": "title_color",
+				"label": "标题颜色",
+				"default": "#000"
+			},
+			{
+				"type": "html",
+				"id": "sign_up_subtitle",
+				"label": "副标题"
+			},
+			{
+				"type": "color",
+				"id": "subtitle_color",
+				"label": "副标题颜色",
+				"default": "#333333"
+			},
+			{
+				"type": "html",
+				"id": "sign_up_desc",
+				"label": "描述"
+			},
+			{
+				"type": "color",
+				"id": "desc_color",
+				"label": "描述颜色",
+				"default": "#666666"
+			},
+      {
+        "type": "header",
+        "content": "表单部分"
+      },
+			{
+				"type": "text",
+				"id": "input_placeholder",
+				"label": "输入框提示",
+				"default": "Enter your e-mail"
+			},
+      {
+        "type": "text",
+        "id": "input_radius",
+        "label": "输入框圆角",
+        "default": "70px"
+      },
+      {
+        "type": "color",
+        "id": "input_bg",
+        "label": "输入框背景色",
+        "default": "#F5F5F7"
+      },
+      {
+        "type": "color",
+        "id": "input_color",
+        "label": "输入框文案颜色",
+        "default": "#000000"
+      },
+			{
+				"type": "text",
+				"id": "button_txt",
+				"label": "按钮文案",
+				"default": "Subscribe Now"
+			},
+			{
+				"type": "color",
+				"id": "button_bg",
+				"label": "按钮背景色"
+			},
+      {
+				"type": "color",
+				"id": "button_txt_color",
+				"label": "按钮文案颜色",
+				"default": "#ffffff"
+			},
+			{
+				"type": "color",
+				"id": "button_disabled_color",
+				"label": "按钮被禁用时的背景色",
+				"info": "一般用在防重提交时的背景色",
+				"default": "#666666"
+			},
+			{
+				"type": "html",
+				"id": "policy_text",
+				"label": "协议文案",
+				"default": "I agree to the <a href='/policies/terms-of-service' target='_blank' rel='noopener noreferrer'>Terms of Use</a> and <a href='/policies/privacy-policy' target='_blank' rel='noopener noreferrer'>Privacy Policy</a>."
+			},
+			{
+				"type": "color",
+				"id": "policy_text_color",
+				"label": "协议文案字体颜色",
+				"default": "#999999"
+			},
+      {
+				"type": "color",
+				"id": "policy_text_hover_color",
+				"label": "协议文案字体颜色",
+				"default": "#000000"
+			},
+			{
+        "type": "text",
+        "id": "info_success",
+        "label": "info_success Text",
+        "default": "Welcome to Anker!"
+			},
+			{
+				"type": "text",
+				"id": "info_fill_email",
+				"label": "info_fill_email Text",
+				"default": "Please enter your email address."
+			},
+			{
+				"type": "text",
+				"id": "info_err_email",
+				"label": "info_err_email Text",
+				"default": "Please enter a valid email address (Example: name@domain.com)."
+			},
+			{
+				"type": "text",
+				"id": "info_select_policy",
+				"label": "info_agree_policy Text",
+				"default": "Please agree to the Terms of Use and Privacy Policy."
+			},
+			{
+				"type": "color",
+				"id": "info_color",
+				"label": "错误提示信息的颜色",
+				"default": "#ee3749"
+			},
+			{
+				"type": "color",
+				"id": "info_success_color",
+				"label": "成功提示信息的颜色",
+				"default": "#fc9403"
+			},
+      {
+        "type": "select",
+        "id": "icon_target",
+        "label": "Icon跳转方式",
+        "options": [
+          {
+            "label": "_self",
+            "value": "_self"
+          },
+          {
+            "label": "_blank",
+            "value": "_blank"
+          }
+        ],
+        "default": "_blank"
+      },
+			{
+				"type": "header",
+				"content": "埋点相关"
+			},
+			{
+				"type": "text",
+				"id": "eventAction",
+				"label": "GA3埋点的eventAction",
+				"default": "pd_live"
+			},
+			{
+				"type": "text",
+				"id": "ga4_page_group",
+				"label": "Ga4的埋点字段",
+				"default": "Live Streaming Page"
+			},
+			{
+        "type": "header",
+        "content": "开发相关"
+      },
+      {
+        "type": "text",
+        "id": "custom_class",
+        "label": "自定义类名"
+      }
+		],
+		"blocks": [
+			{
+				"type": "icon",
+				"name": "icon",
+				"settings": [
+          {
+            "type": "liquid",
+            "id": "icon_default",
+            "label": "icon的默认值"
+          },
+					{
+						"type": "image_picker",
+						"id": "icon_bg",
+						"label": "icon的图标",
+						"info": "36 * 36"
+					},
+					{
+						"type": "text",
+						"id": "icon_href",
+						"label": "跳转链接"
+					}
+				]
+			}
+		]
+	}
+{% endschema %}

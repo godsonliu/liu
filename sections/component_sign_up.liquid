@@ -1,0 +1,746 @@
+{% if shop.metafields.global.country.value %}
+  {% assign country = shop.metafields.global.country.value %}
+{% else %}
+  {% assign country = shop.metafields.global.country %}
+{% endif %}
+
+<style>
+@media(max-width: 769px) {
+	.showPc {
+		display: none !important;
+	}
+}
+@media(min-width: 769px) {
+	.showMobile {
+		display: none !important;
+	}
+}
+#{{section.id}} pre, #{{section.id}} h1, #{{section.id}} h2, #{{section.id}} h3, #{{section.id}} h4, #{{section.id}} h5, #{{section.id}} h6, #{{section.id}} p, #{{section.id}} span {
+	{% if section.settings.font_family %}font-family: {{section.settings.font_family}} !important;{% endif %}
+}
+#{{section.id}}.component-sign-up {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: {{section.settings.sign_up_padding}};
+	{% if section.settings.sign_up_width %}width: {{section.settings.sign_up_width}};{% endif %}
+	{% if section.settings.sign_up_height %}height: {{section.settings.sign_up_height}};{% endif %}
+	{% if section.settings.sign_up_bg_image %}
+	background-image: url({{ section.settings.sign_up_bg_image | image_url }});
+	background-position: center;
+	background-size: cover;
+	{% else %}
+		{% if section.settings.sign_up_bg %}background: {{section.settings.sign_up_bg}};{% endif %}
+	{% endif %}
+	{% if section.settings.font_family %}font-family: {{section.settings.font_family}} !important;{% endif %}
+}
+#{{section.id}} .sign-up-form {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	max-width: 90%;
+}
+#{{section.id}} .sign-up-top {
+	text-align: {{ section.settings.sign_up_top_text_align }};
+}
+#{{section.id}} .sign-up-title {
+	line-height: 1.5;
+	word-break: break-all;
+	font-weight: {{section.settings.title_font_weight}};
+	color: {{ section.settings.title_color }};
+	font-size: {{ section.settings.title_font_size }};
+}
+#{{section.id}} .sign-up-subtitle {
+	line-height: 1.5;
+	word-break: break-all;
+	font-weight: {{section.settings.subtitle_font_weight}};
+	color: {{ section.settings.subtitle_color }};
+	font-size: {{ section.settings.subtitle_font_size }};
+}
+#{{section.id}} .sign-up-desc {
+	line-height: 1.5;
+	word-break: break-all;
+	font-weight: {{section.settings.desc_font_weight}};
+	color: {{ section.settings.desc_color }};
+	font-size: {{ section.settings.desc_font_size }};
+}
+#{{section.id}} .sign-up-input {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin: {{section.settings.marginY}};
+}
+#{{section.id}} .sign-up-input input[type="text"] {
+	max-width: 376px;
+	height: 36px;
+	padding: 5px 10px;
+	border-radius: 18px;
+	color: #666666;
+	outline: none;
+	font-family: {{section.settings.font_family}} !important;
+	font-size: {{section.settings.input_font_size}};
+	width: {{section.settings.input_width}};
+	{% if section.settings.input_border %}border: {{section.settings.input_border}};{% endif %}
+}
+#{{section.id}} .sign-up-button {
+	max-width: 376px;
+	height: 36px; 
+	margin: 8px 0;
+	border-radius: 18px;
+	outline: none;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border: none;
+	cursor: pointer;
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+	-webkit-tap-highlight-color: transparent;
+	font-family: {{section.settings.font_family}} !important;
+	font-size: {{section.settings.button_font_size}};
+	width: {{section.settings.button_width}};
+	background: {{section.settings.button_color}};
+	color: {{section.settings.button_txt_color}};
+}
+@media(max-width: 769px) {
+	#{{section.id}} .sign-up-input input[type="text"], #{{section.id}} .sign-up-button {
+		max-width: 325px;
+	}
+}
+#{{section.id}} .sign-up-button[disabled] {
+	background-color: {{ section.settings.button_disabled_color }};
+	pointer-events: none;
+	cursor: not-allowed;
+}
+#{{section.id}} .policyBox {
+	text-align: center;
+	font-size: {{section.settings.policy_text_font_size}};
+	color: {{section.settings.policy_text_color}};
+}
+#{{section.id}} .policyBox input[type="checkbox"] {
+	vertical-align: middle;
+}
+#{{section.id}} .policyBox span, .policyBox a {
+	font-size: {{section.settings.policy_text_font_size}};
+	color: {{section.settings.policy_text_color}};
+}
+#{{section.id}} .policyBox a {
+	text-decoration: underline;
+}
+#{{section.id}} .sign-up-icon {
+	text-align: center;
+}
+#{{section.id}} .icon-item {
+	margin-right: 21px;
+	font-size: 0;
+}
+#{{section.id}} .icon-item:last-child {
+	margin-right: 0;
+}
+#{{section.id}} .error-info {
+	height: 40px;
+	text-align: center;
+}
+#{{section.id}} .info_tips {
+	font-size: {{section.settings.info_font_size}};
+	color: {{section.settings.info_color}};
+	display: none;
+	margin-top: 10px;
+}
+#{{section.id}} .info_success {
+	color: {{section.settings.info_success_color}};
+}
+</style>
+
+<section id="{{section.id}}" class="component-sign-up component-sign-up-{{ section.settings.custom_style}} {{section.settings.show_device}}">
+	{% if section.settings.custom_style == "4" and section.settings.sign_up_image != blank %}
+	<div class="sign-up-image">
+	</div>
+	{% endif %}
+	<div class="sign-up-form">
+		<div class="sign-up-top">
+			{% if section.settings.sign_up_title != blank %}
+			<h3 class="sign-up-title">{{ section.settings.sign_up_title }}</h3>
+			{% endif %}
+			{% if section.settings.sign_up_subtitle != blank %}
+			<div class="sign-up-subtitle">{{section.settings.sign_up_subtitle}}</div>
+			{% endif %}
+			{% if section.settings.sign_up_desc != blank %}
+			<div class="sign-up-desc">{{ section.settings.sign_up_desc }}</div>
+			{% endif %}
+		</div>
+		{% if section.settings.custom_style == "1" %}
+		<div class="sign-up-input">
+			<input type="text" class="sign_up_input" placeholder="{{section.settings.input_placeholder}}" />
+			<button class="sign-up-button">{{section.settings.button_txt}}</button>
+			<div class="policyBox">
+				<label>
+					<span>
+						<input type="checkbox" class="policy-checkbox" />
+					</span>
+					<span>{{ section.settings.policy_text }}</span>
+				</label>
+			</div>
+			<div class="error-info">
+				<div class="info_tips info_success">{{ section.settings.info_success }}</div>
+				<div class="info_tips info_fill_email">{{ section.settings.info_fill_email }}</div>
+				<div class="info_tips info_err_email">{{ section.settings.info_err_email }}</div>
+				<div class="info_tips info_select_policy">{{ section.settings.info_select_policy }}</div>
+			</div>
+		</div>
+		{% endif %}
+		<div class="sign-up-icon">
+			{% for block in  section.blocks %}
+				<a href="{{block.settings.icon_href}}" class="icon-item" target="{{block.settings.icon_target}}">
+					<img src="{{ block.settings.icon_bg | image_url: width: block.settings.icon_width }}" />
+				</a>
+			{% endfor %}
+		</div>
+	</div>
+</section>
+
+<script>
+$(function() {
+	function pushErrorDataLayer() {
+		window.dataLayer.push({
+			"event": "bottom_function",
+			"page_group": "{{ template }}",
+			"action": "Email Sign Up Error"
+		})
+	}
+
+	function pushSuccDataLayer(data) {
+		window.dataLayer.push({
+			"event": "bottom_function",
+			"page_group": "{{ template }}",
+			"action": "Email Sign Up Success"
+		})
+		window.dataLayer.push({
+			"event": "uaEvent",
+			"eventCategory": 'subscribe',
+			"eventAction": "{{section.settings.eventAction}}",
+			"eventLabel": data && data.is_new_customer ? 'new' : 'old'
+		})
+		window.dataLayer.push({ "event_parameters": null });
+		window.dataLayer.push({
+			"event": "ga4Event",
+			"event_name": "subscribe",
+			"event_parameters": {
+				"page_group": "{{section.settings.ga4_page_group}}"
+			}
+		})
+	}
+	const subscribe_private = {
+		timer: null,
+		regExp: {
+			email: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+		},
+		isEmail: val => subscribe_private.regExp.email.test(val),
+		tip_info: (clas, val) => {
+			$('#{{section.id}} .sign-up-button').prop("disabled", false);
+			$('#{{section.id}} .info_tips').hide()
+			$(`#{{section.id}} .${clas}`).show()
+			if (subscribe_private.timer) clearTimeout(subscribe_private.timer);
+			subscribe_private.timer = setTimeout(() => { 
+				$(`#{{section.id}} .${clas}`).hide();
+			}, 8000);
+		}
+	};
+	$('#{{section.id}} .sign-up-button').on('click', function(e) {
+		e.stopPropagation();
+		e.preventDefault();
+		$(this).prop("disabled", true);
+		const email_val = $('#{{section.id}} .sign_up_input').val().trim()
+		const check_val = $('#{{section.id}} .policy-checkbox').prop('checked')
+		if(!email_val) {
+			subscribe_private.tip_info('info_fill_email');
+			pushErrorDataLayer(); 
+			return
+		}
+		if(email_val && !subscribe_private.isEmail(email_val)) {
+			subscribe_private.tip_info('info_err_email');
+			pushErrorDataLayer()
+			return
+		}
+		if(!check_val) {
+			subscribe_private.tip_info('info_select_policy');
+      pushErrorDataLayer()
+			return
+		}
+		const data = {
+			email: email_val,
+			brand: '{{section.settings.brand_name}}'
+		}
+		let subscribe_name = 'subscribe_emails'
+		{% if section.settings.deals_type != blank %}
+		data.phone_number = null;
+		data.genre = '{{ section.settings.deals_type  }}_{{ country.code }}_{{ page.handle }}';
+		data.single_brand_subscribe = false;
+		data.shopify_domain = "{{ shop.permanent_domain }}";
+		data.country_code = "{{ country.code }}";
+		data.trigger_subscribe = true
+		subscribe_name = 'subscribe_activities_emails'
+		{% endif %}
+		Shopify.contentCreator.pastApi[subscribe_name]({
+			params: data,
+			fn: (body) => {
+				pushSuccDataLayer(body.data)
+				subscribe_private.tip_info('info_success');
+				$('#{{section.id}} .sign_up_input').val('');
+				$('#{{section.id}} .policy-checkbox').prop("checked", false);
+				setTimeout(function() {
+					$('#{{section.id}} .info_tips').hide()
+				}, 2500)
+			},
+			error: (err) => {
+				const { responseJSON } = err || {};
+				if (responseJSON) {
+					subscribe_private.tip_info('info_error', responseJSON.error || responseJSON.err);
+				} else {
+					subscribe_private.tip_info('info_err_email');
+				}
+			}
+		});
+	})
+})
+</script>
+{% schema %}
+	{
+		"name": "component_sign_up",
+		"presets": [
+			{
+				"name": "component_sign_up"
+			}
+		],
+		"settings": [
+			{
+				"type": "select",
+				"id": "show_device",
+				"label": "展示的设备",
+				"info": "移动端或PC端",
+				"options": [
+					{
+						"value": "showPc",
+						"label": "PC"
+					},
+					{
+						"value": "showMobile",
+						"label": "Mobile"
+					},
+					{
+						"value": "",
+						"label": "两端共用"
+					}
+				],
+				"default": "showPc"
+			},
+			{
+				"type": "select",
+				"id": "custom_style",
+				"label": "样式选择",
+				"options": [
+					{
+						"value": "1",
+						"label": "样式1"
+					},
+					{
+						"value": "2",
+						"label": "样式2"
+					},
+					{
+						"value": "3",
+						"label": "样式3"
+					},
+					{
+						"value": "4",
+						"label": "样式4"
+					}
+				],
+				"default": "1"
+			},
+			{
+				"type": "text",
+				"id": "brand_name",
+				"label": "注册的来源，一般为品牌名",
+				"default": "anker"
+			},
+			{
+				"type": "text",
+				"id": "deals_type",
+				"label": "订阅类型",
+				"info": "不填写代表普通订阅（不需要导出数据的订阅，页脚那种），如果是活动订阅，请填写相关标识"
+			},
+			{
+				"type": "header",
+				"content": "埋点相关"
+			},
+			{
+				"type": "text",
+				"id": "eventAction",
+				"label": "GA3埋点的eventAction",
+				"default": "pd_live"
+			},
+			{
+				"type": "text",
+				"id": "ga4_page_group",
+				"label": "Ga4的埋点字段",
+				"default": "Live Streaming Page"
+			},
+			{
+				"type": "text",
+				"id": "sign_up_width",
+				"label": "外层盒子的宽度，可以是百分比可以是固定的像素，内容区域会默认居中"
+			},
+			{
+				"type": "text",
+				"id": "sign_up_height",
+				"label": "外层盒子的高度",
+				"default": "300px"
+			},
+			{
+				"type": "text",
+				"id": "sign_up_padding",
+				"label": "外层盒子的内边距",
+				"default": "20px"
+			},
+			{
+				"type": "color",
+				"id": "sign_up_bg",
+				"label": "外层盒子的背景色"
+			},
+			{
+				"type": "image_picker",
+				"id": "sign_up_bg_image",
+				"label": "外层盒子的背景图片",
+				"info": "支持上传图片"
+			},
+			{
+				"type": "image_picker",
+				"id": "sign_up_image",
+				"label": "左侧区域的图片",
+				"info": "样式4的时候需要"
+			},
+			{
+				"type": "select",
+				"id": "sign_up_top_text_align",
+				"label": "标题模块的位置，靠左，居中，靠右",
+				"options": [
+					{
+						"value": "left",
+						"label": "left"
+					},
+					{
+						"value": "center",
+						"label": "center"
+					},
+					{
+						"value": "right",
+						"label": "right"
+					}
+				],
+				"default": "center"
+			},
+			{
+				"type": "select",
+				"id": "font_family",
+				"label": "字体，如果不选择，默认为系统字体",
+				"info": "这里聚齐了所有品牌站点的字体，请选择该品牌已有的字体",
+				"options": [
+					{
+						"value": "DINNextLT",
+						"label": "DINNextLT"
+					},
+					{
+						"value": "Helvetica",
+						"label": "Helvetica"
+					},
+					{
+						"value": "Arial",
+						"label": "Arial"
+					},
+          {
+            "value": "Avenir Next",
+            "label": "Avenir Next"
+          },
+          {
+            "value": "Helvetica Neue",
+            "label": "Helvetica Neue"
+          },
+          {
+            "value": "",
+            "label": "系统默认字体"
+          }
+				]
+			},
+			{
+				"type": "html",
+				"id": "sign_up_title",
+				"label": "标题"
+			},
+			{
+				"type": "text",
+				"id": "title_font_size",
+				"label": "标题大小",
+				"default": "48px"
+			},
+			{
+				"type": "select",
+				"id": "title_font_weight",
+				"label": "标题粗细",
+				"options": [
+					{
+						"value": "normal",
+						"label": "normal"
+					},
+					{
+						"value": "bold",
+						"label": "bold"
+					}
+				],
+				"default": "bold"
+			},
+			{
+				"type": "color",
+				"id": "title_color",
+				"label": "标题颜色",
+				"default": "#000"
+			},
+			{
+				"type": "html",
+				"id": "sign_up_subtitle",
+				"label": "副标题"
+			},
+			{
+				"type": "select",
+				"id": "subtitle_font_weight",
+				"label": "副标题粗细",
+				"options": [
+					{
+						"value": "normal",
+						"label": "normal"
+					},
+					{
+						"value": "bold",
+						"label": "bold"
+					}
+				],
+				"default": "normal"
+			},
+			{
+				"type": "text",
+				"id": "subtitle_font_size",
+				"label": "副标题大小",
+				"default": "28px"
+			},
+			{
+				"type": "color",
+				"id": "subtitle_color",
+				"label": "副标题颜色",
+				"default": "#333333"
+			},
+			{
+				"type": "html",
+				"id": "sign_up_desc",
+				"label": "描述"
+			},
+			{
+				"type": "select",
+				"id": "desc_font_weight",
+				"label": "描述粗细",
+				"options": [
+					{
+						"value": "normal",
+						"label": "normal"
+					},
+					{
+						"value": "bold",
+						"label": "bold"
+					}
+				],
+				"default": "normal"
+			},
+			{
+				"type": "text",
+				"id": "desc_font_size",
+				"label": "描述大小",
+				"default": "21px"
+			},
+			{
+				"type": "color",
+				"id": "desc_color",
+				"label": "描述颜色",
+				"default": "#666666"
+			},
+			{
+				"type": "text",
+				"id": "marginY",
+				"label": "输入框部分的外边距",
+				"info": "30px 20px 10px 0 ，分别代表 上右下左， 30px 0 代表：上下为30px 左右为0",
+				"default": "30px 0"
+			},
+			{
+				"type": "text",
+				"id": "input_width",
+				"label": "输入框宽度，具体像素或百分比",
+				"default": "100%"
+			},
+			{
+				"type": "text",
+				"id": "input_border",
+				"label": "输入框边框属性",
+				"default": "1px solid #999999"
+			},
+			{
+				"type": "text",
+				"id": "input_placeholder",
+				"label": "输入框提示",
+				"default": "Email*"
+			},
+			{
+				"type": "text",
+				"id": "input_font_size",
+				"label": "输入框文字大小",
+				"default": "15px"
+			},
+			{
+				"type": "text",
+				"id": "button_width",
+				"label": "按钮宽度，具体像素或百分比",
+				"default": "100%"
+			},
+			{
+				"type": "text",
+				"id": "button_txt",
+				"label": "按钮文案",
+				"default": "Subscribe Now"
+			},
+			{
+				"type": "color",
+				"id": "button_color",
+				"label": "按钮背景色",
+				"default": "#00A4E0"
+			},
+			{
+				"type": "color",
+				"id": "button_disabled_color",
+				"label": "按钮被禁用时的背景色",
+				"info": "一般用在防重提交时的背景色",
+				"default": "#666666"
+			},
+			{
+				"type": "color",
+				"id": "button_txt_color",
+				"label": "按钮文案颜色",
+				"default": "#ffffff"
+			},
+			{
+				"type": "text",
+				"id": "button_font_size",
+				"label": "按钮文字大小",
+				"default": "20px"
+			},
+			{
+				"type": "html",
+				"id": "policy_text",
+				"label": "协议文案",
+				"default": "I agree to the <a href='/policies/terms-of-service' target='_blank' rel='noopener noreferrer'>Terms of Use</a> and <a href='/policies/privacy-policy' target='_blank' rel='noopener noreferrer'>Privacy Policy</a>."
+			},
+			{
+				"type": "text",
+				"id": "policy_text_font_size",
+				"label": "协议文案字体大小",
+				"default": "13px"
+			},
+			{
+				"type": "color",
+				"id": "policy_text_color",
+				"label": "协议文案字体颜色",
+				"default": "#999999"
+			},
+			{
+      "type": "text",
+      "id": "info_success",
+      "label": "info_success Text",
+      "default": "Welcome to Anker!"
+			},
+			{
+				"type": "text",
+				"id": "info_fill_email",
+				"label": "info_fill_email Text",
+				"default": "Please enter your email address."
+			},
+			{
+				"type": "text",
+				"id": "info_err_email",
+				"label": "info_err_email Text",
+				"default": "Please enter a valid email address (Example: name@domain.com)."
+			},
+			{
+				"type": "text",
+				"id": "info_select_policy",
+				"label": "info_agree_policy Text",
+				"default": "Please agree to the Terms of Use and Privacy Policy."
+			},
+			{
+				"type": "text",
+				"id": "info_font_size",
+				"label": "提示信息的大小",
+				"default": "12px"
+			},
+			{
+				"type": "color",
+				"id": "info_color",
+				"label": "错误提示信息的颜色",
+				"default": "#ee3749"
+			},
+			{
+				"type": "color",
+				"id": "info_success_color",
+				"label": "成功提示信息的颜色",
+				"default": "#fc9403"
+			}
+		],
+		"blocks": [
+			{
+				"type": "icon",
+				"name": "icon",
+				"settings": [
+					{
+						"type": "image_picker",
+						"id": "icon_bg",
+						"label": "icon的图标",
+						"info": "36 * 36"
+					},
+					{
+						"type": "number",
+						"id": "icon_width",
+						"label": "icon宽度",
+						"info": "icon宽度，移动端可小一点",
+						"default": 36
+					},
+					{
+						"type": "text",
+						"id": "icon_href",
+						"label": "跳转链接"
+					},
+					{
+						"type": "select",
+						"id": "icon_target",
+						"label": "跳转方式",
+						"options": [
+							{
+								"label": "_self",
+								"value": "_self"
+							},
+							{
+								"label": "_blank",
+								"value": "_blank"
+							}
+						],
+						"default": "_blank"
+					}
+				]
+			}
+		]
+	}
+{% endschema %}

@@ -1,0 +1,106 @@
+{% assign DataId = section.settings.data_id %}
+{% if page.metafields.global[DataId].value %}
+  {% assign web_icon_list = page.metafields.global[DataId].value %}
+{% else %}
+  {% assign web_icon_list = page.metafields.global[DataId] %}
+{% endif %}
+
+
+<section class="web_icon_list" id="{{ DataId }}">
+  <div class="flexBox">
+    {% for item in web_icon_list.data %}
+      <div class="item">
+        <img data-src="{{ item.icon }}" alt="" class="lazyload" />
+        <div class="txt">
+          <p>{{ item.text }}</p>
+          <span class="split_line"></span>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+<style>
+  #{{ DataId }}.web_icon_list {
+    background: {{ web_icon_list.section_background_color }};
+    width: 100% ;
+    margin: 0 auto;
+  }
+  #{{ DataId }}.web_icon_list .flexBox {
+    background: {{ web_icon_list.row_background_color }};
+    display: flex;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 4% 0;
+  }
+  #{{ DataId }}.web_icon_list .flexBox .item {
+    position: relative;
+    padding: 2% 4%;
+    text-align: center;
+    color: #fff;
+    flex: 1;
+  }
+  #{{ DataId }}.web_icon_list .flexBox .item a{
+    text-decoration: underline;
+    color: rgb(235, 206, 149);
+    color: {{ web_icon_list.section_color }};
+  }
+  #{{ DataId }}.web_icon_list .flexBox .item .txt{
+    color: #fff;
+    color: {{ web_icon_list.text_color }};
+    font-size: 14px;
+    margin-top: 20px;
+  }
+  #{{ DataId }}.web_icon_list .flexBox .item .split_line{
+    display: inline-block;
+    width: 2px;
+    height: 30px;
+    position: absolute;
+    top: 48%;
+    right: 0;
+    background: rgb(89, 89, 89);
+  }
+  #{{ DataId }}.web_icon_list .flexBox .item:last-child .split_line{ display: none; }
+ 
+@media (max-width: 767px){
+  #{{ DataId }}.web_icon_list .flexBox {
+    flex-wrap: wrap;
+    max-width: 100%;
+    padding: 3rem 0 1rem 0;
+  }
+  #{{ DataId }}.web_icon_list .flexBox .item{
+    padding: 2rem;
+    margin-bottom: 2rem;
+    max-width: 50%;
+    flex: auto;
+  }
+  #{{ DataId }}.web_icon_list .flexBox .item .txt{
+    margin-top: 1rem;
+    font-size: 12px;
+  }
+  #{{ DataId }}.web_icon_list .flexBox .item:nth-child(2n) .split_line{
+    display: none;
+  }
+}
+</style>
+
+{% schema %}
+  {
+    "name": "web_icon_list",
+    "presets": [
+      {
+        "category": "Custom Dynamic Sections",
+        "name": "web icon list"
+      }
+    ],
+    "settings": [
+      {
+        "type": "text",
+        "id": "data_id",
+        "label": "metafields data id",
+        "default": "web_icon_list"
+      }
+    ]
+  }
+{% endschema %}

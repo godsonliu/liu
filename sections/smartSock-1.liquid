@@ -1,0 +1,115 @@
+<section class="smartSock-1" id="{{section.settings.id}}">
+  {% render 'image-element', 
+    image: section.settings.background,
+    alt: section.settings.background.alt,
+    additional_classes: "pc-show"
+  %}
+  {% render 'image-element', 
+    image: section.settings.background_mob,
+    alt: section.settings.background_mob.alt,
+    additional_classes: "mob-show"
+  %}
+  <div class="main-container">
+    <div class="title">
+      <h2>{{ section.settings.title }}</h2>
+      <p>{{ section.settings.subtitle }}</p>
+    </div>
+    <ul class="lists">
+      {% for block in section.blocks %}
+        <li>
+          <div class="img-wrap">
+            {% render 'image-element', 
+              image: block.settings.icon,
+              alt: block.settings.icon.alt
+            %}
+          </div>
+          <p>{{ block.settings.text }}</p>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+
+<script>
+  $(function() {
+    var tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: ".smartSock-1",
+        start: "top center",
+        toggleClass: "active"
+      }
+    });
+    {% comment %} tl.from(".smartSock-1 .title h2", {
+      opacity: 0,
+      y: 20
+    }).from(".smartSock-1 .title p", {
+      opacity: 0,
+      y: 20
+    });
+    for (var i=1; i<=6; i++) {
+      tl.from(`.smartSock-1 .lists li:nth-child(${i})`, {
+        opacity: 0,
+        y: 20
+      });
+    } {% endcomment %}
+  });  
+</script>
+
+{% schema %}
+{
+  "name": "Smart Sock P1",
+  "presets": [
+    {
+      "name": "Smart Sock P1"
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "id",
+      "label": "模块id",
+      "default": "section-tracker"
+    },
+    {
+      "type": "image_picker",
+      "id": "background",
+      "label": "banner背景图"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_mob",
+      "label": "banner移动端背景图"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "标题",
+      "default": "Knowing Your Baby is Sleeping Well"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "副标题",
+      "default": "Smart Sock tracks your baby's real-time sleep data including heart rate, sleep status, and movements. Easily gain access to the data from your phone or monitor. So that you can both get a well-deserved, good night's sleep"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "feature",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "图标"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "文案"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

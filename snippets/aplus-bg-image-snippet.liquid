@@ -1,0 +1,31 @@
+{% if section.settings %}
+  {% assign config = section.settings %}
+  {% assign isSchemaData = true %}
+{% endif %}
+
+{% unless namespace %}
+  {% assign namespace = 'aplus' %}
+{% endunless %}
+
+{% if key %}
+{% if product.metafields[namespace][key].value %}
+  {% assign config = product.metafields[namespace][key].value %}
+{% else %}
+  {% assign config = product.metafields[namespace][key] %}
+{% endif %}
+
+  {% assign isSchemaData = false %}
+{% endif %}
+
+<section class="aplus">
+  {% render 'aplus-bg-card'
+    textColor: config.textColor,
+    align: config.textAlign,
+    imageUrl: config.imageUrl,
+    mobileImageUrl: config.mobileImageUrl
+    title: config.headline,
+    subtitle: config.subheadline,
+    description: config.body,
+    isSchemaData: isSchemaData
+  %}
+</section>

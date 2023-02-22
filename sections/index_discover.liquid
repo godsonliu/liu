@@ -1,0 +1,123 @@
+<section id="index_discover-{{ section.id }}" class="index_discover section-wrapper">
+  <div class="container-wrapper">
+    {% if section.settings.title != blank %}
+    <h2 class="index-title">{{ section.settings.title }}</h2>
+    {% endif %}
+    <div class="cards-container">
+      {% for block in section.blocks %}
+        {% assign link = block.settings.link %}
+        {% assign name = block.settings.datename %}
+        {% assign position = block.settings.position %}
+        <div id="discoverBanner{{forloop.index }}" class="card-block block-2">
+          <figure class="card-radius" onclick="goLearnMore(`{{ link }}`,`{{ name }}`,`{{ position }}`,`discoverBanner{{ forloop.index }}`)">
+            {% render 'lazyload_image',
+              src: block.settings.img_pc,
+              additional_classes: "is-hidden-mobile-only",
+              style: "opacity: 0;",
+              alt: block.settings.img_pc.alt,
+              width: block.settings.img_pc.width,
+              aspect_ratio: block.settings.img_pc.aspect_ratio,
+              isSchemaData: true %}
+            {% render 'lazyload_image',
+              src: block.settings.img_mob,
+              additional_classes: "is-hidden-desktop-only",
+              style: "opacity: 0;",
+              alt: block.settings.img_mob.alt,
+              width: block.settings.img_mob.width,
+              aspect_ratio: block.settings.img_mob.aspect_ratio,
+              isSchemaData: true %}
+          </figure>
+          <div class="box-wrapper">
+            {% if block.settings.title and block.settings.title != ''%}
+              <p class="title" onclick="goLearnMore(`{{ link }}`,`{{ name }}`,`{{ position }}`,`discoverBanner{{ forloop.index }}`)">{{ block.settings.title }}</p>
+            {% endif %}
+            {% if block.settings.desc and block.settings.desc != ''%}
+              <p class="desc" onclick="goLearnMore(`{{ link }}`,`{{ name }}`,`{{ position }}`,`discoverBanner{{ forloop.index }}`)">{{ block.settings.desc }}</p>
+            {% endif %}
+            <div class="btns">
+              {% if block.settings.btn_txt and block.settings.btn_txt != ''%}
+                <button class="index-button index-button--default" onclick="goLearnMore(`{{ link }}`,`{{ name }}`,`{{ position }}`,`discoverBanner{{ forloop.index }}`)">{{ block.settings.btn_txt }}</button>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+<script>
+  $(function() {
+    var dataObj4 = {};
+    {% for block in section.blocks %}
+      dataObj4['discoverBanner' + {{ forloop.index }}] = {
+        id: 'discoverBanner' + {{ forloop.index }},
+        name: "{{ block.settings.datename }}",
+        creative: "",
+        position: "{{ block.settings.position }}"
+      }
+    {% endfor %}
+    window.dataLayer.push(dataObj4);
+  })
+</script>
+{% schema %}
+{
+  "name": "Index Discover",
+  "presets": [
+    {
+      "category": "Index Discover",
+      "name": "Index Discover"
+    }
+  ],
+  "settings": [{
+    "type": "text",
+    "id": "title",
+    "label": "Title",
+    "default": "Discover More"
+  }],
+  "blocks": [{
+    "type": "block",
+    "name": "block",
+    "settings": [{
+      "type": "image_picker",
+      "id": "img_pc",
+      "label": "PC图片",
+      "info": "图片格式推介使用jpg"
+    },
+    {
+      "type": "image_picker",
+      "id": "img_mob",
+      "label": "移动端图片",
+      "info": "图片格式推介使用jpg"
+    },{
+      "type": "text",
+      "id": "title",
+      "label": "标题"
+    },{
+      "type": "text",
+      "id": "desc",
+      "label": "描述"
+    },{
+      "type": "text",
+      "id": "btn_txt",
+      "label": "按钮文本"
+    },{
+      "type": "text",
+      "id": "link",
+      "label": "按钮链接"
+    },{
+      "type": "text",
+      "id": "datename",
+      "label": "修改信息",
+      "info": "埋点：这里给运营留字段补充格式为200531banner内容，表示修改banner的日期和banner的内容（不超过3个单词）"
+    },{
+      "type": "text",
+      "id": "position",
+      "label": "物料类型",
+      "default": "static",
+      "info": "埋点：这里给运营留字段填写static(静态图片)或者dynamic(视频或者gif)"
+    }
+    ]
+  }]
+  
+}
+{% endschema %}

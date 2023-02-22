@@ -1,0 +1,316 @@
+
+
+{{ 'component-video-player.scss.css' | asset_url | stylesheet_tag }}
+<section id="{{section.id}}" class="section-video-player {{section.settings.show_device}}" style="background: {{section.settings.videoPlayer_bgColor }}">
+	<div class="video-text-content" style="font-family: {{section.settings.font_family}}">
+		<div>
+			{% if section.settings.title != blank %}
+			<div 
+				class="video-player-title" 
+				style="
+				{% if section.settings.title_color != blank %} color: {{section.settings.title_color}}; {% endif %}
+				font-size: {{section.settings.title_font_size}};
+				font-weight: {{section.settings.title_font_weight}};
+			">{{ section.settings.title }}</div>
+			{% endif %}
+			{% if section.settings.subtitle  %}
+			<div 
+				class="video-player-subtitle"
+				style="
+				color: {{section.settings.subtitle_color}};
+				font-size: {{section.settings.subtitle_font_size}};
+			">
+				{{ section.settings.subtitle }}
+			</div>
+			{% endif %}
+		</div>	
+		<div 
+			class="player-button-text player_button" 
+			style="
+				{% if section.settings.play_button_text_color != blank %} color: {{section.settings.play_button_text_color}}; {% endif %}
+				font-size: {{section.settings.play_button_text_font_size}};
+			">
+			{{ section.settings.play_button_text }}
+			{% if section.settings.button_icon != blank %}
+			<div class="svg-icon">
+				<img src="{{ section.settings.button_icon | image_url: width: 36 }}" />
+			</div>
+			{% else %}
+			<div class="svg-icon">
+				<svg width="12" height="20" viewBox="0 0 12 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M1 1L10 10L1 19" stroke="white" stroke-width="2" stroke-linecap="round"/>
+				</svg>
+			</div>
+			{% endif %}
+		</div>
+	</div>
+	<div class="video-content" style="{% if section.settings.max_width != blank %} max-width: {{section.settings.max_width}} {% endif %}">
+		<video class="show760 lazyload" width="{{section.settings.video_width_px}}" height="{{section.settings.video_height_px}}" loop data-src="{{section.settings.short_videoUrl}}" autoplay muted  poster="{{section.settings.video_posterUrl}}"></video>
+		<video class="hide760 lazyload mobile-video" width="{{section.settings.mobile_video_width_px}}" height="{{section.settings.mobile_video_height_px}}" loop data-src="{{section.settings.mobile_short_videoUrl}}" autoplay muted poster="{{section.settings.mobile_video_posterUrl}}"></video>
+	</div>
+	{% render 'component_video_player_popup', div_id: section.id %}
+</section>
+
+<script>
+$(function() {
+	const video_url = '{{ section.settings.video_url }}'
+	const mobile_video_url = '{{ section.settings.mobile_video_url }}'
+	const deviceWidth = document.body.clientWidth
+	$('#{{section.id}} .player_button').on('click', function() {
+		if(window['video_player_popup_{{section.id}}']) {
+			dataLayer.push({
+				"event": "uaEvent",
+				"eventCategory": "click",
+				"eventAction": "watch_video",
+				"eventLabel": "{{section.settings.eventLabel}}",
+				"eventValue": "undefined"
+			})
+			if(deviceWidth > 769) {
+				window['video_player_popup_{{section.id}}'].show(video_url)
+			}else {
+				window['video_player_popup_{{section.id}}'].show(mobile_video_url)
+			}
+		}
+	})
+	if(deviceWidth < 769) {
+		// 解决安卓手机不能重复播放问题
+		var videos = document.querySelectorAll('#{{section.id}} .mobile-video');
+		for(let i = 0; i < videos.length; i++) {
+			videos[i].loop = false;
+			videos[i].addEventListener('ended', function() {
+			this.currentTime=0.1; this.play(); }, false);
+			videos[i].play();
+		}
+	}	
+})
+</script>
+
+{% schema %}
+
+{
+  "name": "component_video_player",
+  "presets": [
+    {
+      "name": "component_video_player"
+    }
+  ],
+  "settings": [
+		{
+			"type": "select",
+			"id": "show_device",
+			"label": "展示的设备",
+			"info": "移动端或PC端",
+			"options": [
+				{
+					"value": "showPc",
+					"label": "PC"
+				},
+				{
+					"value": "showMobile",
+					"label": "Mobile"
+				},
+				{
+					"value": "",
+					"label": "两端共用"
+				}
+			],
+			"default": ""
+		},
+		{
+			"type": "text",
+			"id": "max_width",
+			"label": "视频内容区最大宽度",
+			"info": "示例：1200px 或者  80%"
+		},
+		{
+			"type": "color",
+			"id": "videoPlayer_bgColor",
+			"label": "外层盒子背景色",
+			"info": "当视频区域设置最大宽度时，可自定义设置最外层的背景色"
+		},
+		{
+			"type": "select",
+			"id": "font_family",
+			"info": "这里聚齐了所有品牌站点的字体，请选择该品牌已有的字体",
+			"options": [
+				{
+					"value": "DINNextLT",
+					"label": "DINNextLT"
+				},
+				{
+					"value": "Helvetica",
+					"label": "Helvetica"
+				},
+				{
+					"value": "Arial",
+					"label": "Arial"
+				},
+				{
+					"value": "Avenir Next",
+					"label": "Avenir Next"
+				},
+				{
+					"value": "Helvetica Neue",
+					"label": "Helvetica Neue"
+				},
+				{
+					"value": "",
+					"label": "系统默认字体"
+				}
+			],
+			"label": "字体"
+		},
+    {
+      "type": "html",
+      "id": "title",
+      "label": "视频标题",
+			"default": "Anker 641 USB-C to Lightning Cable"
+    },
+		{
+			"type": "color",
+			"id": "title_color",
+			"label": "视频标题字体颜色"
+		},
+		{
+			"type": "text",
+			"id": "title_font_size",
+			"label": "标题大小"
+		},
+		{
+			"type": "select",
+			"id": "title_font_weight",
+			"options": [
+				{
+					"label": "bold",
+					"value": "bold"
+				},
+				{
+					"label": "normal",
+					"value": "normal"
+				}
+			],
+			"label": "标题粗细"
+		},
+		{
+			"type": "html",
+			"id": "subtitle",
+			"label": "副标题",
+			"default": "The Surprisingly-Soft Ultra-Strong Cable"
+		},
+		{
+			"type": "color",
+			"id": "subtitle_color",
+			"label": "副标题字体颜色",
+			"default": "#ffffff"
+		},
+		{
+			"type": "text",
+			"id": "subtitle_font_size",
+			"label": "副标题大小",
+			"default": "20px"
+		},
+    {
+      "type": "text",
+			"id": "short_videoUrl",
+			"label": "短视频URL",
+			"info": "视频时长比较短，文件比较小，简短描述的视频，用于首屏渲染时快速加载，推荐尺寸：1920 * 1080",
+			"default": "https://cdn.shopify.com/s/files/1/0516/0098/2167/files/warm_up_short_video.mp4"
+    },
+		{
+			"type": "text",
+			"id": "video_width_px",
+			"label": "Video Source Width",
+			"info": "该视频的分辨率，用于在渲染短视频时，填充video标签的width属性，利于web性能的cls",
+			"default": "1920"
+		},
+		{
+			"type": "text",
+			"id": "video_height_px",
+			"label": "Video Source Height",
+			"info": "作用同上",
+			"default": "1080"
+		},
+		{
+      "type": "video_url",
+			"id": "video_url",
+			"label": "Video Url",
+			"accept": [ "youtube", "vimeo"],
+			"info": "点击弹窗展示的长视频，对上面短视频的补充，这种视频一般体积比较大，也可以充分去描述产品内容，目前可支持放到vimeo和Youtube两个平台",
+			"default": "https://player.vimeo.com/video/700388576?autoplay=true&controls=true"
+    },
+		{
+      "type": "text",
+			"id": "mobile_short_videoUrl",
+			"label": "Mobile Short Video Url",
+			"info": "这是移动端的短视频，因为分辨率和PC端不一样，所以重新定义。推荐尺寸：750 * 1100",
+			"default": "https://cdn.shopify.com/s/files/1/0516/0098/2167/files/warm_up_short_moble_video.mp4"
+    },
+		{
+			"type": "text",
+			"id": "mobile_video_width_px",
+			"info": "与PC端同义",
+			"label": "Mobile Video Source Width",
+			"default": "750"
+		},
+		{
+			"type": "text",
+			"id": "mobile_video_height_px",
+			"info": "与PC端同义",
+			"label": "Mobile Video Source Height",
+			"default": "1100"
+		},
+		{
+      "type": "video_url",
+			"id": "mobile_video_url",
+			"info": "与PC端同义",
+			"label": "Mobile Video Url",
+			"accept": [ "youtube", "vimeo"],
+			"default": "https://player.vimeo.com/video/700388185?autoplay=true&controls=true" 
+    },
+		{
+			"type": "text",
+			"id": "video_posterUrl",
+			"info": "PC端视频的海报图，用于在网络非常慢的时候，会优先加载海报图，不至于出现白屏的情况，图片分辨率要与PC端的视频保持一致",
+			"label": "Video Poster Url",
+			"default": "https://cdn.shopify.com/s/files/1/0516/0098/2167/files/warm-up-video-poster.jpg"
+		},
+		{
+			"type": "text",
+			"id": "mobile_video_posterUrl",
+			"info": "移动端视频的海报图，用于在网络非常慢的时候，会优先加载海报图，不至于出现白屏的情况，图片分辨率要与移动端的视频保持一致",
+			"label": "Mobile Video Poster Url",
+			"default": "https://cdn.shopify.com/s/files/1/0516/0098/2167/files/warm-up-mobile-video-poster.jpg"
+		},
+		{
+			"type": "text",
+			"id": "play_button_text",
+			"label": "Play Button Text",
+			"info": "触发弹窗点击的按钮文案",
+			"default": "Watch Video"
+		},
+		{
+			"type": "color",
+			"id": "play_button_text_color",
+			"label": "触发按钮文案颜色"
+		},
+		{
+			"type": "text",
+			"id": "play_button_text_font_size",
+			"label": "触发按钮文案大小"
+		},
+		{
+			"type": "image_picker",
+			"id": "button_icon",
+			"label": "按钮的icon"
+		},
+		{
+			"type": "text",
+			"id": "eventLabel",
+			"label": "eventLabel",
+			"info": "用于GA数据上报，指明上报的来源",
+			"default": "laser_warm_up"
+		}
+  ]
+}
+
+{% endschema %}

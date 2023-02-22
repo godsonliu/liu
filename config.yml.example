@@ -1,0 +1,48 @@
+beta-eufy-us:
+  password: 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
+  theme_id: "117016035497"
+  store: beta-eufy-us.myshopify.com
+  ignore_files:
+  - config/*.json
+  - locales/*.json
+  - templates/*.json
+beta-eufy-uk:
+  password: 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
+  theme_id: "116676821184"
+  store: beta-eufy-uk.myshopify.com
+  ignore_files:
+  - config/*.json
+  - locales/*.json
+  - templates/*.json
+beta-eufy-de:
+  password: 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
+  theme_id: "117021245631"
+  store: beta-eufy-de.myshopify.com
+  ignore_files:
+  - config/*.json
+  - locales/*.json
+  - templates/*.json
+beta-eufy-es:
+  password: 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
+  theme_id: "115888193692"
+  store: beta-eufy-es.myshopify.com
+  ignore_files:
+  - config/*.json
+  - locales/*.json
+  - templates/*.json
+beta-eufy-ca:
+  password: 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
+  theme_id: "124533145776"
+  store: beta-eufy-ca.myshopify.com
+  ignore_files:
+  - config/*.json
+  - locales/*.json
+  - templates/*.json
+beta-eufy-eu:
+  password: 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
+  theme_id: "124789883069"
+  store: beta-eufy-eu.myshopify.com
+  ignore_files:
+  - config/*.json
+  - locales/*.json
+  - templates/*.json

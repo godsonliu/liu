@@ -1,0 +1,111 @@
+<div class="t2273_feature_1">
+  <div class="pin-box">
+    {% render 'lazyload_image',  
+      src: section.settings.image,
+      alt: section.settings.image.alt,
+      width: section.settings.image.width,
+      aspect_ratio: section.settings.image.aspect_ratio,
+      isSchemaData: true %}
+    <p>{{ section.settings.text }}</p>
+  </div>
+  {% for block in section.blocks %}
+    <div class="item item{{forloop.index}} {% if forloop.first
+   %}active{% endif%}">
+        <div class="box">
+          {% comment %} <img
+            class="lazyload img"
+            data-src="{{block.settings.product}}"
+          /> {% endcomment %}
+          {% render 'lazyload_image',  
+            src: block.settings.image,
+            alt: block.settings.image.alt,
+            width: block.settings.image.width,
+            aspect_ratio: block.settings.image.aspect_ratio,
+            isSchemaData: true %}
+          <div class="text">
+            <h3>{{block.settings.title}}</h3>
+            <p>{{block.settings.subtitle}}</p>
+            <div class="tip">{{block.settings.tip}}</div>
+          </div>
+        </div>
+      </div>
+  {% endfor %}
+</div>
+
+<script src="{{ 'gsap.min.js' | asset_url }}"></script>
+<script src="{{ 'ScrollTrigger.min.js' | asset_url }}"></script>
+<script>
+  $(function () {
+    var frames = {
+      step: 0,
+    };
+    var win_h = $(window).height();
+    var size = {{section.blocks.size}};
+
+    function fun() {
+      $(".t2273_feature_1 .item")
+        .removeClass("active")
+        .eq(frames.step)
+        .removeClass("remove")
+        .addClass("active")
+        .prev(".item")
+        .addClass("remove");
+    }
+
+    var tl = gsap
+      .timeline({
+        scrollTrigger: {
+          trigger: ".t2273_feature_1",
+          start: "top top",
+          end: "+=" + win_h * size,
+          //markers: true,
+          pin: true,
+          scrub: true,
+        },
+      });
+
+    for (let i = 0; i < size; i++) {
+      tl.to(frames, {
+        step: i,
+        snap: "step",
+        onUpdate: fun,
+      })
+    }
+  })
+</script>
+
+{% schema %}
+{
+  "name": "T2273 feature 1",
+  "settings": [{
+    "type": "image_picker",
+    "id": "image",
+    "label": "右边图片"
+  }, {
+    "type": "textarea",
+    "id": "text",
+    "label": "右边文案"
+  }],
+  "blocks": [{
+    "type": "richtext",
+    "name": "richtext",
+    "settings": [{
+      "type": "text",
+      "id": "title",
+      "label": "标题"
+    }, {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "副标题"
+    }, {
+      "type": "textarea",
+      "id": "tip",
+      "label": "提示信息"
+    }, {
+      "type": "image_picker",
+      "id": "image",
+      "label": "图片"
+    }]
+  }]
+}
+{% endschema %}

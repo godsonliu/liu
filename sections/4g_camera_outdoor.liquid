@@ -1,0 +1,151 @@
+{% if template contains 'page' %}
+  {% if page.metafields['global']['4g_camera_outdoor'].value %}
+    {% assign lang = page.metafields['global']['4g_camera_outdoor'].value %}
+  {% else %}
+    {% assign lang = page.metafields['global']['4g_camera_outdoor'] %}
+  {% endif %}
+{% else %}
+  {% if product.metafields['global']['4g_camera_outdoor'].value %}
+    {% assign lang = product.metafields['global']['4g_camera_outdoor'].value %}
+  {% else %}
+    {% assign lang = product.metafields['global']['4g_camera_outdoor'] %}
+  {% endif %}
+{% endif %}
+
+
+{%- capture img_list_pc -%}
+{{lang.img_list_pc | json}}
+{%- endcapture -%}
+{%- capture img_list_mob -%}
+{{lang.img_list_mob | json}}
+{%- endcapture -%}
+
+<script src="{{ 'gsap.min.js' | asset_url }}"></script>
+<script src="{{ 'ScrollTrigger.min.js' | asset_url }}"></script>
+
+<section id="{{lang.id | default: 'camera-4g-outdoor'}}" class="camera-4g-outdoor">
+  <div class="bg is-hidden-mobile-only">
+    {% for item in lang.img_list_pc%}
+      <div class="img-card img-card-pc img-card-{{forloop.index }}">
+        {% render 'lazyload_image',  
+        src: item.img,
+        style: "opacity: 0;"
+        alt: "" %}
+        <!-- <img class="lazyload" data-src="{{item.img}}" alt="" aria-hidden="true"/> -->
+      </div>
+    {% endfor %}
+  </div>
+  <div class="bg is-hidden-desktop-only">
+    {% for item in lang.img_list_mob%}
+      <div class="img-card img-card-mob img-card-{{forloop.index }}">
+        {% render 'lazyload_image',  
+        src: item.img,
+        style: "opacity: 0;"
+        alt: "" %}
+        <!-- <img class="lazyload" src="{{item.img}}" alt="" aria-hidden="true"/> -->
+      </div>
+    {% endfor %}
+  </div>
+  <div class="box-container is-hidden-mobile-only">
+    <h2 class="title">{{lang.title_pc}}</h2>
+    <p class="desc">{{lang.desc_pc}}</p>
+  </div>
+  <div class="box-container is-hidden-desktop-only">
+    <h2 class="title">{{lang.title_mob}}</h2>
+    <p class="desc">{{lang.desc_mob}}</p>
+  </div>
+  <div class="box-1"></div>
+</section>
+<script>
+  $(document).ready(function(){
+    const width = window.innerWidth;
+    let h = 92
+    let blockWidth =""
+    let blockHeight =""
+    gsap.registerPlugin(ScrollTrigger);
+    let sections = null;
+    if (width > 769) {
+      h = 92; 
+      blockWidth = "calc((100% - 120px)/6)"  
+      blockHeight ="calc((100% - 72px)/4)"
+      sections = document.querySelectorAll('.img-card-pc');
+    } else {
+      h = 60;
+      blockWidth = "calc((100% - 8%)/3)"  
+      blockHeight ="calc((200vw - 28vw)/8)" 
+      sections = document.querySelectorAll('.img-card-mob');
+    }
+    var tl = gsap.timeline({
+      scrollTrigger: {
+      trigger: ".camera-4g-outdoor",
+      start: `top top+=${h}`,
+      end: "+=800",
+      // markers: true,
+      pin: true,
+      scrub: true
+      },
+      // yoyo: true
+    });
+    tl.to(".camera-4g-outdoor .box-container", { opacity: 0 })
+
+    let time = 2 // 动画总时间时间 delay+duration
+    sections.forEach((section, index) => {
+      let top = 0
+      let left =0
+      if (width > 769) {
+        let a = Math.floor(index/6)
+        let b = index%6
+        top = `calc(((100% - 72px)*${a}/4 + ${a}*24px))`
+        left = `calc(((100% - 120px)*${b}/6 + ${b}*24px))`
+      } else {
+        let a = Math.floor(index/3)
+        let b = index%3
+        top = `calc(((21.5vw)*${a} + ${a}*4vw))`
+        left = `calc(((92%)*${b}/3 + ${b*4}%))`
+      }
+
+      let i = Math.random()*(time-1.5)
+      let delay =  i
+      let duration =  time - i
+      let transition = `all ${duration}s cubic-bezier(0.215, 0.610, 0.355, 1.000) ${delay}s`
+      section.style.transition = transition
+
+      ScrollTrigger.create({
+        trigger: ".box-1",
+        start: `top top-=${780-h}`,
+        end: '+=0',
+        // markers: true,
+        onEnter: () => {
+          i = Math.random()*(time-1.5)
+          delay =  i
+          duration =  time - i
+          transition = `all ${duration}s cubic-bezier(0.215, 0.610, 0.355, 1.000) ${delay}s`
+
+          gsap.to(section, {
+            "top": `${top}`,
+            "left": `${left}` ,
+            "opacity": '1',
+            "width": blockWidth,
+            "height": blockHeight, 
+            "transition": transition
+          },"=");
+        },
+        onEnterBack: () => {
+          i = Math.random()*(time-0.5)
+          delay =  i
+          duration =  time - i
+          transition = `all ${duration}s cubic-bezier(0.215, 0.610, 0.355, 1.000) ${delay}s`
+          gsap.to(section, {
+            "top": "50%",
+            "left": "50%" ,
+            "opacity": '0', 
+            "width": "0",
+            "height": "0", 
+            "transition": transition
+          },"=");
+        }
+      });
+    })
+  })
+
+</script>

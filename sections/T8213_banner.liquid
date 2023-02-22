@@ -1,0 +1,51 @@
+{% assign lang = page.metafields.global %}
+
+{% if lang.overview.value %}
+  {% assign overview = lang.overview.value %}
+{% else %}
+  {% assign overview = lang.overview %}
+{% endif %}
+
+{% assign lang = product.metafields.global %}
+
+<link rel="stylesheet" href="{{ 't8213_banner.scss.css' | asset_url }}">
+<script src="{{ 't8213_banner.js' | asset_url }}" defer="defer"></script>
+
+{%- if template contains 'page' -%}
+  {%- else %}
+  {% endif %}
+
+<div class="t8213_banner" id="overview">
+  <div class="banner_1">
+    <!-- <img class="pc1_show lazyload images_scale" data-src="{{ overview.banner_images }}" alt="" style="opacity: 0;">
+    <img class="mob1_show lazyload images_scale" data-src="{{ overview.banner_mob_images }}" alt="" style="opacity: 0;"> -->
+    {% render 'lazyload_image',  
+      src: overview.banner_images,
+      additional_classes: "pc1_show images_scale"
+      style: "opacity: 0;"
+      alt: "" %}
+    {% render 'lazyload_image',
+      src: overview.banner_mob_images,
+      additional_classes: "mob1_show images_scale",
+      style: "opacity: 0;"
+      alt: "" %}
+    <div class="banner_1_content">
+      <img class="pc1_show lazyload images_scale" data-src="{{ overview.banner_images }}" alt="">
+      <img class="mob1_show lazyload images_scale" data-src="{{ overview.banner_mob_images }}" alt="">
+      <div class="banner_finger">
+        <img class="pc1_show lazyload images_scale" data-src="{{ overview.banner_finger_images }}" alt="">
+        <img class="mob1_show lazyload images_scale" data-src="{{ overview.banner_finger_images_mob }}" alt="">
+      </div>
+      <div class="btm"></div>
+      <div class="banner_content">
+        <div class="banner_contain">
+          <div class="banner_p_content">
+            <p class="banner_p1">{{ overview.banner_p1 }}</p>
+            <div class="h_line"></div>
+            <p class="banner_p2">{{ overview.banner_p2 }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,123 @@
+{% assign mobile_image = section.settings.mobile_image %}
+
+{% if collection.metafields.global.banner.value %}
+  {% assign banner = collection.metafields.global.banner.value %}
+  {% assign mobile_image_src = collection.metafields.global.banner.value.mobile_image_src %}
+{% else %}
+  {% assign banner = collection.metafields.global.banner %}
+  {% assign mobile_image_src = collection.metafields.global.banner.mobile_image_src %}
+{% endif %}
+
+{% if context == 'blog' %}
+  {% assign title = blog.title %}
+  {% assign image = section.settings.image %}
+{% elsif context =='cart' %}
+  {%- capture title -%}
+    {{'cart.general.title' | t }}
+  {%- endcapture -%}
+  {% assign subtitle = section.settings.subtitle %}
+  {% assign image = section.settings.image %}
+{% elsif context == 'article' %}
+  {% assign title = article.title %}
+  {% assign image = article.image %}
+{% elsif context == 'page' %}
+  {% assign title = page.title %}
+  {% assign image = section.settings.image %}
+{% elsif context == 'contact' %}
+  {% assign title = page.title %}
+  {% assign image = section.settings.image %}
+  {% assign subtitle = section.settings.subtitle %}
+{% elsif context == 'collection' %}
+  {% if collection.metafields.global.banner.value %}
+    {% assign title = collection.metafields.global.banner.value.title %}
+  {% else %}
+    {% assign title = collection.title %}
+  {% endif %}
+  {% assign subtitle = collection.description %}
+  {%- if collection.image -%}
+    {% assign image = collection.image %}
+    {%- if banner.mobile_image != blank -%}
+    {% endif %}
+  {%- elsif section.settings.image -%}
+    {% assign image = section.settings.image %}
+  {%- else %}
+    {% assign image = collection.products.first.featured_image %}
+  {% endif %}
+{% elsif context == '404' %}
+  {% capture title %}
+    {{ 'general.404.title' | t }}
+  {% endcapture %}
+  {% assign image = section.settings.image %}
+{% endif %}
+
+<style>
+  .hide-when-banner-enabled {
+    display: none;
+  }
+</style>
+{% if banner.banner_link != blank %}
+<a href="{{banner.banner_link }}">
+{%endif%}
+<section class="section
+                {{ css_class }}
+                is-width-{{ width }}">
+  <div class="container
+              {% if width == 'wide' %}
+                equal-columns--outside-trim
+              {% endif %}">
+    <div class="banner__wrapper
+                one-whole
+                column
+                dark-overlay-{{ section.settings.image_darken }}
+                is-{{ banner_height }}">
+                
+      {% if mobile_image != blank or mobile_image_src != blank %}
+        {% assign hide_mobile = 'is-hidden-mobile-only' %}
+      {% endif %}
+      
+      {% if image != blank %}
+        {% render 'lazyload_image',  
+          src: image,
+          alt: image.alt,
+          width: image.width,
+          aspect_ratio: image.aspect_ratio,
+          additional_classes: hide_mobile,
+          isSchemaData: true
+        %}
+      {% else %}
+        {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
+      {% endif %}
+
+      {% if mobile_image != blank and mobile_image_src == blank %}
+        <div class="is-hidden-desktop-only">
+          {% render 'lazyload_image',
+            src: mobile_image,
+            alt: mobile_image.alt,
+            width: mobile_image.width,
+            aspect_ratio: mobile_image.aspect_ratio,
+            isSchemaData: true
+          %}
+        </div>
+      {% endif %}
+
+      {% if mobile_image_src != blank %}
+        <div class="is-hidden-desktop-only">
+          <img src="{{ mobile_image_src }}" width="100%" />
+        </div>
+      {% endif %}
+
+      <div class="banner__content card-content">
+        <div class="banner__text text-align-center">
+          <h1 class="banner__heading title">{{ title }}</h1>
+          {% if subtitle != blank %}
+            <p class="banner__subheading subtitle">{{ subtitle }}</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% if banner.banner_link != blank %}
+</a>
+{%endif%}
+

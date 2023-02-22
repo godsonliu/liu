@@ -1,0 +1,127 @@
+{% if product.selected_or_first_available_variant != blank %}
+  {% assign sku = product.selected_or_first_available_variant.sku %}
+{% else %}
+  {% assign sku = product.variants[0].sku %}
+{% endif %}
+
+<script>
+$(function() {
+  const swiper = new Swiper('#{{ moduleId }} .swiper-container', {
+  {% if swiperMode == 'rewind' %}
+    rewind: true,
+  {% else %}
+    loop: {{ items.size }} > 1 ? true : false,
+  {% endif %}
+  {% unless noPagination %}
+    pagination: {
+      el: '#{{moduleId}} .swiper-pagination',
+      clickable: true,
+    },
+  {% endunless %}
+  {% unless noArrow %}
+    navigation: {
+      nextEl: '#{{moduleId}} .swiper-button-next',
+      prevEl: '#{{moduleId}} .swiper-button-prev',
+    },
+  {% endunless %}
+    simulateTouch: true,
+  })
+  const $container = $('#{{ moduleId }} .swiper-container')
+  swiper.on('slideChange', function() {
+    const $video = $container.find('.aplus-video-player')
+    if($video.length) {
+      window.dispatchEvent(new CustomEvent('aplusPlayerPause', { detail: {
+        type: 'targetContainer',
+        container: $video
+      } }))
+    }
+  })
+
+  const $navigation = $('[aria-controls="{{ moduleId }}"]')
+  let withNavigation = false
+  if ($navigation.length) {
+    withNavigation = true
+    $navigation
+      .on('click', 'li', function() {
+        const $li = $(this)
+        const index = $li.data('index')
+        swiper.slideToLoop(Number(index))
+        collect({ action: 'tab' })
+      })
+    swiper.on('slideChange', function() {
+      $navigation.find('.active').removeClass('active')
+      $navigation.find('[data-index="' + swiper.realIndex + '"]').addClass('active')
+    })
+  }
+
+  {% comment %} 埋点相关 {% endcomment %}
+
+  function collect({ action, isArrow }) {
+    const items = {{ items | json }}
+    let ga3Data
+    let ga4Data
+    if (withNavigation) {
+      let navigation = items[swiper.realIndex].navigation
+      ga3Data = {
+        "event": "uaEvent", // Trigger
+        "eventCategory": "Product Detail Page_{{ sku }}",
+        "eventAction": isArrow ? `switch_arrows_${action}` : 'switch',
+        "eventLabel": navigation,
+        "nonInteraction": true, 
+      }
+      ga4Data = {
+        "event": "ga4Event",
+        "event_name": "switch",
+        "event_parameters": {
+          "page_group": "Product Detail Page_{{ sku }}",
+          "position": "tab_with_arrows", 
+          "action": action,
+          "navigation": navigation //取banner title
+        }
+      }
+    } else {
+      let title = items[swiper.realIndex].headline || swiper.realIndex
+      ga3Data = {
+        "event": "uaEvent", // Trigger
+        "eventCategory": "Product Detail Page_{{ sku }}",
+        "eventAction": isArrow ? `banner_arrows_${action}` : 'banner_dots',
+        "eventLabel": title,
+        "nonInteraction": true, 
+      }
+      ga4Data = {
+        "event": "ga4Event",
+        "event_name": "switch",
+        "event_parameters": {
+          "page_group": "Product Detail Page_{{ sku }}",
+          "position": "banner_arrows", 
+          "action": action,
+          "navigation": title //取banner title
+        }
+      }
+    }
+    dataLayer.push(ga3Data)
+    window.dataLayer.push({ "event_parameters": null });
+    window.dataLayer.push(ga4Data)
+  }
+  
+  $('#{{ moduleId }} .swiper-container')
+    .on('click', '.swiper-button-prev', function() {
+      collect({
+        action: 'left',
+        isArrow: true,
+      })
+    })
+    .on('click', '.swiper-button-next', function() {
+      collect({
+        action: 'right',
+        isArrow: true,
+      })
+    })
+    .on('click', '.swiper-pagination-bullet', function() {
+      collect({
+        action: 'dot',
+        isArrow: false,
+      })
+    })
+})
+</script>

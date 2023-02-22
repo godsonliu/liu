@@ -1,0 +1,33 @@
+{% if template contains 'page' %}
+  {% if page.metafields['global']['feature'].value %}
+    {% assign lang = page.metafields['global']['feature'].value %}
+  {% else %}
+    {% assign lang = page.metafields['global']['feature'] %}
+  {% endif %}
+{% else %}
+  {% if product.metafields['global']['feature'].value %}
+    {% assign lang = product.metafields['global']['feature'].value %}
+  {% else %}
+    {% assign lang = product.metafields['global']['feature'] %}
+  {% endif %}
+{% endif %}
+{% assign feature7 = lang.t8213-feature_more %}
+
+<section id="t8213-feature_7" class="t8213-feature_more">
+  <div class="t8213-feature-container">
+    <div class="feature-header">
+      <h2 class="header-title">{{ feature7.title }}</h2>
+    </div>
+    <div class="feature_7_blocks">
+      {% for icon in feature7.iconList %}
+      <div class="icon-block">
+        <div class="icon-img">
+          <img class="lazyload is-hidden-mobile-only" data-src="{{ icon.icon-img_pc }}" alt=""/>
+          <img class="lazyload is-hidden-desktop-only" data-src="{{ icon.icon-img_mob }}" alt=""/>    
+        </div>
+        <div class="icon-text">{{icon.text}}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>

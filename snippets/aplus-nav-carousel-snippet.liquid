@@ -1,0 +1,63 @@
+{% if section.settings %}
+  {% assign config = section.settings %}
+  {% assign isSchemaData = true %}
+  {% assign id = section.id %}
+{% endif %}
+
+{% unless namespace %}
+  {% assign namespace = 'aplus' %}
+{% endunless %}
+
+{% if key %}
+{% if product.metafields[namespace][key].value %}
+  {% assign config = product.metafields[namespace][key].value %}
+{% else %}
+  {% assign config = product.metafields[namespace][key] %}
+{% endif %}
+
+  {% assign isSchemaData = false %}
+  {% assign id = key %}
+{% endif %}
+
+{% if isSchemaData %}
+  {% assign items = section.blocks | map: 'settings' %}
+{% else %}
+  {% assign items = config.blocks %}
+{% endif %}
+
+<section id="{{id}}" class="aplus">
+  <div class="aplus__pc">
+    {%render 'aplus-pc-carousel-1',
+      id: id,
+      items: items,
+      textBgBlack: true,
+      noPagination: true,
+      isSchemaData: isSchemaData
+    %}
+    <ul class="aplus-navigation-tags flex-center" aria-controls="{{id}}-pc">
+      {% for item in items %}
+        <li class="{% unless forloop.index0 > 0 %} active {% endunless %}" data-index="{{ forloop.index0 }}" data-navigation="{{ item.navigation }}">
+          {{ item.navigation }}
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="aplus__mobile">
+    {%
+      render 'aplus-mobile-carousel-1',
+      id: id,
+      items: items,
+      noPagination: true,
+      noArrow: true,
+      topTextCard: true,
+      isSchemaData: isSchemaData
+    %}
+    <ul class="aplus-navigation-tags flex-column-center" aria-controls="{{id}}-mobile">
+      {% for item in items %}
+        <li class="{% unless forloop.index0 > 0 %} active {% endunless %}" data-index="{{ forloop.index0 }}" data-navigation="{{ item.navigation }}">
+          {{ item.navigation }}
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>

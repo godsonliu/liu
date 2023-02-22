@@ -1,0 +1,1457 @@
+{% if shop.metafields['global']['storefront_key'].value %}
+  {% assign authorization = shop.metafields['global']['storefront_key'].value %}
+{% else %}
+  {% assign authorization = shop.metafields['global']['storefront_key'] %}
+{% endif %}
+
+<style>
+{%- assign box_max_width = section.settings.box_max_width | split: '-' -%}
+{% for item in box_max_width -%}
+	{% if forloop.index == 1 %}
+	{% assign max_width = item %}
+	{% else %}
+	{% assign row_count = item | divided_by: 1 %}
+	{% endif %}
+{%- endfor %}
+@media(max-width: 769px) {
+	.showPc {
+		display: none !important;
+	}
+}
+@media(min-width: 769px) {
+	.showMobile {
+		display: none !important;
+	}
+}
+.component_flash_sale-div_{{section.id}}{
+	width: 100%;
+	background: {{section.settings.box_bg}};
+}
+#{{section.id}}.component_flash_sale {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: wrap;
+	margin: 0 auto;
+	width: {{section.settings.box_width}};
+	max-width: {{max_width}};
+	height: {{section.settings.box_height}};
+	padding: {{section.settings.box_padding}};
+}
+#{{section.id}} pre, #{{section.id}} h1, #{{section.id}} h2, #{{section.id}} h3, #{{section.id}} h4, #{{section.id}} h5, #{{section.id}} h6, #{{section.id}} p, #{{section.id}} span:not(.jdgm-star) {
+	{% if section.settings.content_font_family %}font-family: {{section.settings.content_font_family}} !important;{% endif %}
+}
+#{{section.id}} .limited_items {
+	border-radius: 12px;
+	box-shadow: 0 2px 8px rgb(0 0 0 / 10%);
+	transform: translate3d(0,-2px,0);
+	margin-bottom: {{section.settings.card_margin}}px;
+}
+#{{section.id}} .limited_items_img {
+	position: relative;
+	font-size: 0;
+	border-radius: 12px 12px 0 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	/*纵向样式保持的图片宽高*/
+	width: 100%;
+	height: 220px;
+}
+#{{section.id}} .limited_items_img  .items_img_a {
+	height: 85%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
+}
+#{{section.id}} .limited_items_img .items_img_a .items_img {
+	height: 100%;
+	border: none;
+	outline:none; 
+	-webkit-tap-highlight-color: transparent; 
+	-webkit-appearance: none;
+}
+#{{section.id}} .limited_items_icon {
+	width: 100%;
+	top: 0;
+	left: 0;
+	position: absolute;
+}
+#{{section.id}} .limited_items_icon_div {
+	display: flex;
+	position: relative;
+	justify-content: center;
+	align-items: center;
+	max-width: 100px;
+}
+#{{section.id}} .limited_items_icon img {
+	width: 100%;
+}
+#{{section.id}} .limited_items_icon .icon_txt {
+	position: absolute;
+	z-index: 2;
+	width: 100%;
+	height: 100%;
+	line-height: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+}
+#{{section.id}} .limited_items_content {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding: 15px 10px 25px 10px;
+	border-radius: 0 0 12px 12px;
+}
+#{{section.id}} .d-flex {
+	display: flex;
+}
+#{{section.id}} .d-flex .limited_items_img {
+	width: 35%;
+	border-radius: 12px 0 0 12px;
+}
+#{{section.id}} .d-flex .limited_items_img .items_img_a .items_img {
+	width: 100%;
+	height: auto;
+}
+#{{section.id}} .d-flex .limited_items_content  {
+	width: 65%;
+	border-radius: 0 12px 12px 0;
+}
+#{{section.id}} .limited_items_content_title {
+	display: block;
+}
+#{{section.id}} .limited_items_content_title, #{{section.id}} .limited_items_content_desc {
+	width: 100%;
+	overflow: hidden;
+	text-overflow:ellipsis;
+	white-space: nowrap;
+	line-height: 1.5;
+}
+#{{section.id}} .limited_items_content_price {
+	margin-bottom: 5px;
+}
+#{{section.id}} .limited_items_content_button {
+	width: fit-content;
+	border: 1px solid;
+	max-width: 250px;
+	border-radius: 70px;
+	outline: none;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+	-webkit-tap-highlight-color: transparent;
+}
+#{{section.id}} .child-div {
+	line-height: normal;
+	margin-bottom: 5px;
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+	-webkit-tap-highlight-color: transparent;
+}
+#{{section.id}} .button-group-style-1 {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+#{{section.id}} .button-group-style-2 {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#{{section.id}} .button-group-style-2 .child-div {
+	margin-right: 5px;
+}
+#{{section.id}} .button-group-style-2 .child-div:last-child {
+	margin-right: 0;
+}
+#{{section.id}} .compare-at-price {
+	text-decoration: line-through;
+	margin-left: 8px;
+}
+#{{section.id}} .title-desc-div {
+	width: 100%;
+}
+#{{section.id}} .product_code {
+	display: flex;
+	align-items: center;
+	margin-bottom: 5px;
+}
+#{{section.id}} .copy_code {
+	text-decoration: underline;
+	margin-left: 5px;
+	cursor: pointer;
+}
+#{{section.id}} .code_txt {
+	white-space: nowrap;
+}
+.component_flash_sale-div_{{section.id}} + .view-more {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 18px;
+	color: #00A9E1;
+	cursor: pointer;
+	background: {{section.settings.view_more_bg}};
+}
+.component_flash_sale-div_{{section.id}} + .view-more .view-more-svg {
+	margin-left: 9px;
+}
+#{{section.id}} .limited_items-dn {
+	display: none !important;
+}
+#{{section.id}} .include-overview-reviews {
+	display: inline-block;
+}
+#{{section.id}} .prodYotpoReviews {
+	margin: 0 !important;
+}
+#{{section.id}} .prodYotpoReviews .text-m {
+	display: none !important;
+}
+
+@media (max-width: 769px) {
+	#{{section.id}} .limited_items_img {
+		height: 150px;
+	}
+	#{{section.id}} .button-group-style-2 {
+		flex-wrap: wrap;
+	}
+	#{{section.id}} .button-group-style-2 .child-div {
+		margin-right: 3px;
+	}
+	#{{section.id}} .button-group-style-2 .child-div:last-child {
+		margin-right: 0;
+	}
+	#{{section.id}} .limited_items_content {
+		padding: 15px 5px 20px 5px;
+	}
+}
+</style>
+{% for block in  section.blocks %}
+{% assign blocks_len= forloop.length %}
+{% assign modulo_v2 = forloop.length | modulo: row_count %}
+{% endfor %}
+
+<div class="component_flash_sale-div_{{section.id}} {{section.settings.show_device}}">
+	<div 
+		class="component_flash_sale" 
+		id="{{section.id}}" 
+		style="{% if modulo_v2 != 0 and blocks_len > row_count %}justify-content: flex-start;{% endif %}"
+	>
+		{% for block in  section.blocks %}
+		{% assign oProduct = block.settings.product_info %}
+		{% assign variants = oProduct.variants %}
+		{% assign oProduct_variant = oProduct.selected_or_first_available_variant %}
+		{% for child_variant in variants  %} 
+			{% if child_variant.sku == block.settings.variant_sku %}
+			{% assign oProduct_variant = child_variant %}
+			{% endif %}
+		{% endfor %}
+		{% assign modulo_v = forloop.index | modulo: row_count %}
+		<div
+			data-forloop_index="{{forloop.index}}" 
+			class="limited_items {% if section.settings.view_more_number > 0 and forloop.index > section.settings.view_more_number %}limited_items-dn{% endif %} {% if block.settings.custom_style == '1' %}d-flex{% endif %}"
+			style="
+				{% if block.settings.card_width != blank %}
+				width: {{ block.settings.card_width }};
+				{% else %}
+				width: calc((100% - {{ row_count | minus: 1 | times: section.settings.card_margin }}px)/{{row_count}});
+				{% endif %} 
+				height: {{ block.settings.card_height }};
+				{% if modulo_v != 0 %}
+				margin-right: {{section.settings.card_margin}}px;
+				{% endif %}
+			">
+			<div 
+				class="limited_items_img" 
+				style="
+					background: {{ section.settings.img_bg }};
+				"
+				>
+				<a href="{{oProduct_variant.url}}&ref={{section.settings.img_source}}" data-source="{{section.settings.ga4_img_source}}" data-ga4-index="{{forloop.index}}" class="items_img_a ga4-btn">
+					<img class="items_img"  src="
+						{% if oProduct_variant.image != blank %}
+						{{ oProduct_variant.image | image_url}}
+						{% else %}
+						{{ oProduct.featured_image | image_url}}
+						{% endif %}
+					"/>
+				</a>
+				{% if section.settings.has_show_discount %}
+				<div class="limited_items_icon">
+					<div class="limited_items_icon_div limited_items_icon_div_{{forloop.index}}" 
+						style="
+							width: {{section.settings.icon_width}};
+							left: {{section.settings.icon_left}}; 
+							top: {{section.settings.icon_top}}"
+						>
+						<img src="{{ section.settings.icon_bg | image_url }}" />
+						<span 
+							class="icon_txt icon_txt_{{forloop.index}}"
+							style="
+								color: {{ section.settings.icon_txt_color }}; 
+								font-size: {{ section.settings.icon_txt_font_size }}; 
+								font-weight: {{ section.settings.icon_font_weight }}"
+						>
+							{{ section.settings.icon_txt }}
+						</span>
+					</div>
+				</div>
+				{% endif %}
+			</div>
+			<div 
+				class="limited_items_content limited_items_content_{{forloop.index}}" 
+				style="
+					background: {{section.settings.limited_items_content_bg}};  
+					align-items: {{ section.settings.content_text_align }};
+					font-family: {{ section.settings.content_font_family }} !important;
+				">
+				<div class="title-desc-div" 
+					style="
+						{% if section.settings.title_desc_div != blank %} height: {{section.settings.title_desc_div}}; {% endif %}
+						text-align: {% if section.settings.content_text_align == 'flex-end' %}right{% elsif section.settings.content_text_align == 'flex-start' %}left{% else %}center{% endif %};
+					">
+					<a
+						href="{{oProduct_variant.url}}" 
+						class="limited_items_content_title"
+						style="
+						color: {{section.settings.product_title_color}};
+						font-size: {{section.settings.product_title_font_size}};
+						font-weight: {{section.settings.product_title_font_weight}};
+						">
+						{% if block.settings.product_title != blank %}
+						{{ block.settings.product_title }}
+						{% else %}
+						{{ oProduct.title }}
+						{% endif %}
+					</a>
+					<div 
+						class="limited_items_content_desc"
+						style="
+							color: {{section.settings.product_desc_color}};
+							font-size: {{section.settings.product_desc_font_size}};
+						"
+					>{{ block.settings.product_desc }}</div>
+					{% if section.settings.has_show_reviews %}
+					<div class="include-overview-reviews">
+						{% render 'include_overview_reviews', product: oProduct %}
+					</div>
+					{% endif %}
+				</div>
+				{% if section.settings.has_show_price %}
+				<div class="limited_items_content_price">
+					<span 
+						class="price-div"
+						style="
+							color: {{section.settings.price_color}};
+							font-size: {{section.settings.price_font_size}};
+							font-weight: {{section.settings.price_font_weight}};
+						">
+						{% if block.settings.custom_price != blank %}
+							{{ block.settings.custom_price }}
+						{% else %}
+							{% render 'price-element', price: oProduct_variant.price %}
+						{% endif%}
+					</span>
+					<span
+						class="compare-at-price"
+						style="
+							color: {{section.settings.compare_at_price_color}};
+							font-size: {{section.settings.compare_at_price_font_size}};
+							font-weight: {{section.settings.compare_at_price_font_weight}}
+						"
+					>
+						{% if block.settings.custom_price != blank %}
+							{% render 'price-element', price: oProduct_variant.price %}
+						{% else %}
+							{% render 'price-element', price: oProduct_variant.compare_at_price %}
+						{% endif%}
+					</span>
+				</div>
+				{% endif %}
+				{% if section.settings.has_show_discount %}
+				<div class="product_code product_code-{{forloop.index}}">
+					<div 
+						class="code_txt"
+						style="
+							color: {{section.settings.code_text_color}};
+							font-size: {{section.settings.code_text_font_size}};		
+						">
+						<span 
+							class="code-text"
+						>{{ section.settings.code_text }}:</span>
+						<span class="code-number code-number-{{forloop.index}}"></span>
+					</div>
+					<div 
+						class="copy_code"
+						data-product_title="{{oProduct.title}}"
+						data-sku="{{oProduct_variant.sku}}"
+						data-copy-text="{{section.settings.copy_text}}"
+						data-copying-text="{{section.settings.copying_text}}"
+						style="
+							color: {{section.settings.copy_text_color}};
+							font-size: {{section.settings.copy_text_font_size}};		
+						">{{section.settings.copy_text}}</div>
+				</div>
+				{% endif %}
+				<style>
+					#{{section.id}} .limited_items_content_button-disabled_{{forloop.index}}.limited_items_content_button_buy-now {
+						background-color: {{ section.settings.button_disabled_bg }} !important;
+						color: {{section.settings.button_disabled_txt_color}} !important;
+						border-color: {{section.settings.button_disabled_border_color}} !important;
+						pointer-events: none;
+						cursor: not-allowed;
+					}
+					#{{section.id}} .limited_items_content .limited_items_content_button_{{forloop.index}}.limited_items_content_button_buy-now:hover { 
+						background: {{section.settings.button_hover_bg}} !important; 
+						border-color: {{section.settings.button_hover_border_color}} !important;
+						color: {{section.settings.button_hover_txt_color}} !important;
+					}
+
+					#{{section.id}} .limited_items_content_button-disabled_{{forloop.index}}.limited_items_content_button_learn-more {
+						background-color: {{ section.settings.button2_disabled_bg }} !important;
+						color: {{section.settings.button2_disabled_txt_color}} !important;
+						border-color: {{section.settings.button2_disabled_border_color}} !important;
+						pointer-events: none;
+						cursor: not-allowed;
+					}
+					#{{section.id}} .limited_items_content .limited_items_content_button_{{forloop.index}}.limited_items_content_button_learn-more:hover { 
+						background: {{section.settings.button2_hover_bg}} !important; 
+						border-color: {{section.settings.button2_hover_border_color}} !important;
+						color: {{section.settings.button2_hover_txt_color}} !important;
+						font-size: {{section.settings.button_txt_font_size}};
+					}
+
+				</style>
+				<div class="{% if section.settings.button_group_style == '2' %}button-group-style-2{% else %}button-group-style-1{% endif %}">
+					{% if section.settings.button_txt != blank %}
+					<button 
+						class="
+							{% if oProduct_variant.available == false or oProduct_variant.price == 999999999  %}
+							limited_items_content_button-disabled_{{forloop.index}}
+							{% endif %}
+							child-div
+							limited_items_content_button_buy-now
+							limited_items_content_button limited_items_content_button_{{forloop.index}}
+						"
+						data-v_id="{{oProduct_variant.id}}"
+						style="
+							{% if section.settings.button_width != blank %}width:{{section.settings.button_width}};{% endif %}
+							{% if section.settings.button_height != blank %}height:{{section.settings.button_height}};{% endif %}
+							border-color: {{section.settings.button_border_color}};
+							color: {{section.settings.button_txt_color}};
+							font-size: {{section.settings.button_txt_font_size}};
+							background: {{section.settings.button_bg}};
+							padding: {{ section.settings.button_padding }};
+							font-family: {{ section.settings.content_font_family }} !important;
+						">
+							{% if oProduct_variant.available and oProduct_variant.price != 999999999  %}
+							{{section.settings.button_txt}}
+							{% else %}
+							{{ 'products.product.sold_out' | t }}
+							{% endif %}
+					</button>
+					{% endif %}
+					{% if section.settings.learn_more != blank %}
+					<a
+						data-source="{{section.settings.ga4_button_source}}"
+						data-ga4-index="{{forloop.index}}"
+						href="{{oProduct_variant.url}}&ref={{section.settings.button_source}}"
+						class="limited_items_content_button limited_items_content_button_{{forloop.index}} child-div limited_items_content_button_learn-more ga4-btn"
+						style="
+							{% if section.settings.button_width != blank %}width: {{section.settings.button_width}};{% endif %}
+							{% if section.settings.button_height != blank %}height:{{section.settings.button_height}};{% endif %}
+							border-color: {{section.settings.button2_border_color}};
+							color: {{section.settings.button2_txt_color}};
+							background: {{section.settings.button2_bg}};
+							font-size: {{section.settings.button_txt_font_size}};
+							padding: {{ section.settings.button_padding }};
+						">
+						{{section.settings.learn_more}}
+					</a>	
+					{% endif %}
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+</div>
+{% if section.settings.view_more_number > 0 and blocks_len > section.settings.view_more_number %}
+<div class="view-more {{section.settings.show_device}}">
+	{{section.settings.view_more_text}}
+	<div class="view-more-svg">
+		<svg width="13" height="8" viewBox="0 0 13 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+			<path d="M1 1L6.5 7L12 1" stroke="#00A9E1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+		</svg>
+	</div>
+</div>
+{% endif %}
+
+<script>
+$(function() {
+	let view_more_number = '{{section.settings.view_more_number}}';
+	let limited_items = $('#{{section.id}} .limited_items')
+	$('.component_flash_sale-div_{{section.id}}').next('.view-more').on('click', function() {
+		let self = $(this)
+		limited_items.each(function(index) {
+			if(index >= view_more_number) {
+				$(this).toggleClass('limited_items-dn')
+				if($(this).hasClass('limited_items-dn')) {
+					self.find('.view-more-svg').css({
+						transform: 'rotate(0deg)'
+					})
+				}else {
+					self.find('.view-more-svg').css({
+						transform: 'rotate(180deg)'
+					})
+				}
+			}
+		})
+	})
+	$('#{{section.id}} .limited_items_content_button_buy-now').on('click', function() {
+		var v_id = $(this).data('v_id')
+		var line_items = [{
+			variant_id: v_id,
+			quantity: 1
+		}];
+
+    Shopify.theme.bundleBuynow_BF({
+      authorization: "{{ authorization }}",
+      checkout: {
+        line_items: line_items,
+        presentment_currency: "{{ shop.currency }}",
+        is_upstream_button: true,
+        page_type: "product",
+        secret: true,
+        wallet_name: "Checkout",
+        page_group: "{{section.settings.ga4_page_group}}",
+        page_position: "{{section.settings.ga4_page_group}}_Checkout"
+      },
+      onSuccess: () => {},
+      onError: err => {
+        $.dialog({ title: err.message, content: err.description, type: 'red' });
+      }
+    });
+	})
+	{% if section.settings.has_show_discount %}
+	;(function() {
+		let skus = []
+		{% for block in  section.blocks %}
+		{% assign oProduct = block.settings.product_info %}
+		{% assign variants = oProduct.variants %}
+		{% assign oProduct_variant = oProduct.selected_or_first_available_variant %}
+		{% for child_variant in variants  %} 
+			{% if child_variant.sku == block.settings.variant_sku %}
+			{% assign oProduct_variant = child_variant %}
+			{% endif %}
+		{% endfor %}
+		skus.push("{{oProduct_variant.sku}}")
+		{% endfor %}
+		let params = { "skus": skus, "shopify_domain": "{{ shop.permanent_domain }}" };
+		$.ajax({
+			type: 'GET',
+			url: '/apps/pp/shopifyservices/coupons/by_skus',
+			data: params,
+			success: function success(data) {
+				skus.forEach(function(key,index) {
+					index++;
+					if(data[key] && data[key][0]) {
+						$(`#{{section.id}} .code-number-${index}`).text(data[key][0].title)
+            $(`#{{section.id}} .limited_items_content_button_${index}`).attr('data-code', data[key][0].title)
+						if(data[key][0].value_type === "fixed_amount") {
+							$(`#{{section.id}} .icon_txt_${index}`).prepend(data[key][0].value_style)
+						}else if(data[key][0].value_type === "percentage") {
+							$(`#{{section.id}} .icon_txt_${index}`).prepend(Math.abs(parseInt(data[key][0].value)) + '%')
+						}
+						$(`#{{section.id}} .limited_items_content_${index} .price-div`).text(Shopify.formatMoney(parseFloat(data[key][0].variant_price4wscode) * 100, $('body').data('money-format')) )
+						$(`#{{section.id}} .limited_items_content_${index} .compare-at-price`).text(Shopify.formatMoney(parseFloat(data[key][0].variant_price) * 100, $('body').data('money-format')) )
+					}else {
+						$(`#{{section.id}} .product_code-${index}`).css({
+								visibility: 'hidden'
+							})
+						$(`#{{section.id}} .limited_items_icon_div_${index}`).hide()
+						$(`#{{section.id}} .limited_items_content_${index} .compare-at-price`).hide()
+					}
+				})
+			}
+		})
+	})()
+	{% endif %}
+	function execCoy(text) {
+    const input = document.createElement('INPUT');
+    input.style.opacity  = 0;
+    input.style.position = 'absolute';
+    input.style.left = '-100000px';
+    document.body.appendChild(input);
+
+    input.value = text;
+    input.select();
+    input.setSelectionRange(0, text.length);
+    document.execCommand('copy');
+    document.body.removeChild(input);
+    return true;
+  }
+
+	$('#{{section.id}} .copy_code').on('click', function() {
+		let copying_text = $(this).data('copying-text')
+		let copy_text = $(this).data('copy-text');
+		let sku = $(this).data('sku');
+		let product_title = $(this).data('product_title')
+		let code_number = $(this).prev('.code_txt').find('.code-number').text()
+		let self = $(this)
+		$(this).text(copying_text)
+		execCoy(code_number)
+		dataLayer.push({
+			"event": "uaEvent",
+			"eventCategory": 'copy',
+			"eventAction": "{{section.settings.eventAction}}",
+			"eventLabel":  code_number + '_' + sku // 由coupon和sku拼接而成
+		})
+		window.dataLayer.push({ "event_parameters": null });
+		window.dataLayer.push({
+			"event": "ga4Event",
+			"event_name": "copy_coupon_code",
+			"event_parameters": {
+				"page_group": "{{section.settings.ga4_page_group}}",
+				"coupon_name": code_number,
+				"info": product_title
+			}
+		});
+		setTimeout(function() {
+			self.text(copy_text)
+		}, 500)
+	})
+
+	let allProducts = []
+	window.dataLayer.push({ "event_parameters": null });
+	{% for block in section.blocks %}
+		{% assign oProduct = block.settings.product_info %}
+		{% assign variants = oProduct.variants %}
+		{% assign oProduct_variant = oProduct.selected_or_first_available_variant %}
+		{% for child_variant in variants  %} 
+			{% if child_variant.sku == block.settings.variant_sku %}
+			{% assign oProduct_variant = child_variant %}
+			{% endif %}
+		{% endfor %}
+			var item = {
+				"event": "ga4Event",
+				"event_name": "view_item_list",
+				"event_parameters": {
+					"page_group": "{{section.settings.ga4_page_group}}",
+					"currency": "{{shop.currency}}",
+					"items": [{
+						"item_id": "{{oProduct_variant.sku}}",
+						"item_name": "{{oProduct.title | replace: '<br/>', '' }}",
+						"item_brand": "{{shop.name}}",
+						"item_category": "{{oProduct_variant.type}}",
+						"item_variant": "{{oProduct_variant.title}}",
+						"price": "{{oProduct_variant.price | divided_by: 100}}",
+						"index": "{{forloop.index}}",
+						"item_list_id": "{{section.id}}",
+						"item_list_name": "{{section.id}}"
+					}]
+				}
+			}
+			allProducts.push(item)
+	{% endfor %}
+
+	let io = new IntersectionObserver((entries) => {
+    entries.forEach(item => {
+			let el = item.target
+      if (item.isIntersecting) {
+				let index = el.getAttribute('data-forloop_index') || 1;
+				index--;
+				window.dataLayer.push(allProducts[index])
+        io.unobserve(item.target)
+      }
+    })
+  })
+
+	const limited_items_list = document.querySelectorAll('#{{section.id}} .limited_items')
+
+	limited_items_list.forEach((el) => {
+		io.observe(el)
+	})
+
+	$('#{{section.id}} .ga4-btn').on('click', function() {
+		let index = $(this).data("ga4-index");
+		let source = $(this).data("source");
+		index--;
+		let items = allProducts[index].event_parameters.items
+		window.dataLayer.push({ "event_parameters": null });
+		window.dataLayer.push({
+			"event": "ga4Event",
+			"event_name": "select_item",
+			"event_parameters": {
+				"page_group": "{{section.settings.ga4_page_group}}",
+				"action": source + items[0].item_name,
+				"currency": "{{shop.currency}}",
+				"items": items
+			}
+		});
+	})
+})
+</script>
+
+{% schema %}
+{
+	"name": "component_flash_sale",
+	"presets": [
+		{
+			"name": "component_flash_sale"
+		}
+	],
+	"settings": [
+		{
+			"type": "select",
+			"id": "show_device",
+			"label": "展示的设备",
+			"info": "移动端或PC端",
+			"options": [
+				{
+					"value": "showPc",
+					"label": "PC"
+				},
+				{
+					"value": "showMobile",
+					"label": "Mobile"
+				},
+				{
+          "value": "",
+          "label": "两端共用"
+        }
+			],
+			"default": "showPc"
+		},
+		{
+			"type": "header",
+			"content": "埋点相关"
+		},
+		{
+			"type": "text",
+			"id": "eventAction",
+			"label": "Ga3的埋点字段",
+			"default": "pd_live"
+		},
+		{
+			"type": "text",
+			"id": "img_source",
+			"label": "GA3埋点字段,图片的Ref",
+			"default": "pd_live_img"
+		},
+		{
+			"type": "text",
+			"id": "ga4_img_source",
+			"label": "GA4图片入口埋点字段前缀",
+			"default": "img_"
+		},
+		{
+			"type": "text",
+			"id": "button_source",
+			"label": "GA3埋点字段,button的Ref",
+			"default": "pd_live_button"
+		},
+		{
+			"type": "text",
+			"id": "ga4_button_source",
+			"label": "GA4按钮入口埋点字段前缀",
+			"default": "learn More_"
+		},
+		{
+			"type": "text",
+			"id": "ga4_page_group",
+			"label": "Ga4的埋点字段",
+			"default": "Live Streaming Page"
+		},
+		{
+			"type": "header",
+			"content": "section信息区域"
+		},
+		{
+			"type": "select",
+			"id": "box_max_width",
+			"label": "被等分的宽度",
+			"options": [
+				{
+					"label": "卡片纵向排列，一行展示4个",
+					"value": "996px-4"
+				},
+				{
+					"label": "卡片纵向排列，一行展示3个",
+					"value": "744px-3"
+				},
+				{
+					"label": "卡片纵向排列，一行展示2个（移动端一般都是展示2个）",
+					"value": "492px-2"
+				},
+				{
+					"label": "卡片横向排列，一行展示2个",
+					"value": "536px-2"
+				}
+			],
+			"default": "744px-3"
+		},
+		{
+			"type": "text",
+			"id": "box_width",
+			"label": "section的宽度(保持默认值！！！)",
+			"info": "可以是百分比可以是固定的像素，内容区域会默认居中",
+			"default": "100%"
+		},
+		{
+			"type": "text",
+			"id": "box_height",
+			"label": "section的高度(保持默认值！！！)",
+			"info": "可以是百分比可以是固定的像素，内容区域会默认居中"
+		},
+		{
+			"type": "text",
+			"id": "box_padding",
+			"label": "间距",
+			"info": "用于调节内容区与其他区域的间距（一般也不需要设置，保持默认值）",
+			"default": "20px 0"
+		},
+		{
+			"type": "color",
+			"id": "box_bg",
+			"label": "section背景色",
+			"default": "#e5e5e5"
+		},
+		{
+			"type": "text",
+			"id": "view_more_text",
+			"label": "view More",
+			"default": "View More" 
+		},
+		{
+			"type": "color",
+			"id": "view_more_bg",
+			"label": "view more 背景色",
+			"default": "#f7f7f7"
+		},
+		{
+			"type": "number",
+			"id": "view_more_number",
+			"label": "首屏展示的个数",
+			"default": 4,
+			"info": "不需要view more，将其设置为0"
+		},
+		{
+			"type": "header",
+			"content": "icon相关"
+		},
+		{
+			"type": "image_picker",
+			"id": "icon_bg",
+			"label": "icon的背景图片"
+		},
+		{
+			"type": "html",
+			"id": "icon_txt",
+			"label": "icon的文案",
+			"default": "Off"
+		},
+		{
+			"type": "color",
+			"id": "icon_txt_color",
+			"label": "icon的文案颜色",
+			"default": "#ffffff"
+		},
+		{
+			"type": "text",
+			"id": "icon_txt_font_size",
+			"label": "icon的文案大小",
+			"default": "12px"
+		},
+		{
+			"type": "text",
+			"id": "icon_width",
+			"label": "icon的宽度",
+			"default": "34px"
+		},
+		{
+			"type": "text",
+			"id": "icon_left",
+			"label": "icon的水平位置",
+			"default": "12px"
+		},
+		{
+			"type": "text",
+			"id": "icon_top",
+			"label": "icon的垂直位置",
+			"default": "0"
+		},
+		{
+			"type": "select",
+			"id": "icon_font_weight",
+			"label": "icon文案是否加粗",
+			"options": [
+				{
+					"value": "bold",
+					"label": "bold"
+				},
+				{
+					"value": "normal",
+					"label": "normal"
+				}
+			],
+			"default": "bold"
+		},
+		{
+			"type": "header",
+			"content": "产品卡片配置区"
+		},
+		{
+			"type": "number",
+			"id": "card_margin",
+			"label": "卡片的外边距（保持默认值，不需要设置！！！）",
+			"default": 12
+		},
+		{
+			"type": "text",
+			"id": "title_desc_div",
+			"label": "标题和描述组合的高度",
+			"info": "一般移动端需要设置",
+			"default": "60px"
+		},
+		{
+			"type": "color",
+			"id": "img_bg",
+			"label": "产品图片的背景色",
+			"default": "#ffffff"
+		},
+		{
+			"type": "select",
+			"id": "content_text_align",
+			"label": "产品信息区域水平位置",
+			"options": [
+				{
+					"value": "flex-start",
+					"label": "居左"
+				},
+				{
+					"value": "center",
+					"label": "居中"
+				},
+				{
+					"value": "flex-end",
+					"label": "居右"
+				}
+			],
+			"default": "center"
+		},
+		{
+			"type": "select",
+			"id": "content_font_family",
+			"label": "内容区字体",
+			"default": "Arial",
+			"info": "这里聚齐了所有品牌站点的字体，请选择该品牌已有的字体",
+			"options": [
+				{
+					"value": "DINNextLT",
+					"label": "DINNextLT"
+				},
+				{
+					"value": "Helvetica",
+					"label": "Helvetica"
+				},
+				{
+					"value": "Arial",
+					"label": "Arial"
+				},
+				{
+					"value": "Avenir Next",
+					"label": "Avenir Next"
+				},
+				{
+					"value": "Helvetica Neue",
+					"label": "Helvetica Neue"
+				},
+				{
+					"value": "",
+					"label": "系统默认字体"
+				}
+			]
+		},
+		{
+			"type": "color",
+			"id": "limited_items_content_bg",
+			"label": "产品内容区域背景色",
+			"default": "#ffffff"
+		},
+		{
+			"type": "color",
+			"id": "product_title_color",
+			"label": "产品标题颜色",
+			"default": "#000000"
+		},
+		{
+			"type": "text",
+			"id": "product_title_font_size",
+			"label": "产品标题大小",
+			"default": "16px"
+		},
+		{
+			"type": "select",
+			"id": "product_title_font_weight",
+			"label": "产品标题粗细",
+			"options": [
+				{
+					"value": "bold",
+					"label": "bold"
+				},
+				{
+					"value": "normal",
+					"label": "normal"
+				}
+			],
+			"default": "normal"
+		},
+		{
+			"type": "color",
+			"id": "product_desc_color",
+			"label": "产品描述颜色",
+			"default": "#333333"
+		},
+		{
+			"type": "text",
+			"id": "product_desc_font_size",
+			"label": "产品描述大小",
+			"default": "14px"
+		},
+		{
+			"type": "text",
+			"id": "price_font_size",
+			"label": "价格大小",
+			"default": "24px"
+		},
+		{
+			"type": "color",
+			"id": "price_color",
+			"label": "价格颜色",
+			"default": "#000000"
+		},
+		{
+			"type": "select",
+			"id": "price_font_weight",
+			"label": "价格粗细",
+			"default": "bold",
+			"options": [
+				{
+					"value": "bold",
+					"label": "bold"
+				},
+				{
+					"value": "normal",
+					"label": "normal"
+				}
+			]
+		},
+		{
+			"type": "color",
+			"id": "compare_at_price_color",
+			"label": "原价格颜色",
+			"default": "#333333"
+		},
+		{
+			"type": "text",
+			"id": "compare_at_price_font_size",
+			"label": "原价格大小",
+			"default": "16px"
+		},
+		{
+			"type": "select",
+			"id": "compare_at_price_font_weight",
+			"label": "原价格粗细",
+			"default": "normal",
+			"options": [
+				{
+					"value": "bold",
+					"label": "bold"
+				},
+				{
+					"value": "normal",
+					"label": "normal"
+				}
+			]
+		},
+		{
+			"type": "text",
+			"id": "code_text",
+			"label": "Code文案",
+			"default": "CODE"
+		},
+		{
+			"type": "color",
+			"id": "code_text_color",
+			"label": "Code文案颜色",
+			"default": "#999999"
+		},
+		{
+			"type": "text",
+			"id": "code_text_font_size",
+			"label": "Code文案大小",
+			"default": "14px"
+		},
+		{
+			"type": "text",
+			"id": "copy_text",
+			"label": "Copy文案",
+			"default": "Copy"
+		},
+		{
+			"type": "text",
+			"id": "copying_text",
+			"label": "拷贝中的文案",
+			"default": "COPIED"
+		},
+		{
+			"type": "color",
+			"id": "copy_text_color",
+			"label": "Code文案颜色",
+			"default": "#00a7e1"
+		},
+		{
+			"type": "text",
+			"id": "copy_text_font_size",
+			"label": "Copy文案大小",
+			"default": "14px"
+		},
+		{
+			"type": "header",
+			"content": "操作按钮区"
+		},
+		{
+			"type": "select",
+			"id": "button_group_style",
+			"label": "按钮组的样式",
+			"info": "横向或纵向",
+			"default": "2",
+			"options": [
+				{
+					"label": "纵向",
+					"value": "1"
+				},
+				{
+					"label": "横向",
+					"value": "2"
+				}
+			]
+		},
+		{
+			"type": "text",
+			"id": "button_txt",
+			"label": "按钮1文案",
+			"default": "Buy Now"
+		},
+		{
+			"type": "text",
+			"id": "learn_more",
+			"label": "按钮2文案",
+			"default": "Learn More"
+		},
+		{
+			"type": "text",
+			"id": "button_width",
+			"label": "按钮宽度",
+			"info": "一般情况下是不建议给按钮设置宽度的，通过下方的padding进行设置"
+		},
+		{
+			"type": "text",
+			"id": "button_height",
+			"label": "按钮高度",
+			"info": "一般情况下是不建议给按钮设置宽度的，通过下方的padding进行设置"
+		},
+		{
+			"type": "text",
+			"id": "button_padding",
+			"label": "按钮内边距",
+			"default": "6px 20px"
+		},
+		{
+			"type": "header",
+			"content": "按钮1正常状态区"
+		},
+		{
+			"type": "color",
+			"id": "button_bg",
+			"label": "按钮背景色",
+			"default": "#ffffff"
+		},
+		{
+			"type": "color",
+			"id": "button_border_color",
+			"label": "按钮边框颜色",
+			"default": "#333333"
+		},
+		{
+			"type": "color",
+			"id": "button_txt_color",
+			"label": "按钮文案颜色",
+			"default": "#333333"
+		},
+		{
+			"type": "text",
+			"id": "button_txt_font_size",
+			"label": "按钮文案大小",
+			"default": "16px"
+		},
+		{
+			"type": "header",
+			"content": "按钮hover状态区"
+		},
+		{
+			"type": "color",
+			"id": "button_hover_bg",
+			"label": "按钮hover时背景色",
+			"default": "#00a9e1"
+		},
+		{
+			"type": "color",
+			"id": "button_hover_border_color",
+			"label": "按钮hover时边框颜色",
+			"default": "#00a9e1"
+		},
+		{
+			"type": "color",
+			"id": "button_hover_txt_color",
+			"label": "按钮hover时文案颜色",
+			"default": "#ffffff"
+		},
+		{
+			"type": "header",
+			"content": "按钮disabled状态区"
+		},
+		{
+			"type": "color",
+			"id": "button_disabled_bg",
+			"label": "按钮禁用时的背景色",
+			"info": "没有库存或产品下架时会禁用",
+			"default": "#666666"
+		},
+		{
+			"type": "color",
+			"id": "button_disabled_border_color",
+			"label": "按钮禁用时的边框颜色",
+			"info": "没有库存或产品下架时会禁用",
+			"default": "#666666"
+		},
+		{
+			"type": "color",
+			"id": "button_disabled_txt_color",
+			"label": "按钮禁用时的文案颜色",
+			"info": "没有库存或产品下架时会禁用",
+			"default": "#ffffff"
+		},
+		{
+			"type": "header",
+			"content": "按钮2正常状态区"
+		},
+		{
+			"type": "color",
+			"id": "button2_bg",
+			"label": "按钮背景色",
+			"default": "#ffffff"
+		},
+		{
+			"type": "color",
+			"id": "button2_border_color",
+			"label": "按钮边框颜色",
+			"default": "#333333"
+		},
+		{
+			"type": "color",
+			"id": "button2_txt_color",
+			"label": "按钮文案颜色",
+			"default": "#333333"
+		},
+		{
+			"type": "header",
+			"content": "按钮hover状态区"
+		},
+		{
+			"type": "color",
+			"id": "button2_hover_bg",
+			"label": "按钮hover时背景色",
+			"default": "#00a9e1"
+		},
+		{
+			"type": "color",
+			"id": "button2_hover_border_color",
+			"label": "按钮hover时边框颜色",
+			"default": "#00a9e1"
+		},
+		{
+			"type": "color",
+			"id": "button2_hover_txt_color",
+			"label": "按钮hover时文案颜色",
+			"default": "#ffffff"
+		},
+		{
+			"type": "header",
+			"content": "按钮disabled状态区"
+		},
+		{
+			"type": "color",
+			"id": "button2_disabled_bg",
+			"label": "按钮禁用时的背景色",
+			"info": "没有库存或产品下架时会禁用",
+			"default": "#666666"
+		},
+		{
+			"type": "color",
+			"id": "button2_disabled_border_color",
+			"label": "按钮禁用时的边框颜色",
+			"info": "没有库存或产品下架时会禁用",
+			"default": "#666666"
+		},
+		{
+			"type": "color",
+			"id": "button2_disabled_txt_color",
+			"label": "按钮禁用时的文案颜色",
+			"info": "没有库存或产品下架时会禁用",
+			"default": "#ffffff"
+		},
+		{
+			"type": "header",
+			"content": "某些字段控制是否显示区域"
+		},
+		{
+			"type": "checkbox",
+			"id": "has_show_discount",
+			"label": "是否显示折扣",
+			"default": true
+		},
+		{
+			"type": "checkbox",
+			"id": "has_show_reviews",
+			"label": "是否显示评分",
+			"default": true
+		},
+		{
+			"type": "checkbox",
+			"id": "has_show_price",
+			"label": "是否显示价格",
+			"default": true
+		}
+	],
+	"blocks": [
+		{
+			"type": "limited_item",
+			"name": "limited_item",
+			"settings": [
+				{
+					"type": "select",
+					"id": "custom_style",
+					"label": "卡片样式选择",
+					"options": [
+						{
+							"value": "1",
+							"label": "横向排列"
+						},
+						{
+							"value": "2",
+							"label": "纵向排列"
+						}
+					],
+					"default": "2"
+				},
+				{
+					"type": "select",
+					"id": "card_width",
+					"label": "卡片宽度",
+					"info": "每个卡片等分的时候是不需要填写，只有非等分的时候才需要!!!",
+					"options": [
+						{
+							"label": "非等分时占比三分之一",
+							"value": "33.333%"
+						},
+						{
+							"label": "非等分时占比三分之二",
+							"value": "66.666%"
+						},
+						{
+							"label": "非等分时占比二分之一",
+							"value": "50%"
+						},
+						{
+							"label": "回归等分",
+							"value": ""
+						}
+					],
+					"default": ""
+				},
+				{
+					"type": "select",
+					"id": "card_height",
+					"label": "卡片高度",
+					"info": "横向排列的时候需要设置!!!",
+					"options": [
+						{
+							"label": "等分横向排列高度",
+							"value": "140px"
+						},
+						{
+							"label": "等分纵向排列高度",
+							"value": "auto"
+						},
+						{
+							"label": "不等分纵向排列高度",
+							"value": "292px"
+						}
+					],
+					"default": "auto"
+				},
+				{
+					"type": "header",
+					"content": "产品图片部分内容"
+				},
+				{
+					"type": "product",
+					"id": "product_info",
+					"label": "产品",
+					"info": "用于获取产品信息"
+				},
+				{
+					"type": "text",
+					"id": "variant_sku",
+					"label": "variant_sku",
+					"info": "提供给自定义展示不同商品的variant，如果不填写，默认就展示第一个可用的variant"
+				},
+				{
+					"type": "header",
+					"content": "产品描述部分相关内容"
+				},
+				{
+					"type": "text",
+					"id": "product_title",
+					"label": "产品标题",
+					"info": "产品标题可自定义"
+				},
+				{
+					"type": "text",
+					"id": "product_desc",
+					"label": "产品描述",
+					"info": "自定义的产品描述",
+					"default": "product_desc"
+				},
+				{
+					"type": "text",
+					"id": "custom_price",
+					"label": "自定义的价格",
+					"info": "直播中用到"
+				}
+			]
+		}
+	]
+}
+
+{% endschema %}

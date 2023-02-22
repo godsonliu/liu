@@ -1,0 +1,211 @@
+$title-color: #000 !default;
+$title-size: 30px !default;
+$title-weight: 600 !default;
+$title-line-height: 1.125 !default;
+$title-strong-color: inherit !default;
+$title-strong-weight: inherit !default;
+$title-sub-size: 0.75em !default;
+$title-sup-size: 0.75em !default;
+
+$subtitle-color: #000 !default;
+$subtitle-size: $size-5 !default;
+$subtitle-weight: $weight-normal !default;
+$subtitle-line-height: 1.25 !default;
+$subtitle-strong-color: inherit !default;
+$subtitle-strong-weight: $weight-semibold !default;
+$subtitle-negative-margin: -1.25rem !default;
+
+h1,
+.h1 {
+  @include headline-style($headline-font-size);
+}
+
+h2,
+.h2 {
+  @include headline-style(floor($headline-font-size*0.9));
+}
+
+h3,
+.h3 {
+  @include headline-style(floor($headline-font-size*0.8));
+}
+
+h4,
+.h4 {
+  @include headline-style(floor($headline-font-size*0.7));
+}
+
+h5,
+.h5 {
+  @include headline-style(floor($headline-font-size*0.65));
+}
+
+h6,
+.h6 {
+  @include headline-style(floor($headline-font-size*0.6));
+}
+
+.text-align-center {
+  text-align: center;
+}
+
+.text-align-left,
+.text-align-start {
+  text-align: left;
+}
+
+.text-align-right,
+.text-align-end {
+  text-align: right;
+}
+
+.text-align-justify {
+  text-align: justify;
+}
+
+.is-capitalized {
+  text-transform: capitalize;
+}
+
+.is-lowercase {
+  text-transform: lowercase;
+}
+
+.is-uppercase {
+  text-transform: uppercase;
+}
+
+.is-italic {
+  font-style: italic !important;
+}
+
+.text-is-large {
+  font-size: larger;
+}
+
+.text-is-medium {
+  font-size: initial;
+}
+
+.text-is-small {
+  font-size: smaller;
+}
+
+.title,
+.subtitle {
+  @extend %block;
+
+  overflow-wrap: break-word;
+
+  em,
+  span {
+    font-weight: inherit;
+  }
+
+  sub {
+    font-size: $title-sub-size;
+  }
+
+  sup {
+    font-size: $title-sup-size;
+  }
+
+  .tag {
+    vertical-align: middle;
+  }
+}
+  
+.title {
+  color: $title-color;
+  font-size: $title-size;
+  font-weight: $title-weight;
+  line-height: $title-line-height;
+
+  strong {
+    color: $title-strong-color;
+    font-weight: $title-strong-weight;
+  }
+
+  & + .highlight {
+    margin-top: -0.75rem;
+  }
+
+  &:not(.is-spaced) + .subtitle:not(.modal_price) {
+    margin-top: $subtitle-negative-margin;
+  }
+
+  // Sizes
+  @each $size in $sizes {
+    $i: index($sizes, $size);
+
+    &.is-#{$i} {
+      font-size: $size;
+    }
+  }
+}
+
+.subtitle {
+  color: $subtitle-color;
+  font-size: $subtitle-size;
+  font-weight: $subtitle-weight;
+  line-height: $subtitle-line-height;
+
+  strong {
+    color: $subtitle-strong-color;
+    font-weight: $subtitle-strong-weight;
+  }
+
+  &:not(.is-spaced) + .title {
+    margin-top: $subtitle-negative-margin;
+  }
+
+  // Sizes
+  @each $size in $sizes {
+    $i: index($sizes, $size);
+
+    &.is-#{$i} {
+      font-size: $size;
+    }
+  }
+}
+
+.large-heading {
+  padding-bottom: 40px;
+}
+
+.signature {
+  font-family: fantasy;
+}
+
+// Divider
+
+.heading-divider:not(.heading-divider--vertical) {
+  border-style: solid;
+  border-color: #9f9f9f;
+  border-width: 2px;
+  border-bottom: none;
+}
+
+.heading-divider--short {
+  width: 70px;
+}
+
+.heading-divider--long {
+  width: 100%;
+}
+
+.heading-divider--vertical {
+  background: #9f9f9f;
+  width: 2px;
+  height: 40px;
+}
+
+@keyframes spinAround {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(359deg);
+  }
+}

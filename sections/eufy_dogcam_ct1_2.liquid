@@ -1,0 +1,25 @@
+{% assign lang = product.metafields.global %}
+
+{% if lang.dogcam.value %}
+  {% assign dogcam = lang.dogcam.value %}
+{% else %}
+  {% assign dogcam = lang.dogcam %}
+{% endif %}
+
+<link rel="stylesheet" href="{{ 'eufy_dogcam_ct.scss.css' | asset_url }}">
+<script src="{{ 'eufy_dogcam_ct.js' | asset_url }}" defer="defer"></script>
+
+<div class="eufy_dogcam_1_2">
+  
+  <div class="banner_bg1_2 mob_show">
+    <img class="lazyload" data-src="{{ dogcam.banner_bg1_2_img }}" alt="">
+    <div class="banner_bg1_2_content">
+      <p class="banner_bg1_2_p1">
+        {{ dogcam.banner_bg1_2_p1 }}
+      </p>
+      <p class="banner_bg1_2_p2">
+        {{ dogcam.banner_bg1_2_p2 }}
+      </p>
+    </div>
+  </div>
+</div>

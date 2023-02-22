@@ -1,0 +1,162 @@
+{% if product.metafields.aplus._order.value %}
+  {% assign aplusOrder = product.metafields.aplus._order.value %}
+{% else %}
+  {% assign aplusOrder = product.metafields.aplus._order %}
+{% endif %}
+
+{% if product.metafields.aplus.id.value %}
+  {% assign aplusSectionId = product.metafields.aplus.id.value %}
+{% else %}
+  {% assign aplusSectionId = product.metafields.aplus.id %}
+{% endif %}
+
+{% if aplusSectionId == blank %}
+  {% assign aplusSectionId = 'overview' %}
+{% endif %}
+
+{% if aplusOrder != blank and aplusOrder.size > 0 %}
+
+  {% comment %}{{ 'swiper.min.css' | asset_url | stylesheet_tag }}{% endcomment %}
+  {{ 'aplus.scss.css' | asset_url | stylesheet_tag }}
+  {% comment %}{{ 'swiper.min.js' | asset_url | script_tag }}{% endcomment %}
+
+  <div id="{{ aplusSectionId }}">
+  {% for key in aplusOrder %}
+    {% assign sectionName = key | split: '__' | first %}
+    {% case sectionName %}
+      {% when 'aplus-image' %}
+        {% render 'aplus-image-snippet',
+          key: key,
+        %}
+      {% when 'aplus-bg-image' %}
+        {% render 'aplus-bg-image-snippet',
+          key: key
+        %}
+      {% when 'aplus-dual-images' %}
+        {% render 'aplus-dual-images-snippet',
+          key: key
+        %}
+      {% when 'aplus-four-images' %}
+        {% render 'aplus-four-images-snippet',
+          key: key
+        %}
+      {% when 'aplus-full-image' %}
+        {% render 'aplus-full-image-snippet',
+          key: key
+        %}
+      {% when 'aplus-full-video' %}
+        {% render 'aplus-full-video-snippet',
+          key: key
+        %}
+      {% when 'aplus-video' %}
+        {% render 'aplus-video-snippet'
+          key: key
+        %}
+      {% when 'aplus-hotspots-1' %}
+        {% render 'aplus-hotspots-1-snippet',
+          key: key
+        %}
+      {% when 'aplus-hotspots-2' %}
+        {% render 'aplus-hotspots-2-snippet',
+          key: key
+        %}
+      {% when 'aplus-image-carousel' %}
+        {% render 'aplus-image-carousel-snippet',
+          key: key
+        %}
+      {% when 'aplus-video-carousel' %}
+        {% render 'aplus-video-carousel-snippet',
+          key: key
+        %}
+      {% when 'aplus-nav-carousel' %}
+        {% render 'aplus-nav-carousel-snippet',
+          key: key
+        %}
+      {% when 'aplus-regimen-carousel' %}
+        {% render 'aplus-regimen-carousel-snippet',
+          key: key
+        %}
+      
+      {% when 'aplusImage' %}
+        {% render 'aplus-image-snippet',
+          key: key,
+          namespace: 'component'
+        %}
+      {% when 'aplusBgImage' %}
+        {% render 'aplus-bg-image-snippet',
+          key: key,
+          namespace: 'component'
+        %}
+      {% when 'aplusDualImages' %}
+        {% render 'aplus-dual-images-snippet',
+          key: key,
+          namespace: 'component'
+        %}
+      {% when 'aplusFourImages' %}
+        {% render 'aplus-four-images-snippet',
+          key: key,
+          namespace: 'component'
+        %}
+      {% when 'aplusFullImage' %}
+        {% render 'aplus-full-image-snippet',
+          key: key,
+          namespace: 'component'
+        %}
+      {% when 'aplusFullVideo' %}
+        {% render 'aplus-full-video-snippet',
+          key: key,
+          namespace: 'component'
+        %}
+      {% when 'aplusVideo' %}
+        {% render 'aplus-video-snippet'
+          key: key,
+          namespace: 'component'
+        %}
+      {% when 'aplusHotspots1' %}
+        {% render 'aplus-hotspots-1-snippet',
+          key: key,
+          namespace: 'component'
+        %}
+      {% when 'aplusHotspots2' %}
+        {% render 'aplus-hotspots-2-snippet',
+          key: key,
+          namespace: 'component'
+        %}
+      {% when 'aplusImageCarousel' %}
+        {% render 'aplus-image-carousel-snippet',
+          key: key,
+          namespace: 'component'
+        %}
+      {% when 'aplusVideoCarousel' %}
+        {% render 'aplus-video-carousel-snippet',
+          key: key,
+          namespace: 'component'
+        %}
+      {% when 'aplusNavCarousel' %}
+        {% render 'aplus-nav-carousel-snippet',
+          key: key,
+          namespace: 'component'
+        %}
+      {% when 'aplusRegimenCarousel' %}
+        {% render 'aplus-regimen-carousel-snippet',
+          key: key,
+          namespace: 'component'
+        %}
+    {% endcase %}
+  {% endfor %}
+  </div>
+
+{% endif %}
+
+{% schema %}
+{
+  "name": "Aplus Container",
+  "presets": [
+    {
+      "name": "Aplus Container",
+      "settings": {}
+    }
+  ],
+  "settings": []
+}
+{% endschema %}

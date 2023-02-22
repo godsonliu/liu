@@ -1,0 +1,306 @@
+{% assign DataId = section.id %}
+{% assign swipe_blocks = section.blocks %}
+<style>
+@media(max-width: 769px) {
+	.showPc {
+		display: none !important;
+	}
+}
+@media(min-width: 769px) {
+	.showMobile {
+		display: none !important;
+	}
+}
+#{{DataId}} {
+  width: {{section.settings.div_width}};
+  margin: {{section.settings.marginPx}};
+}
+#{{DataId}} .faster{
+  width: {{section.settings.faster_width}};
+  max-width: {{section.settings.faster_max_width}};
+  margin: auto;
+  position: relative;
+}
+#{{DataId}} .faster_content li .faster_content_txt h3 {
+  word-break: break-all;
+}
+#{{DataId}} .faster_content li .faster_content_txt p { 
+  margin-top: 10px;
+  word-break: break-all;
+}
+#{{DataId}} .faster_content li .faster_content_txt h1 { 
+  line-height: 1.2;
+}
+#{{DataId}} .image-element__wrap{max-width: none !important;}
+
+#{{DataId}} .faster_content{
+  width: 100%;
+  margin: auto;
+  overflow: hidden;
+}
+#{{DataId}} .faster_content li {
+  position: relative;
+  width: 100%;
+  display: flex;
+}
+#{{DataId}} .faster_content li.flex_start{
+  justify-content: flex-start;
+}
+#{{DataId}} .faster_content li.flex_end{
+  justify-content: flex-end;
+}
+#{{DataId}} .faster_content li .faster_content_bg{
+  width: 100%;
+}
+#{{DataId}} .faster_content li .right{
+  right: 5%;
+}
+#{{DataId}} .faster_content li .left{
+  left: 5%;
+}
+#{{DataId}} .faster_content li .faster_content_txt{
+  width: 45%; 
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+#{{DataId}} .slick-next,#{{DataId}} .slick-prev{
+  width: 30px;
+  height: 30px;
+  opacity: 1;
+  color: #000000;
+  font-size: 20px;
+}
+#{{DataId}} .slick-next::before,#{{DataId}} .slick-prev::before{content: '';}
+#{{DataId}} .slick-next i,#{{DataId}} .slick-prev i{font-size: 40px;}
+
+#{{DataId}} .slick-next {
+  right: -35px;
+}
+#{{DataId}} .slick-prev{
+  left: -45px;
+}
+@media (max-width:768px) {
+  #{{DataId}} .slick-next,#{{DataId}} .slick-prev{top: 35%;}
+  #{{DataId}}{padding:0px 0 50px}
+  #{{DataId}} .faster{width: 100%;}
+  #{{DataId}} .faster_content li{margin-bottom: 0;}
+  #{{DataId}} .faster_content li .faster_content_bg{width: 100%;}
+  #{{DataId}} .faster_content li .faster_content_txt{width: 90%;margin:24px auto 0;}
+  #{{DataId}} .faster_content li .faster_content_txt{position: static;transform: translateY(0);}
+  #{{DataId}} .faster_content li {flex-direction: column;justify-content: flex-end;}
+  #{{DataId}} .slick-next i,#{{DataId}} .slick-prev i{font-size: 25px;}
+  #{{DataId}} .faster_content{width: 100%;}
+  #{{DataId}} .faster_content li .faster_content_txt h1{font-size: 16px;font-weight: 600;}
+  #{{DataId}} .faster_content li .faster_content_txt p{font-size: 14px;margin-top: 30px;}
+  #{{DataId}} .slick-next {right: 3vw;}
+  #{{DataId}} .slick-prev{left: 3vw;z-index: 1;}
+}
+</style>
+<section id="{{DataId}}" class="{{section.settings.show_device}}">
+  <div class="faster">
+    <button type="button" data-role="none" class="slick-arrow slick-prev" style="display:block;" data-reactid="561">
+      <i class="iconfont">&#xe625;</i>
+    </button>
+    <ul class="faster_content">
+      {% for item in swipe_blocks%}
+      <li class=" {% if item.settings.img_direction == 'left' %}
+      flex_end
+      {%else%}
+      flex_start
+      {% endif %}" >
+      <div class="faster_content_bg">
+        {% render 'image-element',
+      image: item.settings.faster_src,
+      additional_classes: 'is-hidden-mobile-only'
+      %}
+      <div class="faster_content_bg">
+        {% render 'image-element',
+      image: item.settings.faster_src_mob,
+      additional_classes: 'is-hidden-desktop-only'
+      %}
+      </div>
+        <div class="faster_content_txt {% if item.settings.img_direction == 'left' %}
+        left
+        {%else%}
+        right
+        {% endif %}" >
+          <h3 
+            style="
+              color:{{item.settings.title_color}};
+              font-size: {{item.settings.faster_title_font_size}};
+              font-weight: {{item.settings.faster_title_font_weight}}
+            ">{{item.settings.faster_title}}</h3>
+          <p 
+            style="
+              color:{{item.settings.text_color}};
+              font-size: {{item.settings.faster_text_font_size}}
+            ">{{item.settings.faster_text}}</p>
+        </div>
+      </li>
+    {% endfor %}
+    </ul>
+    <button type="button" data-role="none" class="slick-arrow slick-next" style="display:block;" data-reactid="561">
+      <i class="iconfont">&#xe610;</i>
+    </button>
+  </div>
+</section>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+<script>
+   $("#{{DataId}} .faster_content").slick({
+      autoplay: true,
+      pauseOnHover: false,
+      speed: 1000,
+      autoplaySpeed: 5000,
+      slidesToShow: 1,
+      swipeToSlide: true,
+      touchThreshold: 100,
+      centerMode: true,
+      centerPadding: '0',
+      arrows:true,
+      prevArrow: $('.faster .slick-prev'),
+      nextArrow: $('.faster .slick-next'),
+    });
+</script>
+{% schema %}
+{
+  "name": "component_kol_div",
+  "presets": [
+    {
+      "category": "Custom Dynamic Sections",
+      "name": "component_kol_div"
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "div_width",
+      "label": "区域宽度",
+      "info": "默认百分百",
+      "default": "100%"
+    },
+    {
+      "type": "text",
+      "id": "faster_width",
+      "label": "轮播宽度",
+      "default": "90%"
+    },
+    {
+      "type": "text",
+      "id": "faster_max_width",
+      "label": "轮播最大宽度",
+      "default": "1208px"
+    },
+    {
+      "type": "select",
+      "id": "show_device",
+      "label": "展示的设备",
+      "options": [
+        {
+          "label": "Mobile",
+          "value": "showMobile"
+        },
+        {
+          "label": "PC",
+          "value": "showPc"
+        },
+        {
+          "value": "",
+          "label": "两端共用"
+        }
+      ],
+      "default": "showPc"
+    },
+    {
+      "type": "text",
+      "id": "marginPx",
+      "label": "区域的上下边距",
+      "info": "用于提供与其他元素提供纵向距离"
+    }
+  ],
+  "blocks":[
+    {
+      "name":"faster_content",
+      "type":"swipe_link",
+      "settings":[
+        {
+          "type":"image_picker",
+          "id":"faster_src",
+          "label": "faster_src",
+          "info": "PC端图片"
+        },{
+          "type":"image_picker",
+          "id":"faster_src_mob",
+          "label": "faster_src_mob",
+          "info": "移动端图片"
+        },
+        {
+          "type":"text",
+          "id":"faster_title",
+          "label": "faster_title"
+        },
+        {
+          "type": "text",
+          "id": "faster_title_font_size",
+          "label": "标题字体大小",
+          "default": "28px"
+        },
+        {
+          "type": "select",
+          "id": "faster_title_font_weight",
+          "label": "标题粗细",
+          "options": [
+            {
+              "value": "bold",
+              "label": "bold"
+            },
+            {
+              "value": "normal",
+              "label": "normal"
+            }
+          ],
+          "default": "bold"
+        },
+        {
+          "type":"text",
+          "id":"faster_text",
+          "label": "faster_text"
+        },
+        {
+          "type":"text",
+          "id":"faster_text_font_size",
+          "label": "描述字体大小",
+          "default": "20px"
+        },
+        {
+          "type":"color",
+          "id":"text_color",
+          "label": "text_color"
+        },
+        {
+          "type":"color",
+          "id":"title_color",
+          "label": "title_color"
+        },
+        {
+          "type":"select",
+          "id":"img_direction",
+          "label": "文案所处位置",
+          "options":[
+            {
+              "value":"left",
+              "label":"left"
+            },
+            {
+              "value":"right",
+              "label":"right"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

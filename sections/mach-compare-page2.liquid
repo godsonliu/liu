@@ -1,0 +1,188 @@
+{% assign section_id = 'shopify-section-' | append: section.id %}
+<section class="mach-compare-page2">
+  <div class="mach-compare-line"></div>
+  <div class="mach-page-title">{{ section.settings.title }}</div>
+  <div class="mach-page-subtitle">{{ section.settings.subtitle }}</div>
+  <div class="mach-page-desc">{{ section.settings.desc }}</div>
+  <div class="mach-page-content">
+    <div class="content-top">
+      <div class="content-top-left">
+        <picture>
+          <source
+            media="(min-width: 769px)"
+            alt="{{ section.settings.top_left_bg.alt }}"
+            data-srcset="{{ section.settings.top_left_bg | img_url: '590x' }}"
+            srcset="{{ section.settings.top_left_bg | img_url: '50x' }}"
+            width="{{ 590 }}"
+            {% if section.settings.top_left_bg.aspect_ratio != blank %}
+              height="{{ 590 | divided_by: section.settings.top_left_bg.aspect_ratio }}"
+            {% endif %}
+          />
+          <img
+            class="lazyload"
+            data-src="{{ section.settings.mb_top_left_bg | img_url: '165x' }}"
+            src="{{ section.settings.mb_top_left_bg | img_url: '50x' }}"
+            alt="{{ section.settings.mb_top_left_bg.alt }}"
+            width="{{ 165 }}"
+            {% if section.settings.mb_top_left_bg.aspect_ratio != blank %}
+              height="{{ 165 | divided_by: section.settings.mb_top_left_bg.aspect_ratio }}"
+            {% endif %}
+          />
+        </picture>
+      </div>
+      <div class="vs">{{ section.settings.vs }}</div>
+      <div class="content-top-right">
+        <picture>
+          <source
+            media="(min-width: 769px)"
+            alt="{{ section.settings.top_right_bg.alt }}"
+            data-srcset="{{ section.settings.top_right_bg | img_url: '590x' }}"
+            srcset="{{ section.settings.top_right_bg | img_url: '50x' }}"
+            width="{{ 590 }}"
+            {% if section.settings.top_right_bg.aspect_ratio != blank %}
+              height="{{ 590 | divided_by: section.settings.top_right_bg.aspect_ratio }}"
+            {% endif %}
+          />
+          <img
+            class="lazyload"
+            data-src="{{ section.settings.mb_top_right_bg | img_url: '165x' }}"
+            src="{{ section.settings.mb_top_right_bg | img_url: '50x' }}"
+            alt="{{ section.settings.mb_top_right_bg.alt }}"
+            width="{{ 165 }}"
+            {% if section.settings.mb_top_right_bg.aspect_ratio != blank %}
+              height="{{ 165 | divided_by: section.settings.mb_top_right_bg.aspect_ratio }}"
+            {% endif %}
+          />
+        </picture>
+      </div>  
+    </div>
+    <div class="content-bottom">
+      <div class="content-bottom-left">
+        <div class="bottom-title">{{ section.settings.bottom_title }}</div>
+        <div class="bottom-subtitle">{{ section.settings.bottom_subtitle }}</div>
+        <div class="bottom-desc showPc">{{ section.settings.bottom_desc }}</div>
+      </div>
+      <div class="content-bottom-right">
+        {% if section.settings.bottom_image != blank %}
+        <div class="bottom-image">
+          <img 
+            class="lazyload"
+            data-src="{{ section.settings.bottom_image | image_url }}"
+          />
+        </div>
+        {% endif %}
+        {% if section.settings.bottom_video %}
+        <div class="bottom-video tvc-content-hidecontrols">
+          {{ section.settings.bottom_video | video_tag: loop: true, autoplay: true, muted: true, controls: false, image_size: '576x', webkit-playsinline: 'true', x5-video-player-type: 'h5', x5-video-player-fullscreen: 'true', x5-video-orientation: 'portraint' }}
+          {% comment %} <div class="tvc-player">
+            <img src="https://cdn.shopify.com/s/files/1/0521/9411/5753/files/sock_play.png?v=1657528046"/>
+          </div> {% endcomment %}
+        </div>
+        {% endif %}
+        <div class="bottom-desc showMobile">{{ section.settings.bottom_desc }}</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+{% if section.settings.bottom_video %}
+$(function() {
+  {% comment %} //改为自动播放
+  let videoEle = document.querySelector('#{{ section_id }} .bottom-video video')
+
+  document.querySelector('#{{ section_id }} .tvc-player').addEventListener('click', function() {
+    $('#{{ section_id }}  .tvc-player').hide()
+    $('#{{ section_id }}  .bottom-video').removeClass('tvc-content-hidecontrols')
+    videoEle?.play();
+  })  {% endcomment %}
+})
+{% endif %}
+</script>
+
+{% schema %}
+  {
+    "name": "Mach Compare Page 2",
+    "presets": [{
+        "category": "Mach Compare Page 2",
+        "name": "Mach Compare Page 2"
+    }],
+    "settings": [
+      {
+        "type": "html",
+        "id": "title",
+        "label": "标题"
+      },
+      {
+        "type": "html",
+        "id": "subtitle",
+        "label": "副标题"
+      },
+      {
+        "type": "html",
+        "id": "desc",
+        "label": "描述"
+      },
+      {
+        "type": "header",
+        "content": "上部分"
+      },
+      {
+        "type": "image_picker",
+        "id": "top_left_bg",
+        "label": "图片1"
+      },
+      {
+        "type": "image_picker",
+        "id": "mb_top_left_bg",
+        "label": "Mobile端图片1"
+      },
+      {
+        "type": "image_picker",
+        "id": "top_right_bg",
+        "label": "图片2"
+      },
+      {
+        "type": "image_picker",
+        "id": "mb_top_right_bg",
+        "label": "Mobile端图片2"
+      },
+      {
+        "type": "html",
+        "id": "vs",
+        "label": "vs文案",
+        "default": "VS"
+      },
+      {
+        "type": "header",
+        "content": "下部分"
+      },
+      {
+        "type": "html",
+        "id": "bottom_title",
+        "label": "下部分标题"
+      },
+      {
+        "type": "html",
+        "id": "bottom_subtitle",
+        "label": "下部分副标题"
+      },
+      {
+        "type": "html",
+        "id": "bottom_desc",
+        "label": "下部分描述"
+      },
+      {
+        "type": "image_picker",
+        "id": "bottom_image",
+        "label": "下部分图片",
+        "info": "图片和下方视频二选一"
+      },
+      {
+        "type": "video",
+        "id": "bottom_video",
+        "label": "下部分视频"
+      }
+    ]
+  }
+{% endschema %}

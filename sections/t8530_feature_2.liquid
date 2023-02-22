@@ -1,0 +1,109 @@
+<div class="t8530_feature_2">
+  <div class="sec-title-middle">{{ section.settings.title }}</div>
+  <div class="sec-description">{{ section.settings.subtitle }}</div>
+  <div class="text">
+    <div class="accuracy">{{ section.settings.accuracy }}</div>
+    <div class="percent"></div>
+  </div>
+  <img class="lazyload product" data-src="{{section.settings.image | image_url}}">
+</div>
+
+<script>
+  $(function() {
+    var start = "{{section.settings.percent_start}}";
+    var end = "{{section.settings.percent_end}}";
+    var differ = end.replace(/[^\d]/g, "") - start.replace(/[^\d]/g, "");
+    var base = $(window).width() > 768 ? 250 : 100;
+    function init() {
+      $(".t8530_feature_2 .percent").html("");
+      var arr = start.split("");
+      arr.forEach(function(item, index) {
+        if (!isNaN(item)) {
+          var str = "";
+          if (index+1 === arr.length) {
+            for (var j=0; j<Math.floor(differ / 10)+2; j++) {
+              for (var i=0; i<=9; i++) {
+                str += "<div>" + i + "</div>";
+              }
+            }
+          } else {
+            for (var i=0; i<=9; i++) {
+              str += "<div>" + i + "</div>";
+            }
+          }
+          var y = -base * item;
+          $(".t8530_feature_2 .percent").append($("<div class='box num' style='transform: translateY(" + y + "px)'>" + str + "</div>"));
+        } else {
+          $(".t8530_feature_2 .percent").append($("<div class='box'>" + item + "</div>"));
+        }
+      });
+      $(".t8530_feature_2 .percent").append($("<div class='box'>{{section.settings.percent}}</div>"));
+    }
+    function scroll() {
+      var arr = end.split("");
+      arr.forEach(function(item, index) {
+        if (!isNaN(item)) {
+          if (index+1 === arr.length) {
+            item = differ + parseInt(start[index]);
+            index = index - 1;
+          }
+          item = -base * item;
+          $(".num").eq(index).css({
+            transform: "translateY(" + item + "px)",
+            transition: "2s"
+          });
+        }
+      });
+    }
+    init();
+    ScrollTrigger.create({
+      trigger: ".t8530_feature_2",
+      start: "top bottom",
+      onEnter: init
+    });
+    ScrollTrigger.create({
+      trigger: ".t8530_feature_2 .text",
+      start: "bottom bottom-=100",
+      onEnter: scroll
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "t8530 feature2",
+  "settings": [{
+    "type": "textarea",
+    "id": "title",
+    "label": "标题"
+  }, {
+    "type": "textarea",
+    "id": "subtitle",
+    "label": "副标题"
+  }, {
+    "type": "text",
+    "id": "accuracy",
+    "label": "accuracy文案",
+    "default": "Accuracy:"
+  }, {
+    "type": "text",
+    "id": "percent_start",
+    "label": "开始Accuracy",
+    "default": "97.0"
+  }, {
+    "type": "text",
+    "id": "percent_end",
+    "label": "结束Accuracy",
+    "default": "99.2"
+  }, {
+    "type": "text",
+    "id": "percent",
+    "label": "单位",
+    "default": "%"
+  }, {
+    "type": "image_picker",
+    "id": "image",
+    "label": "产品图片"
+  }]
+}
+{% endschema %}

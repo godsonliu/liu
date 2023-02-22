@@ -1,0 +1,30 @@
+#shopify-section-header-classic{
+    display: none;
+}
+
+.home_media{
+    background-color: #fff!important;
+}
+
+.home_media .image, .home_media .detail{
+    height: auto !important;
+    min-height: 0 !important;
+}
+
+.home_media .wrap{
+    padding: 0 !important
+}
+
+
+@media (max-width: 480px){
+    .slideshow-classic.page-dots--true{
+        padding-bottom: 0!important;
+        margin-bottom: 0!important;
+    }
+}
+
+@media (max-width: 768px){
+    .v2_top_bar_box .right-part{
+        top: 24px;
+    }
+}

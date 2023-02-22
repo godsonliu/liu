@@ -1,0 +1,204 @@
+{% assign lang = page.metafields.global %}
+
+{% if lang.banner.value %}
+  {% assign banner = lang.banner.value %}
+{% else %}
+  {% assign banner = lang.banner %}
+{% endif %}
+
+{% if lang.build.value %}
+  {% assign build = lang.build.value %}
+{% else %}
+  {% assign build = lang.build %}
+{% endif %}
+
+{% if lang.non_stock.value %}
+  {% assign non_stock = lang.non_stock.value %}
+{% else %}
+  {% assign non_stock = lang.non_stock %}
+{% endif %}
+
+{% if lang.learnmore.value %}
+  {% assign learnmore = lang.learnmore.value %}
+{% else %}
+  {% assign learnmore = lang.learnmore %}
+{% endif %}
+
+{% if lang.bottom.value %}
+  {% assign bottom = lang.bottom.value %}
+{% else %}
+  {% assign bottom = lang.bottom %}
+{% endif %}
+
+{% if lang.securityList.value %}
+  {% assign securityList = lang.securityList.value %}
+{% else %}
+  {% assign securityList = lang.securityList %}
+{% endif %}
+
+{% if lang.securityList.value %}
+  {% assign securityList = lang.securityList.value %}
+{% else %}
+  {% assign securityList = lang.securityList %}
+{% endif %}
+
+{% if lang.discounts_money.value %}
+  {% assign discounts_money = lang.discounts_money.value %}
+{% else %}
+  {% assign discounts_money = lang.discounts_money %}
+{% endif %}
+
+
+
+<section class="SecurityKit">
+
+  <div class="banner">
+    <div class="img">
+      <img src="{{ banner.img }}">
+    </div>
+    <div class="txt">
+      <div class="box">
+        <div class="txtBox">
+          <h1>{{ banner.tit }}</h1>
+          <p>{{ banner.desc }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav">
+    <ul class="container navList">
+      {% for item in securityList %}
+        <li key="{{ item.slug_name }}">
+          <a onClick="goAnchor('{{ item.slug_name }}')">{{ item.name }}</a>
+        </li>
+      {% endfor %}
+      
+      {% if build.link != blank %}
+        <li class="">
+          <a class="design_btn" href="{{ build.link }}">{{ build.txt }}</a>
+          <span class="bubble">Hot</span>
+        </li>
+      {% endif %}
+    </ul>
+  </div>
+
+  <div class="Spin left_right">
+    <div class="content cnt">
+      <ul class="container">
+
+        {% for item in securityList %}
+
+          {% assign products = item.products %}
+
+          {% assign price = 0 %}
+          {% assign sold_out = false %}
+          {% for p in products %}
+            {% assign product = all_products[p.handle] %}
+            {% if product.variants == blank %}
+              {% assign sold_out = true %}
+            {% else %}
+              {% for v in product.variants %}
+                {% if v.sku == p.sku %}
+                  {% assign variant = v %}
+                {% endif %}
+              {% endfor %}
+              {% if variant.available == false or variant.price == 999999999 %}
+                {% assign sold_out = true %}
+              {% endif %}
+              {% assign oPrice = variant.price | times: p.number %}
+              {% assign price = price | plus: oPrice %}
+            {% endif %}
+          {% endfor %}
+
+          {% assign discounts = 0 %}
+          {% for d in discounts_money %}
+            {% if price >= d.money %}
+              {% assign discounts = d.discount %}
+            {% endif %}
+          {% endfor %}
+
+          <li id="{{ item.slug_name }}">
+            <a class="img" href="{{ item.link }}">
+              <i style="background-image:url({{ item.img }})"></i>
+              <img src="{{ item.img }}">
+            </a>
+            <div class="txt">
+              <div class="box">
+                <div class="txtBox">
+                  <a href="{{ item.link }}">
+                    <h1>{{ item.name }}</h1>
+                  </a>
+                  <p>{{ item.desc }}</p>
+                  <div class="num">{{ item.info }}</div>
+
+                  {% if sold_out %}
+                    <p class="non_stock">{{ non_stock }}</p>
+                  {% else %}
+                    <p class="price">
+                      <span class="sell_price">{{ price | minus: discounts | money }}</span>
+                      <span class="cross_price">{{ price | money }}</span>
+                    </p>
+                  {% endif %}
+
+                  <a class="btn" href="{{ item.link }}">{{ learnmore }}</a>
+                </div>
+              </div>
+            </div>
+          </li>
+        {% endfor %}
+
+      </ul>
+    </div>
+    
+    <div class="mask"></div>
+    <div class="spinner">
+      <i class="iconfont"></i>
+      <div class="focus"><i class="iconfont"></i></div>
+    </div>
+
+  </div>
+
+  <div class="banner bottom">
+    <div class="img">
+      <img src="{{ banner.img }}">
+    </div>
+    <div class="txt">
+      <div class="box">
+        <div class="txtBox">
+          <h1>{{ bottom.tit }}</h1>
+          <p>{{ bottom.desc }}</p>
+          <p class="info">{{ bottom.info }}</p>
+          {% if build.link != blank %}
+            <a class="btn" href="{{ build.link }}">{{ bottom.btn }}</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<script>
+
+  function setActive () {
+    $('.navList li').each(function (index, element) {
+      const key = $(element).attr("key");
+      const activeTop = $(`#${key}`).offset().top - $(window).scrollTop();
+      if(activeTop < 400) {
+        $('.navList').find('li').each((i, ele) => ele.classList.remove('active'));
+        $('.navList').find(`li[key=${key}]`).addClass('active');
+      }
+    });
+  }
+  window.addEventListener('scroll', setActive);
+
+  $(document).ready(function() {
+    $('.navList').find('li').first().addClass('active');
+  });
+  
+  function goAnchor(id) {
+    $('html, body').animate({ scrollTop: $(`#${id}`).offset().top - (document.body.offsetWidth > 768 ? 99 : 43) }, 800);
+  }
+</script>
+

@@ -1,0 +1,50 @@
+{% render 'aplus-dual-images-snippet' %}
+
+{% schema %}
+{
+  "name": "Aplus Dual Images",
+  "presets": [{
+    "name": "Aplus Dual Images",
+    "blocks": [
+      {
+        "type": "card"
+      },
+      {
+        "type": "card"
+      }
+    ]
+  }],
+  "settings": [
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "headline"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "card",
+      "type": "card",
+      "limit": 2,
+      "settings": [
+        {
+          "type": "text",
+          "id": "headline",
+          "label": "headline"
+        },
+        {
+          "type": "richtext",
+          "id": "body",
+          "label": "body"
+        },
+        {
+          "type": "image_picker",
+          "id": "imageUrl",
+          "label": "image",
+          "info": "650 x 350 recommended"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

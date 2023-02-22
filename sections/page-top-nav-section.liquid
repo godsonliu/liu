@@ -1,0 +1,306 @@
+{% assign nav_list = section.settings.nav_list %}
+{% assign nav = section.settings.nav_list | split: "," %}
+
+{% if shop.metafields.global.common.value %}
+  {% assign shop_common = shop.metafields.global.common.value %}
+{% else %}
+  {% assign shop_common = shop.metafields.global.common %}
+{% endif %}
+
+<link rel="stylesheet" href="{{ 'page-top-nav-section.scss.css' | asset_url }}">
+
+{% style %}
+  {% if section.settings.custom_css != blank %}
+    {{ section.settings.custom_css }}
+  {% endif %}
+{% endstyle %}
+
+<section class="v2_top_bar_section {{ section.settings.custom_class }}" ddd="{{ section.settings.nav_list }}">
+    <div class="v2_top_bar_box">
+        <div class="v2_top_bar_inner">
+            <p class="top_bar_title">
+              <a><b>{{ section.settings.title | default: section.settings.product.title }}</b></a> {% if section.settings.title2 != blank or section.settings.product_2.title != blank %}|{% endif %}
+              <a href="{{ section.settings.url | default: section.settings.product_2.url }}{{ section.settings.params }}">{{ section.settings.title2 | default:section.settings.product_2.title }}</a>
+            </p>
+            <div class="top_mb_part mb-show">
+                <p class="top_bar_mb_title">
+                  <a><b>{{  section.settings.title | default:section.settings.product.title }}</b></a> {% if section.settings.title2 != blank or section.settings.product_2.title != blank %}|{% endif %}
+                  <a href="{{ section.settings.url | default: section.settings.product_2.url }}{{ section.settings.params }}">{{ section.settings.title2 | default:section.settings.product_2.title }}</a>
+                </p>
+                <div class="top_bar_button top_bar_mb_button">
+                    <div class="box">
+                        <a href="{{ section.settings.product_url | default:section.settings.product.url }}{{ section.settings.params }}" {% if section.settings.open_new %}target="_blank" rel="noopener noreferrer"{% endif %}>{{ section.settings.buy_now | default: shop_common.buy_now }}</a>
+                    </div>
+                </div>
+            </div>
+            <div class="right-part">
+                <nav class="top_bar_page_nav">
+                  {% for item in nav %}
+                    {% assign arr = item | split: ":" %}
+                    {% assign lable = arr | reverse %}
+                    <a class="tb_page_nav_item" >{{ lable.first }}</a>
+                  {% endfor %}
+                </nav>
+                <div class="top_bar_button pc-show">
+                    <div class="box">
+                        <a data-sku="{{section.settings.product.selected_or_first_available_variant.sku}}" href="{{ section.settings.product_url | default:section.settings.product.url }}{{ section.settings.params }}" {% if section.settings.open_new %}target="_blank" rel="noopener noreferrer"{% endif %}>{{ section.settings.buy_now | default: shop_common.buy_now }}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% if section.settings.custom_liquid != blank %}
+  {{ section.settings.custom_liquid }}
+{% endif %}
+
+<script>
+$(function() {
+    let navlist = "{{ nav_list }}"
+    let w = $(window).width()
+    let pageNavH = w > 768 ? $('.v2_top_bar_box').height(): $('.top_mb_part').height()
+    let scrollPoint = []
+    let siteNavH = 0
+    let isNavClick = true
+    let offset = 100
+    
+    let scrollAction = {
+        x: 'undefined', 
+        y: 'undefined'
+    }
+
+    init()
+
+    function init() {
+        dataInit()
+        event()
+        resize()
+        scroll()
+    }
+
+    function dataInit() {
+        const arr = navlist.split(',')
+
+        arr.map(item => {
+            let target = item.split(':')
+            scrollPoint.push(target[0])
+        })
+    }
+
+    function getScrollOffset() {
+        let arr = []
+        
+        scrollPoint.map(item => {
+            item && arr.push($(`#${item}`)[0].offsetTop - offset)
+        })
+
+        arr[0] = 0
+
+        return arr
+    }
+
+    function event() {
+        $('.tb_page_nav_item').eq(0).addClass('active')
+
+        $('.tb_page_nav_item').on('click', function() {
+            const idx = $(this).index()
+            const arr = getScrollOffset()
+
+            isNavClick = false
+
+            $(this).addClass('active').siblings().removeClass('active')
+            $('html,body').animate({
+                scrollTop: arr[idx]
+            }, 500, 'swing', function () {
+                isNavClick = true
+            })
+        })
+    }
+
+    function navAct(idx) {
+        $('.tb_page_nav_item').eq(idx).addClass('active').siblings().removeClass('active')
+    }
+
+    function resize() {
+        window.addEventListener('resize', function() {
+            w = $(window).width()
+            pageNavH =  w > 768 ? $('.v2_top_bar_box').height(): $('.top_mb_part').height()
+            siteNavH = w > 768 ? $('#header').height() : $('.mobile-header').height() 
+            
+            $('.v2_top_bar_section').height(pageNavH)
+
+            if(w > 768) $('.right-part').css({
+              'transform': 'none',
+              'z-index': 0
+            })
+        })
+    }
+
+    function scroll() {
+        const offsetTop = $('.v2_top_bar_section')[0].offsetTop
+        let timer
+        let flag = false
+
+        w = $(window).width()
+        siteNavH = w > 768 ? $('#header').height() : $('.mobile-header').height()
+
+        $('.v2_top_bar_section').height(pageNavH)
+
+        if(w > 768) window.scrollTo(0, siteNavH)
+
+        document.addEventListener('scroll', function() {
+            const scrollTop = $(window).scrollTop()
+            const stArr = getScrollOffset()
+            const diff = scrollTop - offsetTop
+
+            siteNavH = w > 768 ? $('#header').height() : $('.mobile-header').height() 
+            timer && clearTimeout(timer)
+
+            if(scrollTop > offsetTop) {
+                $('.v2_top_bar_box').addClass('fixed')
+                if(w > 768){
+                    if(getScrollDir() === 'up') {
+                        $('.v2_top_bar_box').css('transform', 'translateY('+ siteNavH +'px)')
+                        if(!flag) timer = setTimeout(() => {
+                            $('.v2_top_bar_section').css('z-index', '10')
+                            flag = true
+                        }, 300)
+                    }else {
+                        $('.v2_top_bar_box').css('transform', 'none').parents('.v2_top_bar_section').css('z-index', '50')
+                        flag = false
+                    }
+                } else {
+                    $('.v2_top_bar_section').css('z-index', '50')
+                    if(diff >= 0){
+                        const num = diff >= 100 ? 100 : diff
+                        {% if section.settings.mb_has_menu %}
+                        $('.right-part').css({
+                          'transform': 'translateY('+ num +'%)',
+                          'z-index': 2
+                        })
+                        {% endif %}
+                    }
+                }
+            } else {
+                $('.v2_top_bar_box').removeClass('fixed').css('transform', 'none').parents('.v2_top_bar_section').css('z-index', '10')
+                if(w <= 768) {
+                  {% if section.settings.mb_has_menu %}
+                    $('.right-part').css({
+                      'transform': 'none',
+                      'z-index': 0
+                    })
+                  {% endif %}  
+                }
+            }
+
+
+            if(isNavClick) {
+              stArr.forEach(function(item,i_dex) {
+                if( scrollTop >= item && (stArr[i_dex+1] ? scrollTop < stArr[i_dex+1] : true) ) {
+                  navAct(i_dex)
+                }
+              })
+            }
+        })
+    }
+
+    function getScrollDir() {
+        let dir = ''
+
+        if (typeof scrollAction.x == 'undefined') {
+            scrollAction.y = window.pageYOffset
+        }
+
+        const diffY = scrollAction.y - window.pageYOffset
+
+        if (diffY < 0) {
+            dir = 'down'
+        } else if (diffY > 0) {
+            dir = 'up'
+        }
+
+        scrollAction.y = window.pageYOffset
+
+        return dir
+    }
+})
+</script>
+
+
+{% schema %}
+{
+  "name": "page top nav section",
+  "presets": [
+    {
+      "name": "page top nav section"
+    }
+  ],
+  "settings": [{
+    "type": "product",
+    "id": "product",
+    "label": "产品"
+  },{
+    "type": "product",
+    "id": "product_2",
+    "label": "并列产品"
+  }, {
+    "type": "text",
+    "id": "title",
+    "label": "产品名称1",
+    "info": "此处填写会覆盖默认抓取选择第1个产品名称"
+  },{
+    "type": "text",
+    "id": "title2",
+    "label": "产品名称2",
+    "info": "此处填写会覆盖默认抓取选择第2个产品名称"
+  }, {
+    "type": "url",
+    "id": "url",
+    "label": "并列产品落地页链接"
+  },
+  {
+    "type": "text",
+    "id": "product_url",
+    "label": "商品购买链接",
+    "info": "此处填写会覆盖默认抓取商品listing链接"
+  },
+  {
+    "type": "textarea",
+    "id": "nav_list",
+    "label": "页内导航设置",
+    "default": "purchase:Purchase,overview:Overview,compare:Compare,faqs:Faqs,reviews:Reviews",
+    "info": "格式moudule:name表示模块名称:展示名称，例如purchase:Purchase表示跳转模块名称为purchase，页面导航展示展示名称为Purchase"
+  },{
+    "type": "text",
+    "id": "params",
+    "label": "URL参数"
+  },{
+    "type": "checkbox",
+    "id": "open_new",
+    "label": "是否新标签页打开"
+  },{
+    "type": "text",
+    "id": "buy_now",
+    "label": "Buy Now",
+    "info": "此处填写会覆盖metafields的shop_common.buy_now"
+  },{
+    "type": "checkbox",
+    "id": "mb_has_menu",
+    "label": "移动端显示Tab",
+    "default": false
+  },{
+    "type": "text",
+    "id": "custom_class",
+    "label": "自定义容器类名"
+  },{
+    "type": "textarea",
+    "id": "custom_css",
+    "label": "自定义样式内容"
+  },{
+    "type": "liquid",
+    "id": "custom_liquid",
+    "label": "自定义拓展liquid"
+  }]
+}
+{% endschema %}

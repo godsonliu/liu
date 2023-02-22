@@ -1,0 +1,78 @@
+.v2_inbox_section{
+    padding: 48px 0;
+
+    @media (max-width: 768px) {
+        padding: 16px 0 6px 16px;
+        overflow: hidden;
+    }
+}
+
+.listing_inbox{
+    margin: 40px 0 0;
+
+    @media (max-width: 768px) {
+        position: relative;
+        padding: 0 0 10px 0;
+        margin: 10px 0 0;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch
+    }
+
+    .listing_inbox_list{
+        width: 100%;
+        font-size: 0;
+        text-align: center;
+
+        @media (max-width: 768px) {
+            display: flex;
+            text-align: left;
+        }
+
+        .listing_inbox_item{
+            margin: 3px;
+            display: inline-block;
+            width: 32%;
+
+            @media (max-width: 768px) {
+                width: 140px;
+                flex-shrink: 0;
+
+                &:last-child{
+                    width: 156px;
+                    padding-right: 16px;
+                }
+            }
+            
+           .inbox_img_area{
+                position: relative;
+                margin: 0 0 6px;
+                border: 1px solid #EBEBEB;
+                padding-top: 75%;
+                
+                img{
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    width: 100%;
+                    height: auto;
+                }
+           }
+
+           .inbox_info_area{
+                .inbox_p{
+                    font-size: 14px;
+                    font-weight: 400;
+
+                    @media (max-width: 768px) {
+                        font-size: 12px;
+
+                        &:first-child{
+                            margin: 0 0 4px;
+                        }
+                    }
+                }
+           }
+        }
+    }
+}

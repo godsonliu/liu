@@ -1,0 +1,192 @@
+{% if shop.metafields['new_nav']['userCenter'].value %}
+  {% assign userCenter = shop.metafields['new_nav']['userCenter'].value %}
+{% else %}
+  {% assign userCenter = shop.metafields['new_nav']['userCenter'] %}
+{% endif %}
+
+{% comment %}Assign object as block or section{% endcomment %}
+{% if type == 'block' %}
+  {% assign object = block %}
+{% else %}
+  {% assign object = section %}
+{% endif %}
+
+{%- assign locale_selector = false -%}
+{%- assign currency_selector = false -%}
+
+{%- if object.settings.show_currency_selector == true and shop.enabled_currencies.size > 1 -%}
+  {%- assign currency_selector = true -%}
+{%- endif -%}
+
+{%- if object.settings.show_locale_selector == true and shop.published_locales.size > 1 -%}
+  {%- assign locale_selector = true -%}
+{%- endif -%}
+
+{% style %}
+.action-area__link{
+  padding: 0;
+}
+.header_icon{
+  width: 44px;
+  height: 44px;
+  margin: 0px 5px;
+  pointer-events: auto;
+}
+.header-sticky-wrapper .header_icon:hover{
+  border-radius: 22px;
+  background: #ffffff;
+}
+.header-sticky-wrapper .header_icon:active{
+  border-radius: 22px;
+  background-color: #CCCCCC;
+}
+.header-sticky-wrapper .header_icon svg{
+  fill: transparent;
+  stroke: #000;
+}
+.header-sticky-wrapper.is-sticky .header_icon:hover{
+  background: #E5E5E5;
+}
+.header-sticky-wrapper.is-sticky .header_icon:hover svg{
+  stroke: #000;
+}
+.header-sticky-wrapper.is-sticky .header_icon:active{
+  background-color: #CCCCCC;
+}
+#shopify-section-header-classic .header-sticky-wrapper .new_icon{
+  color: #FFFFFF;
+}
+#shopify-section-header-classic .header-sticky-wrapper .new_icon:hover{
+  color: #000;
+}
+#shopify-section-header-classic .header-sticky-wrapper.is-sticky .new_icon{
+  color: #000;
+}
+#shopify-section-header-classic .new_icon svg{
+  stroke: #FFFFFF;
+}
+#shopify-section-header-classic .header-sticky-wrapper.is-sticky .new_icon svg{
+  stroke: #000;
+}
+#shopify-section-header-classic .new_icon:hover svg{
+  stroke: #000;
+}
+@media (max-width: 768px){
+  .header_icon{
+    width: 24px;
+    height: 24px;
+    margin: 0px 5px;
+    pointer-events: auto;
+  }
+  .header-sticky-wrapper .header_icon:hover{
+    border-radius: 12px;
+    background: #ffffff;
+  }
+  .header-sticky-wrapper .header_icon:active{
+    border-radius: 12px;
+    background-color: #CCCCCC;
+  }
+}
+
+{% endstyle %}
+<div class="header__icons header__icon-style-{{ icon_style | replace: '_', '-' }} {{ header_icon_class }}">
+
+
+  {% comment %} Currency converter select {% endcomment %}
+  {% comment %}<div class="header__link">
+    {% render 'localization-switcher',
+      additional_classes: 'header-menu__disclosure',
+      id: 'header__selector-form',
+      currency_selector: currency_selector,
+      locale_selector: locale_selector,
+      show_currency: section.settings.show_currency_selector
+    %}
+  </div>{% endcomment %}
+
+  {% if object.settings.display_search or header_icon_class == 'header__icons--sticky' %}
+    {% comment %} Search icon {% endcomment %}
+    <a class="header__link action-area__link" href="javascript:void(0)" aria-label="search-button" data-show-search-trigger tabindex="0">
+      <span class="header_icon">
+        <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M24.002 28.7474C22.9341 29.2308 21.7485 29.5 20.5 29.5C15.8056 29.5 12 25.6944 12 21C12 16.3056 15.8056 12.5 20.5 12.5C25.1944 12.5 29 16.3056 29 21C29 23.3419 28.0529 25.4626 26.5208 27" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M23.3287 17.6715C22.6049 16.9477 21.6049 16.5 20.5003 16.5C19.3958 16.5 18.3958 16.9477 17.6719 17.6715" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M26.6113 27.1108L30.854 31.3535" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      </span>
+      <span class="icon-caption">{{ 'general.search.title' | t | escape }}</span>
+    </a>
+  {% endif %}
+
+  {% if shop.customer_accounts_enabled %}
+    {% comment %} Account icon {% endcomment %}
+    {% if customer %}
+      {% comment %} Logout {% endcomment %}
+      <a href="{% render 'mulpass-account-url', domain: shop.permanent_domain %}" class="header__link action-area__link" >
+          <span class="header_icon">
+            <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M21.9961 21.5C19.2347 21.5 16.9961 19.2614 16.9961 16.5C16.9961 13.7386 19.2347 11.5 21.9961 11.5C24.7575 11.5 26.9961 13.7386 26.9961 16.5C26.9961 19.2614 24.7575 21.5 21.9961 21.5Z" stroke-width="1.5"/>
+              <path d="M28.002 30.0002H29.502C30.0542 30.0002 30.5151 29.5428 30.3947 29.0038C29.0297 22.896 15.0712 23.2662 13.6232 29.0071C13.4881 29.5426 13.9497 30.0002 14.502 30.0002H24.502" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <span class="icon-caption">{{ 'layout.customer.my_account' | t | escape }}</span>
+      </a>
+    {% else %}
+      {% comment %} Login {% endcomment %}
+      <div class="header__link action-area__link header__link__customer" >
+        <a href="javascript:void(0)" class="header__link action-area__link" aria-labelledby="login-icon-caption" >
+        <span class="header_icon">
+          <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M21.9961 21.5C19.2347 21.5 16.9961 19.2614 16.9961 16.5C16.9961 13.7386 19.2347 11.5 21.9961 11.5C24.7575 11.5 26.9961 13.7386 26.9961 16.5C26.9961 19.2614 24.7575 21.5 21.9961 21.5Z" stroke-width="1.5"/>
+            <path d="M28.002 30.0002H29.502C30.0542 30.0002 30.5151 29.5428 30.3947 29.0038C29.0297 22.896 15.0712 23.2662 13.6232 29.0071C13.4881 29.5426 13.9497 30.0002 14.502 30.0002H24.502" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </span>
+        </a>
+        <span id="login-icon-caption" class="icon-caption">{{ 'layout.customer.log_in' | t | escape }}</span>
+        <div class="customer-dropmenu-list">
+          <div class="customer-dropmenu-list-inner">
+            <div class="customer-dropmenu-item">
+              <a href="{% render 'mulpass-url', domain: shop.permanent_domain %}" class="customer-dropmenu-link customer-dropmenu-link-login">{{ userCenter['signIn'] }}</a>
+              <span class="customer-dropmenu-line">/</span>
+              <a class="customer-dropmenu-link" href="{% render 'mulpass-url', domain: shop.permanent_domain %}">{{ userCenter['signUp'] }}</a>
+            </div>
+            <div class="customer-dropmenu-item">
+              <a class="customer-dropmenu-link" href="{{ userCenter['orderTrackHref'] }}">{{ userCenter['orderTrack'] }}</a>
+            </div>
+            <div class="customer-dropmenu-item">
+              <a class="customer-dropmenu-link customer-dropmenu-link-get-40">{{ userCenter['get$40'] }}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  {% endif %}
+
+  {% comment %} Cart icon {% endcomment %}
+  <div class="header-cart action-area__link {% if cart.item_count != 0 %}has-cart-count{% endif %}" data-ajax-cart-trigger>
+    <a class="header__link" aria-label="cart">
+      <span class="header-cart__icon">
+        <span class="header_icon">
+          <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M29.664 14.9176L29.5575 13H14.4464L13.502 30.011C13.502 30.5572 13.9248 31 14.4464 31H29.5575C30.0791 31 30.502 30.5572 30.502 30.011L29.8073 17.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M25.7782 18C25.7782 20.0986 24.0869 21.7999 22.0005 21.7999C19.9141 21.7999 18.2227 20.0986 18.2227 18" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="header-cart__count header-cart__count--badge badge" data-bind="itemCount">
+          {{ cart.item_count }}
+        </span>
+      </span>
+      <span class="header-cart__caption icon-caption">
+        {{ 'layout.general.cart' | t | escape }}
+        {%- if icon_style == 'text' -%}
+          <span class="header-cart__count cart__count--text" data-bind="itemCount">{{ cart.item_count }}</span>
+        {%- endif -%}
+      </span>
+    </a>
+  </div>
+</div>
+
+<script async defer>
+$('.customer-dropmenu-link-get-40').on('click', function() {
+  $('.Friendbuy-ribbon-transition') && $('.Friendbuy-ribbon-transition').click()
+})
+</script>

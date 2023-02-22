@@ -1,0 +1,121 @@
+{% if template contains 'page' %}
+  {% if page.metafields['global']['feature'].value %}
+    {% assign lang = page.metafields['global']['feature'].value %}
+  {% else %}
+    {% assign lang = page.metafields['global']['feature'] %}
+  {% endif %}
+{% else %}
+  {% if product.metafields['global']['feature'].value %}
+    {% assign lang = product.metafields['global']['feature'].value %}
+  {% else %}
+    {% assign lang = product.metafields['global']['feature'] %}
+  {% endif %}
+{% endif %}
+
+{{ 'T8213_feature.scss.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'gsap.min.js' | asset_url }}"></script>
+<script src="{{ 'ScrollTrigger.min.js' | asset_url }}"></script>
+<script src="{{ 'T8213_feature.js' | asset_url }}" defer="defer"></script>
+
+
+{% assign video1 = lang.t8213_feature_video.video1 %}
+{% assign video2 = lang.t8213_feature_video.video2 %}
+
+<div id="feature"></div>
+<section class="t8213_feature_1">
+  <div class="feature_video_banner1 banner">
+    <div class="bg">
+      {% render 'lazyload_image',  
+      src: video1.bg_pc,
+      additional_classes: "is-hidden-mobile-only"
+      style: "opacity: 0;"
+      alt: "" %}
+      {% render 'lazyload_image',
+        src: video1.bg_mob,
+        additional_classes: "is-hidden-desktop-only",
+        style: "opacity: 0;"
+        alt: "" %}
+    </div>
+    <div class="banner_content">
+      <div class="lazyload banner_text banner1_text">
+        <h>{{ video1.title }}</h>
+        <p>{{ video1.desc }}</p>
+      </div>
+      <div class="banner_video">
+        <div class="bg">
+          <img class="lazyload is-hidden-mobile-only" data-src="{{ video1.video_img_pc }}" alt=""/>
+          <img class="lazyload is-hidden-desktop-only" data-src="{{ video1.video_img_mobile }}" alt=""/>
+          <video id="video_1" class="lazyload video_1" data-src="{{ video1.video_1 }}" preload="auto" muted="muted" autoplay="autoplay" playsinline></video>
+          <video id="video_2" class="lazyload video_2 is-hidden" data-src="{{ video1.video_2 }}" preload="auto" muted="muted" playsinline></video>
+        </div>
+        <div class="video_btn">
+          <div class="check-button-lf check-button-active">
+            <img class="lazyload img-lf" onclick="openVideo('check-button-lf')" data-src="{{ video1.video_btn1_img }}" alt=""/>
+            <img class="lazyload img-lf_hover active" onclick="openVideo('check-button-lf')" data-src="{{ video1.video_btn1_img_hover }}" alt=""/>
+            <span>{{ video1.video_btn1_text }}</span>
+          </div>
+          <div class="check-button-rg">
+            <img class="lazyload img-rg active" onclick="openVideo('check-button-rg')" data-src="{{ video1.video_btn2_img }}" alt=""/>
+            <img class="lazyload img-rg_hover" onclick="openVideo('check-button-rg')" data-src="{{ video1.video_btn2_img_hover }}" alt=""/>
+            <span>{{ video1.video_btn2_text }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="feature_video_banner2 banner">
+    <div class="bg">
+      <img class="lazyload is-hidden-mobile-only" data-src="{{ video2.bg_pc }}" alt=""/>
+      <img class="lazyload is-hidden-desktop-only" data-src="{{ video2.bg_mob }}" alt=""/>
+    </div>
+    <div class="banner_content">
+      <div class="lazyload banner_text">
+        <h>{{ video2.title }}</h>
+        <p>{{ video2.desc }}</p>
+      </div>
+      <div class="banner_video">
+        <div class="bg">
+          <img class="lazyload is-hidden-mobile-only" data-src="{{ video2.video_img_pc }}" alt=""/>
+          <img class="lazyload is-hidden-desktop-only" data-src="{{ video2.video_img_mobile }}" alt=""/>
+          <video id="video_3" class="lazyload" data-src="{{ video2.video_3 }}" preload="auto" muted="muted" autoplay="autoplay" playsinline></video>
+        </div>
+        <div class="video2_btn">
+          <div class="button-replay">
+            <div class="box">
+              <div class="icon-box">
+                <img class="lazyload is-hidden-mobile-only replay_img active" data-src="{{ video2.replay_img_pc }}" alt=""/>
+                <img class="lazyload is-hidden-desktop-only replay_img active" data-src="{{ video2.replay_img_mob }}" alt=""/>
+                <img class="lazyload is-hidden-mobile-only replay_img_active" data-src="{{ video2.replay_img_pc_active }}" alt=""/>
+                <img class="lazyload is-hidden-desktop-only replay_img_active" data-src="{{ video2.replay_img_mob_active }}" alt=""/>
+              </div>
+              <div>{{video2.replay_text}}</div>
+            </div> 
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  var video3 = document.getElementById("video_3");
+    $('.button-replay').click(() => {
+      $(".icon-box .active").addClass("active-img")
+      video3.load()
+      video3.play();
+      setTimeout(function(){
+      $(".icon-box .active").removeClass("active-img")
+    },1000);
+    })
+
+  $('.button-replay').hover(
+    function(){
+      $(".replay_img_active").addClass("active")
+      $(".replay_img").removeClass("active")
+    },
+    function(){
+      $(".replay_img").addClass("active")
+      $(".replay_img_active").removeClass("active")
+    }
+  );
+</script>

@@ -1,0 +1,135 @@
+<style>
+.component_title_{{section.id}} {
+  text-align: center;
+  line-height: 1.2;
+  width: {{section.settings.width}};
+  height: {{section.settings.height}};
+  background: {{section.settings.div_bg}};
+  padding: {{section.settings.padding}};
+  font-size: {{section.settings.title_font_size}};
+  color: {{section.settings.title_color}};
+  font-weight: {{section.settings.title_font_weight}};
+  font-family: {{section.settings.font_family}} !important;
+}
+@media(max-width: 769px) {
+  .component_title_{{section.id}} {
+    font-size: {{section.settings.mobile_title_font_size}};
+    padding: {{section.settings.mobile_padding}};
+  }
+}
+
+</style>
+
+<div class="component_title component_title_{{section.id}}">{{section.settings.title}}</div>
+
+{% schema %}
+  {
+    "name": "component_title",
+    "presets": [
+      {
+        "name": "component_title"
+      }
+    ],
+    "settings": [
+      {
+				"type": "text",
+				"id": "width",
+				"label": "外层盒子的宽度，可以是百分比可以是固定的像素，内容区域会默认居中",
+        "default": "100%"
+			},
+			{
+				"type": "text",
+				"id": "height",
+				"label": "外层盒子的高度"
+			},
+			{
+				"type": "text",
+				"id": "padding",
+				"label": "外层盒子的内边距",
+				"default": "10px 0"
+			},
+      {
+        "type": "text",
+				"id": "mobile_padding",
+				"label": "移动端外层盒子的内边距",
+				"default": "10px 0"
+      },
+			{
+				"type": "color",
+				"id": "div_bg",
+				"label": "外层盒子的背景色"
+			},
+      {
+        "type": "html",
+        "id": "title",
+        "label": "标题文案",
+        "default": "Title"
+      },
+      {
+				"type": "select",
+				"id": "font_family",
+				"label": "字体，如果不选择，默认为系统字体",
+        "info": "这里聚齐了所有品牌站点的字体，请选择该品牌已有的字体",
+				"options": [
+					{
+						"value": "DINNextLT",
+						"label": "DINNextLT"
+					},
+					{
+						"value": "Helvetica",
+						"label": "Helvetica"
+					},
+					{
+						"value": "Arial",
+						"label": "Arial"
+					},
+          {
+            "value": "Avenir Next",
+            "label": "Avenir Next"
+          },
+          {
+            "value": "Helvetica Neue",
+            "label": "Helvetica Neue"
+          },
+          {
+            "value": "",
+            "label": "系统默认字体"
+          }
+				]
+			},
+      {
+        "type": "color",
+        "id": "title_color",
+        "label": "标题颜色",
+        "default": "#333333"
+      },
+      {
+        "type": "text",
+        "id": "title_font_size",
+        "label": "标题文案大小",
+        "default": "36px"
+      },
+      {
+        "type": "text",
+        "id": "mobile_title_font_size",
+        "label": "移动端标题文案大小",
+        "default": "36px"
+      },
+      {
+        "type": "select",
+        "id": "title_font_weight",
+        "label": "标题粗细",
+        "options": [
+          {
+            "label": "bold",
+            "value": "bold"
+          },
+          {
+            "label": "normal",
+            "value": "normal"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

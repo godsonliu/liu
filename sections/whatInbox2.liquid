@@ -1,0 +1,113 @@
+{% assign DataId = section.settings.data_id %}
+{% if product.metafields['global'][DataId].value %}
+  {% assign lang = product.metafields['global'][DataId].value %}
+{% else %}
+  {% assign lang = product.metafields['global'][DataId] %}
+{% endif %}
+
+<style>
+
+  .{{ DataId }}{
+    padding:0px 0 35px;
+    width:100%;
+    max-width:1200px;
+    margin:auto;
+  }
+  .{{ DataId }} .What_h1{
+    font-size: 30px;
+    text-align: center;
+  }
+  .{{ DataId }} .content{
+    display: flex;
+    justify-content: center;
+    padding: 20px 0px;
+    background: #e7e7e7;
+    margin-top: 30px;
+  }
+  .{{ DataId }} .content .left{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 40%;
+    margin-right: 5%;
+  }
+  .{{ DataId }} .content .left p{
+    margin-top: 10px;
+    color: #767676;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  .{{ DataId }} .content .left h1{
+    font-size: 30px;
+  }
+
+
+  .{{ DataId }} .content .right{
+    width: 45%;
+  }
+  .{{ DataId }} .content .right img{
+    width: 100%;
+  }
+
+  @media (max-width:768px) {
+    .{{ DataId }}{
+      padding:0;
+    }
+    .{{ DataId }} .content{
+      flex-direction: column;
+      flex-flow: column-reverse;
+      margin-top: 10px;
+    }
+    .{{ DataId }} .content .right{
+      width: 100%;
+    }
+    .{{ DataId }} .content .left{
+      width: 80%;
+      margin: 30px auto 0;
+    }
+    .{{ DataId }} .content .left h1{
+      font-size: 24px;
+    }
+    .{{ DataId }} .content .left p{
+      margin: 0;
+      font-size: 12px;
+    }
+  }
+</style>
+<section id="{{ DataId }}">
+  <div  class="{{ DataId }}">
+    <div class="content">
+      <div class="left">
+        <h1>
+          {{ lang.text }}
+        </h1>
+        <p>
+          {{ lang.des }}
+        </p>
+      </div>
+      <div class="right">
+        <img class="lazyload" data-src="{{ lang.img }}" alt="">
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "WhatInBox",
+  "presets": [
+    {
+      "category": "SmartScale P2 Pro Banner3 Sections",
+      "name": "WhatInBox"
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "data_id",
+      "label": "metabuf id",
+      "default":"WhatInBox"
+    }
+  ]
+}
+{% endschema %}

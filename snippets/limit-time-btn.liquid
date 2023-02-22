@@ -1,0 +1,86 @@
+{% style %}
+ .limit-time-wrap{
+   display: inline-flex;
+   align-items: center;
+   border-radius: 200px;
+   background-color: #fff;
+ }
+
+ .limit-info-wrap{
+   display: flex;
+   align-items: center;
+   padding: 4px 20px 4px 12px;
+ }
+
+ .limit-info-wrap img{
+   width: 40px
+ }
+
+ .limit-info-wrap p{
+   padding: 0 8px;
+   font-size: .9375vw;
+ }
+
+ .limit-btn-wrap{
+   margin-left: 0;
+ }
+
+ .limit-btn-wrap a.button--primary.button{
+  padding: 7px 36px;
+  height: auto;
+  font-size: 1.5625vw;
+  border-radius: 200px;
+  line-height: 1.4;
+  border: 1px solid transparent;
+ }
+
+ .limit-btn-wrap a.button--primary.button:hover{
+  border-color: #21ccbf;
+ }
+
+ @media (max-width: 769px){
+  .media-custom-liquid-wrap{
+    position: absolute;
+    left: 0;
+    bottom: 32px;
+    width: 100%;
+  }
+
+  .limit-info-wrap{
+    padding: 0 10px 0 6px;
+  }
+  .limit-btn-wrap a.button--primary.button{
+    padding: 6px 10px;
+    font-size: 4vw;
+  }
+
+  .limit-info-wrap p{
+    font-size: 3vw;
+  }
+
+  .limit-info-wrap img{
+    width: 30px;
+  }
+ }
+{% endstyle %}
+
+<div class="limit-time-wrap">
+  <div class="limit-info-wrap">
+    {% render 'lazyload_image',  
+      src: src,
+      alt: alt,
+      width: imgWidth,
+      height: imgheight,
+    %}
+    <p>{{ info }}</p>
+  </div>
+  <div class="limit-btn-wrap">
+    {% render 'button',
+      label: label,
+      href: href,
+      type: "link",
+      style: "button--primary",
+      class: 'custom_get_now'
+    %}
+  </div>
+</div>

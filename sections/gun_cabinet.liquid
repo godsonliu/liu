@@ -1,0 +1,498 @@
+{% assign lang = page.metafields.global %}
+
+{% if lang.banner.value %}
+  {% assign banner = lang.banner.value %}
+{% else %}
+  {% assign banner = lang.banner %}
+{% endif %}
+
+{% if lang.video.value %}
+  {% assign video = lang.video.value %}
+{% else %}
+  {% assign video = lang.video %}
+{% endif %}
+
+{% if lang.access.value %}
+  {% assign access = lang.access.value %}
+{% else %}
+  {% assign access = lang.access %}
+{% endif %}
+
+{% if lang.emergency.value %}
+  {% assign emergency = lang.emergency.value %}
+{% else %}
+  {% assign emergency = lang.emergency %}
+{% endif %}
+
+{% if lang.instantEmergency.value %}
+  {% assign instantEmergency = lang.instantEmergency.value %}
+{% else %}
+  {% assign instantEmergency = lang.instantEmergency %}
+{% endif %}
+
+{% if lang.unlockingMode.value %}
+  {% assign unlockingMode = lang.unlockingMode.value %}
+{% else %}
+  {% assign unlockingMode = lang.unlockingMode %}
+{% endif %}
+
+{% if lang.bigVolume.value %}
+  {% assign bigVolume = lang.bigVolume.value %}
+{% else %}
+  {% assign bigVolume = lang.bigVolume %}
+{% endif %}
+
+{% if lang.instant.value %}
+  {% assign instant = lang.instant.value %}
+{% else %}
+  {% assign instant = lang.instant %}
+{% endif %}
+
+{% if lang.productIntroduction.value %}
+  {% assign productIntroduction = lang.productIntroduction.value %}
+{% else %}
+  {% assign productIntroduction = lang.productIntroduction %}
+{% endif %}
+
+{% if lang.detail.value %}
+  {% assign detail = lang.detail.value %}
+{% else %}
+  {% assign detail = lang.detail %}
+{% endif %}
+
+{{ 'gun_cabinet.scss.css' | asset_url | stylesheet_tag }}
+
+  <section class=" gun-cabinet">
+    <div class="banner-wrap">
+      <img class="is-hidden-mobile-only" style="min-height: 50vw;"
+        src="{{ banner.img }}" alt="banner" />
+      <img class="is-hidden-desktop-only" 
+        src="{{ banner.img_mob }}" alt="banner" />
+      <div class="banner-position">
+        <div class="container">
+          <p class="banner-title">{{ banner.title }}</p>
+          <!-- <p class="banner-des">{{ banner.text }}</p> -->
+          <ul class="col">
+            {% for item in banner.icon %}
+            <li>
+              <img
+                class="is-hidden-mobile-only"
+                src=" {{ item.pc }} " />
+                <img 
+                class="is-hidden-desktop-only"
+                src=" {{ item.mob }} "/>
+            </li>
+            {% endfor %}
+          </ul>
+          <a href="{{ banner.href }}" class="banner_a" target="{{ banner.target }}" onclick="maidian()">
+            {{ banner.buyNow }}
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="instant" id="overview">
+      <ul class="col">
+        {% for item in instant %}
+        <li class="li{{ forloop.index0 }}">
+          <img
+          class="lazyload" 
+          data-src="{{ item.img }}" alt="instant">
+          <p>{{ item.text }}</p>
+        </li>
+        {% endfor %}
+      </ul>
+      <div class="blankDiv"></div>
+    </div>
+
+    <div class="smart-control">
+      <p>{{ video.title }}</p>
+      <div class="smart_box">
+        <i class="iconfont smart_play">
+          &#xe718;
+        </i>
+        <img class="lazyload videoPoster" data-src="{{ video.poster }}" alt="smart">
+        <div class="lazyframe" id="vimeoVideo" ></div>
+      </div>
+    </div>
+
+    <!-- <div class="swiper-wrap " id="images">
+      <button class="swiper-arrow-left">
+        <i class="iconfont"></i>
+      </button>
+      <ul class="actVideo-slick-slider actVideo-slick-slider_pc is-hidden-mobile-only">
+        {% for item in lang.swiper.pc %}
+          <li >
+            <img class="lazyload " 
+            id="swiperOne{{ forloop.index0 }}"
+              data-src="{{ item }}" alt="swiper" >
+          </li>
+        {% endfor %}
+      </ul>
+      <ul class="actVideo-slick-slide actVideo-slick-slider_mob is-hidden-desktop-only">
+        {% for item in lang.swiper.mob %}
+          <li >
+            <img class="lazyload "
+            id="swiperOneMob{{ forloop.index0 }}"
+              data-src="{{ item }}" alt="swiper">
+          </li>
+        {% endfor %}
+      </ul>
+      <button class="swiper-arrow-right">
+        <i class="iconfont"></i>
+      </button>
+    </div> -->
+
+    <div class="access" id="feature">
+      <p>{{ access.title }}</p>
+      <img class="lazyload is-hidden-mobile-only" alt="access" data-src="{{ access.img }}" />
+      <img data-src="{{ access.img_mob }}" alt="access" class="lazyload is-hidden-desktop-only">
+    </div>
+
+    <div class="swiper-wrap-two" >
+      <button class="arrow-left">
+        <i class="iconfont"></i>
+      </button>
+      <ul class="use-slick-slider">
+        {% for item in productIntroduction %}
+        <li >
+          <img 
+          id="swiperTwo{{ forloop.index0 }}" 
+          class="lazyload"
+           data-src="{{ item.img }}" alt="productIntroduction" />
+          <p>{{ item.text }}</p>
+        </li>
+        {% endfor %}
+      </ul>
+      <button class="arrow-right">
+        <i class="iconfont"></i>
+      </button>
+    </div>
+
+    <div class="emergency-wrap-button">
+      <p class="emergency-wrap_title is-hidden-desktop-only">
+        {{ emergency.title }}
+      </p>
+      <div class="emergency-wrap-button_box is-hidden-mobile-only">
+        <img data-src=" {{ emergency.icon }}" class="lazyload emergency-wrap-button-img " alt="emergency">
+        <p class="emergency-wrap_title">
+          {{ emergency.title }}
+        </p>
+        <p class="emergency-wrap_txt">
+          {{ emergency.text }}
+        </p>
+      </div>
+      <div class="emergency-wrap-button_box_mob is-hidden-desktop-only">
+        <img data-src=" {{ emergency.icon }}" class="lazyload emergency-wrap-button-img " alt="emergency">
+        <p class="emergency-wrap_txt">
+          {{ emergency.text_mob }}
+        </p>
+      </div>
+    
+      <img class="lazyload is-hidden-mobile-only" data-src=" {{ emergency.img }}"  alt="emergency">
+      <img data-src=" {{ emergency.img_mob }}" class="lazyload is-hidden-desktop-only" alt="emergency">
+    </div>
+
+    <div class="emergency-wrap">
+      <p class="access-in">{{ instantEmergency.title }}</p>
+      <ul class="col">
+        {% for item in instantEmergency.data %}
+          <li class="li{{ forloop.index0 }}">
+            <img class="lazyload is-hidden-mobile-only" data-src="{{ item.img }}" alt="instantEmergency" />
+            <img class="lazyload is-hidden-desktop-only" data-src="{{ item.img_mob }}" alt="instantEmergency" />
+
+            {%- if item.text != blank -%}
+              <p> {{ item.text }} </p>
+            {%- endif -%}
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="unLock">
+      <div class="unLockContent">
+        <div class="unLockContent_l">
+          <p class="unLockContent_p is-hidden-desktop-only">
+            {{ unlockingMode.title }}
+           </p>
+           <p class="unLockContent_txt is-hidden-desktop-only">
+            {{ unlockingMode.text }}
+           </p>
+          <ul >
+            {% for item in unlockingMode.icon_data %}
+              <li data-label="{{ item.label }}">
+                <img  data-src="{{ item.icon }}" class="lazyload unLockContent_li_out" alt="unLock">
+                <img  data-src="{{ item.active_icon }}" class="lazyload unLockContent_li_mouse" alt="unLock">
+              </li>
+            {% endfor %}
+          </ul>
+          <p class="unLockContent_p is-hidden-mobile-only">
+           {{ unlockingMode.title }}
+          </p>
+          <p class="unLockContent_txt is-hidden-mobile-only">
+           {{ unlockingMode.text }}
+          </p>
+        </div>
+        <div class="unLockContent_r">
+          <div class="unLockContent_r_box">
+            <img data-src=" {{ unlockingMode.product_img }}" alt="unLock" class="lazyload">
+            {% for item in unlockingMode.hand_img %}
+              <img data-src="{{item}}" alt="unLock" class="lazyload unLockContent_r_box_img" >
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="bigSize is-hidden-mobile-only" id="bigSize" >
+      <img src="{{ bigVolume.img }}" alt="" class=" bigSizeImg">
+      <p class="bigSizeTitle">{{ bigVolume.title }}</p>
+      <p class="bigSizeText">
+        {{ bigVolume.text_pc }}
+      </p>
+    </div>
+
+    <div class="bigSizeMob is-hidden-desktop-only"  >
+      <p class="bigSizeMobTitle">{{ bigVolume.title_mob }}</p>
+      <img data-src="{{ bigVolume.img }}" alt="" class="lazyload bigSizeMobImg">
+      <p class="bigSizeMobText">{{ bigVolume.text_mob }}</p>
+    </div> -->
+
+    <div class="productDe">
+      <ul>
+        {% for item in detail %}
+          <li class="li{{ forloop.index0 }}">
+            <img data-src="{{ item.img}}" alt="" class="lazyload">
+            <p>{{ item.text }}</p>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </section>
+
+<script src="{{ 'gsap.min.js' | asset_url }}"></script>
+<script src="{{ 'ScrollTrigger.min.js' | asset_url }}"></script>
+<script src="https://player.vimeo.com/api/player.js"></script>
+
+<script>
+    function maidian(){
+      dataLayer.push({
+        "event": "uaEvent", 
+        "eventCategory": 't7401_landing_page',
+        "eventAction": "1st_banner",
+        "eventLabel": "buy_now", 
+      })
+    }
+  $(document).ready(function () {
+    let isOnlyOne1 = true
+    let box1 = document.getElementsByClassName('emergency-wrap')[0]
+    let isOnlyOne2 = true
+    let box2 = document.getElementsByClassName('productDe')[0]
+    const height = $(window).height()
+    let isOnlyOne = true
+    let boxScorll = 0
+    let box = document.getElementById('bigSize')
+    gsap.registerPlugin(ScrollTrigger);
+   if ($(window).width()>768) {
+    $('.actVideo-slick-slider_mob').remove()
+    
+    var tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: ".instant",
+        start: `top top+=400`,
+        end: `+=300`,
+        // markers: true,
+        // pin: true,
+        scrub: true
+      },
+    });
+    tl.to(".instant .col .li0", { opacity:1 })
+    tl.to(".instant .col .li1", { opacity:1 },'=')
+    tl.to(".instant .col .li2", { opacity:1 },'=')
+    tl.to(".instant .col .li3", { opacity:1 },'=')
+    tl.to(".instant .col .li4", { opacity:1 },'>')
+    tl.to(".instant .col .li5", { opacity:1 },'>')
+
+   
+
+    window.addEventListener('scroll',function(){
+      if(isOnlyOne1 && box1 && box1.getBoundingClientRect().top<=600 ){
+        var tl1 = gsap.timeline({
+          scrollTrigger: {
+            trigger: ".emergency-wrap",
+            start: `top top+=600`,
+            end: `+=1500`,
+            // markers: true,
+            // pin: true,
+            scrub: true
+          },
+        });
+        tl1.to(".emergency-wrap .col .li0", { opacity:1 })
+        tl1.to(".emergency-wrap .col .li1", { opacity:1 },'>')
+        tl1.to(".emergency-wrap .col .li2", { opacity:1 },'>')
+        isOnlyOne1 = false
+      }
+
+      if(isOnlyOne2 && box2 && box2.getBoundingClientRect().top<=600 ){
+        var tl2 = gsap.timeline({
+          scrollTrigger: {
+            trigger: ".productDe",
+            start: `top top+=600`,
+            end: `+=1000`,
+            scrub: true
+          },
+        });
+        tl2.to(".productDe .li0", { opacity:1 })
+        tl2.to(".productDe .li1", { opacity:1 },'>')
+        tl2.to(".productDe .li2", { opacity:1 },'>')
+        tl2.to(".productDe .li3", { opacity:1 },'>')
+
+        isOnlyOne2 = false
+      }
+
+      if(isOnlyOne && box && box.getBoundingClientRect().top<=0 ){
+        var tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: ".bigSize",
+            start: `top top+=0`,
+            end: `+=${2*height}`,
+            // markers: true,
+            pin: true,
+            scrub: true
+          },
+        });
+        tl.to(".bigSizeImg", { transform:' translateY(-50%) scale(.4)',top:'50%' })
+        tl.to(".bigSizeTitle", { opacity:' 0',direction:'0.01' })
+        tl.to(".bigSizeText", { opacity:' 1' })
+        isOnlyOne = false
+      }
+    })
+
+  
+
+   }else{
+    $('.actVideo-slick-slider_pc').remove()
+    let isOnlyOne3 = true
+    let box3 = document.getElementsByClassName('bigSizeMob')[0]
+    window.addEventListener('scroll',function(){
+      if(isOnlyOne3 && box3 && box3.getBoundingClientRect().top<=500 ){
+        var tl3 = gsap.timeline({
+          scrollTrigger: {
+            trigger: ".bigSizeMob",
+            start: `top top+=64`,
+            end: `+=${2*height}`,
+            scrub: true,
+            // markers: true,
+            pin: true,
+          },
+        });
+        tl3.to('.bigSizeMobImg',{transform:'scale(1.2)',height:'auto',' object-fit':'none'})
+        tl3.to('.bigSizeMobTitle',{opacity:'1'},'>')
+        tl3.to('.bigSizeMobText',{opacity:'1'},">")
+        isOnlyOne3 = false
+      }
+    })
+  }
+
+    var player = new Vimeo.Player('vimeoVideo', {
+      id:'{{ video.vimeoId }}',
+      controls: true,
+      fullscreen:true,
+      frameborder:true,
+      quality:"2k"
+    });
+    player.setVolume(0);
+
+    $(".smart_play").click(function() {
+      $(this).css({ "opacity": "0", "pointer-events": "none" });
+      player.play();
+      $('.videoPoster').hide()
+      window.dataLayer.push({
+        "event": "uaEvent", // Trigger
+        "eventCategory": 't7401_landing_page',
+        "eventAction": "watch_video",
+        "eventLabel": "click", 
+      })
+    })
+    player.on('play', function() {
+    })
+    player.on('ended', function() {
+      $(".smart_play").css({ "opacity": "1", "pointer-events": "auto" });
+      $('.videoPoster').show()
+    });
+    
+    $('.unLockContent_l li ').eq(0).children().eq(0).css('opacity',0)
+    $('.unLockContent_l li ').eq(0).children().eq(1).css('opacity',1)
+
+    $('.unLockContent_l li ').on('mouseover',function(){
+      $('.unLockContent_li_out').css('opacity',1)
+      $('.unLockContent_li_mouse').css('opacity',0)
+      $(this).children().eq(0).css('opacity',0)
+      $(this).children().eq(1).css('opacity',1)
+      $('.unLockContent_r_box_img').css('opacity',0)
+      $('.unLockContent_r_box_img').eq($(this).index()).css('opacity',1)
+      window.dataLayer.push({
+        "event": "uaEvent", 
+        "eventCategory": 't7401_landing_page',
+        "eventAction": "mouse_over",
+        "eventLabel": $(this).attr('data-label'), //变量，读取unlock的方式
+      })
+    })
+ 
+    
+
+    $('.actVideo-slick-slider_pc').slick({
+      infinite: true,
+      speed: 500,
+      slidesToShow: 1,
+      // centerMode: true,
+      arrows: true,
+      dots: true,
+      autoplay:false,
+      prevArrow: '.swiper-arrow-left',
+      nextArrow: '.swiper-arrow-right',
+    });
+
+    $('.actVideo-slick-slider_mob').slick({
+      infinite: true,
+      speed: 500,
+      slidesToShow: 1,
+      // centerMode: true,
+      arrows: true,
+      dots: true,
+      autoplay:false,
+      prevArrow: '.swiper-arrow-left',
+      nextArrow: '.swiper-arrow-right',
+    });
+   
+    $('.use-slick-slider').slick({
+      infinite: true,
+      speed: 500,
+      slidesToShow: 3,
+      arrows: true,
+      dots: true,
+      centerMode: true,
+      autoplay:true,
+      prevArrow: '.arrow-left',
+      nextArrow: '.arrow-right',
+      responsive: [{
+        breakpoint: 769,
+        settings: {
+          centerMode: false,
+          infinite: true,
+          slidesToShow: 1.8,
+          slidesToScroll: 1,
+          
+          // dots: data ? .mobDots || false,
+          // arrows: data ? .mobArrows || false,
+        },
+      }, ],
+    });
+  })
+</script>
+{% schema %}
+{
+  "name": "gun_Cabinet",
+  "class": "gun cabinet"
+}
+{% endschema %}

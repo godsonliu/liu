@@ -1,0 +1,481 @@
+{{ 'recommends.scss.css' | asset_url | stylesheet_tag }}
+
+{% assign id = section.id | prepend: "section-"%}
+{% assign blocks = section.blocks %}
+{% assign custom_css = section.settings.custom_css %}
+
+
+{% style %}
+  .reviews-box {
+    background: {{ section.settings.background }};
+  }
+  #{{id}} .active{ border-bottom:4px solid {{section.settings.borderColor}}}
+  #{{id}} a, 
+  #{{id}} span, 
+  #{{id}} p{
+    color: {{ section.settings.color }};
+  }
+  #{{id}} .review-item{background-color: {{ section.settings.review_item_bg_color }};}
+  #{{id}} .slick-arrow{
+    background-color: {{ section.settings.arrow_bg_color }} !important;
+  }
+  #{{id}} .reviews {
+    padding-top: {{ section.settings.padding_top }}px ;
+  }
+  #{{id}} .content-container {
+    width: {{ section.settings.width }}%;
+  }
+  #{{id}} .nav {
+    width: {{ section.settings.width  | minus: 1 }}%;
+    border-bottom: 3px solid {{ section.settings.color }} ;
+  }
+  #{{id}} .inner-box {
+    background: {{ section.settings.inner_box_background }};
+  }
+
+  {% for block in blocks %}
+    #_{{ block.settings.key }} .{{ block.settings.layout }}-item {
+        width: {{ block.settings.item-width }}%;
+      }
+  {% endfor %}
+  
+  .A3600-style .reviews .nav li a{color:{{section.settings.activeColor1}} !important}
+  .A3600-style .reviews .nav li.active a{color:{{section.settings.activeColor}} !important}
+  .A3600-style .reviews .nav{ border-bottom: 3px solid {{ section.settings.navColor }} !important}
+  #{{id}} .reviews .content-container .content a{font-size:13px !important;font-weight:bold !important;}
+  #{{id}} .reviews .content-container .content a:hover{color:{{section.settings.hoverColor}} !important; }
+  #{{id}} .reviews .normal-item.normal-item1{text-align:left;}
+  #{{id}} .reviews .content-container .home_slick .slick-arrow::after{border-color: #000 !important;}
+  .reviews .normal-item, .A3600-style .reviews .normal-item{height:auto;min-height:280px}
+{% endstyle %}
+
+{% render 'css-loop',
+    css: custom_css,
+    id: section.id
+%}
+{% for block in blocks %}
+  {% render 'css-loop',
+    css: block.settings.custom_css,
+    id: section.id
+  %}
+{% endfor %}
+
+
+<section class="reviews-box {{ section.settings.css_class}}" id="{{id}}">
+  <div class="reviews">
+    <p class="title">{{ section.settings.title }}</p>
+    {% if section.settings.subtitle != blank %}
+      <span class="subtitle">{{ section.settings.subtitle }}</span>
+    {% endif %}
+    {% if blocks != blank %}
+        <nav class="nav">
+          <ul>
+            {% for block in blocks %}
+              {% if block.settings.nav_content != blank %}
+                <li><a data-href="#_{{ block.settings.key }}">{{ block.settings.nav_content }}</a></li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </nav>
+        <div class="content-container">
+          {% for block in blocks %}
+            <!-- get theme set key to fetch metafields data-->
+            {% assign page_type = request.page_type %}
+            {% case page_type %}
+              {% when "collection" %}
+                {% if collection.metafields.reviews[block.settings.key].value %}
+                  {% assign recommends = collection.metafields.reviews[block.settings.key].value %}
+                {% else %}
+                  {% assign recommends = collection.metafields.reviews[block.settings.key] %}
+                {% endif %}
+              {% when "page" %}
+                {% if page.metafields.reviews[block.settings.key].value %}
+                  {% assign recommends = page.metafields.reviews[block.settings.key].value %}
+                {% else %}
+                  {% assign recommends = page.metafields.reviews[block.settings.key] %}
+                {% endif %}
+              {% when "product" %}
+                {% if product.metafields.reviews[block.settings.key].value %}
+                  {% assign recommends = product.metafields.reviews[block.settings.key].value %}
+                {% else %}
+                  {% assign recommends = product.metafields.reviews[block.settings.key] %}
+                {% endif %}
+              {% else %}
+                {% if shop.metafields.reviews[block.settings.key].value %}
+                  {% assign recommends = shop.metafields.reviews[block.settings.key].value %}
+                {% else %}
+                  {% assign recommends = shop.metafields.reviews[block.settings.key] %}
+                {% endif %}
+            {% endcase %}
+            {% if recommends != blank %}
+            <!-- avoid settings.key starts with number -->
+              <div id="_{{ block.settings.key }}" class="content {{ block.settings.layout }}">
+                  <!-- slick box -->
+                  <div class="review home_slick">
+                    {% for review in recommends.list %}
+                      <div class="review-item">
+                        {% case block.settings.layout %}
+                          {% when "youtuber" %}
+                            <div class="youtuber-item on-click-review" data-url="{{review.video_url}}">
+                              <div class="image" >
+                                <img class="lazyload" data-src="{{ review.image }}" alt="{{ review.title }}" />
+                                <div class="play-icon-img">
+                                  <img class="lazyload" data-src="{{recommends.play_icon}}" alt="{{ review.title }} play icon" />
+                                </div>
+                                <div class="text">
+                                  <span>{{ review.title }}</span>
+                                </div>
+                                <div class="bg-mask"></div>
+                              </div>
+                              <div class="youtuber-info inner-box">
+                                {% if review.youtuber.icon.size > 0 %}
+                                  <div class="icon">
+                                    <img class="lazyload" data-src="{{ review.youtuber.icon }}" alt="{{ review.youtuber.name }} icon" />
+                                  </div>
+                                {% endif %}
+                                <div class="text">
+                                  <p>{{ review.youtuber.name }}</p>
+                                  <span>{{ review.youtuber.fans }}</span>
+                                </div>
+                              </div>
+                              <div class="extra-text"><span>{{review.extra_text}}</span></div>
+                            </div>
+                          {% when "customer" %}
+                            <div class="customer-item">
+                              <div class="upper">
+                                {% if recommends.hideIcon != "true" %}
+                                <div class="icon">
+                                  <img class="lazyload"  
+                                    data-src="https://cdn.shopify.com/s/files/1/0501/7678/6607/files/{{ review.valuer | capitalize | slice: 0}}.png?v=1638871667" 
+                                    alt="{{ review.valuer }} icon">
+                                </div>
+                                {% endif %}
+                                <div class="right">
+                                  <div class="valuer"><p>{{ review.valuer }}</p></div>
+                                  <div class="star">
+                                    <div class="gap rating">
+                                      <span class="stars">
+                                        <span><i class="iconfont">☆</i><i class="iconfont">☆</i><i class="iconfont">☆</i><i class="iconfont">☆</i><i class="iconfont">☆</i></span>
+                                        <span class="mask" style="width: {{ review.star }}%"><i class="iconfont">★</i><i class="iconfont">★</i><i class="iconfont">★</i><i class="iconfont">★</i><i class="iconfont">★</i></span>
+                                      </span>
+                                    </div>
+                                    <span class="size">{{ section.settings.product_reviews }}</span>
+    
+                                </div>
+                                </div>
+                              </div>
+                              <div class="des"><span>{{ review.des }}</span></div>
+                              <div class="extra-text"><span>{{review.extra_text}}</span></div>
+                            </div>
+                          {% else %}
+                            <div class="normal-item normal-item{{recommends.list.size}}" style="background-color:{{review.bgcolor}} !important;">
+                              <div class="image">
+                                <img class="lazyload" data-src="{{ review.image }}" alt="valuer image" />
+                              </div>
+                              <div class="text" >
+                                <span style="color:{{review.text_color}} !important">{{ review.des }}</span>
+                                {% if review.valuer != blank %}
+                                  <p>{{ review.valuer }}</p>
+                                {% endif %}
+                                {% if review.valuer_profile != blank %}
+                                  <span>{{ review.valuer_profile }}</span>
+                                {% endif %}
+                              </div>
+                              <div class="extra-text"><span>{{review.extra_text}}</span></div>
+                            </div>
+                        {% endcase %}
+                        
+                      </div>
+                    {% endfor %}
+                  </div>
+                  {% if block.settings.url != blank %}
+                    <!-- {% assign url = product.url | append: '#shopify-section-template--15066377322671__product-meta-highlights' %} -->
+                    <a href="{{ block.settings.url }}" class="learn-more">Learn More ></a>
+                  {% endif %}  
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+    {% endif %}
+  </div>
+</section>
+        
+<div id="reviewsVideoCoverYouTube">
+  <div class="box">
+    <iframe width="100%" class="lazyload" height="100%" data-src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+  <a class="closeVideo"><i class="iconfont">&#xe723;</i></a>
+</div>
+       
+
+<script>
+  
+  $("Document").ready(function () {
+    const maxWidth = 769;
+    const init = function(){
+      // When page load
+      // slick 
+      {% for block in blocks %}
+      {% assign settings = block.settings %}
+        $(`#_{{ settings.key }}`).find(".review").slick({
+          slidesToShow: "{{ settings.item_per_slide }}",
+          slidesToScroll: 1,
+          responsive: [
+            {
+              breakpoint: maxWidth,
+              settings: {
+                // centerMode: true,
+                centerPadding: '1px',
+                slidesToShow: 1
+              }
+            }
+          ]
+        })
+      {% endfor %}
+      
+    // nav init
+    $(".review").hide()
+    $(".review").eq(0).show()
+      $("#{{id}} .content").hide(); //Hide all content
+      $("#{{id}} ul li:nth-child({{ section.settings.first_show }}").addClass("active"); //Activate first tab
+      $("#{{id}} .content:nth-child({{ section.settings.first_show }})").show(); //Show first tab content
+    }
+    init()
+    // When click nav
+    $("#{{ id }} ul li").on("click", function () {
+      $("#{{ id }} ul li").removeClass("active"); //Remove any active class
+      $("#{{ id }} .content").hide(); //Hide all content
+      $(this).addClass("active");
+      $(".review").hide()
+      $(".review").eq($(this).index()).show()
+      const active_review = $(this).find('a').attr("data-href");
+      $(active_review).show()
+      $(".review").slick("setPosition"); // need to set position for element
+    })
+    })
+    
+    var reviewsTag = document.createElement('script');
+    reviewsTag.src = 'https://www.youtube.com/iframe_api';
+    var reviewsFirstScriptTag = document.getElementsByTagName('script')[0];
+    reviewsFirstScriptTag.parentNode.insertBefore(reviewsTag, reviewsFirstScriptTag);
+
+    $('.on-click-review').on('click', function () {
+      let url = $(this).attr('data-url');
+      let siteUrl = $(this).attr('data-site');
+      if (siteUrl) {
+        return window.open(siteUrl)
+      }
+      if (url) {
+        $('#reviewsVideoCoverYouTube').css({ display: "block" }).find('iframe').attr('src', url)
+      }
+    });
+
+    $('#reviewsVideoCoverYouTube .closeVideo').click(() => {
+      $('#reviewsVideoCoverYouTube iframe').attr('src', '')
+      $('#reviewsVideoCoverYouTube').css({ display: "none" })
+    });
+    {% if section.settings.show_recommends == false %}
+      $(".reviews-box").css({ height: "0px", overflow: "hidden" })
+    {% endif %}
+   
+</script>
+
+{% schema %}
+{
+  "name": "Recommends",
+  "presets": [
+  {
+    "name": "Recommends"
+  }],
+  "settings": [
+      {
+        "type": "checkbox",
+        "id": "show_recommends",
+        "label": "Show Recommends",
+        "default": true
+      },
+      {
+          "type": "header",
+          "content": "Content"
+      },
+      {
+          "type": "text",
+          "id": "title",
+          "label": "title"
+      },{
+        "type": "color",
+        "id": "borderColor",
+        "label": "boder color"
+      },
+      {
+        "type": "color",
+        "id": "activeColor",
+        "label": "active Color"
+      },
+      {
+        "type": "color",
+        "id": "activeColor1",
+        "label": "导航栏文字颜色"
+      },
+      {
+        "type": "color",
+        "id": "navColor",
+        "label": "导航栏边看颜色"
+      },
+      {
+        "type": "color",
+        "id": "hoverColor",
+        "label": "hover Color"
+      },
+      {
+          "type": "text",
+          "id": "subtitle",
+          "label": "subtitle"
+      },
+      {
+        "type": "header",
+        "content": "Style"
+      },
+      {
+        "type": "number",
+        "id": "first_show",
+        "label": "First show",
+        "info": "Which order in reviews you want to show first when page load",
+        "default": 1
+      },
+      {
+        "type": "color_background",
+        "id": "background",
+        "label": "Bg color",
+        "default": "#fff"
+      },
+      {
+        "type": "color",
+        "id": "color",
+        "label": "Font color",
+        "default": "#000"
+      },
+      {
+        "type": "color_background",
+        "id": "arrow_bg_color",
+        "label": "Arrow bg color",
+        "default": "hsla(0, 0%, 50%, 0.22)"
+      },
+      {
+        "type": "color_background",
+        "id": "review_item_bg_color",
+        "label": "review item bg color",
+        "default": "#fff"
+      },
+      
+      {
+        "type": "color_background",
+        "id": "inner_box_background",
+        "label": "Inner box bg color",
+        "default": "#EDEDED"
+      },
+      {
+        "type": "range",
+        "id": "padding_top",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px",
+        "label": "Padding Top",
+        "info": "Distance from top of review box to title",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "width",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "%",
+        "label": "Whole width",
+        "info": "Width of navigation and content blow it ",
+        "default": 95
+      },
+      {
+        "type": "text",
+        "id": "css_class",
+        "label": "CSS Class"
+      },
+      {
+        "type": "textarea",
+        "id": "custom_css",
+        "label": "Custom CSS"
+      }
+  ],
+  "blocks": [
+      {
+          "type": "review",
+          "name": "review",
+          "settings": [
+              {
+                  "type": "paragraph",
+                  "content": "Go to this link [AnkerFields: page, product, collection or shop](/admin/apps/beta-metabuf/) to fill your reviews data with 'reviews' as namespace and metafields key you write below as key"
+              },
+              {
+                "type": "text",
+                "id": "key",
+                "label": "Metafields key"
+              },
+              {
+                  "type": "text",
+                  "id": "nav_content",
+                  "label": "Navigation content"
+              },
+              {
+                "type": "text",
+                "id": "url",
+                "label": "Learn more link"
+              },
+              {
+                "type": "number",
+                "id": "item_per_slide",
+                "label": "Item per slide",
+                "info": "How many item you want to show in each slide",
+                "default": 3
+              },
+              {
+                "type": "select",
+                "id": "layout",
+                "label": "Layout",
+                "info": "Normal layout is image and below with description (default font size is 21px in pc and 3.9vw in mobile, you can customize it in custom css, #_yourKey follow with .text and span or p (font-weight for p will be bold) as css selector",
+                "default": "normal",
+                "options": [
+                  {
+                    "value": "normal",
+                    "label": "normal"
+                  },
+                  {
+                    "value": "youtuber",
+                    "label": "youtuber"
+                  },
+                  {
+                    "value": "customer",
+                    "label": "customer"
+                  }
+                ]
+              },
+              {
+                "type": "range",
+                "id": "item-width",
+                "min": 0,
+                "max": 100,
+                "step": 1,
+                "unit": "%",
+                "label": "Item width",
+                "default": 96
+              },
+              {
+                "type": "textarea",
+                "id": "custom_css",
+                "label": "Custom CSS"
+              }
+                  ]
+      }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,273 @@
+
+.footer-contact, .footer-advantage, .footer-maps, .footer-content { display: none; }
+
+body { background: #F5F5F7; }
+.block__product, .logo_all_box { display: none; }
+.account_addresses {
+  min-height: calc(100vh - 61.5px);
+  width: 100% !important; position: relative;
+  @media (max-width: 1200px) { padding: 40px 1rem; }
+  @media (max-width: 768px) { padding: 0 !important; background: #fff; min-height: 0; }
+  .container { display: block; }
+  .crumbs {
+    display: flex; align-items: center;
+    margin: 0 0 24px; font-size: 16px; color: #666;
+    img { margin: 0 5px 0 5px; width: 16px; }
+    span { font-weight: 500; color: #000; }
+    .left { display: flex; align-items: center; }
+    @media (max-width: 768px) {
+      padding: 11px 17px;
+      border-top: 1px solid #F5F5F7;
+      border-bottom: 12px solid #F5F5F7; margin: 0;
+      justify-content: center; position: relative;
+      img {
+        position: absolute; top: 30%; left: 17px;
+        transform: rotate(180deg); cursor: pointer;
+      }
+    }
+  }
+  .account_addresses_box {
+    margin-top: 24px; margin-bottom: 72px;
+    @media (max-width: 768px) { margin-top: 0; }
+    .action_button_box {
+      text-align: center; margin-top: 24px;
+      .action_button {
+        width: 31%; border-radius: 4px;
+        background: #21ccbf; color: #fff;
+        height: 48px; line-height: 48px;
+        font-size: 16px; padding: 0 3rem; font-weight: 600;
+      }
+    }
+  }
+  .account-sidebar {
+    .action_button_box { text-align: left; }
+    .account_sidebar_txt {
+      display: flex; align-items: center;
+      h4 { font-size: 24px; font-weight: 600; margin-right: 12px; }
+      p { font-size: 14px; color: #737373; }
+      @media (max-width: 768px) { display: none; }
+    }
+    @media (max-width: 768px) {
+      .account-sidebar__content {
+        position: fixed; width: 100%;
+        bottom: 0; background: #fff; z-index: 1;
+        box-shadow: 0px -5px 6px rgba(0, 0, 0, 0.04);
+        .action_button_box {
+          padding: 12px 16px;
+          margin-top: 0;
+          .action_button { width: 100%; }
+        }
+      }
+    }
+  }
+  .account-sidebar, .account-main {
+    width: 100%; margin-left: 0; margin-right: 0;
+  }
+  .account-main {
+    position: relative;
+    min-height: 0;
+    .no_addresses {
+      padding: 46px 1rem 1rem;
+      text-align: center;
+      img { width: 240px; }
+      @media (max-width: 768px) { padding: 10vh 0 30vh; }
+      p { margin: 0 auto; font-size: 16px; text-align: center; }
+      .action_button_box {
+        margin-top: 40px;
+        @media (max-width: 768px) {
+          margin-top: 0;
+          position: fixed; width: 100%; padding: 12px 16px;
+          bottom: 0; background: #fff; z-index: 1;
+          box-shadow: 0px -5px 6px rgba(0, 0, 0, 0.04);
+        }
+      }
+      .action_button {
+        padding: 0 124px; width: auto;
+        @media (max-width: 768px) {
+          width: 100%; padding: 0;
+        }
+      }
+    }
+    .address_tables_box {
+      display: flex;
+      flex-wrap: wrap; align-items: stretch;
+    }
+    .address_table {
+      width: 31%; margin: 24px 24px 0 0; padding: 24px;
+      background: #fff; border-radius: 4px; position: relative;
+      .address_title {
+        font-weight: 600; font-size: 16px; margin-bottom: 12px;
+      }
+      .view_address {
+        font-size: 14px; font-weight: 500; color: #666;
+      }
+      .address_actions {
+        margin-top: 40px; text-align: right;
+        span, a { color: #21ccbf; font-weight: 500; }
+        .action_edit { margin-left: 24px; cursor: pointer; }
+        .set_default { padding: 5px 0; }
+        &.default_address {
+          display: flex; justify-content: space-between; align-items: center;
+          .default_txt {
+            background: rgba(0, 168, 225, 0.1); border-radius: 2px; line-height: 1.5;
+            padding: 2px 8px; color: #21ccbf; text-decoration: none;
+          }
+        }
+      }
+      .action_delete { margin-left: 16px; }
+      .delete_icon {
+        position: absolute; top: 24px; right: 24px;
+        cursor: pointer;
+        i { color: #C4C4C4; }
+      }
+      .default_address_img {
+        position: absolute;
+        top: 0.5px; left: 0;
+        width: 100%; line-height: 0;
+        overflow: hidden; border-radius: 2px;
+        img { width: 102%; max-width: none; transform: translateX(-2px); }
+      }
+    }
+    @media (max-width: 768px) {
+      .address_tables_box { align-items: initial; }
+      .address_table {
+        width: 100%; margin: 0; padding: 0;
+        .address_actions { margin-top: 15px; }
+        .address_title { margin-bottom: 16px; }
+      }
+      .fieldBox, .customer_address_show { padding: 16px; }
+      .address_table {  border-bottom: 12px solid #F5F5F7; }
+    }
+  }
+  .title {
+    font-weight: 600; font-size: 24px;
+    span { font-weight: 400; font-size: 14px; color: #999999; margin-left: 5px; }
+  }
+}
+
+@media (min-width: 768px) {
+  #address_tables {
+    display: block !important;
+    width: auto !important;
+    height: auto !important;
+    opacity: 1 !important;
+    visibility: unset !important;
+  }
+  .customer_address_show { display: block !important; }
+}
+
+.account_addresses .add_address, .address_tables_box .edit_address {
+  position: fixed;
+  top: 0; bottom: 0; left: 0; right: 0;
+  background: rgba(50, 50, 50, 0.5);
+  z-index: 45;
+  form {
+    position: absolute; top: 5vh; left: 50%; transform: translate(-50%, 0);
+    width: 100%; max-width: 740px;
+    background: #fff;
+    padding: 32px 25px; border-radius: 12px;
+    .formBox {
+      max-height: 80vh; overflow-y: auto;
+    }
+    .cancel {
+      position: absolute; right: 10px; top: 10px;
+    }
+    h4 { margin-bottom: 24px; font-size: 24px; }
+    .input, .select, .button {
+      height: 48px; line-height: 48px; width: 100%; border-radius: 4px;
+      border-color: #DADCE0;
+      color: #000;
+      select { height: 100%; width: 100%; border-radius: 4px; }
+    }
+    .input, select { padding: 10px 16px; }
+    .field:not(:last-child) { margin-bottom: 32px; }
+    .field.phone { margin-bottom: 17px; }
+    .input:focus, .input:active {
+      box-shadow: none; border-color: #666;
+    }
+    .input.error { border-color: #EC3333; }
+    label {
+      font-weight: 600; font-size: 16px; margin: 0;
+      span { font-size: 24px; line-height: 1; margin-left: 2px; }
+    }
+    .control { margin-top: 16px; }
+    
+    .name {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      .first_name, .last_name { flex: 1; margin-right: 15px; }
+      .last_name { margin: 0; }
+    }
+    .cityBox {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      .city, .zip, .province { flex: 1; margin: 0 15px 0 0; }
+      .zip { margin: 0; }
+    }
+    .action_button {
+      background: #21ccbf; color: #fff;
+      font-size: 16px; font-weight: 600; line-height: 1;
+    }
+    .cancel {
+      position: absolute; top: 24px; right: 24px;
+      i { font-size: 24px; }
+    }
+    .inline { color: #666; font-weight: 400; margin-left: 8px; }
+    p.error {
+      color: #EC3333; font-size: 12px; margin-top: 4px;
+    }
+  }
+  .action_bottom {
+    padding-bottom: 0;
+    input {
+      background: #21ccbf; color: #fff;
+      height: 48px; line-height:1;
+      font-size: 16px; font-weight: 600; margin-right: 0;
+    }
+    .button--secondary:focus:not(:active) { box-shadow: none; }
+  }
+  @media (max-width: 768px) {
+    position: static; background: #fff;
+    form {
+      position: static; padding: 0;
+      transform: unset;
+      .fieldBox { padding: 16px; }
+      .formBox { max-height: none; }
+      .name, .cityBox {
+        display: block; margin: 0;
+        .city, .zip, .province, .first_name, .last_name { margin: 0 0 15px 0; }
+      }
+      label, .input { font-size: 14px !important; }
+      .control { margin-top: 5px; }
+      .field:not(:last-child) { margin-bottom: 15px; }
+    }
+    .action_bottom {
+      position: fixed; width: 100%; padding: 12px 16px;
+      bottom: 0; background: #fff; z-index: 1;
+      box-shadow: 0px -5px 6px rgba(0, 0, 0, 0.04);
+      a { margin: 0; }
+    }
+  }
+}
+.pop_ups_address {
+  position: fixed; z-index: 20;
+  top: 0; left: 0; bottom: 0; right: 0;
+  background: rgba(50, 50, 50, 0.5);
+  .pop_ups_box {
+    background: #fff;
+    padding: 40px 60px; position: absolute; border-radius: 12px;
+    top: 50%; left: 50%; transform: translate(-50%, -50%);
+    h5 { font-size: 24px; }
+    p { font-size: 14px; margin-top: 24px; color: #323232; }
+    .buttons {
+      margin-top: 64px;
+      button {
+        padding: 0 3rem; cursor: pointer;
+        height: 45px; border-radius: 5px; margin-right: 24px;
+        border: 1px solid #21ccbf; color: #21ccbf; background: #fff;
+      }
+      .deleteBtn {
+        color: #fff; background: #21ccbf;
+      }
+    }
+  }
+}
+

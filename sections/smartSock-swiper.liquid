@@ -1,0 +1,234 @@
+{% comment %}<link rel="stylesheet" href="{{ 'swiper.min.css' | asset_url }}">{% endcomment %}
+<style>
+  .smartSock-swiper {
+    max-width: 1300px;
+    margin: 0 auto;
+    margin-bottom: 50px;
+  }
+  .smartSock-swiper .swiper-nav {
+    position: absolute;
+    z-index: 2;
+    top: 50px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .smartSock-swiper .nav-item {
+    padding: 8px 30px;
+    border: 1px solid #000;
+    background: #fff;
+    color: #000;
+    margin: 0 10px;
+    border-radius: 50px;
+    cursor: pointer;
+  }
+  .smartSock-swiper .nav-item.active {
+    border: 1px solid #fff;
+    background: #000;
+    color: #fff;
+    cursor: default;
+  }
+  .smartSock-swiper img {
+    display: block;
+    width: 100%;
+  }
+  .smartSock-swiper .text {
+    position: absolute;
+    z-index: 2;
+    max-width: 500px;
+    left: 80px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #fff;
+    padding: 18px 28px;
+    box-sizing: border-box;
+  }
+  .smartSock-swiper .text p {
+    margin-top: 10px;
+  }
+  .smartSock-swiper .swiper-button-prev, .smartSock-swiper .swiper-button-next {
+    width: 28px;
+    height: 28px;
+    top: calc(50% - 14px);
+    border-radius: 14px;
+    z-index: 3;
+    text-align: center;
+    background: #989b9e;
+  }
+  .smartSock-swiper .swiper-button-prev:before, .smartSock-swiper .swiper-button-next:before {
+    content: "";
+    width: 10px;
+    height: 10px;
+    top: 9px;
+    position: absolute;
+    border-left: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    font-family: 'slick';
+    font-size: 20px;
+    line-height: 1;
+    opacity: .75;
+    color: white;
+  }
+  .smartSock-swiper .swiper-button-prev:before {
+    transform: rotate(45deg);
+    left: 11px;
+  }
+  .smartSock-swiper .swiper-button-next:before {
+    transform: rotate(-135deg);
+    left: 8px;
+  }
+  .smartSock-swiper .swiper-button-prev svg, .smartSock-swiper .swiper-button-next svg {
+    fill: #999;
+  }
+
+  @media only screen and (max-width: 798px) {
+    .smartSock-swiper {
+      margin-bottom: 30px;
+    }
+    .smartSock-swiper .swiper-nav {
+      display: none;
+    }
+    .smartSock-swiper .text {
+      position: relative;
+      max-width: none;
+      top: 0;
+      left: 0;
+      transform: translateY(0);
+      padding: 15px;
+    }
+  }
+</style>
+
+<div class="swiper-container smartSock-swiper" id="swiper-container-{{ section.id }}">
+  <div class="swiper-nav">
+    {% for block in section.blocks %}
+      <div class="nav-item {% if forloop.first%}active{%endif%}">{{ block.settings.nav }}</div>
+    {% endfor %}
+  </div>
+  <div class="swiper-wrapper">
+    {% for block in section.blocks %}
+      <div class="swiper-slide">
+        {% render 'lazyload_image',  
+          src: block.settings.image,
+          alt: block.settings.image.alt,
+          width: block.settings.image.width,
+          aspect_ratio: block.settings.image.aspect_ratio,
+          isSchemaData: true,
+          additional_classes: "is-hidden-mobile-only"
+        %}
+        {% render 'lazyload_image',  
+          src: block.settings.image_mob,
+          alt: block.settings.image_mob.alt,
+          width: block.settings.image_mob.width,
+          aspect_ratio: block.settings.image_mob.aspect_ratio,
+          isSchemaData: true,
+          additional_classes: "is-hidden-desktop-only"
+        %}
+        <div class="text">
+          <h5>{{ block.settings.title }}</h5>
+          <p>{{ block.settings.content }}</p>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  <div class="swiper-button-prev"></div>
+  <div class="swiper-button-next"></div>
+</div>
+
+{% comment %}<script src="{{ 'swiper.min.js' | asset_url }}"></script>{% endcomment %}
+<script>
+  $(function() {
+    if (localStorage.getItem("show")) {
+      $(".swiper-container").show();
+    }
+    var swiper = new Swiper("#swiper-container-{{ section.id }}", {
+      effect: "{{ section.settings.effect }}",
+      loop: {{ section.settings.loop }},
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev'
+      },
+      on: {
+        slideChangeTransitionStart: function() {
+          $("#swiper-container-{{ section.id }} .nav-item").eq(this.realIndex).addClass("active").siblings().removeClass("active");
+        }
+      }
+    });
+    $("#swiper-container-{{ section.id }}")[0].swiper = swiper;
+    $("#swiper-container-{{ section.id }} .nav-item").on("click", function() {
+      var index = $(this).index();
+      var swiper = $("#swiper-container-{{ section.id }}")[0].swiper;
+      $(this).addClass("active").siblings().removeClass("active");
+      swiper.slideToLoop(index);
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Smart Sock swiper",
+  "presets": [
+    {
+      "name": "Smart Sock swiper"
+    }
+  ],
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "loop",
+      "label": "是否循环",
+      "default": true
+    },
+    {
+      "type": "radio",
+      "id": "effect",
+      "label": "切换效果",
+      "options": [
+        {
+          "value": "slide",
+          "label": "slide"
+        },
+        {
+          "value": "fade",
+          "label": "fade"
+        }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "type": "swiper",
+      "name": "swiper",
+      "settings": [
+        {
+          "type": "text",
+          "id": "nav",
+          "label": "轮播标题"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "图片"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mob",
+          "label": "移动端图片"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "内容标题"
+        },
+        {
+          "type": "textarea",
+          "id": "content",
+          "label": "内容"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

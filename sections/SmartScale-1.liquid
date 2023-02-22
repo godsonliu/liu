@@ -1,0 +1,50 @@
+{% if template contains 'page' -%}
+  {% if page.metafields['global']['banner'].value %}
+    {% assign banner = page.metafields['global']['banner'].value %}
+  {% else %}
+    {% assign banner = page.metafields['global']['banner'] %}
+  {% endif %}
+{% else %}
+  {% if product.metafields['global']['banner'].value %}
+    {% assign banner = product.metafields['global']['banner'].value %}
+  {% else %}
+    {% assign banner = product.metafields['global']['banner'] %}
+  {% endif %}
+{% endif %}
+
+
+<script src="{{ 'gsap.min.js' | asset_url }}"></script>
+<script src="{{ 'ScrollTrigger.min.js' | asset_url }}"></script>
+<link rel="stylesheet" href="{{ 'listing_smartscale.scss.css' | asset_url }}">
+
+
+<section id="{{ banner.id }}" class="smartScale-banner smartscale-1">
+  <div class="bg">
+    <img class="lazyload is-hidden-mobile-only" data-src="{{ banner.img_pc }}" alt=""/>
+    <img class="lazyload is-hidden-desktop-only" data-src="{{ banner.img_mob }}" alt=""/>
+  </div>
+  <div class="box-container">
+    <div class="box-content is-hidden-mobile-only">
+      <p class="txt">{{banner.txt_pc}}</p>
+      <h class="title">{{banner.title_pc}}</h>
+      <p class="desc">{{banner.desc_pc}}</p>
+    </div>
+    <div class="box-content is-hidden-desktop-only">
+      <p class="txt">{{banner.txt_mob}}</p>
+      <h class="title">{{banner.title_mob}}</h>
+      <p class="desc">{{banner.desc_mob}}</p>
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Smart Scale P2 Pro Banner",
+  "presets": [
+    {
+      "category": "Smart Scale P2 Pro Banner Sections",
+      "name": "Smart Scale P2 Pro Banner"
+    }
+  ],
+  "settings": []
+}
+{% endschema %}

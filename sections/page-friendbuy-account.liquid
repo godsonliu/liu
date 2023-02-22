@@ -1,0 +1,556 @@
+{% if shop.metafields['global']['friendbuy'].value %}
+  {% assign friendbuy = shop.metafields['global']['friendbuy'].value %}
+{% else %}
+  {% assign friendbuy = shop.metafields['global']['friendbuy'] %}
+{% endif %}
+
+{% if page.metafields['global']['lang'].value %}
+  {% assign lang = page.metafields['global']['lang'].value %}
+{% else %}
+  {% assign lang = page.metafields['global']['lang'] %}
+{% endif %}
+
+{% comment %}
+** Page - static **
+- Main content area
+{% endcomment %}
+
+{% assign id = section.id %}
+{% comment %}Layout{% endcomment %}
+{% assign width = section.settings.width %}
+{% comment %}Advanced{% endcomment %}
+{% assign css_class = section.settings.css_class %}
+{% assign custom_css = section.settings.custom_css %}
+
+{% style %}
+{% endstyle %}
+  {% render 'css-loop',
+          css: section_css,
+          id: id
+  %}
+  {% render 'css-loop',
+          css: custom_css,
+          id: id
+  %}
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.32/moment-timezone.min.js"></script>
+
+<script>
+  $(function() {
+    const friendbuyApi = Shopify.contentCreator.friendbuy;
+    const pastApi = Shopify.contentCreator.pastApi;
+    const friendbuy_status = {
+      "pending": "{{lang.status.pending}}",
+      "valid": "{{lang.status.valid}}",
+      "invalid": "{{lang.status.invalid}}"
+    }
+    const friendbuyParams = {
+      showStatus: val => {
+        if (val.reward && val.reward.status) {
+          return friendbuy_status[val.reward.status];
+        }
+        if (val.conversions && val.conversions.created_at) {
+          return friendbuy_status.pending;
+        }
+        if (val.purchase_email && val.reward) {
+          return friendbuy_status.valid;
+        }
+        return '';
+      },
+      friendbuyEmail: (email, btn) => {
+        $(btn).prop("disabled", true);
+        const data = {
+          widget_id: parseInt('{{friendbuy.account_page_id}}', 10),
+          reward_email_address: '{{customer.email}}',
+          email_recipients: [email] || [],
+        };
+        data.message = "{{ lang.email_message }}";
+        if (!email) {
+
+        }
+        friendbuyApi.postEmails({
+          params: data,
+          fn: () => {},
+          error: () => {}
+        })
+      },
+      friendbuyDetail: (id, shopify_id, v2_id) => {
+        const total = 200;
+
+        Promise.all([
+          friendbuyApi.getSharesList({
+            fn: () => {}, 
+            error: () => {}, 
+            params: {customer_id: id, limit: total}
+          }), 
+          friendbuyApi.getConversionsList({
+            fn: () => {}, 
+            error: () => {}, 
+            params: {customer_id: id}
+          }), 
+          friendbuyApi.getRewardsList({
+            fn: () => {}, 
+            error: () => {}, 
+            params: {customer_id: id}
+          }),
+          friendbuyApi.getSharesList({
+            fn: () => {}, 
+            error: () => {}, 
+            params: {customer_id: shopify_id, limit: total}
+          }), 
+          friendbuyApi.getConversionsList({
+            fn: () => {}, 
+            error: () => {}, 
+            params: {customer_id: shopify_id}
+          }), 
+          friendbuyApi.getRewardsList({
+            fn: () => {}, 
+            error: () => {}, 
+            params: {customer_id: shopify_id}
+          }),
+          friendbuyApi.friendbuyv2_getAccountInfo({
+            fn: () => {}, 
+            error: () => {}, 
+            params: { email: '{{customer.email}}', country: Shopify.country }
+          })
+        ]).then(body => {
+          
+          const dataV2 = body[6];
+
+          if (body[0] && body[0].results && body[1] && body[1].results && body[2] && body[2].results) {
+            const { purchases_data, share_data, rewards_data } = dataV2;
+
+            const share_v2 = share_data.map(v => ({
+              id: v.campaignId,
+              channel:  v.channel,
+              created_at: v.createdOn,
+            }));
+
+            const purchases_v2 = purchases_data.map(v => ({
+              id: v.campaignId,
+              purchase_email: v.email,
+              created_at: v.createdOn,
+            }));
+
+            const rewards_v2 = rewards_data.map(v => ({
+              id: v.campaignId,
+              channel:  v.channel,
+              amount: v.rewardAmount,
+              created_at: v.createdOn,
+            }));
+
+            const val = [];
+            if (!id) {
+              body[0].results = [];
+              body[1].results = [];
+              body[2].results = [];
+            }
+            if (!shopify_id) {
+              body[3].results = [];
+              body[4].results = [];
+              body[5].results = [];
+            }
+            val[0] = body[0]; val[0].results = body[3].results.concat(body[0].results);
+            val[1] = body[1]; val[1].results = body[4].results.concat(body[1].results);
+            val[2] = body[2]; val[2].results = body[5].results.concat(body[2].results);
+
+            const rewardInConversions = val[2] && val[2].results.map(v => ({ ...v, conversionId: v.conversion.split('/').pop() }));
+            const conversionsInShare = val[1] && val[1].results.map(v => {
+              const reward = rewardInConversions ? rewardInConversions.find(g => parseInt(g.conversionId, 10) === v.id) : {};
+              return ({ ...v, reward, shareId: v.source.split('/').pop() });
+            });
+            const allResults = val[0].results;
+
+            const sharesList = { ...val[0],
+              allResults,
+              results: allResults.map(item => {
+                const conversions = conversionsInShare ? conversionsInShare.find(g => parseInt(g.shareId, 10) === item.id) : {};
+                return ({ ...item, conversions, reward: conversions ? conversions.reward : {} });
+              }),
+              conversions: conversionsInShare ? conversionsInShare.map(g => {
+                const share = val[0].results.find(v => parseInt(g.shareId, 10) === v.id);
+                return ({ ...g, share, reward: g.reward });
+              }) : []
+            };
+            
+            const purchasesArr_v2 = []
+            purchases_v2.forEach((purchase) => {
+              const item = {
+                ...purchase,
+                share: share_v2.find(v => purchase.id === v.id),
+                reward: rewards_v2.find(v => purchase.id === v.id)
+              }
+              purchasesArr_v2.push(item);
+            })
+            sharesList.conversions = purchasesArr_v2.concat(sharesList.conversions);;
+
+            friendbuyParams.sharesList = sharesList;
+            friendbuyParams.conversionsInShare = conversionsInShare;
+            friendbuyParams.rewardInConversions = rewardInConversions;
+            
+            let dom = '';
+            if (sharesList.conversions && sharesList.conversions.length > 0) {
+              sharesList.conversions.forEach((val, g) => {
+                const share = val.share;
+                const email = val.purchase_email || (share && share.email_recipients ? share.email_recipients[0] : val.channel);
+                const created_at = share && share.created_at ? moment(share.created_at).format('YYYY-MM-DD') : '';
+                const conversions = val.created_at ? moment(val.created_at).format('YYYY-MM-DD') : '';
+                const reward = val.reward && val.reward.amount ? val.reward.amount : '';
+                dom += `<li>
+                      <dl class="tableContent">
+                        <dt>${email}</dt>
+                        <dt>${created_at}</dt>
+                        <dt>${conversions}</dt>
+                        <dt>${friendbuyParams.showStatus(val)}</dt>
+                        <dt>${reward}</dt>
+                      </dl>
+                    </li>`;
+              });
+              $('#myreferral_tablecontent .list').html(dom);
+              friendbuyParams.table = new List('myreferral_tablecontent', {
+                valueNames: ['tableTitle'],
+                page: 5,
+                pagination: [{
+                  innerWindow: 1,
+                  outerWindow: 1
+                }]
+              });
+              $('#myreferral_tablecontent .remindEmail').on('click', function(e) {
+                e.stopPropagation(); 
+                e.preventDefault();
+                const email = $(this).data('email');
+                friendbuyParams.friendbuyEmail(email, this);
+              })
+            } else {
+              $('#myreferral_tablecontent .tableBox').html('<div class="info_box"><span>{{lang.refer_info}}</span></div>');
+            }
+          }
+        })
+      }
+    };
+
+    const target_id =  Shopify.theme.custom.GetQueryValue('target_id');
+    if(target_id) $('html, body').animate({ scrollTop: $(`#${target_id}`).offset().top - 20 }, 1000);
+
+    {% if customer %}
+      pastApi.getUserInfo({
+        fn: (body = {}) => {
+          const account_id = body.data ? body.data.euid : '{{customer.email}}';
+          Promise.all([
+            friendbuyApi.getCustomerV2({
+              fn: () => {}, 
+              error: () => {}, 
+              params: {account_id: account_id}
+            }),
+            friendbuyApi.getCustomerV2({
+              fn: () => {}, 
+              error: () => {}, 
+              params: {account_id: '{{customer.id}}'}
+            }),
+          ]).then(val => {
+            const id1 = val[0].results && val[0].results.length ? val[0].results[0].id : '';
+            const id2 = val[1].results && val[1].results.length ? val[1].results[0].id : '';
+            friendbuyParams.friendbuyDetail(id1, id2);
+          })
+        }, 
+        error: () => {}, 
+        params: { email: "{{customer.email}}" }
+      });
+    {% endif %}
+
+    $('.friendbuy .section4 .btnbox button').on('click', function(){
+      const target = $('.friendbuy .section4 .rules');
+      if (target.hasClass('hidden')) {
+        target.removeClass('hidden');
+        $('.friendbuy .section4 .btnbox .arrow').addClass('active');
+      } else {
+        target.addClass('hidden');
+        $('.friendbuy .section4 .btnbox .arrow').removeClass('active');
+      }
+    })
+
+    $('.friendbuy .conditions li h4').on('click', function() {
+      if ($(this).hasClass('active')) {
+        $(this).removeClass('active');
+        $(this).nextAll('p').css('height', '0');
+      } else {
+        $(this).addClass('active');
+        $(this).nextAll('p').css('height', 'auto');
+      }
+    })
+
+    $('.friendbuy .conditions li u').on('click', function() {
+      $('.productModal').removeClass('hidden');
+    })
+
+    $('.productModal .close_p_modal').on('click', function() {
+      if ($('.productModal').hasClass('hidden')) {
+        $('.productModal').removeClass('hidden');
+      } else {
+        $('.productModal').addClass('hidden');
+      }
+    })
+  })
+</script>
+
+<main class="{{ css_class }}
+            is-width-{{ width }}
+            friendbuy
+            ">
+  <div class="page__content">
+    <div class="friendbuy-{{ friendbuy.account_page }} account_page" id="friendbuylanding"></div>
+
+    <div class="section1">
+      <h1 class="title">{{ lang.sec1_title }}</h1>
+      {% if customer %}
+        <section class="section">
+          <div id="myreferral_tablecontent" class="table">
+            <div class="tableBox">
+              <dl class="tableTitle ">
+                <dt>{{ lang.table_Title[0] }}</dt>
+                <dt>{{ lang.table_Title[1] }}</dt>
+                <dt>{{ lang.table_Title[2] }}</dt>
+                <dt>{{ lang.table_Title[3] }}</dt>
+                <dt>{{ lang.table_Title[4] }}</dt>
+              </dl>
+              <ul class="list"></ul>
+            </div>
+            <ul class="pagination"></ul>
+          </div>
+        </section>
+      {% else %}
+        <div class="info_box">
+          <span>{{ lang.login_1 }} </span>
+          <a class="loginBtn" href="{% render 'mulpass-url', domain: shop.permanent_domain %}&redirect=https://{{ shop.permanent_domain }}/pages/referral">
+            {{ lang.login_btn }}
+          </a>
+          <span> {{ lang.login_2 }}</span>
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="section2">
+      <section class="section">
+        <h1 class="title">{{ lang.sec2_title }}</h1>
+        <div class="stepbox">
+          <div class="step">
+            <div class="content">
+              <img class="lazyload"
+                data-src="https://dz02g1kgtiysz.cloudfront.net/deals/erf/200520_095151_-27.jpg"
+                alt=""
+              />
+              <h3>{{ lang.step1 }}</h3>
+              <p>{{ lang.step1p }}</p>
+            </div>
+            <span class="arrow"></span>
+          </div>
+          <div class="step">
+            <div class="content">
+              <img class="lazyload"
+                data-src="https://dz02g1kgtiysz.cloudfront.net/deals/erf/200520_095205_-28.png"
+                alt=""
+              />
+              <h3>{{ lang.step2 }}</h3>
+              <p>{{ lang.step2p }}</p>
+            </div>
+            <span class="arrow"></span>
+          </div>
+          <div class="step">
+            <div class="content">
+              <img class="lazyload"
+                data-src="https://dz02g1kgtiysz.cloudfront.net/deals/erf/200520_095209_-29.png"
+                alt=""
+              />
+              <h3>{{ lang.step3 }}</h3>
+              <p>{{ lang.step3p }}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  
+    <div class="section3">
+      <section class="section">
+        <h1 class="title">{{ lang.sec3_title }}</h1>
+        <p class="desc">{{ lang.sec3_desc }}</p>
+        <div class="stepbox">
+          <div class="step">
+            <h3>{{ lang.referral1 }}</h3>
+            <div class="content">
+              <img class="lazyload"
+                data-src="{{lang.gift1}}"
+                alt=""
+              />
+              <p>{{ lang.referral1p }}</p>
+              <span class="arrow"></span>
+            </div>
+          </div>
+          <div class="step">
+            <h3>{{ lang.referral2 }}</h3>
+            <div class="content">
+              <img class="lazyload"
+                data-src="{{lang.gift2}}"
+                alt=""
+              />
+              <p>{{ lang.referral2p }}</p>
+              <span class="arrow"></span>
+            </div>
+          </div>
+          <div class="step">
+            <h3>{{ lang.referral3 }}</h3>
+            <div class="content">
+              <img class="lazyload"
+                data-src="{{lang.gift3}}"
+                alt=""
+              />
+              <p>{{ lang.referral3p }}</p>
+              <span class="arrow"></span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  
+    <div class="section4">
+      <section class="section">
+        <h1 class="title">{{ lang.sec4_title }}</h1>
+        <p class="desc">
+          {{ lang.sec4_desc }}
+        </p>
+        <div class="btnbox">
+          <button type="button">
+            {{ lang.rules }}<span class="arrow"></span>
+          </button>
+        </div>
+        <ul class="rules hidden" style="height: auto">
+          {% for item in lang.rule %}
+            <li>
+              {{ item }}
+            </li>
+          {% endfor %}
+        </ul>
+        <ul class="topThree">
+          {% for item in lang.top %}
+            <li>
+              <img
+                class="medal lazyload"
+                data-src="{{item}}"
+                alt=""
+              />
+              <p class="email">{{ lang.topEmail[forloop.index0] }} </p>
+              <p class="amount">{{ lang.earned[forloop.index0] }}</p>
+            </li>
+          {% endfor %}
+        </ul>
+      </section>
+    </div>
+  
+    <div class="section5">
+      <section class="section">
+        <h1 class="title">{{ lang.sec5_title }}</h1>
+        <ul class="referres">
+          <li>
+            <div>
+              <div class="content">
+                <div class="tips">{{ lang.product_tip[0] }}</div>
+                <img class="lazyload"
+                  data-src="{{lang.referres_product[0]}}"
+                  alt=""
+                />
+              </div>
+              <p class="name">{{ lang.product_name[0] }}</p>
+            </div>
+          </li>
+          <li>
+            <div>
+              <div class="content">
+                <div class="tips">{{ lang.product_tip[1] }}</div>
+                <img class="lazyload"
+                  data-src="{{lang.referres_product[1]}}"
+                  alt=""
+                />
+              </div>
+              <p class="name">
+                {{ lang.product_name[1] }}
+              </p>
+            </div>
+          </li>
+          <li>
+            <div>
+              <div class="content">
+                <div class="tips">{{ lang.product_tip[2] }}</div>
+                <img class="lazyload"
+                  data-src="{{ lang.referres_product[2] }}"
+                  alt=""
+                />
+              </div>
+              <p class="name">{{ lang.product_name[2] }}</p>
+            </div>
+          </li>
+        </ul>
+      </section>
+    </div>
+  
+    <div class="section6" id="friendbuy_terms">
+      <section class="section">
+        <h1 class="title">{{ lang.sec6_title }}</h1>
+        <ul id="friendBuy_conditions" class="conditions">
+          {% for item in lang.conditions_title %}
+            <li>
+              <h4 class="active">
+                {{ item }}<span class="arrow"></span>
+              </h4>
+              <p>
+                {{ lang.conditions_content[forloop.index0] }}
+              </p>
+            </li>
+          {% endfor %}
+        </ul>
+      </section>
+      
+      <div class="productModal hidden">
+        <div class="modal_content">
+          <button class="close close_p_modal" aria-label="close">
+            {% render 'icon', name: 'x' %}
+          </button>
+          {% for v in lang.product_conditions %}
+          <a target="_blank" rel="noopener noreferrer"
+            href="{{v.href}}"
+          >{{v.name}}</a>
+        {% endfor %}
+        </div>
+        <div class="mask"></div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<script>
+  window['friendbuy'] = window['friendbuy'] || [];
+  window['friendbuy'].push(['widget', "{{ friendbuy.account_page }}"]);
+</script>
+
+{% schema %}
+  {
+    "name": "Page",
+    "class": "page-main has-sidebar-option",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Advanced"
+      },
+      {
+        "type": "text",
+        "id": "css_class",
+        "label": "CSS Class"
+      },
+      {
+        "type": "textarea",
+        "id": "custom_css",
+        "label": "Custom CSS"
+      }
+    ]
+  }
+{% endschema %}

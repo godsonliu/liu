@@ -1,0 +1,68 @@
+{% render 'aplus-hotspots-1-snippet' %}
+
+{% schema %}
+{
+  "name": "Aplus Hotspots 1",
+  "presets": [
+    {
+      "name": "Aplus Hotspots 1",
+      "blocks": [
+        {
+          "type": "hotspot"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "imageUrl",
+      "label": "image",
+      "info": "1464 x 600 recommended"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "hotspot",
+      "type": "hotspot",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "text",
+          "id": "headline",
+          "label": "headline"
+        },
+        {
+          "type": "text",
+          "id": "body",
+          "label": "body"
+        },
+        {
+          "type": "image_picker",
+          "id": "imageUrl",
+          "label": "image",
+          "info": "600 x 450 recommended"
+        },
+        {
+          "type": "range",
+          "id": "top",
+          "label": "top percent",
+          "default": 50,
+          "min": 0,
+          "max": 100,
+          "step": 1
+        },
+        {
+          "type": "range",
+          "id": "left",
+          "label": "left percent",
+          "default": 50,
+          "min": 0,
+          "max": 100,
+          "step": 1
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

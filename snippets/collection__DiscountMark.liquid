@@ -1,0 +1,108 @@
+{% if shop.metafields.global.discounts.value %}
+  {% assign lang = shop.metafields.global.discounts.value %}
+{% else %}
+  {% assign lang = shop.metafields.global.discounts %}
+{% endif %}
+
+
+{% assign position = lang.tagDisplayPosition %}
+<script>
+  var nowTime = new Date().getTime();
+  $(document).ready(function() {
+    let SaleMarkDom = "<div class='DiscountMark'><div class='DiscountBox'><img src='{{ lang.Mark_img }}'><div class='DiscountTxt'><span>{{ lang.sale }}</span></div></div></div>";
+    let DiscountMarkDom = "<div class='DiscountMark'><div class='DiscountBox'><img src='{{ lang.Mark_img }}'><div class='DiscountTxt'><div id='DiscountMarkTxt' class='DiscountMarkTxt'></div><span>{{ lang.off }}</span></div></div></div>";
+    let handles = [];
+
+    {% for item in products %}
+      handles.push("{{ item.handle }}");
+    {% endfor %}
+
+    getDicount(handles)
+
+    window.getDicount = getDicount
+
+    function getDicount(handles) {
+      $.ajax({
+      type: 'GET',
+      url: '/apps/pp/shopifyservices/coupons/by_products',
+      data: { "handles": handles, "shopify_domain": "{{ shop.permanent_domain }}" },
+      success: function success(data) {
+        for (let item in data) {
+          const product = $(`.itemProduct[data-handle=${item}]`)
+          const hasVariants = product.data('variants-size')
+
+          // 多个variants显示sale 单个variants显示具体的折扣
+          if(data[item][0]) {
+            if(+hasVariants > 1) {
+              product.find('.image-element__wrap').append(SaleMarkDom);
+            } else {
+              ShowCode(data[item][0], item)
+            }
+          }
+        }
+      }
+      });
+    }
+    
+    function ShowCode(data, handle) {
+      // 展示折扣数值
+      let DiscountTxt;
+      if (data.value_type === "fixed_amount") {
+        DiscountTxt = data.value_style;
+      } else if (data.value_type === "percentage") {
+        DiscountTxt = Math.abs(parseInt(data.value)) + "%";
+      };
+      $(`.itemProduct[data-handle=${handle}] .image-element__wrap`).append(DiscountMarkDom);
+      $(`.itemProduct[data-handle=${handle}] #DiscountMarkTxt`).text(DiscountTxt);
+    }
+  });
+</script>
+
+
+{% style %}
+.DiscountMark {
+  position: absolute;
+  top: 0;
+  {% if position == 'right' %}
+    right: 0;
+  {% else %}
+    left: 0;
+  {% endif %}
+  z-index: 1;
+  width: 45px;
+}
+
+
+.DiscountMark .DiscountBox {
+  position: relative;
+  width: 100%;
+}
+.DiscountMark .DiscountBox img {
+  display: block !important;
+  height: auto !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  width: 100% !important;
+}
+.DiscountMark .DiscountTxt {
+  width: 100%;
+  position: absolute;
+  top: 49%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: grid;
+}
+.DiscountMark .DiscountTxt .DiscountMarkTxt, .DiscountMark .DiscountTxt span {
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  text-align: center;
+  width: 100%;
+  display: inline-block;
+  line-height: 1.2;
+  margin: 0;
+}
+.DiscountMark .DiscountTxt span {
+  font-size: 12px;
+}
+{% endstyle %}

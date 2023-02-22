@@ -1,0 +1,41 @@
+<div class="aplus-bg-card">
+  <div class="aplus__mobile">
+    <div class="aplus-bg-card__image">
+      {% if mobileImageUrl != blank %}
+        {% assign mobileImageUrl = mobileImageUrl %}
+      {% else %}
+        {% assign mobileImageUrl = imageUrl %}
+      {% endif %}
+      {% render 'lazyload_image'
+        src: mobileImageUrl,
+        isSchemaData: isSchemaData
+      %}
+    </div>
+  </div>
+  <div class="aplus__pc">
+    <div class="aplus-bg-card__image">
+      {% render 'lazyload_image'
+        src: imageUrl,
+        additional_classes: 'is-hidden-mobile-only'
+        isSchemaData: isSchemaData
+      %}
+    </div>
+  </div>
+  {% if title != blank or subtitle != blank or description != blank %}
+    {% if align == blank %}
+      {% assign alignValue = 'right' %}
+    {% else %}
+      {% assign alignValue = align %}
+    {% endif %}
+    <div class="aplus-bg-card__text-wrapper {{ alignValue }} flex-center">
+      {% render 'aplus-text-card'
+        textColor: textColor,
+        subtitle: subtitle,
+        title: title,
+        description: description,
+        learnMoreText: learnMoreText,
+        url: url
+      %}
+    </div>
+  {% endif %}
+</div>

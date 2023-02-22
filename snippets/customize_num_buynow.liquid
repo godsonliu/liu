@@ -1,0 +1,86 @@
+{% assign lang = product.metafields.global %}
+
+{% if lang.products.value %}
+  {% assign products = lang.products.value %}
+{% else %}
+  {% assign products = lang.products %}
+{% endif %}
+
+{% if shop.metafields['global']['storefront_key'].value %}
+  {% assign storefront_key = shop.metafields['global']['storefront_key'].value %}
+{% else %}
+  {% assign storefront_key = shop.metafields['global']['storefront_key'] %}
+{% endif %}
+
+
+{% comment %} 自定义的buynow按钮 {% endcomment %}
+<button class="customize_num_buynow">{{ buynow_txt }}</button>
+
+<script>
+  function line_item(variants, product){
+    let line_item = {};
+    variants.map(item => {
+      if(item.sku === product.sku) {
+        line_item.variant_id = item.id;
+      };
+    });
+    line_item.quantity = 1;
+    return line_item;
+  }
+  $('.customize_num_buynow').click(e => {
+    e.preventDefault();
+    const discount = $('#couponCode').text() || ''
+
+    let line_items = [];
+    {% for item in products %}
+      {% assign product = all_products[item.handle] %}
+      line_items.push(line_item({{ product.variants | json }}, {{ item | json }}))
+    {% endfor %}
+
+    Shopify.theme.bundleBuynow({
+      authorization: "{{ storefront_key }}",
+      checkout: {
+        line_items: line_items,
+        presentment_currency: "{{ shop.currency }}",
+        is_upstream_button: true,
+        page_type: "product",
+        secret: true,
+        discount,
+        wallet_name: "Checkout"
+      },
+      onSuccess: () => {},
+      onError: err => {
+        $.dialog({ title: err.message, content: err.description, type: 'red' });
+      }
+    });
+  })
+
+
+</script>
+
+<style>
+.customize_num_buynow {
+  background: linear-gradient(to right,#4391e5,#03d7c7);
+  background-image: linear-gradient(to right,#4391e5,#03d7c7);
+  color: #fff;
+  font-weight: 600;
+  border-radius: 22px;
+  height: 44px;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 0 4rem;
+  border: none;
+  margin: 3rem 0;
+}
+.customize_num_buynow:hover {
+  background: #fff;
+  color: #1db2a6;
+  border: 1px solid #1db2a6;
+}
+.product-form-container {
+  padding: 0;
+}
+.purchase-details .purchase-details__spb--true {
+  margin-top: 0;
+}
+</style>

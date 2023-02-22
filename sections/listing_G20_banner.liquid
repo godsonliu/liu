@@ -1,0 +1,149 @@
+
+{% assign DataId = section.settings.data_id %}
+{% assign custom_css = section.settings.custom_css %}
+{% if product.metafields['global'][DataId].value %}
+  {% assign G20_banner = product.metafields['global'][DataId].value %}
+{% else %}
+  {% assign G20_banner = product.metafields['global'][DataId] %}
+{% endif %}
+
+<!-- 
+  is-hidden-mobile-only  只在移动端隐藏
+  is-hidden-desktop-only 只在PC端隐藏
+-->
+{%- if G20_banner != blank -%}
+  <div class="G20_banner" id="{{DataId}}">
+    <div class="img_container">
+      <img class="lazyload is-hidden-mobile-only"  data-src="{{ G20_banner.pcImg }}"  alt="">
+      <img class="lazyload is-hidden-desktop-only" data-src="{{ G20_banner.mobImg }}" alt="">
+    </div>
+    <div class="text_container">
+      <p class="main_title">{{ G20_banner.main_title }}</p>
+      {%- if G20_banner.sub_title_mobExtra != blank -%}
+        <p class="sub_title is-hidden-mobile-only"> {{ G20_banner.sub_title }} </p>
+        <p class="sub_title is-hidden-desktop-only"> {{ G20_banner.sub_title_mobExtra }} </p>
+      {%- else -%}
+        <p class="sub_title"> {{ G20_banner.sub_title }} </p>
+      {%- endif -%}
+      {% if G20_banner.notes != blank %}
+      <div class="G20_banner_notes_txt">
+        {% for item in G20_banner.notes %}
+          <p>{{ item }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+    {% if G20_banner.banner_icon != blank %}
+      <div class="G20_banner_img_icon is-hidden-mobile-only">
+        <img data-src="{{ G20_banner.banner_icon }}" alt="" class="lazyload">
+      </div>
+    {% endif %}
+    </div>
+    {% if G20_banner.compared_text != blank %}
+      <div class="compared_text" >
+        {% for item in G20_banner.compared_text %}
+          <p class="compared_text_p" >
+            {{ item }}
+          </p>
+        {% endfor %}
+      </div>
+    {% endif %}
+   
+
+    {%- if G20_banner.iconData != blank -%}
+      <div class="iconData">
+        {%- for item in G20_banner.iconData -%}
+          <div class="flexBox">
+            <div class="imgBox">
+              <img class="lazyload is-hidden-mobile-only"  data-src="{{ item.icon_pc }}"  alt="">
+              <img class="lazyload is-hidden-desktop-only" data-src="{{ item.icon_mob }}" alt="">
+            </div>
+            <div class="txtBox">
+              <p class="is_bolder_{{item.is_txt1_bolder}}">{{ item.txt1 }}</p>
+              <p class="is_bolder_{{item.is_txt2_bolder}}">{{ item.txt2 }}</p>
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    {% endif %}
+    {%- if G20_banner.extraText != blank -%}
+      <div class="extraText">{{ G20_banner.extraText }}</div>
+    {%- endif -%}
+  </div>
+{%- endif -%}
+
+<style>
+  #{{DataId}}.G20_banner { position: relative; }
+  #{{DataId}}.G20_banner .img_container img { width: 100%; display: block; }
+  #{{DataId}}.G20_banner .text_container .extraScale { font-size: calc(72 / 1920 * 100vw); }
+  #{{DataId}} .text_container { position: absolute; top: {{ G20_banner.pc_top }}; left: {{ G20_banner.pc_left }} }
+  #{{DataId}} .text_container .main_title { font-size: {{ G20_banner.pc_main_title_fontSize | default:'calc(48 / 1920 * 100vw)' }}; font-weight: {{ G20_banner.pc_main_title_weight | default: 700 }}; width: {{ G20_banner.pc_main_title_width | default:'auto' }};line-height: 1.2; color: {{ G20_banner.pc_main_fontColor | default:'#2C2C2C' }} }
+  #{{DataId}} .text_container .sub_title  { margin-top: {{ G20_banner.pc_sub_title_mTop | default: '20px'}}; font-size: {{ G20_banner.pc_sub_title_fontSize | default:'calc(20 / 1920 * 100vw)' }}; font-weight: {{ G20_banner.pc_sub_title_weight | default: 600 }};  width: {{ G20_banner.pc_sub_title_width | default:'auto' }} ;line-height:1.4; color: {{ G20_banner.pc_sub_fontColor | default:'#2C2C2C' }} }
+  #{{DataId}} .iconData { position: absolute; left: {{ G20_banner.pc_left }}; top: {{ G20_banner.iconData_top }}; line-height: 1 }
+  #{{DataId}} .iconData .flexBox { display: flex; align-items: center; margin-top: 25px; }
+  #{{DataId}} .iconData .flexBox img { width: 50px; height: 40px; margin-right: 16px; }
+  #{{DataId}} .iconData .flexBox .txtBox { color:#2C2C2C; font-size: 20px; font-weight: 600; }
+  #{{DataId}} .iconData .flexBox .txtBox .is_bolder_true { font-weight: 700; }
+  #{{DataId}} .extraText { color: #2C2C2C; font-size: calc(14 / 1920 * 100vw);  position: absolute; left: {{ G20_banner.pc_left }}; bottom: 60px }
+  #{{DataId}} .compared_text{
+    position: absolute;
+    top: 60%;
+    left: 63.53%;
+    color: #fff;
+    font-size: 12px;
+  }
+  #{{DataId}} .compared_text_p{
+    margin-bottom: 10px;
+    width: 19.08vw;
+  }
+  @media (max-width: 767px) {
+    #{{DataId}} .text_container { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; left:0; text-align: center; {% if G20_banner.mob_top != blank %}  top:{{ G20_banner.mob_top }};{% else %} position:static; {% endif %}}
+    #{{DataId}}.G20_banner .text_container .extraScale { font-size: 42px }
+    #{{DataId}} .text_container .main_title { font-size: {{ G20_banner.mob_main_title_fontSize | default:'30px' }}; width: auto; color: {{ G20_banner.mob_main_fontColor | default:'#2C2C2C' }}; margin-left: {{ G20_banner.mob_main_left | default:'0' }} }
+    #{{DataId}} .text_container .sub_title  { margin-top: {{ G20_banner.mob_sub_title_mTop | default: '1rem'}};font-size: {{ G20_banner.mob_sub_title_fontSize | default:'14px' }}; width: {{ G20_banner.mob_sub_title_width | default: '83vw' }} ; color: {{ G20_banner.mob_sub_fontColor | default:'#2C2C2C' }}; line-height: {{ G20_banner.mob_sub_titlelineHeight | default: 1.4 }}; font-weight: {{ G20_banner.mob_sub_title_weight | default: 600 }}}
+    #{{DataId}} .iconData { display: flex;flex-wrap: wrap; width: 85vw; margin: 0 auto; bottom: 8.6rem;left: 9vw; top: unset; }
+    #{{DataId}} .iconData .flexBox { display: flex; align-items: center; margin-top: 18px; width: 50%; justify-content: center;flex-wrap: wrap; }
+    #{{DataId}} .iconData .flexBox .imgBox { width: 100%; text-align: center; }
+    #{{DataId}} .iconData .flexBox img { width: 36px; height: 30px; margin-right: 0; }
+    #{{DataId}} .iconData .flexBox .txtBox { font-size: 13px; font-weight: 600; text-align: center; line-height: 1; }
+    #{{DataId}} .iconData .flexBox .txtBox .is_bolder_true { font-weight: 600; }
+    #{{DataId}} .extraText { font-size: 13px; left: 0; bottom: 40px; font-weight: 600; width: 100vw; text-align: center; }
+    {% comment %} #G20_banner5 { padding-bottom: 42vw; } {% endcomment %}
+    #G20_banner5 .text_container { padding-bottom: 3rem; top: 52%; background: #f6f6f6; }
+    #{{DataId}} .compared_text{
+    top: 85%;
+    left:0;
+    color: #2C2C2C;
+    font-size: 12px;
+    }
+    #{{DataId}} .compared_text_p{
+      margin: 0px auto 0;
+      text-align: center;
+      width: 90%;
+    }
+  }
+
+  {%- if custom_css != blank -%} {{ custom_css }} {% endif %}
+</style>
+
+{% schema %}
+
+{
+  "name": "G20_banner",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "custom_css",
+      "label": "Custom CSS",
+      "info": "自定义样式（注意：请按照标准的css语法添加样式）"
+    },
+    {
+      "type": "text",
+      "id": "data_id",
+      "label": "metafields data id",
+      "default": "G20_banner"
+    }
+  ]
+}
+
+{% endschema %}
+

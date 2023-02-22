@@ -1,0 +1,347 @@
+{% assign lang = page.metafields.global %}
+
+{% if lang.overview.value %}
+  {% assign overview = lang.overview.value %}
+{% else %}
+  {% assign overview = lang.overview %}
+{% endif %}
+
+{% if lang.products.value %}
+  {% assign products = lang.products.value %}
+{% else %}
+  {% assign products = lang.products %}
+{% endif %}
+
+{% if lang.included.value %}
+  {% assign included = lang.included.value %}
+{% else %}
+  {% assign included = lang.included %}
+{% endif %}
+
+{% if lang.related.value %}
+  {% assign related = lang.related.value %}
+{% else %}
+  {% assign related = lang.related %}
+{% endif %}
+
+{% if lang.discounts_money.value %}
+  {% assign discounts_money = lang.discounts_money.value %}
+{% else %}
+  {% assign discounts_money = lang.discounts_money %}
+{% endif %}
+
+{% if lang.discounts_money.value %}
+  {% assign discounts_money = lang.discounts_money.value %}
+{% else %}
+  {% assign discounts_money = lang.discounts_money %}
+{% endif %}
+
+{% if shop.metafields['global']['storefront_key'].value %}
+  {% assign authorization = shop.metafields['global']['storefront_key'].value %}
+{% else %}
+  {% assign authorization = shop.metafields['global']['storefront_key'] %}
+{% endif %}
+
+{% if shop.metafields['global']['common'].value %}
+  {% assign common = shop.metafields['global']['common'].value %}
+{% else %}
+  {% assign common = shop.metafields['global']['common'] %}
+{% endif %}
+
+{% assign overview = overview %}
+
+{% assign price = 0 %}
+{% assign sold_out = false %}
+{% assign max_quantity = 0 %}
+{% for p in products %}
+  {% assign product = all_products[p.handle] %}
+  {% if product.variants == blank %}
+    {% assign sold_out = true %}
+  {% else %}
+    {% for v in product.variants %}
+      {% if v.sku == p.sku %}
+        {% assign variant = v %}
+      {% endif %}
+    {% endfor %}
+    {% if variant.available == false or variant.price == 999999999 %}
+      {% assign sold_out = true %}
+    {% endif %}
+    {% if max_quantity == 0 or variant.inventory_quantity < max_quantity %}
+      {% assign max_quantity = variant.inventory_quantity %}
+    {% endif %}
+    {% assign oPrice = variant.price | times: p.number %}
+    {% assign price = price | plus: oPrice %}
+  {% endif %}
+{% endfor %}
+
+{% assign discounts = 0 %}
+{% for d in discounts_money %}
+  {% if price >= d.money %}
+    {% assign discounts = d.discount %}
+  {% endif %}
+{% endfor %}
+
+
+<section class="SecurityKitDetails">
+
+  <div class="Spin overview">
+    <div class="content cnt">
+      <div class="container">
+        <div class="img">
+          <img class="lazyload" data-src="{{ overview.img }}">
+        </div>
+        <div class="txt">
+          <h1>{{ overview.name }}</h1>
+          <p class="desc">{{ overview.desc }}</p>
+          <div class="num">{{ overview.info }}</div>
+
+          {% if sold_out %}
+            <p class="non_stock">{{ common.non_stock }}</p>
+          {% else %}
+            <div class="price">
+              <span class="sell_price">{{ price | minus: discounts | money }}</span>
+              <span class="cross_price">{{ price | money }}</span>
+              <div class="tips">
+                <div class="tips_btn">
+                  <i class="iconfont"></i>
+                  <p
+                    onmouseenter="$('.flagDialog').addClass('active')"
+                    onmouseleave="$('.flagDialog').removeClass('active')"
+                  >{{ overview.tips_tit }}</p>
+                </div>
+                <div class="flagDialog tips_box">
+                  {{ overview.tips_txt }}
+                </div>
+              </div>
+            </div>
+
+            <div class="purchase-details__quantity">
+              <span class="quantity_txt">{{ overview.quantity }}</span>
+              <div class="quantity-wrapper">
+                <a id="btn_reduce" class="quantity_btn btn_reduce" role="button" onclick="quantitySet('reduce')">
+                  <i class="iconfont">&#xe729;</i>
+                </a>
+                <input class="quantity-bundle" max="{{ max_quantity }}" onChange="quantityInput()" />
+                <a id="btn_add" class="quantity_btn btn_add" role="button" onclick="quantitySet('add')">
+                  <i class="iconfont">&#xe727;</i>
+                </a>
+              </div>
+            </div>
+
+            <div class="buy">
+              <div class="table">
+                <div class="copy">
+                  <span class="value">
+                    <span class="code"><span>{{ overview.code_txt }} {{ overview.code }}</span></span>
+                    <button
+                      type="button"
+                      onClick="copyTxt()"
+                      class="clipboard_btn link"
+                      data-clipboard-text="{{ overview.code }}"
+                    >{{ common.copy }}</button>
+                  </span>
+                </div>
+                <a id="btn_buynow" class="button-normal submit buy_btn" onclick="bundleBuynow()">{{ overview.buy_now }}</a>
+              </div>
+            </div>
+          {% endif %}
+          
+          {% if overview.build_link != blank %}
+            <a class="return" href="{{ overview.build_link }}">{{ overview.build_txt }}</a>
+          {% endif %}
+
+        </div>
+      </div>
+    </div>
+    <div class="mask"></div>
+    <div class="spinner">
+      <i class="iconfont"></i>
+      <div class="focus"><i class="iconfont"></i></div>
+    </div>
+  </div>
+
+  <div class="left_right">
+    <p class="con_title">{{ included.title }}</p>
+    <ul class="container">
+      {% for item in included.list %}
+        <li class="item">
+          <a class="img" href="{{ item.link }}">
+            <i style="background-image: url('{{ item.hover }}');"></i>
+            <img class="lazyload" data-src="{{ item.img }}">
+          </a>
+          <div class="txt">
+            <div class="box">
+              <div class="txtBox">
+                <a class="name" href="{{ item.link }}">
+                  <h1>{{ item.name }}</h1>
+                </a>
+                <p class="desc">{{ item.desc }}</p>
+                <ul class="point">{{ item.point }}</ul>
+                <a class="btn" href="{{ item.link }}">{{ included.learn_more }}</a>
+              </div>
+            </div>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="recommend">
+    <div class="container">
+      <h1>{{ related.title }}</h1>
+      <div class="recommend_slider">
+        {% for item in related.list %}
+
+          {% assign sumPrice = 0 %}
+          {% assign o_sold_out = false %}
+          {% for p in item.products %}
+            {% assign oProduct = all_products[p.handle] %}
+            {% if oProduct.variants == blank  %}
+              {% assign o_sold_out = true %}
+            {% else %}
+              {% for v in oProduct.variants %}
+                {% if v.sku == p.sku %}
+                  {% assign oVariant = v %}
+                {% endif %}
+              {% endfor %}
+              {% if oVariant.available == false or oVariant.price == 999999999 %}
+                {% assign o_sold_out = true %}
+              {% endif %}
+              {% assign oPrice = oVariant.price | times: p.number %}
+              {% assign sumPrice = sumPrice | plus: oPrice %}
+            {% endif %}
+          {% endfor %}
+
+          {% assign oDiscounts = 0 %}
+          {% for d in discounts_money %}
+            {% if sumPrice >= d.money %}
+              {% assign oDiscounts = d.discount %}
+            {% endif %}
+          {% endfor %}
+
+          <div>
+            <div class="item">
+              <a class="link" href="{{ item.link }}">
+                <i class="border"></i>
+                <img class="lazyload" data-src="{{ item.img }}">
+                <div class="txt">
+                  <p class="name">{{ item.name }}</p>
+                  {% if o_sold_out %}
+                    <p class="non_stock">{{ common.non_stock }}</p>
+                  {% else %}
+                    <p class="price">
+                      <span class="sell_price">{{ sumPrice | minus: oDiscounts | money }}</span>
+                      <span class="cross_price">{{ sumPrice | money }}</span>
+                    </p>
+                  {% endif %}
+                  <span class="btn">{{ related.shop_now }}</span>
+                </div>
+              </a>
+            </div>
+          </div>
+        {% endfor %}      
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+
+<script>
+  const spinner = $(".overview");
+  let quantityBundle = 1;
+  const max = {{ max_quantity }};
+  function quantityInput() {
+    const event = window.event;
+    const { value } = event.target;
+    if (/^[0-9]{0,5}$/.test(value)) {
+      if(value > max) {
+         quantityBundle = max;
+         openModal(`<p>{{ common.maxQuantity }}</p>`)
+      }
+      quantityBundle = value;
+    };
+    $('.quantity-bundle').val(quantityBundle);
+  }
+  quantitySet = type => {
+    const quantity = Number($('.quantity-bundle').val());
+    // 判断是否达到最大/最小值
+    if (type === 'add' && quantity >= max) openModal(`<p>{{ common.maxQuantity }}</p>`);
+    const quant = ((type === 'reduce' && quantity > 1) && (quantity - 1))
+      || ((type === 'add' && quantity < max) && (quantity + 1))
+      || quantity;
+    // 判断是执行加还是减操作并给予变化
+    quantityBundle = quant;
+    if(quantityBundle <= 1) {
+      $('#btn_reduce').addClass('disable');
+    } else {
+      $('#btn_reduce').removeClass('disable');
+    };
+    $('.quantity-bundle').val(quantityBundle);
+  }
+  function copyTxt() {
+    $('.clipboard_btn').html('{{ common.copied }}');
+  }
+
+  $(document).ready(function(){
+    var clipboard = new Clipboard('.clipboard_btn');
+    $('.quantity-bundle').val(quantityBundle);
+    if(quantityBundle <= 1) {
+      $('#btn_reduce').addClass('disable');
+    } else {
+      $('#btn_reduce').removeClass('disable');
+    };
+
+    const w = document.body.offsetWidth;
+    const num = w > 767 ? 4 : 1;
+    $('.recommend_slider').slick({
+      infinite: true,
+      speed: 500,
+      slidesToShow: num,
+      easing: 'linear'
+    });
+  })
+
+  function line_item(variants, product){
+    let line_item = {};
+    variants.map(item => {
+      if(item.sku === product.sku) {
+        line_item.variant_id = item.id;
+      };
+    });
+    line_item.quantity = quantityBundle * Number(product.number);
+    return line_item;
+  }
+
+  function bundleBuynow() {
+    spinner.addClass('active');
+    let line_items = [];
+    {% for item in products %}
+      {% assign product = all_products[item.handle] %}
+      line_items.push(line_item({{ product.variants | json }}, {{ item | json }}))
+    {% endfor %}
+
+    Shopify.theme.bundleBuynow({
+      authorization: "{{ authorization }}",
+      checkout: {
+        line_items: line_items,
+        presentment_currency: "{{ shop.currency }}",
+        is_upstream_button: true,
+        page_type: "product",
+        secret: true,
+        wallet_name: "Checkout"
+      },
+      onSuccess: () => {
+        spinner.removeClass('active');
+      },
+      onError: err => {
+        $.dialog({ title: err.message, content: err.description, type: 'red' });
+        spinner.removeClass('active');
+      }
+    });
+
+  }
+</script>

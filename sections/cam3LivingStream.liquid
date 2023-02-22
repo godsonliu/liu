@@ -1,0 +1,148 @@
+<div class="hidden">
+{% assign info_select_policy = shop.metafields['global']['common'].info_select_policy %}
+{% assign id = section.id %}
+{% assign settings = section.settings %}
+</div>
+
+{{ 'cam3LiveStreaming.scss.css' | asset_url | stylesheet_tag }}
+
+<div id="LiveStreaming_{{ id }}" class="LiveStreaming">
+  {% if settings.show_preview %}
+    <div class="preview-video">
+      {{ section.settings.preview_iframe }}
+    </div>
+  {% else %}
+    {% if settings.youtube_iframe != '' %}
+    <div class="model__container flexBox">
+      <div class="liveBox">
+        <div class="lazyframe" data-ratio="16:9">
+          {{ settings.youtube_iframe }}
+        </div>
+      </div>
+      {% if settings.youtube_chat != '' %}
+      <div class="chatBox">
+        <div class="lazyframe" data-ratio="16:9">
+          <iframe src="https://www.youtube.com/live_chat?{{ settings.youtube_chat }}" title="youtube chat"></iframe>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+    {% endif %}
+  {% endif %}
+</div>
+
+  
+<div class="popup_agree_{{ id }} popup popup_agree hidden">
+  <div class="mask"></div>
+  <div class="container">
+    <img class="backimg" src="https://cdn.shopify.com/s/files/1/0493/7636/2660/files/Rectangle_6148_1.png?v=1656408216" alt="">
+    <div class="iconBox">
+      <img src="https://cdn.shopify.com/s/files/1/0493/7636/2660/files/2_1.png?v=1656408214" alt="">
+    </div>
+
+    <div class="submitBox">
+      <div class="policy">
+        <label for="policy">
+          <span>
+            <input type="checkbox" name="policy" value="yes" />
+          </span>
+          <span>{{ section.settings.policy_text }}</span>
+        </label>
+      </div>
+
+      <div class="submit">
+        <button type="submit" class="button reverse is-within-form">
+          {{ section.settings.button_text }}
+        </button>
+        <p class="form__error visible-none">{{ info_select_policy }}</p>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function() {
+
+    $('.popup_agree_{{ id }}').on('click', '.submit button', function(e) {
+      const policy =  $('.popup_agree_{{ id }} input[name="policy"]').prop("checked");
+      console.log('policy', policy);
+      if (!policy) {
+        $(`.popup_agree_{{ id }} .form__error`).removeClass('visible-none');
+        if (timer) clearTimeout(subscribe_private.timer);
+        timer = setTimeout(() => { 
+          $(`.popup_agree_{{ id }} .form__error`).addClass('visible-none');
+        }, 8000);
+      } else {
+        $('.popup_agree_{{ id }}').addClass('hidden');
+          Cookies.set("LIVE_lottery_policy", 'Agree',{
+            domain: window.location.host,
+            expires: 365,
+          })
+      }
+    });
+
+    const lottery_policy = Cookies.get('LIVE_lottery_policy');
+    const show_agree_popup = '{{ section.settings.show_agree }}';
+    console.log('lottery_policy', lottery_policy, show_agree_popup)
+
+    if (lottery_policy !== 'Agree' && show_agree_popup === 'true') {
+      $('.popup_agree_{{ id }}').removeClass('hidden');
+    }
+  })
+</script>
+
+{% schema %}
+{
+  "name": "Cam3 Living Stream",
+  "presets": [
+    {
+      "category": "Live Sections",
+      "name": "Cam3 Living Stream"
+    }
+  ],
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_preview",
+      "label": "是否展示预览视频",
+      "default": true
+    },
+    {
+      "type": "html",
+      "id": "preview_iframe",
+      "label": "预览视频vimeo链接",
+      "default": "<iframe src='https://player.vimeo.com/video/752835212?h=02938f4c19&muted=true&loop=true&autoplay=true&autopause=false&controls=false' width='640' height='564' frameborder='0' allow='autoplay; fullscreen' allowfullscreen></iframe>"
+    },
+    {
+      "type": "textarea",
+      "id": "youtube_iframe",
+      "label": "youtube 嵌入代码",
+      "info": "在youtube 视频上右键，选择‘复制嵌入代码’获取"
+    },
+    {
+      "type": "textarea",
+      "id": "youtube_chat",
+      "label": "youtube 聊天室ID",
+      "info": "参考说明页面底部‘嵌入聊天室’ https://support.google.com/youtube/answer/2524549?hl=zh-Hant"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_agree",
+      "label": "Show policy popup"
+    },
+    {
+      "type": "html",
+      "id": "button_text",
+      "label": "popup - Submit Text",
+      "default": "Submit"
+    },
+    {
+      "type": "html",
+      "id": "policy_text",
+      "label": "popup - Policy Text",
+      "default": "BY CLICKING 'SUBSCRIBE', YOU AGREE TO THE <a href='/policies/terms' target='_blank' rel='noopener noreferrer'>TERMS OF USE</a> and <a href='/policies/privacy-policy' target='_blank' rel='noopener noreferrer'>PRIVACY POLICY</a>."
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,140 @@
+{% if page.metafields.global.banner.value %}
+  {% assign banner = page.metafields.global.banner.value %}
+{% else %}
+  {% assign banner = page.metafields.global.banner %}
+{% endif %}
+
+{% if page.metafields.global.promotion.value %}
+  {% assign promotion = page.metafields.global.promotion.value %}
+{% else %}
+  {% assign promotion = page.metafields.global.promotion %}
+{% endif %}
+
+{% if page.metafields.global.bundles.value %}
+  {% assign bundles = page.metafields.global.bundles.value %}
+{% else %}
+  {% assign bundles = page.metafields.global.bundles %}
+{% endif %}
+
+{% if page.metafields.global.strengths.value %}
+  {% assign strengths = page.metafields.global.strengths.value %}
+{% else %}
+  {% assign strengths = page.metafields.global.strengths %}
+{% endif %}
+
+
+<div class="_page" style="display: none">{{ section.settings.jsText }}</div>
+  {% if banner %}
+    <div class="banner">
+      <div class="image ">
+        <img class="image" src="{{banner.image}}" alt="{{banner.alt}}">
+      </div>
+      <div class="text white">
+        <h1>{{banner.title}}</h1>
+        <h3></h3>
+        <h5>{{banner.description}}</h5>
+      </div>
+    </div>
+  {% endif %}
+  <div class="entry">
+    {% if promotion %}
+    <div class="promo">
+      <div class="coupon"><img class="lazyload" data-src="{{promotion.image}}">
+      </div>
+      <div class="text">
+        <h3>{{promotion.title}}</h3>
+        <ul>
+          {% for item in promotion.description %}
+            <li>{{item}}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+    {% endif %}
+    <div id="products" class="Spin products active">
+      <div class="content cnt">
+        {% for bundle in bundles %}
+          <div class="item line">
+            <div class="image">
+              <img class="lazyload discount" data-src="{{bundle.discount_image}}">
+              <img class="lazyload product" data-src="{{bundle.image}}">
+            </div>
+            <div class="info">
+              <div class="name">{{bundle.name}}</div>
+              <div class="desc">{{bundle.description}}</div>
+              <div class="price">{{bundle.price}}</div>
+              <div class="action">
+                <a class="button-normal" id="{{bundle.id}}">{{bundle.addToCart}}</a>
+              </div>
+              <a class="more" href="{{bundle.link}}">{{bundle.details}}</a>
+              <span class="code">
+                <span class="pre">{{bundle.code}}</span>
+                <span class="value">{{bundle.coupon}}</span>
+                <span class="copy">
+                  <button type="button" class="clipboard_btn" data-clipboard-text="{{bundle.coupon}}">{{bundle.copy}}</button>
+                </span>
+              </span>
+              <span class="copyintro">{{bundle.copyIntro}}</span>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      <div class="mask"></div>
+      <div class="spinner"><i class="iconfont"></i>
+        <div class="focus"><i class="iconfont"></i></div>
+      </div>
+    </div>
+  </div>
+  {% if strengths %}
+    <div class="strengths">
+      <div class="wrap">
+        <ul>
+          {% for item in strengths %}
+            <li>
+              <img class="lazyload" data-src="{{item.image}}" alt="{{item.alt}}" />
+              <span>{{item.title}}</span>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  {% endif %}
+</div>
+
+<script>
+  $(document).ready(function() {
+    const spinner = $("#products")
+    spinner.removeClass('active');
+    var clipboard = new ClipboardJS('.clipboard_btn');
+    clipboard.on('success', e => {
+      const text = e.trigger.innerText;
+      e.trigger.innerText = 'copied!';
+      setTimeout(() => e.trigger.innerText = text, 3000);
+      e.clearSelection();
+    });
+
+    {% for bundle in bundles %}
+      $('#{{bundle.id}}').click(function() {
+        spinner.addClass('active');
+        Shopify.theme.addItemsToCart({{bundle.variants | json}}, {
+          onSuccess: () => $.dialog({ title: 'Success', content: 'Success Add Cart Content', type: 'green' }),
+          onError: err => $.dialog({ title: err.message, content: err.description, type: 'red' }),
+          onDone: () => spinner.removeClass('active')
+        });
+      })
+    {% endfor %}
+
+    referralTrack('{{ template.suffix }}', '{{ page.handle }}', 'page');
+  })
+</script>
+
+
+{% schema %}
+  {
+    "name": "Referrals",
+    "settings": [
+      { "type": "html", "id": "jsText", "label": "jsText" },
+      { "type": "text", "id": "refer_subject_text", "label": "refer_subject_text", "default": "Your Friend Gave You 2 Motion Sensors (valued at $60) for greater home security!" }
+    ]
+  }
+{% endschema %}

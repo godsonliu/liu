@@ -1,0 +1,212 @@
+// public css
+$grayTxtlight1: #6b6b6b;
+$color: #21CCBF;
+$gradientBg: linear-gradient(to right, #4391e5, #03d7c7);
+$maxPhoneWidth: 767px;
+$maxPadWidth: 1024px;
+$maxLaptopWidth: 1440px;
+$minLaptopWidth: 992px;
+$minPadWidth: 768px;
+$slickBtnSize: 65px;
+$mobBtnSize: 40px;
+$minDesktopWidth: 1200px; // large desktop
+$minRetinaWidth: 2560px; // Retina 1440p
+
+#shopify-section-referrals {
+  .banner { position: relative;
+    .image { overflow: hidden;
+      &.right img {
+        @media (max-width: $maxPhoneWidth) { transform: translate(-80%);}
+      }
+      img { width: 100%; position: relative; left: 50%; transform: translate(-50%);
+        @media (max-width: $maxPhoneWidth) { width: 250%; }
+      }
+    }
+    .text { line-height: 1.2; text-align: center; padding: 20px 10px;
+      &.white {
+        @media (min-width: $minPadWidth) { h1, h3, h5 { color: white; } }
+      }
+      @media (min-width: $minPadWidth) { position: absolute; display: inline-block; right: 50%; top: 50%; transform: translateY(-50%); }
+      h1 { font-size: 32px; color: #22bbd7; margin: 0;
+        @media (min-width: $minPadWidth) { font-size: 48px }
+      }
+      h3 { font-size: 22px; color: #9a9a9a; font-weight: 400; margin: 0;
+        @media (min-width: $minPadWidth) { font-size: 34px }
+      }
+      h5 { font-size: 14px; color: #9a9a9a; font-weight: 400; margin: 0;
+        @media (min-width: $minPadWidth) { font-size: 22px }
+      }
+    }
+  }
+
+  .entry { max-width: 1314px; margin: -5% auto 0; position: relative; z-index: 1; padding: 40px 40px 20px; background: white; box-sizing: border-box;
+    @media (max-width: $maxPhoneWidth) { padding: 10px; }
+    .promo { display: table; width: 100%; margin-bottom: 22px; box-sizing: border-box; border-radius: 8px; overflow: hidden; background: #e3f0f6;
+      .text { display: table-cell; background: linear-gradient(to right, #0bcfca, #3b9ae1); vertical-align: middle; color: white;
+        padding: 10px 5%; line-height: 1.2; border-radius: 8px;
+        @media (max-width: $maxPhoneWidth) { display: block; }
+        h3 { font-size: 30px; font-weight: 700; margin: 20px 0; color: white;
+          @media (max-width: $maxPhoneWidth) { font-size: 26px; }
+        }
+        ul { padding-left: 16px;
+          li { font-size: 18px; list-style: decimal; margin-bottom: 10px; }
+        }
+      }
+      .coupon { display: table-cell; vertical-align: middle; width: 40%; text-align: center;
+        @media (max-width: $maxPhoneWidth) { display: block; width: 100%; }
+        img { padding: 20px 0; max-width: 100%; }
+      }
+    }
+  }
+
+  .products {
+    .item { display: inline-block; background: #e3f0f6; border-radius: 8px; padding: 20px; box-sizing: border-box;
+      width: 49%; vertical-align: top; margin-right: 2%;
+      &:nth-of-type(2n) { margin: 0; }
+      @media (max-width: $maxPhoneWidth) { display: block; width: 100%; margin: 0 0 10px; }
+      @media (max-width: 370px) { display: block; padding: 10px; }
+      &.line { display: flex; width: 100%; margin: 20px 0; flex-wrap: wrap;
+        .image .discount { left: 20px; bottom: 65%; }
+      }
+      .image { display: inline-block; box-sizing: border-box; width: 42%; vertical-align: middle;
+        background: white; border-radius: 5px; position: relative;
+        @media (max-width: $maxPadWidth) { width: 100%; }
+        .product { width :100%; }
+        .discount { position: absolute; left: 0; bottom: 20px; transform: translate(-50%); }
+      }
+      .info { display: inline-block; box-sizing: border-box; width: 58%; vertical-align: middle; padding-left: 20px; line-height: 1.2;
+        @media (max-width: $maxPadWidth) { width: 100%; padding: 10px; }
+        .name { font-size: 28px; color: #5f5f5f; padding: 10px 0;
+          @media (max-width: $maxPadWidth) { font-size: 24px; }
+        }
+        .desc { font-size: 18px; color: #919191; min-height: 63px;
+          @media (max-width: $maxPadWidth) { font-size: 16px; }
+        }
+        .price { font-size: 26px; color: #5f5f5f; margin-top: 20px; }
+        .action {
+          a { background: linear-gradient(to right, #0bcfca, #3b9ae1); color: white;
+            font-size: 16px; margin: 10px 0; min-width: 260px;
+            @media (max-width: $maxPadWidth) { width: 100%; }
+          }
+        }
+        .more { color: #22bbd7; font-size: 14px; text-decoration: none; }
+        .code { display: table; border: 1px solid #d4d4d4; color: #969696; background: white; min-width: 260px;
+          padding: 1px; font-size: 14px; border-radius: 5px; margin-top: 15px; box-sizing: border-box;
+          @media (max-width: $maxPadWidth) { width: 100%; }
+          .pre { display: table-cell; vertical-align: middle; padding:0 10px; line-height: 1.2; }
+          .value { display: table-cell; vertical-align: middle; padding-right: 10px; }
+          .copy { display: table-cell; vertical-align: middle; text-align: right;
+            button { appearance: none; background: linear-gradient(to right, #0bcfca, #3b9ae1); border: none;
+              border-radius: 5px; color: white; font-size: 12px; line-height: 34px; padding: 0 20px; }
+          }
+        }
+        .copyintro { display: block; font-size: 12px; margin-top: 5px; color: $grayTxtlight1; }
+      }
+    }
+  }
+
+  .highlight { background: #e8f2f8;  padding: 20px 0 60px;
+    .title { font-size: 32px; margin: 20px 10px 30px; text-align: center; }
+    .list {
+      .item { display: inline-block; width: 25%; padding: 13px; box-sizing: border-box; vertical-align: top;
+        @media (max-width: $maxPadWidth) { width: 33.33%; }
+        @media (max-width: $maxPhoneWidth) { width: 50%; padding: 5px; }
+      }
+      .box { background: white; text-align: left; display: inline-block; width: 100%; }
+      .image { width: 100%; margin-bottom: 20px;
+        @media (max-width: $maxPhoneWidth) { margin-bottom: 10px; }
+      }
+      .name { font-size: 16px; margin: 10px; }
+      .desc { font-size: 14px; margin: 10px 10px 50px; color: #808080;
+        @media (max-width: $maxPhoneWidth) { margin-bottom: 20px; }
+      }
+    }
+  }
+
+  .strengths { overflow: hidden; padding: 20px 10px; text-align: center; box-sizing: border-box;
+    img { max-width: 100%; max-height: 34px; }
+    ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; align-items: top; }
+    li { box-sizing: border-box; vertical-align: top; padding: 10px 5px; width: 25%;
+      @media (max-width: $maxPhoneWidth) { width: 50%; }
+      span { display: inline-block; padding-left: 5px; vertical-align: middle;
+        @media (max-width: $maxPhoneWidth) { display: block; }
+      }
+    }
+    @media (max-width: $maxPhoneWidth) { min-width: 100%; }
+  }
+
+  .Spin {
+    position: relative;
+    min-height: 5rem;
+    height: 100%;
+    box-sizing: border-box;
+    .content {
+      height: 100%;
+      transition: 200ms;
+    }
+    .mask {
+      position: absolute;
+      z-index: 6;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      background: rgba(0, 0, 0, 0);
+      transition: 400ms;
+    }
+    .spinner {
+      position: absolute;
+      z-index: 6;
+      top: 50%;
+      left: 50%;
+      -webkit-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+      display: none;
+      i {
+        font-size: 4rem;
+        line-height: 4rem;
+        color: #999;
+      }
+      .focus {
+        position: absolute;
+        left: 0;
+        width: 100%;
+        overflow: hidden;
+        i {
+          color: $color;
+          position: absolute;
+          left: 0;
+        }
+      }
+    }
+    &.active {
+      .content {
+        filter: blur(5px);
+      }
+      .mask {
+        pointer-events: visible;
+        background: rgba(0, 0, 0, .2);
+      }
+      .spinner {
+        display: inline-block;
+        .focus {
+          animation: slideToggle 1s infinite;
+          i {
+            animation: positionToggle 1s infinite;
+          }
+        }
+      }
+    }
+  }
+
+}
+
+.jconfirm{
+  .container {
+    justify-content: center;;
+  }
+  .jconfirm-box-container {
+    min-width: 300px;
+  }
+}

@@ -1,0 +1,46 @@
+{% if section.settings %}
+  {% assign config = section.settings %}
+  {% assign isSchemaData = true %}
+  {% assign id = section.id %}
+{% endif %}
+
+{% unless namespace %}
+  {% assign namespace = 'aplus' %}
+{% endunless %}
+
+{% if key %}
+{% if product.metafields[namespace][key].value %}
+  {% assign config = product.metafields[namespace][key].value %}
+{% else %}
+  {% assign config = product.metafields[namespace][key] %}
+{% endif %}
+
+  {% assign isSchemaData = false %}
+  {% assign id = key %}
+{% endif %}
+
+{% if isSchemaData %}
+  {% assign items = section.blocks | map: 'settings' %}
+{% else %}
+  {% assign items = config.blocks %}
+{% endif %}
+
+<section id="{{key}}" class="aplus">
+  <div class="aplus__pc">
+    {% render 'aplus-pc-carousel-1',
+      id: key,
+      textBgBlack: true,
+      items: items,
+      isSchemaData: isSchemaData
+    %}
+  </div>
+  <div class="aplus__mobile">
+    {% render 'aplus-mobile-carousel-1',
+      id: key,
+      textBgBlack: true,
+      items: items,
+      isSchemaData: isSchemaData,
+      topTitle: true
+    %}
+  </div>
+</section>

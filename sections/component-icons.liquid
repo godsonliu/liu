@@ -1,0 +1,208 @@
+<style>
+#{{section.id}} {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  max-width: {{section.settings.max_width}};
+  padding: {{section.settings.box_padding}};
+  background: {{section.settings.box_bg}};
+}
+#{{section.id}} .component-icons-item {
+  width: 162px;
+  height: 162px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 10px 10px 0;
+  background: {{section.settings.item_bg}};
+  border-radius: 10px;
+  text-align: center;
+  position: relative;
+}
+{% if section.settings.has_break_line %}
+#{{section.id}} .component-icons-item::after {
+  content: '';
+  width: 1px;
+  height: 50%;
+  position: absolute;
+  right: 0;
+  top: 30px;
+  background: {{section.settings.break_line_color}};
+}
+#{{section.id}} .component-icons-item:last-child::after {
+  display: none;
+}
+{% endif %}
+#{{section.id}} .component-icons-item:last-child {
+  margin-right: 0;
+}
+#{{section.id}} .component-icons-image {
+  margin-bottom: 5px;
+}
+#{{section.id}} .component-icons-txt {
+  height: 50px;
+  line-height: 22px;
+  color: {{section.settings.icons_item_txt_color}};
+  font-size: {{section.settings.icons_item_txt_font_size}};
+}
+@media(max-width: 769px) {
+  #{{section.id}} {
+    padding: {{section.settings.mobile_box_padding}};
+  }
+  #{{section.id}} .component-icons-item .component-icons-txt  {
+    font-size: {{section.settings.icons_item_txt_mobile_font_size}};
+  }
+}
+</style>
+
+<div class="component-icons" id="{{section.id}}">
+  {% for block in section.blocks %}
+  <div class="component-icons-item">
+    <div class="component-icons-image">
+      <img src="{{ block.settings.icons_items_img | image_url: width: 40 }}" />
+    </div>
+    <div class="component-icons-txt">{{block.settings.icons_item_txt}}</div>
+  </div>
+  {% endfor %}
+</div>
+
+{% schema %}
+  {
+    "name": "component_icons",
+    "presets": [
+      {
+        "name": "component_icons"
+      }
+    ],
+    "settings": [
+      {
+        "type": "header",
+        "content": "结构方面"
+      },
+      {
+        "type": "text",
+        "id": "max_width",
+        "label": "section区域最大宽度"
+      },
+      {
+        "type": "text",
+        "id": "box_padding",
+        "label": "section的内边距",
+        "info": "用于产生间隔",
+        "default": "20px 0"
+      },
+      {
+        "type": "text",
+        "id": "mobile_box_padding",
+        "label": "Mobile端section的内边距（保持默认值！）",
+        "info": "用于产生间隔",
+        "default": "10px"
+      },
+      {
+        "type": "color",
+        "id": "box_bg",
+        "label": "section背景色"
+      },
+      {
+        "type": "color",
+        "id": "item_bg",
+        "label": "卡片的背景色",
+        "default": "#f6f6f6"
+      },
+      {
+        "type": "checkbox",
+        "id": "has_break_line",
+        "label": "是否需要分割线",
+        "default": false
+      },
+      {
+        "type": "color",
+        "id": "break_line_color",
+        "label": "分割线颜色",
+        "default": "#999"
+      },
+      {
+        "type": "header",
+        "content": "文本区域"
+      },
+      {
+        "type": "select",
+        "id": "content_font_family",
+        "label": "内容区字体",
+        "default": "Arial",
+        "info": "这里聚齐了所有品牌站点的字体，请选择该品牌已有的字体",
+				"options": [
+					{
+						"value": "DINNextLT",
+						"label": "DINNextLT"
+					},
+					{
+						"value": "Helvetica",
+						"label": "Helvetica"
+					},
+					{
+						"value": "Arial",
+						"label": "Arial"
+					},
+          {
+            "value": "Avenir Next",
+            "label": "Avenir Next"
+          },
+          {
+            "value": "Helvetica Neue",
+            "label": "Helvetica Neue"
+          },
+          {
+            "value": "",
+            "label": "系统默认字体"
+          }
+				]
+      },
+      {
+        "type": "color",
+        "id": "icons_item_txt_color",
+        "label": "icon文案颜色",
+        "default": "#555555"      
+      },
+      {
+        "type": "text",
+        "id": "icons_item_txt_font_size",
+        "label": "icon文案大小",
+        "default": "20px"
+      },
+      {
+        "type": "text",
+        "id": "icons_item_txt_mobile_font_size",
+        "label": "icon Mobile端文案大小",
+        "default": "14px"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "icons_item",
+			  "name": "icons_item",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "icons_items_img",
+            "label": "icon图标"
+          },
+          {
+            "type": "html",
+            "id": "icons_item_txt",
+            "label": "icon文案"
+          },
+          {
+            "type": "url",
+            "id": "icons_url",
+            "label": "icons跳转的链接",
+            "info": "如果不设置，那就不具备跳转功能"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,199 @@
+
+{% style %}
+.brand_list_{{section.id}} {
+  padding: 1rem 0;
+}
+.brand_list_{{section.id}} h1 {
+  font-size: 32px;
+  padding-bottom: 10px;
+  text-align: center;
+}
+.brand_list_{{section.id}} .subtitle {
+  font-size: 18px;
+  text-align: center;
+}
+.brand_list_{{section.id}} .logo_list {
+  min-width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.brand_list_{{section.id}} .brand a {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 1;
+}
+.brand_list_{{section.id}} .brand {
+  flex-shrink: 0;
+  position: relative;
+  width: 135px;
+  height: 85px;
+  margin: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  transition: all 200ms ease-in;
+  cursor: pointer;
+  overflow: hidden;
+}
+.brand_list_{{section.id}} .brand img {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: auto;
+  height: 32%;
+}
+.brand_list_{{section.id}} .brand .iconfont {
+  font-size: 32px;
+  position: absolute;
+  top: 50%; left: 50%;
+  z-index: 1;
+  transform: translate(-50%, -50%);
+}
+.brand_list_{{section.id}} .anker .iconfont{
+  color: #00a7e1;
+}
+.brand_list_{{section.id}} .eufy .iconfont{
+  color: #21ccbf;
+}
+.brand_list_{{section.id}} .soundcore .iconfont{
+  color: #00a9df;
+}
+.brand_list_{{section.id}} .nebula .iconfont{
+  color: #e42d46;
+}
+.brand_list_{{section.id}} .ankerWork .iconfont{
+  color: #00a9df;
+  font-size: 48px;
+}
+.brand_list_{{section.id}} .anker:hover {
+  border: 1px solid #00a7e1;
+}
+.brand_list_{{section.id}} .eufy:hover {
+  border: 1px solid #21ccbf;
+}
+.brand_list_{{section.id}} .soundcore:hover {
+  border: 1px solid #00a9df;
+}
+.brand_list_{{section.id}} .nebula:hover {
+  border: 1px solid #e42d46;
+}
+.brand_list_{{section.id}} .ankerWork:hover {
+  border: 1px solid #00a9df;
+}
+@media (max-width: 768px) {
+  .brand_list_{{section.id}} .brand {
+    width: 102px;
+    height: 65px;
+    margin: 8px;
+  }
+}
+
+{% endstyle %}
+
+
+<section class="brand_list section brand_list_{{section.id}}">
+  <div class="listBox">
+    <ul class="logo_list">
+      {% if section.settings.img_anker %}
+      <li class="anker brand">
+        <a href="{{ section.settings.link_anker }}" target="_blank" rel="noopener noreferrer">
+          <img src="{{ section.settings.img_anker | img_url: 'medium' }}" alt="">
+        </a>
+      </li>
+      {% endif %}
+      {% if section.settings.img_eufy %}
+      <li class="eufy brand">
+        <a href="{{ section.settings.link_eufy }}" target="_blank" rel="noopener noreferrer">
+          <img src="{{ section.settings.img_eufy | img_url: 'medium' }}" alt="">
+        </a>
+      </li>
+      {% endif %}
+      {% if section.settings.img_soundcore %}
+      <li class="soundcore brand">
+        <a href="{{ section.settings.link_soundcore }}" target="_blank" rel="noopener noreferrer">
+          <img src="{{ section.settings.img_soundcore | img_url: 'medium' }}" alt="">
+        </a>
+      </li>
+      {% endif %}
+      {% if section.settings.img_nebula %}
+      <li class="nebula brand">
+        <a href="{{ section.settings.link_nebula }}" target="_blank" rel="noopener noreferrer">
+          <img src="{{ section.settings.img_nebula | img_url: 'medium' }}" alt="">
+        </a>
+      </li>
+      {% endif %}
+      {% if section.settings.img_ankerwork %}
+      <li class="ankerWork brand">
+        <a href="{{ section.settings.link_ankerwork }}" target="_blank" rel="noopener noreferrer">
+          <img src="{{ section.settings.img_ankerwork | img_url: 'medium' }}" alt="">
+        </a>
+      </li>
+      {% endif %}
+    </ul>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "brand_list",
+  "presets": [
+    {
+      "category": "Custom Dynamic Sections",
+      "name": "Brand List"
+    }
+  ],
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "img_anker",
+      "label": "Show Anker"
+    },
+    {
+      "type": "image_picker",
+      "id": "img_eufy",
+      "label": "Show Eufy"
+    },
+    {
+      "type": "image_picker",
+      "id": "img_soundcore",
+      "label": "Show Soundcore"
+    },
+    {
+      "type": "image_picker",
+      "id": "img_nebula",
+      "label": "Show Nebula"
+    },
+    {
+      "type": "image_picker",
+      "id": "img_ankerwork",
+      "label": "Show AnkerWork"
+    },
+    {
+      "type": "url",
+      "id": "link_anker",
+      "label": "Anker Link"
+    },
+    {
+      "type": "url",
+      "id": "link_eufy",
+      "label": "Eufy Link"
+    },
+    {
+      "type": "url",
+      "id": "link_soundcore",
+      "label": "Soundcore Link"
+    },
+    {
+      "type": "url",
+      "id": "link_nebula",
+      "label": "Nebula Link"
+    },
+    {
+      "type": "url",
+      "id": "link_ankerwork",
+      "label": "AnkerWork Link"
+    }
+  ]
+}
+{% endschema %}

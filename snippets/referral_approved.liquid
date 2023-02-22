@@ -1,0 +1,8 @@
+<script>
+  $(function() {
+    const referral_approved = Shopify.theme.custom.GetQueryValue('referral_approved');
+    if(referral_approved === 'false') {
+      openModal(`<p>{{ common.referral_approved }}</p>`);
+    };
+  })
+</script>

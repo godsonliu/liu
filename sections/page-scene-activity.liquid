@@ -1,0 +1,508 @@
+{% assign section_id = 'shopify-section-' | append: section.id %}
+<style>
+
+#{{section_id}} .page-scene-activity {
+  width: 100%;
+  background: #f7f8f8;
+}
+#{{section_id}} .scene-activity-div {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#{{section_id}} .page-scene-activity .activity-title {
+  font-size: 35px;
+  color: #000;
+  font-weight: 600;
+  texta-align: center;
+}
+#{{section_id}} .page-scene-activity .scene-section {
+  position: relative; 
+}
+#{{section_id}} .page-scene-activity .scene-list {
+  width: 100%;
+  max-width: 62.5vw;
+  height: 100%;
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform:translateX(-50%);
+  display: flex;
+  flex-direction: column;
+}
+#{{section_id}} .page-scene-activity .scene-item {
+  width: 52.57623554153522vw;
+  margin-top: 8.59375vw;
+  position: relative; 
+  cursor: pointer;
+  box-shadow: 0px 0px 50px rgb(0 0 0 / 15%);
+  font-size: 0;
+  border-radius: 21px;
+}
+#{{section_id}} .page-scene-activity .scene-item:nth-child(even) {
+  align-self: flex-end;
+}
+#{{section_id}} .page-scene-activity .scene-item .scene-item-image {
+  width: 100%;
+}
+#{{section_id}} .page-scene-activity .scene-item-txt {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 1.25vw 1.875vw 0 7.3vw;
+}
+#{{section_id}} .page-scene-activity .txt-title {
+  font-size: 1.05vw;
+  color: #000;
+  font-weight: 500;
+}
+
+#{{section_id}} .page-scene-activity .txt-desc {
+  font-size: 0.833vw;
+  color: #111;
+  padding-left: 10px;
+}
+#{{section_id}} .page-scene-activity .txt-click {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.26041666666666665vw;
+}
+#{{section_id}} .page-scene-activity .click-here {
+  font-size: 1.05vw;
+  color: #fff;
+  padding: 3px 15px;
+  border-radius: 20px;
+  background: #025c85;
+  white-space: nowrap;
+}
+
+@media(min-width: 415px) {
+  .showMobile {
+    display: none !important;
+  }
+}
+@media(max-width: 415px) {
+  .showPc {
+    display: none !important;
+  }
+  #{{section_id}} .page-scene-activity .activity-title {
+    padding-top: 45px;
+    font-size: 24px;
+  }
+  #{{section_id}} .page-scene-activity .scene-list {
+    max-width: 300px;
+    align-items: center;
+  }
+  #{{section_id}} .page-scene-activity .scene-item {
+    width: 100%;
+    margin-top: 110px;
+  }
+  #{{section_id}} .page-scene-activity .scene-item:nth-child(even) {
+    align-self: center;
+  }
+
+  #{{section_id}} .page-scene-activity .scene-item-txt {
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: 6px 15px 0 73px;
+  }
+  #{{section_id}} .page-scene-activity .txt-title {
+    font-size: 12px;
+  }
+  #{{section_id}} .page-scene-activity .txt-desc {
+    font-size: 10px;
+    padding: 0 4px;
+  }
+  #{{section_id}} .page-scene-activity .txt-click {
+    margin-top: 8px;
+  }
+  #{{section_id}} .page-scene-activity .click-here {
+    font-size: 8px;
+    padding: 2px 4px;
+  }
+  @media(min-resolution: 3dppx){
+    #{{section_id}} .page-scene-activity .scene-item {
+      margin-top: 130px;
+    }
+  }
+}  
+
+</style>
+
+<section class="page-scene-activity">
+  <div class="scene-activity-div">
+    <div class="activity-title">{{ section.settings.activity_title }}</div>
+    <div class="scene-section">
+      <img class="section-bg showPc lazyload" width="1920" height="2932" data-src="{{ section.settings.section_image | image_url }}" />
+      <img class="section-bg-mobile showMobile lazyload" width="750" height="3492" data-src="{{ section.settings.mobile_section_image | image_url }}" />
+      <div class="scene-list">
+        {% for block in section.blocks %}
+        {% if block.type == 'scene_item' %}
+        <div class="scene-item" data-index="{{block.settings.flash_index}}" data-forloop_index="{{forloop.index}}">
+          <img class="scene-item-image showPc lazyload" data-src="{{ block.settings.item_image | image_url }}" />
+          <img class="scene-item-image showMobile lazyload" data-src="{{ block.settings.item_mobile_image | image_url }}" />
+          <div class="scene-item-txt">
+            <div class="txt-title">{{ block.settings.item_title }}</div>
+            <div class="txt-click">
+              <div class="txt-desc">{{ block.settings.item_desc }}</div>
+              <div class="click-here">{{ block.settings.click_here }}</div>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{%
+  render 'page_scene_popup', 
+  section_id: section_id,
+  popup_title: section.settings.popup_title,
+  slot_content: section.settings.slot_content, 
+  className: '.page-scene-activity .scene-item' 
+%}
+
+<script>
+$(function() {
+  $('#{{section_id}} .page-scene-activity .scene-item').on('scene_popup_show', function(event,scene_obj) {
+    let {index, forloop_index} = scene_obj;
+    let page_scene_popup_list = $('#{{section_id}} .page_scene_popup_div .page_scene_popup_list');
+    let limited_items = page_scene_popup_list.find('.limited_items');
+    let prev_top = page_scene_popup_list.scrollTop() || 0;
+    index--;
+    let current_limited_item = limited_items.eq(index)
+    let top = current_limited_item?.position().top || 0;
+    page_scene_popup_list.animate({
+      scrollTop: prev_top + top
+    }, 500);
+    dataLayer.push({
+      "event": "uaEvent", 
+      "eventCategory": '{{ section.settings.ga4_page_group }}', 
+      "eventAction": "scene_" + forloop_index,//场景2取scene_2，场景3取scene_3，场景4取scene_4
+      "eventLabel": "see_more", 
+    })
+    window.dataLayer.push({ "event_parameters": null });
+    window.dataLayer.push({
+      "event": "ga4Event",
+      "event_name": "lp_button",
+      "event_parameters": {
+        "page_group": '{{ section.settings.ga4_page_group }}', 
+        "button_name": "see_more",
+        "position": "scene_" + forloop_index //场景2取scene_2，场景3取scene_3，场景4取scene_4
+      }
+    })
+  })
+})
+</script>
+
+{% schema %}
+{
+  "name": "Page Scene Activity",
+  "presets": [
+    {
+      "name": "Page Scene Activity",
+      "settings": {
+				"icon_default": "{% render 'component_flash_sale_icon' %}"
+			}
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "activity_title",
+      "label": "活动标题",
+      "default": " Happy Time of a Day"
+    },
+    {
+      "type": "image_picker",
+      "id": "section_image",
+      "label": "PC端场景的背景图"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_section_image",
+      "label": "Mobile端场景的背景图"
+    },
+    {
+      "type": "header",
+      "content": "弹窗部分"
+    },
+    {
+      "type": "html",
+      "id": "popup_title",
+      "label": "弹窗标题",
+      "default": "What We Recommend"
+    },
+    {
+			"type": "select",
+			"id": "box_max_width",
+			"label": "PC端排列方式",
+			"options": [
+				{
+					"label": "卡片纵向排列，一行展示4个",
+					"value": "1200px-4-2-1"
+				}
+			],
+			"default": "1200px-4-2-1"
+		},
+    {
+			"type": "select",
+			"id": "box_mobile_max_width",
+			"label": "Mobile端排列方式",
+			"options": [
+				{
+					"label": "卡片横向排列，一行展示1个",
+					"value": "100%-1-1-2"
+				}
+			],
+			"default": "100%-1-1-2"
+		},
+    {
+			"type": "color",
+			"id": "card_bg",
+			"label": "产品卡片的背景色",
+			"default": "#ffffff"
+		},
+    {
+			"type": "select",
+			"id": "content_text_align",
+			"label": "产品信息区域水平位置",
+			"options": [
+				{
+					"value": "flex-start",
+					"label": "居左"
+				},
+				{
+					"value": "center",
+					"label": "居中"
+				},
+				{
+					"value": "flex-end",
+					"label": "居右"
+				}
+			],
+			"default": "flex-start"
+		},
+    {
+      "type": "header",
+      "content": "显示区域控制"
+    },
+    {
+			"type": "checkbox",
+			"id": "has_show_reviews",
+			"label": "是否显示评分",
+			"default": true
+		},
+    {
+			"type": "checkbox",
+			"id": "has_show_discount",
+			"label": "是否显示折扣",
+			"default": true
+		},
+    {
+			"type": "checkbox",
+			"id": "has_show_price",
+			"label": "是否显示价格",
+			"default": true
+		},
+    {
+			"type": "header",
+			"content": "icon相关"
+		},
+		{
+			"type": "image_picker",
+			"id": "icon_bg",
+			"label": "icon的背景图片"
+		},
+		{
+			"type": "liquid",
+			"id": "icon_default",
+			"label": "icon的默认值"
+		},
+		{
+			"type": "html",
+			"id": "icon_txt",
+			"label": "icon的文案",
+			"default": "<br/>Off"
+		},
+    {
+      "type": "header",
+      "content": "Copy Code"
+    },
+    {
+			"type": "text",
+			"id": "code_text",
+			"label": "Code文案",
+			"default": "CODE"
+		},
+		{
+			"type": "text",
+			"id": "copy_text",
+			"label": "Copy文案",
+			"default": "Copy"
+		},
+		{
+			"type": "text",
+			"id": "copying_text",
+			"label": "拷贝中的文案",
+			"default": "COPIED"
+		},
+    {
+			"type": "header",
+			"content": "操作按钮区"
+		},
+		{
+			"type": "text",
+			"id": "button_txt",
+			"label": "按钮1文案",
+			"default": "Buy Now"
+		},
+    {
+			"type": "text",
+			"id": "learn_more",
+			"label": "按钮2文案",
+			"default": "Learn More"
+		},
+    {
+			"type": "header",
+			"content": "埋点相关"
+		},
+		{
+			"type": "text",
+			"id": "eventAction",
+			"label": "Ga3：Copy动作 eventAction字段",
+			"default": "page_scene"
+		},
+    {
+			"type": "text",
+			"id": "img_source",
+			"label": "GA3埋点图片的Ref",
+			"default": "scene_1"
+		},
+		{
+			"type": "text",
+			"id": "ga4_img_source",
+			"label": "GA4图片点击埋点：action",
+			"default": "scene_"
+		},
+		{
+			"type": "text",
+			"id": "button_source",
+			"label": "GA3埋点字段Learn More的Ref",
+			"default": "pd_live_button"
+		},
+		{
+			"type": "text",
+			"id": "ga4_button_source",
+			"label": "GA4 Learn More 按钮入口埋点字段前缀",
+			"default": "learn More_"
+		},
+		{
+			"type": "text",
+			"id": "ga4_page_group",
+			"label": "Ga4埋点：类目",
+			"default": "Activity Page_scene"
+		},
+    {
+      "type": "liquid",
+      "id": "slot_content",
+      "label": "弹窗内嵌的内容",
+      "default": "{% render 'component_flash_sale_v2' %}"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "scene_item",
+      "name": "scene_item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "item_image",
+          "label": "PC端每个场景的图片"
+        },
+        {
+          "type": "image_picker",
+          "id": "item_mobile_image",
+          "label": "Mobile 端每个场景的图片"
+        },
+        {
+          "type": "header",
+          "content": "场景中的文案部分"
+        },
+        {
+          "type": "text",
+          "id": "item_title",
+          "label": "标题",
+          "default": "Daughter"
+        },
+        {
+          "type": "text",
+          "id": "item_desc",
+          "label": "描述",
+          "default": "Playing happily with dogs."
+        },
+        {
+          "type": "text",
+          "id": "click_here",
+          "label": "click_here",
+          "default": "Click here"
+        },
+        {
+          "type": "number",
+          "id": "flash_index",
+          "label": "场景对应第一个产品在产品列表的索引值",
+          "info": "例如：第一个场景有四个产品，第二个场景有三个产品，那么第一个场景的索引值为1，第二个场景的索引值为5",
+          "default": 1
+        }
+      ] 
+    },
+    {
+      "type": "limited_item",
+      "name": "limited_item",
+      "settings": [
+        {
+          "type": "header",
+          "content": "产品部分"
+        },
+        {
+					"type": "image_picker",
+					"id": "product_image",
+					"label": "自定义产品图",
+					"info": "尽量使用透明底图片"
+				},
+				{
+					"type": "product",
+					"id": "product_info",
+					"label": "产品",
+					"info": "用于获取产品信息"
+				},
+				{
+					"type": "text",
+					"id": "variant_sku",
+					"label": "variant_sku",
+					"info": "提供给自定义展示不同商品的variant，如果不填写，默认就展示第一个可用的variant"
+				},
+        {
+					"type": "text",
+					"id": "product_title",
+					"label": "产品标题",
+					"info": "产品标题可自定义"
+				},
+        {
+					"type": "text",
+					"id": "product_desc",
+					"label": "产品描述",
+					"info": "自定义的产品描述"
+				}
+      ]
+    }
+  ]
+}
+{% endschema %}

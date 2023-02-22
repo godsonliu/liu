@@ -1,0 +1,7 @@
+{% if shop.metafields.slapp.head_content.value %}
+  {% assign head_content = shop.metafields.slapp.head_content.value %}
+{% else %}
+  {% assign head_content = shop.metafields.slapp.head_content %}
+{% endif %}
+
+{{head_content}}

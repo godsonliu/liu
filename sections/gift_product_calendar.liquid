@@ -1,0 +1,595 @@
+{% assign authorization = shop.metafields['global']['storefront_key'] %}
+
+<section class="gift-product-calendar">
+  <div class="card">
+    <div class="normal">
+      <p class="card-title">{{section.settings.title}}</p>
+      <div class="btn-wrap">
+        <a href="javascript:;" class="open">{{section.settings.button}}</a>
+      </div>
+    </div>
+    <div class="has-coupon" style="display:none">
+      <p class="card-title">{{section.settings.title_coupon}}</p>
+      <p class="card-subtitle">{{section.settings.desc_coupon}}</p>
+      <p class="card-tip">
+        <span>{{section.settings.tip_coupon}}</span>
+        <span class="code"></span>
+        <a href="javascript:;" class="copy">{{section.settings.copy}}</a>
+      </p>
+      <div class="btn-wrap">
+        <a href="javascript:;" class="open">{{section.settings.button}}</a>
+      </div>
+    </div>
+  </div>
+  <div class="calendar"></div>
+</section>
+<section class="gift-calendar-rule">
+  <h3>{{section.settings.rule_title}}</h3>
+  <p>{{section.settings.rule}}</p>
+</section>
+<div class="modal-wrap">
+  <div class="gift-modal">
+    <a href="javascript:;" class="modal-close"></a>
+    <div class="modal-title">
+      <h3></h3>
+      <p></p>
+    </div>
+    <div class="modal-content modal-content-product">
+      <div class="img-box">
+        <a href="#" class="learn_more"><img src=""></a>
+      </div>
+      <div class="text-box">
+        <h5 class="product-title"></h5>
+        <p class="product-description"></p>
+        <div class="price-wrap">
+          <span class="price"></span>
+          <span class="compare_at_price"></span>
+        </div>
+        <div class="code-wrap">
+          <span>{{section.settings.code_modal}}</span>
+          <span class="code"></span>
+          <a href="javascript:;" class="copy">{{section.settings.copy}}</a>
+        </div>
+        <div class="btn-groups">
+          <a href="javascript:;" class="buy_now">{{section.settings.buy_modal}}</a>
+          <a href="#" class="learn_more">{{section.settings.more_modal}}</a>
+        </div>
+      </div>
+      <div class="tag-box">
+        <img src="https://cdn.shopify.com/s/files/1/0521/9411/5753/files/gift_guide_tag.png?v=1669774027">
+        <div class="tag-text">
+          <span class="tag-off"></span>
+          <span>{{section.settings.off_modal}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="modal-content modal-content-coupon">
+      <div class="coupon-image">
+        <img src="">
+        <span class="code"></span>
+      </div>
+      <p class="coupon-tip">{{section.settings.tip_modal}}</p>
+      <div class="btn-group">
+        <a href="javascript:;" class="copy">{{section.settings.copy}}</a>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+$(function(){
+  var gifts = [];
+  {% for block in section.blocks %}
+    {% if block.type == "product" %}
+      {% assign product = block.settings.product %}
+      {% if product != blank %}
+        {% assign variant = product.selected_or_first_available_variant %}
+        {% if block.settings.sku %}
+          {% for item in product.variants %}
+            {% if item.sku == block.settings.sku %}
+              {% assign variant = item %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+        {% assign product_image = product.featured_image | image_url %}
+        {% if variant.image %}
+          {% assign product_image = variant.image | image_url %}
+        {% endif %}
+        {% if block.settings.product_image %}
+          {% assign product_image = section.settings.product_image | image_url %}
+        {% endif %}
+        {% if variant.price == 999999999 %}
+          {% assign price = 'products.product.sold_out' | t %}
+        {% else %}
+          {% assign price = variant.price | money %}
+          {% if settings.currency_format == 'money_with_currency_format' %}
+            {% assign price = variant.price | money_with_currency %}
+          {% endif %}
+        {% endif %}
+        {% if variant.compare_at_price == 999999999 %}
+          {% assign compare_at_price = 'products.product.sold_out' | t %}
+        {% else %}
+          {% assign compare_at_price = variant.compare_at_price | money %}
+          {% if settings.currency_format == 'money_with_currency_format' %}
+            {% assign compare_at_price = variant.compare_at_price | money_with_currency %}
+          {% endif %}
+        {% endif %}
+        var url = "{{block.settings.product_url}}" || "{{variant.url}}";
+        if (url.indexOf("?") > 0) {
+          url += "&ref=gift-guide";
+        } else {
+          url += "?ref=gift-guide";
+        }
+        gifts.push({
+          product: {
+            id: "{{variant.id}}",
+            sku: "{{variant.sku}}",
+            image: "{{product_image}}",
+            title: "{{block.settings.product_title}}" || "{{product.title | strip_html | strip_newlines}}",
+            description: "{{block.settings.product_description}}" || "{{product.description | strip_html | strip_newlines | replace: '"', '\"'}}",
+            price: "{{price}}",
+            compare_at_price: "{{compare_at_price}}",
+            url: url
+          }
+        });
+      {% else %}
+        gifts.push({empty: true});
+      {% endif %}
+    {% endif %}
+    {% if block.type == "coupon" %}
+      gifts.push({
+        coupon: {
+          background: "{{ block.settings.coupon_bg | image_url }}" || "https://cdn.shopify.com/s/files/1/0521/9411/5753/files/gift_coupon.png?v=1669892228",
+          code: "{{ block.settings.coupon_code }}",
+          val: "{{ block.settings.coupon_val }}"
+        }
+      });
+    {% endif %}
+  {% endfor %}
+  var skus = [];
+  gifts.forEach(function(gift) {
+    if (gift.product && gift.product.sku) {
+      skus.push(gift.product.sku);
+    }
+  });
+  if (Cookies.get("gift_guide_coupon_val") && Cookies.get("gift_guide_coupon_code")) {
+    $(".has-coupon").show();
+    $(".normal").hide();
+    $(".card-subtitle").html($(".card-subtitle").html().replace("$coupon", "<em>"+Cookies.get("gift_guide_coupon_val")+"</em>"));
+    $(".card-tip .code").text(Cookies.get("gift_guide_coupon_code"));
+  } else {
+    $(".has-coupon").hide();
+    $(".normal").show();
+  }
+  $.ajax({
+    type: 'GET',
+    url: '/apps/pp/shopifyservices/coupons/by_skus',
+    data: {
+      skus: skus,
+      shopify_domain: "{{ shop.permanent_domain }}"
+    },
+    success: function(data) {
+      gifts.forEach(function(gift) {
+        if (gift.product && gift.product.sku) {
+          var sku = gift.product.sku;
+          if (data[sku] && data[sku][0]) {
+            var item = data[sku][0];
+            gift.product.code = item.title;
+            if (item.value_type === "fixed_amount") {
+              gift.product.tag_off = item.value_style;
+            }
+            if (item.value_type === "percentage") {
+              gift.product.tag_off = Math.abs(parseInt(item.value));
+            }
+            gift.product.price = Shopify.formatMoney(parseFloat(item.variant_price4wscode) * 100, $("body").data("money-format"));
+            gift.product.compare_at_price = Shopify.formatMoney(parseFloat(item.variant_price) * 100, $("body").data("money-format"));
+          }
+        }
+      });
+    }
+  });
+
+  function execCoy(text) {
+    const input = document.createElement('INPUT');
+    input.style.opacity  = 0;
+    input.style.position = 'absolute';
+    input.style.left = '-100000px';
+    document.body.appendChild(input);
+
+    input.value = text;
+    input.select();
+    input.setSelectionRange(0, text.length);
+    document.execCommand('copy');
+    document.body.removeChild(input);
+    return true;
+  }
+  function openModal(gift) {
+    if (gift.product) {
+      $(".modal-content-coupon").hide();
+      $(".modal-content-product").show();
+      $(".modal-title h3").html("{{section.settings.title_modal}}");
+      $(".modal-title p").html("{{section.settings.desc_modal}}");
+      $(".modal-content .img-box img").attr("src", gift.product.image);
+      $(".modal-content .product-title").text(gift.product.title);
+      $(".modal-content .product-description").text(gift.product.description);
+      $(".modal-content .price").text(gift.product.price);
+      $(".modal-content .compare_at_price").text(gift.product.compare_at_price);
+      $(".modal-content .code").text(gift.product.code || "");
+      $(".modal-content .tag-off").text(gift.product.tag_off || "");
+      $(".modal-content .learn_more").attr("href", gift.product.url);
+      $(".modal-content .buy_now").data("sku", gift.product.sku);
+      $(".modal-content .buy_now").data("id", gift.product.id);
+      if (gift.product.price === "{{'products.product.sold_out' | t}}") {
+        $(".modal-content .buy_now").hide();
+      } else {
+        $(".modal-content .buy_now").show();
+      }
+      if (gift.product.tag_off) {
+        $(".modal-content .tag-box").show();
+        $(".modal-content .code-wrap").show();
+      } else {
+        $(".modal-content .tag-box").hide();
+        $(".modal-content .code-wrap").hide();
+      }
+    }
+    if (gift.coupon) {
+      $(".modal-content-product").hide();
+      $(".modal-content-coupon").show();
+      $(".modal-title h3").html("{{section.settings.title2_modal}}");
+      $(".modal-title p").html("{{section.settings.desc2_modal}}".replace("$coupon", gift.coupon.val || ""));
+      $(".coupon-image img").attr("src", gift.coupon.background);
+      $(".coupon-image .code").text(gift.coupon.code);
+      Cookies.set("gift_guide_coupon_val", gift.coupon.val, {expires: 30});
+      Cookies.set("gift_guide_coupon_code", gift.coupon.code, {expires: 30});
+      {% comment %} $(".has-coupon").show();
+      $(".normal").hide();
+      $(".card-subtitle").html($(".card-subtitle").html().replace("$coupon", "<em>"+gift.coupon.val+"</em>"));
+      $(".card-tip .code").text(gift.coupon.covde); {% endcomment %}
+    }
+    $(".modal-wrap").fadeIn();
+  }
+
+  var current = new Date().getDate();
+  var calendarStr = "";
+  for (var i=1; i<=25; i++) {
+    var classList = "col";
+    if (i <= current) {
+      if (!(gifts[i-1] && gifts[i-1].empty)) {
+        classList += " on";
+      }
+    }
+    if (i === current) {
+      classList += " active";
+    }
+    calendarStr += "<div class='"+classList+"'><span class='num'>"+i+"</span></div>"
+  }
+  document.querySelector(".calendar").innerHTML = calendarStr;
+
+  $(".modal-close").on("click", function() {
+    $(this).parents(".modal-wrap").fadeOut();
+  });
+
+  $(".calendar .col.on").on("click", function() {
+    var index = $(this).index();
+    if (gifts[index] && !gifts[index].empty) {
+      openModal(gifts[index]);
+    }
+  });
+
+  $(".gift-product-calendar .open").on("click", function() {
+    var index = $(".col.active").index(".col");
+    if (gifts[index] && !gifts[index].empty) {
+      openModal(gifts[index]);
+    }
+    dataLayer.push({
+      "event": "uaEvent", 
+      "eventCategory": "Activity Page_{{page.handle}}",
+      "eventAction": $(this).text(),
+      "eventLabel": "", 
+    });
+    window.dataLayer.push({ "event_parameters": null });
+    window.dataLayer.push({
+      "event": "ga4Event",
+      "event_name": "lp_button",
+      "event_parameters": {
+        "page_group": "Activity Page_{{page.handle}}",
+        "button_name": $(this).text(),
+        "position": "" 
+      }
+    });
+  });
+
+  $(".gift-product-calendar .copy").on("click", function() {
+    var $this = $(this);
+    var coupon = $this.parents(".gift-product-calendar").find(".code").text();
+    $this.text("{{section.settings.copied}}");
+    setTimeout(function() {
+      $this.text("{{section.settings.copy}}");
+    }, 3000);
+    execCoy(coupon);
+  });
+
+  $(".modal-content-product .copy").on("click", function() {
+    var $this = $(this);
+    var coupon = $this.parents(".modal-content").find(".code").text();
+    $this.text("{{section.settings.copied}}");
+    setTimeout(function() {
+      $this.text("{{section.settings.copy}}");
+    }, 3000);
+    execCoy(coupon);
+  });
+  $(".modal-content-coupon .copy").on("click", function() {
+    var $this = $(this);
+    var coupon = $this.parents(".modal-content").find(".code").text();
+    execCoy(coupon);
+    dataLayer.push({
+      "event": "uaEvent", 
+      "eventCategory": "Activity Page_{{page.handle}}",
+      "eventAction": $(this).text(),
+      "eventLabel": "", 
+    });
+    window.dataLayer.push({ "event_parameters": null });
+    window.dataLayer.push({
+      "event": "ga4Event",
+      "event_name": "lp_button",
+      "event_parameters": {
+        "page_group": "Activity Page_{{page.handle}}",
+        "button_name": $(this).text(),
+        "position": "" 
+      }
+    });
+    $this.text("{{section.settings.copied}}");
+    setTimeout(function() {
+      $this.text("{{section.settings.copy}}");
+    }, 3000);
+  });
+  $(".modal-content-product .buy_now").on("click", function() {
+    var line_items = [{
+      variant_id: $(this).data("id"),
+      quantity: 1
+    }];
+    var discount = $(this).parents(".modal-content").find(".code").text();
+    Shopify.theme.bundleBuynow({
+      authorization: "{{ authorization }}",
+      checkout: {
+        line_items: line_items,
+        presentment_currency: "{{ shop.currency }}",
+        is_upstream_button: true,
+        page_type: "product",
+        secret: true,
+        discount,
+        wallet_name: "Checkout"
+      },
+      onSuccess: () => {},
+      onError: err => $.dialog({ title: err.message, content: err.description, type: 'red' })
+    });
+    var $parent = $(this).parents(".modal-content");
+    window.dataLayer.push({
+      event: "eeEvent",
+      eventCategory: "EnhancedEcommerce",
+      eventAction: "BuyNow",
+      eventLabel: $(this).data("sku"),
+      ecommerce: {
+        currencyCode: '{{ shop.currency }}',
+        add: {
+          products: [
+            {
+              name: $parent.find(".product-title").text(),
+              id: $(this).data("sku"),
+              category: "",
+              categoryName: "",
+              brand: '{{ shop.name }}',
+              variant: $(this).data("id"),
+              price: $parent.find(".price").text().trim(),
+              quantity: "1"
+            },
+          ],
+        },
+      },
+    });
+    window.dataLayer.push({ event_parameters: null });
+    window.dataLayer.push({
+      event: "ga4Event",
+      event_name: "begin_checkout",
+      event_parameters: {
+        page_group: "Activity Page_{{page.handle}}",
+        currency: '{{ shop.currency }}',
+        value: $parent.find(".price").text().trim(),
+        items: [
+          {
+            item_id: $(this).data("sku"),
+            item_name: $parent.find(".product-title").text(),
+            item_brand: '{{ shop.name }}',
+            item_variant: $(this).data("id"),
+            price: $parent.find(".price").text().trim(),
+            quantity: "1"
+          },
+        ],
+      },
+    });    
+  });
+});
+</script>
+
+{% schema %}
+{
+  "name": "gift_product_calendar",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "标题"
+    },
+    {
+      "type": "text",
+      "id": "button",
+      "label": "按钮文案"
+    },
+    {
+      "type": "header",
+      "content": "有coupon展示文案"
+    },
+    {
+      "type": "textarea",
+      "id": "title_coupon",
+      "label": "标题"
+    },
+    {
+      "type": "textarea",
+      "id": "desc_coupon",
+      "label": "描述",
+      "info": "coupon额度用$coupon表示"
+    },
+    {
+      "type": "text",
+      "id": "tip_coupon",
+      "label": "提示"
+    },
+    {
+      "type": "text",
+      "id": "copy",
+      "label": "copy文案",
+      "default": "Copy"
+    },
+    {
+      "type": "text",
+      "id": "copied",
+      "label": "已copy文案",
+      "default": "Copied"
+    },
+    {
+      "type": "text",
+      "id": "rule_title",
+      "label": "Rules文案",
+      "default": "Rules"
+    },
+    {
+      "type": "textarea",
+      "id": "rule",
+      "label": "Rules"
+    },
+    {
+      "type": "header",
+      "content": "产品弹窗配置区"
+    },
+    {
+      "type": "textarea",
+      "id": "title_modal",
+      "label": "标题"
+    },
+    {
+      "type": "textarea",
+      "id": "desc_modal",
+      "label": "描述"
+    },
+    {
+      "type": "text",
+      "id": "off_modal",
+      "label": "Off文案",
+      "default": "Off"
+    },
+    {
+      "type": "text",
+      "id": "code_modal",
+      "label": "CODE文案",
+      "default": "CODE:"
+    },
+    {
+      "type": "text",
+      "id": "buy_modal",
+      "label": "Buy Now文案",
+      "default": "Buy Now"
+    },
+    {
+      "type": "text",
+      "id": "more_modal",
+      "label": "Learn More文案",
+      "default": "Learn More"
+    },
+    {
+      "type": "header",
+      "content": "优惠券弹窗配置区"
+    },
+    {
+      "type": "textarea",
+      "id": "title2_modal",
+      "label": "标题"
+    },
+    {
+      "type": "textarea",
+      "id": "desc2_modal",
+      "label": "描述",
+      "info": "coupon额度用$coupon表示"
+    },
+    {
+      "type": "textarea",
+      "id": "tip_modal",
+      "label": "提示"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "product",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "产品"
+        },
+        {
+          "type": "text",
+          "id": "sku",
+          "label": "sku",
+          "info": "不填则默认第一个可用的variant"
+        },
+        {
+          "type": "image_picker",
+          "id": "product_image",
+          "label": "产品图片",
+          "info": "自定义产品图片"
+        },
+        {
+          "type": "textarea",
+          "id": "product_title",
+          "label": "产品标题",
+          "info": "自定义产品标题"
+        },
+        {
+          "type": "textarea",
+          "id": "product_description",
+          "label": "产品描述",
+          "info": "自定义产品描述"
+        },
+        {
+          "type": "text",
+          "id": "product_url",
+          "label": "按钮链接",
+          "info": "自定义按钮链接"
+        }
+      ]
+    },
+    {
+      "type": "coupon",
+      "name": "coupon",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "coupon_bg",
+          "label": "coupon背景图"
+        },
+        {
+          "type": "text",
+          "id": "coupon_code",
+          "label": "coupon code"
+        },
+        {
+          "type": "text",
+          "id": "coupon_val",
+          "label": "coupon",
+          "default": "15%"
+        }
+      ]
+    }
+  ]
+}
+{% endschema%}

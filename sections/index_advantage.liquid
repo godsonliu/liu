@@ -1,0 +1,115 @@
+{%- capture advantageSize -%}
+  {{ section.blocks.size }}
+{%- endcapture -%}
+<section id="index_advantage-{{ section.id }}" class="index_advantage section-wrapper">
+  <div class="container-wrapper">
+    <h2 class="index-title">{{ section.settings.title }}</h2>
+    <div class="cards-container">
+      {% for block in section.blocks %}
+      <div class="adv-card card-radius adv-card-{{forloop.index }}" data-key="{{ forloop.index }}">
+        <figure class="img-icon">
+          <img class="lazyload" data-src="{{ block.settings.img_icon | image_url }}" alt="{{ block.settings.txt }}">
+        </figure>
+        <p class="txt">{{ block.settings.txt }}</p>
+        <div class="content">{{block.settings.content_txt}}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% render 'txtModal_v2.0' %}
+</section>
+
+<script>
+  let advantageSize = `{{ advantageSize }}`
+
+  if(window.innerWidth > 768){
+    let int = null
+    $('.adv-card').hover(function() {
+      let time = 0;
+      int = setInterval(function () {
+        time ++;
+        if(time >= 2){
+          dataLayer.push({
+          "event": "uaEvent",
+          "eventCategory": 'why_eufy',
+          "eventAction": "homepage",
+          "eventLabel": $('.adv-card').eq(idx).find('.txt').text(), // 每个服务的小标题, 比如30-Day...; Fast, Free Shipping
+          "eventValue": "undefined",
+          })
+          clearInterval(int);
+        }
+      }, 1000);
+      const idx = $(this).index()
+      for(var i = 0; i < advantageSize; i++) {
+        if(i == idx){
+          $(this).removeClass('is-collapse').addClass('is-expand')
+        }else{
+          $('.adv-card').eq(i).removeClass('is-expand').addClass('is-collapse')
+        }
+      }
+    },function() {
+      clearInterval(int);
+    })
+    $('.cards-container').hover(function() {
+    },function() {
+      $('.adv-card').removeClass('is-expand').removeClass('is-collapse')
+    })
+    
+  }else{
+    {% for block in section.blocks %}
+      $('.adv-card[data-key={{ forloop.index }}]').click(() => {
+        openDialogModal(`<img class="lazyload" data-src="{{ block.settings.img_icon | image_url }}" alt="{{ block.settings.txt }}">`,`{{ block.settings.txt }}`,`{{ block.settings.content_txt }}`)
+        dataLayer.push({
+          "event": "uaEvent",
+          "eventCategory": 'why_eufy',
+          "eventAction": "homepage",
+          "eventLabel": `{{ block.settings.txt }}`, // 每个服务的小标题, 比如30-Day...; Fast, Free Shipping
+          "eventValue": "undefined",
+      })
+      });
+    {% endfor %}
+  }
+  
+</script>
+{% schema %}
+{
+  "name": "Index Advantage",
+  "presets": [
+    {
+      "category": "Index Advantage",
+      "name": "Index Advantage"
+    }
+  ],
+  "settings": [{
+    "type": "text",
+    "id": "title",
+    "label": "Title",
+    "default": "Why Choice Eufy ?"
+  }],
+  "blocks": [{
+    "type": "block",
+    "name": "block",
+    "settings": [{
+      "type": "image_picker",
+      "id": "img_icon",
+      "label": "图标",
+      "info": "图片格式推介使用png"
+    },{
+      "type": "text",
+      "id": "txt",
+      "label": "文本"
+    },{
+      "type": "richtext",
+      "id": "content_txt",
+      "label": "详细描述"
+    },{
+      "type": "text",
+      "id": "modal_content",
+      "label": "弹窗内容"
+    }
+    ]
+  }]
+  
+}
+{% endschema %}
+

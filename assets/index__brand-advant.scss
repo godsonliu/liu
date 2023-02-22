@@ -1,0 +1,146 @@
+.index__brand-advant{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  // padding-top: 100px;
+  background: #F5F5F7;
+
+  // @media  (min-width: 769px) {
+  //   padding-top: 120px;
+  // }
+  // @media  (min-width: 1900px) {
+  //   padding-top: 10vw;
+  // }
+  @media  (max-width: 768px) {
+    background: #ffffff
+  }
+}
+.index__brand-advant .container-wrapper{
+  flex-direction: column;
+}
+
+
+.brand-advant-list{
+  display: flex;
+  align-content: center;
+  @media  (max-width: 768px) {
+    flex-direction: column;
+  }
+}
+
+.brand-advant-item{
+  margin: 0 0 6px;
+  padding: 22px;
+  text-align: center;
+  background-color: #ffffff;
+  width: calc( (100% - 20px)/3);
+  &:first-child{
+    border-radius: 32px 0px 0px 0px;
+  }
+  &:last-child{
+    border-radius: 0px 32px 0px 0px;
+  }
+  @media screen and (max-width: 1920px) and (min-width: 1281px){
+    &:first-child{
+      border-radius: 24px 0px 0px 0px;
+    }
+    &:last-child{
+      border-radius: 0px 24px 0px 0px;
+    }
+  }
+  @media screen and (max-width: 1280px) and (min-width: 769px) {
+    &:first-child{
+      border-radius: 16px 0px 0px 0px;
+    }
+    &:last-child{
+      border-radius: 0px 16px 0px 0px;
+    }
+  }
+  @media screen and (max-width: 768px){ 
+    width: 100%;
+    padding: 24px;
+    &:first-child{
+      border-radius: 0px;
+    }
+    &:last-child{
+      border-radius: 0px;
+    }
+    @media screen and (max-width: 375px) {
+      padding: 16px;
+    }
+  }
+  
+  // @media  (min-width: 415px) {
+  //   display: block;
+  //   padding: 5%;
+  //   width: 33.33%;
+  // }
+  @media  (min-width: 1281px) {
+    margin: 0 0 10px;
+    padding: 6%;
+  }
+
+  &:nth-child(3n - 1){
+    @media  (min-width: 769px) {
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+  }
+
+  svg,
+  .image-element__wrap{
+    margin: 0 26px 0 0;
+    width: 42px;
+    height: 42px;
+
+    @media  (max-width: 768px) {
+      margin: 0 auto;
+      width: calc( (125 / 750)*100vw );
+      height: calc( (125 / 750)*100vw );
+    }
+
+    @media  (min-width: 769px) {
+      margin: 0 auto 20px;
+      width: 54px;
+      height: 54px;
+    }
+
+    @media  (min-width: 1281px) {
+      width: 80px;
+      height: 80px;
+    }
+    @media  (min-width: 1921px) {
+      width: 120px;
+      height: 120px;
+    }
+  }
+}
+
+.brand-advant-info{
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: #000;
+
+  @media (max-width: 768px) {
+    font-size: calc( (24 / 750)*100vw );
+    flex: 1;
+    @media (max-width: 375px) {
+      font-size: 18px;
+    }
+  }
+  
+
+  @media  (min-width: 769px) {
+    font-size: 14px;
+  }
+
+  @media  (min-width: 1281px) {
+    font-size: 16px;
+  }
+
+  @media  (min-width: 1900px) {
+    font-size: 20px;
+  }
+}

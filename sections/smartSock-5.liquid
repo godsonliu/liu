@@ -1,0 +1,113 @@
+<section class="smartSock-5" id="{{section.settings.id}}">
+  <div class="banner">
+    {% render 'image-element', 
+      image: section.settings.banner,
+      alt: section.settings.banner.alt,
+      additional_classes: "pc-show"
+    %}
+    {% render 'image-element', 
+      image: section.settings.banner_mob,
+      alt: section.settings.banner_mob.alt,
+      additional_classes: "mob-show"
+    %}
+  </div>
+  <div class="img-with-text">
+    {% for block in section.blocks %}
+      <div class="item">
+        <img class="image pc-show" src="{{block.settings.image | image_url}}">
+        <img class="image mob-show" src="{{block.settings.image_mob | image_url}}">
+        <div class="text">
+          <h2>{{ block.settings.title }}</h2>
+          <p>{{ block.settings.subtitle }}</p>
+          {% if block.settings.icon %}
+            {% if block.settings.icon_mob %}
+              <img class="lazyload pc-show" data-src="{{block.settings.icon | image_url}}">
+              <img class="lazyload mob-show" data-src="{{block.settings.icon_mob | image_url}}">
+            {% else %}
+              <img class="lazyload" data-src="{{block.settings.icon | image_url}}">
+            {% endif %}
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+<script>
+  $(function() {
+    $(".smartSock-5 .item").each(function(i, item) {
+      ScrollTrigger.create({
+        trigger: `.smartSock-5 .item:nth-child(${i+1})`,
+        start: "top center+=200",
+        toggleClass: "active"
+      });
+    });
+  });  
+</script>
+
+{% schema %}
+{
+  "name": "Smart Sock P5",
+  "presets": [
+    {
+      "name": "Smart Sock P5"
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "id",
+      "label": "模块id",
+      "default": "section-sock"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner",
+      "label": "banner图"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_mob",
+      "label": "移动端banner图"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "imgText",
+      "name": "imgText",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "图片"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mob",
+          "label": "移动端图片"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "标题"
+        },
+        {
+          "type": "textarea",
+          "id": "subtitle",
+          "label": "副标题"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "图标"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon_mob",
+          "label": "移动端图标"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

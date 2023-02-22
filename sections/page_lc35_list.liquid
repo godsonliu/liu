@@ -1,0 +1,263 @@
+<style>
+@media(min-width: 767px) {
+  .showMobile {
+    display: none;
+  }
+}
+@media(max-width: 767px) {
+  .showPc {
+    display: none;
+  }
+}
+.page_lc35_list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px 100px 20px;
+}
+.page_lc35_list .lc35_list_left {
+  position: relative;
+  font-size: 0;
+  margin-right: 10px;
+}
+.page_lc35_list .lc35-mask {
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,.3);
+  left: 0;
+  top: 0;
+  position: absolute;
+  z-index: 1;
+  border-radius: 35px;
+}
+.page_lc35_list .watch_video {
+  width: 100%;
+  position: absolute;
+  left: 50%;
+  top: 80px;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 700;
+  font-size: 30px;
+  color: #fff;
+  z-index: 2;
+  cursor: pointer;
+}
+.page_lc35_list .watch_video svg {
+  margin-right: 10px;
+  width: 30px;
+  height: 30px;
+}
+.page_lc35_list .lc35_img {
+  border-radius: 35px;
+}
+.lc35_list_right_top {
+  margin-bottom: 10px;
+}
+.lc35_list_right_top, .lc35_list_right_bottom {
+  position: relative;
+  font-size: 0;
+}
+.page_lc35_list .lc35_title {
+  position: absolute;
+  left: 30px;
+  top: 30px;
+  color: #404040;
+  font-size: 30px;
+  line-height: 30px;
+  font-weight: 700;
+}
+@media(max-width: 767px) {
+  .page_lc35_list {
+    padding: 0 37.5px;
+    flex-direction: column;
+  }
+  .page_lc35_list .mobile-inline {
+    display: inline-block;
+  }
+  .page_lc35_list .watch_video {
+    top: 38.5px;
+    font-size: 18px;
+  }
+  .page_lc35_list .watch_video svg {
+    width: 18px;
+    height: 18px;
+  }
+  .page_lc35_list .lc35_list_left {
+    margin: 0 0 25px 0;
+  }
+  .page_lc35_list .lc35_list_left, .page_lc35_list .lc35_list_right {
+    width: 100%;
+  }
+  .page_lc35_list .lc35_list_right .lc35_img {
+    width: 100%;
+  }
+  .page_lc35_list .lc35_list_right_top, .page_lc35_list .lc35_list_right_bottom {
+    width: 100%;
+    margin-bottom: 25px;
+  }
+  .page_lc35_list .lc35_title {
+    width: 100%;
+    text-align: center;
+    left: 0;
+    font-size: 24px;
+  }
+}
+</style>
+
+<div class="page_lc35_list" id="overview">
+  <div class="lc35_list_left">
+    <div class="lc35-mask"></div>
+    <div class="watch_video">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <rect width="20" height="20" fill="url(#pattern0)"/>
+        <defs>
+        <pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1" height="1">
+        <use xlink:href="#image0_29_16" transform="scale(0.0125)"/>
+        </pattern>
+        <image id="image0_29_16" width="80" height="80" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyNpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTQ4IDc5LjE2NDAzNiwgMjAxOS8wOC8xMy0wMTowNjo1NyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIDIxLjAgKFdpbmRvd3MpIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOkNEOTRENkFCODU5MjExRUM5Qjk1QkZFM0VCMzI3NjkwIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOkNEOTRENkFDODU5MjExRUM5Qjk1QkZFM0VCMzI3NjkwIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6Q0Q5NEQ2QTk4NTkyMTFFQzlCOTVCRkUzRUIzMjc2OTAiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6Q0Q5NEQ2QUE4NTkyMTFFQzlCOTVCRkUzRUIzMjc2OTAiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz6UFB2hAAAG7UlEQVR42uydf2hW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"/>
+        </defs>
+      </svg>
+      {{ section.settings.watch_video }}
+    </div>
+    <img class="showPc lc35_img lazyload" data-src="{{ section.settings.left_image | image_url }}" width="750" height="665" />
+    <img class="showMobile lc35_img lazyload" data-src="{{ section.settings.mobile_left_image | image_url }}" width="1200" height="1400" />
+  </div>
+  <div class="lc35_list_right">
+    <div class="lc35_list_right_top">
+      <div class="lc35_title">{{ section.settings.right_top_title }}</div>
+      <img class="showPc lc35_img lazyload" data-src="{{ section.settings.right_top_image | image_url }}" width="540" height="327" />
+      <img class="showMobile lc35_img lazyload" data-src="{{ section.settings.mobile_right_top_image | image_url }}" width="1200" height="1400" />
+    </div>
+    <div class="lc35_list_right_bottom">
+      <div class="lc35_title">{{ section.settings.right_bottom_title }}</div>
+      <img class="showPc lc35_img lazyload" data-src="{{ section.settings.right_bottom_image | image_url }}" width="540" height="327" />
+      <img class="showMobile lc35_img lazyload" data-src="{{ section.settings.mobile_right_bottom_image | image_url }}" width="1200" height="1400" />
+    </div>
+  </div>
+</div>
+
+{% render 'component_video_player_popup', div_id: section.id %}
+
+<script>
+$(function() {
+  const video_url = '{{ section.settings.video_url }}'
+	const mobile_video_url = '{{ section.settings.mobile_video_url }}'
+	const deviceWidth = document.body.clientWidth
+	$('.page_lc35_list .watch_video').on('click', function() {
+		if(window['video_player_popup_{{section.id}}']) {
+      dataLayer.push({
+        "event": "uaEvent", 
+        "eventCategory": "Activity Page_{{ section.settings.ga_handle }}",
+        "eventAction": "watch_video",
+        "eventLabel": "{{ section.settings.video_title }}", //取视频title
+      })
+      window.dataLayer.push({ "event_parameters": null });
+      window.dataLayer.push({
+        "event": "ga4Event",
+        "event_name": "video_start",
+        "event_parameters": {
+          "video_title": "{{ section.settings.video_title }}", 
+          "page_group": "Activity Page_{{ section.settings.ga_handle }}"
+        }
+      })
+			if(deviceWidth > 767) {
+				video_url && window['video_player_popup_{{section.id}}'].show(video_url)
+			}else {
+				mobile_video_url && window['video_player_popup_{{section.id}}'].show(mobile_video_url)
+			}
+		}
+	})
+})
+</script>
+
+{% schema %}
+  {
+    "name": "page_lc35_list",
+    "presets": [
+      {
+        "name": "Page Lc35 List"
+      }
+    ],
+    "settings": [
+      {
+        "type": "header",
+        "content": "埋点相关"
+      },
+      {
+        "type": "text",
+        "id": "ga_handle",
+        "label": "埋点填写的产品handle",
+        "default": "/products/t2181g11"
+      },
+      {
+        "type": "text",
+        "id": "video_title",
+        "label": "视频title",
+        "default": "eufy Clean L35系列 长效集尘篇 EN"
+      },
+      {
+        "type": "text",
+        "label": "Watch Video文案",
+        "id": "watch_video",
+        "default": "Watch Video"
+      },
+      {
+        "type": "image_picker",
+        "id": "left_image",
+        "label": "左侧的图片"
+      },
+      {
+        "type": "image_picker",
+        "id": "mobile_left_image",
+        "label": "Mobile端左侧的图片"
+      },
+      {
+        "type": "text",
+        "id": "video_url",
+        "label": "Video Url",
+        "info": "Watch Video的视频链接"
+      },
+      {
+        "type": "text",
+        "id": "mobile_video_url",
+        "info": "Watch Video的视频链接",
+        "label": "Mobile Video Url"
+      },
+      {
+        "type": "html",
+        "id": "right_top_title",
+        "label": "右侧的上侧标题",
+        "default": "25,000 Pa Auto-Empty Suction Power"
+      },
+      {
+        "type": "image_picker",
+        "id": "right_top_image",
+        "label": "右侧的上侧图片"
+      },
+      {
+        "type": "image_picker",
+        "id": "mobile_right_top_image",
+        "label": "Mobile右侧的上侧图片"
+      },
+      {
+        "type": "html",
+        "id": "right_bottom_title",
+        "label": "右侧的下侧标题",
+        "default": "Large Capacity Dust-Bag"
+      },
+      {
+        "type": "image_picker",
+        "id": "right_bottom_image",
+        "label": "右侧的下侧图片"
+      },
+      {
+        "type": "image_picker",
+        "id": "mobile_right_bottom_image",
+        "label": "Mobile右侧的下侧图片"
+      }
+    ]
+  }
+{% endschema %}

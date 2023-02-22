@@ -1,0 +1,52 @@
+.iwt-order-forward {
+  @media (min-width: 769px) {
+    display: flex;
+  }
+}
+
+.iwt-order-reverse {
+  @media (min-width: 769px) {
+    display: flex;
+    flex-direction: row-reverse;
+  }
+}
+
+.mb-iwt-order-forward {
+  @media (max-width: 768px) {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+.mb-iwt-order-reverse {
+  @media (max-width: 768px) {
+    display: flex;
+    flex-wrap: wrap-reverse;
+    justify-content: center;
+  }
+}
+
+.iwt-vertical-center {
+  @media (min-width: 769px) {
+    align-items: center;
+  }
+}
+
+.iwt-vertical-bottom {
+  @media (min-width: 769px) {
+    align-items: flex-end;
+  }
+}
+
+.iwt-horizontal-center {
+  @media (min-width: 769px) {
+    justify-content: center;
+  }
+}
+
+.iwt-horizontal-bottom {
+  @media (min-width: 769px) {
+    justify-content: flex-end;
+  }
+}

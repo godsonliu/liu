@@ -1,0 +1,1541 @@
+{% if shop.metafields['global']['common'].value %}
+  {% assign info_select_policy = shop.metafields['global']['common'].value %}
+{% else %}
+  {% assign info_select_policy = shop.metafields['global']['common'] %}
+{% endif %}
+
+<div class="hidden">
+{% assign id = section.id %}
+{% assign settings = section.settings %}
+</div>
+
+{{ 'LiveStreaming.scss.css' | asset_url | stylesheet_tag }}
+
+{% style %}
+  
+#LiveStreaming_{{id}} {
+  background: {{settings.box_background}};
+}
+#LiveStreaming_{{id}} .box_title {
+  font-size: {{ settings.title_font_size}};
+  color: {{ settings.title_color}};
+  font-weight: {{settings.title_font_weight}};
+}
+{% if settings.box_text_color %}
+  #LiveStreaming_{{id}} .actionsList {
+    color: {{ settings.box_text_color}};
+  }
+{% endif %}
+@media(max-width: 769px) {
+  #LiveStreaming_{{id}} .box_title {
+    font-size: {{ settings.mobile_title_font_size}};
+  }
+}
+
+{% if settings.box_padding %}
+  #LiveStreaming_{{id}} .comingSoonContainer {
+    padding: {{ settings.box_padding}};
+  }
+{% endif %}
+{% if settings.mobile_box_padding %}
+@media(max-width: 769px) {
+  #LiveStreaming_{{id}} .comingSoonContainer {
+    padding: {{ settings.mobile_box_padding}};
+  }
+}
+{% endif %}
+
+{% endstyle %}
+
+<div id="LiveStreaming_{{ id }}" class="LiveStreaming">
+  {% if settings.youtube_iframe != '' %}
+  <div class="model__container flexBox">
+    <div class="liveBox">
+      {{ settings.youtube_iframe }}
+    </div>
+    {% if settings.youtube_chat != '' %}
+    <div class="chatBox">
+      <iframe src="https://www.youtube.com/live_chat?{{ settings.youtube_chat }}" title="youtube chat"></iframe>
+    </div>
+    {% endif %}
+  </div>
+  {% endif %}
+  
+  <div class="model__container comingSoonContainer">
+    <h1 class="box_title">
+      {{ settings.title }}
+    </h1>
+    <div class="actBtnBox">
+      <button class="front">
+        <b></b>
+        <span>front</span>
+      </button>
+      <button class="back">
+        <b></b>
+        <span>back</span>
+      </button>
+    </div>
+    <div class="comingSoonBox">
+      <div class="timeLine">
+        <ul class="flex">
+        {% for block in section.blocks %}
+          {% if block.type == 'anker' %}
+            {% if settings.anker_time %}
+            <li class="line anker" data-line="{{ forloop.index }}">
+              <div class="brandname">
+                <button data-brand="anker">
+                  <div class="iconfont">
+                    <svg viewBox="0 0 1504 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1566" ><path d="M1426.892 515.512c34.501-26.439 49.715-53.992 47.259-89.403-3.588-51.622-45.317-86.245-92.884-86.245h-136.412v298.419h54.229V515.512h64.075l76.645 122.771h64.015l-76.927-122.771z m-5.345-89.185c0 22.836-16.082 36.312-40.553 36.312h-81.911V392.63h81.914c30.92 0 40.55 21.33 40.55 33.697zM831.825 526.761l69.947 111.429 64.532 0.089-99.376-158.035-35.103 46.517z m114.787-186.898H877.711L735.853 528.446l-0.021-188.583h-54.468v271.981c0 10.009 5.807 22.377 21.398 25.951 6.212 1.423 18.566-0.1 26.005-9.855 0.914-1.197 217.845-288.077 217.845-288.077z m120.732 175.628l107.115 0.017v-52.873H1067.344v52.856z m0 0" fill="" p-id="1567"></path><path d="M1202.037 339.863H989.426v271.895a26.523 26.523 0 0 0 26.528 26.525h186.08v-52.737H1043.797v-192.84h158.24v-52.843z m-629.607 0l-0.021 188.583-141.853-188.583h-69.256v298.265h54.383V411.306L579.494 627.94c7.442 9.755 19.795 11.278 26.005 9.855 15.594-3.574 21.401-15.942 21.401-25.951V339.861H572.431v0.002z m-432.909 16.079l-139.513 282.341h60.792l105.059-211.956L270.867 638.282H331.121L192.671 356.867a30.44 30.44 0 0 0-27.313-17.004 28.787 28.787 0 0 0-25.837 16.079z m0 0" fill="" p-id="1568"></path><path d="M215.148 596.067h-35.942a0.585 0.585 0 0 1-0.585-0.584l0.004-0.05 7.005-76.702c0.05-0.581-0.688-0.871-1.047-0.406l-77.401 101.219a0.593 0.593 0 0 0-0.061 0.613c0.1 0.197 0.301 0.323 0.523 0.323h35.942c0.344 0 0.613 0.294 0.581 0.638l-7.005 76.698c-0.05 0.581 0.688 0.872 1.047 0.406l77.401-101.219a0.584 0.584 0 0 0 0.061-0.613 0.587 0.587 0 0 0-0.523-0.323z m0 0" fill="" p-id="1569"></path></svg>
+                  </div>
+                  {{ settings.anker_time }}
+                  <img src="https://cdn.shopify.com/s/files/1/0517/6767/3016/files/zhibo.png?v=1655802039" alt="">
+                </button>
+              </div>
+              <div class="actionsList">
+                {% if block.settings.time1 != '' %}
+                <div class="action">
+                  <span class="dot"></span>
+                  <span class="time">{{ block.settings.time1 }}</span>
+                  <span class="name">{{ block.settings.name1 }}</span>
+                </div>
+                {% endif %}
+                {% if block.settings.time2 != '' %}
+                <div class="action">
+                  <span class="dot"></span>
+                  <span class="time">{{ block.settings.time2 }}</span>
+                  <span class="name">{{ block.settings.name2 }}</span>
+                </div>
+                {% endif %}
+                {% if block.settings.time3 != '' %}
+                <div class="action">
+                  <span class="dot"></span>
+                  <span class="time">{{ block.settings.time3 }}</span>
+                  <span class="name">{{ block.settings.name3 }}</span>
+                </div>
+                {% endif %}
+                {% if block.settings.time4 != '' %}
+                <div class="action">
+                  <span class="dot"></span>
+                  <span class="time">{{ block.settings.time4 }}</span>
+                  <span class="name">{{ block.settings.name4 }}</span>
+                </div>
+                {% endif %}
+                {% if block.settings.time5 != '' %}
+                <div class="action">
+                  <span class="dot"></span>
+                  <span class="time">{{ block.settings.time5 }}</span>
+                  <span class="name">{{ block.settings.name5 }}</span>
+                </div>
+                {% endif %}
+                {% if block.settings.time6 != '' %}
+                <div class="action">
+                  <span class="dot"></span>
+                  <span class="time">{{ block.settings.time6 }}</span>
+                  <span class="name">{{ block.settings.name6 }}</span>
+                </div>
+                {% endif %}
+                {% if block.settings.time7 != '' %}
+                <div class="action">
+                  <span class="dot"></span>
+                  <span class="time">{{ block.settings.time7 }}</span>
+                  <span class="name">{{ block.settings.name7 }}</span>
+                </div>
+                {% endif %}
+                {% if block.settings.time8 != '' %}
+                <div class="action">
+                  <span class="dot"></span>
+                  <span class="time">{{ block.settings.time8 }}</span>
+                  <span class="name">{{ block.settings.name8 }}</span>
+                </div>
+                {% endif %}
+                {% if block.settings.time9 != '' %}
+                <div class="action">
+                  <span class="dot"></span>
+                  <span class="time">{{ block.settings.time9 }}</span>
+                  <span class="name">{{ block.settings.name9 }}</span>
+                </div>
+                {% endif %}
+                {% if block.settings.time10 != '' %}
+                <div class="action">
+                  <span class="dot"></span>
+                  <span class="time">{{ block.settings.time10 }}</span>
+                  <span class="name">{{ block.settings.name10 }}</span>
+                </div>
+                {% endif %}
+                
+              </div>
+            </li>
+            {% endif %}
+          {% endif %}
+
+          {% if block.type == 'eufy' %}
+            {% if settings.eufy_time %}
+            <li class="line eufy" data-line="{{ forloop.index }}">
+              <div class="brandname">
+                <button data-brand="eufy">
+                  <div class="iconfont">
+                    <svg viewBox="0 0 1034 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2094" ><path d="M524.507 361.643c0-10.112 8.428-17.978 19.092-17.978 10.699 0 18.56 7.866 18.56 17.978v154.538c0 64.644-38.781 112.412-110.169 112.412-71.353 0-109.625-47.768-109.625-112.412V361.643c0-10.112 7.884-17.978 18.568-17.978 10.14 0 18.548 7.866 18.548 17.978v155.671c0 44.962 25.887 77.003 72.509 77.003 46.686 0 72.517-32.04 72.517-77.003V361.643z m107.802-3.579c1.285-78.383 41.719-123.92 106.23-122.509 14.051 0.297 24.124 1.693 28.629 2.81 10.699 2.805 14.621 10.112 14.621 16.86 0 11.816-7.298 16.849-16.305 16.849-7.877 0-14.043-1.685-25.848-1.685-48.338 0-67.434 28.669-69.674 81.493h63.484c10.136 0 16.865 7.315 16.865 17.439 0 10.108-6.729 17.407-16.865 17.407h-63.484v224.238c0 10.698-7.884 17.989-18.551 17.989-11.234 0-19.104-7.291-19.104-17.989V358.064z m266.812 270.865l-103.034-256.49c-1.727-3.357-2.376-7.838-2.376-10.652-0.097-9.553 8.812-17.505 20.081-17.618 8.4-0.105 13.511 4.361 16.426 11.648l85.908 228.551 84.908-230.189c2.759-6.76 7.197-11.86 15.039-11.926 10.132-0.098 18.63 6.533 18.733 17.224 0.015 3.38-1.568 8.447-2.708 10.722L921.851 658.508c-23.023 58.095-43.021 82.45-96.423 82.973-16.274 0.149-23.073-5.416-23.21-16.645-0.117-10.671 5.471-17.482 18.967-17.603 44.38-0.437 55.982-22.444 68.059-52.362l9.877-25.942zM298.62 487.61c-0.207-9.847-7.861-17.4-18.274-17.4-10.41 0-18.619 7.557-18.815 17.4h-0.137v1.457c0 15.403-2.966 30.091-8.87 43.704-5.928 13.649-14.035 25.668-24.081 35.679-10.046 10.054-22.014 18.153-35.714 24.077-13.571 5.893-28.293 8.874-43.673 8.874-2.611 0-4.849-0.054-6.924-0.234-2.173-0.176-4.501-0.457-7.112-0.828-13.597-1.814-26.508-5.963-38.3-12.418-11.887-6.471-22.358-14.754-31.114-24.601-8.788-9.87-15.783-21.24-20.815-33.807-5.005-12.504-7.537-26.094-7.537-40.445 0-15.408 2.993-30.002 8.866-43.404 5.967-13.496 14.063-25.531 24.113-35.757 10.018-10.195 21.939-18.4 35.416-24.324 13.379-5.908 27.977-8.874 43.408-8.874 15.38 0 30.005 2.888 43.434 8.624 11.589 4.919 22.179 11.703 31.545 20.12l-69.467 69.931v-0.027 0.027l-0.164 0.152 0.059 0.059c-5.682 8.213-3.802 19.057 4.841 25.167 8.616 6.088 19.627 4.56 25.539-3.411l0.066 0.012 84.439-84.635c4.064-4.095 4.064-10.69 0-14.777l-14.613-14.594c-13.801-13.781-29.982-24.656-48.073-32.346-18.137-7.674-37.55-11.585-57.606-11.585-20.104 0-39.454 3.907-57.389 11.601-17.864 7.662-34.119 18.533-48.373 32.389-13.777 14.148-24.569 30.395-32.017 48.334-7.513 17.946-11.284 37.245-11.284 57.318 0 18.548 3.407 36.557 10.085 53.496 6.662 16.904 15.97 32.182 27.578 45.361 11.605 13.199 25.489 24.288 41.235 32.943 15.747 8.663 33.194 14.278 51.742 16.638 3.145 0.387 6.197 0.692 9.147 0.887 3.044 0.199 6.119 0.297 9.277 0.297 20.056 0 39.469-3.798 57.587-11.281 18.11-7.478 34.318-18.501 48.092-32.658 14.184-14.145 25.144-30.431 32.658-48.37 7.475-17.946 11.296-37.241 11.296-57.313v-1.457h-0.071z m0 0" fill="" p-id="2095"></path></svg>
+                  </div>
+                  {{ settings.eufy_time }}
+                  <img src="https://cdn.shopify.com/s/files/1/0517/6767/3016/files/zhibo.png?v=1655802039" alt="">
+                </button>
+              </div>
+              <div class="actionsList">
+                {% if block.settings.time1 != '' %}
+                <div class="action">
+                  <span class="dot"></span>
+                  <span class="time">{{ block.settings.time1 }}</span>
+                  <span class="name">{{ block.settings.name1 }}</span>
+                </div>
+                {% endif %}
+                {% if block.settings.time2 != '' %}
+                <div class="action">
+                  <span class="dot"></span>
+                  <span class="time">{{ block.settings.time2 }}</span>
+                  <span class="name">{{ block.settings.name2 }}</span>
+                </div>
+                {% endif %}
+                {% if block.settings.time3 != '' %}
+                <div class="action">
+                  <span class="dot"></span>
+                  <span class="time">{{ block.settings.time3 }}</span>
+                  <span class="name">{{ block.settings.name3 }}</span>
+                </div>
+                {% endif %}
+                {% if block.settings.time4 != '' %}
+                <div class="action">
+                  <span class="dot"></span>
+                  <span class="time">{{ block.settings.time4 }}</span>
+                  <span class="name">{{ block.settings.name4 }}</span>
+                </div>
+                {% endif %}
+                {% if block.settings.time5 != '' %}
+                <div class="action">
+                  <span class="dot"></span>
+                  <span class="time">{{ block.settings.time5 }}</span>
+                  <span class="name">{{ block.settings.name5 }}</span>
+                </div>
+                {% endif %}
+                {% if block.settings.time6 != '' %}
+                <div class="action">
+                  <span class="dot"></span>
+                  <span class="time">{{ block.settings.time6 }}</span>
+                  <span class="name">{{ block.settings.name6 }}</span>
+                </div>
+                {% endif %}
+                {% if block.settings.time7 != '' %}
+                <div class="action">
+                  <span class="dot"></span>
+                  <span class="time">{{ block.settings.time7 }}</span>
+                  <span class="name">{{ block.settings.name7 }}</span>
+                </div>
+                {% endif %}
+                {% if block.settings.time8 != '' %}
+                <div class="action">
+                  <span class="dot"></span>
+                  <span class="time">{{ block.settings.time8 }}</span>
+                  <span class="name">{{ block.settings.name8 }}</span>
+                </div>
+                {% endif %}
+                {% if block.settings.time9 != '' %}
+                <div class="action">
+                  <span class="dot"></span>
+                  <span class="time">{{ block.settings.time9 }}</span>
+                  <span class="name">{{ block.settings.name9 }}</span>
+                </div>
+                {% endif %}
+                {% if block.settings.time10 != '' %}
+                <div class="action">
+                  <span class="dot"></span>
+                  <span class="time">{{ block.settings.time10 }}</span>
+                  <span class="name">{{ block.settings.name10 }}</span>
+                </div>
+                {% endif %}
+                
+              </div>
+            </li>
+            {% endif %}
+          {% endif %}
+
+          {% if block.type == 'soundcore' %}
+            {% if settings.soundcore_time %}
+            <li class="line soundcore" data-line="{{ forloop.index }}">
+              <div class="brandname">
+                <button data-brand="soundcore">
+                  <div class="iconfont">
+                     <svg {...props} viewBox="0 0 2343 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1964"><path d="M2336.8 549.867H2152c0 1.6 2.4 41.6 39.2 49.6 14.4 3.2 27.2-0.8 34.4-4 8.8-3.2 16-8 23.2-14.4l60 23.2s-45.6 63.2-118.4 55.2c-15.2-1.6-29.6-6.4-42.4-13.6-28.8-16.8-48-45.6-53.6-80.8-5.6-33.6 1.6-69.6 19.2-100.8 10.4-18.4 30.4-44 61.6-60 18.4-9.6 39.2-15.2 60.8-15.2 18.4 0 36.8 4.8 53.6 14.4 27.2 16 69.6 63.2 47.2 146.4z m-53.6-52.8c-2.4-20-12-34.4-24.8-42.4-8.8-4.8-18.4-7.2-28-5.6-6.4 0.8-12 1.6-17.6 4-20 8-36.8 22.4-47.2 40.8l-1.6 3.2h119.2z m-752 99.2c-16.8 6.4-32.8 5.6-46.4-2.4-12.8-8-22.4-21.6-24.8-39.2-3.2-20 0.8-41.6 12.8-61.6 11.2-19.2 27.2-33.6 45.6-40.8 18.4-7.2 35.2-5.6 48 1.6 9.6 5.6 19.2 12.8 27.2 20.8 8.8-15.2 18.4-32.8 29.6-50.4-7.2-8.8-16.8-16-26.4-21.6-28.8-16.8-67.2-20.8-108-1.6-28 13.6-51.2 36-67.2 63.2-18.4 31.2-24.8 67.2-19.2 100.8 5.6 36 24.8 64.8 53.6 81.6 12.8 7.2 27.2 12 42.4 13.6 18.4 1.6 37.6-0.8 55.2-8 18.4-7.2 36-18.4 50.4-32l-29.6-51.2c-9.6 8-23.2 20-43.2 27.2z m-451.2-112.8c-5.6-36-24.8-64.8-53.6-80.8s-63.2-19.2-97.6-6.4c-32 12-59.2 36-77.6 67.2-11.2 19.2-16.8 38.4-20.8 60l-22.4 128h60l21.6-118.4c1.6-13.6 6.4-27.2 12.8-39.2 11.2-19.2 28-34.4 46.4-41.6 16.8-6.4 32.8-5.6 46.4 2.4 12.8 8 22.4 21.6 24.8 39.2 1.6 9.6 1.6 20-0.8 30.4l-22.4 128h60l19.2-112c0.8-4.8 3.2-16 3.2-16 3.2-13.6 3.2-27.2 0.8-40.8z m-285.6 41.6l22.4-127.2h-60l-20.8 118.4c-1.6 13.6-6.4 27.2-12.8 39.2-11.2 19.2-28 34.4-46.4 41.6-16.8 6.4-32.8 5.6-46.4-2.4-12.8-8-22.4-21.6-24.8-39.2-1.6-9.6-1.6-20 0.8-30.4l22.4-127.2h-60l-20 111.2c-0.8 4.8-3.2 16-3.2 16-1.6 13.6-1.6 26.4 0.8 40 5.6 36 24.8 64.8 53.6 81.6 28.8 16.8 63.2 19.2 97.6 6.4 32-12 59.2-36 77.6-67.2 9.6-19.2 16.8-39.2 19.2-60.8z m1061.6 60c-18.4 31.2-45.6 55.2-77.6 67.2-33.6 12.8-68 10.4-97.6-6.4-28.8-16.8-48-45.6-53.6-80.8-5.6-33.6 1.6-69.6 19.2-100.8 18.4-31.2 45.6-55.2 77.6-67.2 33.6-12.8 68-10.4 97.6 6.4 28.8 16.8 48 45.6 53.6 80.8 6.4 33.6-0.8 68.8-19.2 100.8z m-39.2-91.2c-3.2-17.6-12-31.2-24.8-39.2-12.8-8-29.6-8-46.4-2.4-19.2 7.2-35.2 21.6-46.4 41.6-11.2 19.2-16 40.8-12.8 61.6 3.2 17.6 12 31.2 24.8 39.2s29.6 8 46.4 2.4c19.2-7.2 35.2-21.6 46.4-41.6 12-20 16-41.6 12.8-61.6z m-1306.4-9.6c5.6 33.6-1.6 69.6-19.2 100.8s-45.6 55.2-77.6 67.2c-33.6 12.8-68.8 10.4-97.6-6.4s-48-45.6-53.6-80.8c-5.6-33.6 1.6-69.6 19.2-100.8 18.4-31.2 45.6-55.2 77.6-67.2 33.6-12.8 68.8-10.4 97.6 6.4 28.8 16 48 44.8 53.6 80.8z m-59.2 9.6c-3.2-17.6-12-31.2-24.8-39.2s-29.6-8-46.4-2.4c-19.2 7.2-35.2 21.6-46.4 41.6-11.2 19.2-16 40.8-12.8 61.6 3.2 17.6 12 31.2 24.8 39.2 12.8 8 29.6 8 46.4 2.4 19.2-7.2 35.2-21.6 46.4-41.6s16-41.6 12.8-61.6z m1660-88.8c-78.4-43.2-119.2 14.4-120 16.8l4-23.2-60-0.8-44.8 253.6h60.8l21.6-124s8.8-51.2 53.6-72c32-15.2 51.2-1.6 55.2 1.6 13.6-24.8 20-35.2 29.6-52z m-640-162.4c2.4-12 8.8-49.6 8.8-49.6s-68.8 12.8-127.2 56.8c-1.6 10.4-12 67.2-12.8 72.8 36-37.6 81.6-65.6 131.2-80z m-68.8 71.2c-7.2 39.2-37.6 211.2-37.6 211.2-2.4 20.8-9.6 41.6-20 60-18.4 31.2-45.6 55.2-77.6 67.2-33.6 12.8-68.8 10.4-97.6-6.4-28.8-16.8-48-45.6-53.6-80.8-5.6-33.6 1.6-69.6 19.2-100.8 18.4-31.2 45.6-55.2 77.6-67.2 33.6-12.8 68.8-10.4 97.6 6.4 4.8 2.4 8.8 5.6 13.6 9.6l4.8-24c19.2-30.4 44.8-56 73.6-75.2z m-96.8 180c-3.2-17.6-12-31.2-24.8-39.2-12.8-8-29.6-8-46.4-2.4-19.2 7.2-35.2 21.6-46.4 41.6-11.2 19.2-16 40.8-12.8 60.8 3.2 17.6 12 31.2 24.8 39.2s29.6 8 46.4 2.4c19.2-7.2 35.2-21.6 46.4-41.6 11.2-19.2 16-40.8 12.8-60.8zM228 574.667c0 44-49.6 86.4-109.6 86.4-62.4-0.8-90.4-20-118.4-42.4l30.4-52c20.8 16 49.6 32.8 79.2 34.4 32.8 1.6 49.6-16 50.4-26.4 0.8-8-0.8-16-40-26.4-64-16.8-96.8-36.8-88.8-82.4 8.8-48.8 64.8-76.8 121.6-76.8 36 0 72.8 8.8 96 27.2l-28.8 50.4c-55.2-31.2-109.6-25.6-122.4-4-12 20.8 15.2 24.8 50.4 33.6 67.2 17.6 80 42.4 80 78.4z" p-id="1965"></path></svg>
+                  </div>
+                  {{ settings.soundcore_time }}
+                  <img src="https://cdn.shopify.com/s/files/1/0517/6767/3016/files/zhibo.png?v=1655802039" alt="">
+                </button>
+              </div>
+              <div class="actionsList">
+                {% if block.settings.time1 != '' %}
+                <div class="action">
+                  <span class="dot"></span>
+                  <span class="time">{{ block.settings.time1 }}</span>
+                  <span class="name">{{ block.settings.name1 }}</span>
+                </div>
+                {% endif %}
+                {% if block.settings.time2 != '' %}
+                <div class="action">
+                  <span class="dot"></span>
+                  <span class="time">{{ block.settings.time2 }}</span>
+                  <span class="name">{{ block.settings.name2 }}</span>
+                </div>
+                {% endif %}
+                {% if block.settings.time3 != '' %}
+                <div class="action">
+                  <span class="dot"></span>
+                  <span class="time">{{ block.settings.time3 }}</span>
+                  <span class="name">{{ block.settings.name3 }}</span>
+                </div>
+                {% endif %}
+                {% if block.settings.time4 != '' %}
+                <div class="action">
+                  <span class="dot"></span>
+                  <span class="time">{{ block.settings.time4 }}</span>
+                  <span class="name">{{ block.settings.name4 }}</span>
+                </div>
+                {% endif %}
+                {% if block.settings.time5 != '' %}
+                <div class="action">
+                  <span class="dot"></span>
+                  <span class="time">{{ block.settings.time5 }}</span>
+                  <span class="name">{{ block.settings.name5 }}</span>
+                </div>
+                {% endif %}
+                {% if block.settings.time6 != '' %}
+                <div class="action">
+                  <span class="dot"></span>
+                  <span class="time">{{ block.settings.time6 }}</span>
+                  <span class="name">{{ block.settings.name6 }}</span>
+                </div>
+                {% endif %}
+                {% if block.settings.time7 != '' %}
+                <div class="action">
+                  <span class="dot"></span>
+                  <span class="time">{{ block.settings.time7 }}</span>
+                  <span class="name">{{ block.settings.name7 }}</span>
+                </div>
+                {% endif %}
+                {% if block.settings.time8 != '' %}
+                <div class="action">
+                  <span class="dot"></span>
+                  <span class="time">{{ block.settings.time8 }}</span>
+                  <span class="name">{{ block.settings.name8 }}</span>
+                </div>
+                {% endif %}
+                {% if block.settings.time9 != '' %}
+                <div class="action">
+                  <span class="dot"></span>
+                  <span class="time">{{ block.settings.time9 }}</span>
+                  <span class="name">{{ block.settings.name9 }}</span>
+                </div>
+                {% endif %}
+                {% if block.settings.time10 != '' %}
+                <div class="action">
+                  <span class="dot"></span>
+                  <span class="time">{{ block.settings.time10 }}</span>
+                  <span class="name">{{ block.settings.name10 }}</span>
+                </div>
+                {% endif %}
+                
+              </div>
+            </li>
+            {% endif %}
+          {% endif %}
+
+          {% if block.type == 'nebula' %}
+            {% if settings.nebula_time %}
+            <li class="line nebula" data-line="{{ forloop.index }}">
+              <div class="brandname">
+                <button data-brand="nebula">
+                  <div class="iconfont">
+                    <svg viewBox="0 0 2134 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1834"><path d="M96.102 341.723l135.344 203.743h21.614V341.723h71.257v296.669h-96.502l-134.891-203.286h-21.61v203.286h-71.304V341.723h96.092z m585.383 0v59.951H466.869v55.682H632.372v55.409H466.869v65.676h214.616v59.947h-285.924V341.719l285.924 0.004z m259.708 0c14.124 0 27.007 1.248 38.639 3.74 11.635 2.491 21.606 6.581 29.915 12.26s14.751 13.232 19.321 22.647c4.57 9.418 6.855 21.055 6.855 34.899 0 14.962-3.393 27.424-10.18 37.395-6.792 9.974-16.829 18.149-30.123 24.514 18.284 5.262 31.923 14.482 40.928 27.632 8.996 13.161 13.503 29.025 13.503 47.575 0 14.958-2.909 27.909-8.727 38.85-5.818 10.944-13.646 19.878-23.478 26.796-9.835 6.93-21.054 12.052-33.655 15.371a151.702 151.702 0 0 1-38.854 4.987H752.734v-296.67l188.459 0.004z m-8.309 120.084c11.636 0 21.189-2.766 28.668-8.314 7.479-5.539 11.218-14.545 11.218-27.007 0-6.922-1.247-12.601-3.739-17.032-2.492-4.43-5.818-7.896-9.971-10.388-4.153-2.496-8.933-4.224-14.334-5.193a95.495 95.495 0 0 0-16.825-1.455H824.05v69.389h108.834z m3.743 125.898c6.366 0 12.462-0.628 18.28-1.872 5.814-1.247 10.936-3.323 15.375-6.235 4.423-2.909 7.96-6.855 10.594-11.842 2.631-4.984 3.946-11.354 3.946-19.115 0-15.228-4.296-26.106-12.879-32.618-8.588-6.506-19.942-9.764-34.068-9.764H824.054v81.438l112.573 0.008z m434.89 18.67c-25.588 21.347-60.976 32.017-106.148 32.017-45.811 0-81.274-10.594-106.382-31.791-25.115-21.189-37.672-53.89-37.672-98.101V341.723h71.304V508.5c0 8.787 0.786 17.415 2.368 25.891 1.582 8.48 4.895 15.971 9.95 22.48 5.051 6.514 12.085 11.811 21.086 15.896 9.004 4.09 24.185 6.132 39.345 6.132 26.535 0 47.949-5.675 58.064-17.032 10.101-11.354 15.168-29.133 15.168-53.367V341.723h71.304V508.5c-0.002 43.905-12.794 76.526-38.387 97.875z m180.946-27.93V341.723h-71.308v296.669h237.677l24.781-59.947h-191.15z m507.974 59.947h74.03l-124.352-296.669h-94.663l-125.6 296.669h71.757l29.531-71.371h140.431l28.866 71.371zM1913.708 512.467l37.57-90.808h21.491l36.731 90.808h-95.792z m0 0" fill="" p-id="1835"></path></svg>
+                  </div>
+                  {{ settings.nebula_time }}
+                  <img src="https://cdn.shopify.com/s/files/1/0517/6767/3016/files/zhibo.png?v=1655802039" alt="">
+                </button>
+              </div>
+              <div class="actionsList">
+                {% if block.settings.time1 != '' %}
+                <div class="action">
+                  <span class="dot"></span>
+                  <span class="time">{{ block.settings.time1 }}</span>
+                  <span class="name">{{ block.settings.name1 }}</span>
+                </div>
+                {% endif %}
+                {% if block.settings.time2 != '' %}
+                <div class="action">
+                  <span class="dot"></span>
+                  <span class="time">{{ block.settings.time2 }}</span>
+                  <span class="name">{{ block.settings.name2 }}</span>
+                </div>
+                {% endif %}
+                {% if block.settings.time3 != '' %}
+                <div class="action">
+                  <span class="dot"></span>
+                  <span class="time">{{ block.settings.time3 }}</span>
+                  <span class="name">{{ block.settings.name3 }}</span>
+                </div>
+                {% endif %}
+                {% if block.settings.time4 != '' %}
+                <div class="action">
+                  <span class="dot"></span>
+                  <span class="time">{{ block.settings.time4 }}</span>
+                  <span class="name">{{ block.settings.name4 }}</span>
+                </div>
+                {% endif %}
+                {% if block.settings.time5 != '' %}
+                <div class="action">
+                  <span class="dot"></span>
+                  <span class="time">{{ block.settings.time5 }}</span>
+                  <span class="name">{{ block.settings.name5 }}</span>
+                </div>
+                {% endif %}
+                {% if block.settings.time6 != '' %}
+                <div class="action">
+                  <span class="dot"></span>
+                  <span class="time">{{ block.settings.time6 }}</span>
+                  <span class="name">{{ block.settings.name6 }}</span>
+                </div>
+                {% endif %}
+                {% if block.settings.time7 != '' %}
+                <div class="action">
+                  <span class="dot"></span>
+                  <span class="time">{{ block.settings.time7 }}</span>
+                  <span class="name">{{ block.settings.name7 }}</span>
+                </div>
+                {% endif %}
+                {% if block.settings.time8 != '' %}
+                <div class="action">
+                  <span class="dot"></span>
+                  <span class="time">{{ block.settings.time8 }}</span>
+                  <span class="name">{{ block.settings.name8 }}</span>
+                </div>
+                {% endif %}
+                {% if block.settings.time9 != '' %}
+                <div class="action">
+                  <span class="dot"></span>
+                  <span class="time">{{ block.settings.time9 }}</span>
+                  <span class="name">{{ block.settings.name9 }}</span>
+                </div>
+                {% endif %}
+                {% if block.settings.time10 != '' %}
+                <div class="action">
+                  <span class="dot"></span>
+                  <span class="time">{{ block.settings.time10 }}</span>
+                  <span class="name">{{ block.settings.name10 }}</span>
+                </div>
+                {% endif %}
+                
+              </div>
+            </li>
+            {% endif %}
+          {% endif %}
+
+
+          {% if block.type == 'anker_work' %}
+            {% if settings.ankerwork_time %}
+            <li class="line anker_work" data-line="{{ forloop.index }}">
+              <div class="brandname">
+                <button data-brand="anker_work">
+                  <div class="iconfont">
+                    <svg
+                      viewBox="0 0 1638 1024"
+                      version="1.1"
+                      xmlns="http://www.w3.org/2000/svg"
+                      p-id="7472"
+                      width="128"
+                      height="87"
+                    >
+                      <path
+                        d="M470.698667 622.592l60.416 69.290667h53.248l-79.530667-91.477334 81.578667-86.698666h-54.954667l-60.757333 64.512v-128.682667h-39.936v242.346667h39.936zM804.864 604.501333c0-27.989333 22.869333-50.858667 50.858667-50.858666h12.970666l-12.288-39.936h-1.024c-50.176 0-90.794667 40.618667-90.794666 90.794666v87.381334h39.936v-87.381334zM1227.093333 512c-50.176 0-90.794667 40.618667-90.794666 90.794667 0 50.176 40.618667 90.794667 90.794666 90.794666 50.176 0 90.794667-40.618667 90.794667-90.794666 0-50.176-40.618667-90.794667-90.794667-90.794667z m0 141.312c-27.989333 0-50.517333-22.528-50.517333-50.517333s22.528-50.517333 50.517333-50.517334 50.517333 22.528 50.517334 50.517334-22.528 50.517333-50.517334 50.517333zM327.68 513.706667a81.578667 81.578667 0 0 0-81.578667 81.578666v96.597334h39.936v-96.597334c0-22.869333 18.773333-41.301333 41.642667-41.301333 22.869333 0 41.642667 18.432 41.642667 41.301333v96.597334h39.936v-95.914667-0.682667a81.578667 81.578667 0 0 0-81.578667-81.578666zM1333.930667 604.501333v87.381334h39.936v-87.381334c0-27.989333 22.869333-50.858667 50.858666-50.858666h7.850667v-39.936h-7.850667c-50.176 0-90.794667 40.618667-90.794666 90.794666zM1488.554667 691.882667v-69.290667l60.416 69.290667h53.248l-79.530667-91.477334L1604.266667 513.706667h-54.954667l-60.757333 64.512v-128.682667h-39.936v242.346667zM927.061333 691.541333v0.341334h41.984v-0.341334l39.253334-129.024 39.253333 129.365334v0.341333h41.301333v-0.341333l73.386667-242.005334h-41.301333l-52.906667 173.738667-40.96-134.826667a19.456 19.456 0 0 0-19.114667-13.994666c-8.874667 0-16.384 5.802667-19.114666 13.994666l-40.96 134.485334-52.906667-173.738667h-41.301333l73.386666 242.005333z"
+                        p-id="7473"
+                      ></path>
+                      <path
+                        d="M657.749333 512c-50.176 0-90.794667 40.618667-90.794666 90.794667 0 50.176 40.618667 90.794667 90.794666 90.794666 38.912 0 72.021333-24.234667 84.992-58.709333h-45.738666c-9.216 11.264-23.210667 18.432-38.912 18.432-22.186667 0-41.301333-14.336-47.786667-34.474667h137.216A91.272533 91.272533 0 0 0 657.749333 512z m-47.786666 74.752c6.826667-20.138667 25.6-34.474667 47.786666-34.474667s41.301333 14.336 47.786667 34.474667h-95.573333zM133.12 461.482667a19.797333 19.797333 0 0 0-18.090667-11.946667 19.797333 19.797333 0 0 0-18.090666 11.946667L0 691.882667h43.008l27.648-65.194667h88.746667l27.648 65.194667h43.008L133.12 461.482667z m-45.738667 124.928l27.648-65.536 27.648 65.536H87.381333z"
+                        p-id="7474"
+                      ></path>
+                    </svg>
+                  </div>
+                  {{ settings.ankerwork_time }}
+                  <img src="https://cdn.shopify.com/s/files/1/0517/6767/3016/files/zhibo.png?v=1655802039" alt="">
+                </button>
+              </div>
+              <div class="actionsList">
+                {% if block.settings.time1 != '' %}
+                <div class="action">
+                  <span class="dot"></span>
+                  <span class="time">{{ block.settings.time1 }}</span>
+                  <span class="name">{{ block.settings.name1 }}</span>
+                </div>
+                {% endif %}
+                {% if block.settings.time2 != '' %}
+                <div class="action">
+                  <span class="dot"></span>
+                  <span class="time">{{ block.settings.time2 }}</span>
+                  <span class="name">{{ block.settings.name2 }}</span>
+                </div>
+                {% endif %}
+                {% if block.settings.time3 != '' %}
+                <div class="action">
+                  <span class="dot"></span>
+                  <span class="time">{{ block.settings.time3 }}</span>
+                  <span class="name">{{ block.settings.name3 }}</span>
+                </div>
+                {% endif %}
+                {% if block.settings.time4 != '' %}
+                <div class="action">
+                  <span class="dot"></span>
+                  <span class="time">{{ block.settings.time4 }}</span>
+                  <span class="name">{{ block.settings.name4 }}</span>
+                </div>
+                {% endif %}
+                {% if block.settings.time5 != '' %}
+                <div class="action">
+                  <span class="dot"></span>
+                  <span class="time">{{ block.settings.time5 }}</span>
+                  <span class="name">{{ block.settings.name5 }}</span>
+                </div>
+                {% endif %}
+                {% if block.settings.time6 != '' %}
+                <div class="action">
+                  <span class="dot"></span>
+                  <span class="time">{{ block.settings.time6 }}</span>
+                  <span class="name">{{ block.settings.name6 }}</span>
+                </div>
+                {% endif %}
+                {% if block.settings.time7 != '' %}
+                <div class="action">
+                  <span class="dot"></span>
+                  <span class="time">{{ block.settings.time7 }}</span>
+                  <span class="name">{{ block.settings.name7 }}</span>
+                </div>
+                {% endif %}
+                {% if block.settings.time8 != '' %}
+                <div class="action">
+                  <span class="dot"></span>
+                  <span class="time">{{ block.settings.time8 }}</span>
+                  <span class="name">{{ block.settings.name8 }}</span>
+                </div>
+                {% endif %}
+                {% if block.settings.time9 != '' %}
+                <div class="action">
+                  <span class="dot"></span>
+                  <span class="time">{{ block.settings.time9 }}</span>
+                  <span class="name">{{ block.settings.name9 }}</span>
+                </div>
+                {% endif %}
+                {% if block.settings.time10 != '' %}
+                <div class="action">
+                  <span class="dot"></span>
+                  <span class="time">{{ block.settings.time10 }}</span>
+                  <span class="name">{{ block.settings.name10 }}</span>
+                </div>
+                {% endif %}
+                
+              </div>
+            </li>
+            {% endif %}
+          {% endif %}
+
+        {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="popup_{{ id }} popup hidden">
+    <div class="mask"></div>
+    <div class="container">
+      <div class="icon xIcon" data-icon="x"> 
+        <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 100 100" aria-hidden="true" fill="none" stroke="currentColor">
+          <g id="x"><polygon points="97.83 7.83 92.17 2.17 50 44.34 7.83 2.17 2.17 7.83 44.34 50 2.17 92.17 7.83 97.83 50 55.66 92.17 97.83 97.83 92.17 55.66 50 97.83 7.83"></polygon></g>
+        </svg>
+      </div>
+      <div class="brand">
+        <div class="iconfont anker">
+          <svg viewBox="0 0 1504 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1566" ><path d="M1426.892 515.512c34.501-26.439 49.715-53.992 47.259-89.403-3.588-51.622-45.317-86.245-92.884-86.245h-136.412v298.419h54.229V515.512h64.075l76.645 122.771h64.015l-76.927-122.771z m-5.345-89.185c0 22.836-16.082 36.312-40.553 36.312h-81.911V392.63h81.914c30.92 0 40.55 21.33 40.55 33.697zM831.825 526.761l69.947 111.429 64.532 0.089-99.376-158.035-35.103 46.517z m114.787-186.898H877.711L735.853 528.446l-0.021-188.583h-54.468v271.981c0 10.009 5.807 22.377 21.398 25.951 6.212 1.423 18.566-0.1 26.005-9.855 0.914-1.197 217.845-288.077 217.845-288.077z m120.732 175.628l107.115 0.017v-52.873H1067.344v52.856z m0 0" fill="" p-id="1567"></path><path d="M1202.037 339.863H989.426v271.895a26.523 26.523 0 0 0 26.528 26.525h186.08v-52.737H1043.797v-192.84h158.24v-52.843z m-629.607 0l-0.021 188.583-141.853-188.583h-69.256v298.265h54.383V411.306L579.494 627.94c7.442 9.755 19.795 11.278 26.005 9.855 15.594-3.574 21.401-15.942 21.401-25.951V339.861H572.431v0.002z m-432.909 16.079l-139.513 282.341h60.792l105.059-211.956L270.867 638.282H331.121L192.671 356.867a30.44 30.44 0 0 0-27.313-17.004 28.787 28.787 0 0 0-25.837 16.079z m0 0" fill="" p-id="1568"></path><path d="M215.148 596.067h-35.942a0.585 0.585 0 0 1-0.585-0.584l0.004-0.05 7.005-76.702c0.05-0.581-0.688-0.871-1.047-0.406l-77.401 101.219a0.593 0.593 0 0 0-0.061 0.613c0.1 0.197 0.301 0.323 0.523 0.323h35.942c0.344 0 0.613 0.294 0.581 0.638l-7.005 76.698c-0.05 0.581 0.688 0.872 1.047 0.406l77.401-101.219a0.584 0.584 0 0 0 0.061-0.613 0.587 0.587 0 0 0-0.523-0.323z m0 0" fill="" p-id="1569"></path></svg>
+        </div>
+        <div class="iconfont eufy hidden">
+          <svg viewBox="0 0 1034 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2094" ><path d="M524.507 361.643c0-10.112 8.428-17.978 19.092-17.978 10.699 0 18.56 7.866 18.56 17.978v154.538c0 64.644-38.781 112.412-110.169 112.412-71.353 0-109.625-47.768-109.625-112.412V361.643c0-10.112 7.884-17.978 18.568-17.978 10.14 0 18.548 7.866 18.548 17.978v155.671c0 44.962 25.887 77.003 72.509 77.003 46.686 0 72.517-32.04 72.517-77.003V361.643z m107.802-3.579c1.285-78.383 41.719-123.92 106.23-122.509 14.051 0.297 24.124 1.693 28.629 2.81 10.699 2.805 14.621 10.112 14.621 16.86 0 11.816-7.298 16.849-16.305 16.849-7.877 0-14.043-1.685-25.848-1.685-48.338 0-67.434 28.669-69.674 81.493h63.484c10.136 0 16.865 7.315 16.865 17.439 0 10.108-6.729 17.407-16.865 17.407h-63.484v224.238c0 10.698-7.884 17.989-18.551 17.989-11.234 0-19.104-7.291-19.104-17.989V358.064z m266.812 270.865l-103.034-256.49c-1.727-3.357-2.376-7.838-2.376-10.652-0.097-9.553 8.812-17.505 20.081-17.618 8.4-0.105 13.511 4.361 16.426 11.648l85.908 228.551 84.908-230.189c2.759-6.76 7.197-11.86 15.039-11.926 10.132-0.098 18.63 6.533 18.733 17.224 0.015 3.38-1.568 8.447-2.708 10.722L921.851 658.508c-23.023 58.095-43.021 82.45-96.423 82.973-16.274 0.149-23.073-5.416-23.21-16.645-0.117-10.671 5.471-17.482 18.967-17.603 44.38-0.437 55.982-22.444 68.059-52.362l9.877-25.942zM298.62 487.61c-0.207-9.847-7.861-17.4-18.274-17.4-10.41 0-18.619 7.557-18.815 17.4h-0.137v1.457c0 15.403-2.966 30.091-8.87 43.704-5.928 13.649-14.035 25.668-24.081 35.679-10.046 10.054-22.014 18.153-35.714 24.077-13.571 5.893-28.293 8.874-43.673 8.874-2.611 0-4.849-0.054-6.924-0.234-2.173-0.176-4.501-0.457-7.112-0.828-13.597-1.814-26.508-5.963-38.3-12.418-11.887-6.471-22.358-14.754-31.114-24.601-8.788-9.87-15.783-21.24-20.815-33.807-5.005-12.504-7.537-26.094-7.537-40.445 0-15.408 2.993-30.002 8.866-43.404 5.967-13.496 14.063-25.531 24.113-35.757 10.018-10.195 21.939-18.4 35.416-24.324 13.379-5.908 27.977-8.874 43.408-8.874 15.38 0 30.005 2.888 43.434 8.624 11.589 4.919 22.179 11.703 31.545 20.12l-69.467 69.931v-0.027 0.027l-0.164 0.152 0.059 0.059c-5.682 8.213-3.802 19.057 4.841 25.167 8.616 6.088 19.627 4.56 25.539-3.411l0.066 0.012 84.439-84.635c4.064-4.095 4.064-10.69 0-14.777l-14.613-14.594c-13.801-13.781-29.982-24.656-48.073-32.346-18.137-7.674-37.55-11.585-57.606-11.585-20.104 0-39.454 3.907-57.389 11.601-17.864 7.662-34.119 18.533-48.373 32.389-13.777 14.148-24.569 30.395-32.017 48.334-7.513 17.946-11.284 37.245-11.284 57.318 0 18.548 3.407 36.557 10.085 53.496 6.662 16.904 15.97 32.182 27.578 45.361 11.605 13.199 25.489 24.288 41.235 32.943 15.747 8.663 33.194 14.278 51.742 16.638 3.145 0.387 6.197 0.692 9.147 0.887 3.044 0.199 6.119 0.297 9.277 0.297 20.056 0 39.469-3.798 57.587-11.281 18.11-7.478 34.318-18.501 48.092-32.658 14.184-14.145 25.144-30.431 32.658-48.37 7.475-17.946 11.296-37.241 11.296-57.313v-1.457h-0.071z m0 0" fill="" p-id="2095"></path></svg>
+        </div>
+        <div class="iconfont soundcore hidden">
+            <svg {...props} viewBox="0 0 2343 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1964"><path d="M2336.8 549.867H2152c0 1.6 2.4 41.6 39.2 49.6 14.4 3.2 27.2-0.8 34.4-4 8.8-3.2 16-8 23.2-14.4l60 23.2s-45.6 63.2-118.4 55.2c-15.2-1.6-29.6-6.4-42.4-13.6-28.8-16.8-48-45.6-53.6-80.8-5.6-33.6 1.6-69.6 19.2-100.8 10.4-18.4 30.4-44 61.6-60 18.4-9.6 39.2-15.2 60.8-15.2 18.4 0 36.8 4.8 53.6 14.4 27.2 16 69.6 63.2 47.2 146.4z m-53.6-52.8c-2.4-20-12-34.4-24.8-42.4-8.8-4.8-18.4-7.2-28-5.6-6.4 0.8-12 1.6-17.6 4-20 8-36.8 22.4-47.2 40.8l-1.6 3.2h119.2z m-752 99.2c-16.8 6.4-32.8 5.6-46.4-2.4-12.8-8-22.4-21.6-24.8-39.2-3.2-20 0.8-41.6 12.8-61.6 11.2-19.2 27.2-33.6 45.6-40.8 18.4-7.2 35.2-5.6 48 1.6 9.6 5.6 19.2 12.8 27.2 20.8 8.8-15.2 18.4-32.8 29.6-50.4-7.2-8.8-16.8-16-26.4-21.6-28.8-16.8-67.2-20.8-108-1.6-28 13.6-51.2 36-67.2 63.2-18.4 31.2-24.8 67.2-19.2 100.8 5.6 36 24.8 64.8 53.6 81.6 12.8 7.2 27.2 12 42.4 13.6 18.4 1.6 37.6-0.8 55.2-8 18.4-7.2 36-18.4 50.4-32l-29.6-51.2c-9.6 8-23.2 20-43.2 27.2z m-451.2-112.8c-5.6-36-24.8-64.8-53.6-80.8s-63.2-19.2-97.6-6.4c-32 12-59.2 36-77.6 67.2-11.2 19.2-16.8 38.4-20.8 60l-22.4 128h60l21.6-118.4c1.6-13.6 6.4-27.2 12.8-39.2 11.2-19.2 28-34.4 46.4-41.6 16.8-6.4 32.8-5.6 46.4 2.4 12.8 8 22.4 21.6 24.8 39.2 1.6 9.6 1.6 20-0.8 30.4l-22.4 128h60l19.2-112c0.8-4.8 3.2-16 3.2-16 3.2-13.6 3.2-27.2 0.8-40.8z m-285.6 41.6l22.4-127.2h-60l-20.8 118.4c-1.6 13.6-6.4 27.2-12.8 39.2-11.2 19.2-28 34.4-46.4 41.6-16.8 6.4-32.8 5.6-46.4-2.4-12.8-8-22.4-21.6-24.8-39.2-1.6-9.6-1.6-20 0.8-30.4l22.4-127.2h-60l-20 111.2c-0.8 4.8-3.2 16-3.2 16-1.6 13.6-1.6 26.4 0.8 40 5.6 36 24.8 64.8 53.6 81.6 28.8 16.8 63.2 19.2 97.6 6.4 32-12 59.2-36 77.6-67.2 9.6-19.2 16.8-39.2 19.2-60.8z m1061.6 60c-18.4 31.2-45.6 55.2-77.6 67.2-33.6 12.8-68 10.4-97.6-6.4-28.8-16.8-48-45.6-53.6-80.8-5.6-33.6 1.6-69.6 19.2-100.8 18.4-31.2 45.6-55.2 77.6-67.2 33.6-12.8 68-10.4 97.6 6.4 28.8 16.8 48 45.6 53.6 80.8 6.4 33.6-0.8 68.8-19.2 100.8z m-39.2-91.2c-3.2-17.6-12-31.2-24.8-39.2-12.8-8-29.6-8-46.4-2.4-19.2 7.2-35.2 21.6-46.4 41.6-11.2 19.2-16 40.8-12.8 61.6 3.2 17.6 12 31.2 24.8 39.2s29.6 8 46.4 2.4c19.2-7.2 35.2-21.6 46.4-41.6 12-20 16-41.6 12.8-61.6z m-1306.4-9.6c5.6 33.6-1.6 69.6-19.2 100.8s-45.6 55.2-77.6 67.2c-33.6 12.8-68.8 10.4-97.6-6.4s-48-45.6-53.6-80.8c-5.6-33.6 1.6-69.6 19.2-100.8 18.4-31.2 45.6-55.2 77.6-67.2 33.6-12.8 68.8-10.4 97.6 6.4 28.8 16 48 44.8 53.6 80.8z m-59.2 9.6c-3.2-17.6-12-31.2-24.8-39.2s-29.6-8-46.4-2.4c-19.2 7.2-35.2 21.6-46.4 41.6-11.2 19.2-16 40.8-12.8 61.6 3.2 17.6 12 31.2 24.8 39.2 12.8 8 29.6 8 46.4 2.4 19.2-7.2 35.2-21.6 46.4-41.6s16-41.6 12.8-61.6z m1660-88.8c-78.4-43.2-119.2 14.4-120 16.8l4-23.2-60-0.8-44.8 253.6h60.8l21.6-124s8.8-51.2 53.6-72c32-15.2 51.2-1.6 55.2 1.6 13.6-24.8 20-35.2 29.6-52z m-640-162.4c2.4-12 8.8-49.6 8.8-49.6s-68.8 12.8-127.2 56.8c-1.6 10.4-12 67.2-12.8 72.8 36-37.6 81.6-65.6 131.2-80z m-68.8 71.2c-7.2 39.2-37.6 211.2-37.6 211.2-2.4 20.8-9.6 41.6-20 60-18.4 31.2-45.6 55.2-77.6 67.2-33.6 12.8-68.8 10.4-97.6-6.4-28.8-16.8-48-45.6-53.6-80.8-5.6-33.6 1.6-69.6 19.2-100.8 18.4-31.2 45.6-55.2 77.6-67.2 33.6-12.8 68.8-10.4 97.6 6.4 4.8 2.4 8.8 5.6 13.6 9.6l4.8-24c19.2-30.4 44.8-56 73.6-75.2z m-96.8 180c-3.2-17.6-12-31.2-24.8-39.2-12.8-8-29.6-8-46.4-2.4-19.2 7.2-35.2 21.6-46.4 41.6-11.2 19.2-16 40.8-12.8 60.8 3.2 17.6 12 31.2 24.8 39.2s29.6 8 46.4 2.4c19.2-7.2 35.2-21.6 46.4-41.6 11.2-19.2 16-40.8 12.8-60.8zM228 574.667c0 44-49.6 86.4-109.6 86.4-62.4-0.8-90.4-20-118.4-42.4l30.4-52c20.8 16 49.6 32.8 79.2 34.4 32.8 1.6 49.6-16 50.4-26.4 0.8-8-0.8-16-40-26.4-64-16.8-96.8-36.8-88.8-82.4 8.8-48.8 64.8-76.8 121.6-76.8 36 0 72.8 8.8 96 27.2l-28.8 50.4c-55.2-31.2-109.6-25.6-122.4-4-12 20.8 15.2 24.8 50.4 33.6 67.2 17.6 80 42.4 80 78.4z" p-id="1965"></path></svg>
+        </div>
+        <div class="iconfont nebula hidden">
+          <svg viewBox="0 0 2134 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1834"><path d="M96.102 341.723l135.344 203.743h21.614V341.723h71.257v296.669h-96.502l-134.891-203.286h-21.61v203.286h-71.304V341.723h96.092z m585.383 0v59.951H466.869v55.682H632.372v55.409H466.869v65.676h214.616v59.947h-285.924V341.719l285.924 0.004z m259.708 0c14.124 0 27.007 1.248 38.639 3.74 11.635 2.491 21.606 6.581 29.915 12.26s14.751 13.232 19.321 22.647c4.57 9.418 6.855 21.055 6.855 34.899 0 14.962-3.393 27.424-10.18 37.395-6.792 9.974-16.829 18.149-30.123 24.514 18.284 5.262 31.923 14.482 40.928 27.632 8.996 13.161 13.503 29.025 13.503 47.575 0 14.958-2.909 27.909-8.727 38.85-5.818 10.944-13.646 19.878-23.478 26.796-9.835 6.93-21.054 12.052-33.655 15.371a151.702 151.702 0 0 1-38.854 4.987H752.734v-296.67l188.459 0.004z m-8.309 120.084c11.636 0 21.189-2.766 28.668-8.314 7.479-5.539 11.218-14.545 11.218-27.007 0-6.922-1.247-12.601-3.739-17.032-2.492-4.43-5.818-7.896-9.971-10.388-4.153-2.496-8.933-4.224-14.334-5.193a95.495 95.495 0 0 0-16.825-1.455H824.05v69.389h108.834z m3.743 125.898c6.366 0 12.462-0.628 18.28-1.872 5.814-1.247 10.936-3.323 15.375-6.235 4.423-2.909 7.96-6.855 10.594-11.842 2.631-4.984 3.946-11.354 3.946-19.115 0-15.228-4.296-26.106-12.879-32.618-8.588-6.506-19.942-9.764-34.068-9.764H824.054v81.438l112.573 0.008z m434.89 18.67c-25.588 21.347-60.976 32.017-106.148 32.017-45.811 0-81.274-10.594-106.382-31.791-25.115-21.189-37.672-53.89-37.672-98.101V341.723h71.304V508.5c0 8.787 0.786 17.415 2.368 25.891 1.582 8.48 4.895 15.971 9.95 22.48 5.051 6.514 12.085 11.811 21.086 15.896 9.004 4.09 24.185 6.132 39.345 6.132 26.535 0 47.949-5.675 58.064-17.032 10.101-11.354 15.168-29.133 15.168-53.367V341.723h71.304V508.5c-0.002 43.905-12.794 76.526-38.387 97.875z m180.946-27.93V341.723h-71.308v296.669h237.677l24.781-59.947h-191.15z m507.974 59.947h74.03l-124.352-296.669h-94.663l-125.6 296.669h71.757l29.531-71.371h140.431l28.866 71.371zM1913.708 512.467l37.57-90.808h21.491l36.731 90.808h-95.792z m0 0" fill="" p-id="1835"></path></svg>
+        </div>
+        <div class="iconfont anker_work hidden">
+          <svg
+            viewBox="0 0 1638 1024"
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg"
+            p-id="7472"
+            width="128"
+            height="87"
+          >
+            <path
+              d="M470.698667 622.592l60.416 69.290667h53.248l-79.530667-91.477334 81.578667-86.698666h-54.954667l-60.757333 64.512v-128.682667h-39.936v242.346667h39.936zM804.864 604.501333c0-27.989333 22.869333-50.858667 50.858667-50.858666h12.970666l-12.288-39.936h-1.024c-50.176 0-90.794667 40.618667-90.794666 90.794666v87.381334h39.936v-87.381334zM1227.093333 512c-50.176 0-90.794667 40.618667-90.794666 90.794667 0 50.176 40.618667 90.794667 90.794666 90.794666 50.176 0 90.794667-40.618667 90.794667-90.794666 0-50.176-40.618667-90.794667-90.794667-90.794667z m0 141.312c-27.989333 0-50.517333-22.528-50.517333-50.517333s22.528-50.517333 50.517333-50.517334 50.517333 22.528 50.517334 50.517334-22.528 50.517333-50.517334 50.517333zM327.68 513.706667a81.578667 81.578667 0 0 0-81.578667 81.578666v96.597334h39.936v-96.597334c0-22.869333 18.773333-41.301333 41.642667-41.301333 22.869333 0 41.642667 18.432 41.642667 41.301333v96.597334h39.936v-95.914667-0.682667a81.578667 81.578667 0 0 0-81.578667-81.578666zM1333.930667 604.501333v87.381334h39.936v-87.381334c0-27.989333 22.869333-50.858667 50.858666-50.858666h7.850667v-39.936h-7.850667c-50.176 0-90.794667 40.618667-90.794666 90.794666zM1488.554667 691.882667v-69.290667l60.416 69.290667h53.248l-79.530667-91.477334L1604.266667 513.706667h-54.954667l-60.757333 64.512v-128.682667h-39.936v242.346667zM927.061333 691.541333v0.341334h41.984v-0.341334l39.253334-129.024 39.253333 129.365334v0.341333h41.301333v-0.341333l73.386667-242.005334h-41.301333l-52.906667 173.738667-40.96-134.826667a19.456 19.456 0 0 0-19.114667-13.994666c-8.874667 0-16.384 5.802667-19.114666 13.994666l-40.96 134.485334-52.906667-173.738667h-41.301333l73.386666 242.005333z"
+              p-id="7473"
+            ></path>
+            <path
+              d="M657.749333 512c-50.176 0-90.794667 40.618667-90.794666 90.794667 0 50.176 40.618667 90.794667 90.794666 90.794666 38.912 0 72.021333-24.234667 84.992-58.709333h-45.738666c-9.216 11.264-23.210667 18.432-38.912 18.432-22.186667 0-41.301333-14.336-47.786667-34.474667h137.216A91.272533 91.272533 0 0 0 657.749333 512z m-47.786666 74.752c6.826667-20.138667 25.6-34.474667 47.786666-34.474667s41.301333 14.336 47.786667 34.474667h-95.573333zM133.12 461.482667a19.797333 19.797333 0 0 0-18.090667-11.946667 19.797333 19.797333 0 0 0-18.090666 11.946667L0 691.882667h43.008l27.648-65.194667h88.746667l27.648 65.194667h43.008L133.12 461.482667z m-45.738667 124.928l27.648-65.536 27.648 65.536H87.381333z"
+              p-id="7474"
+            ></path>
+          </svg>
+        </div>
+      </div>
+
+      {% for block in section.blocks %}
+        <div class="actionsPopup {{ block.type }} hidden">
+          {% if block.settings.time1 != '' %}
+          <div class="action">
+            <span class="time">{{ block.settings.time1 }}</span>
+            <span class="dot"></span>
+            <span class="name">{{ block.settings.name1 }}</span>
+          </div>
+          {% endif %}
+          {% if block.settings.time2 != '' %}
+          <div class="action">
+            <span class="time">{{ block.settings.time2 }}</span>
+            <span class="dot"></span>
+            <span class="name">{{ block.settings.name2 }}</span>
+          </div>
+          {% endif %}
+          {% if block.settings.time3 != '' %}
+          <div class="action">
+            <span class="time">{{ block.settings.time3 }}</span>
+            <span class="dot"></span>
+            <span class="name">{{ block.settings.name3 }}</span>
+          </div>
+          {% endif %}
+          {% if block.settings.time4 != '' %}
+          <div class="action">
+            <span class="time">{{ block.settings.time4 }}</span>
+            <span class="dot"></span>
+            <span class="name">{{ block.settings.name4 }}</span>
+          </div>
+          {% endif %}
+          {% if block.settings.time5 != '' %}
+          <div class="action">
+            <span class="time">{{ block.settings.time5 }}</span>
+            <span class="dot"></span>
+            <span class="name">{{ block.settings.name5 }}</span>
+          </div>
+          {% endif %}
+          {% if block.settings.time6 != '' %}
+          <div class="action">
+            <span class="time">{{ block.settings.time6 }}</span>
+            <span class="dot"></span>
+            <span class="name">{{ block.settings.name6 }}</span>
+          </div>
+          {% endif %}
+          {% if block.settings.time6 != '' %}
+          <div class="action">
+            <span class="time">{{ block.settings.time6 }}</span>
+            <span class="dot"></span>
+            <span class="name">{{ block.settings.name6 }}</span>
+          </div>
+          {% endif %}
+          {% if block.settings.time7 != '' %}
+          <div class="action">
+            <span class="time">{{ block.settings.time7 }}</span>
+            <span class="dot"></span>
+            <span class="name">{{ block.settings.name7 }}</span>
+          </div>
+          {% endif %}
+          {% if block.settings.time8 != '' %}
+          <div class="action">
+            <span class="time">{{ block.settings.time8 }}</span>
+            <span class="dot"></span>
+            <span class="name">{{ block.settings.name8 }}</span>
+          </div>
+          {% endif %}
+          {% if block.settings.time9 != '' %}
+          <div class="action">
+            <span class="time">{{ block.settings.time9 }}</span>
+            <span class="dot"></span>
+            <span class="name">{{ block.settings.name9 }}</span>
+          </div>
+          {% endif %}
+          {% if block.settings.time10 != '' %}
+          <div class="action">
+            <span class="time">{{ block.settings.time10 }}</span>
+            <span class="dot"></span>
+            <span class="name">{{ block.settings.name10 }}</span>
+          </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+  
+<div class="popup_agree_{{ id }} popup popup_agree hidden">
+  <div class="mask"></div>
+  <div class="container">
+    <img class="backimg" src="https://cdn.shopify.com/s/files/1/0493/7636/2660/files/Rectangle_6148_1.png?v=1656408216" alt="">
+    <div class="iconBox">
+      <img src="https://cdn.shopify.com/s/files/1/0493/7636/2660/files/2_1.png?v=1656408214" alt="">
+    </div>
+
+    <div class="submitBox">
+      <ul class="logo_list">
+      {% if section.settings.popup_img_anker %}
+        <li class="anker brandicon">
+          <a href="{{ settings.link_anker }}" target="_blank" rel="noopener noreferrer">
+            <img src="{{ section.settings.popup_img_anker | img_url: 'medium' }}" alt="">
+          </a>
+        </li>
+        {% endif %}
+        {% if section.settings.popup_img_eufy %}
+        <li class="eufy brandicon">
+          <a href="{{ settings.link_eufy }}" target="_blank" rel="noopener noreferrer">
+            <img src="{{ section.settings.popup_img_eufy | img_url: 'medium' }}" alt="">
+          </a>
+        </li>
+        {% endif %}
+        {% if section.settings.popup_img_soundcore %}
+        <li class="soundcore brandicon">
+          <a href="{{ settings.link_soundcore }}" target="_blank" rel="noopener noreferrer">
+            <img src="{{ section.settings.popup_img_soundcore | img_url: 'medium' }}" alt="">
+          </a>
+        </li>
+        {% endif %}
+        {% if section.settings.popup_img_nebula %}
+        <li class="nebula brandicon">
+          <a href="{{ settings.link_nebula }}" target="_blank" rel="noopener noreferrer">
+            <img src="{{ section.settings.popup_img_nebula | img_url: 'medium' }}" alt="">
+          </a>
+        </li>
+        {% endif %}
+        {% if section.settings.popup_img_ankerwork %}
+        <li class="ankerWork brandicon">
+          <a href="{{ settings.link_ankerwork }}" target="_blank" rel="noopener noreferrer">
+            <img src="{{ section.settings.popup_img_ankerwork | img_url: 'medium' }}" alt="">
+          </a>
+        </li>
+        {% endif %}
+      </ul>
+      <div class="policy">
+        <label for="policy">
+          <span>
+            <input type="checkbox" name="policy" value="yes" />
+          </span>
+          <span>{{ section.settings.policy_text }}</span>
+        </label>
+      </div>
+
+      <div class="submit">
+        <button type="submit" class="button reverse is-within-form">
+          {{ section.settings.button_text }}
+        </button>
+        <p class="form__error visible-none">{{ info_select_policy }}</p>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).on('shopify:section:load', function(e){
+
+  })
+
+  
+  $(document).ready(function() {
+    let timer = null;
+    let timeLine = 0;
+    let isMoving = false;
+    let totalBrands = $("#LiveStreaming_{{ id }} .flex .line").length;
+
+    const isMobile = window.innerWidth < 769;
+    if (totalBrands <= 3) {
+      $('#LiveStreaming_{{ id }} .front').addClass('hidden');
+      $('#LiveStreaming_{{ id }} .back').addClass('hidden');
+    }
+    $("#LiveStreaming_{{ id }} .line:nth-child(4)").addClass('opacity0');
+    function comingSoonAct(num) {
+      if (timeLine === 0 && num < 0) return false;
+      if ((timeLine + 3) >= totalBrands && num > 0) return false;
+      if (isMoving) return false;
+      $('#LiveStreaming_{{ id }} .flex').removeClass(`move${timeLine}`)
+      isMoving = true;
+      timeLine += num;
+      $('#LiveStreaming_{{ id }} .flex').addClass(`move${timeLine}`)
+      $('#LiveStreaming_{{ id }} .line').removeClass('opacity0')
+      $(`#LiveStreaming_{{ id }} .line[data-line="${timeLine}"]`).addClass('opacity0')
+      $(`#LiveStreaming_{{ id }} .line[data-line="${timeLine + 4}"]`).addClass('opacity0')
+      window.setTimeout(function() {isMoving = false}, 300)
+    }
+
+    $('#LiveStreaming_{{ id }}').on('click', '.front', function(e) {
+      comingSoonAct(-1)
+    });
+
+    $('#LiveStreaming_{{ id }}').on('click', '.back', function(e) {
+      comingSoonAct(1)
+    });
+
+    $('#LiveStreaming_{{ id }}').on('click', '.brandname button', function(e) {
+      console.log('brand', isMobile)
+      if (isMobile) {
+        const brand = $(this).data('brand');
+        $('.popup_{{ id }} .brand .iconfont').addClass('hidden')
+        $('.popup_{{ id }} .actionsPopup').addClass('hidden')
+        $(`.popup_{{ id }} .container .${brand}`).removeClass('hidden')
+        $('.popup_{{ id }}').removeClass('hidden')
+      }
+      return false
+    });
+
+    $('.popup_{{ id }}').on('click', '.xIcon', function(e) {
+      if (isMobile) {
+        $('.popup_{{ id }}').addClass('hidden')
+      }
+    });
+
+    $('.popup_agree_{{ id }}').on('click', '.submit button', function(e) {
+      const policy =  $('.popup_agree_{{ id }} input[name="policy"]').prop("checked");
+      console.log('policy', policy);
+      if (!policy) {
+        $(`.popup_agree_{{ id }} .form__error`).removeClass('visible-none');
+        if (timer) clearTimeout(subscribe_private.timer);
+        timer = setTimeout(() => { 
+          $(`.popup_agree_{{ id }} .form__error`).addClass('visible-none');
+        }, 8000);
+      } else {
+        $('.popup_agree_{{ id }}').addClass('hidden');
+          Cookies.set("LIVE_lottery_policy", 'Agree',{
+            domain: window.location.host,
+            expires: 365,
+          })
+      }
+    });
+
+    const lottery_policy = Cookies.get('LIVE_lottery_policy');
+    const show_agree_popup = '{{ section.settings.show_agree }}';
+    console.log('lottery_policy', lottery_policy, show_agree_popup)
+
+    if (lottery_policy !== 'Agree' && show_agree_popup === 'true') {
+      $('.popup_agree_{{ id }}').removeClass('hidden');
+    }
+  })
+</script>
+
+{% schema %}
+{
+  "name": "Live Youtube",
+  "presets": [
+    {
+      "category": "Live Sections",
+      "name": "Live Youtube"
+    }
+  ],
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "youtube_iframe",
+      "label": "youtube 嵌入代码",
+      "info": "在youtube 视频上右键，选择‘复制嵌入代码’获取"
+    },
+    {
+      "type": "textarea",
+      "id": "youtube_chat",
+      "label": "youtube 聊天室ID",
+      "info": "参考说明页面底部‘嵌入聊天室’ https://support.google.com/youtube/answer/2524549?hl=zh-Hant"
+    },
+    {
+      "type": "text",
+      "id": "box_padding",
+      "label": "模块边距-PC端",
+      "default": "60px 0 40px 0",
+      "info": "填写四方向个值：上 右 下 左"
+    },
+    {
+      "type": "text",
+      "id": "mobile_box_padding",
+      "label": "模块边距-移动端",
+      "default": "30px 0 20px 0",
+      "info": "填写四方向个值：上 右 下 左"
+    },
+    {
+      "type": "color_background",
+      "id": "box_background",
+      "label": "Background",
+      "default": "linear-gradient(#ffffff, #ffffff)"
+    },
+    {
+      "type": "color",
+      "id": "box_text_color",
+      "label": "Schedule text color"
+    },
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "直播日程表上标题"
+    },
+    {
+      "type": "text",
+      "id": "title_font_size",
+      "label": "标题文案大小",
+      "default": "36px"
+    },
+    {
+      "type": "text",
+      "id": "mobile_title_font_size",
+      "label": "移动端标题文案大小",
+      "default": "36px"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "标题颜色",
+      "default": "#333333"
+    },
+    {
+      "type": "select",
+      "id": "title_font_weight",
+      "label": "标题粗细",
+      "options": [
+        {
+          "label": "bold",
+          "value": "bold"
+        },
+        {
+          "label": "normal",
+          "value": "normal"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "anker_time",
+      "label": "Anker 直播时间段"
+    },
+    {
+      "type": "text",
+      "id": "eufy_time",
+      "label": "Eufy 直播时间段"
+    },
+    {
+      "type": "text",
+      "id": "soundcore_time",
+      "label": "Soundcore 直播时间段"
+    },
+    {
+      "type": "text",
+      "id": "nebula_time",
+      "label": "Nebula 直播时间段"
+    },
+    {
+      "type": "text",
+      "id": "ankerwork_time",
+      "label": "AnkerWork 直播时间段"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_agree",
+      "label": "Show policy popup"
+    },
+     {
+      "type": "image_picker",
+      "id": "popup_img_anker",
+      "label": "popup - brandicon Anker"
+    },
+    {
+      "type": "image_picker",
+      "id": "popup_img_eufy",
+      "label": "popup - brandicon Eufy"
+    },
+    {
+      "type": "image_picker",
+      "id": "popup_img_soundcore",
+      "label": "popup - brandicon Soundcore"
+    },
+    {
+      "type": "image_picker",
+      "id": "popup_img_nebula",
+      "label": "popup - brandicon Nebula"
+    },
+    {
+      "type": "image_picker",
+      "id": "popup_img_ankerwork",
+      "label": "popup - brandicon AnkerWork"
+    },
+    {
+      "type": "url",
+      "id": "link_anker",
+      "label": "Anker Link"
+    },
+    {
+      "type": "url",
+      "id": "link_eufy",
+      "label": "Eufy Link"
+    },
+    {
+      "type": "url",
+      "id": "link_soundcore",
+      "label": "Soundcore Link"
+    },
+    {
+      "type": "url",
+      "id": "link_nebula",
+      "label": "Nebula Link"
+    },
+    {
+      "type": "url",
+      "id": "link_ankerwork",
+      "label": "AnkerWork Link"
+    },
+    {
+      "type": "html",
+      "id": "button_text",
+      "label": "popup - Submit Text",
+      "default": "Submit"
+    },
+    {
+      "type": "html",
+      "id": "policy_text",
+      "label": "popup - Policy Text",
+      "default": "BY CLICKING 'SUBSCRIBE', YOU AGREE TO THE <a href='/policies/terms' target='_blank' rel='noopener noreferrer'>TERMS OF USE</a> and <a href='/policies/privacy-policy' target='_blank' rel='noopener noreferrer'>PRIVACY POLICY</a>."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "anker",
+      "name": "Anker 直播预告",
+      "settings": [
+        {
+          "type": "text",
+          "id": "time1",
+          "label": "直播时间 1"
+        },
+        {
+          "type": "textarea",
+          "id": "name1",
+          "label": "内容介绍 1"
+        },
+        {
+          "type": "text",
+          "id": "time2",
+          "label": "直播时间 2"
+        },
+        {
+          "type": "textarea",
+          "id": "name2",
+          "label": "内容介绍 2"
+        },
+        {
+          "type": "text",
+          "id": "time3",
+          "label": "直播时间 3"
+        },
+        {
+          "type": "textarea",
+          "id": "name3",
+          "label": "内容介绍 3"
+        },
+        {
+          "type": "text",
+          "id": "time4",
+          "label": "直播时间 4"
+        },
+        {
+          "type": "textarea",
+          "id": "name4",
+          "label": "内容介绍 4"
+        },
+        {
+          "type": "text",
+          "id": "time5",
+          "label": "直播时间 5"
+        },
+        {
+          "type": "textarea",
+          "id": "name5",
+          "label": "内容介绍 5"
+        },
+        {
+          "type": "text",
+          "id": "time6",
+          "label": "直播时间 6"
+        },
+        {
+          "type": "textarea",
+          "id": "name6",
+          "label": "内容介绍 6"
+        },
+        {
+          "type": "text",
+          "id": "time7",
+          "label": "直播时间 7"
+        },
+        {
+          "type": "textarea",
+          "id": "name7",
+          "label": "内容介绍 7"
+        },
+        {
+          "type": "text",
+          "id": "time8",
+          "label": "直播时间 8"
+        },
+        {
+          "type": "textarea",
+          "id": "name8",
+          "label": "内容介绍 8"
+        },
+        {
+          "type": "text",
+          "id": "time9",
+          "label": "直播时间 9"
+        },
+        {
+          "type": "textarea",
+          "id": "name9",
+          "label": "内容介绍 9"
+        },
+        {
+          "type": "text",
+          "id": "time10",
+          "label": "直播时间 10"
+        },
+        {
+          "type": "textarea",
+          "id": "name10",
+          "label": "内容介绍 10"
+        }
+      ]
+    },
+    {
+      "type": "eufy",
+      "name": "Eufy 直播预告",
+      "settings": [
+        {
+          "type": "text",
+          "id": "time1",
+          "label": "直播时间 1"
+        },
+        {
+          "type": "textarea",
+          "id": "name1",
+          "label": "内容介绍 1"
+        },
+        {
+          "type": "text",
+          "id": "time2",
+          "label": "直播时间 2"
+        },
+        {
+          "type": "textarea",
+          "id": "name2",
+          "label": "内容介绍 2"
+        },
+        {
+          "type": "text",
+          "id": "time3",
+          "label": "直播时间 3"
+        },
+        {
+          "type": "textarea",
+          "id": "name3",
+          "label": "内容介绍 3"
+        },
+        {
+          "type": "text",
+          "id": "time4",
+          "label": "直播时间 4"
+        },
+        {
+          "type": "textarea",
+          "id": "name4",
+          "label": "内容介绍 4"
+        },
+        {
+          "type": "text",
+          "id": "time5",
+          "label": "直播时间 5"
+        },
+        {
+          "type": "textarea",
+          "id": "name5",
+          "label": "内容介绍 5"
+        },
+        {
+          "type": "text",
+          "id": "time6",
+          "label": "直播时间 6"
+        },
+        {
+          "type": "textarea",
+          "id": "name6",
+          "label": "内容介绍 6"
+        },
+        {
+          "type": "text",
+          "id": "time7",
+          "label": "直播时间 7"
+        },
+        {
+          "type": "textarea",
+          "id": "name7",
+          "label": "内容介绍 7"
+        },
+        {
+          "type": "text",
+          "id": "time8",
+          "label": "直播时间 8"
+        },
+        {
+          "type": "textarea",
+          "id": "name8",
+          "label": "内容介绍 8"
+        },
+        {
+          "type": "text",
+          "id": "time9",
+          "label": "直播时间 9"
+        },
+        {
+          "type": "textarea",
+          "id": "name9",
+          "label": "内容介绍 9"
+        },
+        {
+          "type": "text",
+          "id": "time10",
+          "label": "直播时间 10"
+        },
+        {
+          "type": "textarea",
+          "id": "name10",
+          "label": "内容介绍 10"
+        }
+      ]
+    },
+    {
+      "type": "soundcore",
+      "name": "Soundcore 直播预告",
+      "settings": [
+        {
+          "type": "text",
+          "id": "time1",
+          "label": "直播时间 1"
+        },
+        {
+          "type": "textarea",
+          "id": "name1",
+          "label": "内容介绍 1"
+        },
+        {
+          "type": "text",
+          "id": "time2",
+          "label": "直播时间 2"
+        },
+        {
+          "type": "textarea",
+          "id": "name2",
+          "label": "内容介绍 2"
+        },
+        {
+          "type": "text",
+          "id": "time3",
+          "label": "直播时间 3"
+        },
+        {
+          "type": "textarea",
+          "id": "name3",
+          "label": "内容介绍 3"
+        },
+        {
+          "type": "text",
+          "id": "time4",
+          "label": "直播时间 4"
+        },
+        {
+          "type": "textarea",
+          "id": "name4",
+          "label": "内容介绍 4"
+        },
+        {
+          "type": "text",
+          "id": "time5",
+          "label": "直播时间 5"
+        },
+        {
+          "type": "textarea",
+          "id": "name5",
+          "label": "内容介绍 5"
+        },
+        {
+          "type": "text",
+          "id": "time6",
+          "label": "直播时间 6"
+        },
+        {
+          "type": "textarea",
+          "id": "name6",
+          "label": "内容介绍 6"
+        },
+        {
+          "type": "text",
+          "id": "time7",
+          "label": "直播时间 7"
+        },
+        {
+          "type": "textarea",
+          "id": "name7",
+          "label": "内容介绍 7"
+        },
+        {
+          "type": "text",
+          "id": "time8",
+          "label": "直播时间 8"
+        },
+        {
+          "type": "textarea",
+          "id": "name8",
+          "label": "内容介绍 8"
+        },
+        {
+          "type": "text",
+          "id": "time9",
+          "label": "直播时间 9"
+        },
+        {
+          "type": "textarea",
+          "id": "name9",
+          "label": "内容介绍 9"
+        },
+        {
+          "type": "text",
+          "id": "time10",
+          "label": "直播时间 10"
+        },
+        {
+          "type": "textarea",
+          "id": "name10",
+          "label": "内容介绍 10"
+        }
+      ]
+    },
+    {
+      "type": "nebula",
+      "name": "Nebula 直播预告",
+      "settings": [
+        {
+          "type": "text",
+          "id": "time1",
+          "label": "直播时间 1"
+        },
+        {
+          "type": "textarea",
+          "id": "name1",
+          "label": "内容介绍 1"
+        },
+        {
+          "type": "text",
+          "id": "time2",
+          "label": "直播时间 2"
+        },
+        {
+          "type": "textarea",
+          "id": "name2",
+          "label": "内容介绍 2"
+        },
+        {
+          "type": "text",
+          "id": "time3",
+          "label": "直播时间 3"
+        },
+        {
+          "type": "textarea",
+          "id": "name3",
+          "label": "内容介绍 3"
+        },
+        {
+          "type": "text",
+          "id": "time4",
+          "label": "直播时间 4"
+        },
+        {
+          "type": "textarea",
+          "id": "name4",
+          "label": "内容介绍 4"
+        },
+        {
+          "type": "text",
+          "id": "time5",
+          "label": "直播时间 5"
+        },
+        {
+          "type": "textarea",
+          "id": "name5",
+          "label": "内容介绍 5"
+        },
+        {
+          "type": "text",
+          "id": "time6",
+          "label": "直播时间 6"
+        },
+        {
+          "type": "textarea",
+          "id": "name6",
+          "label": "内容介绍 6"
+        },
+        {
+          "type": "text",
+          "id": "time7",
+          "label": "直播时间 7"
+        },
+        {
+          "type": "textarea",
+          "id": "name7",
+          "label": "内容介绍 7"
+        },
+        {
+          "type": "text",
+          "id": "time8",
+          "label": "直播时间 8"
+        },
+        {
+          "type": "textarea",
+          "id": "name8",
+          "label": "内容介绍 8"
+        },
+        {
+          "type": "text",
+          "id": "time9",
+          "label": "直播时间 9"
+        },
+        {
+          "type": "textarea",
+          "id": "name9",
+          "label": "内容介绍 9"
+        },
+        {
+          "type": "text",
+          "id": "time10",
+          "label": "直播时间 10"
+        },
+        {
+          "type": "textarea",
+          "id": "name10",
+          "label": "内容介绍 10"
+        }
+      ]
+    },
+    {
+      "type": "anker_work",
+      "name": "Ankerwork 直播预告",
+      "settings": [
+        {
+          "type": "text",
+          "id": "time1",
+          "label": "直播时间 1"
+        },
+        {
+          "type": "textarea",
+          "id": "name1",
+          "label": "内容介绍 1"
+        },
+        {
+          "type": "text",
+          "id": "time2",
+          "label": "直播时间 2"
+        },
+        {
+          "type": "textarea",
+          "id": "name2",
+          "label": "内容介绍 2"
+        },
+        {
+          "type": "text",
+          "id": "time3",
+          "label": "直播时间 3"
+        },
+        {
+          "type": "textarea",
+          "id": "name3",
+          "label": "内容介绍 3"
+        },
+        {
+          "type": "text",
+          "id": "time4",
+          "label": "直播时间 4"
+        },
+        {
+          "type": "textarea",
+          "id": "name4",
+          "label": "内容介绍 4"
+        },
+        {
+          "type": "text",
+          "id": "time5",
+          "label": "直播时间 5"
+        },
+        {
+          "type": "textarea",
+          "id": "name5",
+          "label": "内容介绍 5"
+        },
+        {
+          "type": "text",
+          "id": "time6",
+          "label": "直播时间 6"
+        },
+        {
+          "type": "textarea",
+          "id": "name6",
+          "label": "内容介绍 6"
+        },
+        {
+          "type": "text",
+          "id": "time7",
+          "label": "直播时间 7"
+        },
+        {
+          "type": "textarea",
+          "id": "name7",
+          "label": "内容介绍 7"
+        },
+        {
+          "type": "text",
+          "id": "time8",
+          "label": "直播时间 8"
+        },
+        {
+          "type": "textarea",
+          "id": "name8",
+          "label": "内容介绍 8"
+        },
+        {
+          "type": "text",
+          "id": "time9",
+          "label": "直播时间 9"
+        },
+        {
+          "type": "textarea",
+          "id": "name9",
+          "label": "内容介绍 9"
+        },
+        {
+          "type": "text",
+          "id": "time10",
+          "label": "直播时间 10"
+        },
+        {
+          "type": "textarea",
+          "id": "name10",
+          "label": "内容介绍 10"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

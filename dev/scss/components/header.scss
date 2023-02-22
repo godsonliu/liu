@@ -1,0 +1,281 @@
+/* # Classic */
+@import 'header-classic.scss';
+
+
+/* # header */
+header.header {
+  @include respond-to('medium-down') {
+    display: none;
+  }
+}
+
+.header,
+.mobile-header {
+  font-family: "Open Sans", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: 1px;
+  font-size: 14px;
+  text-transform: none;
+}
+
+.dropdown-style-horizontal {
+  position: relative;
+}
+
+.dropdown-style-horizontal .navbar,
+.dropdown-style-horizontal .navbar-item {
+  position: initial;
+}
+
+.dropdown-style-horizontal .header__menu-items,
+.header__dropdown--below-header.header__menu-items {
+  height: 100%;
+
+  .navbar-item.has-dropdown {
+    @include align-self(stretch);
+  }
+}
+
+.header__item {
+  .vertical-alignment-center & {
+    @include align-items(center);
+  }
+
+  .vertical-alignment-top & {
+    @include align-items(flex-start);
+  }
+
+  .vertical-alignment-bottom & {
+    @include align-items(flex-end);
+  }
+}
+
+.header__link,
+.header__link>a {
+  color: $header-link;
+  fill: $header-link;
+
+  &:hover,
+  &.is-active {
+    color: $header-link-hover;
+    fill: $header-link-hover;
+  }
+}
+
+.header__logo-text {
+  @include logo-text-style();
+}
+
+.header__logo-text,
+h1.header__logo-text>a {
+  color: $header-logo-text-color;
+
+  &:hover {
+    color: $header-logo-text-color;
+  }
+}
+
+
+.header__icons {
+  @include flexbox();
+  @include justify-content(flex-end);
+  @include align-items(center);
+}
+
+.header__icon-style-text {
+
+  .header__icon,
+  .header-cart__count--badge {
+    display: none;
+  }
+}
+
+.header__icon-style-icons {
+
+  .icon-caption {
+    display: none;
+  }
+}
+
+.header__icon-style-icons-text {
+  text-transform: uppercase;
+
+  .select {
+    height: auto;
+  }
+
+  .icon-caption {
+    padding: 0.3em 0 0;
+    font-size: 0.7em;
+  }
+
+  .action-area__link.has-cart-count {
+    padding-right: 1.8em;
+  }
+
+  .header-cart__caption {
+    display: block;
+  }
+}
+
+.action-area__link:not(.has-cart-count) {
+
+  .header-cart__count {
+    display: none;
+  }
+}
+
+.action-area__link {
+  @include flexbox();
+  @include flex-direction(column);
+  @include align-items(center);
+  padding: 1rem 5px;
+  height: 100%;
+
+  &:last-child {
+    padding-right: 0;
+  }
+
+  .vertical-alignment-center & {
+    @include justify-content(center);
+  }
+
+  .vertical-alignment-top & {
+    @include justify-content(flex-start);
+  }
+
+  .vertical-alignment-bottom & {
+    @include justify-content(flex-end);
+  }
+}
+
+.has-submenu {
+  label {
+    display: block;
+    position: relative;
+  }
+
+  .close-dropdown,
+  .close-sub-dropdown {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 25%;
+  }
+
+  .has-no-link {
+
+    .close-dropdown,
+    .close-sub-dropdown {
+      width: 100%;
+    }
+  }
+}
+
+[data-enable_overlay="false"] {
+  .overlay-logo__content {
+    display: none;
+  }
+
+  .logo__content {
+    display: block;
+  }
+}
+
+[data-enable_overlay="true"] {
+  .overlay-logo__content {
+    display: block;
+  }
+
+  .logo__content {
+    display: none;
+  }
+}
+
+.header__logo {
+
+  img {
+    transition: opacity $transition-speed ease-in;
+  }
+}
+
+/* Header currency/language switcher */
+
+.header-menu__disclosure {
+
+  .selectors-form__wrap {
+    @include respond-to('medium') {
+      margin-bottom: 0
+    }
+  }
+
+  .disclosure {
+    padding: 0.5rem 0;
+  }
+
+  .disclosure__toggle {
+    margin-top: 0;
+  }
+
+  .disclosure__list-wrap {
+    top: 100%;
+    padding-top: 0;
+    padding-bottom: 0;
+    position: absolute;
+  }
+}
+
+.header__link__customer {
+  position: relative;
+  cursor: poster;
+  z-index: 1;
+}
+
+.header__link__customer:hover .customer-dropmenu-list {
+  display: block;
+}
+
+.customer-dropmenu-list {
+  display: none;
+  position: absolute;
+  left: 50%;
+  bottom: 1px;
+  transform: translate(-50%, 100%);
+  padding: 2px 0 0;
+  min-width: 150px;
+  height: 132px;
+}
+
+.customer-dropmenu-list-inner{
+  padding: 0 10px 0;
+  background: #FFFFFF;
+  border-radius: 8px;
+  box-shadow: 2px 2px 5px rgb(218 28 28 / 4%);
+}
+
+.customer-dropmenu-item {
+  height: 40px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  border-bottom: 1px solid #F4F4F4;
+}
+
+.customer-dropmenu-line {
+  margin: 0 5px;
+  color: #6F6F6F;
+  font-size: 14px;
+}
+
+.customer-dropmenu-link {
+  color: #6F6F6F;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.customer-dropmenu-link-login {
+  color: #000;
+}

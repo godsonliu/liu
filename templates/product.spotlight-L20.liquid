@@ -1,0 +1,170 @@
+{% assign lang = product.metafields.global %}
+
+{% if lang.dh_1.value %}
+  {% assign dh_1 = lang.dh_1.value %}
+{% else %}
+  {% assign dh_1 = lang.dh_1 %}
+{% endif %}
+
+{% if lang.spotlight.value %}
+  {% assign spotlight = lang.spotlight.value %}
+{% else %}
+  {% assign spotlight = lang.spotlight %}
+{% endif %}
+
+{% if product.metafields.global.layout.value %}
+  {% assign layout = product.metafields.global.layout.value %}
+{% else %}
+  {% assign layout = product.metafields.global.layout %}
+{% endif %}
+
+{% if shop.metafields['reviews']['yotpo'].value %}
+  {% assign yotpo = shop.metafields['reviews']['yotpo'].value %}
+{% else %}
+  {% assign yotpo = shop.metafields['reviews']['yotpo'] %}
+{% endif %}
+
+{% comment %}
+  Scrolling images product template
+{% endcomment %}
+<link rel="stylesheet" href="{{ 'solo_cam_spotlight.scss.css' | asset_url }}">
+<div class="dh_fd">
+    <div class="dh_all">
+        {{ dh_1.dh_1_all }}
+        {% if spotlight.dh_2 != blank %}
+          <a class="dh_2 dh_a pc_show" href="{{ spotlight.dh_2_href }}">{{ spotlight.dh_2 }}</a>
+        {% endif %}
+        {% if spotlight.dh_3 != blank %}
+          <a class="dh_3 dh_a active" href="{{ spotlight.dh_3_href }}">{{ spotlight.dh_3 }}</a>
+        {% endif %}
+        {% if spotlight.dh_4 != blank %}
+          <a class="dh_4 dh_a pc_show" href="{{ spotlight.dh_4_href }}">{{ spotlight.dh_4 }}</a>
+        {% endif %}
+        {% if spotlight.dh_5 != blank %}
+          <a class="dh_5 dh_a pc_show" href="{{ spotlight.dh_5_href }}">{{ spotlight.dh_5 }}</a>
+        {% endif %}
+        <div class="dh_6_btn">
+          <a class="dh_6 button--primary" href="{{ spotlight.dh_6_href }}">{{ spotlight.dh_6 }}</a>
+        </div>
+    </div>
+  </div>
+<div id="template-{{ template | replace: '.', '-' | handle }}" class="shopify-section product-page section__wrapper">
+    {% comment %} Breadcrumbs and navigation {% endcomment %}
+    <section class="section
+                    is-width-standard
+                    has-padding-top
+                    has-padding-bottom
+                    ">
+      <div class="container">
+        <div class="one-whole column is-flex is-justify-space-between is-flex-column-reverse-mobile is-align-center">
+
+          <div class="breadcrumb__container">
+            {% render 'breadcrumb', context: 'product' %}
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    {% comment %} Product wrapper {% endcomment %}
+    <section class="section
+                    section--has-sidebar-option">
+      <div class="container">
+        {% section 'product__sidebar' %}
+        {% section 'product__main' %}
+        {% section 'spotlight-L20' %}
+        
+        {% comment %} {% section 'product__recommendations' %} {% endcomment %}
+      </div>
+    </section>
+</div>
+
+{% comment %} subtitle # snippets/product-info.liquid {% endcomment %}
+{% assign sorting = "highlights|reviews|compare|faqs|specs|downloads|paragraph" | split: '|' %}
+{% if layout.sort != blank %}
+  {% assign sorting = layout.sort | split: '|' %}
+{% endif %}
+{% for key in sorting %}
+  {% case key %}
+    {% when 'highlights' %}
+      {% comment %} highlights {% endcomment %}
+      {% section 'product-meta-highlights' %}
+    {% when 'reviews' %}
+      {% section 'product-meta-reviews' %}
+    {% when 'compare' %}
+      {% comment %} compare {% endcomment %}
+      {% section 'product-meta-compare' %}
+    {% when 'faqs' %}
+      {% comment %} faqs {% endcomment %}
+      {% section 'product-meta-faqs' %}
+    {% when 'specs' %}
+      {% comment %} specs {% endcomment %}
+      {% section 'product-meta-specs' %}
+    {% when 'downloads' %}
+      {% comment %} downloads {% endcomment %}
+      {% section 'product-meta-downloads' %}
+    {% when 'paragraph' %}
+      {% section 'listing_paragraph' %}
+  {% endcase %}
+{% endfor %}
+
+<div class="container">
+  {% section 'product__recommendations' %}
+</div>
+
+{%- if yotpo and yotpo.show_yotpo_reviews == 'true' -%}
+  <div class="yotpoReviews wrap"> 
+    <div class="yotpo yotpo-main-widget" data-product-id="{{ product.id }}" data-name="{{ product.title | escape }}" data-url="{{ shop.url }}{{ product.url }}" data-image-url="{{ product.featured_image | product_img_url: "large" |replace: '?', '%3F' | replace: '&','%26'}}" data-description="{{ product.description | escape }}"></div>
+  </div>
+{% endif %}
+<script type="text/javascript">		
+$(function() {
+  const w = $(window).width();
+  const siteNavH = w > 768 ? $('#header').height() : $('.mobile-header').height()
+  const navH = siteNavH + ($('#shopify-section-header__icon-bar').length && $('#shopify-section-header__icon-bar').height())
+
+  $('.dh_a').click(function() {
+    for (var i = 0; i < $('.dh_a').length; i++) {
+        $('.dh_a').eq(i).css({
+            'background': '',
+        });
+    }
+    $(this).css({
+        'background': '#474747',
+    }).siblings().removeClass('active');
+  });
+
+  $(window).scroll(function(){
+
+    const top = $(window).scrollTop(); 
+    
+    if($('.dh_fd').length > 0){
+      const dh_fd = $('.dh_fd').offset().top;
+      const dh_div = $('.dh_fd').height();
+      const skia = top - dh_div; 
+
+      if (skia > 0 ) {
+        $('.dh_fd').css('position', `fixed`);
+        $('.dh_fd').css('top', `${navH}px`);
+      } else {
+        $('.dh_fd').css('position', `relative`);
+        $('.dh_fd').css('top', `0px`);
+      }
+    }
+  })
+
+  $(document).ready(function() {
+    $(".prodCompare table td:nth-child(3)").css('background', '#F5F5F7');
+    $(".prodCompare table td:nth-child(2)").css('background', '#fff');
+  });	
+
+  $(document).ready(function() {
+    var width = window.innerWidth;
+    var dh_name = document.getElementsByClassName("dh_3")[0];
+    if(width < 769){
+      dh_name.innerHTML='{{ spotlight.dh_3_mob }}';
+    }
+  })
+})
+</script>
+

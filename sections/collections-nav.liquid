@@ -1,0 +1,67 @@
+
+
+<section class="collection-nav">
+  <div class="seo-description">{{ collection.description }}</div>
+  <div class="collection-nav-box">
+    <div id="swiper-section_{{ section.id }}" class="swiper-container collection-list-container">
+      <ul class="swiper-wrapper collection-list-wrapper">
+        {% for block in section.blocks %}
+          {% if block.settings.collection.title == collection.title %} 
+            {% assign initial_idx = forloop.index %}
+          {% endif %}
+          <li class="collection-item{% if block.settings.collection.title == collection.title %} actived{% endif %}">
+            <a class="collection-item-contect" href="{{ block.settings.collection.url }}">
+              <div class="collection-img-wrap">
+                {% render 'lazyload_image',  
+                  src: block.settings.image,
+                  alt: block.settings.image.alt,
+                  width: block.settings.image.width,
+                  aspect_ratio: block.settings.image.aspect_ratio,
+                  isSchemaData: true
+                %}
+              </div>
+              <p class="collection-img-name">{{ block.settings.collection.title | default: 'collection name' }}</p>
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<script>
+  $(function() {
+    const swiper = new Swiper('#swiper-section_{{ section.id }}', {
+      initialSlide: +'{{ initial_idx }}',
+      slidesPerView: 'auto',
+      slideClass: 'collection-item',
+      slidesPerGroup : 1
+    })
+  })
+</script>
+
+{% schema %}
+{
+  "name": "collection nav",
+  "blocks":[{
+    "type": "collection",
+    "name": "collection",
+    "settings":[{
+      "type": "header",
+      "content": "内容"
+    },{
+      "type": "collection",
+      "id": "collection",
+      "label": "产品系列"
+    },{
+      "type": "image_picker",
+      "id": "image",
+      "label": "系列图片",
+      "info": "图片尺寸: 120 x 120"
+    }]
+  }],
+  "presets": [{
+    "name": "collection nav"
+  }]
+}
+{% endschema %}

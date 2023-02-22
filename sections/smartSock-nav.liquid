@@ -1,0 +1,112 @@
+<section class="smartSock-nav">
+  <ul>
+    {% for block in section.blocks %}
+      <li><a href="#{{block.settings.anchor}}">{{block.settings.text}}</a></li>
+    {% endfor %}
+    <li><a href="{{section.settings.link}}" class="btn-buy">{{ section.settings.btn }}</a></li>
+  </ul>
+</section>
+
+<script>
+$(function() {
+  $(".smartSock-nav li").on("click", function() {
+    // GA3代码
+    dataLayer.push({
+      "event": "uaEvent", // Trigger
+      "eventCategory": "Activity Page_{{page.handle}}",
+      "eventAction": "navi",
+      "eventLabel": $(this).text(), //取导航栏文字
+      "nonInteraction": true, 
+    });
+
+    // GA4代码
+    window.dataLayer.push({ "event_parameters": null });
+    window.dataLayer.push({
+      "event": "ga4Event",
+      "event_name": "lp_navigation",
+      "event_parameters": {
+        "navigation": $(this).text(), //比如Tech Specs
+        "page_group":"Activity Page_{{page.handle}}"
+      }
+    });
+    var anchor = $(this).find("a").attr("href");
+    if ($(this).find(".btn-buy").length > 0 || $(anchor).length === 0) {
+      return;
+    }
+    var offset = $(anchor).offset().top - $(".smartSock-nav").height() + 10;
+    $('html, body').stop().animate({
+      scrollTop: offset
+    });
+
+    return false;
+  });
+
+  function scrollMenu() {
+    var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+    if (scrollTop > $(".smartSock-nav").height()) {
+      $("#shopify-section-header-classic, #shopify-section-header__icon-bar").css("visibility", "hidden");
+    } else {
+      $("#shopify-section-header-classic, #shopify-section-header__icon-bar").css("visibility", "");
+    }
+  }
+
+  window.addEventListener('scroll', Shopify.contentCreator.util.throttle(scrollMenu, 10));
+
+});  
+</script>
+
+{% schema %}
+{
+  "name": "Smart Sock Nav",
+  "class": "smartSock-nav-container",
+  "presets": [
+    {
+      "name": "Smart Sock Nav",
+      "blocks": [
+        {
+          "type": "nav"
+        },
+        {
+          "type": "nav"
+        },
+        {
+          "type": "nav"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "btn",
+      "label": "购买按钮",
+      "default": "Buy Now"
+    },
+    {
+      "type": "text",
+      "id": "link",
+      "label": "购买链接",
+      "default": "/products/e8312"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "nav",
+      "name": "nav",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "文案"
+        },
+        {
+          "type": "text",
+          "id": "anchor",
+          "label": "锚点",
+          "info": "要跳到指定模块的id"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

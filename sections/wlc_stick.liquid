@@ -1,0 +1,53 @@
+<div class="wlc-stick">
+  <h3>{{ section.settings.title }}</h3>
+  <div class="sub1">{{ section.settings.subtitle1 }}</div>
+  {% comment %} <div class="sub2">{{ section.settings.subtitle2 }}</div> {% endcomment %}
+  <div class="cards">
+    {% for block in section.blocks %}
+      <div class="box">
+        {% render 'lazyload_image',
+          src: block.settings.img,
+          alt: block.settings.img.alt,
+          width: block.settings.img.width,
+          aspect_ratio: block.settings.img.aspect_radio,
+          isSchemaData: true
+        %}
+        <div class="desc">
+          <h5>{{ block.settings.tit }}</h5>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+ "name": "wlc stick",
+ "settings": [{
+  "type": "textarea",
+  "id": "title",
+  "label": "标题"
+  }, {
+    "type": "textarea",
+    "id": "subtitle1",
+    "label": "副标题"    
+  }, {
+    "type": "richtext",
+    "id": "subtitle2",
+    "label": "二级标题"
+  }],
+ "blocks": [{
+    "type": "image",
+    "name": "image",
+    "settings": [{
+      "type": "image_picker",
+      "id": "img",
+      "label": "背景图"
+    },{
+      "type": "textarea",
+      "id": "tit",
+      "label": "标题"
+     }]
+  }]
+}
+{% endschema %}

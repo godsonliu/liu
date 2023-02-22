@@ -1,0 +1,88 @@
+
+{% assign DataId = section.settings.data_id %}
+{% if page.metafields['global'][DataId].value %}
+  {% assign web_card_list = page.metafields['global'][DataId].value %}
+{% else %}
+  {% assign web_card_list = page.metafields['global'][DataId] %}
+{% endif %}
+
+
+<div class="web_card_list" id="{{DataId}}">
+  <div class="web_card_list_content">
+    <p class="heading_text">{{ web_card_list.heading_text }}</p>
+    <div class="product_all">
+      {% for o in web_card_list.list %}
+          <div class="item">
+            <a href="{{ o.card_button_link }}">
+              <div class="card_img">
+                <img class="lazyload" data-src="{{ o.card_img }}" alt="">
+              </div>
+              <div class="card_text">
+                <p>{{ o.card_text }}</p>
+                <a class="card_button" href="{{ o.card_button_link }}">{{ web_card_list.card_button_text }}</a>
+              </div>
+            </a>
+          </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<style>
+  #{{DataId}} {
+    padding: 5rem 0; background: {{ web_card_list.section_background_color }};
+    background-image: url({{ web_card_list.section_background_image }});
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    background-position: center top;
+  }
+  #{{DataId}} .web_card_list_content { max-width:1200px; margin:0 auto; position:relative; }
+  #{{DataId}} .web_card_list_content .heading_text { width:100%; text-align:center; font-weight:600; margin-bottom:40px; }
+  #{{DataId}} .web_card_list_content .product_all { position: relative; display: flex; flex-wrap: wrap; }
+  #{{DataId}} .web_card_list_content .product_all .item { background-color: #fff; width: 24.25%; margin-right: 1%; margin-bottom: 1%;}
+  #{{DataId}} .web_card_list_content .product_all .item a { display: block; }
+  #{{DataId}} .web_card_list_content .product_all .item:nth-child(4n+4){ margin-right:0px;}
+  #{{DataId}} .web_card_list_content .product_all .item .card_img{ position: relative; line-height: 0; }
+  #{{DataId}} .web_card_list_content .product_all .item .card_img img{ width:100%;}
+  #{{DataId}} .web_card_list_content .product_all .item .card_text{
+    width: 100%; padding: 2rem 1rem; display: flex; justify-content: space-between; align-items: center;
+  }
+  #{{DataId}} .web_card_list_content .product_all .item .card_text p { color:#333; font-weight:600; font-size: 14px; }
+  #{{DataId}} .web_card_list_content .product_all .item .card_button{
+    min-width: 130px; height:30px; border-radius: 15px; text-align:center; color:#333; font-size:12px; line-height:30px; font-weight:600; display: inline-block;
+  }
+  #{{DataId}} .heading_text { font-size: 30px; color: {{ web_card_list.heading_color}}; }
+  #{{DataId}} .card_button { background: {{ web_card_list.card_button_color }}; }
+  @media (max-width: 1200px) {
+    #{{DataId}} .web_card_list_content { padding: 0 1rem; }
+  }
+  @media (max-width: 767px) {
+    #{{DataId}} .web_card_list_content .product_all .item { width: 49%; margin-bottom: 2%; margin-right: 2%; text-align:center; }
+    #{{DataId}} .web_card_list_content .product_all .item:nth-child(2n+2) { margin-right: 0px; }
+    #{{DataId}} .web_card_list_content .product_all .item .card_text p { margin-bottom: 10px; }
+    #{{DataId}} .web_card_list_content .product_all .item .card_text { width: 100%; text-align: center; display:block; }
+  }
+</style>
+
+{% schema %}
+
+{
+  "name": "web_card_list",
+  "presets": [
+    {
+      "category": "Custom Dynamic Sections",
+      "name": "web card list"
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "data_id",
+      "label": "metafields data id",
+      "default": "web_card_list"
+    }
+  ]
+}
+
+{% endschema %}
+

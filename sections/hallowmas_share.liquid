@@ -1,0 +1,103 @@
+{{ 'Hallowmas.scss.css' | asset_url | stylesheet_tag }}
+<script>
+  var tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/iframe_api";
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+</script>
+<section class="hallowmas_share">
+  <div class="share">
+    <div class="share_text">
+      {{ page.metafields['global']['share'].value.text }}
+    </div>
+    <div class="share_btn">
+      <a target="blank" href="{{ page.metafields['global']['share'].value.href }}" onclick="Atopath()">
+        <img class="lazyload" data-src="{{ page.metafields['global']['share'].value.btnSrc }}" alt="">
+      </a>
+    </div>
+    <!-- <div class="rules">
+      <h2>{{ page.metafields['global']['share'].value.rules_title }}</h2>
+      <p>{{ page.metafields['global']['share'].value.rules_text }}</p>
+    </div> -->
+    {% if page.metafields['global']['share'].value.bgSrc !=blank  %}
+      <img class="sharepc lazyload is-hidden-mobile-only" height="{{ page.metafields['global']['share'].value.bgSrcHeight }}" width="{{ page.metafields['global']['share'].value.bgSrcWidth }}" data-src="{{ page.metafields['global']['share'].value.bgSrc }}" alt="">
+    {% endif %}
+    {% if page.metafields['global']['share'].value.bgSrcMob !=blank  %}
+      <img class="sharemob lazyload is-hidden-desktop-only" height="{{ page.metafields['global']['share'].value.bgSrcMobHeight }}" width="{{ page.metafields['global']['share'].value.bgSrcMobWidth }}" data-src="{{ page.metafields['global']['share'].value.bgSrcMob }}"
+        alt="">
+    {% endif %}
+    <div class="ktv">
+      {%- comment -%} <iframe width="640" height="360" class="lazyload" data-src="{{ page.metafields['global']['share'].value.youtube_src }}"
+        title="YouTube video player" frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen></iframe> {%- endcomment -%}
+        <div id="playerVideo"></div>
+    </div>
+  </div>
+</section>
+{%- comment -%} <script>
+  $(document).ready(()=>{
+    let timer
+    let playerVideoSrcMob
+    let palyer = null
+    function onYouTubeIframeAPIReady() {
+      if (YT && YT.Player) {
+          playerVideoSrcMob = new YT.Player('playerVideo', {
+            height: '360',
+            width: '640',
+            videoId: '{{ page.metafields['global']['share'].value.youtubeId }}',
+            events: {
+              'onReady': onPlayerReady
+            }
+          });
+          clearTimeout(timer)
+        } else{
+        }
+    }
+    function onPlayerReady(event) {
+      event.target.playVideo();
+      palyer =event.target
+    }
+    timer = setTimeout(function() {
+      onYouTubeIframeAPIReady()
+    }, 500)
+  })
+
+</script> {%- endcomment -%}
+<script>
+  var tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/iframe_api";
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+  let timer
+  var playerVideoSrcMob
+  let palyer = null
+  function onYouTubeIframeAPIReady() {
+    if (YT && YT.Player) {
+      playerVideoSrcMob = new YT.Player('playerVideo', {
+        height: '360',
+        width: '640',
+        videoId: '{{ page.metafields['global']['share'].value.youtubeId }}',
+        events: {
+          'onReady': onPlayerReady
+        }
+      });
+    }
+  }
+  function onPlayerReady(event) {
+    event.target.playVideo();
+    palyer = event.target
+  }
+
+</script>
+{% schema %}
+{
+  "name": "hallowmas_share",
+  "presets": [
+    {
+      "category": "Custom Dynamic Sections",
+      "name": "hallowmas_share"
+    }
+  ]
+}
+{% endschema %}

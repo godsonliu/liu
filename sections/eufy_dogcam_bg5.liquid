@@ -1,0 +1,105 @@
+{% assign lang = page.metafields.global %}
+
+{% if lang.dogcam.value %}
+  {% assign dogcam = lang.dogcam.value %}
+{% else %}
+  {% assign dogcam = lang.dogcam %}
+{% endif %}
+
+<link rel="stylesheet" href="{{ 'eufy_dogcam.scss.css' | asset_url }}">
+<script src="{{ 'eufy_dogcam.js' | asset_url }}" defer="defer"></script>
+
+
+<div class="eufy_dogcam_5">
+  <div class="banner_bg5">
+    <!-- <img class="pc1_show" src="{{ dogcam.bg5_img }}" alt="">
+    <img class="mob1_show" src="{{ dogcam.bg5_img_mob }}" alt=""> -->
+    <div class="banner_bg5_content">
+      <p class="bg5_p1">{{ dogcam.bg5_p1 }}</p>
+      <p class="bg5_p2">{{ dogcam.bg5_p2 }}</p>
+      <div class="newsletter_form subscribe_form">
+        <div class="succssInfo swap--visible">
+          <button id="dogcam_email_close" type="button" tabindex="0" class="modalClose"><i class="iconfont"></i></button>
+          <img src="{{ dogcam.gou_1 }}" alt="">
+          <p>{{ dogcam.info_seccess }}</p>
+        </div>
+        {% render 'subscribe-form', 
+          type: 'block',
+          snippets_id: 'eufy_dogcam_bottom',
+          deals_type: 'eufy_dogcam_bottom',
+          succssInfo: 'succssInfo',
+          dataLayer:'eufy_dogcam_signup_bottom',
+          submit_position: section.settings.submit_position,
+          policy_text: section.settings.policy_text,
+          info_fill_email: section.settings.info_fill_email,
+          info_err_email: section.settings.info_err_email,
+          info_seccess: section.settings.info_seccess,
+          info_select_policy: section.settings.info_select_policy,
+          info_fill_captcha: section.settings.info_fill_captcha,
+          use_placeholders: section.settings.use_placeholders
+        %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Eufy Dogcam Bg5",
+    "settings": [
+      {
+        "type": "html",
+        "id": "policy_text",
+        "label": "Policy text",
+        "default": "I consent to the <a href='/policies/terms-of-service' rel='noopener noreferrer'>Terms of Use</a> and <a href='/policies/privacy-policy' rel='noopener noreferrer'>Privacy Policy</a>."
+      },
+      {
+        "type": "text",
+        "id": "info_seccess",
+        "label": "info_seccess Text",
+        "default": "Welcome to Eufy!"
+      },
+      {
+        "type": "text",
+        "id": "info_fill_email",
+        "label": "info_fill_email Text",
+        "default": "Please enter your email address."
+      },
+      {
+        "type": "text",
+        "id": "info_err_email",
+        "label": "info_err_email Text",
+        "default": "Please enter a valid email address (Example: name@domain.com)."
+      },
+      {
+        "type": "text",
+        "id": "info_select_policy",
+        "label": "info_agree_policy Text",
+        "default": "Please agree to the Terms of Use and Privacy Policy."
+      },
+      {
+        "type": "text",
+        "id": "submit_btn_txt",
+        "label": "submit_btn Text",
+        "default": "Register Now"
+      },
+      {
+        "type": "select",
+        "id": "submit_position",
+        "label": "Submit position",
+        "options": [
+          { "value": "", "label": "none"},
+          { "value": "bottom", "label": "Bottom"}
+        ],
+        "default": "bottom"
+      },
+      {
+        "type": "text",
+        "id": "use_placeholders",
+        "label": "email_placeholders Text",
+        "default": "E-Mail"
+      }
+    ]
+  }
+
+{% endschema %}

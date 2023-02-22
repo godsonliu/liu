@@ -1,0 +1,191 @@
+
+<div id="spring_cleaning_subscribe">
+  <div class="wrap">
+    <div class="wrapBox">
+      <div class="count_down">
+        <div class="count">
+          <p class="count_title">deal will be released on Mar 22, 2021</p>
+          <ul class="count_box">
+            <li><p class="days num"></p><p>Days</p></li>
+            <li><p class="hours num"></p><p>Hours</p></li>
+            <li><p class="mins num"></p><p>Mins</p></li>
+            <li><p class="secs num"></p><p>Secs</p></li>
+          </ul>
+        </div>
+        <div class="bg">
+          <img class="is-hidden-mobile-only" src="https://cdn.shopify.com/s/files/1/0519/5458/1696/files/sign-up-__03.jpg?v=1615360475" />
+          <img class="is-hidden-desktop-only" src="https://cdn.shopify.com/s/files/1/0519/5458/1696/files/sign-up-_mob_03.jpg?v=1615368459" />
+        </div>
+      </div>
+      <div class="subscribeBox">
+        {% render 'subscribe-form', 
+          type: 'block',
+          snippets_id: 'spring_cleaning_21',
+          deals_type: 'spring_cleaning_21',
+          submit_position: 'bottom',
+          captchaShow: true
+        %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  #spring_cleaning_subscribe .wrap {
+    margin: 4rem auto;
+  }
+  #spring_cleaning_subscribe .wrapBox {
+    background: #f4f4f4;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+  }
+  #spring_cleaning_subscribe .count_down {
+    width: 60%;
+    background: #659B87;
+    border-radius: 10px 0 0 10px;
+    margin-right: 2%;
+    position: relative;
+    padding: 5rem 4rem;
+  }
+  #spring_cleaning_subscribe .count_down .bg {
+    line-height: 0;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+  }
+  #spring_cleaning_subscribe .count_down img {
+    height: 100%;
+    width: auto;
+    max-width: none;
+  }
+  #spring_cleaning_subscribe .count_down .count {
+    text-align: center;
+    width: 60%;
+    position: relative;
+    z-index: 1;
+  }
+  #spring_cleaning_subscribe .count_down .count_title {
+    color: #fff;
+    font-size: 18px;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  #spring_cleaning_subscribe .count_down .count_box {
+    display: flex;
+    width: 80%;
+    margin: 0 auto;
+    justify-content: space-between;
+  }
+  #spring_cleaning_subscribe .count_down .count_box li {
+    background: #fff;
+    text-align: center;
+    border-radius: 5px;
+    width: 55px;
+    padding: 5px 0;
+    color: #A9AAB9;
+  }
+  #spring_cleaning_subscribe .count_down .count_box li .num {
+    font-size: 28px;
+    color: #669B86;
+    height: 40px;
+    line-height: 40px;
+  }
+  #spring_cleaning_subscribe .subscribeBox {
+    width: 30%;
+  }
+  #spring_cleaning_subscribe input, #spring_cleaning_subscribe .captcha img {
+    background: #fff;
+    border-radius: 5px;
+    border: none;
+    font-size: 14px;
+  }
+  #spring_cleaning_subscribe .captcha-box { border: none; }
+  #spring_cleaning_subscribe .subscribeBox .button {
+    background: linear-gradient(to right, #4B876F, #D6E349) !important;
+  }
+  #spring_cleaning_subscribe .subscribeBox .button:hover {
+    background: #fff !important;
+  }
+  #spring_cleaning_subscribe .policyBox span, #spring_cleaning_subscribe .policyBox a {
+    color: #A9AAB9;
+  }
+  #spring_cleaning_subscribe .policyBox a:hover {
+    color: #21d2c5;
+  }
+
+  @media (max-width: 1200px){
+    #spring_cleaning_subscribe .wrap {
+      padding: 0 1rem;
+    }
+    #spring_cleaning_subscribe .count_down .count_box {
+      width: 100%;
+    }
+  }
+  @media (max-width: 768px){
+    #spring_cleaning_subscribe .wrapBox {
+      display: block;
+    }
+    #spring_cleaning_subscribe .count_down {
+      width: 100%;
+      padding: 0;
+      border-radius: 10px 10px 0 0;
+    }
+    #spring_cleaning_subscribe .count_down .count {
+      text-align: center;
+      width: 100%;
+      padding: 2rem 1rem;
+    }
+    #spring_cleaning_subscribe .count_down .count_box {
+      width: 80%;
+    }
+    #spring_cleaning_subscribe .count_down .bg {
+      position: relative;
+    }
+    #spring_cleaning_subscribe .count_down img {
+      height: auto;
+      width: 100%;
+      max-width: none;
+    }
+    #spring_cleaning_subscribe .subscribeBox {
+      width: 100%;
+      padding: 0 2rem 2rem;
+    }
+  }
+  @media (max-width: 400px){
+    #spring_cleaning_subscribe .count_down .count_box {
+      width: 100%;
+    }
+  }
+</style>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.32/moment-timezone.min.js"></script>
+
+<script>
+  const end_time = "2021-03-20 08:00";
+  setInterval(() => {
+    let start = moment().utc();//获取开始时间
+    let end = moment(end_time);//结束时间
+    let diff = end.diff(start);//时间差
+    let days = moment.duration(diff).days();
+    if($("#spring_cleaning_subscribe .days").text() != days) {
+      $("#spring_cleaning_subscribe .days").text(`${days}`);
+    }
+    let hours = moment.duration(diff).hours();
+    if($("#spring_cleaning_subscribe .hours").text() != hours) {
+      $("#spring_cleaning_subscribe .hours").text(`${hours}`);
+    }
+    let mins = moment.duration(diff).minutes();
+    if($("#spring_cleaning_subscribe .mins").text() != mins) {
+      $("#spring_cleaning_subscribe .mins").text(`${mins}`);
+    }
+    let secs = moment.duration(diff).seconds();
+    if($("#spring_cleaning_subscribe .secs").text() != secs) {
+      $("#spring_cleaning_subscribe .secs").text(`${secs}`);
+    }
+  }, 1000)
+</script>
+
+

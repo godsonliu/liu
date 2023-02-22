@@ -1,0 +1,88 @@
+{{ 'video-with-text.scss.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  {%- if section.settings.background != blank -%}
+    .section-{{ section.id }}-bgcolor{
+      background-color: {{ section.settings.background }};
+    }
+  {%- endif -%}
+{%- endstyle -%}
+
+<section class="video-with-text section-{{ section.id }}-bgcolor">
+  <div class="page-width pc-flex">
+    {% for block in section.blocks %}
+      {% case block.type %}
+        {% when 'text' %}
+          <div class="info-box info-text-box">
+            {% if block.settings.title != blank %}
+              <h4 class="info-title">{{ block.settings.title }}</h4>
+            {% endif %}
+            {% if block.settings.text != blank %}
+              <div class="info-desc">{{ block.settings.text }}</div>
+            {% endif %}
+          </div>
+        {% when 'video' %}
+          <div class="info-box info-video-box">
+            <video src="{{ block.settings.video_url }}" controls></video>
+          </div>
+      {% endcase %}
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Video with text",
+  "max_blocks": 4,
+  "settings":[{
+    "type": "color",
+    "id": "background",
+    "label": "背景颜色",
+    "default": "rgba(0,0,0,0)"
+  }],
+  "blocks":[{
+    "type": "text",
+    "name": "Text",
+    "settings": [{
+      "type": "text",
+      "id": "title",
+      "label": "标题",
+      "default": "Heading text here"
+    }, {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.</p>"
+    }]
+  }, {
+    "type": "video",
+    "name": "Video",
+    "settings": [{
+      "type": "text",
+      "id": "video_url",
+      "label": "视频链接"
+    },{
+      "type": "image_picker",
+      "id": "poster",
+      "label": "视频封面"
+    }]
+  }],
+  "presets": [
+  {
+    "name": "Video with text",
+    "category": "Video",
+    "blocks": [
+      {
+        "type": "text"
+      },
+      {
+        "type": "video"
+      },
+      {
+        "type": "video"
+      }
+    ]
+  }
+]
+}
+{% endschema %}

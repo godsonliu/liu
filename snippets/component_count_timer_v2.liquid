@@ -1,0 +1,198 @@
+
+{% assign section_id = 'shopify-section-' | append: section.id %}
+<style>
+#{{section_id}} .component_count_timer {
+	display: flex;
+	align-items: center;
+}
+#{{section_id}} .component_count_timer .time {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+  position: relative;
+}
+#{{section_id}} .component_count_timer .time-txt  {
+  color: {% if section.settings.timer_txt_color != blank %} {{ section.settings.timer_txt_color }} {% else %} {{ section.settings.timer_color }} {% endif %};
+  font-size: 13px;
+  position: absolute;
+  bottom: 0;
+  transform: translateY(110%)
+}
+#{{section_id}} .component_count_timer .time-count {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: {{ section.settings.timer_color }};
+  background: {{ section.settings.timer_bg }};
+  font-weight: 500;
+  font-size: 20px;
+  border-radius: 4px;
+}
+#{{section_id}} .component_count_timer .dot {
+  margin: 10px;
+}
+#{{section_id}} .component_count_timer .dot .dot-1, #{{section_id}} .component_count_timer .dot .dot-2 {
+	width: 3px;
+	height: 3px;
+	border-radius: 3px;
+	background-color: {{ section.settings.dot_color }};
+}
+#{{section_id}} .component_count_timer .dot .dot-2 {
+	margin-top: 5px;
+}
+
+@media(max-width: 769px) {
+  #{{section_id}} .component_count_timer .time-txt {
+    font-size: 12px;
+  }
+  #{{section_id}} .component_count_timer .time-count {
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
+  }
+  #{{section_id}} .component_count_timer .dot  {
+    font-size: 28px;
+  }
+}
+</style>
+
+{% comment %}
+	index: 代表索引
+
+  timer_color: 文案颜色
+
+	timer_txt_color: 年月日时的文案颜色
+
+	dot_color: 分隔符背景色
+
+  timer_bg：时间方块的背景色
+
+  days：天的标题描述
+
+  hours：小时的标题描述
+
+  minutes：分的标题描述
+
+  seconds：秒的标题描述
+
+  startTime：开始时间
+
+  endTime： 结束时间
+
+{% endcomment %}
+
+<div class="component_count_timer component_count_timer_{{index}}">
+  <div class="time">
+		<div
+			class="timer-days time-count"></div>
+		<div 
+			class="time-txt">
+			{{ section.settings.days }}
+		</div>
+	</div>
+	<div class="dot">
+		<div class="dot-1"></div>
+		<div class="dot-2"></div>
+	</div>
+	<div class="time">
+		<div
+			class="timer-hours time-count"></div>
+		<div 
+			class="time-txt">
+			{{ section.settings.hours }}
+		</div>
+	</div>
+	<div class="dot">
+		<div class="dot-1"></div>
+		<div class="dot-2"></div>
+	</div>
+	<div class="time">
+		<div
+			class="timer-minutes time-count"></div>
+		<div 
+			class="time-txt">
+			{{ section.settings.minutes }}
+		</div>
+	</div>
+	<div class="dot">
+		<div class="dot-1"></div>
+		<div class="dot-2"></div>
+	</div>
+	<div class="time">
+		<div
+			class="timer-seconds time-count"></div>
+		<div 
+			class="time-txt">
+			{{ section.settings.seconds }}
+		</div>
+	</div>
+</div>
+
+<script>
+$(function() {
+
+	function timer_diff(startTime, endTime) {
+		let timeDiff = endTime - startTime;
+		let days = Math.floor(timeDiff / (24 * 3600 * 1000)); // 计算出天数
+		let leavel1 = timeDiff % (24 * 3600 * 1000); // 计算天数后剩余的时间
+		let hours = Math.floor(leavel1 / (3600 * 1000)); // 计算天数后剩余的小时数
+		let leavel2 = timeDiff % (3600 * 1000); // 计算剩余小时后剩余的毫秒数
+		let minutes = Math.floor(leavel2 / (60 * 1000));
+		let leave3 = leavel2 % (60*1000);    //计算分钟数后剩余的毫秒数
+		let seconds = Math.floor(leave3/1000)
+		if(days < 10) days = '0' + days
+		if(hours < 10) hours = '0' + hours
+		if(minutes < 10) minutes = '0' + minutes
+		if(seconds < 10) seconds = '0' + seconds
+		return {
+			days,
+			hours,
+			minutes,
+			seconds
+		}
+	}
+	let startTime = new Date('{{startTime}}').getTime()
+	let endTime = new Date('{{endTime}}').getTime()
+	let curTime = new Date().getTime()
+	/*
+		newStartTime: 代表外层传过来的时间，取折扣接口的开始时间
+		newEndTime: 代表外层传过来的时间，取折扣接口的结束时间
+		需要保证配置的开始时间小于等于当前时间
+	*/	
+	window['loopGetTime_{{section_id}}_{{index}}'] = function(newStartTime, newEndTime) {
+		let timerId;
+		if( (!newStartTime || !newEndTime) && (curTime < startTime || curTime > endTime ||  '{{startTime}}' === '' || '{{endTime}}' === '')) {
+			clearTimeout(timerId)
+			setTimeout(function() {
+				window['component_count_timer_{{section_id}}'] && window['component_count_timer_{{section_id}}']( '{{index}}', "{{ 'products.product.sold_out' | t }}",true)
+			}, 200)
+		}else {
+			let time_info = timer_diff(curTime, newEndTime ? newEndTime : endTime)
+			$('#{{section_id}} .component_count_timer_{{index}} .timer-days').text(time_info.days)
+			$('#{{section_id}} .component_count_timer_{{index}} .timer-hours').text(time_info.hours)
+			$('#{{section_id}} .component_count_timer_{{index}} .timer-minutes').text(time_info.minutes)
+			$('#{{section_id}} .component_count_timer_{{index}} .timer-seconds').text(time_info.seconds)
+		}
+		if(newStartTime && newEndTime) {
+			timerId = setTimeout(
+				function() {
+					curTime = new Date().getTime();
+					window['loopGetTime_{{section_id}}_{{index}}'](newStartTime, newEndTime);
+				}, 
+			1000)			
+		}else {
+			if('{{startTime}}' !== '' && '{{endTime}}' !== '') {
+				timerId = setTimeout(
+					function() {
+						curTime = new Date().getTime();
+						window['loopGetTime_{{section_id}}_{{index}}']();
+					},
+				1000)
+			}
+		}
+	}
+	window['loopGetTime_{{section_id}}_{{index}}']()
+})
+</script>

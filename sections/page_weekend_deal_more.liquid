@@ -1,0 +1,117 @@
+{% assign section_id = 'shopify-section-' | append: section.id %}
+<style>
+#{{ section_id }} .page_weekend_deal_more {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: {{ section.settings.bg_color }};
+}
+#{{ section_id }} .page_weekend_deal_more_item {
+  width: 22.4vw;
+  height: 7.8vw;
+  max-height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 6.25vw;
+  font-size: 2.5vw;
+  background: {{ section.settings.item_bg_color }};
+  border-radius: 20px;
+}
+#{{ section_id }} .page_weekend_deal_more_item:last-child {
+  margin-right: 0;
+}
+#{{ section_id }} .page_weekend_deal_more_txt {
+  font-weight: 700;
+  color: {{ section.settings.item_txt_color }};
+}
+
+@media(max-width: 769px) {
+  #{{ section_id }} .page_weekend_deal_more {
+    flex-direction: column;
+  }
+  #{{ section_id }} .page_weekend_deal_more_item {
+    width: 232px;
+    height: 80px;
+    font-size: 25px;
+    margin: 0 0 20px 0;
+  }
+  #{{ section_id }} .page_weekend_deal_more_item:last-child {
+    margin: 0;
+  }
+}
+</style>
+<section class="page_weekend_deal_more">
+  {% for block in section.blocks %}
+  <a class="page_weekend_deal_more_item" href="{{ block.settings.link_href }}">
+    <span class="page_weekend_deal_more_txt">{{ block.settings.link_text }}</span>
+  </a>
+  {% endfor %}
+</section>
+
+{% schema %}
+  {
+    "name": "Page Weekend Deal More",
+    "presets": [
+      {
+        "name": "Page Weekend Deal More",
+        "blocks": [
+          {
+            "type": "link_item",
+            "settings": {
+              "link_text": "Top Security >>",
+              "link_href": ""
+            }
+          },
+          {
+            "type": "link_item",
+            "settings": {
+              "link_text": "Best Clean >>",
+              "link_href": ""
+            }
+          }
+        ]
+      }
+    ],
+    "settings": [
+      {
+        "type": "color",
+        "id": "bg_color",
+        "label": "区域背景",
+        "default": "#F5F5F7"
+      },
+      {
+        "type": "color",
+        "id": "item_bg_color",
+        "label": "卡片背景",
+        "default": "#ECDBC3"
+      },
+      {
+        "type": "color",
+        "id": "item_txt_color",
+        "label": "卡片文案颜色",
+        "default": "#333333"
+      }
+    ],
+    "blocks": [
+      {
+        "name": "link_item",
+        "type": "link_item",
+        "settings": [
+          {
+            "type": "text",
+            "id": "link_text",
+            "label": "link文案"
+          },
+          {
+            "type": "url",
+            "id": "link_href",
+            "label": "link链接"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

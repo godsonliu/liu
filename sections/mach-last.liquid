@@ -1,0 +1,20 @@
+<div class="mach-last" id="mach_last">
+  {{ section.settings.desc }}
+</div>
+
+{% schema %}
+  {
+    "name": "Mach Last",
+    "presets": [{
+        "category": "Mach Last",
+        "name": "Mach Last"
+    }],
+    "settings": [
+      {
+        "type": "html",
+        "id": "desc",
+        "label": "描述"
+      }
+    ]
+  }
+{% endschema %}

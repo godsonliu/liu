@@ -1,0 +1,245 @@
+{% if template contains "product" %}
+  {% if product.metafields.global.compare.value %}
+    {% assign compare = product.metafields.global.compare.value %}
+  {% else %}
+    {% assign compare = product.metafields.global.compare %}
+  {% endif %}
+{% elsif template contains "page" %}
+  {% if page.metafields.global.compare.value %}
+    {% assign compare = page.metafields.global.compare.value %}
+  {% else %}
+    {% assign compare = page.metafields.global.compare %}
+  {% endif %}
+{% endif %}
+
+{% capture rows %}
+  {% for block in section.blocks %}
+    {% if forloop.first %}{{ compare[block.settings.id].size }}{% endif %}
+  {% endfor %}
+{% endcapture %}
+
+{% assign rows = rows | strip | strip_newlines | strip | minus: 1 %}
+
+{% if shop.metafields.global.common.value %}
+  {% assign shop_common = shop.metafields.global.common.value %}
+{% else %}
+  {% assign shop_common = shop.metafields.global.common %}
+{% endif %}
+
+{% style %}
+  @media screen and (max-width: 768px) {
+    #shopify-section-{{ section.id }} .product-compare-table td{
+      width: {{ section.settings.mb_col_width }}px;
+    }
+    #shopify-section-{{ section.id }} .product-compare-img-wrap{
+      width: {{ section.settings.mb_img_width }}px;
+    }
+  }
+
+  @media screen and (min-width: 769px) {
+    #shopify-section-{{ section.id }} .product-compare-table td{
+      width: {{ section.settings.col_width }}px;
+    }
+
+    #shopify-section-{{ section.id }} .product-compare-img-wrap{
+      width: {{ section.settings.img_width }}px;
+    }
+  }
+
+  {% if section.settings.custom_css != blank %}
+    {{ section.settings.custom_css }}
+  {% endif %}
+{% endstyle %}
+
+<section class="common-section product-compare-section {{ section.settings.custom_class }}" {% if section.settings.id != blank %}id="{{ section.settings.id }}"{% endif %}>
+  <div class="common-inner-wrap">
+    <div class="common-info-box txt-{{ section.settings.desktop_content_alignment }} mb-txt-{{ section.settings.mobile_content_alignment }}">
+      {% if section.settings.heading != blank %}
+        <p class="heading">{{ section.settings.heading }}</p>
+      {% endif %}
+    </div>
+    <div class="product-compare-box">
+      <table class="product-compare-table">
+        <tbody>
+          <tr class="img-tr">
+            {% for block in section.blocks %}
+              <td>
+                <div class="product-compare-img-wrap">
+                  {% if block.settings.img != blank %}
+                    {% render 'lazyload_image',  
+                      src: block.settings.img,
+                      alt: block.settings.img.alt,
+                      width: block.settings.img.width,
+                      aspect_ratio: block.settings.img.aspect_ratio,
+                      isSchemaData: true
+                    %}
+                  {% else %}
+                    {% render 'lazyload_image',  
+                      src: block.settings.product.featured_image,
+                      alt: block.settings.product.featured_image.alt,
+                      width: block.settings.product.featured_image.width,
+                      aspect_ratio: block.settings.product.featured_image.aspect_ratio,
+                      isSchemaData: true
+                    %}
+                  {% endif %}
+                </div>
+              </td>
+            {% endfor %}
+          </tr>
+          <tr>
+            {% for block in section.blocks %}
+              <td>
+                <p class="product-td-title">{{ block.settings.product.title }}</p>
+              </td>
+            {% endfor %}
+          </tr>
+          <tr>
+            {% for block in section.blocks %}
+              <td>
+                <a class="sec-btn" href="{{ block.settings.product.url }}{{ section.settings.params }}">{{ shop_common.buy_now }}</p>
+              </td>
+            {% endfor %}
+          </tr>
+          {% for row in (0..rows) %}
+            <tr class="compare-tr">
+              {% for block in section.blocks %}
+                <td>
+                  <p class="td-title"><b>{{ compare[block.settings.id][row].label }}</b></p>
+                  <p>{{ compare[block.settings.id][row].value }}</p>
+                </td>
+              {% endfor %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "product compare section",
+  "presets": [
+    {
+      "category": "product compare section",
+      "name": "product compare section"
+    }
+  ],
+  "settings": [{
+    "type": "header",
+    "content": "内容"
+  },{
+    "type": "text",
+    "id": "heading",
+    "default": "Section title",
+    "label": "标题"
+  },{
+    "type": "header",
+    "content": "桌面端设置"
+  },{
+    "type": "select",
+    "id": "desktop_content_alignment",
+    "options": [
+      {
+        "value": "left",
+        "label": "左对齐"
+      },
+      {
+        "value": "center",
+        "label": "居中"
+      },
+      {
+        "value": "right",
+        "label": "右对齐"
+      }
+    ],
+    "default": "center",
+    "label": "标题内容对齐方式"
+  },{
+    "type": "number",
+    "id": "col_width",
+    "default": 200,
+    "label": "列宽度"
+  },{
+    "type": "number",
+    "id": "img_width",
+    "default": 200,
+    "label": "图片宽度"
+  },{
+    "type": "header",
+    "content": "移动端设置"
+  },{
+    "type": "select",
+    "id": "mobile_content_alignment",
+    "options": [
+      {
+        "value": "left",
+        "label": "左对齐"
+      },
+      {
+        "value": "center",
+        "label": "居中"
+      },
+      {
+        "value": "right",
+        "label": "右对齐"
+      }
+    ],
+    "default": "center",
+    "label": "标题内容对齐方式"
+  },{
+    "type": "number",
+    "id": "mb_col_width",
+    "default": 140,
+    "label": "列宽度"
+  },{
+    "type": "number",
+    "id": "mb_img_width",
+    "default": 140,
+    "label": "图片宽度"
+  },{
+    "type": "header",
+    "content": "开发拓展"
+  },{
+    "type": "text",
+    "id": "id",
+    "label": "id",
+    "info": "非必填，一般针对开发来使用"
+  },{
+    "type": "text",
+    "id": "custom_class",
+    "label": "自定义容器类名"
+  },{
+    "type": "textarea",
+    "id": "custom_css",
+    "label": "自定义样式内容"
+  },{
+    "type": "text",
+    "id": "params",
+    "label": "URL参数"
+  }],
+  "blocks":[{
+    "type": "product_column",
+    "name": "product column",
+    "settings": [{
+      "type": "header",
+      "content": "内容"
+    },{
+      "type": "product",
+      "id": "product",
+      "label": "产品"
+    },{
+      "type": "image_picker",
+      "id": "img",
+      "label": "产品展示图片",
+      "info": "配置该项即覆盖原本选择的产品图片"
+    },{
+      "type": "text",
+      "id": "id",
+      "label": "产品关联数据的ID",
+      "info": "关联数据在metafields中的compare",
+      "default": "1"
+    }]
+  }]
+}
+{% endschema %}

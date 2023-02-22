@@ -1,0 +1,26 @@
+.table.is-bordered {
+  td,
+  th {
+    border: 1px solid $border;
+    padding: 5px;
+  }
+}
+
+.table.is-striped {
+  tbody {
+    tr:not(.is-selected) {
+      &:nth-child(even) {
+        background-color: $table-striped-row-even-background-color
+      }
+    }
+  }
+}
+
+.noscript {
+  display: none;
+}
+
+.was-price {
+  text-decoration: line-through;
+  opacity: 0.6;
+}

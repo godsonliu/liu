@@ -1,0 +1,147 @@
+{% assign pop = page.metafields.global.pop.value %}
+
+<section class="ps-ret bg-grey txt-center over-hide mach-main-section mach-main-section-4">
+  <div class="ps-ret self-clean-wrap">
+    <div class="self-clean-img-title">
+      <p class="large-title">{{ section.settings.mian_title }}</p>
+    </div>
+    <div class="self-clean-sys-wrap">
+      <video class="is-hidden-mobile-only self-clean-pc-video lazyload" poster="{{ section.settings.img_pc | img_url: '' }}" data-src="{{ section.settings.sys_pc_video }}" playsinline loop autoplay muted></video>
+      <video class="is-hidden-desktop-only self-clean-mb-video lazyload" poster="{{ section.settings.img_mb | img_url: '' }}" data-src="{{ section.settings.sys_mob_video }}" playsinline loop autoplay muted></video>
+    </div>
+  </div>
+  <div class="self-clean-info-wrap">
+    <div class="ps-ret swipe-column">
+      <div class="ps-ret self-clean-video-wrap">
+        <video id="selfCleanVideo" class="lazyload self-clean-app-video" poster="{{ section.settings.app_img | img_url: '' }}" data-src="{{ section.settings.app_video }}" playsinline loop autoplay muted></video>
+      </div>
+      <div class="swiper-container self-clean-swiper-container">
+        <ul class="swiper-wrapper">
+          {% for block in section.blocks %}
+            <li class="swiper-slide">
+              <div class="self-clean-slide-content">
+                <p class="grey self-clean-slide-title">{{ block.settings.title }}</p>
+                <p class="grey self-clean-slide-desc">{{ block.settings.desc }}</p>
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="swiper-control">
+        <a class="swiper-pre-button">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="20" cy="20" r="19.25" transform="rotate(-180 20 20)" stroke="#6E6E73" stroke-width="1.5"/>
+            <path d="M18.1543 25.9062L12.0004 19.7524L18.1543 13.5985" stroke="#6E6E73" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12.8 19.998L28 19.998" stroke="#6E6E73" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </a>
+
+        <ul class="swiper-pages">
+          {% for block in section.blocks %}
+            <li class="swiper-pages-item{% if forloop.first %} actived{% endif %}"></li>
+          {% endfor %}
+        </ul>
+
+        <a class="swiper-next-button">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="20" cy="20" r="19.25" stroke="#6E6E73" stroke-width="1.5"/>
+            <path d="M21.8457 14.0918L27.9996 20.2457L21.8457 26.3995" stroke="#6E6E73" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M27.2 20L12 20" stroke="#6E6E73" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>            
+        </a>
+      </div>
+    </div>
+    <div class="info-column">
+      <p class="light-grey sub-title">{{ section.settings.sub_title }}</p>
+      <p class="title self-clean-info-title">{{ section.settings.title }}</p>
+      <p class="grey sub-text self-clean-info-desc">{{ section.settings.desc }}</p>
+    </div>
+  </div>
+
+  {% render 'mach-landing-pop'
+    section: section,
+    color: 'white',
+    idx: 2,
+    data: pop.c
+  %}
+</section>
+
+{% schema %}
+{
+  "name": "Mach Main Section 4",
+  "presets": [{
+    "category": "Mach Main Section 4",
+    "name": "Mach Main Section 4"
+  }],
+  "settings": [{
+    "type": "header",
+    "content": "内容"
+  },{
+    "type": "textarea",
+    "id": "mian_title",
+    "label": "主标题"
+  },{
+    "type": "textarea",
+    "id": "sub_title",
+    "label": "内容副标题"
+  },{
+    "type": "textarea",
+    "id": "title",
+    "label": "内容主标题"
+  },{
+    "type": "textarea",
+    "id": "desc",
+    "label": "内容描述"
+  },{
+    "type": "textarea",
+    "id": "pop_txt",
+    "label": "弹窗按钮文本"
+  },{
+    "type": "header",
+    "content": "图片"
+  },{
+    "type": "image_picker",
+    "id": "img_pc",
+    "label": "桌面端自清洁视频封面图片"
+  },{
+    "type": "image_picker",
+    "id": "img_mb",
+    "label": "移动端自清洁视频封面图片"
+  },{
+    "type": "image_picker",
+    "id": "app_img",
+    "label": "App自清洁视频封面图"
+  },{
+    "type": "header",
+    "content": "视频"
+  },{
+    "type": "text",
+    "id": "sys_pc_video",
+    "label": "桌面端自清洁视频"
+  },{
+    "type": "text",
+    "id": "sys_mob_video",
+    "label": "移动端自清洁视频"
+  },{
+    "type": "text",
+    "id": "app_video",
+    "label": "App自清洁视频"
+  }],
+  "blocks": [{
+    "type": "slide",
+    "name": "slide",
+    "settings": [{
+      "type": "header",
+      "content": "内容"
+    },{
+      "type": "textarea",
+      "id": "title",
+      "label": "标题"
+    },{
+      "type": "textarea",
+      "id": "desc",
+      "label": "描述"
+    }]
+  }]
+}
+{% endschema %}
