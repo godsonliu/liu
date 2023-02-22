@@ -12,9 +12,11 @@ jobs:
         with:
           fetch-depth: 2
       - run: git checkout HEAD^
+      - run: git log --oneline --decorate --graph
       - run: echo "${{ secrets.config }}" > config.yml
       - uses: tachiba/shopify-theme-kit-action@master
         with:
           shopify-command: watch
           shopify-flags: --allow-live -a
       - run: git pull
+      - run: git log --oneline --decorate --graph
