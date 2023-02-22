@@ -15,4 +15,4 @@ jobs:
       - uses: tachiba/shopify-theme-kit-action@master
         with:
           shopify-command: deploy
-          shopify-flags: --allow-live -a `git diff --name-status HEAD HEAD~1 | awk '{printf $2 " "}' | awk '{print substr($0,1,length($0)-1)}'`
+          shopify-flags: --allow-live -a `git diff --name-only HEAD HEAD~1 | awk '{printf $1 " "}' | awk '{print substr($0,1,length($0)-1)}'`
