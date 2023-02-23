@@ -15,7 +15,7 @@ jobs:
       - run: echo "${{ secrets.config }}" > config.yml
       - run: git diff --name-only HEAD HEAD~1 | awk '{printf $1 " "}' | awk '{print substr($0,1,length($0)-1)}'
       - run: git log --pretty=format:"%s" HEAD~1..HEAD
-      - run git remote -v | awk 'NR==1' | awk '{print $2}' | awk -F':' '{print $2}' | awk '{sub(/.git/,""); print $0}'
+      - run: git remote -v | awk 'NR==1' | awk '{print $2}' | awk -F':' '{print $2}' | awk '{sub(/.git/,""); print $0}'
       - run: echo "files=`git diff --name-only HEAD HEAD~1 | awk '{printf $1 " "}' | awk '{print substr($0,1,length($0)-1)}'`" >> $GITHUB_ENV
       - run: echo "messages=`git log --pretty=format:"%s" HEAD~1..HEAD`" >> $GITHUB_ENV
       - run: echo "project=`git remote -v | awk 'NR==1' | awk '{print $2}' | awk -F':' '{print $2}' | awk '{sub(/.git/,""); print $0}'`" >> $GITHUB_ENV
