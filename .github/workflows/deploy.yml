@@ -15,6 +15,7 @@ jobs:
       - run: echo "${{ secrets.config }}" > config.yml
       - run: git diff --name-only HEAD HEAD~1 | awk '{printf $1 " "}' | awk '{print substr($0,1,length($0)-1)}'
       - run: git log --pretty=format:"%s" HEAD~1..HEAD
+      - run: git git config --get remote.origin.url
       - run: git remote -v
       - run: git remote -v | awk 'NR==1' | awk '{print $2}' | awk -F':' '{print $2}' | awk '{sub(/.git/,""); print $0}'
       - run: echo "files=`git diff --name-only HEAD HEAD~1 | awk '{printf $1 " "}' | awk '{print substr($0,1,length($0)-1)}'`" >> $GITHUB_ENV
@@ -22,4 +23,4 @@ jobs:
       - run: echo "project=`git remote -v | awk 'NR==1' | awk '{print $2}' | awk -F':' '{print $2}' | awk '{sub(/.git/,""); print $0}'`" >> $GITHUB_ENV
       - run: echo "commitid=`git rev-parse HEAD`" >> $GITHUB_ENV
       - run: theme deploy --allow-live -a ${{env.files}}
-      - run: curl -X POST -H "Content-Type:application/json" -d '{"msg_type":"interactive","card":{"elements":[{"tag":"div","text":{"content":"${{env.message}}","tag":"lark_md"}},{"actions":[{"tag":"button","text":{"content":"详情 👀","tag":"lark_md"},"url":"https://github.com/${{env.project}}/commit/${{env.commitid}}","type":"default","value":{}}],"tag":"action"}],"header":{"title":{"content":"🚩eufy | 代码发布提醒","tag":"plain_text"}}}}' https://open.feishu.cn/open-apis/bot/v2/hook/09bc26ab-4dbf-4c3c-b5d7-caa506a11916
+      - run: curl -X POST -H "Content-Type:application/json" -d '{"msg_type":"interactive","card":{"elements":[{"tag":"div","text":{"content":"${{env.messages}}","tag":"lark_md"}},{"actions":[{"tag":"button","text":{"content":"详情 👀","tag":"lark_md"},"url":"https://github.com/${{env.project}}/commit/${{env.commitid}}","type":"default","value":{}}],"tag":"action"}],"header":{"title":{"content":"🚩eufy | 代码发布提醒","tag":"plain_text"}}}}' https://open.feishu.cn/open-apis/bot/v2/hook/09bc26ab-4dbf-4c3c-b5d7-caa506a11916
