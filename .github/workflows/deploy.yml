@@ -11,6 +11,7 @@ jobs:
       - uses: actions/checkout@v3
       - run: curl -s https://shopify.dev/themekit.py | sudo python3
       - run: echo "${{ secrets.CONFIG }}" > config.yml
+      - run: echo "{{ github }}"
       - run: echo "messages=`git log --pretty=format:"%s" | awk 'NR==1'`" >> $GITHUB_ENV
       - run: echo "project=`git config --get remote.origin.url`" >> $GITHUB_ENV
       - run: echo "commitid=`git rev-parse HEAD`" >> $GITHUB_ENV
