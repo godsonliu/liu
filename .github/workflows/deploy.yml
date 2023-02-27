@@ -9,15 +9,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-        with:
-          fetch-depth: 2
       - run: curl -s https://shopify.dev/themekit.py | sudo python3
-      - run: echo "${{ secrets.config }}" > config.yml
-      - run: git diff --name-only HEAD HEAD~1 | awk '{printf $1 " "}' | awk '{print substr($0,1,length($0)-1)}'
-      - run: git log --pretty=format:"%s" HEAD~1..HEAD
-      - run: echo "files=`git diff --name-only HEAD HEAD~1 | awk '{printf $1 " "}' | awk '{print substr($0,1,length($0)-1)}'`" >> $GITHUB_ENV
+      - run: echo "${{ secrets.CONFIG }}" > config.yml
+      - run: echo "${{ github.repository }}"
       - run: echo "messages=`git log --pretty=format:"%s" HEAD~1..HEAD`" >> $GITHUB_ENV
       - run: echo "project=`git config --get remote.origin.url`" >> $GITHUB_ENV
       - run: echo "commitid=`git rev-parse HEAD`" >> $GITHUB_ENV
-      - run: theme deploy --allow-live -a ${{env.files}}
-      - run: curl -X POST -H "Content-Type:application/json" -d '{"msg_type":"interactive","card":{"elements":[{"tag":"div","text":{"content":"${{env.messages}}","tag":"lark_md"}},{"actions":[{"tag":"button","text":{"content":"详情 👀","tag":"lark_md"},"url":"${{env.project}}/commit/${{env.commitid}}","type":"default","value":{}}],"tag":"action"}],"header":{"title":{"content":"🚩eufy | 代码发布提醒","tag":"plain_text"}}}}' https://open.feishu.cn/open-apis/bot/v2/hook/09bc26ab-4dbf-4c3c-b5d7-caa506a11916
+      - run: theme deploy --allow-live -a
+      - run: curl -X POST -H "Content-Type:application/json" -d '{"msg_type":"interactive","card":{"elements":[{"tag":"div","text":{"content":"${{env.messages}}","tag":"lark_md"}},{"actions":[{"tag":"button","text":{"content":"详情 👀","tag":"lark_md"},"url":"${{env.project}}/commit/${{env.commitid}}","type":"default","value":{}}],"tag":"action"}],"header":{"title":{"content":"🚩eufy | 代码发布提醒","tag":"plain_text"}}}}' ${{ secrets.FEISHU }}
