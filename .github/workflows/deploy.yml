@@ -15,4 +15,4 @@ jobs:
       - run: echo "project=`git config --get remote.origin.url`" >> $GITHUB_ENV
       - run: echo "commitid=`git rev-parse HEAD`" >> $GITHUB_ENV
       - run: theme deploy --allow-live -a
-      - run: curl -X POST -H "Content-Type:application/json" -d '{"msg_type":"interactive","card":{"elements":[{"tag":"div","text":{"content":"${{env.messages}}","tag":"lark_md"}},{"actions":[{"tag":"button","text":{"content":"详情👀","tag":"lark_md"},"url":"${{env.project}}/commit/${{env.commitid}}","type":"default","value":{}}],"tag":"action"}],"header":{"title":{"content":"🚩 eufy | 代码发布提醒","tag":"plain_text"}}}}' ${{ secrets.FEISHU }}
+      - run: curl -X POST -H "Content-Type:application/json" -d '{"msg_type":"interactive","card":{"elements":[{"tag":"div","text":{"content":"${{env.messages}}","tag":"lark_md"}},{"actions":[{"tag":"button","text":{"content":"详情🔗","tag":"lark_md"},"url":"${{env.project}}/commit/${{env.commitid}}","type":"default","value":{}}],"tag":"action"}],"header":{"title":{"content":"🚩 eufy | 代码发布提醒","tag":"plain_text"}}}}' ${{ secrets.FEISHU }}
